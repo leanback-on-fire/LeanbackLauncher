@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d מקורות מוסתרים</item>
+        <item quantity="one">מקור %d מוסתר</item>
+        <item quantity="two">%d מקורות מוסתרים</item>
+        <item quantity="many">%d מקורות מוסתרים</item>
+    </plurals>
+</resources>

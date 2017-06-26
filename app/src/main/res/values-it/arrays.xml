@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Prova a cercare \"Will Smith\"</item>
+        <item>Prova a cercare \"Michael Fassbender\"</item>
+        <item>Prova a cercare \"Laura Chiatti\"</item>
+        <item>Prova a cercare \"Anna Valle\"</item>
+        <item>Prova a cercare \"commedie romantiche\"</item>
+        <item>Prova a cercare \"film di fantascienza\"</item>
+        <item>Prova a cercare \"film di supereroi\"</item>
+        <item>"Prova a cercare \"film d'azione\""</item>
+        <item>Prova a cercare \"Star Trek\"</item>
+        <item>Prova a cercare \"Sherlock\"</item>
+        <item>Prova a cercare \"X Factor\"</item>
+        <item>Prova a cercare \"Star Trek\"</item>
+        <item>Prova a cercare \"Castle\"</item>
+        <item>Prova a cercare \"immagini di Beyoncé\"</item>
+        <item>Prova a cercare \"immagini di Londra\"</item>
+        <item>Prova a cercare \"immagini di Godzilla\"</item>
+        <item>Prova a chiedere \"quanti gol ha fatto il Milan?\"</item>
+        <item>"Prova a chiedere \"quanti gol ha fatto l'Inter?\""</item>
+        <item>Prova a chiedere \"quanti gol ha fatto la Juve?\"</item>
+        <item>Prova a chiedere \"quanti gol ha fatto il Napoli?\"</item>
+        <item>"Prova a chiedere \"com'è il tempo a Roma?\""</item>
+        <item>"Prova a chiedere \"com'è il tempo a Milano?\""</item>
+        <item>"Prova a chiedere \"com'è il tempo a Torino?\""</item>
+        <item>"Prova a chiedere \"com'è il tempo a Capri?\""</item>
+        <item>Prova a chiedere \"Quanto è alto Brad Pitt?\"</item>
+        <item>Prova a chiedere \"Qual è la temperatura del sole?\"</item>
+        <item>Prova a chiedere \"Qual è la data di nascita di John Wayne?\"</item>
+        <item>Prova \"apri YouTube\"</item>
+        <item>Prova \"apri Play Film\"</item>
+    </string-array>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.leanbacklauncher.apps.BannerView android:id="@id/input_banner" android:background="@drawable/input_banner_background" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="@dimen/input_banner_width" android:layout_height="@dimen/input_banner_height"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="center" android:id="@id/input_image" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitCenter" android:adjustViewBounds="true" android:contentDescription="@null" />
+    <com.google.android.leanbacklauncher.inputs.InputsTextView android:textSize="@dimen/input_banner_label_text_size" android:textColor="@color/input_banner_label_text_color_light" android:ellipsize="end" android:gravity="center" android:layout_gravity="bottom|center" android:id="@id/input_label" android:paddingBottom="@dimen/input_banner_text_bottom_padding" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" android:fontFamily="@string/font" android:paddingStart="@dimen/input_banner_text_end_padding" android:paddingEnd="@dimen/input_banner_text_end_padding" />
+</com.google.android.leanbacklauncher.apps.BannerView>

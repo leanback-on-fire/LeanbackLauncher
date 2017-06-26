@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" üçün axtarış edin</item>
+        <item>\"Michael Fassbender\" üçün axtarış edin</item>
+        <item>\"Jennifer Lawrence\" üçün axtarış edin</item>
+        <item>\"Olivia Wilde\" üçün axtarış edin</item>
+        <item>\"Romantik komediya\" üçün axtarış edin</item>
+        <item>\"Elmi-fantastik filmlər\" üçün axtarış edin</item>
+        <item>\"Qəhrəmanlıq filmləri\" üçün axtarış edin</item>
+        <item>\"ekşn filmləri\" üçün axtarış edin</item>
+        <item>\"Star Trek\" üçün axtarış edin</item>
+        <item>\"Sherlock\" üçün axtarış edin</item>
+        <item>\"American Idol\" üçün axtarış edin</item>
+        <item>\"Star Trek\" üçün axtarış edin</item>
+        <item>\"Castle\" üçün axtarış edin</item>
+        <item>\"Beyonce şəkilləri\" axtarın</item>
+        <item>\"London şəkilləri\" axtarın</item>
+        <item>\"Godzilla şəkilləri\" axtarın</item>
+        <item>\"Giqantların hesabı neçədir?\" sualını verin</item>
+        <item>\"Knicks hesabı necədir?\" sualını verin</item>
+        <item>\"Red Wings hesabı necədir?\" sualını verin</item>
+        <item>\"Seahawks hesabı necədir?\" sualını verin</item>
+        <item>\"Nyu Yorkda hava necədir?\" sualını verin</item>
+        <item>\"San Fransiskoda hava necədir?\" sualını verin</item>
+        <item>\"Parisdə hava necədir?\" sualını verin</item>
+        <item>\"Kozumeldə hava necədir?\" sualını verin</item>
+        <item>\"Bred Pittin boyu nə qədərdir?\" sualını verin</item>
+        <item>\"Günəş nə qədər istidir?\" sualını verin</item>
+        <item>\"John Wayne nə vaxt anadan olub?\" sualını verin</item>
+        <item>"\"YouTube'u açmağa\" cəhd edin"</item>
+        <item>\"Play Filmlərini açmağa\" cəhd edin</item>
+    </string-array>
+</resources>

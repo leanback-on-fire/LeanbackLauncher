@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Faisal Qureshi\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"Amer Khan\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"Noor Jehan\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"Katrina Kaif\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"romantic comedies\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"sci-fi movies\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"superhero movies\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"action movies\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"Star Trek\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"Khabarnaak\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"Pakistan Idol\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"Jago Pakistan Jago\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"Khuda Ke Liye\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"pictures of Reema Khan\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"pictures of Lahore\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"pictures of Godzilla\" تلاش کرنے کی کوشش کریں</item>
+        <item>\"What is Pakistan score?‎\" پوچھنے کی کوشش کریں</item>
+        <item>\"What is India score?‎\" پوچھنے کی کوشش کریں</item>
+        <item>\"What is Australia score?‎\" پوچھنے کی کوشش کریں</item>
+        <item>\"What is Newzealand score?‎\" پوچھنے کی کوشش کریں</item>
+        <item>"\"what's the weather in Lahore?‎\" پوچھنے کی کوشش کریں"</item>
+        <item>"\"what's the weather in Karachi?‎\" پوچھنے کی کوشش کریں"</item>
+        <item>"\"what's the weather in Dubai?‎\" پوچھنے کی کوشش کریں"</item>
+        <item>"\"what's the weather in London?‎\" پوچھنے کی کوشش کریں"</item>
+        <item>\"How tall is Wasim Akram?‎\" پوچھنے کی کوشش کریں</item>
+        <item>\"How hot is the sun?‎\" پوچھنے کی کوشش کریں</item>
+        <item>\"When was Shahid Afridi born?‎\" پوچھنے کی کوشش کریں</item>
+        <item>\"open YouTube\" آزمائیں</item>
+        <item>\"open Play Movies\" آزمائیں</item>
+    </string-array>
+</resources>

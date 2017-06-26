@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">يتم إخفاء %d من المصادر</item>
+        <item quantity="zero">%d دون مصادر مخفية</item>
+        <item quantity="one">%d مصدر مخفي</item>
+        <item quantity="two">يتم إخفاء مصدرين (%d)</item>
+        <item quantity="few">يتم إخفاء %d مصادر</item>
+        <item quantity="many">يتم إخفاء %d مصدرًا</item>
+    </plurals>
+</resources>

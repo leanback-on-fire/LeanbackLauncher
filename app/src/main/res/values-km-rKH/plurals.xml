@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">ប្រភព %d ត្រូវបានលាក់</item>
+        <item quantity="one">ប្រភព %d ត្រូវបានលាក់</item>
+    </plurals>
+</resources>

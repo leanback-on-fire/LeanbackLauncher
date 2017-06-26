@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d स्रोत छिपे हुए हैं</item>
+        <item quantity="one">%d स्रोत छिपे हुए हैं</item>
+    </plurals>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d အရင်းအမြစ်များကို ဝှက်ထားသည်</item>
+        <item quantity="one">%d အရင်းအမြစ်ကို ဝှက်ထားသည်</item>
+    </plurals>
+</resources>

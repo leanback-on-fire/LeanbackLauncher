@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">Сховано %d джерел</item>
+        <item quantity="one">Сховано %d джерело</item>
+        <item quantity="few">Сховано %d джерела</item>
+        <item quantity="many">Сховано %d джерел</item>
+    </plurals>
+</resources>

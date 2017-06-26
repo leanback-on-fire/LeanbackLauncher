@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d avoti ir slēpti</item>
+        <item quantity="zero">%d avoti ir slēpti</item>
+        <item quantity="one">%d avots ir slēpts</item>
+    </plurals>
+</resources>

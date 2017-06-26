@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">[»%d« šöûŕçéš åŕé ĥîððéñ one two three]</item>
+        <item quantity="one">[»%d« šöûŕçé îš ĥîððéñ one two three]</item>
+    </plurals>
+</resources>

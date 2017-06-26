@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>«Will Smith» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«Michael Fassbender» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«Jennifer Lawrence» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«Olivia Wilde» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«romantic comedies» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«sci-fi movies» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«superhero movies» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«action movies» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«Star Trek» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«Sherlock» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«American Idol» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«Star Trek» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«Castle» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«pictures of Beyonce» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«pictures of London» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>«pictures of Godzilla» ብለው ለመፈለግ ይሞክሩ</item>
+        <item>"«what's the Giants score?» ብለው ለመፈለግ ይሞክሩ"</item>
+        <item>"«what's the Knicks score?» ብለው ለመፈለግ ይሞክሩ"</item>
+        <item>"«what's the Red Wings score?» ብለው ለመፈለግ ይሞክሩ"</item>
+        <item>"«what's the Seahawks score?» ብለው ለመፈለግ ይሞክሩ"</item>
+        <item>"«what's the weather in New York?» ብለው ለመጠየቅ ይሞክሩ"</item>
+        <item>"«what's the weather in San Francisco?» ብለው ለመጠየቅ ይሞክሩ"</item>
+        <item>"«what's the weather in Paris?» ብለው ለመጠየቅ ይሞክሩ"</item>
+        <item>"«what's the weather in Cozumel?» ብለው ለመጠየቅ ይሞክሩ"</item>
+        <item>«How tall is Brad Pitt?» ብለው ለመጠየቅ ይሞክሩ</item>
+        <item>«How hot is the sun?» ብለው ለመጠየቅ ይሞክሩ</item>
+        <item>«When was John Wayne born?» ብለው ለመጠየቅ ይሞክሩ</item>
+        <item>«open YouTube»ን ይሞክሩ</item>
+        <item>«open Play Movies»ን ይሞክሩ</item>
+    </string-array>
+</resources>

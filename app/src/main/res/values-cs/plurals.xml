@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d zdrojů je skryto</item>
+        <item quantity="one">%d zdroj je skryt</item>
+        <item quantity="few">%d zdroje jsou skryty</item>
+        <item quantity="many">%d zdroje je skryto</item>
+    </plurals>
+</resources>

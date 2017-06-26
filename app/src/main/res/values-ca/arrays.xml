@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Prova de cercar \"Will Smith\"</item>
+        <item>Prova de cercar \"Michael Fassbender\"</item>
+        <item>Prova de cercar \"Jennifer Lawrence\"</item>
+        <item>Prova de cercar \"Olivia Wilde\"</item>
+        <item>Prova de cercar \"comèdies romàntiques\"</item>
+        <item>Prova de cercar \"pel·lícules de ciència-ficció\"</item>
+        <item>Prova de cercar \"pel·lícules de superherois\"</item>
+        <item>"Prova de cercar \"pel·lícules d'acció\""</item>
+        <item>Prova de cercar \"Star Trek\"</item>
+        <item>Prova de cercar \"Sherlock\"</item>
+        <item>Prova de cercar \"American Idol\"</item>
+        <item>Prova de cercar \"Star Trek\"</item>
+        <item>Prova de cercar \"Castle\"</item>
+        <item>Prova de cercar \"fotos de Beyoncé\"</item>
+        <item>Prova de cercar \"fotos de Londres\"</item>
+        <item>Prova de cercar \"fotos de Godzilla\"</item>
+        <item>"Prova de preguntar \"com ha quedat l'Atlètic de Madrid?\""</item>
+        <item>Prova de preguntar \"com ha quedat el Barça de bàsquet?\"</item>
+        <item>Prova de preguntar \"com ha quedat el Reus Deportiu?\"</item>
+        <item>"Prova de preguntar \"com ha quedat l'USAP?\""</item>
+        <item>Prova de preguntar \"quin temps fa a Manresa?\"</item>
+        <item>Prova de preguntar \"quin temps fa a Alp?\"</item>
+        <item>Prova de preguntar \"quin temps fa a París?\"</item>
+        <item>Prova de preguntar \"quin temps fa a Salou?\"</item>
+        <item>Prova de preguntar \"quant mesura Brad Pitt?\"</item>
+        <item>Prova de preguntar \"a quants graus està el sol?\"</item>
+        <item>Prova de preguntar \"quan va néixer John Wayne?\"</item>
+        <item>Prova \"obre YouTube\"</item>
+        <item>Prova \"obre Play Pel·lícules\"</item>
+    </string-array>
+</resources>

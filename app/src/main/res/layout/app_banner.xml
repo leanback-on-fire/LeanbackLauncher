@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.leanbacklauncher.apps.BannerView android:layout_gravity="center" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="@dimen/banner_width" android:layout_height="@dimen/banner_height"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="center" android:id="@id/edit_focused_frame" android:visibility="gone" android:layout_width="@dimen/edit_frame_width" android:layout_height="@dimen/edit_frame_height" android:src="@drawable/edit_focused_frame" android:contentDescription="@null" />
+    <ImageView android:id="@id/app_banner" android:background="@drawable/banner_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitCenter" android:contentDescription="@null" />
+    <include layout="@layout/install_state_overlay" />
+</com.google.android.leanbacklauncher.apps.BannerView>

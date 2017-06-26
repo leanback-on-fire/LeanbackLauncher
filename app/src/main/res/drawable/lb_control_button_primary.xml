@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector android:constantSize="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/lb_control_button_color" />
+            <size android:height="@dimen/lb_control_button_diameter" android:width="@dimen/lb_control_button_diameter" />
+        </shape>
+    </item>
+</selector>

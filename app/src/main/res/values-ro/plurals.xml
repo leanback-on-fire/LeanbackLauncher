@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d de surse sunt ascunse</item>
+        <item quantity="one">%d sursă este ascunsă</item>
+        <item quantity="few">%d surse sunt ascunse</item>
+    </plurals>
+</resources>

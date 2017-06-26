@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Zkuste hledat „Will Smith“</item>
+        <item>Zkuste hledat „Michael Fassbender“</item>
+        <item>Zkuste hledat „Jennifer Lawrence“</item>
+        <item>Zkuste hledat „Olivia Wilde“</item>
+        <item>Zkuste hledat „romantické komedie“</item>
+        <item>Zkuste hledat „filmy sci-fi“</item>
+        <item>Zkuste hledat „filmy o superhrdinech“</item>
+        <item>Zkuste hledat „akční filmy“</item>
+        <item>Zkuste hledat „Star Trek“</item>
+        <item>Zkuste hledat „Sherlock“</item>
+        <item>Zkuste hledat „Česko hledá superstar“</item>
+        <item>Zkuste hledat „Star Trek“</item>
+        <item>Zkuste hledat „Castle na zabití“</item>
+        <item>Zkuste hledat „fotky Beyoncé“</item>
+        <item>Zkuste hledat „fotky Londýna“</item>
+        <item>Zkuste hledat „fotky Godzilly“</item>
+        <item>Zkuste se zeptat „jak hrála Sparta?“</item>
+        <item>Zkuste se zeptat „jak hráli Oceláři?“</item>
+        <item>Zkuste se zeptat „jak hrála Kometa?“</item>
+        <item>Zkuste se zeptat „jak hrála Slavia?“</item>
+        <item>Zkuste se zeptat „jaké je počasí v Liberci?“</item>
+        <item>Zkuste se zeptat „jaké je počasí v Ostravě?“</item>
+        <item>Zkuste se zeptat „jaké je počasí v Paříži?“</item>
+        <item>Zkuste se zeptat „jaké je počasí v Mexiku?“</item>
+        <item>Zkuste se zeptat „jak je vysoký Brad Pitt?“</item>
+        <item>Zkuste se zeptat „jak horké je Slunce?“</item>
+        <item>Zkuste se zeptat „kdy se narodil John Wayne?“</item>
+        <item>Zkuste vyslovit „otevřít YouTube“</item>
+        <item>Zkuste vyslovit „otevřít Filmy Play“</item>
+    </string-array>
+</resources>

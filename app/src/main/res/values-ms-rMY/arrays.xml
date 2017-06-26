@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Cuba cari \"Will Smith\"</item>
+        <item>Cuba cari \"Michael Fassbender\"</item>
+        <item>Cuba cari \"Jennifer Lawrence\"</item>
+        <item>Cuba cari \"Olivia Wilde\"</item>
+        <item>Cuba cari \"komedi romantik\"</item>
+        <item>Cuba cari \"filem cereka sains\"</item>
+        <item>Cuba cari \"filem adi wira\"</item>
+        <item>Cuba cari \"filem aksi\"</item>
+        <item>Cuba cari \"Star Trek\"</item>
+        <item>Cuba cari \"Sherlock\"</item>
+        <item>Cuba cari \"American Idol\"</item>
+        <item>Cuba cari \"Star Trek\"</item>
+        <item>Cuba cari \"Castle\"</item>
+        <item>Cuba cari \"gambar Beyonce\"</item>
+        <item>Cuba cari \"gambar London\"</item>
+        <item>Cuba cari \"gambar Godzilla\"</item>
+        <item>Cuba tanya, \"apakah skor pasukan Giants?\"</item>
+        <item>Cuba tanya, \"apakah skor pasukan Knicks?\"</item>
+        <item>Cuba tanya, \"apakah skor pasukan Red Wings?\"</item>
+        <item>Cuba tanya, \"apakah skor pasukan Seahawks?\"</item>
+        <item>Cuba tanya, \"apakah cuaca di New York?\"</item>
+        <item>Cuba tanya, \"apakah cuaca di San Francisco?\"</item>
+        <item>Cuba tanya, \"apakah cuaca di Paris?\"</item>
+        <item>Cuba tanya, \"apakah cuaca di Cozumel?\"</item>
+        <item>Cuba tanya, \"Berapa tinggikah Brad Pitt?\"</item>
+        <item>Cuba tanya, \"Berapa panaskah matahari?\"</item>
+        <item>Cuba tanya, \"Bilakah John Wayne dilahirkan?\"</item>
+        <item>Cuba, \"buka YouTube\"</item>
+        <item>Cuba, \"buka Filem Play\"</item>
+    </string-array>
+</resources>

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v17.leanback.widget.HorizontalGridView android:id="@id/list" android:paddingTop="12.0dip" android:paddingBottom="12.0dip" android:focusable="true" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="64.0dip" android:paddingStart="214.0dip" android:paddingEnd="56.0dip" lb:horizontalMargin="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:lb="http://schemas.android.com/apk/res-auto" />

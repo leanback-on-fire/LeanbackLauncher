@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet android:duration="@integer/lb_browse_headers_transition_duration"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <changeBounds />
+    <transition class="android.support.v17.leanback.Scale">
+        <targets>
+            <target android:targetId="@id/container_list" />
+        </targets>
+    </transition>
+    <fade android:fadingMode="fade_in" android:startDelay="@integer/lb_browse_headers_transition_delay" />
+    <fade android:fadingMode="fade_out" />
+</transitionSet>

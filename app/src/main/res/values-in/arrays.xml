@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Coba telusuri \"Will Smith\"</item>
+        <item>Coba telusuri \"Michael Fassbender\"</item>
+        <item>Coba telusuri \"Jennifer Lawrence\"</item>
+        <item>Coba telusuri \"Olivia Wilde\"</item>
+        <item>Coba telusuri \"komedi romantis\"</item>
+        <item>Coba telusuri \"film fiksi ilmiah\"</item>
+        <item>Coba telusuri \"film pahlawan super\"</item>
+        <item>Coba telusuri \"film laga\"</item>
+        <item>Coba telusuri \"Star Trek\"</item>
+        <item>Coba telusuri \"Sherlock\"</item>
+        <item>Coba telusuri \"American Idol\"</item>
+        <item>Coba telusuri \"Star Trek\"</item>
+        <item>Coba telusuri \"Castle\"</item>
+        <item>Coba telusuri \"gambar Beyonce\"</item>
+        <item>Coba telusuri \"gambar London\"</item>
+        <item>Coba telusuri \"gambar Godzilla\"</item>
+        <item>"Coba tanyakan, \"what's the Giants score?\" (berapa skor Giants?)"</item>
+        <item>"Coba tanyakan, \"what's the Knicks score?\" (berapa skor Knicks?)"</item>
+        <item>"Coba tanyakan, \"what's the Red Wings score?\" (berapa skor Red Wings?)"</item>
+        <item>"Coba tanyakan, \"what's the Seahawks score?\" (berapa skor Seahawks?)"</item>
+        <item>"Coba tanyakan, \"what's the weather in New York?\" (bagaimana cuaca di New York?)"</item>
+        <item>"Coba tanyakan, \"what's the weather in San Francisco?\" (bagaimana cuaca di San Francisco?)"</item>
+        <item>"Coba tanyakan, \"what's the weather in Paris?\" (bagaimana cuaca di Paris?)"</item>
+        <item>"Coba tanyakan, \"what's the weather in Cozumel?\" (bagaimana cuaca di Cozumel?)"</item>
+        <item>Coba tanyakan, \"How tall is Brad Pitt?\" (Berapa tinggi Brad Pitt?)</item>
+        <item>Coba tanyakan, \"How hot is the sun?\" (Seberapa panas matahari?)</item>
+        <item>Coba tanyakan, \"When was John Wayne born?\" (Kapan John Wayne lahir?)</item>
+        <item>Coba, \"open YouTube\" (buka YouTube)</item>
+        <item>Coba, \"open Play Movies\" (buka Play Film)</item>
+    </string-array>
+</resources>

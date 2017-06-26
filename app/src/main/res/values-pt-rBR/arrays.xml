@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Tente pesquisar \"Will Smith\"</item>
+        <item>Tente pesquisar \"Michael Fassbender\"</item>
+        <item>Tente pesquisar \"Jennifer Lawrence\"</item>
+        <item>Tente pesquisar por \"Olivia Wilde\"</item>
+        <item>Tente pesquisar \"comédias românticas\"</item>
+        <item>Tente pesquisar \"filmes de ficção científica\"</item>
+        <item>Tente pesquisar \"filmes de super-heróis\"</item>
+        <item>Tente pesquisar \"filmes de ação\"</item>
+        <item>Tente pesquisar \"Star Trek\"</item>
+        <item>Tente pesquisar \"Sherlock\"</item>
+        <item>Tente pesquisar \"American Idol\"</item>
+        <item>Tente pesquisar \"Star Trek\"</item>
+        <item>Tente pesquisar \"Castle\"</item>
+        <item>Tente pesquisar \"fotos de Beyonce\"</item>
+        <item>Tente pesquisar \"fotos de Londres\"</item>
+        <item>Tente pesquisar \"fotos de Godzilla\"</item>
+        <item>Tente perguntar: \"qual é a pontuação do Giants?\"</item>
+        <item>Tente perguntar: \"qual é a pontuação do Knicks?\"</item>
+        <item>Tente perguntar: \"qual é a pontuação do Red Wings?\"</item>
+        <item>Tente perguntar: \"qual é a pontuação do Seahawks?\"</item>
+        <item>Tente perguntar: \"como está o tempo em Nova York?\"</item>
+        <item>Tente perguntar: \"como está o tempo em São Francisco?\"</item>
+        <item>Tente perguntar: \"como está o tempo em Paris?\"</item>
+        <item>Tente perguntar: \"como está o tempo em Cozumel?\"</item>
+        <item>Tente perguntar: \"qual é a altura de Brad Pitt?\"</item>
+        <item>Tente perguntar: \"qual é a temperatura do sol?\"</item>
+        <item>Tente perguntar: \"quando John Wayne nasceu?\"</item>
+        <item>Tente: \"abrir o YouTube\"</item>
+        <item>Tente: \"abrir o Play Movies\"</item>
+    </string-array>
+</resources>

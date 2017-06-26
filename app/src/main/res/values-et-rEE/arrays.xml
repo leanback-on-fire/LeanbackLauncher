@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Proovige teha otsing „Will Smith”</item>
+        <item>Proovige teha otsing „Michael Fassbender”</item>
+        <item>Proovige teha otsing „Jennifer Lawrence”</item>
+        <item>Proovige teha otsing „Olivia Wilde”</item>
+        <item>Proovige teha otsing „romantilised komöödiad”</item>
+        <item>Proovige teha otsing „ulmefilmid”</item>
+        <item>Proovige teha otsing „superkangelastega filmid”</item>
+        <item>Proovige teha otsing „põnevusfilmid”</item>
+        <item>Proovige teha otsing „Star Trek”</item>
+        <item>Proovige teha otsing „Sherlock”</item>
+        <item>Proovige teha otsing „American Idol”</item>
+        <item>Proovige teha otsing „Star Trek”</item>
+        <item>Proovige teha otsing „Castle”</item>
+        <item>"Proovige teha otsing „pildid Beyonce'ist”"</item>
+        <item>Proovige teha otsing „pildid Londonist”</item>
+        <item>Proovige teha otsing „pildid Godzillast”</item>
+        <item>Proovige küsida: „Milline on Giantsi punktiseis?”</item>
+        <item>Proovige küsida: „Milline on Knicksi punktiseis?”</item>
+        <item>Proovige küsida: „Milline on Red Wingsi punktiseis?”</item>
+        <item>Proovige küsida: „Milline on Seahawksi punktiseis?”</item>
+        <item>Proovige küsida: „Milline ilm on New Yorgis?”</item>
+        <item>Proovige küsida: „Milline ilm on San Franciscos?”</item>
+        <item>Proovige küsida: „Milline ilm on Pariisis?”</item>
+        <item>Proovige küsida: „Milline ilm on Cozumelil?”</item>
+        <item>Proovige küsida: „Kui pikk on Brad Pitt?”</item>
+        <item>Proovige küsida: „Kui kuum on päike?”</item>
+        <item>Proovige küsida: „Millal John Wayne sündis?”</item>
+        <item>Proovige käsku „ava YouTube”</item>
+        <item>Proovige käsku „ava Play Movies”</item>
+    </string-array>
+</resources>

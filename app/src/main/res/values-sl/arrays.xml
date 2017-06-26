@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Poskusite iskati »Will Smith«</item>
+        <item>Poskusite iskati »Michael Fassbender«</item>
+        <item>Poskusite iskati »Jennifer Lawrence«</item>
+        <item>Poskusite iskati »Olivia Wilde«</item>
+        <item>Poskusite iskati »romantic comedies« (ljubezenske komedije)</item>
+        <item>Poskusite iskati »sci-fi movies« (ZF-filmi)</item>
+        <item>Poskusite iskati »superhero movies« (filmi z nadnaravnimi junaki)</item>
+        <item>Poskusite iskati »action movies« (akcijski filmi)</item>
+        <item>Poskusite iskati »Star Trek« (Zvezdne steze)</item>
+        <item>Poskusite iskati »Sherlock«</item>
+        <item>Poskusite iskati »American Idol« (Ameriški idol)</item>
+        <item>Poskusite iskati »Star Trek« (Zvezdne steze)</item>
+        <item>Poskusite iskati »Castle«</item>
+        <item>Poskusite iskati »pictures of Beyonce« (slike Beyonce)</item>
+        <item>Poskusite iskati »pictures of London« (slike Londona)</item>
+        <item>Poskusite iskati »pictures of Godzilla« (slike Godzille)</item>
+        <item>"Poskusite vprašati »what's the Giants score?« (Kakšen je rezultat ekipe Giants?)"</item>
+        <item>"Poskusite vprašati »what's the Knicks score?« (Kakšen je rezultat ekipe Knicks?)"</item>
+        <item>"Poskusite vprašati »what's the Red Wings score?« (Kakšen je rezultat ekipe Red Wings?)"</item>
+        <item>"Poskusite vprašati »what's the Seahawks score?« (Kakšen je rezultat ekipe Seahawks?)"</item>
+        <item>"Poskusite vprašati »what's the weather in New York?« (Kakšno je vreme v New Yorku?)"</item>
+        <item>"Poskusite vprašati »what's the weather in San Francisco?« (Kakšno je vreme v San Franciscu?)"</item>
+        <item>"Poskusite vprašati »what's the weather in Paris?« (Kakšno je vreme v Parizu?)"</item>
+        <item>"Poskusite vprašati »what's the weather in Cozumel?« (Kakšno je vreme v Cozumelu?)"</item>
+        <item>Poskusite vprašati »How tall is Brad Pitt?« (Kako visok je Brad Pitt?)</item>
+        <item>Poskusite vprašati »How hot is the sun?« (Kako vroče je sonce?)</item>
+        <item>Poskusite vprašati »When was John Wayne born?« (Kdaj je bil rojen John Wayne?)</item>
+        <item>Poskusite z ukazom »open YouTube« (odpri YouTube)</item>
+        <item>Poskusite z ukazom »open Play Movies« (odpri Filme Play)</item>
+    </string-array>
+</resources>

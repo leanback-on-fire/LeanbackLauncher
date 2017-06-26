@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Try searching for \"Will Smith\"</item>
+        <item>Try searching for \"Michael Fassbender\"</item>
+        <item>Try searching for \"Jennifer Lawrence\"</item>
+        <item>Try searching for \"Olivia Wilde\"</item>
+        <item>Try searching for \"romantic comedies\"</item>
+        <item>Try searching for \"sci-fi movies\"</item>
+        <item>Try searching for \"superhero movies\"</item>
+        <item>Try searching for \"action movies\"</item>
+        <item>Try searching for \"Star Trek\"</item>
+        <item>Try searching for \"Sherlock\"</item>
+        <item>Try searching for \"American Idol\"</item>
+        <item>Try searching for \"Star Trek\"</item>
+        <item>Try searching for \"Castle\"</item>
+        <item>Try searching for \"pictures of Beyonce\"</item>
+        <item>Try searching for \"pictures of London\"</item>
+        <item>Try searching for \"pictures of Godzilla\"</item>
+        <item>"Try asking, \"what's the Chelsea score?\""</item>
+        <item>"Try asking, \"what's the Liverpool score?\""</item>
+        <item>"Try asking, \"what's the Arsenal score?\""</item>
+        <item>"Try asking, \"what's the Tottenham score?\""</item>
+        <item>"Try asking, \"what's the weather in London?\""</item>
+        <item>"Try asking, \"what's the weather in Leeds?\""</item>
+        <item>"Try asking, \"what's the weather in Paris?\""</item>
+        <item>"Try asking, \"what's the weather in Cozumel?\""</item>
+        <item>Try asking, \"How tall is Brad Pitt?\"</item>
+        <item>Try asking, \"How hot is the sun?\"</item>
+        <item>Try asking, \"When was John Wayne born?\"</item>
+        <item>Try, \"open YouTube\"</item>
+        <item>Try, \"open Play Movies\"</item>
+    </string-array>
+</resources>

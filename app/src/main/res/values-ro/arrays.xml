@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Încercați să căutați „Will Smith”</item>
+        <item>Încercați să căutați „Michael Fassbender”</item>
+        <item>Încercați să căutați „Jennifer Lawrence”</item>
+        <item>Încercați să căutați „Olivia Wilde”</item>
+        <item>Încercați să căutați „comedii romantice”</item>
+        <item>Încercați să căutați „filme science-fiction”</item>
+        <item>Încercați să căutați „filme cu supereroi”</item>
+        <item>Încercați să căutați „filme de acțiune”</item>
+        <item>Încercați să căutați „Star Trek”</item>
+        <item>Încercați să căutați „Sherlock”</item>
+        <item>Încercați să căutați „American Idol”</item>
+        <item>Încercați să căutați „Star Trek”</item>
+        <item>Încercați să căutați „Castle”</item>
+        <item>Încercați să căutați „imagini cu Beyonce”</item>
+        <item>Încercați să căutați „imagini din Londra”</item>
+        <item>Încercați să căutați „imagini cu Godzilla”</item>
+        <item>Încercați să întrebați „Care este scorul echipei Giants?”</item>
+        <item>Încercați să întrebați „Care este scorul echipei Knicks?”</item>
+        <item>Încercați să întrebați „Care este scorul echipei Red Wings?”</item>
+        <item>Încercați să întrebați „Care este scorul echipei Seahawks?”</item>
+        <item>Încercați să întrebați „Cum este vremea la New York?”</item>
+        <item>Încercați să întrebați „Cum este vremea la San Francisco?”</item>
+        <item>Încercați să întrebați „Cum este vremea la Paris?”</item>
+        <item>Încercați să întrebați „Cum este vremea la Cozumel?”</item>
+        <item>Încercați să întrebați „Cât de înalt este Brad Pitt?”</item>
+        <item>Încercați să întrebați „Cât de fierbinte este Soarele?”</item>
+        <item>Încercați să întrebați „Când s-a născut John Wayne?”</item>
+        <item>Încercați „deschide YouTube”</item>
+        <item>Încercați „deschide Filme Play”</item>
+    </string-array>
+</resources>

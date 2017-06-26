@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>"'윌 스미스'를 검색해 보세요."</item>
+        <item>"'마이클 패스벤더'를 검색해 보세요."</item>
+        <item>"'제니퍼 로렌스'를 검색해 보세요."</item>
+        <item>"'올리비아 와일드'를 검색해 보세요."</item>
+        <item>"'로맨틱 코미디'를 검색해 보세요."</item>
+        <item>"'SF 영화'를 검색해 보세요."</item>
+        <item>"'슈퍼히어로 영화'를 검색해 보세요."</item>
+        <item>"'액션 영화'를 검색해 보세요."</item>
+        <item>"'스타트렉'을 검색해 보세요."</item>
+        <item>"'셜록'을 검색해 보세요."</item>
+        <item>"'아메리칸 아이돌'을 검색해 보세요."</item>
+        <item>"'스타트렉'을 검색해 보세요."</item>
+        <item>"'캐슬'을 검색해 보세요."</item>
+        <item>"'비욘세 사진'을 검색해 보세요."</item>
+        <item>"'런던 사진'을 검색해 보세요."</item>
+        <item>"'고질라 사진'을 검색해 보세요."</item>
+        <item>"'자이언츠 점수는?'이라고 질문해 보세요."</item>
+        <item>"'닉스 점수는?'이라고 질문해 보세요."</item>
+        <item>"'레드윙스 점수는?'이라고 질문해 보세요."</item>
+        <item>"'시호크스 점수는?'이라고 질문해 보세요."</item>
+        <item>"'뉴욕 날씨는?'이라고 질문해 보세요."</item>
+        <item>"'샌프란시스코 날씨는?'이라고 질문해 보세요."</item>
+        <item>"'파리 날씨는?'이라고 질문해 보세요."</item>
+        <item>"'코수멜 날씨는?'이라고 질문해 보세요."</item>
+        <item>"'브래드 피트의 키는?'이라고 질문해 보세요."</item>
+        <item>"'태양 온도는?'이라고 질문해 보세요."</item>
+        <item>"'존 웨인의 출생연도는?'이라고 질문해 보세요."</item>
+        <item>"'YouTube 열기'라고 해보세요."</item>
+        <item>"'Play 무비 열기'라고 해보세요."</item>
+    </string-array>
+</resources>

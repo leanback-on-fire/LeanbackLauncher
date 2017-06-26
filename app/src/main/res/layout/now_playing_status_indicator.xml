@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/play_animation" android:paddingBottom="@dimen/leanback_card_now_playing_padding_bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_marginEnd="@dimen/leanback_card_now_playing_padding_end" android:layout_alignEnd="@id/art_work" custom:layout_viewType="main"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:custom="http://schemas.android.com/apk/res/com.google.android.leanbacklauncher">
+    <ImageView android:id="@id/pause_icon" android:visibility="gone" android:layout_width="@dimen/leanback_card_now_playing_status_width" android:layout_height="@dimen/leanback_card_now_playing_status_height" />
+    <LinearLayout android:id="@id/three_bars" android:layout_width="@dimen/leanback_card_now_playing_status_width" android:layout_height="@dimen/leanback_card_now_playing_status_height"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView android:id="@id/bar1" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/leanback_card_now_playing_bar" />
+        <ImageView android:id="@id/bar2" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/leanback_card_now_playing_bar" android:layout_marginStart="@dimen/leanback_card_now_playing_bar_margin" android:layout_marginEnd="@dimen/leanback_card_now_playing_bar_margin" />
+        <ImageView android:id="@id/bar3" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/leanback_card_now_playing_bar" />
+    </LinearLayout>
+</RelativeLayout>

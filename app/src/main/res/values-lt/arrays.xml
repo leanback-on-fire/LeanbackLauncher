@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Pabandykite ieškoti pagal užklausą „Willas Smithas“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Maiklas Fassbenderis“</item>
+        <item>Pabandykite ieškot pagal užklausą „Jenniferė Lawrence“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Olivija Wilde“</item>
+        <item>Pabandykite ieškoti pagal užklausą „romantinės komedijos“</item>
+        <item>Pabandykite ieškoti pagal užklausą „mokslinės fantastikos filmai“</item>
+        <item>Pabandykite ieškoti pagal užklausą „filmai apie superherojus“</item>
+        <item>Pabandykite ieškoti pagal užklausą „veiksmo filmai“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Žvaigždžių kelias“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Šerlokas“</item>
+        <item>Pabandykite ieškot pagal užklausą „Amerikos dievaitis“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Žvaigždžių kelias“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Kastlas“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Beyonce nuotraukos“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Londono nuotraukos“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Godzilos paveikslėliai“</item>
+        <item>Pabandykite paklausti „Koks „Giants“ laimėtų taškų skaičius?“</item>
+        <item>Pabandykite paklausti „Koks „Knicks“ laimėtų taškų skaičius?“</item>
+        <item>Pabandykite paklausti „Koks „Red Wings“ laimėtų taškų skaičius?“</item>
+        <item>Pabandykite paklausti „Koks „Seahawks“ laimėtų taškų skaičius?“</item>
+        <item>Pabandykite paklausti „Koks oras Niujorke?“</item>
+        <item>Pabandykite paklausti „Koks oras San Fransiske?“</item>
+        <item>Pabandykite paklausti „Koks oras Paryžiuje?“</item>
+        <item>Pabandykite paklausti „Koks oras Kosumelyje?“</item>
+        <item>Pabandykite paklausti „Koks Brado Pitto ūgis?“</item>
+        <item>Pabandykite paklausti „Kokia saulės kaitra?“</item>
+        <item>Pabandykite paklausti „Kada gimė Johnas Waynas?“</item>
+        <item>Pabandykite pasakyti „Atidaryti „YouTube“</item>
+        <item>Pabandykite pasakyti „Atidaryti „Google Play“ filmus“</item>
+    </string-array>
+</resources>

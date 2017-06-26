@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Пробајте да претражите „Will Smith“</item>
+        <item>Пробајте да претражите „Michael Fassbender“</item>
+        <item>Пробајте да претражите „Jennifer Lawrence“</item>
+        <item>Пробајте да претражите „Olivia Wilde“</item>
+        <item>Пробајте да претражите „romantic comedies“</item>
+        <item>Пробајте да претражите „sci-fi movies“</item>
+        <item>Пробајте да претражите „superhero movies“</item>
+        <item>Пробајте да претражите „action movies“</item>
+        <item>Пробајте да претражите „Star Trek“</item>
+        <item>Пробајте да претражите „Sherlock“</item>
+        <item>Пробајте да претражите „American Idol“</item>
+        <item>Пробајте да претражите „Star Trek“</item>
+        <item>Пробајте да претражите „Castle“</item>
+        <item>Пробајте да претражите „pictures of Beyonce“</item>
+        <item>Пробајте да претражите „pictures of London“</item>
+        <item>Пробајте да претражите „pictures of Godzilla“</item>
+        <item>"Пробајте да питате „what's the Giants score?“"</item>
+        <item>"Пробајте да питате „what's the Knicks score?“"</item>
+        <item>"Пробајте да питате „what's the Red Wings score?“"</item>
+        <item>"Пробајте да питате „what's the Seahawks score?“"</item>
+        <item>"Пробајте да питате „what's the weather in New York?“"</item>
+        <item>"Пробајте да питате „what's the weather in San Francisco?“"</item>
+        <item>"Пробајте да питате „what's the weather in Paris?“"</item>
+        <item>"Пробајте да питате „what's the weather in Cozumel?“"</item>
+        <item>Пробајте да питате „How tall is Brad Pitt?“</item>
+        <item>Пробајте да питате „How hot is the sun?“</item>
+        <item>Пробајте да питате „When was John Wayne born?“</item>
+        <item>Испробајте „open YouTube“</item>
+        <item>Испробајте „open Play Movies“</item>
+    </string-array>
+</resources>

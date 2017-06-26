@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Próbáljon a következőre keresni: „Will Smith”</item>
+        <item>Próbáljon a következőre keresni: „Michael Fassbender”</item>
+        <item>Próbáljon a következőre keresni: „Jennifer Lawrence”</item>
+        <item>Próbáljon a következőre keresni: „Olivia Wilde”</item>
+        <item>Próbáljon a következőre keresni: „romantikus vígjátékok”</item>
+        <item>Próbáljon a következőre keresni: „sci-fi filmek”</item>
+        <item>Próbáljon a következőre keresni: „szuperhősös filmek”</item>
+        <item>Próbáljon a következőre keresni: „akciófilmek”</item>
+        <item>Próbáljon a következőre keresni: „Star Trek”</item>
+        <item>Próbáljon a következőre keresni: „Sherlock”</item>
+        <item>Próbáljon a következőre keresni: „American Idol”</item>
+        <item>Próbáljon a következőre keresni: „Star Trek”</item>
+        <item>Próbáljon a következőre keresni: „Castle”</item>
+        <item>Próbáljon a következőre keresni: „Beyonce képek”</item>
+        <item>Próbáljon a következőre keresni: „London képek”</item>
+        <item>Próbáljon a következőre keresni: „Godzilla képek”</item>
+        <item>Próbálkozzon a következő kérdéssel: „mi a Veszprém meccs állása?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „mi a Diósgyőr meccs állása?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „mi az Újpest meccs állása?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „mi a Vasas meccs állása?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „milyen idő van New Yorkban?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „milyen idő van San Franciscóban?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „milyen idő van Párizsban?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „milyen idő van a Cozumel-szigeten?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Milyen magas Brad Pitt?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Milyen meleg a nap?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Mikor született John Wayne?”</item>
+        <item>Próbálkozzon a következővel: „nyissa meg a YouTube-ot”</item>
+        <item>Próbálkozzon a következővel: „nyissa meg a Play Filmeket”</item>
+    </string-array>
+</resources>

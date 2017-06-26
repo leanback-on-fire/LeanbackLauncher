@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Proba a buscar \"Will Smith\"</item>
+        <item>Proba a buscar \"Michael Fassbender\"</item>
+        <item>Proba a buscar \"Jennifer Lawrence\"</item>
+        <item>Proba a buscar \"Olivia Wilde\"</item>
+        <item>Proba a buscar \"comedias románticas\"</item>
+        <item>Proba a buscar \"películas de ciencia ficción\"</item>
+        <item>Proba a buscar \"películas de superheroes\"</item>
+        <item>Proba a buscar \"películas de acción\"</item>
+        <item>Proba a buscar \"Star Trek\"</item>
+        <item>Proba a buscar \"Sherlock\"</item>
+        <item>Proba a buscar \"American Idol\"</item>
+        <item>Proba a buscar \"Star Trek\"</item>
+        <item>Proba a buscar \"Castle\"</item>
+        <item>Proba a buscar \"imaxes de Beyonce\"</item>
+        <item>Proba a buscar \"imaxes de Londres\"</item>
+        <item>Proba a buscar \"imaxes de Godzilla\"</item>
+        <item>Proba a preguntar \"como quedou o Deportivo da Coruña?\"</item>
+        <item>Proba a preguntar \"como quedou o Breogán de baloncesto?\"</item>
+        <item>Proba a preguntar \"como quedou o Liceo de hóckey?\"</item>
+        <item>Proba a preguntar \"como quedou o Celta?\"</item>
+        <item>Proba a preguntar \"que tempo fai en Nova York?\"</item>
+        <item>Proba a preguntar \"que tempo fai en San Francisco?\"</item>
+        <item>Proba a preguntar \"que tempo fai en París?\"</item>
+        <item>Proba a preguntar \"que tempo fai en Cozumel?\"</item>
+        <item>Proba a preguntar \"canto mide Brad Pitt?\"</item>
+        <item>Proba a preguntar \"que temperatura ten o sol?\"</item>
+        <item>Proba a preguntar \"cando naceu John Wayne?\"</item>
+        <item>Proba con \"abrir YouTube\"</item>
+        <item>Proba con \"abrir Play Movies\"</item>
+    </string-array>
+</resources>

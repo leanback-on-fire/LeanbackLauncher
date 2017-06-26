@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="full_screen_settings_enabled">false</bool>
+    <bool name="side_panel_settings_enabled">true</bool>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Probeer om vir \"Will Smith\" te soek</item>
+        <item>Probeer om vir \"Michael Fassbender\" te soek</item>
+        <item>Probeer om vir \"Jennifer Lawrence\" te soek</item>
+        <item>Probeer om vir \"Olivia Wilde\" te soek</item>
+        <item>Probeer om vir \"romantic comedies\" (romantiese komedies) te soek</item>
+        <item>Probeer om vir \"sci-fi movies\" (wetenskapfiksieflieks) te soek</item>
+        <item>Probeer om vir \"superhero movies\" (superheldflieks) te soek</item>
+        <item>Probeer om vir \"action movies\" (aksieflieks) te soek</item>
+        <item>Probeer om vir \"Star Trek\" te soek</item>
+        <item>Probeer om vir \"Sherlock\" te soek</item>
+        <item>Probeer om vir \"American Idol\" te soek</item>
+        <item>Probeer om vir \"Star Trek\" te soek</item>
+        <item>Probeer om vir \"Castle\" te soek</item>
+        <item>"Probeer om vir \"pictures of Beyonce\" (foto's van Beyonce) te soek"</item>
+        <item>"Probeer om vir \"pictures of London\" (foto's van Londen) te soek"</item>
+        <item>"Probeer om vir \"pictures of Godzilla\" (foto's van Godzilla) te soek"</item>
+        <item>"Probeer vra: \"What's the Blue Bulls score?\" (Wat is die Blou Bulle se telling?)"</item>
+        <item>"Probeer vra: \"What's the Sharks score?\" (Wat is die Sharks se telling?)"</item>
+        <item>"Probeer vra: \"What's the Lions score?\" (Wat is die Lions se telling?)"</item>
+        <item>"Probeer vra: \"What's the Kaizer Chiefs score?\" (Wat is die Kaizer Chiefs se telling?)"</item>
+        <item>"Probeer vra: \"What's the weather in New York?\" (Hoe lyk die weer in New York?)"</item>
+        <item>"Probeer vra: \"What's the weather in San Francisco?\" (Hoe lyk die weer in San Francisco?)"</item>
+        <item>"Probeer vra: \"What's the weather in Paris?\" (Hoe lyk die weer in Parys?)"</item>
+        <item>"Probeer vra: \"What's the weather in Cozumel?\" (Hoe lyk die weer in Cozumel?)"</item>
+        <item>Probeer vra: \"How tall is Brad Pitt?\" (Hoe lank is Brad Pitt?)</item>
+        <item>Probeer vra: \"How hot is the sun?\" (Hoe warm is die son?)</item>
+        <item>Probeer vra: \"When was John Wayne born?\" (Wanneer is John Wayne gebore?)</item>
+        <item>Probeer: \"Open YouTube\" (Maak YouTube oop)</item>
+        <item>Probeer: \"Open Play Flieks\" (Maak Play Flieks oop)</item>
+    </string-array>
+</resources>

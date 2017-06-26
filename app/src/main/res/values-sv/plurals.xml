@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d källor har dolts</item>
+        <item quantity="one">%d källa har dolts</item>
+    </plurals>
+</resources>

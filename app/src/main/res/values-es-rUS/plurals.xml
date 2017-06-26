@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d fuentes están ocultas</item>
+        <item quantity="one">%d fuente está oculta</item>
+    </plurals>
+</resources>

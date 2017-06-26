@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transition android:interpolator="@animator/lb_decelerator_2" lb:lb_slideEdge="top" class="android.support.v17.leanback.transition.SlideKitkat"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:lb="http://schemas.android.com/apk/res-auto">
+    <targets>
+        <target android:targetId="@id/browse_title_group" />
+    </targets>
+</transition>

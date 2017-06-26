@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set android:ordering="together"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator android:interpolator="@android:anim/decelerate_interpolator" android:duration="@integer/wallpaper_fade_in_duration" android:valueFrom="0" android:valueTo="255" android:valueType="intType" android:propertyName="imageAlpha" />
+    <objectAnimator android:interpolator="@android:anim/decelerate_interpolator" android:duration="@integer/wallpaper_fade_in_duration" android:valueFrom="@raw/wallpaper_fade_in_initial_scale" android:valueTo="@raw/wallpaper_fade_in_final_scale" android:valueType="floatType" android:propertyName="scaleX" />
+    <objectAnimator android:interpolator="@android:anim/decelerate_interpolator" android:duration="@integer/wallpaper_fade_in_duration" android:valueFrom="@raw/wallpaper_fade_in_initial_scale" android:valueTo="@raw/wallpaper_fade_in_final_scale" android:valueType="floatType" android:propertyName="scaleY" />
+</set>

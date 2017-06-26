@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Pokušajte s upitom za pretraživanje \"Will Smith\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"Michael Fassbender\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"Jennifer Lawrence\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"Olivia Wilde\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"romantične komedije\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"SF filmovi\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"filmovi o superjunacima\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"akcijski filmovi\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"Zvjezdane staze\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"Sherlock\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"Američki idol\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"Zvjezdane staze\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"Castle\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"slike Beyonce\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"slike Londona\"</item>
+        <item>Pokušajte s upitom za pretraživanje \"slike Godzille\"</item>
+        <item>"Pokušajte s pitanjem \"what's the Giants score?\" (Koji su rezultat postigli Giants?)"</item>
+        <item>Pokušajte s pitanjem \"Koji su rezultat postigli Knicksi?\"</item>
+        <item>Pokušajte s pitanjem \"Koji su rezultat postigli Red Wingsi?\"</item>
+        <item>Pokušajte s pitanjem \"Koji su rezultat postigli Seahawksi?\"</item>
+        <item>Pokušajte s pitanjem \"Kakvo je vrijeme u New Yorku?\"</item>
+        <item>"Pokušajte s pitanjem \"what's the weather in San Francisco?\" (Kakvo je vrijeme u San Franciscu?)"</item>
+        <item>Pokušajte s pitanjem \"Kakvo je vrijeme u Parizu?\"</item>
+        <item>Pokušajte s pitanjem \"Kakvo je vrijeme na Cozumelu?\"</item>
+        <item>Pokušajte s pitanjem \"Koliko je visok Brad Pitt?\"</item>
+        <item>Pokušajte s pitanjem \"Koliko je Sunce vruće?\"</item>
+        <item>Pokušajte s pitanjem \"Kada je rođen John Wayne?\"</item>
+        <item>Pokušajte s naredbom \"otvori YouTube\"</item>
+        <item>Pokušajte s naredbom \"otvori Play filmove\"</item>
+    </string-array>
+</resources>

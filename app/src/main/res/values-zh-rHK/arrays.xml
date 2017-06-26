@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>嘗試搜尋「韋史密夫」</item>
+        <item>嘗試搜尋「米高法斯賓達」</item>
+        <item>嘗試搜尋「珍妮花羅倫絲」</item>
+        <item>嘗試搜尋「奧莉菲亞懷特」</item>
+        <item>嘗試搜尋「愛情喜劇」</item>
+        <item>嘗試搜尋「科幻片」</item>
+        <item>嘗試搜尋「超級英雄片」</item>
+        <item>嘗試搜尋「動作片」</item>
+        <item>嘗試搜尋「星空奇遇記」</item>
+        <item>嘗試搜尋「福爾摩斯」</item>
+        <item>嘗試搜尋「美國偶像」</item>
+        <item>嘗試搜尋「星空奇遇記」</item>
+        <item>嘗試搜尋「賈神探」</item>
+        <item>嘗試搜尋「碧昂絲的相片」</item>
+        <item>嘗試搜尋「倫敦的相片」</item>
+        <item>嘗試搜尋「哥斯拉的相片」</item>
+        <item>嘗試詢問「巨人隊得多少分？」</item>
+        <item>嘗試詢問「尼克隊得多少分？」</item>
+        <item>嘗試詢問「紅翼隊得多少分？」</item>
+        <item>嘗試詢問「海鷹隊得多少分？」</item>
+        <item>嘗試詢問「紐約的天氣如何？」</item>
+        <item>嘗試詢問「舊金山的天氣如何？」</item>
+        <item>嘗試詢問「巴黎的天氣如何？」</item>
+        <item>嘗試詢問「科茲美島的天氣如何？」</item>
+        <item>嘗試詢問「畢彼特有多高？」</item>
+        <item>嘗試詢問「太陽的溫度有多高？」</item>
+        <item>嘗試詢問「尊榮何時出生？」</item>
+        <item>嘗試說出「開啟 YouTube」</item>
+        <item>嘗試說出「開啟 Play 電影」</item>
+    </string-array>
+</resources>

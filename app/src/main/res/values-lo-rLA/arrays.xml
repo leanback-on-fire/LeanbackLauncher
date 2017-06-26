@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"Will Smith\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"Michael Fassbender\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"Jennifer Lawrence\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"Olivia Wilde\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"romantic comedies\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"sci-fi movies\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"superhero movies\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"action movies\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"Star Trek\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"Sherlock\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"American Idol\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"Star Trek\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"Castle\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"pictures of Beyonce\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"pictures of London\"</item>
+        <item>ລອງ​ຊອກ​ຫາ​ຄຳ​ວ່າ \"pictures of Godzilla\"</item>
+        <item>"ລອງ​ຖາມ​ວ່າ, \"what's the Giants score?\""</item>
+        <item>"ລອງ​ຖາມ​ວ່າ, \"what's the Knicks score?\""</item>
+        <item>"ລອງ​ຖາມ​ວ່າ, \"what's the Red Wings score?\""</item>
+        <item>"ລອງ​ຖາມ​ວ່າ, \"what's the Seahawks score?\""</item>
+        <item>"ລອງ​ຖາມ​ວ່າ, \"what's the weather in New York?\""</item>
+        <item>"ລອງ​ຖາມ​ວ່າ, \"what's the weather in San Francisco?\""</item>
+        <item>"ລອງ​ຖາມ​ວ່າ, \"what's the weather in Paris?\""</item>
+        <item>"ລອງ​ຖາມ​ວ່າ, \"what's the weather in Cozumel?\""</item>
+        <item>ລອງ​ຖາມ​ວ່າ, \"How tall is Brad Pitt?\"</item>
+        <item>ລອງ​ຖາມ​ວ່າ, \"How hot is the sun?\"</item>
+        <item>ລອງ​ຖາມ​ວ່າ, \"When was John Wayne born?\"</item>
+        <item>ລອງ​ໃຊ້, \"open YouTube\"</item>
+        <item>ລອງ​ໃຊ້, \"open Play Movies\"</item>
+    </string-array>
+</resources>

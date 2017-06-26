@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d izvora je skriveno</item>
+        <item quantity="one">%d izvor je skriven</item>
+        <item quantity="few">%d izvora su skrivena</item>
+    </plurals>
+</resources>

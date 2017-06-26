@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Essayez la requête de recherche \"Will Smith\"</item>
+        <item>Essayez la requête de recherche \"Michael Fassbender\"</item>
+        <item>Essayez la requête de recherche \"Jennifer Lawrence\"</item>
+        <item>Essayez la requête de recherche \"Olivia Wilde\"</item>
+        <item>Essayez la requête de recherche \"Comédies romantiques\"</item>
+        <item>Essayez la requête de recherche \"Films de science-fiction\"</item>
+        <item>Essayez la requête de recherche \"Films de super-héros\"</item>
+        <item>"Essayez la requête de recherche \"Films d'action\""</item>
+        <item>Essayez la requête de recherche \"Star Trek\"</item>
+        <item>Essayez la requête de recherche \"Sherlock\"</item>
+        <item>Essayez la requête de recherche \"Nouvelle Star\"</item>
+        <item>Essayez la requête de recherche \"Star Trek\"</item>
+        <item>Essayez la requête de recherche \"Castle\"</item>
+        <item>Essayez la requête de recherche \"Photos de Beyoncé\"</item>
+        <item>Essayez la requête de recherche \"Photos de Londres\"</item>
+        <item>Essayez la requête de recherche \"Photos de Godzilla\"</item>
+        <item>Essayez de demander \"Quel est le score du PSG ?\"</item>
+        <item>"Essayez de demander \"Quel est le score de l'OM ?\""</item>
+        <item>Essayez de demander \"Quel est le score du FC Barcelone ?\"</item>
+        <item>Essayez de demander \"Quel est le score du Real Madrid ?\"</item>
+        <item>Essayez de demander \"Quel temps fait-il à New York ?\"</item>
+        <item>Essayez de demander \"Quel temps fait-il à San Francisco ?\"</item>
+        <item>Essayez de demander \"Quel temps fait-il à Paris ?\"</item>
+        <item>Essayez de demander \"Quel temps fait-il à Marseille ?\"</item>
+        <item>Essayez de demander \"Combien mesure Brad Pitt ?\"</item>
+        <item>Essayez de demander \"Quelle est la température du soleil ?\"</item>
+        <item>Essayez de demander \"Quelle est la date de naissance de John Wayne ?\"</item>
+        <item>Essayez la commande \"Ouvrir YouTube\"</item>
+        <item>Essayez la commande \"Ouvrir Play Films\"</item>
+    </string-array>
+</resources>

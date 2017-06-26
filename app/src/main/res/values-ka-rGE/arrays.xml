@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>სცადეთ, მოძებნოთ „Will Smith“</item>
+        <item>სცადეთ, მოძებნოთ „Michael Fassbender“</item>
+        <item>სცადეთ, მოძებნოთ „Jennifer Lawrence“</item>
+        <item>სცადეთ, მოძებნოთ „Olivia Wilde“</item>
+        <item>სცადეთ, მოძებნოთ „romantic comedies“</item>
+        <item>სცადეთ, მოძებნოთ „sci-fi movies“</item>
+        <item>სცადეთ, მოძებნოთ „superhero movies“</item>
+        <item>სცადეთ, მოძებნოთ „action movies“</item>
+        <item>სცადეთ, მოძებნოთ „Star Trek“</item>
+        <item>სცადეთ, მოძებნოთ „Sherlock“</item>
+        <item>სცადეთ, მოძებნოთ „American Idol“</item>
+        <item>სცადეთ, მოძებნოთ „Star Trek“</item>
+        <item>სცადეთ, მოძებნოთ „Castle“</item>
+        <item>სცადეთ, მოძებნოთ „pictures of Beyonce“</item>
+        <item>სცადეთ, მოძებნოთ „pictures of London“</item>
+        <item>სცადეთ, მოძებნოთ „pictures of Godzilla“</item>
+        <item>"სცადეთ, იკითხოთ: „what's the Giants score?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the Knicks score?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the Red Wings score?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the Seahawks score?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the weather in New York?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the weather in San Francisco?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the weather in Paris?“"</item>
+        <item>"სცადეთ&lt; იკითხოთ:, „what's the weather in Cozumel?“"</item>
+        <item>სცადეთ, იკითხოთ: „How tall is Brad Pitt?“</item>
+        <item>სცადეთ, იითხოთ:Try „How hot is the sun?“</item>
+        <item>სცადეთ, იკითოთ: „When was John Wayne born?“</item>
+        <item>სცადეთ, „open YouTube“</item>
+        <item>სცადეთ, „open Play Movies“</item>
+    </string-array>
+</resources>

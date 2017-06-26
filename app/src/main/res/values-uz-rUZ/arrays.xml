@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>“Ulug‘bek Qodirov” deb qidirib ko‘ring</item>
+        <item>“Umid Iskandarov” deb qidirib ko‘ring</item>
+        <item>“Shahzoda Matchonova” deb qidirib ko‘ring</item>
+        <item>“Gulchehra Eshonqulova” deb qidirib ko‘ring</item>
+        <item>“Romantik komediyalar” deb qidirib ko‘ring</item>
+        <item>“Ilmiy fantastika” deb qidirib ko‘ring</item>
+        <item>“Superqahramonlar haqida filmlar” deb qidirib ko‘ring</item>
+        <item>“Jangovar filmlar” deb qidirib ko‘ring</item>
+        <item>“Star Trek” deb qidirib ko‘ring</item>
+        <item>“Sherlok” deb qidirib ko‘ring</item>
+        <item>“Comedy.uz” deb qidirib ko‘ring</item>
+        <item>“Star Trek” deb qidirib ko‘ring</item>
+        <item>“Opa-singillar” deb qidirib ko‘ring</item>
+        <item>“Dilnoza Kubayeva rasmlari” deb qidirib ko‘ring</item>
+        <item>“Toshkent rasmlari” deb qidirib ko‘ring</item>
+        <item>“Godzilla rasmlari” deb qidirib ko‘ring</item>
+        <item>“Paxtakor qanday hisobda o‘ynadi” deb so‘rab ko‘ring</item>
+        <item>“Bunyodkor qanday hisobda o‘ynadi” deb so‘rab ko‘ring</item>
+        <item>“Neftchi qanday hisobda o‘ynadi” deb so‘rab ko‘ring</item>
+        <item>“Lokomotiv qanday hisobda o‘ynadi” deb so‘rab ko‘ring</item>
+        <item>“Toshkentda ob-havo qanday?” deb so‘rab ko‘ring</item>
+        <item>“Samarqandda ob-havo qanday?” deb so‘rab ko‘ring</item>
+        <item>“Parijda ob-havo qanday?” deb so‘rab ko‘ring</item>
+        <item>“Andijonda ob-havo qanday?” deb so‘rab ko‘ring</item>
+        <item>“Farrux Soipovning bo‘yi qancha?” deb so‘rab ko‘ring</item>
+        <item>“Quyoshda harorat qancha?” deb so‘rab ko‘ring</item>
+        <item>“Alisher Uzoqov qachon tug‘ilgan?” deb so‘rab ko‘ring</item>
+        <item>“YouTube’ni och” deb ko‘ring</item>
+        <item>“Google Play Filmlarni och” deb ko‘ring</item>
+    </string-array>
+</resources>

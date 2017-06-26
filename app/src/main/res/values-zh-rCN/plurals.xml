@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">隐藏了 %d 个来源</item>
+        <item quantity="one">隐藏了 %d 个来源</item>
+    </plurals>
+</resources>

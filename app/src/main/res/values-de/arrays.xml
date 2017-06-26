@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Suchen Sie nach \"Will Smith\"</item>
+        <item>Suchen Sie nach \"Michael Fassbender\"</item>
+        <item>Suchen Sie nach \"Jennifer Lawrence\"</item>
+        <item>Suchen Sie nach \"Olivia Wilde\"</item>
+        <item>Suchen Sie nach \"Liebeskomödien\"</item>
+        <item>Suchen Sie nach \"Science-Fiction-Filme\"</item>
+        <item>Suchen Sie nach \"Filme mit Superhelden\"</item>
+        <item>Suchen Sie nach \"Actionfilme\"</item>
+        <item>Suchen Sie nach \"Star Trek\"</item>
+        <item>Suchen Sie nach \"Sherlock\"</item>
+        <item>Suchen Sie nach \"American Idol\"</item>
+        <item>Suchen Sie nach \"Star Trek\"</item>
+        <item>Suchen Sie nach \"Schloss\"</item>
+        <item>Suchen Sie nach \"Bilder von Beyoncé\"</item>
+        <item>Suchen Sie nach \"Bilder von London\"</item>
+        <item>Suchen Sie nach \"Bilder von Godzilla\"</item>
+        <item>Fragen Sie: \"Wie ist der Punktestand der Giants?\"</item>
+        <item>Fragen Sie: \"Wie ist der Punktestand der Knicks?\"</item>
+        <item>Fragen Sie: \"Wie ist der Punktestand der Red Wings?\"</item>
+        <item>Fragen Sie: \"Wie ist der Punktestand der Seahawks?\"</item>
+        <item>Fragen Sie: \"Wie ist das Wetter in New York?\"</item>
+        <item>Fragen Sie: \"Wie ist das Wetter in San Francisco?\"</item>
+        <item>Fragen Sie: \"Wie ist das Wetter in Paris?\"</item>
+        <item>Fragen Sie: \"Wie ist das Wetter in Cozumel?\"</item>
+        <item>Fragen Sie: \"Wie groß ist Brad Pitt?\"</item>
+        <item>Fragen Sie: \"Wie heiß ist die Sonne?\"</item>
+        <item>Fragen Sie: \"Wann wurde John Wayne geboren?\"</item>
+        <item>Sagen Sie: \"YouTube öffnen\"</item>
+        <item>Sagen Sie: \"Play Filme öffnen\"</item>
+    </string-array>
+</resources>

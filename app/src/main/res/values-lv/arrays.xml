@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Mēģiniet meklēt “Vils Smits”.</item>
+        <item>Mēģiniet meklēt “Mihaels Fasbenders”.</item>
+        <item>Mēģiniet meklēt “Dženifera Lorensa”.</item>
+        <item>Mēģiniet meklēt “Olīvija Vailda”.</item>
+        <item>Mēģiniet meklēt “romantiskas komēdijas”.</item>
+        <item>Mēģiniet meklēt “zinātniskās fantastikas filmas”.</item>
+        <item>Mēģiniet meklēt “supervaroņu filmas”.</item>
+        <item>Mēģiniet meklēt “asa sižeta filmas”.</item>
+        <item>Mēģiniet meklēt “Star Trek”.</item>
+        <item>Mēģiniet meklēt “Šerloks”.</item>
+        <item>Mēģiniet meklēt “Latvijas zelta talanti”.</item>
+        <item>Mēģiniet meklēt “Star Trek”.</item>
+        <item>Mēģiniet meklēt “Pils”.</item>
+        <item>Mēģiniet meklēt “Beyonce bildes”.</item>
+        <item>Mēģiniet meklēt “Londona bildes”.</item>
+        <item>Mēģiniet meklēt “Godzilla bildes”.</item>
+        <item>"Mēģiniet pajautāt “Kāds ir Giants rezultāts?” (“What's the Giants score?”)."</item>
+        <item>"Mēģiniet pajautāt “Kāds ir Knicks rezultāts?” (“What's the Knicks score?”)."</item>
+        <item>"Mēģiniet pajautāt “Kāds ir Red Wings rezultāts?” (“What's the Red Wings score?”)."</item>
+        <item>"Mēģiniet pajautāt “Kāds ir Seahawks rezultāts?” (“What's the Seahawks score?”)."</item>
+        <item>"Mēģināt pajautāt “Kādi ir laikapstākļi Ņujorkā?” (“What's the weather in New York?”)."</item>
+        <item>"Mēģiniet pajautāt “Kādi ir laikapstākļi Sanfrancisko?” (“What's the weather in San Francisco?”)."</item>
+        <item>"Mēģiniet pajautāt “Kādi ir laikapstākļi Parīzē?” (“What's the weather in Paris?”)."</item>
+        <item>"Mēģiniet pajautāt “Kādi ir laikapstākļi Kozumelā?” (“What's the weather in Cozumel?”)."</item>
+        <item>Mēģiniet pajautāt “Cik garš ir Breds Pits?” (“How tall is Brad Pitt?”).</item>
+        <item>Mēģiniet pajautāt “Cik karsta ir saule?” (“How hot is the sun?”).</item>
+        <item>Mēģiniet pajautāt “Kad ir dzimis Džons Veins?” (“When was John Wayne born?”).</item>
+        <item>Mēģiniet izrunāt komandu “atvērt YouTube” (“open YouTube”).</item>
+        <item>Mēģiniet izrunāt komandu “Atvērt Play filmas” (“open Play Movies”).</item>
+    </string-array>
+</resources>

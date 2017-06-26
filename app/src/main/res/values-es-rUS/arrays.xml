@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Intenta buscar \"Will Smith\".</item>
+        <item>Intenta buscar \"Michael Fassbender\".</item>
+        <item>Intenta buscar \"Jennifer Lawrence\".</item>
+        <item>Intenta buscar \"Olivia Wilde\".</item>
+        <item>Intenta buscar \"comedias románticas\".</item>
+        <item>Intenta buscar \"películas de ciencia ficción\".</item>
+        <item>Intenta buscar \"películas de superhéroes\".</item>
+        <item>Intenta buscar \"películas de acción\".</item>
+        <item>Intenta buscar \"Star Trek\".</item>
+        <item>Intenta buscar \"Sherlock\".</item>
+        <item>Intenta buscar \"American Idol\".</item>
+        <item>Intenta buscar \"Star Trek\".</item>
+        <item>Intenta buscar \"Castle\".</item>
+        <item>Intenta buscar \"imágenes de Beyonce\".</item>
+        <item>Intenta buscar \"imágenes de Londres\".</item>
+        <item>Intenta buscar \"imágenes de Godzilla\".</item>
+        <item>Prueba a preguntar: \"¿Cuál es el resultado del partido de River Plate?\".</item>
+        <item>Prueba a preguntar: \"¿Cuál es el resultado del partido de Boca Juniors?\".</item>
+        <item>Prueba a preguntar: \"¿Cuál es el resultado del partido de Peñarol?\".</item>
+        <item>Prueba a preguntar: \"¿Cuál es el resultado del partido de Colo Colo?\".</item>
+        <item>Prueba a preguntar: \"¿Cómo está el tiempo en Lima?\".</item>
+        <item>Prueba a preguntar: \"¿Cómo está el tiempo en Buenos Aires?\".</item>
+        <item>Prueba a preguntar: \"¿Cómo está el tiempo en Montevideo?\".</item>
+        <item>Prueba a preguntar: \"¿Cómo está el tiempo en La Paz?\".</item>
+        <item>Prueba a preguntar: \"¿Cuánto mide Brad Pitt?\".</item>
+        <item>Prueba a preguntar: \"¿Qué temperatura tiene el sol?\".</item>
+        <item>Prueba a preguntar: \"¿Cuándo nació John Wayne?\".</item>
+        <item>Prueba con \"abrir YouTube\".</item>
+        <item>Intenta con \"abrir Play Películas\".</item>
+    </string-array>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Prueba a buscar \"Will Smith\"</item>
+        <item>Prueba a buscar \"Michael Fassbender\"</item>
+        <item>Prueba a buscar \"Jennifer Lawrence\"</item>
+        <item>Prueba a buscar \"Olivia Wilde\"</item>
+        <item>Prueba a buscar \"comedias románticas\"</item>
+        <item>Prueba a buscar \"películas de ciencia ficción\"</item>
+        <item>Prueba a buscar \"películas de superhéroes\"</item>
+        <item>Prueba a buscar \"películas de acción\"</item>
+        <item>Prueba a buscar \"Star Trek\"</item>
+        <item>Prueba a buscar \"Sherlock\"</item>
+        <item>Prueba a buscar \"ídolo americano\"</item>
+        <item>Prueba a buscar \"Star Trek\"</item>
+        <item>Prueba a buscar \"Castle\"</item>
+        <item>Prueba a buscar \"imágenes de Beyoncé\"</item>
+        <item>Prueba a buscar \"imágenes de Londres\"</item>
+        <item>Prueba a buscar \"imágenes de Godzilla\"</item>
+        <item>Prueba a preguntar \"¿Cómo ha quedado el Atlético de Madrid?\"</item>
+        <item>Prueba a preguntar \"¿Cómo ha quedado el Real Madrid de Baloncesto?\"</item>
+        <item>Prueba a preguntar \"¿Cómo ha quedado el BM Ciudad Real?\"</item>
+        <item>Prueba a preguntar \"¿Cómo ha quedado el Fútbol Club Barcelona?\"</item>
+        <item>Prueba a preguntar \"¿Qué tiempo hace en Madrid?\"</item>
+        <item>Prueba a preguntar \"¿Qué tiempo hace en Barcelona?\"</item>
+        <item>Prueba a preguntar \"¿Qué tiempo hace en París?\"</item>
+        <item>Prueba a preguntar \"¿Qué tiempo hace en Cozumel?\"</item>
+        <item>Prueba a preguntar \"¿Cuánto mide Brad Pitt?\"</item>
+        <item>Prueba a preguntar \"¿Cuál es la temperatura del sol?\"</item>
+        <item>Prueba a preguntar \"¿Cuándo nació John Wayne?\"</item>
+        <item>Prueba con \"abrir YouTube\"</item>
+        <item>Prueba con \"abrir Play Películas\"</item>
+    </string-array>
+</resources>

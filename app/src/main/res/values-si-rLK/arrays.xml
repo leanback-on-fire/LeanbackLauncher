@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Michael Fassbender\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Jennifer Lawrence\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Olivia Wilde\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Romantic comedies\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Sci-fi movies\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Superhero movies\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Action movies\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Star Trek\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Sherlock\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"American Idol\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Star Trek\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Castle\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Pictures of Beyonce\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Pictures of London\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>\"Pictures of Godzilla\" සඳහා සෙවීමට උත්සාහ කරන්න</item>
+        <item>"\"What's the Giants score?\" ඇසීමට උත්සාහ කරන්න"</item>
+        <item>"\"What's the Knicks score?\" ඇසීමට උත්සාහ කරන්න"</item>
+        <item>"\"What's the Red Wings score?\" ඇසීමට උත්සාහ කරන්න"</item>
+        <item>"\"What's the Seahawks score?\" ඇසීමට උත්සාහ කරන්න"</item>
+        <item>"\"What's the weather in New York?\" ඇසීමට උත්සාහ කරන්න"</item>
+        <item>"\"What's the weather in San Francisco?\" ඇසීමට උත්සාහ කරන්න"</item>
+        <item>"\"What's the weather in Paris?\" ඇසීමට උත්සාහ කරන්න"</item>
+        <item>"\"What's the weather in Cozumel?\" ඇසීමට උත්සාහ කරන්න"</item>
+        <item>\"How tall is Brad Pitt?\" ඇසීමට උත්සාහ කරන්න</item>
+        <item>\"How hot is the sun?\" ඇසීමට උත්සාහ කරන්න</item>
+        <item>\"When was John Wayne born?\" ඇසීමට උත්සාහ කරන්න</item>
+        <item>\"Open YouTube\" උත්සාහ කරන්න</item>
+        <item>\"Open Play Movies\" උත්සාහ කරන්න</item>
+    </string-array>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" için arama yapmayı deneyin</item>
+        <item>\"Michael Fassbender\" için arama yapmayı deneyin</item>
+        <item>\"Jennifer Lawrence\" için arama yapmayı deneyin</item>
+        <item>\"Olivia Wilde\" için arama yapmayı deneyin</item>
+        <item>\"Romantik komediler\" için arama yapmayı deneyin</item>
+        <item>\"Bilim kurgu filmleri\" için arama yapmayı deneyin</item>
+        <item>\"Süper kahraman filmleri\" için arama yapmayı deneyin</item>
+        <item>\"Aksiyon filmleri\" için arama yapmayı deneyin</item>
+        <item>\"Star Trek\" için arama yapmayı deneyin</item>
+        <item>\"Sherlock\" için arama yapmayı deneyin</item>
+        <item>\"American Idol\" için arama yapmayı deneyin</item>
+        <item>\"Star Trek\" için arama yapmayı deneyin</item>
+        <item>\"Castle\" için arama yapmayı deneyin</item>
+        <item>\"Beyonce resimleri\" için arama yapmayı deneyin</item>
+        <item>\"Londra resimleri\" için arama yapmayı deneyin</item>
+        <item>\"Godzilla resimleri\" için arama yapmayı deneyin</item>
+        <item>\"Giants maçının skoru ne?\" sorusunu sormayı deneyin</item>
+        <item>\"Knicks maçının skoru ne?\" sorusunu sormayı deneyin</item>
+        <item>\"Red Wings maçının skoru ne?\" sorusunu sormayı deneyin</item>
+        <item>\"Seahawks maçının skoru ne?\" sorusunu sormayı deneyin</item>
+        <item>"\"New York'ta hava nasıl?\" sorusunu sormayı deneyin"</item>
+        <item>"\"San Francisco'da hava nasıl?\" sorusunu sormayı deneyin"</item>
+        <item>"\"Paris'te hava nasıl?\" sorusunu sormayı deneyin"</item>
+        <item>"\"Cozumel'de hava nasıl?\" sorusunu sormayı deneyin"</item>
+        <item>"\"Brad Pitt'in boyu ne kadar?\" sorusunu sormayı deneyin"</item>
+        <item>\"Güneş ne kadar sıcak?\" sorusunu sormayı deneyin</item>
+        <item>\"John Wayne ne zaman doğdu?\" sorusunu sormayı deneyin</item>
+        <item>"\"YouTube'u aç\" komutunu vermeyi deneyin"</item>
+        <item>"\"Play Filmler'i aç\" komutunu vermeyi deneyin"</item>
+    </string-array>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.leanbacklauncher.apps.BannerView android:focusable="true" android:focusableInTouchMode="true" android:layout_width="@dimen/banner_width" android:layout_height="@dimen/banner_height"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="center" android:id="@id/edit_focused_frame" android:visibility="gone" android:layout_width="@dimen/edit_frame_width" android:layout_height="@dimen/edit_frame_height" android:src="@drawable/edit_focused_frame" android:contentDescription="@null" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/app_banner" android:background="@drawable/banner_background" android:paddingLeft="@dimen/banner_side_padding" android:paddingRight="@dimen/banner_side_padding" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:layout_gravity="start|center" android:id="@id/banner_icon" android:layout_width="wrap_content" android:layout_height="@dimen/banner_icon_size" android:layout_marginRight="@dimen/banner_icon_to_text_spacing" android:src="@drawable/ic_app_default" android:scaleType="fitCenter" android:adjustViewBounds="true" android:contentDescription="@null" />
+        <TextView android:textSize="@dimen/banner_label_text_size" android:textColor="@color/banner_label_text_color" android:ellipsize="end" android:gravity="start|center" android:id="@id/banner_label" android:layout_width="fill_parent" android:layout_height="fill_parent" android:maxLines="2" android:fontFamily="@string/font" />
+    </LinearLayout>
+    <include layout="@layout/install_state_overlay" />
+</com.google.android.leanbacklauncher.apps.BannerView>

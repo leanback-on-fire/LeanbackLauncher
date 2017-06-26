@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Skúste vyhľadať výraz „Will Smith“</item>
+        <item>Skúste vyhľadať výraz „Michael Fassbender“</item>
+        <item>Skúste vyhľadať výraz „Jennifer Lawrence“</item>
+        <item>Skúste vyhľadať výraz „Olivia Wilde“</item>
+        <item>Skúste vyhľadať výraz „romantické komédie“</item>
+        <item>Skúste vyhľadať výraz „filmy žánru sci-fi“</item>
+        <item>Skúste vyhľadať výraz „filmy so superhrdinami“</item>
+        <item>Skúste vyhľadať výraz „akčné filmy“</item>
+        <item>Skúste vyhľadať výraz „Star Trek“</item>
+        <item>Skúste vyhľadať výraz „Sherlock“</item>
+        <item>Skúste vyhľadať výraz „American Idol“</item>
+        <item>Skúste vyhľadať výraz „Star Trek“</item>
+        <item>Skúste vyhľadať výraz „Castle“</item>
+        <item>Skúste vyhľadať výraz „obrázky Beyonce“</item>
+        <item>Skúste vyhľadať výraz „obrázky Londýna“</item>
+        <item>Skúste vyhľadať výrazy „obrázky Godzilly“</item>
+        <item>Skúste sa spýtať otázku „Aké je skóre tímu Giants?“</item>
+        <item>Skúste sa spýtať otázku „Aké je skóre tímu Knicks?“</item>
+        <item>Skúste sa spýtať otázku „Aké je skóre tímu Red Wings?“</item>
+        <item>Skúste sa spýtať otázku „Aké je skóre tímu Seahawks?“</item>
+        <item>Skúste sa spýtať otázku „Aké je počasie v New Yorku?“</item>
+        <item>Skúste sa spýtať otázku „Aké je počasie v San Franciscu?“</item>
+        <item>Skúste sa spýtať otázku „Aké je počasie v Paríži?“</item>
+        <item>Skúste sa spýtať otázku „Aké je počasie v Cozumeli?“</item>
+        <item>Skúste sa spýtať otázku „Koľko meria Brad Pitt?“</item>
+        <item>Skúste sa spýtať otázku „Aká teplotu má Slnko?“</item>
+        <item>Skúste sa spýtať otázku „Kedy sa narodil John Wayne?“</item>
+        <item>Skúste vysloviť výraz „otvoriť službu YouTube“</item>
+        <item>Skúste vysloviť výraz „otvoriť službu Filmy Play“</item>
+    </string-array>
+</resources>

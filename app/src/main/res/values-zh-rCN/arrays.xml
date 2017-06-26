@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>尝试搜索“威尔·史密斯”</item>
+        <item>尝试搜索“迈克尔·法斯宾德”</item>
+        <item>尝试搜索“詹妮弗·劳伦斯”</item>
+        <item>尝试搜索“奥利维亚·维尔德”</item>
+        <item>尝试搜索“爱情喜剧片”</item>
+        <item>尝试搜索“科幻片”</item>
+        <item>尝试搜索“超级英雄片”</item>
+        <item>尝试搜索“动作片”</item>
+        <item>尝试搜索“星际迷航”</item>
+        <item>尝试搜索“神探夏洛克”</item>
+        <item>尝试搜索“美国偶像”</item>
+        <item>尝试搜索“星际迷航”</item>
+        <item>尝试搜索“灵书妙探”</item>
+        <item>尝试搜索“碧昂丝的照片”</item>
+        <item>尝试搜索“伦敦的照片”</item>
+        <item>尝试搜索“哥斯拉的照片”</item>
+        <item>尝试询问“巨人队得了多少分？”</item>
+        <item>尝试询问“尼克斯队得了多少分？”</item>
+        <item>尝试询问“红翼队得了多少分？”</item>
+        <item>尝试询问“海鹰队得了多少分？”</item>
+        <item>尝试询问“纽约的天气怎样？”</item>
+        <item>尝试询问“旧金山的天气怎样？”</item>
+        <item>尝试询问“巴黎的天气怎样？”</item>
+        <item>尝试询问“科苏梅尔的天气怎样？”</item>
+        <item>尝试询问“布拉德·皮特的身高是多少？”</item>
+        <item>尝试询问“太阳的温度有多高？”</item>
+        <item>尝试询问“约翰·韦恩是何时出生的？”</item>
+        <item>尝试说“打开YouTube”</item>
+        <item>尝试说“打开Play电影”</item>
+    </string-array>
+</resources>

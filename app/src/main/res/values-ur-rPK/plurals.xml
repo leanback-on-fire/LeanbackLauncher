@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">‎%d مآخذ مخفی ہیں</item>
+        <item quantity="one">‎%d ماخذ مخفی ہے</item>
+    </plurals>
+</resources>

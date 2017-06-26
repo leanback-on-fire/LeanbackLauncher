@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d šaltinių yra paslėpta</item>
+        <item quantity="one">%d šaltinis yra paslėptas</item>
+        <item quantity="few">%d šaltiniai yra paslėpti</item>
+        <item quantity="many">%d šaltinio yra paslėpta</item>
+    </plurals>
+</resources>

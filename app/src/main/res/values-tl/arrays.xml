@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Subukang hanapin si \"Will Smith\"</item>
+        <item>Subukang hanapin si \"Michael Fassbender\"</item>
+        <item>Subukang hanapin si \"Jennifer Lawrence\"</item>
+        <item>Subukang hanapin si \"Olivia Wilde\"</item>
+        <item>Subukang maghanap ng \"mga romantic comedy\"</item>
+        <item>Subukang maghanap ng \"mga sci-fi na pelikula\"</item>
+        <item>Subukang maghanap ng \"mga superhero movie\"</item>
+        <item>Subukang maghanap ng \"mga pelikulang aksyon\"</item>
+        <item>Subukang hanapin ang \"Star Trek\"</item>
+        <item>Subukang hanapin ang \"Sherlock\"</item>
+        <item>Subukang hanapin ang \"American Idol\"</item>
+        <item>Subukang hanapin ang \"Star Trek\"</item>
+        <item>Subukang hanapin ang \"Castle\"</item>
+        <item>Subukang maghanap ng \"mga larawan ni Beyonce\"</item>
+        <item>Subukang maghanap ng \"mga larawan ng London\"</item>
+        <item>Subukang maghanap ng \"mga larawan ni Godzilla\"</item>
+        <item>Subukang itanong, \"ano ang score ng Giants?\"</item>
+        <item>Subukang itanong, \"ano ang score ng Knicks?\"</item>
+        <item>Subukang itanong, \"ano ang score ng Red Wings?\"</item>
+        <item>Subukang itanong, \"ano ang score ng Seahawks?\"</item>
+        <item>Subukang itanong, \"ano ang lagay ng panahon sa New York?\"</item>
+        <item>Subukang itanong, \"ano ang lagay ng panahon sa San Francisco?\"</item>
+        <item>Subukang itanong, \"ano ang lagay ng panahon sa Paris?\"</item>
+        <item>Subukang itanong, \"ano ang lagay ng panahon sa Cozumel?\"</item>
+        <item>Subukang itanong, \"Gaano katangkad si Brad Pitt?\"</item>
+        <item>Subukang itanong, \"Gaano kainit ang araw?\"</item>
+        <item>Subukang itanong, \"Kailan ipinanganak si John Wayne?\"</item>
+        <item>Subukan ang, \"buksan ang YouTube\"</item>
+        <item>Subukan ang, \"magbukas ng Mga Pelikula sa Play\"</item>
+    </string-array>
+</resources>

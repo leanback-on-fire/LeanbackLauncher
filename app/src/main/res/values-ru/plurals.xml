@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d приложения не показывает рекомендации</item>
+        <item quantity="one">%d приложение не показывает рекомендации</item>
+        <item quantity="few">%d приложения не показывают рекомендации</item>
+        <item quantity="many">%d приложений не показывают рекомендации</item>
+    </plurals>
+</resources>

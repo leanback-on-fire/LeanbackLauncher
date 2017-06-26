@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Wyszukaj z użyciem hasła „Will Smith”</item>
+        <item>Wyszukaj z użyciem hasła „Marcin Dorociński”</item>
+        <item>Wyszukaj z użyciem hasła „Małgorzata Kożuchowska”</item>
+        <item>Wyszukaj z użyciem hasła „Anna Mucha”</item>
+        <item>Wyszukaj z użyciem hasła „komedie romantyczne”</item>
+        <item>Wyszukaj z użyciem hasła „filmy science fiction”</item>
+        <item>Wyszukaj z użyciem hasła „filmy z superbohaterami”</item>
+        <item>Wyszukaj z użyciem hasła „filmy akcji”</item>
+        <item>Wyszukaj z użyciem hasła „Star Trek”</item>
+        <item>Wyszukaj z użyciem hasła „Sherlock”</item>
+        <item>Wyszukaj z użyciem hasła „American Idol”</item>
+        <item>Wyszukaj z użyciem hasła „Star Trek”</item>
+        <item>Wyszukaj z użyciem hasła „Kryminalne zagadki Nowego Jorku”</item>
+        <item>Wyszukaj z użyciem hasła „zdjęcia Beyonce”</item>
+        <item>Wyszukaj z użyciem hasła „zdjęcia Londynu”</item>
+        <item>Wyszukaj z użyciem hasła „zdjęcia Godzilli”</item>
+        <item>Zadaj pytanie „jaki jest wynik Legii?”</item>
+        <item>Zadaj pytanie „jaki jest wynik Ruchu?”</item>
+        <item>Zadaj pytanie „jaki jest wynik Widzewa?”</item>
+        <item>Zadaj pytanie „jaki jest wynik Zagłębia Lubin?”</item>
+        <item>Zadaj pytanie „jaka jest pogoda w Warszawie?”</item>
+        <item>Zadaj pytanie „jaka jest pogoda w San Francisco?”</item>
+        <item>Zadaj pytanie „jaka jest pogoda w Paryżu?”</item>
+        <item>Zadaj pytanie „jaka jest pogoda na Wyspach Kanaryjskich?”</item>
+        <item>Zadaj pytanie „ile wzrostu ma Brad Pitt?”</item>
+        <item>Zadaj pytanie „jaką temperaturę ma Słońce?”</item>
+        <item>Zadaj pytanie „kiedy urodził się Krzysztof Kowalewski?”</item>
+        <item>Powiedz „otwórz YouTube”</item>
+        <item>Powiedz „otwórz Filmy Play”</item>
+    </string-array>
+</resources>

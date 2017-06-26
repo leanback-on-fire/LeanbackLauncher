@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>"נסה לבצע את החיפוש \"וויל סמית'\""</item>
+        <item>נסה לבצע את החיפוש \"מייקל פסבנדר\"</item>
+        <item>"נסה לבצע את החיפוש \"ג'ניפר לורנס\""</item>
+        <item>נסה לבצע את החיפוש \"אוליביה וויילד\"</item>
+        <item>נסה לבצע את החיפוש \"קומדיות רומנטיות\"</item>
+        <item>נסה לבצע את החיפוש \"סרטי מד\"ב\"</item>
+        <item>נסה לבצע את החיפוש \"סרטי גיבורי-על\"</item>
+        <item>נסה לבצע את החיפוש \"סרטי פעולה\"</item>
+        <item>נסה לבצע את החיפוש \"מסע בין כוכבים\"</item>
+        <item>נסה לבצע את החיפוש \"שרלוק\"</item>
+        <item>נסה לבצע את החיפוש \"כוכב נולד\"</item>
+        <item>נסה לבצע את החיפוש \"מסע בין כוכבים\"</item>
+        <item>נסה לבצע את החיפוש \"קאסל\"</item>
+        <item>נסה לבצע את החיפוש \"תמונות של ביונסה\"</item>
+        <item>נסה לבצע את החיפוש \"תמונות של לונדון\"</item>
+        <item>נסה לבצע את החיפוש \"תמונות של גודזילה\"</item>
+        <item>"נסה לשאול, \"what's Maccabi's score?‎\""</item>
+        <item>"נסה לשאול, \"what's Hapoel's score?‎\""</item>
+        <item>"נסה לשאול, \"what's Beitar's score?‎\""</item>
+        <item>"נסה לשאול, \"what's Bnei-Yehuda's score?‎\""</item>
+        <item>"נסה לשאול, \"what's the weather in New York?‎\""</item>
+        <item>"נסה לשאול, \"what's the weather in San Francisco?‎\""</item>
+        <item>"נסה לשאול, \"what's the weather in Paris?‎\""</item>
+        <item>"נסה לשאול, \"what's the weather in Cozumel?‎\""</item>
+        <item>נסה לשאול, \"How tall is Brad Pitt?‎\"</item>
+        <item>נסה לשאול, \"How hot is the sun?‎\"</item>
+        <item>נסה לשאול, \"When was John Wayne born?‎\"</item>
+        <item>נסה לומר, \"open YouTube\"</item>
+        <item>נסה לומר, \"open Play Movies\"</item>
+    </string-array>
+</resources>

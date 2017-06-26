@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>សាកល្បង​​ស្វែងរក \"Will Smith\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"Michael Fassbender\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Jennifer Lawrence\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Olivia Wilde\"</item>
+        <item>សាកល្បង​ស្វែងរក \"romantic comedies\"</item>
+        <item>សាកល្បង​ស្វែងរក \"sci-fi movies\"</item>
+        <item>សាកល្បង​ស្វែងរក \"superhero movies\"</item>
+        <item>សាកល្បង​ស្វែងរក \"action movies\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Star Trek\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Sherlock\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"American Idol\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"Star Trek\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"Castle\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"pictures of Beyonce\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"pictures of London\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"pictures of Godzilla\"</item>
+        <item>"សាកល្បង​​សួរ \"what's the Giants score?\""</item>
+        <item>"សាកល្បង​​សួរ \"what's the Knicks score?\""</item>
+        <item>"សាកល្បង​​សួរ \"what's the Red Wings score?\""</item>
+        <item>"សាកល្បង​​សួរ \"what's the Seahawks score?\""</item>
+        <item>"សាកល្បង​​សួរ \"what's the weather in New York?\""</item>
+        <item>"សាកល្បង​សួរ \"what's the weather in San Francisco?\""</item>
+        <item>"សាកល្បង​សួរ \"what's the weather in Paris?\""</item>
+        <item>"សាកល្បង​សួរ \"what's the weather in Cozumel?\""</item>
+        <item>សាកល្បង​សួរ \"How tall is Brad Pitt?\"</item>
+        <item>សាកល្បង​សួរ \"How hot is the sun?\"</item>
+        <item>សាកល្បង​សួរ \"When was John Wayne born?\"</item>
+        <item>សាកល្បង \"open YouTube\"</item>
+        <item>សាកល្បង \"open Play Movies\"</item>
+    </string-array>
+</resources>

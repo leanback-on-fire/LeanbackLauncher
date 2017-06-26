@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/info_field" android:background="@color/lb_card_info_background_color" android:padding="@dimen/lb_card_info_padding" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/lb_card_title_text_size" android:textColor="@color/lb_card_title_text_color" android:ellipsize="marquee" android:id="@id/title_text" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" />
+    <TextView android:textSize="@dimen/lb_card_content_text_size" android:textColor="@color/lb_card_content_text_color" android:ellipsize="marquee" android:id="@id/content_text" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" />
+</LinearLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.leanbacklauncher.ActiveFrame xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:gravity="start"
+    android:orientation="vertical"
+    android:layout_marginTop="240dp"
+    android:paddingBottom="@dimen/group_vertical_spacing">
+
+    <android.support.v17.leanback.widget.NonOverlappingLinearLayout
+        android:id="@id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/header_height"
+        android:clipChildren="true"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/header_text_margin"
+        android:paddingStart="@dimen/row_padding">
+
+        <ImageView
+            android:id="@id/icon"
+            android:layout_width="@dimen/header_height"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start|center"
+            android:scaleType="fitStart"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start|center"
+            android:fontFamily="@string/font"
+            android:gravity="start|center"
+            android:includeFontPadding="false"
+            android:text="@string/category_label_apps"
+            android:textColor="@color/row_label_text_color"
+            android:textSize="@dimen/header_text_size" />
+    </android.support.v17.leanback.widget.NonOverlappingLinearLayout>
+
+    <com.google.android.leanbacklauncher.ActiveItemsRowView
+        android:id="@id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/temp_max_row_height"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:gravity="top"
+        android:paddingEnd="@dimen/row_padding"
+        android:paddingStart="@dimen/row_padding" />
+</com.google.android.leanbacklauncher.ActiveFrame>

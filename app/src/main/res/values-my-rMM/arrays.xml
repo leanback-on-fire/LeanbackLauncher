@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" အတွက် ရှာကြည့် နေရန်</item>
+        <item>\"Michael Fassbender\" အတွက် ရှာကြည့် နေရန်</item>
+        <item>\"Jennifer Lawrence\" ကို ရှာကြည့်နေရန်</item>
+        <item>\"Olivia Wilde\" အတွက် ရှာကြည့်နေရန်</item>
+        <item>\"romantic comedies\"ကို ရှာကြည့်နေရန်</item>
+        <item>\"sci-fi movies\" ကို ရှာကြည့်နေရန်</item>
+        <item>\"superhero movies\" ကို ရှာကြည့်နေရန်</item>
+        <item>\"action movies\" ကို ရှာကြည့်နေရန်</item>
+        <item>\"Star Trek\" ကို ရှာကြည့်နေရန်</item>
+        <item>\"Sherlock\" ကို ရှာကြည့်နေရန်</item>
+        <item>\"American Idol\" အတွက် ရှာကြည့် နေရန်</item>
+        <item>\"Star Trek\" အတွက် ရှာကြည့် နေရန်</item>
+        <item>\"Castle\" အတွက် ရှာကြည့် နေရန်</item>
+        <item>\"pictures of Beyonce\" အတွက် ရှာကြည့် နေရန်</item>
+        <item>\"pictures of London\" အတွက် ရှာကြည့် နေရန်</item>
+        <item>\"pictures of Godzilla\" အတွက် ရှာကြည့် နေရန်</item>
+        <item>"\"what's the Giants score?\" ဆိုတာကို မေးကြည့်နေရန်"</item>
+        <item>"\"what's the Knicks score?\" ဆိုတာကို မေးကြည့်နေရန်"</item>
+        <item>"\"what's the Red Wings score?\" ဆိုတာကို မေးကြည့်နေရန်"</item>
+        <item>"\"what's the Seahawks score?\" ဆိုတာကို မေးကြည့်နေရန်"</item>
+        <item>"\"what's the weather in New York?\" ဆိုတာကို မေးကြည့်နေရန်"</item>
+        <item>"\"what's the weather in San Francisco?\" ဆိုတာကို မေးကြည့်နေရန်"</item>
+        <item>"\"what's the weather in Paris?\" ဆိုတာကို မေးကြည့်နေရန်"</item>
+        <item>"\"what's the weather in Cozumel?\" ဆိုတာကို မေးကြည့်နေရန်"</item>
+        <item>\"How tall is Brad Pitt?\" ဆိုတာကို မေးကြည့်နေရန်</item>
+        <item>\"How hot is the sun?\" ဆိုတာကို မေးကြည့်နေရန်</item>
+        <item>\"When was John Wayne born?\" ဆိုတာကို မေးကြည့်နေရန်</item>
+        <item>\"open YouTube\" ကို စမ်းကြည့်ပါ</item>
+        <item>\"open Play Movies\" ကို စမ်းကြည့်ပါ</item>
+    </string-array>
+</resources>

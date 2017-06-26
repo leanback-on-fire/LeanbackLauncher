@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Michael Fassbender\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Jennifer Lawrence\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Olivia Wilde\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"romantic comedies\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"sci-fi movies\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"superhero movies\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"action movies\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Star Trek\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Sherlock\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"American Idol\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Star Trek\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Castle\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"pictures of Beyonce\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"pictures of London\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"pictures of Godzilla\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಜೈಂಟ್ಸ್ ಸ್ಕೋರ್ ಏನು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ನಿಕ್ಸ್ ಸ್ಕೋರ್ ಏನು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ರೆಡ್ ವಿಂಗ್ಸ್ ಸ್ಕೋರ್ ಏನು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಸೀಹಾಕ್ಸ್ ಸ್ಕೋರ್ ಏನು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ನ್ಯೂಯಾರ್ಕ್‌ನಲ್ಲಿ ಹವಾಮಾನ ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಸ್ಯಾನ್ ಫ್ರಾನ್ಸಿಸ್ಕೋದಲ್ಲಿ ಹವಾಮಾನ ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಪ್ಯಾರೀಸ್‌ನಲ್ಲಿ ಹವಾಮಾನ ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಕೋಜ್ಯುಮೆಲ್‌ನಲ್ಲಿ ಹವಾಮಾನ ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಬ್ರಾಡ್ ಪಿಟ್ ಎತ್ತರ ಎಷ್ಟು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಸೂರ್ಯನ ಬಿಸಿಲು ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಜಾನ್ ವೇಯ್ನ್ ಯಾವಾಗ ಜನಿಸಿದರು?\"</item>
+        <item>\"open YouTube\", ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"open Play Movies\", ಪ್ರಯತ್ನಿಸಿ</item>
+    </string-array>
+</resources>

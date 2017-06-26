@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Kokeile hakua ”Will Smith”</item>
+        <item>Kokeile hakua ”Michael Fassbender”</item>
+        <item>Kokeile hakua ”Jennifer Lawrence”</item>
+        <item>Kokeile hakua ”Olivia Wilde”</item>
+        <item>Kokeile hakua ”romanttiset komediat”</item>
+        <item>Kokeile hakua ”scifi-elokuvat”</item>
+        <item>Kokeile hakua ”supersankarielokuvat”</item>
+        <item>Kokeile hakua ”toimintaelokuvat”</item>
+        <item>Kokeile hakua ”Star Trek”</item>
+        <item>Kokeile hakua ”Sherlock”</item>
+        <item>Kokeile hakua ”American Idol”</item>
+        <item>Kokeile hakua ”Star Trek”</item>
+        <item>Kokeile hakua ”Castle”</item>
+        <item>Kokeile hakua ”kuvia Beyoncésta”</item>
+        <item>Kokeile hakua ”kuvia Lontoosta”</item>
+        <item>Kokeile hakua ”kuvia Godzillasta”</item>
+        <item>Kokeile hakua ”Mikä on Giantsin pistetilanne?”</item>
+        <item>Kokeile hakua ”Mikä on Knicksin pistetilanne?”</item>
+        <item>Kokeile hakua ”Mikä on Red Wingsin pistetilanne?”</item>
+        <item>Kokeile hakua ”Mikä on Seahawksin pistetilanne?”</item>
+        <item>Kokeile hakua ”Millainen sää on New Yorkissa?”</item>
+        <item>Kokeile hakua ”Millainen sää on San Franciscossa?”</item>
+        <item>Kokeile hakua ”Millainen sää on Pariisissa?”</item>
+        <item>Kokeile hakua ”Millainen sää on Cozumelissa?”</item>
+        <item>Kokeile hakua ”Kuinka pitkä Brad Pitt on?”</item>
+        <item>Kokeile hakua ”Kuinka kuuma aurinko on?”</item>
+        <item>Kokeile hakua ”Milloin John Wayne syntyi?”</item>
+        <item>Kokeile ”avaa YouTube”</item>
+        <item>Kokeile ”avaa Play Elokuvat”</item>
+    </string-array>
+</resources>

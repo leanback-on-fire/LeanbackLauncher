@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" দিয়ে অনুসন্ধান করে দেখুন</item>
+        <item>\"Michael Fassbender\" দিয়ে অনুসন্ধান করে দেখুন</item>
+        <item>\"Jennifer Lawrence\" অনুসন্ধান করে দেখুন</item>
+        <item>\"Olivia Wilde\" অনুসন্ধান করে দেখুন</item>
+        <item>\"romantic comedies\" অনুসন্ধান করে দেখুন</item>
+        <item>\"sci-fi movies\" অনুসন্ধান করে দেখুন</item>
+        <item>\"superhero movies\" অনুসন্ধান করে দেখুন</item>
+        <item>\"action movies\" অনুসন্ধান করে দেখুন</item>
+        <item>\"Star Trek\" অনুসন্ধান করে দেখুন</item>
+        <item>\"Sherlock\" দিয়ে অনুসন্ধান করে দেখুন</item>
+        <item>\"American Idol\" দিয়ে অনুসন্ধান করে দেখুন</item>
+        <item>\"Star Trek\" অনুসন্ধান করে দেখুন</item>
+        <item>\"Castle\" অনুসন্ধান করে দেখুন</item>
+        <item>\"pictures of Beyonce\" অনুসন্ধান করে দেখুন</item>
+        <item>\"pictures of London\" অনুসন্ধান করে দেখুন</item>
+        <item>\"pictures of Godzilla\" অনুসন্ধান করে দেখুন</item>
+        <item>"\"what's the Giants score?\" জিজ্ঞাসা করে দেখুন"</item>
+        <item>"\"what's the Knicks score?\" জিজ্ঞাসা করে দেখুন"</item>
+        <item>"\"what's the Red Wings score?\" জিজ্ঞাসা করে দেখুন"</item>
+        <item>"\"what's the Seahawks score?\" জিজ্ঞাসা করে দেখুন"</item>
+        <item>"\"what's the weather in New York?\" জিজ্ঞাসা করে দেখুন"</item>
+        <item>"\"what's the weather in San Francisco?\" জিজ্ঞাসা করে দেখুন"</item>
+        <item>"\"what's the weather in Paris?\" জিজ্ঞাসা করে দেখুন"</item>
+        <item>"\"what's the weather in Cozumel?\" জিজ্ঞাসা করে দেখুন"</item>
+        <item>\"How tall is Brad Pitt?\" জিজ্ঞাসা করে দেখুন</item>
+        <item>\"How hot is the sun?\" জিজ্ঞাসা করে দেখুন</item>
+        <item>জিজ্ঞাসা করে দেখুন, \"When was John Wayne born?\"</item>
+        <item>\"open YouTube\" দিয়ে দেখুন</item>
+        <item>\"open Play Movies\" দিয়ে দেখুন</item>
+    </string-array>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/scrim" android:visibility="gone" android:layout_width="@dimen/notif_card_img_min_width" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_alignStart="@id/art_work" android:layout_alignEnd="@id/art_work"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_width="fill_parent" android:layout_height="@dimen/leanback_card_now_playing_scrim_1_height" android:src="@drawable/now_playing_scrim_1" />
+    <ImageView android:layout_width="fill_parent" android:layout_height="@dimen/leanback_card_now_playing_scrim_2_height" android:src="@drawable/now_playing_scrim_2" />
+    <ImageView android:layout_width="fill_parent" android:layout_height="@dimen/leanback_card_now_playing_scrim_3_height" android:src="@drawable/now_playing_scrim_3" />
+</LinearLayout>
