@@ -15,6 +15,7 @@ import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -455,14 +456,17 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     public void onEditModeChanged(boolean editMode) {
+        Log.i(TAG, "onEditModeChanged->editMode:" + editMode);
+        Log.i(TAG, "onEditModeChanged->mAccessibilityManager->isEnabled:" + mAccessibilityManager.isEnabled());
         if (this.mAppEditMode == editMode) {
             return;
         }
-        if (this.mAccessibilityManager.isEnabled()) {
+        setEditMode(editMode, false);
+        /*if (this.mAccessibilityManager.isEnabled()) {
             setEditMode(editMode, false);
         } else {
             setEditMode(editMode, true);
-        }
+        }*/
     }
 
     public void onUninstallPressed(String packageName) {
@@ -1080,6 +1084,9 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             mImgWifi.setVisibility(View.GONE);
         }else if(networkState == ConstData.NetWorkState.WIFI){
             mImgWifi.setVisibility(View.VISIBLE);
+            int wifiStrength = NetWorkUtils.getWifiStrength();
+            int wifiImgId = getResources().getIdentifier("img_wifi_" + wifiStrength, "drawable", getPackageName());
+            mImgWifi.setImageResource(wifiImgId);
             mImgEthernet.setVisibility(View.GONE);
         }else if(networkState == ConstData.NetWorkState.ETHERNET){
             mImgWifi.setVisibility(View.GONE);
@@ -1090,8 +1097,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         updateNetWorkState();
         if(mNetChangeReceiver == null)
             mNetChangeReceiver = new NetWorkChangeReceiver();
-        if(mNetChangeFilter == null)
+        if(mNetChangeFilter == null){
             mNetChangeFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+            mNetChangeFilter.addAction(WifiManager.RSSI_CHANGED_ACTION);
+        }
+
         registerReceiver(mNetChangeReceiver, mNetChangeFilter);
     }
     private void stopNetWorkListener(){

@@ -3,6 +3,8 @@ package com.google.android.leanbacklauncher.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 
 import com.google.android.leanbacklauncher.data.ConstData;
 
@@ -22,5 +24,14 @@ public class NetWorkUtils {
         else if(networkType == ConnectivityManager.TYPE_ETHERNET)
             return ConstData.NetWorkState.ETHERNET;
         return ConstData.NetWorkState.NO;
+    }
+    public static int getWifiStrength(){
+        int strength = 0;
+        WifiManager wifiManager = (WifiManager) ConstData.appContext.getSystemService(Context.WIFI_SERVICE); // 取得WifiManager对象
+        WifiInfo info = wifiManager.getConnectionInfo();
+        if (info != null) {
+            strength = WifiManager.calculateSignalLevel(info.getRssi(), 5);
+        }
+        return strength;
     }
 }

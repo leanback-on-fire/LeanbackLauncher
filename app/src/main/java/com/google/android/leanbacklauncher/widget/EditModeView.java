@@ -302,7 +302,7 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
     private void setUninstallIconCircleLayout() {
         LayoutParams iconCirclelp = new LayoutParams(getResources().getDimensionPixelSize(R.dimen.edit_uninstall_icon_circle_focused_size), getResources().getDimensionPixelSize(R.dimen.edit_uninstall_icon_circle_focused_size));
         iconCirclelp.setMargins(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.edit_uninstall_icon_circle_focused_bottom_margin));
-        iconCirclelp.addRule(2, 2131624124);
+        iconCirclelp.addRule(2, R.id.uninstall_text);
         iconCirclelp.addRule(13);
         this.mUninstallIconCircle.setImageDrawable(new ClipCircleDrawable(getResources().getColor(R.color.edit_uninstall_circle_color)));
         this.mUninstallIconCircle.setLayoutParams(iconCirclelp);

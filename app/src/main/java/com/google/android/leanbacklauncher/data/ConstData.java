@@ -18,6 +18,10 @@ public class ConstData {
      */
     public static final int APP_ROW_COUNT = 10;
     public static final int APP_COL_COUNT = 10;
+    /**
+     * WIFI最大信号强度
+     */
+    public static final int WIFI_MAX_STRENGTH = 5;
     public interface NetWorkState{
         int NO = 0;
         int WIFI = 1;

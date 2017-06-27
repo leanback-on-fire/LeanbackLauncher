@@ -95,7 +95,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
 
     static {
         TAG = "LauncherEditMode";
-        DEBUG = false;
+        DEBUG = true;
     }
 
     public ActiveItemsRowView(Context context) {
@@ -289,6 +289,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
                 }
                 if (!this.mEditListeners.isEmpty()) {
                     for (OnEditModeChangedListener listener : this.mEditListeners) {
+                        Log.i(TAG, "setEditMode->listener->className:" + listener.getClass().getName());
                         listener.onEditModeChanged(editMode);
                     }
                 }
@@ -533,6 +534,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     public void onEditModeChanged(boolean editMode) {
+        Log.i(TAG, "onEditModeChanged");
         setEditMode(editMode);
     }
 

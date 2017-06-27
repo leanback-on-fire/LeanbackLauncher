@@ -1,5 +1,7 @@
 package com.google.android.leanbacklauncher.animation;
 
+import android.nfc.Tag;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,7 +21,7 @@ public class EditModeUninstallAnimationHolder {
     private View mUninstallIcon;
     private View mUninstallIconCircle;
     private TextView mUninstallText;
-
+    private static final String TAG = "EditUninstallAnimation";
     /* renamed from: com.google.android.leanbacklauncher.animation.EditModeUninstallAnimationHolder.1 */
     class C01771 implements AnimationListener {
         final /* synthetic */ ActiveItemsRowView val$activeitems;
@@ -105,10 +107,16 @@ public class EditModeUninstallAnimationHolder {
         int circleFocusBottomMargin = this.mUninstallIcon.getResources().getDimensionPixelSize(R.dimen.edit_uninstall_icon_circle_focused_bottom_margin);
         int[] circleLocation = new int[2];
         this.mUninstallIconCircle.getLocationOnScreen(circleLocation);
+        Log.i(TAG, "animateUninstallIcon->mUninstallIconCircle->x:" + circleLocation[0]);
+        Log.i(TAG, "animateUninstallIcon->mUninstallIconCircle->y:" + circleLocation[1]);
         int[] iconLocation = new int[2];
         this.mUninstallIcon.getLocationOnScreen(iconLocation);
+        Log.i(TAG, "animateUninstallIcon->mUninstallIcon->x:" + iconLocation[0]);
+        Log.i(TAG, "animateUninstallIcon->mUninstallIcon->y:" + iconLocation[1]);
         this.mUninstallIcon.animate().setDuration(this.mAnimationDuration);
         if (state == EditModeUninstallState.ENTER) {
+            Log.i(TAG, "animateUninstallIcon->state: ENTER");
+            Log.i(TAG, "animateUninstallIcon->transitionY:" + (((circleLocation[1] - iconLocation[1]) - focusSize) + circleFocusBottomMargin));
             this.mUninstallIcon.animate().scaleX(((float) focusSize) / ((float) unFocusSize)).scaleY(((float) focusSize) / ((float) unFocusSize)).translationY((float) (((circleLocation[1] - iconLocation[1]) - focusSize) + circleFocusBottomMargin));
         } else {
             this.mUninstallIcon.animate().scaleX(1.0f).scaleY(1.0f).translationY(0.0f);

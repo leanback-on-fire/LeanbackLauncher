@@ -84,13 +84,15 @@ public class WallpaperInstaller {
         int intrinsicWidth = systemBg.getIntrinsicWidth();
         int intrinsicHeight = systemBg.getIntrinsicHeight();
         int wallpaperWidth = Util.getDisplayMetrics(this.mContext).widthPixels;
-        int wallpaperHeight = (wallpaperWidth * intrinsicHeight) / intrinsicWidth;
+        int wallpaperHeight = (int)((wallpaperWidth * intrinsicHeight * 1.33) / intrinsicWidth);
         Bitmap bitmap = Bitmap.createBitmap(wallpaperWidth, wallpaperHeight, Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(-16777216);
         systemBg.setBounds(0, 0, wallpaperWidth, wallpaperHeight);
         systemBg.draw(canvas);
-       /* Bitmap maskBitmap = partner.getSystemBackgroundMask();
+
+
+        Bitmap maskBitmap = partner.getSystemBackgroundMask();
         if (maskBitmap == null) {
             maskBitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_protection);
         }
@@ -98,7 +100,7 @@ public class WallpaperInstaller {
         maskDrawable.setTileModeX(TileMode.REPEAT);
         maskDrawable.setTileModeY(TileMode.CLAMP);
         maskDrawable.setBounds(0, 0, wallpaperWidth, wallpaperHeight);
-        maskDrawable.draw(canvas);*/
+        maskDrawable.draw(canvas);
         return bitmap;
     }
 

@@ -51,7 +51,7 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
 
     static {
         TAG = "LauncherEditMode";
-        DEBUG = false;
+        DEBUG = true;
     }
 
     public BannerView(Context context) {
@@ -159,16 +159,20 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     }
 
     public void setFocusedFrameState() {
+        Log.i(TAG, "setFocusedFrameState->isEditable:" + isEditable());
+        Log.i(TAG, "setFocusedFrameState->mEditMode:" + mEditMode);
+        Log.i(TAG, "setFocusedFrameState->hasFocus:" + hasFocus());
         if (!isEditable()) {
             return;
         }
         if (this.mEditMode && hasFocus()) {
             this.mDimmer.setDimState(DimState.ACTIVE, false);
             if (isSelected()) {
-                this.mEditFocusFrame.setVisibility(8);
+                this.mEditFocusFrame.setVisibility(View.GONE);
+                //this.mEditFocusFrame.setVisibility(View.VISIBLE);
                 return;
             }
-            this.mEditFocusFrame.setVisibility(0);
+            this.mEditFocusFrame.setVisibility(View.VISIBLE);
             post(new C01841());
             return;
         }
@@ -191,6 +195,7 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
 
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+        Log.i(TAG, "onFocusChanged");
         if (this.mEditMode && gainFocus && isEditModeSelected()) {
             setSelected(true);
             sendAccessibilityEvent(8);
@@ -232,20 +237,27 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     }
 
     public boolean onLongClick(View v) {
+        Log.i(TAG, "onLongClick");
         if (isEditable() && !this.mEditMode) {
+            Log.i(TAG, "onLongClick1");
             this.mEditMode = true;
             setSelected(true);
             setEditMode();
             return true;
         } else if (!isEditable() || !this.mEditMode) {
+            Log.i(TAG, "onLongClick2");
             return false;
         } else {
+            Log.i(TAG, "onLongClick3");
             onClickInEditMode();
             return true;
         }
     }
 
     public void setSelected(boolean selected) {
+        Log.i(TAG, "setSelected->selected:" + selected);
+        Log.i(TAG, "setSelected->mEditMode:" + mEditMode);
+        Log.i(TAG, "setSelected->mLeavingEditMode:" + mLeavingEditMode);
         if (this.mEditMode || this.mLeavingEditMode) {
             if (selected != isSelected()) {
                 super.setSelected(selected);

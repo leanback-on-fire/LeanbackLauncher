@@ -186,7 +186,7 @@ class Entity {
         r12.touchBucket(r15);	 Catch:{ all -> 0x0079 }
         goto L_0x006a;
         */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.android.tvrecommendations.service.Entity.onAction(int, java.lang.String, java.lang.String):void");
+       // throw new UnsupportedOperationException("Method not decompiled: com.google.android.tvrecommendations.service.Entity.onAction(int, java.lang.String, java.lang.String):void");
     }
 
     public synchronized Bucket addBucket(String group, long timeStamp) {

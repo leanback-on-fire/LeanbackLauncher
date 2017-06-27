@@ -3,8 +3,8 @@
     <dimen name="notif_card_img_height">156.0dip</dimen>
     <dimen name="notif_card_img_max_width">313.0dip</dimen>
     <dimen name="notif_card_img_min_width">108.0dip</dimen>
-    <dimen name="banner_width">142.0dip</dimen>
-    <dimen name="banner_height">80.0dip</dimen>
+    <dimen name="banner_width">188.0dip</dimen>
+    <dimen name="banner_height">106.0dip</dimen>
     <dimen name="lb_card_width">140.0dip</dimen>
     <dimen name="lb_card_height">200.0dip</dimen>
     <dimen name="lb_card_title_text_size">14.0sp</dimen>
@@ -459,8 +459,8 @@
     <dimen name="home_scroll_size_partner">240.0dip</dimen>
     <dimen name="home_scroll_animation_threshold">50.0dip</dimen>
     <dimen name="edit_frame_stroke">2.0dip</dimen>
-    <dimen name="edit_frame_width">150.0dip</dimen>
-    <dimen name="edit_frame_height">88.0dip</dimen>
+    <dimen name="edit_frame_width">199.0dip</dimen>
+    <dimen name="edit_frame_height">117.0dip</dimen>
     <dimen name="preference_item_banner_width">64.0dip</dimen>
     <dimen name="preference_item_banner_height">36.0dip</dimen>
     <dimen name="preference_item_icon_size">24.0dip</dimen>
