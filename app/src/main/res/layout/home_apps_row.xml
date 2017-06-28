@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.leanbacklauncher.ActiveFrame xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rockchips.android.leanbacklauncher.ActiveFrame xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:gravity="start"
     android:orientation="vertical"
-    android:layout_marginTop="240dp"
     android:paddingBottom="@dimen/group_vertical_spacing">
 
     <android.support.v17.leanback.widget.NonOverlappingLinearLayout
@@ -39,7 +38,7 @@
             android:textSize="@dimen/header_text_size" />
     </android.support.v17.leanback.widget.NonOverlappingLinearLayout>
 
-    <com.google.android.leanbacklauncher.ActiveItemsRowView
+    <com.rockchips.android.leanbacklauncher.ActiveItemsRowView
         android:id="@id/list"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/temp_max_row_height"
@@ -50,4 +49,4 @@
         android:gravity="top"
         android:paddingEnd="@dimen/row_padding"
         android:paddingStart="@dimen/row_padding" />
-</com.google.android.leanbacklauncher.ActiveFrame>
+</com.rockchips.android.leanbacklauncher.ActiveFrame>
