@@ -11,7 +11,11 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.rockchips.android.leanbacklauncher.data.ConstData;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -403,6 +407,20 @@ public class LaunchPointListGenerator {
             }
         }
         return  allLuanchPoints;
+    }
+
+    public ArrayList<LaunchPoint> getRecommendLaunchPoints(){
+        ArrayList<LaunchPoint> recommendLaunchPoints = new ArrayList<>();
+        List<String> defaultPkgList = Arrays.asList(ConstData.DEFAULT_RECOMMEND_PACKAGES);
+        if(mAllLaunchPoints != null && mAllLaunchPoints.size() > 0){
+            for(LaunchPoint itemLaunchPoint : mAllLaunchPoints){
+                if(defaultPkgList.contains(itemLaunchPoint.getPackageName())){
+                    recommendLaunchPoints.add(itemLaunchPoint);
+                }
+            }
+        }
+        recommendLaunchPoints.add(LaunchPoint.createAddItem());
+        return  recommendLaunchPoints;
     }
 
     private ArrayList<LaunchPoint> getLaunchPoints(boolean nonGames, boolean games) {

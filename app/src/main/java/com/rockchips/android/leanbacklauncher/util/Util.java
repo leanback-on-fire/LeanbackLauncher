@@ -185,4 +185,5 @@ public class Util {
         AccessibilityManager am = (AccessibilityManager) context.getSystemService("accessibility");
         return am.isEnabled() ? am.isTouchExplorationEnabled() : false;
     }
+
 }

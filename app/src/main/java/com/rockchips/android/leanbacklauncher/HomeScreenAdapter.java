@@ -223,68 +223,17 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     private void buildRowList() {
         Resources res = this.mMainActivity.getResources();
         String partnerFont = this.mPartner.getPartnerFontName();
-     /*   buildRow(0, 0, null, null, null, R.dimen.home_scroll_size_search, false);
-        buildRow(1, 1, null, null, null, R.dimen.home_scroll_size_notifications, false);
-        buildRow(3, 2, this.mPartner.getRowTitle("apps_row", res.getString(R.string.category_label_apps)), this.mPartner.getRowIcon("apps_row"), partnerFont, R.dimen.home_scroll_size_apps, false);
-        buildRow(5, 3, this.mPartner.getRowTitle("settings_row", res.getString(R.string.category_label_settings)), this.mPartner.getRowIcon("settings_row"), partnerFont, R.dimen.home_scroll_size_settings, false);*/
-        int i;
-        int rowCount = 7;
-        int failures = 0;
-        boolean hasPartnerRow = this.mPartner.isRowEnabled("partner_row");
-        if (!hasPartnerRow) {
-            rowCount = 6;
-        }
-        boolean hasInputsRow = this.mPartner.isRowEnabled("inputs_row");
-        this.mLaunchPointListGenerator.setExcludeChannelActivities(hasInputsRow);
-        if (!hasInputsRow) {
-            rowCount--;
-        }
         buildRow(0, 0, null, null, null, R.dimen.home_scroll_size_search, false);
-        buildRow(1, 1, null, null, null, R.dimen.home_scroll_size_notifications, true);
-        int position = this.mPartner.getRowPosition("settings_row");
-        if (position == -1) {
-            failures = 1;
-            i = rowCount - 1;
-        } else {
-            i = position + 2;
-        }
-        buildRow(5, i, this.mPartner.getRowTitle("settings_row", res.getString(R.string.category_label_settings)), this.mPartner.getRowIcon("settings_row"), partnerFont, R.dimen.home_scroll_size_settings, false);
-        if (hasInputsRow) {
-            position = this.mPartner.getRowPosition("inputs_row");
-            if (position == -1) {
-                i = (rowCount - 1) - failures;
-                failures++;
-            } else {
-                i = position + 2;
-            }
-            buildRow(6, i, this.mPartner.getRowTitle("inputs_row", res.getString(R.string.category_label_inputs)), this.mPartner.getRowIcon("inputs_row"), partnerFont, R.dimen.home_scroll_size_inputs, true);
-        }
-        position = this.mPartner.getRowPosition("games_row");
-        if (position == -1) {
-            i = (rowCount - 1) - failures;
-            failures++;
-        } else {
-            i = position + 2;
-        }
-        buildRow(4, i, this.mPartner.getRowTitle("games_row", res.getString(R.string.category_label_games)), this.mPartner.getRowIcon("games_row"), partnerFont, R.dimen.home_scroll_size_games, true);
-        position = this.mPartner.getRowPosition("apps_row");
-        if (position == -1) {
-            i = (rowCount - 1) - failures;
-            failures++;
-        } else {
-            i = position + 2;
-        }
-        buildRow(3, i, this.mPartner.getRowTitle("apps_row", res.getString(R.string.category_label_apps)), this.mPartner.getRowIcon("apps_row"), partnerFont, R.dimen.home_scroll_size_apps, true);
-        if (hasPartnerRow) {
-            position = this.mPartner.getRowPosition("partner_row");
-            if (position == -1) {
-                i = (rowCount - 1) - failures;
-                failures++;
-            } else {
-                i = position + 2;
-            }
-            buildRow(2, i, this.mPartner.getRowTitle("partner_row", null), this.mPartner.getRowIcon("partner_row"), partnerFont, R.dimen.home_scroll_size_partner, true);
-        }
+        //推荐
+        buildRow(8, 1,  res.getString(R.string.home_collection), null, partnerFont, R.dimen.home_scroll_size_apps, false);
+     /*   //视频
+        buildRow(9, 2,  res.getString(R.string.home_video), null, partnerFont, R.dimen.home_scroll_size_apps, false);
+        //音乐
+        buildRow(10, 3,  res.getString(R.string.home_music), null, partnerFont, R.dimen.home_scroll_size_apps, false);*/
+        //所有应用
+        buildRow(3, 2,  res.getString(R.string.category_label_apps), this.mPartner.getRowIcon("apps_row"), partnerFont, R.dimen.home_scroll_size_apps, false);
+        //设置
+        buildRow(5, 3, this.mPartner.getRowTitle("settings_row", res.getString(R.string.category_label_settings)), this.mPartner.getRowIcon("settings_row"), partnerFont, R.dimen.home_scroll_size_settings, false);
         ListComparator comp = new ListComparator();
         Collections.sort(this.mAllRowsList, comp);
         Collections.sort(this.mVisRowsList, comp);
@@ -293,7 +242,9 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     private void buildRow(int type, int position, String title, Drawable icon, String font, int scrollOffsetResId, boolean hideIfEmpty) {
         Log.i(TAG, "buildRow->type:" + type);
         Log.i(TAG, "buildRow->position:" + position);
+        Log.i(TAG, "buildRow->title:" + title);
         Log.i(TAG, "buildRow->hideIfEmpty:" + hideIfEmpty);
+        Log.i(TAG, "buildRow->font:" + font);
         HomeScreenRow row = new HomeScreenRow(type, position, hideIfEmpty);
         row.setHeaderInfo(title != null, title, icon, font);
         row.setAdapter(initAdapter(type));
@@ -307,8 +258,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 /*       if (!(row.getType() == 3 || row.getType() == 4)) {
             if (row.getType() == 5) {
             }
-            if (row.isVisible()) {
-                this.mVisRowsList.add(row);
+            if (row.isVisible())
             }
         }*/
         this.mAppRefresher.addAppRow(row);
@@ -415,6 +365,9 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
             case android.support.v7.preference.R.styleable.Preference_android_selectable /*5*/:
             case android.support.v7.preference.R.styleable.Preference_android_key /*6*/:
+            case 8:
+            case 9:
+            case 10:
                 view = this.mInflater.inflate(R.layout.home_other_apps_row, parent, false);
                 this.mHeaders.put(row.getType(), view.findViewById(R.id.header));
                 if (view instanceof ActiveFrame) {
@@ -476,6 +429,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     }
 
     private void initNotificationsRows(NotificationRowView list, Adapter<?> adapter, HomeScreenMessaging homeScreenMessaging) {
+        Log.i(TAG, "initNotificationsRows");
         list.setHasFixedSize(true);
         list.setAdapter(adapter);
         this.mHomeScreenMessaging = homeScreenMessaging;
@@ -525,6 +479,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 case android.support.v7.preference.R.styleable.Preference_android_layout /*3*/:
                 case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
                 case android.support.v7.preference.R.styleable.Preference_android_key /*6*/:
+                case 8:
                     int rowHeight = (int) res.getDimension(R.dimen.banner_height);
                     list.setIsNumRowsAdjustable(true);
                     list.adjustNumRows(res.getInteger(R.integer.max_num_banner_rows), cardSpacing, rowHeight);
@@ -533,7 +488,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     lp.height = (int) res.getDimension(R.dimen.settings_row_height);
                     break;
             }
-            if (type == 3 || type == 4) {
+            if (type == 3 || type == 4 || type == 8) {
                 list.setIsRowEditable(true);
             }
             list.setItemMargin(cardSpacing);
@@ -584,6 +539,12 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 return new AppsAdapter(this.mMainActivity, 0, this.mLaunchPointListGenerator, this.mAppsRanker, this.mRecommendationsAdapter);
             case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
                 return new AppsAdapter(this.mMainActivity, 1, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+            case 8:
+                return new AppsAdapter(this.mMainActivity, 4, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+            case 9:
+                return new AppsAdapter(this.mMainActivity, 5, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+            case 10:
+                return new AppsAdapter(this.mMainActivity, 6, this.mLaunchPointListGenerator, this.mAppsRanker, null);
             case android.support.v7.preference.R.styleable.Preference_android_selectable /*5*/:
                 return this.mSettingsAdapter;
             case android.support.v7.preference.R.styleable.Preference_android_key /*6*/:

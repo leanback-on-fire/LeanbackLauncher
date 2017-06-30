@@ -191,4 +191,7 @@ To enable, go to Settings"</string>
     <string name="notification_card_view_description_title_content">%1$s %2$s</string>
     <string name="notification_card_view_description_label_content">%1$s %2$s</string>
     <string name="notification_card_view_description_default">No title</string>
+    <string name="home_video">Video</string>
+    <string name="home_music">Music</string>
+    <string name="home_collection">Collection</string>
 </resources>

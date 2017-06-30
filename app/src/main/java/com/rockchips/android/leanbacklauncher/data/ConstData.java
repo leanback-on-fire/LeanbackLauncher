@@ -2,15 +2,23 @@ package com.rockchips.android.leanbacklauncher.data;
 
 import android.content.Context;
 import android.graphics.Color;
+
+import momo.cn.edu.fjnu.androidutils.data.CommonValues;
+
 /**
  * Created by GaoFei on 2017/6/6.
+ * 常量数据
  */
 
 public class ConstData {
-    public static Context appContext;
+    public static  Context appContext;
+    public static final String DB_NAME = "rk_tvlauncher.db";
+    public static final String DB_DIRECTORY = CommonValues.application.getFilesDir().getPath();
+    public static final int DB_VERSION = 1;
     public static final int[] APP_ITEM_BACK_COLORS = { Color.parseColor("#f4ea2a"),
             Color.parseColor("#1afa29"), Color.parseColor("#e26a00"), Color.parseColor("#0459d0"),
             Color.parseColor("#26eefd"), Color.parseColor("#f92812")};
+    public static final String[] DEFAULT_RECOMMEND_PACKAGES = {"com.rockchips.mediacenter", "org.xbmc.rkmc"};
     public static final String SETTINGS_PACKAGE = "com.android.tv.settings";
     public static final String SETTINGS_ACTIVITY = "com.android.tv.settings.MainSettings";
     /**

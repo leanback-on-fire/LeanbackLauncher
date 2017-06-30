@@ -12,6 +12,7 @@ import android.support.v17.leanback.widget.HorizontalGridView;
 import android.support.v17.leanback.widget.OnChildSelectedListener;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.OnHierarchyChangeListener;
@@ -93,7 +94,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     static {
-        TAG = "LauncherEditMode";
+        TAG = "ActiveItemsRowView";
         DEBUG = true;
     }
 
@@ -116,6 +117,8 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     public void setAdapter(Adapter adapter) {
+        Log.i(TAG, "setAdapter->adapter->className:" + adapter.getClass().getName());
+        Log.i(TAG, "setAdapter->stackTrace:" + Log.getStackTraceString(new Throwable()));
         if (getAdapter() != null) {
             getAdapter().unregisterAdapterDataObserver(this.mChangeObserver);
         }
@@ -127,6 +130,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
 
     public void onChildAttachedToWindow(View child) {
         super.onChildAttachedToWindow(child);
+        Log.i(TAG, "onChildAttachedToWindow->child->className:" + child.getClass().getName());
         if (child instanceof BannerView) {
             addEditModeListener((BannerView) child);
             ((BannerView) child).addSelectedListener(this.mEditModeView);
@@ -218,6 +222,8 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     public void onChildSelected(ViewGroup parent, View child, int position, long id) {
+        Log.i(TAG, "onNChildSelected->position:" + position);
+        Log.i(TAG, "onNChildSelected->child:" + child.getClass().getName());
         if (child != this.mCurView) {
             if (this.mEditMode) {
                 this.mLastFocused = this.mCurView;
@@ -286,6 +292,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
                 } else if (isAccessibilityEnabled()) {
                     getViewTreeObserver().addOnGlobalFocusChangeListener(this);
                 }
+                Log.i(TAG, "setEditMode->mEditListeners->isEmpty:" + mEditListeners.isEmpty());
                 if (!this.mEditListeners.isEmpty()) {
                     for (OnEditModeChangedListener listener : this.mEditListeners) {
                         Log.i(TAG, "setEditMode->listener->className:" + listener.getClass().getName());
@@ -376,6 +383,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
         }
     }
 
+
     public String onPrepForUninstall() {
         String packageName = "";
         if (this.mLastFocused == null || !(getAdapter() instanceof AppsAdapter)) {
@@ -416,6 +424,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     private void focusOnNewPosition() {
+        Log.i(TAG, "focusOnNewPosition");
         int newFocusPosition = indexOfChild(this.mCurView) + this.mNumRows;
         if (isAccessibilityEnabled()) {
             newFocusPosition = 0;
@@ -520,6 +529,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     public void setChildrenLastFocusedBanner(BannerView view) {
+        Log.i(TAG, "setChildrenLastFocusBanner");
         int children = getChildCount();
         for (int i = 0; i < children; i++) {
             if (getChildAt(i) instanceof BannerView) {
@@ -542,6 +552,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+        Log.i(TAG, "onGlobalFocusChanged");
         if (!(!isRowActive() || oldFocus == null || newFocus == null)) {
             if ((oldFocus instanceof BannerView) && (newFocus instanceof BannerView)) {
                 if (oldFocus.isSelected()) {
@@ -563,6 +574,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     public View focusSearch(View focused, int direction) {
+        Log.i(TAG, "focusSearch");
         if (!this.mEditMode) {
             return super.focusSearch(focused, direction);
         }
@@ -620,6 +632,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     private boolean moveLaunchPoint(int fromPosition, int toPosition, boolean userAction) {
+        Log.i(TAG, "moveLaunchPoint");
         return ((AppsAdapter) getAdapter()).moveLaunchPoint(fromPosition, toPosition, true);
     }
 }

@@ -9,9 +9,11 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.rockchips.android.leanbacklauncher.R;
+import com.rockchips.android.leanbacklauncher.apps.BannerView;
 import com.rockchips.android.leanbacklauncher.core.LaunchException;
 
 public abstract class LauncherViewHolder extends ViewHolder implements OnClickListener {
+    private static final String TAG = "LauncherViewHolder";
     protected final Context mCtx;
     private int mLaunchColor;
     private Intent mLaunchIntent;
@@ -39,6 +41,12 @@ public abstract class LauncherViewHolder extends ViewHolder implements OnClickLi
     }
 
     public void onClick(View v) {
+        if(v instanceof BannerView && ((BannerView)v).mIsAddItem){
+            //启动添加页面
+            Log.i(TAG, "onClick->addItem");
+            Toast.makeText(v.getContext(), "启动添加页面", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (v != null && v == this.itemView) {
             ((MainActivity) this.mCtx).beginLaunchAnimation(v, this.mLaunchTranslucent, this.mLaunchColor, new C01571());
         }

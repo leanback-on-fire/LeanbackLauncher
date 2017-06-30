@@ -16,11 +16,15 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.rockchips.android.leanbacklauncher.R;
+import com.rockchips.android.leanbacklauncher.bean.AppInfo;
+import com.rockchips.android.leanbacklauncher.data.ConstData;
 import com.rockchips.android.leanbacklauncher.util.Util;
 import com.rockchips.android.leanbacklauncher.recline.util.DrawableDownloader;
 import com.rockchips.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
 
 import java.util.Date;
+
+import momo.cn.edu.fjnu.androidutils.data.CommonValues;
 
 public class LaunchPoint {
     protected String mAppTitle;
@@ -42,7 +46,10 @@ public class LaunchPoint {
     protected int mPriority;
     protected int mSettingsType;
     protected boolean mTranslucentTheme;
-
+    /**
+     * 是否是添加项
+     */
+    private boolean mIsAddItem;
     /* renamed from: LaunchPoint.1 */
     class C01861 extends DrawableDownloader.BitmapCallback {
         C01861() {
@@ -55,7 +62,9 @@ public class LaunchPoint {
             }
         }
     }
-
+    public LaunchPoint(){
+        this.mBitmapCallback = new C01861();
+    }
     public LaunchPoint(Context context, String appTitle, Drawable iconDrawable, Intent launchIntent, int launchColor) {
         this.mBitmapCallback = new C01861();
         clear(context);
@@ -193,6 +202,10 @@ public class LaunchPoint {
         } else if ((other instanceof ResolveInfo) && getLaunchIntent((ResolveInfo) other).getComponent() != null) {
             pkgName = this.mLaunchIntent.getComponent().getPackageName();
             compName = this.mLaunchIntent.getComponent().flattenToString();
+        }else if(other instanceof AppInfo){
+           AppInfo appInfo = (AppInfo)other;
+            pkgName = appInfo.getPackageName();
+            compName = appInfo.getCompentName();
         }
         if (TextUtils.equals(this.mPackageName, pkgName)) {
             equals = TextUtils.equals(this.mComponentName, compName);
@@ -349,4 +362,47 @@ public class LaunchPoint {
     public void cancelPendingOperations(Context context) {
         DrawableDownloader.getInstance(context).cancelDownload(this.mBitmapCallback);
     }
+
+    public boolean isAddItem() {
+        return mIsAddItem;
+    }
+
+    public void setAddItem(boolean isAddItem) {
+        this.mIsAddItem = isAddItem;
+    }
+
+    /**
+     * 创建添加项
+     * @return
+     */
+    public static LaunchPoint createAddItem(){
+        LaunchPoint launchPoint = new LaunchPoint();
+        launchPoint.mInstallProgressPercent = -1;
+        launchPoint.mInstallStateStringResourceId = 0;
+        launchPoint.mComponentName = null;
+        launchPoint.mPackageName = null;
+        launchPoint.mBannerDrawable = ConstData.appContext.getDrawable(R.drawable.icon_more);
+        int maxWidth = CommonValues.application.getResources().getDimensionPixelOffset(R.dimen.max_banner_image_width);
+        int maxHeight = CommonValues.application.getResources().getDimensionPixelOffset(R.dimen.max_banner_image_height);
+        if (launchPoint.mBannerDrawable instanceof BitmapDrawable) {
+            launchPoint.mBannerDrawable = new BitmapDrawable(CommonValues.application.getResources(), Util.getSizeCappedBitmap(((BitmapDrawable)launchPoint.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
+        }
+        //launchPoint.mBannerDrawable = null;
+        launchPoint.mAppTitle = null;
+        launchPoint.mContentDescription = null;
+        launchPoint.mIconDrawable = null;
+        launchPoint.mLaunchColor = 0;
+        launchPoint.mLaunchIntent = null;
+        launchPoint.mHasBanner = true;
+        launchPoint.mPriority = -1;
+        launchPoint.mSettingsType = -1;
+        launchPoint.mIsGame = false;
+        launchPoint.mIsInitialInstall = false;
+        launchPoint.mListener = null;
+        launchPoint.mPackageInstallTime = -1;
+        launchPoint.setAddItem(true);
+        return launchPoint;
+    }
+
+
 }

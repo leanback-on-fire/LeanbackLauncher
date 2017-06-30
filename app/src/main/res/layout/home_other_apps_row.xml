@@ -6,7 +6,6 @@
     android:clipToPadding="false"
     android:gravity="start"
     android:orientation="vertical"
-    android:layout_marginTop="40dp"
     android:paddingBottom="@dimen/group_vertical_spacing">
 
     <android.support.v17.leanback.widget.NonOverlappingLinearLayout

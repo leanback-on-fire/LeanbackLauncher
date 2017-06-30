@@ -183,12 +183,14 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         }
 
         public void onBackgroundImageChanged(String imageUri, boolean notifActive) {
+            Log.i(TAG, "onBackgroundImageChanged");
             if (MainActivity.this.mWallpaper != null) {
                 MainActivity.this.mWallpaper.onBackgroundImageChanged(imageUri, notifActive);
             }
         }
 
         public void onSelectedRecommendationChanged(int position) {
+            Log.i(TAG, "onSelectedRecommendationChanged->position:" + position);
             if (MainActivity.this.mKeepUiReset && !MainActivity.this.mAccessibilityManager.isEnabled() && position > 0) {
                 MainActivity.this.mNotificationsView.setSelectedPositionSmooth(0);
             }
@@ -734,7 +736,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         super.onStop();
         setShyMode(false, false);
         this.mHomeAdapter.sortRowsIfNeeded(false);
-       /* this.mLaunchAnimation.reset();
+        this.mLaunchAnimation.reset();
+        /*
         if (this.mGoogleApiClient != null) {
             boolean flushResult = this.mEventLogger.flush();
             this.mGoogleApiClient.disconnect();
@@ -773,7 +776,19 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     private void onNotificationRowStateUpdate(int state) {
-
+        Log.i(TAG, "onNotificationRowStateUpdate");
+        if (state == 1 || state == 2) {
+            if (!this.mUserInteracted) {
+                int searchIndex = this.mHomeAdapter.getRowIndex(0);
+                if (searchIndex != -1) {
+                    this.mList.setSelectedPosition(searchIndex);
+                    this.mList.getChildAt(searchIndex).requestFocus();
+                }
+            }
+        } else if (state == 0 && this.mList.getSelectedPosition() <= this.mHomeAdapter.getRowIndex(0) && this.mNotificationsView.getChildCount() > 0) {
+            this.mNotificationsView.setSelectedPosition(0);
+            this.mNotificationsView.getChildAt(0).requestFocus();
+        }
     }
 
     public boolean onSearchRequested() {
@@ -803,6 +818,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.i(TAG, "onKeyDown");
         if (this.mLaunchAnimation.isPrimed() || this.mLaunchAnimation.isRunning() || this.mEditModeAnimation.isPrimed() || this.mEditModeAnimation.isRunning()) {
+            Log.i(TAG, "onKeyDown 1");
             switch (keyCode) {
                 case android.support.v7.preference.R.styleable.Preference_android_layout /*3*/:
                 case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
@@ -812,8 +828,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                     return true;
             }
         } else if (this.mShyMode || !isMediaKey(event.getKeyCode())) {
+            Log.i(TAG, "onKeyDown 2");
             return super.onKeyDown(keyCode, event);
         } else {
+            Log.i(TAG, "onKeyDown 3");
             Log.i(TAG, "return true");
             return true;
         }

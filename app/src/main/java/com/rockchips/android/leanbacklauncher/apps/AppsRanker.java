@@ -130,7 +130,7 @@ public class AppsRanker implements Listener {
 
     static {
         TAG = "AppsRanker";
-        DEBUG = false;
+        DEBUG = true;
         sAppsRanker = null;
     }
 

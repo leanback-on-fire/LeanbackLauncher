@@ -35,6 +35,7 @@ import com.rockchips.android.leanbacklauncher.recline.util.RefcountBitmapDrawabl
 import com.rockchips.android.leanbacklauncher.animation.AnimatorLifecycle;
 
 public class LauncherWallpaper extends FrameLayout implements AnimationListener, AnimatorLifecycle.OnAnimationFinishedListener, HomeScrollFractionListener {
+    private static final String TAG = "LauncherWallpaper";
     private WallpaperImage mBackground;
     private ColorDrawable mBackgroundColor;
     private int mBackgroundDim;
@@ -301,6 +302,7 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
     }
 
     public void onScrollPositionChanged(int position, float fractionFromTop) {
+        Log.i(TAG, "onScrollPositionChanged");
         this.mScrollPosition = position;
         updateScrollPosition();
     }
@@ -314,7 +316,7 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
 
     private void updateScrollPosition() {
         loadWallpaperIfNeeded();
-        int newPos = Math.round(((float) this.mScrollPosition) / this.mWallpaperScrollScale);
+      /*  int newPos = Math.round(((float) this.mScrollPosition) / this.mWallpaperScrollScale);
         this.mBackground.setY((float) newPos);
         this.mOverlay.setY((float) newPos);
         this.mVideoFadeMask.setY((float) newPos);
@@ -326,13 +328,15 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
         this.mVideoFadeMaskExt.setY((float) maskExtY);
         float dimLevel = (1.0f - Math.min(1.0f, ((float) Math.abs(this.mScrollPosition)) / this.mScrollDarkeningOffset)) * this.mScrollDarkeningAmount;
         float zoomLevel = this.mZoom * (1.0f - Math.min(1.0f, ((float) Math.abs(this.mScrollPosition)) / this.mZoomThreshold));
+        Log.i(TAG, "updateScrollPosition->dimLevel:" + dimLevel);
+        Log.i(TAG, "updateScrollPosition->zoomLevel:" + zoomLevel);
         this.mBackground.setZoomLevel(zoomLevel);
         this.mOverlay.setZoomLevel(zoomLevel);
         this.mDimmer.setActiveLevel(dimLevel);
         this.mBackground.setColorFilter(this.mDimmer.getColorFilter());
         this.mBackgroundDim = Color.argb((int) ((this.mScrollDarkeningAmount * 255.0f) * (1.0f - dimLevel)), 0, 0, 0);
         this.mOverlay.setColorFilter(this.mDimmer.getColorFilter());
-        invalidate();
+        invalidate();*/
     }
 
     private void updateChildVisibility() {

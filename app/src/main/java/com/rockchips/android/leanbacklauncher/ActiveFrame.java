@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.rockchips.android.leanbacklauncher.animation.ViewDimmer.DimState;
 import com.rockchips.android.leanbacklauncher.notifications.HomeScreenView;
 
 public class ActiveFrame extends LinearLayout implements ParticipatesInScrollAnimation, HomeScrollFractionListener, ActiveItemsRowView.RowCountChangeListener {
+    private static final String TAG = "ActiveFrame";
     protected float mActiveTextMargin;
     private int mAnimDuration;
     protected int mBottomPadding;
@@ -156,7 +158,10 @@ public class ActiveFrame extends LinearLayout implements ParticipatesInScrollAni
     }
 
     public void onScrollPositionChanged(int position, float fractionFromTop) {
-        ViewGroup.LayoutParams lp;
+        //Log.i(TAG, "onScrollPositionChanged->stackTrace:" + Log.getStackTraceString(new Throwable()));
+        Log.i(TAG, "onScrollPositionChanged->position:" + position);
+        Log.i(TAG, "onScrollPositionChanged->fractionFromTop:" + fractionFromTop);
+/*        ViewGroup.LayoutParams lp;
         if (fractionFromTop < 0.99f) {
             if (this.mHeaderVisible) {
                 this.mHeaderVisible = false;
@@ -181,7 +186,7 @@ public class ActiveFrame extends LinearLayout implements ParticipatesInScrollAni
                 }
             }
             setPadding(0, 0, 0, this.mBottomPadding);
-        }
+        }*/
     }
 
     public void onRowCountChanged() {

@@ -91,7 +91,7 @@ public class WallpaperInstaller {
         systemBg.draw(canvas);
 
 
-        Bitmap maskBitmap = partner.getSystemBackgroundMask();
+        /*Bitmap maskBitmap = partner.getSystemBackgroundMask();
         if (maskBitmap == null) {
             maskBitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_protection);
         }
@@ -99,7 +99,7 @@ public class WallpaperInstaller {
         maskDrawable.setTileModeX(TileMode.REPEAT);
         maskDrawable.setTileModeY(TileMode.CLAMP);
         maskDrawable.setBounds(0, 0, wallpaperWidth, wallpaperHeight);
-        maskDrawable.draw(canvas);
+        maskDrawable.draw(canvas);*/
         return bitmap;
     }
 

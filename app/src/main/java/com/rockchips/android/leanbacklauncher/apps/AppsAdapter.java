@@ -19,12 +19,16 @@ import com.rockchips.android.leanbacklauncher.R;
 import com.rockchips.android.leanbacklauncher.animation.ViewDimmer.DimState;
 import com.rockchips.android.leanbacklauncher.apps.AppsRanker.RankingListener;
 import com.rockchips.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener;
+import com.rockchips.android.leanbacklauncher.bean.AppInfo;
+import com.rockchips.android.leanbacklauncher.data.ConstData;
+import com.rockchips.android.leanbacklauncher.modle.db.AppInfoService;
 import com.rockchips.android.leanbacklauncher.util.Lists.Change.Type;
 import com.rockchips.android.leanbacklauncher.widget.RowViewAdapter;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.rockchips.android.leanbacklauncher.apps.AppsAdapter.AppViewHolder;
 
@@ -218,6 +222,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         }
 
         public void onClick(View v) {
+            Log.i(TAG, "onClick->v->className:" + v.getClass().getName());
             if ((v instanceof BannerView) && ((BannerView) v).isEditMode()) {
                 ((BannerView) v).onClickInEditMode();
             } else {
@@ -389,13 +394,51 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         }
 
         protected ArrayList<LaunchPoint> doInBackground(Void... params) {
-            return AppsAdapter.this.getRefreshedLaunchPointList();
+            AppInfoService appInfoService = new AppInfoService();
+            List<AppInfo> appInfos = appInfoService.getAppInfosByType(mAppType);
+            ArrayList<LaunchPoint> originLaunchPoints = AppsAdapter.this.getRefreshedLaunchPointList();
+            ArrayList<LaunchPoint> diffLaunchPoints = new ArrayList<>(originLaunchPoints);
+            ArrayList<LaunchPoint> sameLaunchPoints = new ArrayList<>();
+            ArrayList<LaunchPoint> resultLaunchPoints = new ArrayList<>();
+            Log.i(TAG, "RefreshTask->appInfos1:" + appInfos);
+            if(appInfos != null && appInfos.size() > 0){
+                List<AppInfo> removedInfos = new ArrayList<>();
+               for(AppInfo itemInfo : appInfos){
+                   if(!originLaunchPoints.contains(itemInfo))
+                       removedInfos.add(itemInfo);
+               }
+                appInfos.remove(removedInfos);
+            }
+            Log.i(TAG, "RefreshTask->appInfos2:" + appInfos);
+            for(LaunchPoint itemLaunchPoint : originLaunchPoints){
+                Log.i(TAG, "RefreshTask->itemLaunchPoint->packageName:" + itemLaunchPoint.getPackageName());
+                Log.i(TAG, "RefreshTask->itemLaunchPoint->componetName:" + itemLaunchPoint.getComponentName());
+            }
+            if(appInfos != null && appInfos.size() > 0){
+                diffLaunchPoints.removeAll(appInfos);
+                for(AppInfo itemInfo : appInfos){
+                    int itemIndex = originLaunchPoints.indexOf(itemInfo);
+                    if(itemIndex >= 0)
+                        sameLaunchPoints.add(originLaunchPoints.get(originLaunchPoints.indexOf(itemInfo)));
+                }
+
+            }
+            resultLaunchPoints.addAll(sameLaunchPoints);
+            resultLaunchPoints.addAll(diffLaunchPoints);
+            Log.i(TAG, "RefreshTask->resultLaunchPoints:" + resultLaunchPoints);
+            if(mAppType == 4 && resultLaunchPoints.size() > 1 || mAppType != 4 && resultLaunchPoints.size() > 0){
+                //重新保存至数据库
+                appInfoService.deleteByType(mAppType);
+                appInfoService.saveByLaunchPoints(resultLaunchPoints, mAppType);
+            }
+            return resultLaunchPoints;
         }
 
         protected void onPostExecute(ArrayList<LaunchPoint> launchPoints) {
             Log.i(TAG, "RefreshTask->onPostExecute->notifyDataSetChanged");
 
            // List<Change> changes = Lists.getChanges(AppsAdapter.this.mLaunchPoints, launchPoints, AppsAdapter.this.mAppsRanker.getLaunchPointComparator());
+
             AppsAdapter.this.mLaunchPoints = launchPoints;
             AppsAdapter.this.onPostRefresh();
             notifyDataSetChanged();
@@ -469,6 +512,8 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public int getItemViewType(int position) {
+        Log.i(TAG, "getItemViewType->mAppType:" + mAppType);
+       // return mAppType;
         int i = 0;
         if (position >= this.mLaunchPoints.size()) {
             Log.e("AppsAdapter", "getItemViewType with out of bounds index = " + position);
@@ -488,6 +533,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.i(TAG, "onCreateViewHolder->viewType:" + viewType);
         switch (viewType) {
             case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
                 return new AppBannerViewHolder(this.mInflater.inflate(R.layout.app_banner, parent, false), this);
@@ -502,14 +548,23 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public void onBindViewHolder(AppViewHolder holder, int position) {
+        Log.i(TAG, "onBindViewHolder->className:" + holder.getClass().getName());
+        Log.i(TAG, "onBindViewHolder->position:" + position);
         if (position < this.mLaunchPoints.size()) {
             LaunchPoint launchPoint = (LaunchPoint) this.mLaunchPoints.get(position);
+            Log.i(TAG, "onBindViewHolder->packageName:" + launchPoint.getPackageName());
+            int itemViewType = holder.getItemViewType();
+            if(itemViewType != 2 && holder.itemView instanceof BannerView){
+                BannerView itemView = (BannerView) holder.itemView;
+                itemView.mIsAddItem = launchPoint.isAddItem();
+            }
             holder.clearBannerState();
             holder.init(launchPoint);
         }
     }
 
     public void onViewAttachedToWindow(AppViewHolder holder) {
+        Log.i(TAG, "onViewAttachedToWindow->holder:" + holder.getClass().getName());
         super.onViewAttachedToWindow(holder);
         if ((holder.itemView instanceof BannerView) && (holder.itemView.getParent() instanceof ActiveItemsRowView)) {
             ((ActiveItemsRowView) holder.itemView.getParent()).refreshSelectedView();
@@ -519,6 +574,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public void onViewDetachedFromWindow(AppViewHolder holder) {
+        Log.i(TAG, "onViewDetachedFromWindow->holder:" + holder.getClass().getName());
         super.onViewDetachedFromWindow(holder);
         if (holder.itemView instanceof BannerView) {
             holder.itemView.setSelected(false);
@@ -530,6 +586,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public void sortItemsIfNeeded(boolean force) {
+        Log.i(TAG, "sortItemsIfNeeded");
         boolean z = !this.mFlaggedForResort ? force : true;
         this.mFlaggedForResort = false;
         if (force && this.mAppsRanker.getSortingMode() == SortingModeManager.SortingMode.FIXED) {
@@ -537,24 +594,31 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         }
         if (z) {
             this.mItemsHaveBeenSorted = true;
-            sortLaunchPoints(this.mLaunchPoints);
-            notifyDataSetChanged();
+            //sortLaunchPoints(this.mLaunchPoints);
+            //notifyDataSetChanged();
         }
     }
 
     public boolean takeItemsHaveBeenSorted() {
+        Log.i(TAG, "takeItemsHaveBeenSorted");
         boolean sorted = this.mItemsHaveBeenSorted;
         this.mItemsHaveBeenSorted = false;
         return sorted;
     }
 
     public boolean moveLaunchPoint(int initPosition, int desiredPosition, boolean userAction) {
+        Log.i(TAG, "moveLaunchPoint");
+        if(desiredPosition == mLaunchPoints.size() - 1 && mLaunchPoints.get(mLaunchPoints.size() - 1).isAddItem())
+            return false;
         if (desiredPosition < 0 || desiredPosition > this.mLaunchPoints.size() - 1 || initPosition < 0 || initPosition > this.mLaunchPoints.size() - 1) {
             return false;
         }
         LaunchPoint focused = (LaunchPoint) this.mLaunchPoints.get(initPosition);
         this.mLaunchPoints.set(initPosition, (LaunchPoint) this.mLaunchPoints.get(desiredPosition));
         this.mLaunchPoints.set(desiredPosition, focused);
+        AppInfoService appInfoService = new AppInfoService();
+        appInfoService.deleteByType(mAppType);
+        appInfoService.saveByLaunchPoints(mLaunchPoints, mAppType);
         notifyItemMoved(initPosition, desiredPosition);
         if (Math.abs(desiredPosition - initPosition) > 1) {
             notifyItemMoved(desiredPosition + (desiredPosition - initPosition > 0 ? -1 : 1), initPosition);
@@ -566,9 +630,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public void saveAppOrderSnapshot() {
-        if (Log.isLoggable("LauncherEditMode", 2)) {
-            Log.d("LauncherEditMode", "AppsAdapter saw EditMode change and initiated snapshot.");
-        }
+        Log.d("LauncherEditMode", "AppsAdapter saw EditMode change and initiated snapshot.");
         this.mAppsRanker.saveOrderSnapshot(this.mLaunchPoints);
     }
 
@@ -581,21 +643,28 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     private void onActionOpenLaunchPoint(String component, String group) {
+        Log.i(TAG, "onActionOpenLaunchPoint");
         if (this.mActionOpenLaunchPointListener != null) {
             this.mActionOpenLaunchPointListener.onActionOpenLaunchPoint(component, group);
         }
     }
 
     private ArrayList<LaunchPoint> getRefreshedLaunchPointList() {
+        Log.i(TAG, "getRefreshedLaunchPointList");
         ArrayList<LaunchPoint> launchPoints = null;
         if (this.mAppType == 0) {
             launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
         } else if (this.mAppType == 1) {
-            //launchPoints = this.mLaunchPointGen.getGameLaunchPoints();
+            launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
         } else if (this.mAppType == 2) {
             launchPoints = this.mLaunchPointGen.getSettingsLaunchPoints(true);
-        } else {
-
+        } else if(this.mAppType == 4){
+            //推荐
+            launchPoints = this.mLaunchPointGen.getRecommendLaunchPoints();
+        }else if(this.mAppType == 5){
+            launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
+        }else if(this.mAppType == 6){
+            launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
         }
         //launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
         if (launchPoints == null) {
@@ -606,24 +675,28 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     protected void onPostRefresh() {
+        Log.i(TAG, "onPostRefresh");
     }
 
     protected void sortLaunchPoints(ArrayList<LaunchPoint> launchPoints) {
+        Log.i(TAG, "sortLaunchPoints");
         if (this.mAppType != 2) {
             this.mAppsRanker.rankLaunchPoints(launchPoints, this);
         }
     }
 
     public void onLaunchPointsAddedOrUpdated(ArrayList<LaunchPoint> launchPoints) {
-        Log.i(TAG, "onLaunchPointAddedOrUpdated->stackTrace:" + Log.getStackTraceString(new Throwable()));
+        Log.i(TAG, "onLaunchPointAddedOrUpdated:");
         this.mNotifyHandler.post(new C01811(launchPoints));
     }
 
     public void onLaunchPointsRemoved(ArrayList<LaunchPoint> launchPoints) {
+        Log.i(TAG, "onLaunchPointsRemoved");
         this.mNotifyHandler.post(new C01822(launchPoints));
     }
 
     public void onLaunchPointListGeneratorReady() {
+        Log.i(TAG, "onLaunchPointListGeneratorReady");
         refreshDataSetAsync();
         /*if (this.mAppsRanker.isReady()) {
 
@@ -634,16 +707,19 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public void onRankerReady() {
+        Log.i(TAG, "onRankderReady");
         if (this.mLaunchPointGen.isReady()) {
             refreshDataSetAsync();
         }
     }
 
     public void onViewRecycled(AppViewHolder holder) {
+        Log.i(TAG, "onViewRecycled");
         holder.itemView.setVisibility(0);
     }
 
     public void refreshDataSetAsync() {
+        Log.i(TAG, "refreshDataSetAsync");
         new RefreshTask().execute(new Void[0]);
     }
 }

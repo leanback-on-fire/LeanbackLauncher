@@ -148,4 +148,7 @@
     <string name="notification_card_view_description_title_content">%1$s ：%2$s</string>
     <string name="notification_card_view_description_label_content">%1$s ：%2$s</string>
     <string name="notification_card_view_description_default">无标题</string>
+    <string name="home_video">视频</string>
+    <string name="home_music">音乐</string>
+    <string name="home_collection">收藏</string>
 </resources>

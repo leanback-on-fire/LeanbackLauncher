@@ -39,7 +39,7 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     private boolean mLeavingEditMode;
     private ArrayList<BannerSelectedChangedListener> mSelectedListeners;
     private AppsAdapter.AppViewHolder mViewHolder;
-
+    public boolean mIsAddItem;
     /* renamed from: BannerView.1 */
     class C01841 implements Runnable {
         C01841() {
@@ -238,7 +238,9 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     }
 
     public boolean onLongClick(View v) {
-        Log.i(TAG, "onLongClick");
+        if(v instanceof BannerView && ((BannerView)v).mIsAddItem)
+            return true;
+        Log.i(TAG, "onLongClick->v->className:" + v.getClass().getName());
         if (isEditable() && !this.mEditMode) {
             Log.i(TAG, "onLongClick1");
             this.mEditMode = true;
@@ -256,6 +258,7 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     }
 
     public void setSelected(boolean selected) {
+        Log.i(TAG, "setSelect->statckTrace:" + Log.getStackTraceString(new Throwable()));
         Log.i(TAG, "setSelected->selected:" + selected);
         Log.i(TAG, "setSelected->mEditMode:" + mEditMode);
         Log.i(TAG, "setSelected->mLeavingEditMode:" + mLeavingEditMode);
