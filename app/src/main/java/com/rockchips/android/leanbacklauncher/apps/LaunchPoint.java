@@ -10,9 +10,12 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 
 import com.rockchips.android.leanbacklauncher.R;
@@ -23,8 +26,12 @@ import com.rockchips.android.leanbacklauncher.recline.util.DrawableDownloader;
 import com.rockchips.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
 
 import java.util.Date;
+import java.util.Random;
 
 import momo.cn.edu.fjnu.androidutils.data.CommonValues;
+
+import static android.R.attr.anyDensity;
+import static android.R.attr.bitmap;
 
 public class LaunchPoint {
     protected String mAppTitle;
@@ -151,7 +158,18 @@ public class LaunchPoint {
         }
         this.mPriority = info.priority;
         this.mTranslucentTheme = isTranslucentTheme(ctx, info);
-        this.mLaunchColor = getColor(ctx, info);
+       /* if(mHasBanner && mBannerDrawable != null && mBannerDrawable instanceof BitmapDrawable){
+           mLaunchColor = getColor(ctx, ((BitmapDrawable) mBannerDrawable).getBitmap());
+        }else*/ if(!mHasBanner && mIconDrawable != null && mIconDrawable instanceof BitmapDrawable){
+            mLaunchColor = getColor(ctx, ((BitmapDrawable) mIconDrawable).getBitmap());
+            int r = Color.red(mLaunchColor);
+            int g = Color.green(mLaunchColor);
+            int b = Color.blue(mLaunchColor);
+            mLaunchColor = Color.rgb(255 - Color.red(mLaunchColor), 255 - Color.green(mLaunchColor), 255 - Color.blue(mLaunchColor));
+            //mLaunchColor = Color.rgb(r * r % 256, g * g % 256, b * b % 256);
+        }else{
+            this.mLaunchColor = getColor(ctx, info);
+        }
         this.mPackageInstallTime = Util.getInstallTimeForPackage(ctx, this.mPackageName);
         return this;
     }
@@ -228,7 +246,7 @@ public class LaunchPoint {
         try {
             Theme theme = myContext.createPackageContext(info.activityInfo.applicationInfo.packageName, 0).getTheme();
             theme.applyStyle(info.activityInfo.getThemeResource(), true);
-            TypedArray a = theme.obtainStyledAttributes(new int[]{16843827});
+            TypedArray a = theme.obtainStyledAttributes(new int[]{android.R.attr.colorPrimary});
             int color = a.getColor(0, 0);
             a.recycle();
             return color;
@@ -236,6 +254,26 @@ public class LaunchPoint {
             e.printStackTrace();
             return myContext.getResources().getColor(R.color.app_launch_ripple_default_color);
         }
+    }
+
+    private static int getColor(Context context, Bitmap bitmap) {
+     /*   int length = ConstData.APP_ITEM_BACK_COLORS.length;
+        return ConstData.APP_ITEM_BACK_COLORS[new Random().nextInt(length)];*/
+        Palette p = Palette.from(bitmap).generate();
+        Palette.Swatch swatch = p.getDarkMutedSwatch();//ok, 1
+        if(swatch != null)
+            return swatch.getRgb();
+      /*  else if((swatch = p.getLightMutedSwatch()) != null)
+            return swatch.getRgb();
+        else if((swatch = p.getVibrantSwatch()) != null)
+            return swatch.getRgb();
+        else if((swatch = p.getMutedSwatch()) != null)
+            return swatch.getRgb();
+        else if((swatch = p.getDarkVibrantSwatch()) != null)
+            return swatch.getRgb();
+        else if((swatch = p.getDarkMutedSwatch()) != null)
+            return swatch.getRgb();*/
+        return context.getColor(R.color.banner_background);
     }
 
     private static boolean isTranslucentTheme(Context myContext, ResolveInfo info) {

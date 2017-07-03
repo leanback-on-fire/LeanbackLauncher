@@ -285,16 +285,24 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     private static final class AppFallbackViewHolder extends AppViewHolder {
         private final ImageView mIconView;
         private final TextView mLabelView;
+        private final View mBannerView;
+        private final BannerView rootView;
         private final InstallStateOverlayHelper mOverlayHelper;
 
         public AppFallbackViewHolder(View v, AppsAdapter adapter) {
             super(v, adapter);
+            if(v != null && v instanceof BannerView)
+                rootView = (BannerView) v;
+            else
+                rootView = null;
             this.mOverlayHelper = new InstallStateOverlayHelper(v);
             if (v != null) {
                 this.mIconView = (ImageView) v.findViewById(R.id.banner_icon);
                 this.mLabelView = (TextView) v.findViewById(R.id.banner_label);
+                mBannerView = v.findViewById(R.id.app_banner);
                 return;
             }
+            mBannerView = null;
             this.mIconView = null;
             this.mLabelView = null;
         }
@@ -302,12 +310,18 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         public void init(LaunchPoint launchPoint) {
             super.init(launchPoint);
             if (launchPoint != null) {
+                Log.i(TAG, "AppFallbackViewHolder->init");
                 Drawable icon = launchPoint.getIconDrawable();
                 if (this.mIconView != null) {
                     this.mIconView.setImageDrawable(icon);
                 }
                 if (this.mLabelView != null) {
                     this.mLabelView.setText(launchPoint.getTitle());
+                }
+                if(this.mBannerView != null){
+                    mBannerView.setBackgroundColor(launchPoint.getLaunchColor());
+                    if(rootView != null)
+                        rootView.setBannerBackColor(launchPoint.getLaunchColor());
                 }
                 if (launchPoint.isInstalling()) {
                     this.mOverlayHelper.initOverlay(launchPoint);
@@ -655,7 +669,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         if (this.mAppType == 0) {
             launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
         } else if (this.mAppType == 1) {
-            launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
+            //launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
         } else if (this.mAppType == 2) {
             launchPoints = this.mLaunchPointGen.getSettingsLaunchPoints(true);
         } else if(this.mAppType == 4){

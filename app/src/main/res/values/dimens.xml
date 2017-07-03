@@ -364,8 +364,8 @@
     <dimen name="max_horizontal_card_scaling">20.0dip</dimen>
     <dimen name="inter_card_spacing">8.0dip</dimen>
     <dimen name="card_spacing">8.0dip</dimen>
-    <dimen name="max_banner_image_width">160.0dip</dimen>
-    <dimen name="max_banner_image_height">90.0dip</dimen>
+    <dimen name="max_banner_image_width">188.0dip</dimen>
+    <dimen name="max_banner_image_height">106.0dip</dimen>
     <dimen name="banner_icon_size">44.0dip</dimen>
     <dimen name="banner_label_text_size">18.0sp</dimen>
     <dimen name="banner_corner_radius">2.0dip</dimen>

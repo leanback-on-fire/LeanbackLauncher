@@ -158,6 +158,7 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
     }
 
     public void resetBackground() {
+        Log.i(TAG, "resetBackground");
         this.mHandler.removeCallbacksAndMessages(null);
         this.mOverlay.cancelAnimation();
         this.mOverlay.setVisibility(8);
@@ -175,11 +176,13 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
 
     public void setShynessMode(boolean shyMode) {
         this.mInShyMode = shyMode;
+        Log.i(TAG, "setShynessMode->shyMode:" + shyMode);
         updateChildVisibility();
         this.mHandler.sendMessage(this.mHandler.obtainMessage(1, null));
     }
 
     public void setOverlayBackground(Drawable drawable, String uri) {
+        Log.i(TAG, "setOverlayBackground");
         MainActivity activity = (MainActivity) getContext();
         if (this.mOverlay.isAnimating() || activity.isLaunchAnimationInProgress()) {
             releaseDrawable(this.mPendingImage);
@@ -244,13 +247,14 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
     }
 
     private void setBackgroundImage(String imageUri) {
-        this.mBitmapDownloader.cancelDownload(this.mBitmapDownloadCallback);
+        Log.i(TAG, "setBackgroundImage:" + imageUri);
+     /*   this.mBitmapDownloader.cancelDownload(this.mBitmapDownloadCallback);
         this.mDownloadingUri = null;
         if (imageUri != null) {
             fetchWallpaperImage(imageUri);
         } else {
             setOverlayBackground(null, null);
-        }
+        }*/
     }
 
     private void fetchWallpaperImage(String uri) {
@@ -340,6 +344,7 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
     }
 
     private void updateChildVisibility() {
+        Log.i(TAG, "updateChildVisibility");
         if (this.mInShyMode) {
             this.mVideoFadeMask.setVisibility(8);
             this.mVideoFadeMaskExt.setVisibility(8);
@@ -366,6 +371,7 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
     }
 
     private void loadWallpaperIfNeeded() {
+        Log.i(TAG, "loadWallpaperIfNeeded");
         if (!this.mWallpaperReady && this.mInShyMode) {
             Bitmap bitmap = this.mWallpaperInstaller.getWallpaperBitmap();
             this.mWallpaper.setImageBitmap(bitmap);

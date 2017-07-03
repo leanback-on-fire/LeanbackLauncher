@@ -153,12 +153,12 @@ public class ViewDimmer {
                 ((Drawable) this.mDrawables.get(i)).setColorFilter(filter);
             }
         }
-        if (this.mTextViews != null) {
+        /*if (this.mTextViews != null) {
             size = this.mTextViews.size();
             for (i = 0; i < size; i++) {
                 ((TextView) this.mTextViews.get(i)).setTextColor(getDimmedColor(((Integer) this.mOriginalTextColors.get(i)).intValue(), level));
             }
-        }
+        }*/
     }
 
     public float getDimLevel() {
@@ -207,7 +207,7 @@ public class ViewDimmer {
         if (this.mDimAnimation.isStarted()) {
             this.mDimAnimation.cancel();
         }
-        setDimLevel(convertToDimLevel(dimState));
+        //setDimLevel(convertToDimLevel(dimState));
     }
 
     public void setDimLevelImmediate() {

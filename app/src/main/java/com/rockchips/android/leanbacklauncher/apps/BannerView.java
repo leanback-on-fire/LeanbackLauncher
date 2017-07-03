@@ -40,6 +40,7 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     private ArrayList<BannerSelectedChangedListener> mSelectedListeners;
     private AppsAdapter.AppViewHolder mViewHolder;
     public boolean mIsAddItem;
+    private int mBannerBackColor = -1;
     /* renamed from: BannerView.1 */
     class C01841 implements Runnable {
         C01841() {
@@ -322,5 +323,13 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     public void setAnimationsEnabled(boolean enabled) {
         this.mFocusAnimator.setEnabled(enabled);
         this.mDimmer.setAnimationEnabled(enabled);
+    }
+
+    public void setBannerBackColor(int bannerBackColor){
+        mBannerBackColor = bannerBackColor;
+    }
+
+    public int getBannerBackColor(){
+        return mBannerBackColor;
     }
 }

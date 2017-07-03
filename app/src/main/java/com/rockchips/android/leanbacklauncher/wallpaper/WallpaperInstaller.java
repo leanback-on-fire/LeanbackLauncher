@@ -83,7 +83,7 @@ public class WallpaperInstaller {
         int intrinsicWidth = systemBg.getIntrinsicWidth();
         int intrinsicHeight = systemBg.getIntrinsicHeight();
         int wallpaperWidth = Util.getDisplayMetrics(this.mContext).widthPixels;
-        int wallpaperHeight = (int)((wallpaperWidth * intrinsicHeight * 1.33) / intrinsicWidth);
+        int wallpaperHeight = (int)((wallpaperWidth * intrinsicHeight) / intrinsicWidth);
         Bitmap bitmap = Bitmap.createBitmap(wallpaperWidth, wallpaperHeight, Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(-16777216);

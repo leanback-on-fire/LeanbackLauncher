@@ -15,9 +15,15 @@ public class ConstData {
     public static final String DB_NAME = "rk_tvlauncher.db";
     public static final String DB_DIRECTORY = CommonValues.application.getFilesDir().getPath();
     public static final int DB_VERSION = 1;
-    public static final int[] APP_ITEM_BACK_COLORS = { Color.parseColor("#f4ea2a"),
-            Color.parseColor("#1afa29"), Color.parseColor("#e26a00"), Color.parseColor("#0459d0"),
-            Color.parseColor("#26eefd"), Color.parseColor("#f92812")};
+    public static final int[] APP_ITEM_BACK_COLORS = { Color.parseColor("#ebdaaa"),
+            Color.parseColor("#008eae"), Color.parseColor("#00c2d0"), Color.parseColor("#febc59"),
+            Color.parseColor("#bae3ce"), Color.parseColor("#aabeeb"), Color.parseColor("#59e5fe"),
+            Color.parseColor("#ebaaaa"), Color.parseColor("#aae4eb"), Color.parseColor("#aacaeb"),
+            Color.parseColor("#c1aaeb"), Color.parseColor("#ebaae9"), Color.parseColor("#6ae0b2"),
+            Color.parseColor("#54c1d5"), Color.parseColor("#34a9cf"), Color.parseColor("#00d0bf"),
+            Color.parseColor("#009dd0"), Color.parseColor("#e3dcba"), Color.parseColor("#c4e3ba"),
+            Color.parseColor("#fdad59"), Color.parseColor("#fe8459"), Color.parseColor("#fe599f"),
+            Color.parseColor("#fe5959"), Color.parseColor("#edecea"), Color.parseColor("#afd6ed")};
     public static final String[] DEFAULT_RECOMMEND_PACKAGES = {"com.rockchips.mediacenter", "org.xbmc.rkmc"};
     public static final String SETTINGS_PACKAGE = "com.android.tv.settings";
     public static final String SETTINGS_ACTIVITY = "com.android.tv.settings.MainSettings";

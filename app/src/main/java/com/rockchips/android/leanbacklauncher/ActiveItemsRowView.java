@@ -484,10 +484,20 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
                 Drawable drawable;
                 if (uninstalling) {
                     drawable = getResources().getDrawable(R.drawable.dashed_holder, null);
+                    bannerView.setBackground(drawable);
                 } else {
-                    drawable = getResources().getDrawable(R.drawable.banner_background, null);
+                    //Drawable drawable = getResources().getDrawable(R.drawable.banner_background, null);
+                    if(bannerView instanceof LinearLayout && mLastFocused instanceof BannerView){
+                        int backColor = ((BannerView) mLastFocused).getBannerBackColor();
+                        if(backColor != -1)
+                            bannerView.setBackgroundColor(backColor);
+                        else{
+                            drawable = getResources().getDrawable(R.drawable.banner_background, null);
+                            bannerView.setBackground(drawable);
+                        }
+                    }
+                    //bannerView.setBackground(bannerView.getBackground());
                 }
-                bannerView.setBackground(drawable);
                 if (bannerView instanceof LinearLayout) {
                     int i2;
                     View icon = this.mLastFocused.findViewById(R.id.banner_icon);

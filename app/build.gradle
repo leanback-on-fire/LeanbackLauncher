@@ -31,6 +31,8 @@ dependencies {
     compile 'com.android.support:preference-v14:24.2.1'
     compile 'com.android.support:preference-leanback-v17:24.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:palette-v7:24.2.1'
     compile files('libs/xutils.jar')
     compile files('libs/androidutils.jar')
+
 }

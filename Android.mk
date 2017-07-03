@@ -17,19 +17,20 @@ LOCAL_STATIC_JAVA_LIBRARIES := android-support-v17-leanback
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v4
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-preference
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-recyclerview
+LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-palette
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v14-preference
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v17-preference-leanback
 #LOCAL_STATIC_JAVA_LIBRARIES += org.junit
-#LOCAL_STATIC_JAVA_LIBRARIES += libxutils
-#LOCAL_STATIC_JAVA_LIBRARIES += libandroidutils
+LOCAL_STATIC_JAVA_LIBRARIES += libxutils
+LOCAL_STATIC_JAVA_LIBRARIES += libandroidutils
 #LOCAL_STATIC_JAVA_LIBRARIES += libjunit
 #LOCAL_STATIC_JAVA_LIBRARIES += libfm
 LOCAL_PROGUARD_ENABLED := disabled
 include $(BUILD_PACKAGE)
 
 #include $(CLEAR_VARS)
-#LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := libxutils:libs/xutils.jar
-#LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += libandroidutils:libs/androidutils.jar
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := libxutils:app/libs/xutils.jar
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += libandroidutils:app/libs/androidutils.jar
 #LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += libjunit:libs/junit.jar
 #LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += libfm:libs/fm.jar
 #include $(BUILD_MULTI_PREBUILT)

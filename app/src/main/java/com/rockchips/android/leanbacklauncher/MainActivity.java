@@ -610,6 +610,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     protected void onStart() {
         super.onStart();
+        Log.i(TAG, "onStart");
         this.mResetAfterIdleEnabled = false;
         if (this.mAppWidgetHost != null) {
             this.mAppWidgetHost.startListening();
@@ -642,6 +643,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     protected void onResume() {
         super.onResume();
+        Log.i(TAG, "onResume");
         startNetWorkListener();
         boolean backgroudVisible = (boolean) ReflectUtils.invokeMethod(getClass().getSuperclass(), this, "isBackgroundVisibleBehind", new Class[]{}, new Object[]{});
         boolean z = !backgroudVisible;
@@ -703,6 +705,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     protected void onPause() {
         super.onPause();
+        Log.i(TAG, "onPause");
         stopNetWorkListener();
         this.mResetAfterIdleEnabled = false;
         this.mLaunchAnimation.cancel();
