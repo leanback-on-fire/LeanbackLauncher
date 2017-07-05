@@ -57,6 +57,14 @@ public class LaunchPoint {
      * 是否是添加项
      */
     private boolean mIsAddItem;
+    /**
+     * 是否是设置项
+     */
+    private boolean mIsSettingsItem;
+    /**
+     * 是否是收藏APP
+     */
+    private boolean mIsRecommendApp;
     /* renamed from: LaunchPoint.1 */
     class C01861 extends DrawableDownloader.BitmapCallback {
         C01861() {
@@ -111,6 +119,7 @@ public class LaunchPoint {
         this.mBitmapCallback = new C01861();
         set(ctx, pm, info, useBanner);
         this.mSettingsType = settingsType;
+        this.mIsSettingsItem = true;
     }
 
     public LaunchPoint set(Context ctx, PackageManager pm, ResolveInfo info) {
@@ -152,20 +161,24 @@ public class LaunchPoint {
                     this.mHasBanner = true;
                 } else {
                     this.mHasBanner = false;
-                    this.mIconDrawable = info.loadIcon(pm);
                 }
             }
+            this.mIconDrawable = info.loadIcon(pm);
         }
         this.mPriority = info.priority;
         this.mTranslucentTheme = isTranslucentTheme(ctx, info);
        /* if(mHasBanner && mBannerDrawable != null && mBannerDrawable instanceof BitmapDrawable){
            mLaunchColor = getColor(ctx, ((BitmapDrawable) mBannerDrawable).getBitmap());
         }else*/ if(!mHasBanner && mIconDrawable != null && mIconDrawable instanceof BitmapDrawable){
-            mLaunchColor = getColor(ctx, ((BitmapDrawable) mIconDrawable).getBitmap());
+            if(mComponentName != null)
+                mLaunchColor = ConstData.APP_ITEM_BACK_COLORS[Math.abs(mComponentName.hashCode() % ConstData.APP_ITEM_BACK_COLORS.length)];
+            else
+                mLaunchColor = ctx.getResources().getColor(R.color.banner_background);
+           /* mLaunchColor = getColor(ctx, ((BitmapDrawable) mIconDrawable).getBitmap());
             int r = Color.red(mLaunchColor);
             int g = Color.green(mLaunchColor);
             int b = Color.blue(mLaunchColor);
-            mLaunchColor = Color.rgb(255 - Color.red(mLaunchColor), 255 - Color.green(mLaunchColor), 255 - Color.blue(mLaunchColor));
+            mLaunchColor = Color.rgb(255 - Color.red(mLaunchColor), 255 - Color.green(mLaunchColor), 255 - Color.blue(mLaunchColor));*/
             //mLaunchColor = Color.rgb(r * r % 256, g * g % 256, b * b % 256);
         }else{
             this.mLaunchColor = getColor(ctx, info);
@@ -247,12 +260,12 @@ public class LaunchPoint {
             Theme theme = myContext.createPackageContext(info.activityInfo.applicationInfo.packageName, 0).getTheme();
             theme.applyStyle(info.activityInfo.getThemeResource(), true);
             TypedArray a = theme.obtainStyledAttributes(new int[]{android.R.attr.colorPrimary});
-            int color = a.getColor(0, 0);
+            int color = a.getColor(0, myContext.getResources().getColor(R.color.banner_background));
             a.recycle();
             return color;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
-            return myContext.getResources().getColor(R.color.app_launch_ripple_default_color);
+            return myContext.getResources().getColor(R.color.banner_background);
         }
     }
 
@@ -280,7 +293,7 @@ public class LaunchPoint {
         try {
             Theme theme = myContext.createPackageContext(info.activityInfo.applicationInfo.packageName, 0).getTheme();
             theme.applyStyle(info.activityInfo.getThemeResource(), true);
-            TypedArray a = theme.obtainStyledAttributes(new int[]{16842840});
+            TypedArray a = theme.obtainStyledAttributes(new int[]{android.R.attr.windowIsTranslucent});
             boolean windowIsTranslucent = a.getBoolean(0, false);
             a.recycle();
             return windowIsTranslucent;
@@ -339,7 +352,9 @@ public class LaunchPoint {
     }
 
     public boolean isTranslucentTheme() {
-        return this.mTranslucentTheme;
+        if(this.mIsSettingsItem)
+            return true;
+        return false;
     }
 
     public int getPriority() {
@@ -409,6 +424,12 @@ public class LaunchPoint {
         this.mIsAddItem = isAddItem;
     }
 
+    public boolean isRecommendApp(){
+        return mIsRecommendApp;
+    }
+    public void setRecommendApp(boolean isRecommendApp){
+        mIsRecommendApp = isRecommendApp;
+    }
     /**
      * 创建添加项
      * @return

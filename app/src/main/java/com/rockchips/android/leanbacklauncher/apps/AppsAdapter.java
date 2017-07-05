@@ -664,7 +664,6 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     private ArrayList<LaunchPoint> getRefreshedLaunchPointList() {
-        Log.i(TAG, "getRefreshedLaunchPointList");
         ArrayList<LaunchPoint> launchPoints = null;
         if (this.mAppType == 0) {
             launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
@@ -711,10 +710,9 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
     public void onLaunchPointListGeneratorReady() {
         Log.i(TAG, "onLaunchPointListGeneratorReady");
-        refreshDataSetAsync();
-        /*if (this.mAppsRanker.isReady()) {
-
-        }*/
+        if (this.mAppsRanker.isReady()) {
+            refreshDataSetAsync();
+        }
     }
 
     public void onSettingsChanged() {
@@ -733,7 +731,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public void refreshDataSetAsync() {
-        Log.i(TAG, "refreshDataSetAsync");
+        Log.i(TAG, "refreshDataSetAsync->stackTrace:" + Log.getStackTraceString(new Throwable()));
         new RefreshTask().execute(new Void[0]);
     }
 }

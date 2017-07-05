@@ -6,4 +6,19 @@
     <ImageView android:id="@id/click_circle_layer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="@null" />
     <android.support.v17.leanback.widget.VerticalGridView android:id="@id/main_list_view" android:focusable="true" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
     <include layout="@layout/edit_mode_layer" />
+    <com.rockchips.android.leanbacklauncher.widget.AllAppGridView
+        android:id="@+id/grid_all_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:layout_marginBottom="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:stretchMode="columnWidth"
+        android:numColumns="auto_fit"
+        android:horizontalSpacing="0dp"
+        android:verticalSpacing="0dp"
+        android:columnWidth="100dp"
+        android:listSelector="@drawable/common_list_background"
+        android:visibility="gone"/>
 </FrameLayout>

@@ -14,6 +14,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 
 public final class AnimatorLifecycle implements Resettable, Joinable {
+    private static final String TAG = "AnimatorLifecycle";
     public final Rect lastKnownEpicenter;
     private Animator mAnimation;
     private Runnable mCallback;
@@ -71,7 +72,8 @@ public final class AnimatorLifecycle implements Resettable, Joinable {
             }
             if (this.mCancelled) {
                 AnimatorLifecycle.this.reset();
-            } else if (AnimatorLifecycle.this.mCallback != null) {
+            } else if (AnimatorLifecycle.this.mCallback != null && !AnimatorLifecycle.this.mCallback.getClass().getName().equals("com.rockchips.android.leanbacklauncher.MainActivity$C01581")) {
+                Log.i(TAG, "AnimatorLifecycle->mCallback->class:" + AnimatorLifecycle.this.mCallback.getClass().getName());
                 try {
                     AnimatorLifecycle.this.mCallback.run();
                 } catch (Throwable t) {

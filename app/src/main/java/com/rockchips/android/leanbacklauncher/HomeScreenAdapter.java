@@ -271,7 +271,6 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     public void onRowVisibilityChanged(int position, boolean visible) {
         int i;
-        Log.i(TAG, "onRowVisibilityChanged->stackTrace:" + Log.getStackTraceString(new Throwable()));
         Log.i(TAG, "onRowVisibilityChanged->position:" + position);
         Log.i(TAG, "onRowVisibilityChanged->visible:" + visible);
         if (visible) {
@@ -354,13 +353,13 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     break;
                 }
             case android.support.v7.preference.R.styleable.Preference_android_layout /*3*/:
-                view = this.mInflater.inflate(R.layout.home_apps_row, parent, false);
+              /*  view = this.mInflater.inflate(R.layout.home_apps_row, parent, false);
                 this.mHeaders.put(row.getType(), view.findViewById(R.id.header));
                 if (view instanceof ActiveFrame) {
                     initAppRow((ActiveFrame) view, row);
                     break;
                 }
-                break;
+                break;*/
             case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager /*2*/:
             case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
             case android.support.v7.preference.R.styleable.Preference_android_selectable /*5*/:
@@ -368,7 +367,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             case 8:
             case 9:
             case 10:
-                view = this.mInflater.inflate(R.layout.home_other_apps_row, parent, false);
+                view = this.mInflater.inflate(R.layout.home_apps_row, parent, false);
                 this.mHeaders.put(row.getType(), view.findViewById(R.id.header));
                 if (view instanceof ActiveFrame) {
                     initAppRow((ActiveFrame) view, row);
@@ -418,6 +417,10 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     public ArrayList<HomeScreenRow> getAllRows() {
         return new ArrayList(this.mAllRowsList);
+    }
+
+    public void setRows(){
+
     }
 
     public void setOnEditModeChangedListener(OnEditModeChangedListener listener) {
@@ -657,5 +660,9 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 ((AppsAdapter) adapter).sortItemsIfNeeded(force);
             }
         }
+    }
+
+    public ArrayList<HomeScreenRow> getVisRowList(){
+        return mVisRowsList;
     }
 }

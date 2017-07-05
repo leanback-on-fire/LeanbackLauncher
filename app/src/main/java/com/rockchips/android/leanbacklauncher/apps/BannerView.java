@@ -259,7 +259,6 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     }
 
     public void setSelected(boolean selected) {
-        Log.i(TAG, "setSelect->statckTrace:" + Log.getStackTraceString(new Throwable()));
         Log.i(TAG, "setSelected->selected:" + selected);
         Log.i(TAG, "setSelected->mEditMode:" + mEditMode);
         Log.i(TAG, "setSelected->mLeavingEditMode:" + mLeavingEditMode);

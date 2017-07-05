@@ -62,6 +62,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
         }
 
         public void onChanged() {
+            Log.i(TAG, "onChanged");
             ActiveItemsRowView.this.adjustNumRows();
             Adapter adapter = ActiveItemsRowView.this.getAdapter();
             if ((adapter instanceof AppsAdapter) && ((AppsAdapter) adapter).takeItemsHaveBeenSorted()) {
@@ -118,7 +119,6 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
 
     public void setAdapter(Adapter adapter) {
         Log.i(TAG, "setAdapter->adapter->className:" + adapter.getClass().getName());
-        Log.i(TAG, "setAdapter->stackTrace:" + Log.getStackTraceString(new Throwable()));
         if (getAdapter() != null) {
             getAdapter().unregisterAdapterDataObserver(this.mChangeObserver);
         }

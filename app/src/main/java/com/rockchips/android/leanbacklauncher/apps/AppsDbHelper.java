@@ -450,7 +450,6 @@ public class AppsDbHelper extends SQLiteOpenHelper {
     }
 
     public void onMigrationComplete() {
-        Log.i(TAG, "onMigrationComplete->stackTrace:" + Log.getStackTraceString(new Throwable()));
         getWritableDatabase().execSQL("UPDATE rec_migration SET state=2");
     }
 }

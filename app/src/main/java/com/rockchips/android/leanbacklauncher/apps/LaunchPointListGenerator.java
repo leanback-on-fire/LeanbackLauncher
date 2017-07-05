@@ -11,7 +11,9 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.rockchips.android.leanbacklauncher.bean.AppInfo;
 import com.rockchips.android.leanbacklauncher.data.ConstData;
+import com.rockchips.android.leanbacklauncher.modle.db.AppInfoService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+
+import momo.cn.edu.fjnu.androidutils.utils.StorageUtils;
 
 public class LaunchPointListGenerator {
     private static final String TAG = "LaunchPointList";
@@ -126,6 +130,16 @@ public class LaunchPointListGenerator {
                     } else if (wrap0 != null && !wrap0.contains(new ComponentName(activityInfo.packageName, activityInfo.name))) {
                         launcherItems.add(new LaunchPoint(LaunchPointListGenerator.this.mContext, pkgMan, info));
                     }
+                }
+            }
+            //获取收藏应用
+            AppInfoService appInfoService = new AppInfoService();
+            List<AppInfo> recommendAppInfos = appInfoService.getAppInfosByType(4);
+            if(launcherItems.size() > 0){
+                for(LaunchPoint itemLaunchPoint : launcherItems){
+                    if(recommendAppInfos.contains(itemLaunchPoint))
+                        itemLaunchPoint.setRecommendApp(true);
+
                 }
             }
             return launcherItems;
@@ -411,12 +425,26 @@ public class LaunchPointListGenerator {
 
     public ArrayList<LaunchPoint> getRecommendLaunchPoints(){
         ArrayList<LaunchPoint> recommendLaunchPoints = new ArrayList<>();
-        List<String> defaultPkgList = Arrays.asList(ConstData.DEFAULT_RECOMMEND_PACKAGES);
-        if(mAllLaunchPoints != null && mAllLaunchPoints.size() > 0){
+        String firstLoad = StorageUtils.getDataFromSharedPreference(ConstData.SharedKey.IS_FIRST_LOAD_RECOMMEND_APP);
+        AppInfoService appInfoService = new AppInfoService();
+        if(TextUtils.isEmpty(firstLoad)){
+            List<AppInfo> saveAppInfos = new ArrayList<>();
+            for(int i = 0; i < ConstData.DEFAULT_RECOMMEND_PACKAGES.length; ++i){
+                AppInfo itemAppInfo = new AppInfo();
+                itemAppInfo.setAppType(4);
+                itemAppInfo.setPackageName(ConstData.DEFAULT_RECOMMEND_PACKAGES[i]);
+                itemAppInfo.setCompentName(ConstData.DEFAULT_RECOMMEND_ACTIVITIES[i]);
+                saveAppInfos.add(itemAppInfo);
+            }
+            appInfoService.deleteByType(4);
+            appInfoService.saveAll(saveAppInfos);
+            StorageUtils.saveDataToSharedPreference(ConstData.SharedKey.IS_FIRST_LOAD_RECOMMEND_APP, "true");
+        }
+        List<AppInfo> appInfos = appInfoService.getAppInfosByType(4);
+        if(appInfos != null){
             for(LaunchPoint itemLaunchPoint : mAllLaunchPoints){
-                if(defaultPkgList.contains(itemLaunchPoint.getPackageName())){
+                if(appInfos.contains(itemLaunchPoint))
                     recommendLaunchPoints.add(itemLaunchPoint);
-                }
             }
         }
         recommendLaunchPoints.add(LaunchPoint.createAddItem());
