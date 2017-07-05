@@ -443,7 +443,7 @@
     <dimen name="notif_card_source_text_size">12.0sp</dimen>
     <dimen name="notif_card_info_fields_spacing">0.0dip</dimen>
     <dimen name="notif_card_corner_radius">2.0dip</dimen>
-    <dimen name="home_screen_selected_row_alignment">135.0dip</dimen>
+    <dimen name="home_screen_selected_row_alignment">200.0dip</dimen>
     <dimen name="install_state_overlay_horz_margin">12.0dip</dimen>
     <dimen name="install_state_overlay_vert_margin">5.0dip</dimen>
     <dimen name="install_progress_bar_height">5.0dip</dimen>
