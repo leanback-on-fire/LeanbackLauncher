@@ -36,6 +36,7 @@ public class ClockView extends TextClock {
     public ClockView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mIntentReceiver = new C01881();
+        setTextSize(30);
         updatePatterns();
     }
 
