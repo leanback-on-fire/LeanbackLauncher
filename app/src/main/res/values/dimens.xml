@@ -344,7 +344,7 @@
     <dimen name="widget_height">140.0dip</dimen>
     <dimen name="widget_width">336.0dip</dimen>
     <dimen name="widget_end_spacing">56.0dip</dimen>
-    <dimen name="widget_clock_height">60.0dip</dimen>
+    <dimen name="widget_clock_height">120.0dip</dimen>
     <dimen name="clock_text_size">50.0sp</dimen>
     <dimen name="search_orb_margin_top">31.0dip</dimen>
     <dimen name="search_orb_margin_bottom">52.0dip</dimen>
