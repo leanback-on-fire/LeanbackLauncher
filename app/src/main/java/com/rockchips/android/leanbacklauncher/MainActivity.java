@@ -916,6 +916,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 wrapper.addView(mLayoutNetworkContainer);
                 boolean z = false;
                 int appWidgetId = Util.getWidgetId(this);
+                /*
                 ComponentName appWidgetComp = Partner.get(this).getWidgetComponentName();
                 if (appWidgetComp != null) {
                     for (AppWidgetProviderInfo appWidgetInfo : this.mAppWidgetManager.getInstalledProviders()) {
@@ -948,7 +949,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                             }
                         }
                     }
-                }
+                }*/
                 if (!z) {
                     clearWidget(appWidgetId);
                     wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, null));
