@@ -439,6 +439,8 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             }
             resultLaunchPoints.addAll(sameLaunchPoints);
             resultLaunchPoints.addAll(diffLaunchPoints);
+            if(mAppType == 4 && resultLaunchPoints.size() == 1)
+                resultLaunchPoints.clear();
             Log.i(TAG, "RefreshTask->resultLaunchPoints:" + resultLaunchPoints);
             if(mAppType == 4 && resultLaunchPoints.size() > 1 || mAppType != 4 && resultLaunchPoints.size() > 0){
                 //重新保存至数据库
@@ -664,7 +666,6 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     private ArrayList<LaunchPoint> getRefreshedLaunchPointList() {
-        Log.i(TAG, "getRefreshLaunchePointList->stackTrace:" + Log.getStackTraceString(new Throwable()));
         ArrayList<LaunchPoint> launchPoints = null;
         if (this.mAppType == 0) {
             launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
