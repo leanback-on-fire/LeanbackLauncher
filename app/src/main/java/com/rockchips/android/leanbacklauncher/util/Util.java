@@ -21,6 +21,8 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
 
+import com.rockchips.android.leanbacklauncher.R;
+
 public class Util {
     private Util() {
     }
@@ -68,7 +70,7 @@ public class Util {
             return true;
         } catch (Throwable t) {
             Log.e("LeanbackLauncher", "Could not launch intent", t);
-            Toast.makeText(context, 2131296420, 0).show();
+            Toast.makeText(context, R.string.failed_launch, 0).show();
             return false;
         }
     }

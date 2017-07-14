@@ -515,7 +515,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         if (this.mShyMode != shy) {
             this.mShyMode = shy;
             changed = true;
-            /*if (this.mShyMode) {
+            /*
+            if (this.mShyMode) {
                 convertFromTranslucent();
             } else {
                 convertToTranslucent(null, null);
