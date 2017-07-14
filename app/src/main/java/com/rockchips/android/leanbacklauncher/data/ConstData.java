@@ -24,8 +24,9 @@ public class ConstData {
             Color.parseColor("#009dd0"),
             Color.parseColor("#fdad59"), Color.parseColor("#fe8459"), Color.parseColor("#fe599f"),
             Color.parseColor("#fe5959")};
-    public static final String[] DEFAULT_RECOMMEND_PACKAGES = {"com.rockchips.mediacenter", "org.xbmc.rkmc"};
-    public static final String[] DEFAULT_RECOMMEND_ACTIVITIES = {"com.rockchips.mediacenter/com.rockchips.mediacenter.activity.MainActivity", "org.xbmc.rkmc/org.xbmc.rkmc.Splash"};
+    public static final String[] DEFAULT_RECOMMEND_PACKAGES = {"com.rockchips.mediacenter", "org.xbmc.rkmc", "com.google.android.youtube.tv", "com.android.vending"};
+    public static final String[] DEFAULT_RECOMMEND_ACTIVITIES = {"com.rockchips.mediacenter/com.rockchips.mediacenter.activity.MainActivity", "org.xbmc.rkmc/org.xbmc.rkmc.Splash",
+    "com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.TvGuideActivity", "com.android.vending/com.google.android.finsky.activities.TvMainActivity"};
     public static final String SETTINGS_PACKAGE = "com.android.tv.settings";
     public static final String SETTINGS_ACTIVITY = "com.android.tv.settings.MainSettings";
     /**
