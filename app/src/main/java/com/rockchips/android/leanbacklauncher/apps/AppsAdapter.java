@@ -664,6 +664,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     private ArrayList<LaunchPoint> getRefreshedLaunchPointList() {
+        Log.i(TAG, "getRefreshLaunchePointList->stackTrace:" + Log.getStackTraceString(new Throwable()));
         ArrayList<LaunchPoint> launchPoints = null;
         if (this.mAppType == 0) {
             launchPoints = this.mLaunchPointGen.getAllLaunchPoints();

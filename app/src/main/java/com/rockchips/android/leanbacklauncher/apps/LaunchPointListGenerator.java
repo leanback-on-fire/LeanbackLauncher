@@ -436,6 +436,15 @@ public class LaunchPointListGenerator {
                 itemAppInfo.setCompentName(ConstData.DEFAULT_RECOMMEND_ACTIVITIES[i]);
                 saveAppInfos.add(itemAppInfo);
             }
+            ArrayList<LaunchPoint> allLaunchePoints = getAllLaunchPoints();
+            if(allLaunchePoints != null && allLaunchePoints.size() > 0){
+                List<AppInfo> removedAppInfos = new ArrayList<>();
+                for(AppInfo itemInfo : saveAppInfos){
+                    if(!allLaunchePoints.contains(itemInfo))
+                        removedAppInfos.add(itemInfo);
+                }
+                saveAppInfos.removeAll(removedAppInfos);
+            }
             appInfoService.deleteByType(4);
             appInfoService.saveAll(saveAppInfos);
             StorageUtils.saveDataToSharedPreference(ConstData.SharedKey.IS_FIRST_LOAD_RECOMMEND_APP, "true");
