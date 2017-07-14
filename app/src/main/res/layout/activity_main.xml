@@ -1,24 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:focusable="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
-  xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:focusable="false">
+
     <include layout="@layout/edit_mode_background" />
+
     <include layout="@layout/wallpaper" />
-    <ImageView android:id="@id/click_circle_layer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="@null" />
-    <android.support.v17.leanback.widget.VerticalGridView android:id="@id/main_list_view" android:focusable="true" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+
+    <ImageView
+        android:id="@id/click_circle_layer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:contentDescription="@null"
+        android:visibility="gone" />
+
+    <android.support.v17.leanback.widget.VerticalGridView
+        android:id="@id/main_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:focusable="true"
+        android:visibility="gone" />
+
     <include layout="@layout/edit_mode_layer" />
+
     <com.rockchips.android.leanbacklauncher.widget.AllAppGridView
         android:id="@+id/grid_all_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
         android:layout_marginBottom="48dp"
-        android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
-        android:stretchMode="columnWidth"
-        android:numColumns="auto_fit"
-        android:horizontalSpacing="0dp"
-        android:verticalSpacing="0dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="300dp"
         android:columnWidth="100dp"
+        android:horizontalSpacing="0dp"
         android:listSelector="@drawable/common_list_background"
-        android:visibility="gone"/>
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="0dp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/layout_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:layout_gravity="center">
+
+        <ProgressBar
+            android:id="@id/empty_state_spinner"
+            style="@android:style/Widget.Material.ProgressBar.Large"
+            android:layout_width="@dimen/notif_row_empty_spinner_size"
+            android:layout_height="@dimen/notif_row_empty_spinner_size"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/notif_row_empty_spinner_top_margin"
+            android:indeterminateOnly="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/empty_state_spinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/notif_row_empty_text_top_margin"
+            android:fontFamily="@string/regular_font"
+            android:text="@string/recommendation_row_preparing_message"
+            android:textColor="@color/notif_row_empty_msg_text_color"
+            android:textSize="@dimen/notif_row_empty_text_size" />
+    </RelativeLayout>
 </FrameLayout>

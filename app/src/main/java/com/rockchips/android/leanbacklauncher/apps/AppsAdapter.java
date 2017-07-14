@@ -736,4 +736,8 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         Log.i(TAG, "refreshDataSetAsync->stackTrace:" + Log.getStackTraceString(new Throwable()));
         new RefreshTask().execute(new Void[0]);
     }
+
+    public int getAppType(){
+        return mAppType;
+    }
 }

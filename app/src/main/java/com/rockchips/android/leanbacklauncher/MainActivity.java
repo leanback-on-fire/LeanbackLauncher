@@ -36,6 +36,7 @@ import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 //import com.rockchips.android.leanbacklauncher.gms.clearcut.ClearcutLogger;
 //import com.rockchips.android.leanbacklauncher.gms.common.api.GoogleApiClient;
 //import com.rockchips.android.leanbacklauncher.gms.common.api.GoogleApiClient.Builder;
@@ -52,6 +53,7 @@ import com.rockchips.android.leanbacklauncher.animation.MassSlideAnimator;
 import com.rockchips.android.leanbacklauncher.animation.MassSlideAnimator.Direction;
 import com.rockchips.android.leanbacklauncher.animation.NotificationLaunchAnimator;
 import com.rockchips.android.leanbacklauncher.animation.ParticipatesInLaunchAnimation;
+import com.rockchips.android.leanbacklauncher.apps.AppsAdapter;
 import com.rockchips.android.leanbacklauncher.apps.AppsRanker;
 import com.rockchips.android.leanbacklauncher.apps.LaunchPoint;
 import com.rockchips.android.leanbacklauncher.apps.LaunchPointListGenerator;
@@ -80,7 +82,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity implements OnEditModeChangedListener, EditModeView.OnEditModeUninstallPressedListener, AdapterView.OnItemClickListener {
+public class MainActivity extends Activity implements OnEditModeChangedListener, EditModeView.OnEditModeUninstallPressedListener, AdapterView.OnItemClickListener, Runnable {
     private static final String TAG = "ManiActivity_LEANBACK";
     private AccessibilityManager mAccessibilityManager;
     private boolean mAppEditMode;
@@ -122,9 +124,15 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     private ImageView mImgWifi;
     private ImageView mImgEthernet;
     private LinearLayout mLayoutNetworkContainer;
+    private RelativeLayout mLayoutLading;
     private GridView mAllAppGridView;
     private AllAppGridAdapter mAllAppGridAdapter;
     private List<LaunchPoint> mAllLaunchPoints;
+    /**是否是第一次加载*/
+    private boolean mIsFirstLoad = true;
+    /**监测Activity状态*/
+    private int mActivityState;
+    private Handler mTimerHandler;
     /* renamed from: MainActivity.1 */
     class C01581 implements Runnable {
         C01581() {
@@ -352,6 +360,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mIsFirstLoad = true;
+        mTimerHandler = new Handler();
         if (this.mRecommendationsAdapter == null) {
             this.mRecommendationsAdapter = new NotificationsAdapter(this);
         }
@@ -361,6 +371,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mAccessibilityManager = (AccessibilityManager) getSystemService("accessibility");
         this.mAppsRanker = AppsRanker.getInstance(this);
         this.mLaunchPointListGenerator = new LaunchPointListGenerator(this);
+        mLayoutLading = (RelativeLayout)findViewById(R.id.layout_loading);
         mAllAppGridView = (AllAppGridView)findViewById(R.id.grid_all_app);
         this.mEditModeView = (EditModeView) findViewById(R.id.edit_mode_view);
         this.mEditModeView.setUninstallListener(this);
@@ -409,6 +420,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     public void onDestroy() {
         this.mHandler.removeMessages(3);
+        mTimerHandler.removeCallbacks(this);
         super.onDestroy();
         if (this.mHomeAdapter != null) {
             this.mHomeAdapter.onStopUi();
@@ -655,6 +667,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     protected void onResume() {
         super.onResume();
+        mActivityState = 1;
         Log.i(TAG, "onResume");
         startNetWorkListener();
         boolean backgroudVisible = (boolean) ReflectUtils.invokeMethod(getClass().getSuperclass(), this, "isBackgroundVisibleBehind", new Class[]{}, new Object[]{});
@@ -702,7 +715,13 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         if (this.mAppEditMode) {
             new EditModeMassFadeAnimator(this, EditModeMassFadeAnimator.EditMode.ENTER).start();
         }
-        this.mList.setVisibility(View.VISIBLE);
+        if(mIsFirstLoad){
+            mList.setVisibility(View.GONE);
+            mIsFirstLoad = false;
+            mTimerHandler.postDelayed(this, 1000);
+        }else{
+            this.mList.setVisibility(View.VISIBLE);
+        }
         overridePendingTransition(R.anim.home_fade_in_top, R.anim.home_fade_out_bottom);
         if (this.mHomeAdapter != null) {
             this.mHomeAdapter.onUiVisible();
@@ -717,6 +736,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     protected void onPause() {
         super.onPause();
+        mActivityState = 0;
         Log.i(TAG, "onPause");
         stopNetWorkListener();
         this.mResetAfterIdleEnabled = false;
@@ -1220,4 +1240,23 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         }
     }
 
+    @Override
+    public void run() {
+        if(mActivityState == 1){
+            int itemCount = mList.getChildCount();
+            ArrayList<HomeScreenRow> visibleRows = mHomeAdapter.getVisRowList();
+            for(int i = 0; i < itemCount; ++i){
+                RecyclerView.Adapter<?> rowAdapter = visibleRows.get(i).getAdapter();
+                if(rowAdapter instanceof AppsAdapter && ((AppsAdapter) rowAdapter).getAppType() ==0 && rowAdapter.getItemCount() > 0){
+                    mLayoutLading.setVisibility(View.GONE);
+                    mList.setVisibility(View.VISIBLE);
+                    mTimerHandler.removeCallbacks(this);
+                    return;
+                }
+            }
+            mTimerHandler.postDelayed(this, 1000);
+        }else{
+            mTimerHandler.postDelayed(this, 1000);
+        }
+    }
 }
