@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
 import android.widget.TextClock;
 import java.text.SimpleDateFormat;
 
 public class ClockView extends TextClock {
+    private static final String TAG = "ClockView";
     private BroadcastReceiver mIntentReceiver;
 
     /* renamed from: ClockView.1 */
@@ -36,7 +39,8 @@ public class ClockView extends TextClock {
     public ClockView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mIntentReceiver = new C01881();
-        setTextSize(30);
+        Log.i(TAG, "ClockView create");
+        setTextSize(40);
         updatePatterns();
     }
 
@@ -59,5 +63,17 @@ public class ClockView extends TextClock {
         String formatString = ((SimpleDateFormat) DateFormat.getTimeFormat(getContext())).toPattern().replace("a", "").trim();
         setFormat12Hour(formatString);
         setFormat24Hour(formatString);
+    }
+
+    @Override
+    public void setTextSize(float size) {
+        Log.i(TAG, "setTextSize->size:" + size);
+        super.setTextSize(40);
+    }
+
+    @Override
+    public void setTextSize(int unit, float size) {
+        Log.i(TAG, "setTextSize->size1:" + size);
+        super.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
     }
 }

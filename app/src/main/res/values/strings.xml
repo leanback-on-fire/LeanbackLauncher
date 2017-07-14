@@ -194,4 +194,5 @@ To enable, go to Settings"</string>
     <string name="home_video">Video</string>
     <string name="home_music">Music</string>
     <string name="home_collection">Collections</string>
+    <string name="lading">Loading&#8230;</string>
 </resources>

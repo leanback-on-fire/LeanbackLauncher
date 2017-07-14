@@ -1243,14 +1243,17 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     @Override
     public void run() {
         if(mActivityState == 1){
-            int itemCount = mList.getChildCount();
+            int itemCount = mHomeAdapter.getItemCount();
+            Log.i(TAG, "run->itemCount:" + itemCount);
             ArrayList<HomeScreenRow> visibleRows = mHomeAdapter.getVisRowList();
             for(int i = 0; i < itemCount; ++i){
+                Log.i(TAG, "run1");
                 RecyclerView.Adapter<?> rowAdapter = visibleRows.get(i).getAdapter();
                 if(rowAdapter instanceof AppsAdapter && ((AppsAdapter) rowAdapter).getAppType() ==0 && rowAdapter.getItemCount() > 0){
                     mLayoutLading.setVisibility(View.GONE);
                     mList.setVisibility(View.VISIBLE);
                     mTimerHandler.removeCallbacks(this);
+                    Log.i(TAG, "run2");
                     return;
                 }
             }
