@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.rockchips.android.leanbacklauncher.R;
 
+import momo.cn.edu.fjnu.androidutils.data.CommonValues;
+
 public class Util {
     private Util() {
     }
@@ -187,5 +189,6 @@ public class Util {
         AccessibilityManager am = (AccessibilityManager) context.getSystemService("accessibility");
         return am.isEnabled() ? am.isTouchExplorationEnabled() : false;
     }
+
 
 }

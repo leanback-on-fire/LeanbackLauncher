@@ -439,8 +439,8 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             }
             resultLaunchPoints.addAll(sameLaunchPoints);
             resultLaunchPoints.addAll(diffLaunchPoints);
-            if(mAppType == 4 && resultLaunchPoints.size() == 1)
-                resultLaunchPoints.clear();
+            //if(mAppType == 4 && resultLaunchPoints.size() == 1)
+             //   resultLaunchPoints.clear();
             Log.i(TAG, "RefreshTask->resultLaunchPoints:" + resultLaunchPoints);
             if(mAppType == 4 && resultLaunchPoints.size() > 1 || mAppType != 4 && resultLaunchPoints.size() > 0){
                 //重新保存至数据库
