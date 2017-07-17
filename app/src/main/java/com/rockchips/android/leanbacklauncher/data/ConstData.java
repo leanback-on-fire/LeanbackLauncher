@@ -14,6 +14,7 @@ public class ConstData {
     public static  Context appContext;
     public static final String DB_NAME = "rk_tvlauncher.db";
     public static final String DB_DIRECTORY = CommonValues.application.getFilesDir().getPath();
+    public static final String CACHE_IMG_DIR = CommonValues.application.getFilesDir() + "/imageCache/" ;
     public static final int DB_VERSION = 1;
     public static final int[] APP_ITEM_BACK_COLORS = {
             Color.parseColor("#008eae"), Color.parseColor("#00c2d0"), Color.parseColor("#febc59"),

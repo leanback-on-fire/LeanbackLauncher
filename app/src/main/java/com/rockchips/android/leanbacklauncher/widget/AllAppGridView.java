@@ -2,6 +2,7 @@ package com.rockchips.android.leanbacklauncher.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.GridView;
 
 /**
@@ -26,6 +27,5 @@ public class AllAppGridView extends GridView {
     public AllAppGridView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
-
 
 }

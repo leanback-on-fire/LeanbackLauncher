@@ -22,6 +22,7 @@ public class LauncherApplication extends BaseApplication {
         ConstData.appContext = getApplicationContext();
         Log.i(TAG, "onCreate");
         initDB();
+        initCacheDir();
     }
 
     /**
@@ -39,5 +40,10 @@ public class LauncherApplication extends BaseApplication {
                 }).setDbUpgradeListener(null);
         if (null == mDBManager)
             mDBManager = x.getDb(dbConfig);
+    }
+    private void initCacheDir(){
+        File cacheImgDirFile = new File(ConstData.CACHE_IMG_DIR);
+        if(!cacheImgDirFile.exists())
+            cacheImgDirFile.mkdirs();
     }
 }

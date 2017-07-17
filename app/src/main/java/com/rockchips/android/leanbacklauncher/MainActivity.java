@@ -719,7 +719,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         if(mIsFirstLoad){
             mList.setVisibility(View.GONE);
             mIsFirstLoad = false;
-            mTimerHandler.postDelayed(this, 1000);
+            Log.i(TAG, "load app item start time:" + System.currentTimeMillis());
+            mTimerHandler.post(this);
         }else{
             this.mList.setVisibility(View.VISIBLE);
         }
@@ -1254,13 +1255,14 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                     mLayoutLading.setVisibility(View.GONE);
                     mList.setVisibility(View.VISIBLE);
                     mTimerHandler.removeCallbacks(this);
+                    Log.i(TAG, "load app item end time:" + System.currentTimeMillis());
                     Log.i(TAG, "run2");
                     return;
                 }
             }
-            mTimerHandler.postDelayed(this, 1000);
+            mTimerHandler.postDelayed(this, 100);
         }else{
-            mTimerHandler.postDelayed(this, 1000);
+            mTimerHandler.postDelayed(this, 100);
         }
     }
 }

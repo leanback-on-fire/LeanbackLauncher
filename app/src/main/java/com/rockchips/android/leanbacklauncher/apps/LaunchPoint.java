@@ -25,13 +25,17 @@ import com.rockchips.android.leanbacklauncher.util.Util;
 import com.rockchips.android.leanbacklauncher.recline.util.DrawableDownloader;
 import com.rockchips.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Random;
 
 import momo.cn.edu.fjnu.androidutils.data.CommonValues;
+import momo.cn.edu.fjnu.androidutils.utils.BitmapUtils;
+import momo.cn.edu.fjnu.androidutils.utils.SizeUtils;
 
 import static android.R.attr.anyDensity;
 import static android.R.attr.bitmap;
+import static android.R.attr.icon;
 
 public class LaunchPoint {
     protected String mAppTitle;
@@ -138,23 +142,52 @@ public class LaunchPoint {
         int maxWidth = res.getDimensionPixelOffset(R.dimen.max_banner_image_width);
         int maxHeight = res.getDimensionPixelOffset(R.dimen.max_banner_image_height);
         ActivityInfo actInfo = info.activityInfo;
+        String compentName = null;
+        String bannerPath = null;
+        String iconPath = null;
+        if(mComponentName != null){
+            compentName = mComponentName.replace(".", "_");
+            int startIndex = compentName.indexOf("/");
+            if(startIndex >= 0)
+                compentName = compentName.substring(startIndex + 1);
+            bannerPath = ConstData.CACHE_IMG_DIR + compentName + "_banner.png";
+            iconPath = ConstData.CACHE_IMG_DIR + compentName + "_icon.png";
+        }
         if (actInfo != null) {
             if (useBanner) {
-                this.mBannerDrawable = actInfo.loadBanner(pm);
-                if (this.mBannerDrawable instanceof BitmapDrawable) {
-                    this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable)this.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
+                Bitmap cacheBitmap = null;
+                if(bannerPath != null && new File(bannerPath).exists()){
+                     cacheBitmap = BitmapUtils.getBitmapFromFile(bannerPath);
+                    this.mBannerDrawable = new BitmapDrawable(res, cacheBitmap);
                 }
+                if(cacheBitmap == null || !new File(bannerPath).exists()){
+                    this.mBannerDrawable = actInfo.loadBanner(pm);
+                    if (this.mBannerDrawable instanceof BitmapDrawable) {
+                        this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable)this.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
+                    }
+                    if(mBannerDrawable != null && mBannerDrawable instanceof BitmapDrawable)
+                        BitmapUtils.saveBitmapToImage(((BitmapDrawable)mBannerDrawable).getBitmap(), bannerPath, Bitmap.CompressFormat.PNG, 80);
+                }
+
             }
             // z = (actInfo.applicationInfo.flags & 33554432) == 0 ? actInfo.applicationInfo.metaData != null ? actInfo.applicationInfo.metaData.getBoolean("isGame", false) : false : true;
-            boolean z = false;
-            this.mIsGame = z;
+            this.mIsGame = false;
             if (this.mBannerDrawable != null) {
                 this.mHasBanner = true;
             } else {
                 if (useBanner) {
-                    this.mBannerDrawable = actInfo.loadLogo(pm);
-                    if (this.mBannerDrawable instanceof BitmapDrawable) {
-                        this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable) this.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
+                    Bitmap cacheBitmap = null;
+                    if(bannerPath != null && new File(bannerPath).exists()){
+                        cacheBitmap = BitmapUtils.getBitmapFromFile(bannerPath);
+                        this.mBannerDrawable = new BitmapDrawable(res, cacheBitmap);
+                    }
+                    if(cacheBitmap == null || !new File(bannerPath).exists()){
+                        this.mBannerDrawable = actInfo.loadLogo(pm);
+                        if (this.mBannerDrawable instanceof BitmapDrawable) {
+                            this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable) this.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
+                        }
+                        if(mBannerDrawable instanceof BitmapDrawable)
+                            BitmapUtils.saveBitmapToImage(((BitmapDrawable)mBannerDrawable).getBitmap(), bannerPath, Bitmap.CompressFormat.PNG, 80);
                     }
                 }
                 if (this.mBannerDrawable != null) {
@@ -163,7 +196,18 @@ public class LaunchPoint {
                     this.mHasBanner = false;
                 }
             }
-            this.mIconDrawable = info.loadIcon(pm);
+            Bitmap cacheBitmap = null;
+            if(iconPath != null && new File(iconPath).exists()){
+                cacheBitmap = BitmapUtils.getBitmapFromFile(iconPath);
+                this.mIconDrawable = new BitmapDrawable(res, cacheBitmap);
+            }
+            if(cacheBitmap == null || !new File(iconPath).exists()){
+                this.mIconDrawable = info.loadIcon(pm);
+                if (this.mIconDrawable instanceof BitmapDrawable) {
+                    this.mIconDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable) this.mIconDrawable).getBitmap(), SizeUtils.dp2px(CommonValues.application, 80), SizeUtils.dp2px(CommonValues.application, 80)));
+                    BitmapUtils.saveBitmapToImage(((BitmapDrawable)mIconDrawable).getBitmap(), iconPath, Bitmap.CompressFormat.PNG, 80);
+                }
+            }
         }
         this.mPriority = info.priority;
         this.mTranslucentTheme = isTranslucentTheme(ctx, info);

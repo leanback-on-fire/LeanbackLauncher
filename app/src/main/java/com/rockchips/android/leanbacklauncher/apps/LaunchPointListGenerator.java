@@ -125,11 +125,7 @@ public class LaunchPointListGenerator {
                 if (activityInfo != null) {
                     if(activityInfo.packageName.equals("com.android.tv.settings"))
                         continue;
-                    if (!this.mFilterChannelsActivities) {
-                        launcherItems.add(new LaunchPoint(LaunchPointListGenerator.this.mContext, pkgMan, info));
-                    } else if (wrap0 != null && !wrap0.contains(new ComponentName(activityInfo.packageName, activityInfo.name))) {
-                        launcherItems.add(new LaunchPoint(LaunchPointListGenerator.this.mContext, pkgMan, info));
-                    }
+                    launcherItems.add(new LaunchPoint(LaunchPointListGenerator.this.mContext, pkgMan, info));
                 }
             }
             //获取收藏应用
