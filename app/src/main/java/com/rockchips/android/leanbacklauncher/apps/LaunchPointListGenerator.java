@@ -115,9 +115,37 @@ public class LaunchPointListGenerator {
             Set wrap0 = this.mFilterChannelsActivities ? LaunchPointListGenerator.this.getChannelActivities() : null;
             Intent mainIntent = new Intent("android.intent.action.MAIN");
             mainIntent.addCategory("android.intent.category.LAUNCHER");
+
+            Intent tvIntent = new Intent("android.intent.action.MAIN");
+            tvIntent.addCategory("android.intent.category.LEANBACK_LAUNCHER");
             List<LaunchPoint> launcherItems = new LinkedList<>();
             PackageManager pkgMan = LaunchPointListGenerator.this.mContext.getPackageManager();
             List<ResolveInfo> rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129);
+            if(rawLaunchPoints == null)
+                return launcherItems;
+            List<ResolveInfo> tvLaunchPoints = pkgMan.queryIntentActivities(tvIntent, 129);
+            List<String> rawCompents = new ArrayList<>();
+            List<ResolveInfo> removedLaunchPoints = new ArrayList<>();
+            if(rawLaunchPoints.size() > 0){
+                for(ResolveInfo itemRawLaunchPoint : rawLaunchPoints){
+                    if(itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null &&
+                            itemRawLaunchPoint.activityInfo.name != null){
+                        rawCompents.add(itemRawLaunchPoint.activityInfo.packageName + "/" + itemRawLaunchPoint.activityInfo.name);
+                    }
+                }
+            }
+            if(tvLaunchPoints != null && tvLaunchPoints.size() > 0){
+                for(ResolveInfo itemTvLaunchPoint : tvLaunchPoints){
+                    if(itemTvLaunchPoint.activityInfo != null && itemTvLaunchPoint.activityInfo.packageName != null &&
+                            itemTvLaunchPoint.activityInfo.name != null){
+                        if(rawCompents.contains(itemTvLaunchPoint.activityInfo.packageName + "/" + itemTvLaunchPoint.activityInfo.name))
+                            removedLaunchPoints.add(itemTvLaunchPoint);
+                    }
+                }
+                tvLaunchPoints.removeAll(removedLaunchPoints);
+                rawLaunchPoints.addAll(tvLaunchPoints);
+            }
+
             int size = rawLaunchPoints.size();
             for (int ptr = 0; ptr < size; ptr++) {
                 ResolveInfo info = (ResolveInfo) rawLaunchPoints.get(ptr);
