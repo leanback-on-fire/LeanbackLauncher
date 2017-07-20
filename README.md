@@ -1,5 +1,7 @@
 # LeanbackLauncher
-仿照Google LeanbackLauncher设计的TV桌面
+仿照Android TV 7.1 Google LeanbackLauncher设计的TV桌面
+
+需要在Android 7.1源码下编译使用
 
 #### 支持功能如下
 (1)添加，删除收藏应用
