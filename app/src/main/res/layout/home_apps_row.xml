@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.rockchips.android.leanbacklauncher.ActiveFrame xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rockon999.android.leanbacklauncher.ActiveFrame xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
@@ -38,7 +38,7 @@
             android:textSize="@dimen/header_text_size" />
     </android.support.v17.leanback.widget.NonOverlappingLinearLayout>
 
-    <com.rockchips.android.leanbacklauncher.ActiveItemsRowView
+    <com.rockon999.android.leanbacklauncher.ActiveItemsRowView
         android:id="@id/list"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/temp_max_row_height"
@@ -49,4 +49,4 @@
         android:gravity="top"
         android:paddingEnd="@dimen/row_padding"
         android:paddingStart="@dimen/row_padding" />
-</com.rockchips.android.leanbacklauncher.ActiveFrame>
+</com.rockon999.android.leanbacklauncher.ActiveFrame>

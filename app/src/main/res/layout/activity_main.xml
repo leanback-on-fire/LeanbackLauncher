@@ -26,7 +26,7 @@
 
     <include layout="@layout/edit_mode_layer" />
 
-    <com.rockchips.android.leanbacklauncher.widget.AllAppGridView
+    <com.rockon999.android.leanbacklauncher.widget.AllAppGridView
         android:id="@+id/grid_all_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

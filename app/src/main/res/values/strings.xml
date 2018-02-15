@@ -125,8 +125,8 @@
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="abc_capital_on">ON</string>
     <string name="abc_capital_off">OFF</string>
-    <string name="app_name">Leanback Launcher</string>
-    <string name="app_label">Home Screen</string>
+    <string name="app_name">Leanback on Fire</string>
+    <string name="app_label">Leanback on Fire</string>
     <string name="font">sans-serif-condensed</string>
     <string name="light_font">sans-serif-light</string>
     <string name="regular_font">sans-serif</string>
@@ -193,6 +193,6 @@ To enable, go to Settings"</string>
     <string name="notification_card_view_description_default">No title</string>
     <string name="home_video">Video</string>
     <string name="home_music">Music</string>
-    <string name="home_collection">Collections</string>
+    <string name="home_collection">Favorites</string>
     <string name="lading">Loading&#8230;</string>
 </resources>

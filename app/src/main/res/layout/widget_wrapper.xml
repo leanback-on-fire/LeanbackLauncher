@@ -12,21 +12,7 @@
     <LinearLayout
         android:id="@+id/layout_network_container"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/img_wifi"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/img_wifi_4"
-            android:layout_marginEnd="20dp"
-            android:scaleType="fitXY" />
-        <ImageView
-            android:id="@+id/img_ethernet"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/img_ethernet"
-            android:scaleType="fitXY"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
     </LinearLayout>
 </LinearLayout>

@@ -4,8 +4,8 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.rockchips.android.leanbacklauncher"
-        minSdkVersion 24
+        applicationId "com.rockon999.android.leanbacklauncher"
+        minSdkVersion 22
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
