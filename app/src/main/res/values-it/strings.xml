@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Errore Google Play Services</string>
     <string name="common_google_play_services_notification_needs_installation_title">"Un'applicazione richiede l'installazione di Google Play Services."</string>
     <string name="common_google_play_services_notification_needs_update_title">"Un'applicazione richiede un aggiornamento di Google Play Services."</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">INIZIA</string>
     <string name="lb_onboarding_accessibility_next">Avanti</string>
-    <string name="abc_action_mode_done">Fine</string>
-    <string name="abc_action_bar_home_description">Vai alla home page</string>
-    <string name="abc_action_bar_up_description">Vai in alto</string>
-    <string name="abc_action_menu_overflow_description">Altre opzioni</string>
-    <string name="abc_toolbar_collapse_description">Comprimi</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Cerca</string>
-    <string name="abc_search_hint">Cerca…</string>
-    <string name="abc_searchview_description_query">Query di ricerca</string>
-    <string name="abc_searchview_description_clear">Cancella query</string>
-    <string name="abc_searchview_description_submit">Invia query</string>
-    <string name="abc_searchview_description_voice">Ricerca vocale</string>
-    <string name="abc_activitychooserview_choose_application">"Scegli un'applicazione"</string>
-    <string name="abc_activity_chooser_view_see_all">Visualizza tutte</string>
-    <string name="abc_shareactionprovider_share_with_application">Condividi con %s</string>
-    <string name="abc_shareactionprovider_share_with">Condividi con</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ON</string>
-    <string name="abc_capital_off">OFF</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Fine</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Vai alla home page</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Vai in alto</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Altre opzioni</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Comprimi</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Cerca</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Cerca…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Query di ricerca</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Cancella query</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Invia query</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Ricerca vocale</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">"Scegli un'applicazione"</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Visualizza tutte</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Condividi con %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Condividi con</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ON</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">OFF</string>
     <string name="app_name">Avvio per Leanback</string>
     <string name="app_label">Schermata Home</string>
     <string name="search_hint_text">Cerca film, video e altro ancora</string>
@@ -101,11 +101,11 @@
     <string name="settings_network">Impostazioni di rete</string>
     <string name="notif_service_name">Servizio Notifiche</string>
     <string name="recm_service_name">Servizio Consigli</string>
-    <string name="install_pending">Installazione in attesa...</string>
-    <string name="update_pending">Aggiornamento in attesa...</string>
-    <string name="restore_pending">Ripristino in attesa...</string>
-    <string name="downloading">Download...</string>
-    <string name="installing">Installazione...</string>
+    <string name="install_pending">Installazione in attesa…</string>
+    <string name="update_pending">Aggiornamento in attesa…</string>
+    <string name="restore_pending">Ripristino in attesa…</string>
+    <string name="downloading">Download…</string>
+    <string name="installing">Installazione…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">In riproduzione</string>

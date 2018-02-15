@@ -39,6 +39,6 @@ public class HomeScreenPreferenceFragment extends LeanbackPreferenceFragment imp
     }
 
     public void onRecommendationPackagesLoaded(String[] recommendationPackaged, String[] blacklistedPackages) {
-        this.mRecommendationsPref.setSummary(getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, blacklistedPackages.length, new Object[]{Integer.valueOf(blacklistedPackages.length)}));
+        this.mRecommendationsPref.setSummary(getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, blacklistedPackages.length, new Object[]{blacklistedPackages.length}));
     }
 }

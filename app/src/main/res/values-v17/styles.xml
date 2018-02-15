@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="PreferenceFragmentList.Material" parent="@style/PreferenceFragmentList">
         <item name="android:paddingStart">0.0dip</item>
         <item name="android:paddingEnd">0.0dip</item>
@@ -13,52 +13,52 @@
         <item name="android:paddingStart">16.0dip</item>
         <item name="android:paddingEnd">16.0dip</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.SearchView.MagIcon" parent="@android:style/Widget">
-        <item name="android:layout_marginStart">@dimen/abc_dropdownitem_text_padding_left</item>
+    <style name="RtlOverlay.Widget.AppCompat.SearchView.MagIcon" parent="@android:style/Widget" tools:ignore="PrivateResource">
+        <item name="android:layout_marginStart" tools:ignore="PrivateResource">@dimen/abc_dropdownitem_text_padding_left</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown" parent="@android:style/Widget">
-        <item name="android:paddingStart">@dimen/abc_dropdownitem_text_padding_left</item>
+    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown" parent="@android:style/Widget" tools:ignore="PrivateResource">
+        <item name="android:paddingStart" tools:ignore="PrivateResource">@dimen/abc_dropdownitem_text_padding_left</item>
         <item name="android:paddingEnd">4.0dip</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown.Query" parent="@android:style/Widget">
+    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown.Query" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:layout_alignParentEnd">true</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown.Icon1" parent="@android:style/Widget">
+    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown.Icon1" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:layout_alignParentStart">true</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown.Icon2" parent="@android:style/Widget">
+    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown.Icon2" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:layout_toStartOf">@id/edit_query</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown.Text" parent="@style/Base.Widget.AppCompat.DropDownItem.Spinner">
+    <style name="RtlOverlay.Widget.AppCompat.Search.DropDown.Text" parent="@style/Base.Widget.AppCompat.DropDownItem.Spinner" tools:ignore="PrivateResource">
         <item name="android:layout_toStartOf">@android:id/icon2</item>
         <item name="android:layout_toEndOf">@android:id/icon1</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.ActionBar.TitleItem" parent="@android:style/Widget">
+    <style name="RtlOverlay.Widget.AppCompat.ActionBar.TitleItem" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:layout_gravity">start|center</item>
         <item name="android:paddingEnd">8.0dip</item>
     </style>
-    <style name="RtlUnderlay.Widget.AppCompat.ActionButton" parent="@android:style/Widget">
+    <style name="RtlUnderlay.Widget.AppCompat.ActionButton" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:paddingStart">12.0dip</item>
         <item name="android:paddingEnd">12.0dip</item>
     </style>
-    <style name="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow" parent="@style/Base.Widget.AppCompat.ActionButton">
-        <item name="android:paddingStart">@dimen/abc_action_bar_overflow_padding_start_material</item>
-        <item name="android:paddingEnd">@dimen/abc_action_bar_overflow_padding_end_material</item>
+    <style name="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow" parent="@style/Base.Widget.AppCompat.ActionButton" tools:ignore="PrivateResource">
+        <item name="android:paddingStart" tools:ignore="PrivateResource">@dimen/abc_action_bar_overflow_padding_start_material</item>
+        <item name="android:paddingEnd" tools:ignore="PrivateResource">@dimen/abc_action_bar_overflow_padding_end_material</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.PopupMenuItem" parent="@android:style/Widget">
+    <style name="RtlOverlay.Widget.AppCompat.PopupMenuItem" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:paddingEnd">16.0dip</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.PopupMenuItem.InternalGroup" parent="@android:style/Widget">
+    <style name="RtlOverlay.Widget.AppCompat.PopupMenuItem.InternalGroup" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:layout_marginStart">16.0dip</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.PopupMenuItem.Text" parent="@android:style/Widget">
+    <style name="RtlOverlay.Widget.AppCompat.PopupMenuItem.Text" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:textAlignment">viewStart</item>
         <item name="android:layout_alignParentStart">true</item>
     </style>
-    <style name="RtlOverlay.Widget.AppCompat.DialogTitle.Icon" parent="@android:style/Widget">
+    <style name="RtlOverlay.Widget.AppCompat.DialogTitle.Icon" parent="@android:style/Widget" tools:ignore="PrivateResource">
         <item name="android:layout_marginEnd">8.0dip</item>
     </style>
-    <style name="RtlOverlay.DialogWindowTitle.AppCompat" parent="@style/Base.DialogWindowTitle.AppCompat">
+    <style name="RtlOverlay.DialogWindowTitle.AppCompat" parent="@style/Base.DialogWindowTitle.AppCompat" tools:ignore="PrivateResource">
         <item name="android:textAlignment">viewStart</item>
     </style>
 </resources>

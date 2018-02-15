@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play ծառայությունների սխալ կա</string>
     <string name="common_google_play_services_notification_needs_installation_title">Ինչ-որ հավելված պահանջում է տեղադրել Google Play ծառայությունները:</string>
     <string name="common_google_play_services_notification_needs_update_title">Ինչ-որ հավելված պահանջում է թարմացնել Google Play ծառայությունները:</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ՍԿՍԵԼ</string>
     <string name="lb_onboarding_accessibility_next">Հաջորդը</string>
-    <string name="abc_action_mode_done">Կատարված է</string>
-    <string name="abc_action_bar_home_description">Ուղղվել տուն</string>
-    <string name="abc_action_bar_up_description">Ուղղվել վերև</string>
-    <string name="abc_action_menu_overflow_description">Այլ ընտրանքներ</string>
-    <string name="abc_toolbar_collapse_description">Թաքցնել</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Որոնել</string>
-    <string name="abc_search_hint">Որոնում...</string>
-    <string name="abc_searchview_description_query">Որոնման հարցում</string>
-    <string name="abc_searchview_description_clear">Մաքրել հարցումը</string>
-    <string name="abc_searchview_description_submit">Ուղարկել հարցումը</string>
-    <string name="abc_searchview_description_voice">Ձայնային որոնում</string>
-    <string name="abc_activitychooserview_choose_application">Ընտրել ծրագիր</string>
-    <string name="abc_activity_chooser_view_see_all">Տեսնել բոլորը</string>
-    <string name="abc_shareactionprovider_share_with_application">Տարածել ըստ %s</string>
-    <string name="abc_shareactionprovider_share_with">Կիսվել</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ՄԻԱՑՎԱԾ</string>
-    <string name="abc_capital_off">ԱՆՋԱՏՎԱԾ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Կատարված է</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Ուղղվել տուն</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Ուղղվել վերև</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Այլ ընտրանքներ</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Թաքցնել</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Որոնել</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Որոնում…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Որոնման հարցում</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Մաքրել հարցումը</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Ուղարկել հարցումը</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Ձայնային որոնում</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Ընտրել ծրագիր</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Տեսնել բոլորը</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Տարածել ըստ %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Կիսվել</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ՄԻԱՑՎԱԾ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ԱՆՋԱՏՎԱԾ</string>
     <string name="app_name">Leanback գործարկիչ</string>
     <string name="app_label">Հիմնական էկրան</string>
     <string name="search_hint_text">Որոնեք ֆիլմեր, հեռուստահաղորդումներ և ավելին</string>

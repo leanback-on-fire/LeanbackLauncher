@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Помилка сервісів Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Щоб додаток працював, потрібно встановити сервіси Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Щоб додаток працював, потрібно оновити сервіси Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ПОЧАТИ</string>
     <string name="lb_onboarding_accessibility_next">Далі</string>
-    <string name="abc_action_mode_done">Готово</string>
-    <string name="abc_action_bar_home_description">Перейти на головний</string>
-    <string name="abc_action_bar_up_description">Перейти вгору</string>
-    <string name="abc_action_menu_overflow_description">Інші опції</string>
-    <string name="abc_toolbar_collapse_description">Згорнути</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Пошук</string>
-    <string name="abc_search_hint">Пошук…</string>
-    <string name="abc_searchview_description_query">Пошуковий запит</string>
-    <string name="abc_searchview_description_clear">Очистити запит</string>
-    <string name="abc_searchview_description_submit">Надіслати запит</string>
-    <string name="abc_searchview_description_voice">Голосовий пошук</string>
-    <string name="abc_activitychooserview_choose_application">Вибрати програму</string>
-    <string name="abc_activity_chooser_view_see_all">Переглянути всі</string>
-    <string name="abc_shareactionprovider_share_with_application">Надіслати через %s</string>
-    <string name="abc_shareactionprovider_share_with">Надіслати через</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">УВІМК.</string>
-    <string name="abc_capital_off">ВИМК.</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Готово</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Перейти на головний</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Перейти вгору</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Інші опції</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Згорнути</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Пошук</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Пошук…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Пошуковий запит</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Очистити запит</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Надіслати запит</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Голосовий пошук</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Вибрати програму</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Переглянути всі</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Надіслати через %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Надіслати через</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">УВІМК.</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ВИМК.</string>
     <string name="app_name">Запуск додатка Leanback</string>
     <string name="app_label">Головний екран</string>
     <string name="search_hint_text">Пошук фільмів, телепередач тощо</string>

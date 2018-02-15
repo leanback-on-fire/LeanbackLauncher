@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play ಸೇವೆಗಳ ದೋಷ</string>
     <string name="common_google_play_services_notification_needs_installation_title">ಅಪ್ಲಿಕೇಶನ್‌ಗೆ Google Play ಸೇವೆಗಳು ಸ್ಥಾಪನೆಯಾಗಿರಬೇಕಾಗುತ್ತದೆ.</string>
     <string name="common_google_play_services_notification_needs_update_title">ಅಪ್ಲಿಕೇಶನ್‌ಗೆ Google Play ಸೇವೆಗಳ ನವೀಕರಣದ ಅಗತ್ಯವಿದೆ.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ಪ್ರಾರಂಭಿಸಿ</string>
     <string name="lb_onboarding_accessibility_next">ಮುಂದೆ</string>
-    <string name="abc_action_mode_done">ಮುಗಿದಿದೆ</string>
-    <string name="abc_action_bar_home_description">ಮುಖಪುಟವನ್ನು ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ</string>
-    <string name="abc_action_bar_up_description">ಮೇಲಕ್ಕೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ</string>
-    <string name="abc_action_menu_overflow_description">ಇನ್ನಷ್ಟು ಆಯ್ಕೆಗಳು</string>
-    <string name="abc_toolbar_collapse_description">ಸಂಕುಚಿಸು</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">ಹುಡುಕು</string>
-    <string name="abc_search_hint">ಹುಡುಕಿ…</string>
-    <string name="abc_searchview_description_query">ಪ್ರಶ್ನೆಯನ್ನು ಹುಡುಕಿ</string>
-    <string name="abc_searchview_description_clear">ಪ್ರಶ್ನೆಯನ್ನು ತೆರವುಗೊಳಿಸು</string>
-    <string name="abc_searchview_description_submit">ಪ್ರಶ್ನೆಯನ್ನು ಸಲ್ಲಿಸು</string>
-    <string name="abc_searchview_description_voice">ಧ್ವನಿ ಹುಡುಕಾಟ</string>
-    <string name="abc_activitychooserview_choose_application">ಒಂದು ಅಪ್ಲಿಕೇಶನ್ ಆಯ್ಕೆಮಾಡಿ</string>
-    <string name="abc_activity_chooser_view_see_all">ಎಲ್ಲವನ್ನೂ ನೋಡಿ</string>
-    <string name="abc_shareactionprovider_share_with_application">%s ಜೊತೆಗೆ ಹಂಚಿಕೊಳ್ಳಿ</string>
-    <string name="abc_shareactionprovider_share_with">ಇವರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಿ</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ಆನ್</string>
-    <string name="abc_capital_off">ಆಫ್</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">ಮುಗಿದಿದೆ</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">ಮುಖಪುಟವನ್ನು ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">ಮೇಲಕ್ಕೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">ಇನ್ನಷ್ಟು ಆಯ್ಕೆಗಳು</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">ಸಂಕುಚಿಸು</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">ಹುಡುಕು</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">ಹುಡುಕಿ…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">ಪ್ರಶ್ನೆಯನ್ನು ಹುಡುಕಿ</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">ಪ್ರಶ್ನೆಯನ್ನು ತೆರವುಗೊಳಿಸು</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">ಪ್ರಶ್ನೆಯನ್ನು ಸಲ್ಲಿಸು</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">ಧ್ವನಿ ಹುಡುಕಾಟ</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">ಒಂದು ಅಪ್ಲಿಕೇಶನ್ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">ಎಲ್ಲವನ್ನೂ ನೋಡಿ</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s ಜೊತೆಗೆ ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">ಇವರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ಆನ್</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ಆಫ್</string>
     <string name="app_name">Leanback ಲಾಂಚರ್</string>
     <string name="app_label">ಮುಖಪುಟ ಪರದೆ</string>
     <string name="search_hint_text">ಚಲನಚಿತ್ರಗಳು, ಟಿವಿ ಮತ್ತು ಹೆಚ್ಚಿನವುಗಳನ್ನು ಹುಡುಕಿ</string>

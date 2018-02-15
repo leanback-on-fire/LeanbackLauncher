@@ -45,7 +45,7 @@ public abstract class AppBeanService<T> implements BaseBeanService<T> {
 
     @Override
     public  List<T> getAll(Class<T> tClass) {
-       List<T> lists = new ArrayList<T>();
+       List<T> lists = new ArrayList<>();
         try {
             lists = LauncherApplication.mDBManager.findAll(tClass);
         } catch (Exception e) {

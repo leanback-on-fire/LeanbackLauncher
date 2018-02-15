@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher.animation;
 
+import android.annotation.SuppressLint;
 import android.support.v17.leanback.widget.HorizontalGridView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +27,16 @@ public final class MassFadeAnimator extends PropagatingAnimator<PropagatingAnima
             this.mDirection = Direction.FADE_OUT;
             this.mTargetClass = Participant.class;
             this.mDuration = -1;
-            this.mRoot = (ViewGroup) Preconditions.checkNotNull(root);
+            this.mRoot = Preconditions.checkNotNull(root);
         }
 
         public Builder setDirection(Direction direction) {
-            this.mDirection = (Direction) Preconditions.checkNotNull(direction);
+            this.mDirection = Preconditions.checkNotNull(direction);
             return this;
         }
 
         public Builder setTarget(Class<?> targetClass) {
-            this.mTargetClass = (Class) Preconditions.checkNotNull(targetClass);
+            this.mTargetClass = Preconditions.checkNotNull(targetClass);
             return this;
         }
 
@@ -71,22 +72,23 @@ public final class MassFadeAnimator extends PropagatingAnimator<PropagatingAnima
         int[] iArr = new int[Direction.values().length];
         try {
             iArr[Direction.FADE_IN.ordinal()] = 1;
-        } catch (NoSuchFieldError e) {
+        } catch (NoSuchFieldError ignored) {
         }
         try {
             iArr[Direction.FADE_OUT.ordinal()] = 2;
-        } catch (NoSuchFieldError e2) {
+        } catch (NoSuchFieldError ignored) {
         }
         f3xbf31f146 = iArr;
         return iArr;
     }
 
+    @SuppressLint("PrivateResource")
     private MassFadeAnimator(Builder builder) {
         super(10);
         this.mRoot = builder.mRoot;
         this.mDirection = builder.mDirection;
         this.mTargetClass = builder.mTargetClass;
-        this.mRows = new ArrayList();
+        this.mRows = new ArrayList<>();
         switch (m1983xcc0e8822()[this.mDirection.ordinal()]) {
             case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
                 this.mStartAlpha = 0.0f;
@@ -182,7 +184,7 @@ public final class MassFadeAnimator extends PropagatingAnimator<PropagatingAnima
         StringBuilder buf = new StringBuilder().append("MassFadeAnimator@").append(Integer.toHexString(hashCode())).append(':').append(this.mDirection == Direction.FADE_IN ? "FADE_IN" : "FADE_OUT").append('{');
         int n = size();
         for (int i = 0; i < n; i++) {
-            buf.append("\n    ").append(((ViewHolder) getView(i)).toString().replaceAll("\n", "\n    "));
+            buf.append("\n    ").append(getView(i).toString().replaceAll("\n", "\n    "));
         }
         return buf.append("\n}").toString();
     }

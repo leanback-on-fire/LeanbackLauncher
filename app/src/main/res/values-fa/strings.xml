@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">‏خطا در خدمات Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">‏برنامه‌ای نیاز به نصب خدمات Google Play دارد.</string>
     <string name="common_google_play_services_notification_needs_update_title">‏‫برنامه‌ای نیاز به یک به‌روزرسانی برای خدمات Google Play دارد.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">شروع به‌ کار</string>
     <string name="lb_onboarding_accessibility_next">بعدی</string>
-    <string name="abc_action_mode_done">تمام</string>
-    <string name="abc_action_bar_home_description">پیمایش به صفحه اصلی</string>
-    <string name="abc_action_bar_up_description">پیمایش به بالا</string>
-    <string name="abc_action_menu_overflow_description">گزینه‌های بیشتر</string>
-    <string name="abc_toolbar_collapse_description">کوچک کردن</string>
-    <string name="abc_action_bar_home_description_format">‏%1$s‏، %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">‏%1$s‏، %2$s‏، %3$s</string>
-    <string name="abc_searchview_description_search">جستجو</string>
-    <string name="abc_search_hint">جستجو…</string>
-    <string name="abc_searchview_description_query">عبارت جستجو</string>
-    <string name="abc_searchview_description_clear">پاک کردن عبارت جستجو</string>
-    <string name="abc_searchview_description_submit">ارسال عبارت جستجو</string>
-    <string name="abc_searchview_description_voice">جستجوی شفاهی</string>
-    <string name="abc_activitychooserview_choose_application">انتخاب برنامه</string>
-    <string name="abc_activity_chooser_view_see_all">مشاهده همه</string>
-    <string name="abc_shareactionprovider_share_with_application">‏اشتراک‌گذاری با %s</string>
-    <string name="abc_shareactionprovider_share_with">اشتراک‌گذاری با</string>
-    <string name="status_bar_notification_info_overflow">۹۹۹+</string>
-    <string name="abc_capital_on">روشن</string>
-    <string name="abc_capital_off">خاموش</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">تمام</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">پیمایش به صفحه اصلی</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">پیمایش به بالا</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">گزینه‌های بیشتر</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">کوچک کردن</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">‏%1$s‏، %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">‏%1$s‏، %2$s‏، %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">جستجو</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">جستجو…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">عبارت جستجو</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">پاک کردن عبارت جستجو</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">ارسال عبارت جستجو</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">جستجوی شفاهی</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">انتخاب برنامه</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">مشاهده همه</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">‏اشتراک‌گذاری با %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">اشتراک‌گذاری با</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">۹۹۹+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">روشن</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">خاموش</string>
     <string name="app_name">راه‌انداز Leanback</string>
     <string name="app_label">صفحه اصلی</string>
     <string name="search_hint_text">جستجوی فیلم، نمایش تلویزیونی و موارد دیگر</string>
@@ -101,12 +101,12 @@
     <string name="settings_network">تنظیمات شبکه</string>
     <string name="notif_service_name">سرویس اعلان‌ها</string>
     <string name="recm_service_name">سرویس توصیه‌ها</string>
-    <string name="install_pending">نصب در انتظار...</string>
-    <string name="update_pending">به‌روزرسانی در انتظار...</string>
-    <string name="restore_pending">بازگرداندن در انتظار...</string>
+    <string name="install_pending">نصب در انتظار…</string>
+    <string name="update_pending">به‌روزرسانی در انتظار…</string>
+    <string name="restore_pending">بازگرداندن در انتظار…</string>
     <string name="downloading">در حال بارگیری…</string>
     <string name="installing">در حال نصب…</string>
-    <string name="unknown_state">...</string>
+    <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">در حال پخش</string>
     <string name="now_playing_card_paused">موقتاً متوقف شد</string>

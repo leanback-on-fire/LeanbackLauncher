@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play 服務發生錯誤</string>
     <string name="common_google_play_services_notification_needs_installation_title">應用程式要求安裝 Google Play 服務。</string>
     <string name="common_google_play_services_notification_needs_update_title">應用程式要求更新 Google Play 服務。</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">開始使用</string>
     <string name="lb_onboarding_accessibility_next">繼續</string>
-    <string name="abc_action_mode_done">完成</string>
-    <string name="abc_action_bar_home_description">瀏覽首頁</string>
-    <string name="abc_action_bar_up_description">向上瀏覽</string>
-    <string name="abc_action_menu_overflow_description">更多選項</string>
-    <string name="abc_toolbar_collapse_description">收合</string>
-    <string name="abc_action_bar_home_description_format">%1$s：%2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s - %2$s：%3$s</string>
-    <string name="abc_searchview_description_search">搜尋</string>
-    <string name="abc_search_hint">搜尋…</string>
-    <string name="abc_searchview_description_query">搜尋查詢</string>
-    <string name="abc_searchview_description_clear">清除查詢</string>
-    <string name="abc_searchview_description_submit">提交查詢</string>
-    <string name="abc_searchview_description_voice">語音搜尋</string>
-    <string name="abc_activitychooserview_choose_application">選擇應用程式</string>
-    <string name="abc_activity_chooser_view_see_all">查看全部</string>
-    <string name="abc_shareactionprovider_share_with_application">與「%s」分享</string>
-    <string name="abc_shareactionprovider_share_with">選擇分享對象</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">開啟</string>
-    <string name="abc_capital_off">關閉</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">完成</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">瀏覽首頁</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">向上瀏覽</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">更多選項</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">收合</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s：%2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s - %2$s：%3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">搜尋</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">搜尋…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">搜尋查詢</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">清除查詢</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">提交查詢</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">語音搜尋</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">選擇應用程式</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">查看全部</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">與「%s」分享</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">選擇分享對象</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">開啟</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">關閉</string>
     <string name="app_name">Leanback 啟動器</string>
     <string name="app_label">主螢幕</string>
     <string name="search_hint_text">搜尋電影、電視節目及其他影視內容</string>

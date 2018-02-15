@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:color="@color/abc_search_url_text_pressed" />
-    <item android:state_selected="true" android:color="@color/abc_search_url_text_selected" />
-    <item android:color="@color/abc_search_url_text_normal" />
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:color="@color/abc_search_url_text_pressed" tools:ignore="PrivateResource" />
+    <item android:state_selected="true" android:color="@color/abc_search_url_text_selected" tools:ignore="PrivateResource" />
+    <item android:color="@color/abc_search_url_text_normal" tools:ignore="PrivateResource" />
 </selector>

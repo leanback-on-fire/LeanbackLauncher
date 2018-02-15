@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Kesalahan layanan Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Aplikasi mewajibkan pemasangan layanan Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Aplikasi mewajibkan pembaruan untuk layanan Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">.</string>
     <string name="lb_onboarding_get_started">MULAI</string>
     <string name="lb_onboarding_accessibility_next">Berikutnya</string>
-    <string name="abc_action_mode_done">Selesai</string>
-    <string name="abc_action_bar_home_description">Navigasi ke beranda</string>
-    <string name="abc_action_bar_up_description">Navigasi naik</string>
-    <string name="abc_action_menu_overflow_description">Opsi lain</string>
-    <string name="abc_toolbar_collapse_description">Ciutkan</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Telusuri</string>
-    <string name="abc_search_hint">Telusuri...</string>
-    <string name="abc_searchview_description_query">Kueri penelusuran</string>
-    <string name="abc_searchview_description_clear">Hapus kueri</string>
-    <string name="abc_searchview_description_submit">Kirim kueri</string>
-    <string name="abc_searchview_description_voice">Penelusuran suara</string>
-    <string name="abc_activitychooserview_choose_application">Pilih aplikasi</string>
-    <string name="abc_activity_chooser_view_see_all">Lihat semua</string>
-    <string name="abc_shareactionprovider_share_with_application">Bagikan dengan %s</string>
-    <string name="abc_shareactionprovider_share_with">Bagikan dengan</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">AKTIF</string>
-    <string name="abc_capital_off">NONAKTIF</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Selesai</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Navigasi ke beranda</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Navigasi naik</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Opsi lain</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Ciutkan</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Telusuri</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Telusuri…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Kueri penelusuran</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Hapus kueri</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Kirim kueri</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Penelusuran suara</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Pilih aplikasi</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Lihat semua</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Bagikan dengan %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Bagikan dengan</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">AKTIF</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">NONAKTIF</string>
     <string name="app_name">Peluncur Leanback</string>
     <string name="app_label">Layar Utama</string>
     <string name="search_hint_text">Telusuri film, TV, dan lainnya</string>
@@ -101,11 +101,11 @@
     <string name="settings_network">Setelan Jaringan</string>
     <string name="notif_service_name">Layanan Notifikasi</string>
     <string name="recm_service_name">Layanan Rekomendasi</string>
-    <string name="install_pending">Pemasangan tertunda...</string>
-    <string name="update_pending">Pembaruan tertunda...</string>
-    <string name="restore_pending">Pemulihan tertunda...</string>
+    <string name="install_pending">Pemasangan tertunda…</string>
+    <string name="update_pending">Pembaruan tertunda…</string>
+    <string name="restore_pending">Pemulihan tertunda…</string>
     <string name="downloading">Mengunduh…</string>
-    <string name="installing">Memasang...</string>
+    <string name="installing">Memasang…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Sedang Diputar</string>

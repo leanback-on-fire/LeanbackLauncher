@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector android:constantSize="true"
+<selector xmlns:tools="http://schemas.android.com/tools" android:constantSize="true"
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false" android:state_pressed="true">
-        <bitmap android:gravity="center" android:src="@drawable/abc_scrubber_control_off_mtrl_alpha" />
+        <bitmap android:gravity="center" android:src="@drawable/abc_scrubber_control_off_mtrl_alpha" tools:ignore="PrivateResource" />
     </item>
     <item android:state_enabled="false">
-        <bitmap android:gravity="center" android:src="@drawable/abc_scrubber_control_off_mtrl_alpha" />
+        <bitmap android:gravity="center" android:src="@drawable/abc_scrubber_control_off_mtrl_alpha" tools:ignore="PrivateResource" />
     </item>
     <item android:state_pressed="true">
-        <bitmap android:gravity="center" android:src="@drawable/abc_scrubber_control_to_pressed_mtrl_005" />
+        <bitmap android:gravity="center" android:src="@drawable/abc_scrubber_control_to_pressed_mtrl_005" tools:ignore="PrivateResource" />
     </item>
     <item>
-        <bitmap android:gravity="center" android:src="@drawable/abc_scrubber_control_to_pressed_mtrl_000" />
+        <bitmap android:gravity="center" android:src="@drawable/abc_scrubber_control_to_pressed_mtrl_000" tools:ignore="PrivateResource" />
     </item>
 </selector>

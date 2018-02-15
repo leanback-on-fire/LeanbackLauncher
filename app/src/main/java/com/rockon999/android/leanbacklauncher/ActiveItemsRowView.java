@@ -12,7 +12,6 @@ import android.support.v17.leanback.widget.HorizontalGridView;
 import android.support.v17.leanback.widget.OnChildSelectedListener;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.OnHierarchyChangeListener;
@@ -21,7 +20,6 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.animation.ViewDimmer;
 import com.rockon999.android.leanbacklauncher.animation.ViewDimmer.DimState;
 import com.rockon999.android.leanbacklauncher.apps.AppsAdapter;
@@ -32,6 +30,7 @@ import com.rockon999.android.leanbacklauncher.apps.OnEditModeChangedListener;
 import com.rockon999.android.leanbacklauncher.util.Util;
 import com.rockon999.android.leanbacklauncher.widget.EditModeView;
 import com.rockon999.android.leanbacklauncher.widget.EditModeViewActionListener;
+
 import java.util.ArrayList;
 
 public class ActiveItemsRowView extends HorizontalGridView implements OnChildSelectedListener, OnHierarchyChangeListener, BannerSelectedChangedListener, EditModeViewActionListener, OnEditModeChangedListener, OnGlobalFocusChangeListener {
@@ -113,17 +112,19 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
         setChildrenDrawingOrderEnabled(true);
         setOnChildSelectedListener(this);
         setAnimateChildLayout(true);
-        this.mEditListeners = new ArrayList();
+        this.mEditListeners = new ArrayList<>();
         this.mDimState = DimState.INACTIVE;
     }
 
     public void setAdapter(Adapter adapter) {
-        Log.i(TAG, "setAdapter->adapter->className:" + adapter.getClass().getName());
-        if (getAdapter() != null) {
-            getAdapter().unregisterAdapterDataObserver(this.mChangeObserver);
-        }
-        super.setAdapter(adapter);
         if (adapter != null) {
+            Log.i(TAG, "setAdapter->adapter->className:" + adapter.getClass().getName());
+
+            if (getAdapter() != null) {
+                getAdapter().unregisterAdapterDataObserver(this.mChangeObserver);
+            }
+            super.setAdapter(adapter);
+
             adapter.registerAdapterDataObserver(this.mChangeObserver);
         }
     }
@@ -224,7 +225,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     public void onChildSelected(ViewGroup parent, View child, int position, long id) {
         Log.i(TAG, "onNChildSelected->position:" + position);
 
-        if(child == null) return; // todo
+        if (child == null) return; // todo
 
         Log.i(TAG, "onNChildSelected->child:" + child.getClass().getName());
         if (child != this.mCurView) {
@@ -490,11 +491,11 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
                     bannerView.setBackground(drawable);
                 } else {
                     //Drawable drawable = getResources().getDrawable(R.drawable.banner_background, null);
-                    if(bannerView instanceof LinearLayout && mLastFocused instanceof BannerView){
+                    if (bannerView instanceof LinearLayout && mLastFocused instanceof BannerView) {
                         int backColor = ((BannerView) mLastFocused).getBannerBackColor();
-                        if(backColor != -1)
+                        if (backColor != -1)
                             bannerView.setBackgroundColor(backColor);
-                        else{
+                        else {
                             drawable = getResources().getDrawable(R.drawable.banner_background, null);
                             bannerView.setBackground(drawable);
                         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play服务出错</string>
     <string name="common_google_play_services_notification_needs_installation_title">安装Google Play服务后才能运行应用。</string>
     <string name="common_google_play_services_notification_needs_update_title">更新Google Play服务后才能运行应用。</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">开始使用</string>
     <string name="lb_onboarding_accessibility_next">下一页</string>
-    <string name="abc_action_mode_done">完成</string>
-    <string name="abc_action_bar_home_description">转到主屏幕</string>
-    <string name="abc_action_bar_up_description">转到上一层级</string>
-    <string name="abc_action_menu_overflow_description">更多选项</string>
-    <string name="abc_toolbar_collapse_description">收起</string>
-    <string name="abc_action_bar_home_description_format">%1$s：%2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s - %2$s：%3$s</string>
-    <string name="abc_searchview_description_search">搜索</string>
-    <string name="abc_search_hint">搜索…</string>
-    <string name="abc_searchview_description_query">搜索查询</string>
-    <string name="abc_searchview_description_clear">清除查询</string>
-    <string name="abc_searchview_description_submit">提交查询</string>
-    <string name="abc_searchview_description_voice">语音搜索</string>
-    <string name="abc_activitychooserview_choose_application">选择应用</string>
-    <string name="abc_activity_chooser_view_see_all">查看全部</string>
-    <string name="abc_shareactionprovider_share_with_application">通过%s分享</string>
-    <string name="abc_shareactionprovider_share_with">分享方式</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">开启</string>
-    <string name="abc_capital_off">关闭</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">完成</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">转到主屏幕</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">转到上一层级</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">更多选项</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">收起</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s：%2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s - %2$s：%3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">搜索</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">搜索…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">搜索查询</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">清除查询</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">提交查询</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">语音搜索</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">选择应用</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">查看全部</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">通过%s分享</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">分享方式</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">开启</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">关闭</string>
     <string name="app_name">Leanback桌面</string>
     <string name="app_label">主屏幕</string>
     <string name="search_hint_text">搜索电影、电视剧及其他内容</string>

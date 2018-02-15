@@ -8,7 +8,7 @@ public class RefcountBitmapDrawable extends BitmapDrawable {
     private RefcountObject<Bitmap> mRefcountObject;
 
     public RefcountBitmapDrawable(Resources res, RefcountObject<Bitmap> bitmap) {
-        super(res, (Bitmap) bitmap.getObject());
+        super(res, bitmap.getObject());
         this.mRefcountObject = bitmap;
     }
 

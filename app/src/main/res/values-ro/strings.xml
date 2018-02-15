@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Eroare a serviciilor Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">O aplicație necesită instalarea serviciilor Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">O aplicație necesită o actualizare pentru serviciile Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ÎNCEPEȚI</string>
     <string name="lb_onboarding_accessibility_next">Înainte</string>
-    <string name="abc_action_mode_done">Terminat</string>
-    <string name="abc_action_bar_home_description">Navigați la ecranul de pornire</string>
-    <string name="abc_action_bar_up_description">Navigați în sus</string>
-    <string name="abc_action_menu_overflow_description">Mai multe opțiuni</string>
-    <string name="abc_toolbar_collapse_description">Restrângeți</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Căutați</string>
-    <string name="abc_search_hint">Căutați…</string>
-    <string name="abc_searchview_description_query">Interogare de căutare</string>
-    <string name="abc_searchview_description_clear">Ștergeți interogarea</string>
-    <string name="abc_searchview_description_submit">Trimiteți interogarea</string>
-    <string name="abc_searchview_description_voice">Căutare vocală</string>
-    <string name="abc_activitychooserview_choose_application">Alegeți o aplicație</string>
-    <string name="abc_activity_chooser_view_see_all">Afișați-le pe toate</string>
-    <string name="abc_shareactionprovider_share_with_application">Trimiteți la %s</string>
-    <string name="abc_shareactionprovider_share_with">Trimiteți la</string>
-    <string name="status_bar_notification_info_overflow">˃999</string>
-    <string name="abc_capital_on">ACTIVAȚI</string>
-    <string name="abc_capital_off">DEZACTIVAȚI</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Terminat</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Navigați la ecranul de pornire</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Navigați în sus</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Mai multe opțiuni</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Restrângeți</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Căutați</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Căutați…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Interogare de căutare</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Ștergeți interogarea</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Trimiteți interogarea</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Căutare vocală</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Alegeți o aplicație</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Afișați-le pe toate</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Trimiteți la %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Trimiteți la</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">˃999</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ACTIVAȚI</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">DEZACTIVAȚI</string>
     <string name="app_name">Lansatorul Leanback</string>
     <string name="app_label">Ecran de pornire</string>
     <string name="search_hint_text">Căutați filme, emisiuni TV și altele</string>
@@ -105,7 +105,7 @@
     <string name="update_pending">Actualizare în așteptare…</string>
     <string name="restore_pending">Restabilire în așteptare…</string>
     <string name="downloading">Se descarcă…</string>
-    <string name="installing">Se instalează...</string>
+    <string name="installing">Se instalează…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Se redă</string>

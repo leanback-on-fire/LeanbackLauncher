@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="abc_allow_stacked_button_bar">false</bool>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <bool name="abc_allow_stacked_button_bar" tools:ignore="PrivateResource">false</bool>
 </resources>

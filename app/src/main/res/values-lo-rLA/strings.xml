@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play Services ​ເກີດ​ຄວາມ​ຜິດ​ພາດ</string>
     <string name="common_google_play_services_notification_needs_installation_title">​ແອັບ​ພ​ລິ​ເຄ​ຊັນ​ຕ້ອງ​ການ​ໃຫ້​ຕິດ​ຕັ້ງ​ບໍ​ລິ​ການ Google Play ກ່ອນ.</string>
     <string name="common_google_play_services_notification_needs_update_title">​ແອັບ​ພ​ລິ​ເຄ​ຊັນ​ຕ້ອງ​ການ​ໃຫ້​ອັບ​ເດດບໍ​ລິ​ການ Google Play ກ່ອນ.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ເລີ່ມຕົ້ນນຳໃຊ້</string>
     <string name="lb_onboarding_accessibility_next">ຕໍ່ໄປ</string>
-    <string name="abc_action_mode_done">ແລ້ວໆ</string>
-    <string name="abc_action_bar_home_description">ກັບໄປໜ້າຫຼັກ</string>
-    <string name="abc_action_bar_up_description">ຂຶ້ນເທິງ</string>
-    <string name="abc_action_menu_overflow_description">ໂຕເລືອກອື່ນ</string>
-    <string name="abc_toolbar_collapse_description">ຫຍໍ້</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">ຊອກຫາ</string>
-    <string name="abc_search_hint">ຊອກຫາ</string>
-    <string name="abc_searchview_description_query">ຊອກຫາ</string>
-    <string name="abc_searchview_description_clear">ລຶບຂໍ້ຄວາມຊອກຫາ</string>
-    <string name="abc_searchview_description_submit">ສົ່ງການຊອກຫາ</string>
-    <string name="abc_searchview_description_voice">ຊອກຫາດ້ວຍສຽງ</string>
-    <string name="abc_activitychooserview_choose_application">ເລືອກແອັບຯ</string>
-    <string name="abc_activity_chooser_view_see_all">ເບິ່ງທັງຫມົດ</string>
-    <string name="abc_shareactionprovider_share_with_application">ແບ່ງ​ປັນ​ກັບ​ %s</string>
-    <string name="abc_shareactionprovider_share_with">ແບ່ງປັນກັບ</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ເປີດ</string>
-    <string name="abc_capital_off">ປິດ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">ແລ້ວໆ</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">ກັບໄປໜ້າຫຼັກ</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">ຂຶ້ນເທິງ</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">ໂຕເລືອກອື່ນ</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">ຫຍໍ້</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">ຊອກຫາ</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">ຊອກຫາ</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">ຊອກຫາ</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">ລຶບຂໍ້ຄວາມຊອກຫາ</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">ສົ່ງການຊອກຫາ</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">ຊອກຫາດ້ວຍສຽງ</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">ເລືອກແອັບຯ</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">ເບິ່ງທັງຫມົດ</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">ແບ່ງ​ປັນ​ກັບ​ %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">ແບ່ງປັນກັບ</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ເປີດ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ປິດ</string>
     <string name="app_name">Leanback Launcher</string>
     <string name="app_label">​ໜ້າ​ຈໍຫຼັກ</string>
     <string name="search_hint_text">ຊອກ​ຫາ​ຮູບ​ເງົາ, ​ລາຍ​ການ​ໂທ​ລະ​ທັດ ແລະ​ອື່ນໆ</string>
@@ -104,7 +104,7 @@
     <string name="install_pending">​ລໍ​ຖ້າ​ການ​ຕິດ​ຕັ້ງ…</string>
     <string name="update_pending">​ລໍ​ຖ້າ​ການ​ອັບ​ເດດ…</string>
     <string name="restore_pending">​ລໍ​ຖ້າ​ການ​ກູ້​ຂໍ້​ມູນ…</string>
-    <string name="downloading">​ກຳ​ລັງ​ດາວ​ໂຫລດ...</string>
+    <string name="downloading">​ກຳ​ລັງ​ດາວ​ໂຫລດ…</string>
     <string name="installing">ກຳລັງຕິດຕັ້ງ…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>

@@ -3,6 +3,7 @@ package com.rockon999.android.leanbacklauncher.animation;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
@@ -64,15 +65,15 @@ public class ViewDimmer {
         int[] iArr = new int[DimState.values().length];
         try {
             iArr[DimState.ACTIVE.ordinal()] = 1;
-        } catch (NoSuchFieldError e) {
+        } catch (NoSuchFieldError ignored) {
         }
         try {
             iArr[DimState.EDIT_MODE.ordinal()] = 2;
-        } catch (NoSuchFieldError e2) {
+        } catch (NoSuchFieldError ignored) {
         }
         try {
             iArr[DimState.INACTIVE.ordinal()] = 3;
-        } catch (NoSuchFieldError e3) {
+        } catch (NoSuchFieldError ignored) {
         }
         f6x1d4ac58a = iArr;
         return iArr;
@@ -105,7 +106,7 @@ public class ViewDimmer {
         this.mTargetView.getResources().getValue(R.raw.launcher_edit_mode_dim_level, out, true);
         this.mEditModeDimLevel = out.getFloat();
         int dimAnimDuration = this.mTargetView.getResources().getInteger(R.integer.item_dim_anim_duration);
-        this.mDimAnimation = ObjectAnimator.ofFloat(this, "dimLevel", new float[]{this.mInactiveDimLevel});
+        this.mDimAnimation = ObjectAnimator.ofFloat(this, "dimLevel", this.mInactiveDimLevel);
         this.mDimAnimation.setDuration((long) dimAnimDuration);
         this.mDimAnimation.addListener(new C01791());
     }
@@ -138,19 +139,19 @@ public class ViewDimmer {
         if (this.mImageViews != null) {
             size = this.mImageViews.size();
             for (i = 0; i < size; i++) {
-                ((ImageView) this.mImageViews.get(i)).setColorFilter(filter);
+                this.mImageViews.get(i).setColorFilter(filter);
             }
         }
         if (this.mDesatImageViews != null) {
             size = this.mDesatImageViews.size();
             for (i = 0; i < size; i++) {
-                ((ImageView) this.mDesatImageViews.get(i)).setColorFilter(desatFilter);
+                this.mDesatImageViews.get(i).setColorFilter(desatFilter);
             }
         }
         if (this.mDrawables != null) {
             size = this.mDrawables.size();
             for (i = 0; i < size; i++) {
-                ((Drawable) this.mDrawables.get(i)).setColorFilter(filter);
+                this.mDrawables.get(i).setColorFilter(filter);
             }
         }
         /*if (this.mTextViews != null) {
@@ -165,6 +166,7 @@ public class ViewDimmer {
         return this.mDimLevel;
     }
 
+    @SuppressLint("PrivateResource")
     public float convertToDimLevel(DimState dimState) {
         switch (m1986x75d1ee2e()[dimState.ordinal()]) {
             case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability:
@@ -195,7 +197,7 @@ public class ViewDimmer {
                 this.mDimAnimation.cancel();
             }
             if (getDimLevel() != convertToDimLevel(dimState)) {
-                this.mDimAnimation.setFloatValues(new float[]{getDimLevel(), R.id.end});
+                this.mDimAnimation.setFloatValues(getDimLevel(), R.id.end);
                 this.mDimAnimation.start();
             }
             return;
@@ -229,34 +231,34 @@ public class ViewDimmer {
 
     public void addDimTarget(ImageView view) {
         if (this.mImageViews == null) {
-            this.mImageViews = new ArrayList(4);
+            this.mImageViews = new ArrayList<>(4);
         }
         this.mImageViews.add(view);
     }
 
     public void addDesatDimTarget(ImageView view) {
         if (this.mDesatImageViews == null) {
-            this.mDesatImageViews = new ArrayList(4);
+            this.mDesatImageViews = new ArrayList<>(4);
         }
         this.mDesatImageViews.add(view);
     }
 
     public void addDimTarget(TextView view) {
         if (this.mTextViews == null) {
-            this.mTextViews = new ArrayList(4);
+            this.mTextViews = new ArrayList<>(4);
         }
         if (this.mOriginalTextColors == null) {
-            this.mOriginalTextColors = new ArrayList(4);
+            this.mOriginalTextColors = new ArrayList<>(4);
         }
         this.mTextViews.add(view);
-        this.mOriginalTextColors.add(Integer.valueOf(view.getCurrentTextColor()));
+        this.mOriginalTextColors.add(view.getCurrentTextColor());
     }
 
     public void setTargetTextColor(TextView view, int newColor) {
         if (this.mTextViews != null && this.mOriginalTextColors != null) {
             int index = this.mTextViews.indexOf(view);
             if (index >= 0) {
-                this.mOriginalTextColors.set(index, Integer.valueOf(newColor));
+                this.mOriginalTextColors.set(index, newColor);
                 view.setTextColor(getDimmedColor(newColor, this.mDimLevel));
             }
         }
@@ -264,7 +266,7 @@ public class ViewDimmer {
 
     public void addDimTarget(Drawable drawable) {
         if (this.mDrawables == null) {
-            this.mDrawables = new ArrayList(4);
+            this.mDrawables = new ArrayList<>(4);
         }
         this.mDrawables.add(drawable);
     }

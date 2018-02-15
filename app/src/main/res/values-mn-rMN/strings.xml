@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Наадаан үйлчилгээний алдаа</string>
     <string name="common_google_play_services_notification_needs_installation_title">Аппликешн Google Наадаан Үйлчилгээг суулгахыг шаардана.</string>
     <string name="common_google_play_services_notification_needs_update_title">Аппликешн Google Наадаан Үйлчилгээг шинэчлэхийг шаардана.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ЭХЭЛЦГЭЭЕ</string>
     <string name="lb_onboarding_accessibility_next">Дараах</string>
-    <string name="abc_action_mode_done">Дууссан</string>
-    <string name="abc_action_bar_home_description">Нүүр хуудас руу шилжих</string>
-    <string name="abc_action_bar_up_description">Дээш шилжих</string>
-    <string name="abc_action_menu_overflow_description">Нэмэлт сонголтууд</string>
-    <string name="abc_toolbar_collapse_description">Хумих</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Хайх</string>
-    <string name="abc_search_hint">Хайх...</string>
-    <string name="abc_searchview_description_query">Хайх асуулга</string>
-    <string name="abc_searchview_description_clear">Асуулгыг цэвэрлэх</string>
-    <string name="abc_searchview_description_submit">Асуулгыг илгээх</string>
-    <string name="abc_searchview_description_voice">Дуут хайлт</string>
-    <string name="abc_activitychooserview_choose_application">Апп сонгох</string>
-    <string name="abc_activity_chooser_view_see_all">Бүгдийг харах</string>
-    <string name="abc_shareactionprovider_share_with_application">%s-тай хуваалцах</string>
-    <string name="abc_shareactionprovider_share_with">Хуваалцах</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ИДЭВХТЭЙ</string>
-    <string name="abc_capital_off">ИДЭВХГҮЙ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Дууссан</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Нүүр хуудас руу шилжих</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Дээш шилжих</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Нэмэлт сонголтууд</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Хумих</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Хайх</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Хайх…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Хайх асуулга</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Асуулгыг цэвэрлэх</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Асуулгыг илгээх</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Дуут хайлт</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Апп сонгох</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Бүгдийг харах</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s-тай хуваалцах</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Хуваалцах</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ИДЭВХТЭЙ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ИДЭВХГҮЙ</string>
     <string name="app_name">Leanback Эхлүүлэгч</string>
     <string name="app_label">Үндсэн дэлгэц</string>
     <string name="search_hint_text">Кино, ТВ болон бусад зүйлсийг хайх</string>
@@ -101,12 +101,12 @@
     <string name="settings_network">Сүлжээний тохиргоо</string>
     <string name="notif_service_name">Мэдэгдлийн үйлчилгээ</string>
     <string name="recm_service_name">Зөвлөмжийн үйлчилгээ</string>
-    <string name="install_pending">Суулгалт хүлээгдэж байгаа ...</string>
-    <string name="update_pending">Шинэчлэлт хүлээгдэж байна ...</string>
-    <string name="restore_pending">Нөхөн сэргээлт хүлээгдэж байна ...</string>
-    <string name="downloading">Татаж авч байна...</string>
+    <string name="install_pending">Суулгалт хүлээгдэж байгаа …</string>
+    <string name="update_pending">Шинэчлэлт хүлээгдэж байна …</string>
+    <string name="restore_pending">Нөхөн сэргээлт хүлээгдэж байна …</string>
+    <string name="downloading">Татаж авч байна…</string>
     <string name="installing">Суулгаж байна…</string>
-    <string name="unknown_state">...</string>
+    <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Одоо Тоглож байгаа</string>
     <string name="now_playing_card_paused">Түр зогсоосон</string>

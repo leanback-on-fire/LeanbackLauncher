@@ -15,8 +15,8 @@ public class RecycleBitmapPool {
 
     static {
         try {
-            sGetAllocationByteCount = Bitmap.class.getMethod("getAllocationByteCount", new Class[0]);
-        } catch (NoSuchMethodException e) {
+            sGetAllocationByteCount = Bitmap.class.getMethod("getAllocationByteCount");
+        } catch (NoSuchMethodException ignored) {
         }
     }
 
@@ -27,17 +27,9 @@ public class RecycleBitmapPool {
     public static int getSize(Bitmap bitmap) {
         if (sGetAllocationByteCount != null) {
             try {
-                return ((Integer) sGetAllocationByteCount.invoke(bitmap, new Object[0])).intValue();
-            } catch (IllegalArgumentException e) {
+                return (Integer) sGetAllocationByteCount.invoke(bitmap, new Object[0]);
+            } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException e) {
                 Log.e("RecycleBitmapPool", "getAllocationByteCount() failed", e);
-                sGetAllocationByteCount = null;
-                return bitmap.getByteCount();
-            } catch (IllegalAccessException e2) {
-                Log.e("RecycleBitmapPool", "getAllocationByteCount() failed", e2);
-                sGetAllocationByteCount = null;
-                return bitmap.getByteCount();
-            } catch (InvocationTargetException e3) {
-                Log.e("RecycleBitmapPool", "getAllocationByteCount() failed", e3);
                 sGetAllocationByteCount = null;
                 return bitmap.getByteCount();
             }
@@ -57,9 +49,9 @@ public class RecycleBitmapPool {
             int key = getSize(bitmap);
             if (key != 0) {
                 synchronized (this.mRecycled8888) {
-                    ArrayList<SoftReference<Bitmap>> list = (ArrayList) this.mRecycled8888.get(key);
+                    ArrayList<SoftReference<Bitmap>> list = this.mRecycled8888.get(key);
                     if (list == null) {
-                        list = new ArrayList();
+                        list = new ArrayList<>();
                         this.mRecycled8888.put(key, list);
                     }
                     list.add(new SoftReference(bitmap));
@@ -74,7 +66,7 @@ public class RecycleBitmapPool {
             return null;
         }
         synchronized (this.mRecycled8888) {
-            Bitmap bitmap = getRecycledBitmap((ArrayList) this.mRecycled8888.get(key));
+            Bitmap bitmap = getRecycledBitmap(this.mRecycled8888.get(key));
             if (sGetAllocationByteCount == null || bitmap != null) {
                 return bitmap;
             }

@@ -17,7 +17,7 @@ public class CachedInputStream extends FilterInputStream {
 
     public CachedInputStream(InputStream in) {
         super(in);
-        this.mBufs = new ArrayList();
+        this.mBufs = new ArrayList<>();
         this.mPos = 0;
         this.mCount = 0;
         this.mMarkPos = -1;
@@ -112,7 +112,7 @@ public class CachedInputStream extends FilterInputStream {
                 }
                 int currentBuf = this.mPos / 16384;
                 int indexInBuf = this.mPos - (currentBuf * 16384);
-                byte[] buf = (byte[]) this.mBufs.get(currentBuf);
+                byte[] buf = this.mBufs.get(currentBuf);
                 int leftInBuffer = ((currentBuf + 1) * 16384) - this.mPos;
                 int reads = this.in.read(buf, indexInBuf, count > leftInBuffer ? leftInBuffer : count);
                 if (reads <= 0) {
@@ -144,7 +144,7 @@ public class CachedInputStream extends FilterInputStream {
             int toRead;
             int currentBuf = this.mPos / 16384;
             int indexInBuf = this.mPos - (currentBuf * 16384);
-            byte[] buf = (byte[]) this.mBufs.get(currentBuf);
+            byte[] buf = this.mBufs.get(currentBuf);
             int end = (currentBuf + 1) * 16384;
             if (end > this.mCount) {
                 end = this.mCount;
@@ -190,7 +190,7 @@ public class CachedInputStream extends FilterInputStream {
                 }
                 int currentBuf = this.mPos / 16384;
                 int indexInBuf = this.mPos - (currentBuf * 16384);
-                byte[] buf = (byte[]) this.mBufs.get(currentBuf);
+                byte[] buf = this.mBufs.get(currentBuf);
                 int leftInBuffer = ((currentBuf + 1) * 16384) - this.mPos;
                 if (byteCount > ((long) leftInBuffer)) {
                     j = (long) leftInBuffer;

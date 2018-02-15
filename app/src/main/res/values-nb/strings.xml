@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play Tjenester-feil</string>
     <string name="common_google_play_services_notification_needs_installation_title">En app krever installasjon av Google Play Tjenester.</string>
     <string name="common_google_play_services_notification_needs_update_title">En app krever at Google Play Tjenester oppdateres.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">.</string>
     <string name="lb_onboarding_get_started">KOM I GANG</string>
     <string name="lb_onboarding_accessibility_next">Neste</string>
-    <string name="abc_action_mode_done">Ferdig</string>
-    <string name="abc_action_bar_home_description">Gå til startsiden</string>
-    <string name="abc_action_bar_up_description">Gå opp</string>
-    <string name="abc_action_menu_overflow_description">Flere alternativer</string>
-    <string name="abc_toolbar_collapse_description">Skjul</string>
-    <string name="abc_action_bar_home_description_format">%1$s – %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s – %2$s – %3$s</string>
-    <string name="abc_searchview_description_search">Søk</string>
-    <string name="abc_search_hint">Søk …</string>
-    <string name="abc_searchview_description_query">Søkeord</string>
-    <string name="abc_searchview_description_clear">Slett søket</string>
-    <string name="abc_searchview_description_submit">Utfør søket</string>
-    <string name="abc_searchview_description_voice">Talesøk</string>
-    <string name="abc_activitychooserview_choose_application">Velg en app</string>
-    <string name="abc_activity_chooser_view_see_all">Se alle</string>
-    <string name="abc_shareactionprovider_share_with_application">Del med %s</string>
-    <string name="abc_shareactionprovider_share_with">Del med</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">PÅ</string>
-    <string name="abc_capital_off">AV</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Ferdig</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Gå til startsiden</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Gå opp</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Flere alternativer</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Skjul</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s – %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s – %2$s – %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Søk</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Søk …</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Søkeord</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Slett søket</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Utfør søket</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Talesøk</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Velg en app</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Se alle</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Del med %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Del med</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">PÅ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">AV</string>
     <string name="app_name">Appoversikten for Leanback</string>
     <string name="app_label">Startside</string>
     <string name="search_hint_text">Søk etter filmer, TV-programmer og annet</string>

@@ -29,10 +29,10 @@ public final class LeanbackProto$RankerAction extends ExtendableMessageNano<Lean
             output.writeString(1, this.packageName);
         }
         if (this.actionType != null) {
-            output.writeUInt32(2, this.actionType.intValue());
+            output.writeUInt32(2, this.actionType);
         }
         if (this.rowPosition != null) {
-            output.writeUInt32(3, this.rowPosition.intValue());
+            output.writeUInt32(3, this.rowPosition);
         }
         if (this.tag != null) {
             output.writeString(4, this.tag);
@@ -46,10 +46,10 @@ public final class LeanbackProto$RankerAction extends ExtendableMessageNano<Lean
             size += CodedOutputByteBufferNano.computeStringSize(1, this.packageName);
         }
         if (this.actionType != null) {
-            size += CodedOutputByteBufferNano.computeUInt32Size(2, this.actionType.intValue());
+            size += CodedOutputByteBufferNano.computeUInt32Size(2, this.actionType);
         }
         if (this.rowPosition != null) {
-            size += CodedOutputByteBufferNano.computeUInt32Size(3, this.rowPosition.intValue());
+            size += CodedOutputByteBufferNano.computeUInt32Size(3, this.rowPosition);
         }
         if (this.tag == null) {
             return size;

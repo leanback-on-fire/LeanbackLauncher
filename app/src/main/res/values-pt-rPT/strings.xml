@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Erro dos Serviços do Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Uma aplicação necessita da instalação dos Serviços do Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Uma aplicação necessita da atualização dos Serviços do Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">INICIAR</string>
     <string name="lb_onboarding_accessibility_next">Seguinte</string>
-    <string name="abc_action_mode_done">Concluído</string>
-    <string name="abc_action_bar_home_description">Navegar para a página inicial</string>
-    <string name="abc_action_bar_up_description">Navegar para cima</string>
-    <string name="abc_action_menu_overflow_description">Mais opções</string>
-    <string name="abc_toolbar_collapse_description">Reduzir</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Pesquisar</string>
-    <string name="abc_search_hint">Pesquisar...</string>
-    <string name="abc_searchview_description_query">Consulta de pesquisa</string>
-    <string name="abc_searchview_description_clear">Limpar consulta</string>
-    <string name="abc_searchview_description_submit">Enviar consulta</string>
-    <string name="abc_searchview_description_voice">Pesquisa por voz</string>
-    <string name="abc_activitychooserview_choose_application">Escolher uma aplicação</string>
-    <string name="abc_activity_chooser_view_see_all">Ver tudo</string>
-    <string name="abc_shareactionprovider_share_with_application">Partilhar com %s</string>
-    <string name="abc_shareactionprovider_share_with">Partilhar com</string>
-    <string name="status_bar_notification_info_overflow">+999</string>
-    <string name="abc_capital_on">ATIVADO</string>
-    <string name="abc_capital_off">DESATIVADO</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Concluído</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Navegar para a página inicial</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Navegar para cima</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Mais opções</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Reduzir</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Pesquisar</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Pesquisar…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Consulta de pesquisa</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Limpar consulta</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Enviar consulta</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Pesquisa por voz</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Escolher uma aplicação</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Ver tudo</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Partilhar com %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Partilhar com</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">+999</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ATIVADO</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">DESATIVADO</string>
     <string name="app_name">Iniciador Leanback</string>
     <string name="app_label">Ecrã principal</string>
     <string name="search_hint_text">Pesquisar filmes, TV e muito mais</string>
@@ -104,8 +104,8 @@
     <string name="install_pending">Instalação pendente…</string>
     <string name="update_pending">Atualização pendente…</string>
     <string name="restore_pending">Restauro pendente…</string>
-    <string name="downloading">A transferir...</string>
-    <string name="installing">A instalar...</string>
+    <string name="downloading">A transferir…</string>
+    <string name="installing">A instalar…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Em reprodução</string>

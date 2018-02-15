@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">‏שגיאה בשירותי Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">‏קיימת אפליקציה המחייבת התקנה של שירותי Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">‏קיימת אפליקציה המחייבת עדכון עבור שירותי Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">התחל</string>
     <string name="lb_onboarding_accessibility_next">הבא</string>
-    <string name="abc_action_mode_done">בוצע</string>
-    <string name="abc_action_bar_home_description">נווט לדף הבית</string>
-    <string name="abc_action_bar_up_description">נווט למעלה</string>
-    <string name="abc_action_menu_overflow_description">עוד אפשרויות</string>
-    <string name="abc_toolbar_collapse_description">כווץ</string>
-    <string name="abc_action_bar_home_description_format">‏%1$s‏, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">‏%1$s‏, %2$s‏, %3$s</string>
-    <string name="abc_searchview_description_search">חפש</string>
-    <string name="abc_search_hint">חפש…</string>
-    <string name="abc_searchview_description_query">שאילתת חיפוש</string>
-    <string name="abc_searchview_description_clear">מחק שאילתה</string>
-    <string name="abc_searchview_description_submit">שלח שאילתה</string>
-    <string name="abc_searchview_description_voice">חיפוש קולי</string>
-    <string name="abc_activitychooserview_choose_application">בחר אפליקציה</string>
-    <string name="abc_activity_chooser_view_see_all">ראה הכל</string>
-    <string name="abc_shareactionprovider_share_with_application">‏שתף עם %s</string>
-    <string name="abc_shareactionprovider_share_with">שתף עם</string>
-    <string name="status_bar_notification_info_overflow">‎999+‎</string>
-    <string name="abc_capital_on">פועל</string>
-    <string name="abc_capital_off">כבוי</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">בוצע</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">נווט לדף הבית</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">נווט למעלה</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">עוד אפשרויות</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">כווץ</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">‏%1$s‏, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">‏%1$s‏, %2$s‏, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">חפש</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">חפש…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">שאילתת חיפוש</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">מחק שאילתה</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">שלח שאילתה</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">חיפוש קולי</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">בחר אפליקציה</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">ראה הכל</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">‏שתף עם %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">שתף עם</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">‎999+‎</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">פועל</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">כבוי</string>
     <string name="app_name">מפעיל האפליקציה Leanback</string>
     <string name="app_label">מסך דף הבית</string>
     <string name="search_hint_text">חפש סרטים, תכניות טלוויזיה ועוד</string>

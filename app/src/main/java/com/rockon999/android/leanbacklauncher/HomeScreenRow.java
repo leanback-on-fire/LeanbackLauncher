@@ -104,11 +104,7 @@ public class HomeScreenRow extends AdapterDataObserver {
     }
 
     public boolean isVisible() {
-        if (this.mHideIfEmpty) {
-            return this.mAdapter != null && this.mAdapter.getItemCount() > 0;
-        } else {
-            return true;
-        }
+        return !this.mHideIfEmpty || this.mAdapter != null && this.mAdapter.getItemCount() > 0;
     }
 
     public void onItemRangeRemoved(int positionStart, int itemCount) {

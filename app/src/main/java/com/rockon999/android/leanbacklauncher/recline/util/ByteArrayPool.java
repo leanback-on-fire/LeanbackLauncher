@@ -16,7 +16,7 @@ public final class ByteArrayPool {
     private ByteArrayPool(int chunkSize, int maxNum) {
         this.mChunkSize = chunkSize;
         this.mMaxNum = maxNum;
-        this.mCachedBuf = new ArrayList(this.mMaxNum);
+        this.mCachedBuf = new ArrayList<>(this.mMaxNum);
     }
 
     public static ByteArrayPool get16KBPool() {
@@ -27,8 +27,7 @@ public final class ByteArrayPool {
         synchronized (this.mCachedBuf) {
             int size = this.mCachedBuf.size();
             if (size > 0) {
-                byte[] bArr = (byte[]) this.mCachedBuf.remove(size - 1);
-                return bArr;
+                return (byte[]) this.mCachedBuf.remove(size - 1);
             }
             byte[] bArr = new byte[this.mChunkSize];
             return bArr;
@@ -49,9 +48,9 @@ public final class ByteArrayPool {
         synchronized (this.mCachedBuf) {
             int c = bufs.size();
             for (int i = 0; i < c && this.mCachedBuf.size() != this.mMaxNum; i++) {
-                byte[] buf = (byte[]) bufs.get(i);
+                byte[] buf = bufs.get(i);
                 if (buf != null && buf.length == this.mChunkSize) {
-                    this.mCachedBuf.add((byte[]) bufs.get(i));
+                    this.mCachedBuf.add(bufs.get(i));
                 }
             }
         }

@@ -69,7 +69,7 @@ public class WallpaperInstaller {
     public void installWallpaperIfNeeded() {
         if (!this.mWallpaperInstalled && !this.mInstallationPending) {
             this.mInstallationPending = true;
-            new C02071().execute(new Void[0]);
+            new C02071().execute();
         }
     }
 
@@ -83,7 +83,7 @@ public class WallpaperInstaller {
         int intrinsicWidth = systemBg.getIntrinsicWidth();
         int intrinsicHeight = systemBg.getIntrinsicHeight();
         int wallpaperWidth = Util.getDisplayMetrics(this.mContext).widthPixels;
-        int wallpaperHeight = (int)((wallpaperWidth * intrinsicHeight) / intrinsicWidth);
+        int wallpaperHeight = (wallpaperWidth * intrinsicHeight) / intrinsicWidth;
         Bitmap bitmap = Bitmap.createBitmap(wallpaperWidth, wallpaperHeight, Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(-16777216);

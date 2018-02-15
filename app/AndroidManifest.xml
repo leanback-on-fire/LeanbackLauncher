@@ -85,7 +85,7 @@
             </intent-filter>
         </activity>
 
-        <service
+        <!--<service
             android:name="com.rockon999.android.leanbacklauncher.recommendations.NotificationsService"
             android:label="@string/notif_service_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
@@ -101,7 +101,7 @@
             <intent-filter android:priority="2">
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
-        </receiver>
+        </receiver> -->
         <activity
             android:name=".DummyActivity"
             android:enabled="false"

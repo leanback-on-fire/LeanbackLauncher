@@ -64,8 +64,8 @@ public class AnimatedLayer extends WallpaperImage {
 
     public AnimatedLayer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.mFadeInAnim = AnimatorInflater.loadAnimator(context, R.anim.wallpaper_fade_in);
-        this.mFadeOutAnim = AnimatorInflater.loadAnimator(context, R.anim.wallpaper_fade_out);
+        this.mFadeInAnim = AnimatorInflater.loadAnimator(context, R.animator.wallpaper_fade_in);
+        this.mFadeOutAnim = AnimatorInflater.loadAnimator(context, R.animator.wallpaper_fade_out);
         this.mFadeInAnim.setTarget(this);
         this.mFadeOutAnim.setTarget(this);
         this.mFadeInAnim.addListener(new C02031());
@@ -73,10 +73,7 @@ public class AnimatedLayer extends WallpaperImage {
     }
 
     public boolean isAnimating() {
-        if (this.mRunningAnimation != null) {
-            return this.mRunningAnimation.isRunning();
-        }
-        return false;
+        return this.mRunningAnimation != null && this.mRunningAnimation.isRunning();
     }
 
     public void cancelAnimation() {

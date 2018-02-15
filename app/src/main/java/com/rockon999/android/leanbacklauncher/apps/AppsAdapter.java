@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,24 +14,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.rockon999.android.leanbacklauncher.ActiveItemsRowView;
 import com.rockon999.android.leanbacklauncher.LauncherViewHolder;
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.animation.ViewDimmer.DimState;
+import com.rockon999.android.leanbacklauncher.apps.AppsAdapter.AppViewHolder;
 import com.rockon999.android.leanbacklauncher.apps.AppsRanker.RankingListener;
 import com.rockon999.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener;
 import com.rockon999.android.leanbacklauncher.bean.AppInfo;
-import com.rockon999.android.leanbacklauncher.data.ConstData;
 import com.rockon999.android.leanbacklauncher.modle.db.AppInfoService;
-import com.rockon999.android.leanbacklauncher.util.Lists.Change.Type;
 import com.rockon999.android.leanbacklauncher.widget.RowViewAdapter;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-
-import com.rockon999.android.leanbacklauncher.apps.AppsAdapter.AppViewHolder;
 
 public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements RankingListener, Listener {
     private static final String TAG = "AppsAdapter";
@@ -46,40 +47,42 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
     /* renamed from: AppsAdapter.1 */
     class C01811 implements Runnable {
-        final /* synthetic */ ArrayList val$launchPoints;
-        C01811(ArrayList val$launchPoints) {
+        final List<LaunchPoint> val$launchPoints;
+
+        C01811(List<LaunchPoint> val$launchPoints) {
             this.val$launchPoints = val$launchPoints;
         }
 
         public void run() {
+
             //boolean isGame = AppsAdapter.this.mAppType == 1;
-            boolean isGame = false;
+            //boolean isGame = false;
             boolean saveAppOrderChanges = false;
             for (int i = this.val$launchPoints.size() - 1; i >= 0; i--) {
-                boolean gameMatch = ((LaunchPoint) this.val$launchPoints.get(i)).isGame() == isGame;
+                //boolean gameMatch = ((LaunchPoint) this.val$launchPoints.get(i)).isGame() == isGame;
                 boolean found = false;
                 int j = AppsAdapter.this.mLaunchPoints.size() - 1;
                 while (j >= 0) {
-                    if (((LaunchPoint) AppsAdapter.this.mLaunchPoints.get(j)).equals(this.val$launchPoints.get(i))) {
-                        if (gameMatch) {
+                    if (this.val$launchPoints.contains(AppsAdapter.this.mLaunchPoints.get(j))) {
+                        /*if (gameMatch) {
                             AppsAdapter.this.mLaunchPoints.set(j, (LaunchPoint) this.val$launchPoints.get(i));
                             AppsAdapter.this.notifyItemChanged(j);
                             saveAppOrderChanges = true;
-                        } else {
-                            AppsAdapter.this.mLaunchPoints.remove(j);
-                            AppsAdapter.this.notifyItemRemoved(j);
-                            saveAppOrderChanges = true;
-                        }
+                        } else { */
+                        AppsAdapter.this.mLaunchPoints.remove(j);
+                        AppsAdapter.this.notifyItemRemoved(j);
+                        saveAppOrderChanges = true;
+                        //}
                         found = true;
-                        if (!found && gameMatch) {
-                            AppsAdapter.this.notifyItemInserted(AppsAdapter.this.mAppsRanker.insertLaunchPoint(AppsAdapter.this.mLaunchPoints, (LaunchPoint) this.val$launchPoints.get(i)));
-                            saveAppOrderChanges = true;
-                        }
+                        //if (!found && gameMatch) {
+                        //    AppsAdapter.this.notifyItemInserted(AppsAdapter.this.mAppsRanker.insertLaunchPoint(AppsAdapter.this.mLaunchPoints, (LaunchPoint) this.val$launchPoints.get(i)));
+                        //    saveAppOrderChanges = true;
+                        //}
                     } else {
                         j--;
                     }
                 }
-                AppsAdapter.this.notifyItemInserted(AppsAdapter.this.mAppsRanker.insertLaunchPoint(AppsAdapter.this.mLaunchPoints, (LaunchPoint) this.val$launchPoints.get(i)));
+                AppsAdapter.this.notifyItemInserted(AppsAdapter.this.mAppsRanker.insertLaunchPoint(AppsAdapter.this.mLaunchPoints, this.val$launchPoints.get(i)));
                 saveAppOrderChanges = true;
             }
             if (saveAppOrderChanges && AppsAdapter.this.mAppsRanker.getSortingMode() == SortingModeManager.SortingMode.FIXED) {
@@ -102,7 +105,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             for (int j = AppsAdapter.this.mLaunchPoints.size() - 1; j >= 0; j--) {
                 int i;
                 for (i = this.val$launchPoints.size() - 1; i >= 0; i--) {
-                    if (((LaunchPoint) AppsAdapter.this.mLaunchPoints.get(j)).equals(this.val$launchPoints.get(i)) && itemRemovedAt == -1) {
+                    if (AppsAdapter.this.mLaunchPoints.get(j).equals(this.val$launchPoints.get(i)) && itemRemovedAt == -1) {
                         ((LaunchPoint) this.val$launchPoints.get(i)).cancelPendingOperations(AppsAdapter.this.mContext);
                         this.val$launchPoints.remove(i);
                         saveAppOrderChanges = true;
@@ -161,7 +164,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         }
 
         public void init(LaunchPoint launchPoint) {
-            this.itemView.setVisibility(0);
+            this.itemView.setVisibility(View.VISIBLE);
             if (launchPoint != null) {
                 this.mPackageName = launchPoint.getPackageName();
                 this.mComponentName = launchPoint.getComponentName();
@@ -291,7 +294,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
         public AppFallbackViewHolder(View v, AppsAdapter adapter) {
             super(v, adapter);
-            if(v != null && v instanceof BannerView)
+            if (v != null && v instanceof BannerView)
                 rootView = (BannerView) v;
             else
                 rootView = null;
@@ -318,9 +321,9 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
                 if (this.mLabelView != null) {
                     this.mLabelView.setText(launchPoint.getTitle());
                 }
-                if(this.mBannerView != null){
+                if (this.mBannerView != null) {
                     mBannerView.setBackgroundColor(launchPoint.getLaunchColor());
-                    if(rootView != null)
+                    if (rootView != null)
                         rootView.setBannerBackColor(launchPoint.getLaunchColor());
                 }
                 if (launchPoint.isInstalling()) {
@@ -373,66 +376,51 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
                 }
             }
             if (this.mOverlayView != null) {
-                this.mOverlayView.setVisibility(0);
+                this.mOverlayView.setVisibility(View.VISIBLE);
             }
         }
 
         public void hideOverlay() {
             if (this.mOverlayView != null) {
-                this.mOverlayView.setVisibility(8);
+                this.mOverlayView.setVisibility(View.GONE);
             }
         }
     }
 
     private class RefreshTask extends AsyncTask<Void, Void, ArrayList<LaunchPoint>> {
-        private  /* synthetic */ int[] f7xdd5e01f = null;
-        private  /* synthetic */ int[] m1987x19db67fb() {
-
-            if (f7xdd5e01f != null) {
-                return f7xdd5e01f;
-            }
-            int[] iArr = new int[Type.values().length];
-            try {
-                iArr[Type.INSERTION.ordinal()] = 1;
-            } catch (NoSuchFieldError e) {
-            }
-            try {
-                iArr[Type.REMOVAL.ordinal()] = 2;
-            } catch (NoSuchFieldError e2) {
-            }
-            f7xdd5e01f = iArr;
-            return iArr;
-        }
-
         private RefreshTask() {
         }
 
+        // todo fix this mess
         protected ArrayList<LaunchPoint> doInBackground(Void... params) {
             AppInfoService appInfoService = new AppInfoService();
             List<AppInfo> appInfos = appInfoService.getAppInfosByType(mAppType);
-            ArrayList<LaunchPoint> originLaunchPoints = AppsAdapter.this.getRefreshedLaunchPointList();
-            ArrayList<LaunchPoint> diffLaunchPoints = new ArrayList<>(originLaunchPoints);
-            ArrayList<LaunchPoint> sameLaunchPoints = new ArrayList<>();
+            List<LaunchPoint> originLaunchPoints = AppsAdapter.this.getRefreshedLaunchPointList();
+            List<LaunchPoint> diffLaunchPoints = new ArrayList<>(originLaunchPoints);
+            List<LaunchPoint> sameLaunchPoints = new ArrayList<>();
             ArrayList<LaunchPoint> resultLaunchPoints = new ArrayList<>();
             Log.i(TAG, "RefreshTask->appInfos1:" + appInfos);
-            if(appInfos != null && appInfos.size() > 0){
+            if (appInfos != null && appInfos.size() > 0) {
                 List<AppInfo> removedInfos = new ArrayList<>();
-               for(AppInfo itemInfo : appInfos){
-                   if(!originLaunchPoints.contains(itemInfo))
-                       removedInfos.add(itemInfo);
-               }
-                appInfos.remove(removedInfos);
+                for (AppInfo itemInfo : appInfos) {
+                    if (!originLaunchPoints.contains(itemInfo))
+                        removedInfos.add(itemInfo);
+                }
+                for (AppInfo info : removedInfos) {
+                    appInfos.remove(info);
+                }
+
             }
             Log.i(TAG, "RefreshTask->appInfos2:" + appInfos);
-            for(LaunchPoint itemLaunchPoint : originLaunchPoints){
+            for (LaunchPoint itemLaunchPoint : originLaunchPoints) {
                 Log.i(TAG, "RefreshTask->itemLaunchPoint->packageName:" + itemLaunchPoint.getPackageName());
                 Log.i(TAG, "RefreshTask->itemLaunchPoint->componetName:" + itemLaunchPoint.getComponentName());
             }
-            if(appInfos != null && appInfos.size() > 0){
+            if (appInfos != null && appInfos.size() > 0) {
                 diffLaunchPoints.removeAll(appInfos);
-                for(AppInfo itemInfo : appInfos){
+                for (AppInfo itemInfo : appInfos) {
                     int itemIndex = originLaunchPoints.indexOf(itemInfo);
-                    if(itemIndex >= 0)
+                    if (itemIndex >= 0)
                         sameLaunchPoints.add(originLaunchPoints.get(originLaunchPoints.indexOf(itemInfo)));
                 }
 
@@ -440,10 +428,10 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             resultLaunchPoints.addAll(sameLaunchPoints);
             resultLaunchPoints.addAll(diffLaunchPoints);
             //if(mAppType == 4 && resultLaunchPoints.size() == 1)
-             //   resultLaunchPoints.clear();
+            //   resultLaunchPoints.clear();
             Log.i(TAG, "RefreshTask->resultLaunchPoints:" + resultLaunchPoints);
-            if(mAppType == 4 && resultLaunchPoints.size() > 1 || mAppType != 4 && resultLaunchPoints.size() > 0){
-                //重新保存至数据库
+            if (mAppType == 4 && resultLaunchPoints.size() > 1 || mAppType != 4 && resultLaunchPoints.size() > 0) {
+                //  Save the database again
                 appInfoService.deleteByType(mAppType);
                 appInfoService.saveByLaunchPoints(resultLaunchPoints, mAppType);
             }
@@ -453,24 +441,9 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         protected void onPostExecute(ArrayList<LaunchPoint> launchPoints) {
             Log.i(TAG, "RefreshTask->onPostExecute->notifyDataSetChanged");
 
-           // List<Change> changes = Lists.getChanges(AppsAdapter.this.mLaunchPoints, launchPoints, AppsAdapter.this.mAppsRanker.getLaunchPointComparator());
-
             AppsAdapter.this.mLaunchPoints = launchPoints;
             AppsAdapter.this.onPostRefresh();
             notifyDataSetChanged();
-/*            for (Change change : changes) {
-                Log.i(TAG, "RefreshTask->ordinal:" + change.type.ordinal());
-                switch (m1987x19db67fb()[change.type.ordinal()]) {
-                    case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability *//*1*//*:
-                        AppsAdapter.this.notifyItemRangeInserted(change.index, change.count);
-                        break;
-                    case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager *//*2*//*:
-                        AppsAdapter.this.notifyItemRangeRemoved(change.index, change.count);
-                        break;
-                    default:
-                        throw new IllegalStateException("Unsupported change type: " + change.type);
-                }
-            }*/
         }
     }
 
@@ -518,7 +491,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         super(context);
         this.mNotifyHandler = new Handler();
         this.mInflater = (LayoutInflater) context.getSystemService("layout_inflater");
-        this.mLaunchPoints = new ArrayList();
+        this.mLaunchPoints = new ArrayList<>();
         this.mAppsRanker = appsRanker;
         this.mAppType = appType;
         this.mFlaggedForResort = false;
@@ -529,7 +502,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
     public int getItemViewType(int position) {
         Log.i(TAG, "getItemViewType->mAppType:" + mAppType);
-       // return mAppType;
+        // return mAppType;
         int i = 0;
         if (position >= this.mLaunchPoints.size()) {
             Log.e("AppsAdapter", "getItemViewType with out of bounds index = " + position);
@@ -538,7 +511,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             }
             return i;
         }
-        LaunchPoint launchPoint = (LaunchPoint) this.mLaunchPoints.get(position);
+        LaunchPoint launchPoint = this.mLaunchPoints.get(position);
         if (this.mAppType == 2) {
             return 2;
         }
@@ -548,6 +521,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         return 1;
     }
 
+    @SuppressLint("PrivateResource")
     public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.i(TAG, "onCreateViewHolder->viewType:" + viewType);
         switch (viewType) {
@@ -567,10 +541,10 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         Log.i(TAG, "onBindViewHolder->className:" + holder.getClass().getName());
         Log.i(TAG, "onBindViewHolder->position:" + position);
         if (position < this.mLaunchPoints.size()) {
-            LaunchPoint launchPoint = (LaunchPoint) this.mLaunchPoints.get(position);
+            LaunchPoint launchPoint = this.mLaunchPoints.get(position);
             Log.i(TAG, "onBindViewHolder->packageName:" + launchPoint.getPackageName());
             int itemViewType = holder.getItemViewType();
-            if(itemViewType != 2 && holder.itemView instanceof BannerView){
+            if (itemViewType != 2 && holder.itemView instanceof BannerView) {
                 BannerView itemView = (BannerView) holder.itemView;
                 itemView.mIsAddItem = launchPoint.isAddItem();
             }
@@ -603,7 +577,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
     public void sortItemsIfNeeded(boolean force) {
         Log.i(TAG, "sortItemsIfNeeded");
-        boolean z = !this.mFlaggedForResort ? force : true;
+        boolean z = this.mFlaggedForResort || force;
         this.mFlaggedForResort = false;
         if (force && this.mAppsRanker.getSortingMode() == SortingModeManager.SortingMode.FIXED) {
             saveAppOrderSnapshot();
@@ -624,13 +598,13 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
     public boolean moveLaunchPoint(int initPosition, int desiredPosition, boolean userAction) {
         Log.i(TAG, "moveLaunchPoint");
-        if(desiredPosition == mLaunchPoints.size() - 1 && mLaunchPoints.get(mLaunchPoints.size() - 1).isAddItem())
+        if (desiredPosition == mLaunchPoints.size() - 1 && mLaunchPoints.get(mLaunchPoints.size() - 1).isAddItem())
             return false;
         if (desiredPosition < 0 || desiredPosition > this.mLaunchPoints.size() - 1 || initPosition < 0 || initPosition > this.mLaunchPoints.size() - 1) {
             return false;
         }
-        LaunchPoint focused = (LaunchPoint) this.mLaunchPoints.get(initPosition);
-        this.mLaunchPoints.set(initPosition, (LaunchPoint) this.mLaunchPoints.get(desiredPosition));
+        LaunchPoint focused = this.mLaunchPoints.get(initPosition);
+        this.mLaunchPoints.set(initPosition, this.mLaunchPoints.get(desiredPosition));
         this.mLaunchPoints.set(desiredPosition, focused);
         AppInfoService appInfoService = new AppInfoService();
         appInfoService.deleteByType(mAppType);
@@ -651,11 +625,11 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public Drawable getDrawableFromLaunchPoint(int index) {
-        return ((LaunchPoint) this.mLaunchPoints.get(index)).getBannerDrawable();
+        return this.mLaunchPoints.get(index).getBannerDrawable();
     }
 
     public LaunchPoint getLaunchPointForPosition(int index) {
-        return (LaunchPoint) this.mLaunchPoints.get(index);
+        return this.mLaunchPoints.get(index);
     }
 
     private void onActionOpenLaunchPoint(String component, String group) {
@@ -673,17 +647,17 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             //launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
         } else if (this.mAppType == 2) {
             launchPoints = this.mLaunchPointGen.getSettingsLaunchPoints(true);
-        } else if(this.mAppType == 4){
-            //推荐
+        } else if (this.mAppType == 4) {
+            // recommended
             launchPoints = this.mLaunchPointGen.getRecommendLaunchPoints();
-        }else if(this.mAppType == 5){
+        } else if (this.mAppType == 5) {
             launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
-        }else if(this.mAppType == 6){
+        } else if (this.mAppType == 6) {
             launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
         }
-        //launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
+
         if (launchPoints == null) {
-            launchPoints = new ArrayList();
+            launchPoints = new ArrayList<>();
         }
         sortLaunchPoints(launchPoints);
         return launchPoints;
@@ -695,8 +669,20 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
     protected void sortLaunchPoints(ArrayList<LaunchPoint> launchPoints) {
         Log.i(TAG, "sortLaunchPoints");
+
         if (this.mAppType != 2) {
             this.mAppsRanker.rankLaunchPoints(launchPoints, this);
+        } else {
+            Collections.sort(launchPoints, new Comparator<LaunchPoint>() {
+                @Override
+                public int compare(LaunchPoint o1, LaunchPoint o2) {
+                    if (o1.getComponentName().toLowerCase().contains("bluetooth")) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
         }
     }
 
@@ -734,10 +720,10 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
     public void refreshDataSetAsync() {
         Log.i(TAG, "refreshDataSetAsync->stackTrace:" + Log.getStackTraceString(new Throwable()));
-        new RefreshTask().execute(new Void[0]);
+        new RefreshTask().execute();
     }
 
-    public int getAppType(){
+    public int getAppType() {
         return mAppType;
     }
 }

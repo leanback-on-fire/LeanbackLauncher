@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="abc_action_bar_embed_tabs">true</bool>
-    <bool name="abc_config_showMenuShortcutsWhenKeyboardPresent">false</bool>
-    <bool name="abc_allow_stacked_button_bar">true</bool>
-    <bool name="abc_config_actionMenuItemAllCaps">true</bool>
-    <bool name="abc_config_closeDialogWhenTouchOutside">true</bool>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <bool name="abc_action_bar_embed_tabs" tools:ignore="PrivateResource">true</bool>
+    <bool name="abc_config_showMenuShortcutsWhenKeyboardPresent" tools:ignore="PrivateResource">false</bool>
+    <bool name="abc_allow_stacked_button_bar" tools:ignore="PrivateResource">true</bool>
+    <bool name="abc_config_actionMenuItemAllCaps" tools:ignore="PrivateResource">true</bool>
+    <bool name="abc_config_closeDialogWhenTouchOutside" tools:ignore="PrivateResource">true</bool>
     <bool name="launcher_uses_new_google_logo">true</bool>
     <bool name="full_screen_settings_enabled">true</bool>
     <bool name="side_panel_settings_enabled">false</bool>

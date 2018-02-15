@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -76,7 +77,7 @@ public class ConnectivityListener {
 
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-            ConnectivityListener listener = (ConnectivityListener) this.mListener.get();
+            ConnectivityListener listener = this.mListener.get();
             if (listener != null) {
                 listener.mConnectivityStatus.mMobileSignalStrength = ConnectivityListener.getLevel(signalStrength);
             }
@@ -163,6 +164,7 @@ public class ConnectivityListener {
         return false;
     }
 
+    @SuppressLint("PrivateResource")
     private void updateConnectivityStatus() {
         NetworkInfo networkInfo = this.mConnectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {

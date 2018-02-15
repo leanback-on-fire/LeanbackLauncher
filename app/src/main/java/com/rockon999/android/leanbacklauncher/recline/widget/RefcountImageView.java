@@ -5,11 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+
 import com.rockon999.android.leanbacklauncher.recline.util.RefcountBitmapDrawable;
 
-public class RefcountImageView extends ImageView {
+public class RefcountImageView extends AppCompatImageView {
     private boolean mAutoUnrefOnDetach;
     private RectF mClipRect;
     private boolean mHasClipRect;
@@ -60,9 +61,5 @@ public class RefcountImageView extends ImageView {
 
     public RefcountImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public RefcountImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 }

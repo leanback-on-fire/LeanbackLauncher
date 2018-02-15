@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Chyba služieb Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Aplikácia vyžaduje inštaláciu služieb Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Aplikácia vyžaduje aktualizáciu služieb Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ZAČÍNAME</string>
     <string name="lb_onboarding_accessibility_next">Ďalej</string>
-    <string name="abc_action_mode_done">Hotovo</string>
-    <string name="abc_action_bar_home_description">Prejsť na plochu</string>
-    <string name="abc_action_bar_up_description">Prejsť hore</string>
-    <string name="abc_action_menu_overflow_description">Ďalšie možnosti</string>
-    <string name="abc_toolbar_collapse_description">Zbaliť</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Hľadať</string>
-    <string name="abc_search_hint">Vyhľadať…</string>
-    <string name="abc_searchview_description_query">Vyhľadávací dopyt</string>
-    <string name="abc_searchview_description_clear">Vymazať dopyt</string>
-    <string name="abc_searchview_description_submit">Odoslať dopyt</string>
-    <string name="abc_searchview_description_voice">Hlasové vyhľadávanie</string>
-    <string name="abc_activitychooserview_choose_application">Zvoľte aplikáciu</string>
-    <string name="abc_activity_chooser_view_see_all">Zobraziť všetko</string>
-    <string name="abc_shareactionprovider_share_with_application">Zdieľať pomocou %s</string>
-    <string name="abc_shareactionprovider_share_with">Zdieľať pomocou</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ZAP.</string>
-    <string name="abc_capital_off">VYP.</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Hotovo</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Prejsť na plochu</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Prejsť hore</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Ďalšie možnosti</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Zbaliť</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Hľadať</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Vyhľadať…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Vyhľadávací dopyt</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Vymazať dopyt</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Odoslať dopyt</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Hlasové vyhľadávanie</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Zvoľte aplikáciu</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Zobraziť všetko</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Zdieľať pomocou %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Zdieľať pomocou</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ZAP.</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">VYP.</string>
     <string name="app_name">Spúšťač Leanback</string>
     <string name="app_label">Plocha</string>
     <string name="search_hint_text">Vyhľadávanie filmov, televízií a pod.</string>
@@ -105,7 +105,7 @@
     <string name="update_pending">Aktualizácia čaká na spracovanie…</string>
     <string name="restore_pending">Čaká sa na obnovenie…</string>
     <string name="downloading">Sťahuje sa…</string>
-    <string name="installing">Inštaluje sa...</string>
+    <string name="installing">Inštaluje sa…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Prehráva sa</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play സേവനങ്ങളിലെ പിശക്</string>
     <string name="common_google_play_services_notification_needs_installation_title">ഒരു അപ്ലിക്കേഷന് Google Play സേവനങ്ങൾ ഇൻസ്‌റ്റാളുചെയ്യേണ്ടതുണ്ട്.</string>
     <string name="common_google_play_services_notification_needs_update_title">ഒരു അപ്ലിക്കേഷന് Google Play സേവനങ്ങൾ അപ്‌ഡേറ്റുചെയ്യേണ്ടതുണ്ട്.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ആരംഭിക്കുക</string>
     <string name="lb_onboarding_accessibility_next">അടുത്തത്</string>
-    <string name="abc_action_mode_done">പൂർത്തിയാക്കി</string>
-    <string name="abc_action_bar_home_description">ഹോമിലേക്ക് നാവിഗേറ്റുചെയ്യുക</string>
-    <string name="abc_action_bar_up_description">മുകളിലേക്ക് നാവിഗേറ്റുചെയ്യുക</string>
-    <string name="abc_action_menu_overflow_description">കൂടുതൽ‍ ഓപ്‌ഷനുകള്‍</string>
-    <string name="abc_toolbar_collapse_description">ചുരുക്കുക</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">തിരയൽ</string>
-    <string name="abc_search_hint">തിരയുക…</string>
-    <string name="abc_searchview_description_query">തിരയൽ അന്വേഷണം</string>
-    <string name="abc_searchview_description_clear">അന്വേഷണം മായ്‌ക്കുക</string>
-    <string name="abc_searchview_description_submit">അന്വേഷണം സമർപ്പിക്കുക</string>
-    <string name="abc_searchview_description_voice">ശബ്ദതിരയൽ</string>
-    <string name="abc_activitychooserview_choose_application">ഒരു അപ്ലിക്കേഷൻ തിരഞ്ഞെടുക്കുക</string>
-    <string name="abc_activity_chooser_view_see_all">എല്ലാം കാണുക</string>
-    <string name="abc_shareactionprovider_share_with_application">%s എന്നതുമായി പങ്കിടുക</string>
-    <string name="abc_shareactionprovider_share_with">ഇവരുമായി പങ്കിടുക</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ഓൺ</string>
-    <string name="abc_capital_off">ഓഫ്</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">പൂർത്തിയാക്കി</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">ഹോമിലേക്ക് നാവിഗേറ്റുചെയ്യുക</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">മുകളിലേക്ക് നാവിഗേറ്റുചെയ്യുക</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">കൂടുതൽ‍ ഓപ്‌ഷനുകള്‍</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">ചുരുക്കുക</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">തിരയൽ</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">തിരയുക…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">തിരയൽ അന്വേഷണം</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">അന്വേഷണം മായ്‌ക്കുക</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">അന്വേഷണം സമർപ്പിക്കുക</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">ശബ്ദതിരയൽ</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">ഒരു അപ്ലിക്കേഷൻ തിരഞ്ഞെടുക്കുക</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">എല്ലാം കാണുക</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s എന്നതുമായി പങ്കിടുക</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">ഇവരുമായി പങ്കിടുക</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ഓൺ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ഓഫ്</string>
     <string name="app_name">Leanback ലോഞ്ചർ</string>
     <string name="app_label">ഹോം സ്‌ക്രീൻ</string>
     <string name="search_hint_text">സിനിമകൾക്കും ടിവിയ്‌ക്കും അതിലെറെ കാര്യങ്ങൾക്കുമായി തിരയുക</string>
@@ -105,7 +105,7 @@
     <string name="update_pending">അപ്‌ഡേറ്റുചെയ്യൽ തീർപ്പാക്കിയിട്ടില്ല…</string>
     <string name="restore_pending">പുനഃസ്ഥാപിക്കൽ തീർപ്പാക്കിയിട്ടില്ല…</string>
     <string name="downloading">ഡൗൺലോഡുചെയ്യുന്നു…</string>
-    <string name="installing">ഇൻസ്റ്റാൾ ചെയ്യുന്നു...</string>
+    <string name="installing">ഇൻസ്റ്റാൾ ചെയ്യുന്നു…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">ഇപ്പോൾ പ്ലേ ചെയ്യുന്നു</string>

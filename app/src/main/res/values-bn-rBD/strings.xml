@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google প্লে পরিষেবার ত্রুটি</string>
     <string name="common_google_play_services_notification_needs_installation_title">একটি অ্যাপ্লিকেশানের জন্য Google প্লে পরিষেবার ইনস্টল করা প্রয়োজন৷</string>
     <string name="common_google_play_services_notification_needs_update_title">একটি অ্যাপ্লিকেশানের জন্য Google প্লে পরিষেবার একটি আপডেটের প্রয়োজন৷</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">শুরু করা যাক</string>
     <string name="lb_onboarding_accessibility_next">পরবর্তী</string>
-    <string name="abc_action_mode_done">সম্পন্ন হয়েছে</string>
-    <string name="abc_action_bar_home_description">হোম এ নেভিগেট করুন</string>
-    <string name="abc_action_bar_up_description">উপরের দিকে নেভিগেট করুন</string>
-    <string name="abc_action_menu_overflow_description">আরো বিকল্প</string>
-    <string name="abc_toolbar_collapse_description">সঙ্কুচিত করুন</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">অনুসন্ধান করুন</string>
-    <string name="abc_search_hint">অনুসন্ধান...</string>
-    <string name="abc_searchview_description_query">ক্যোয়ারী অনুসন্ধান করুন</string>
-    <string name="abc_searchview_description_clear">ক্যোয়ারী সাফ করুন</string>
-    <string name="abc_searchview_description_submit">ক্যোয়ারী জমা দিন</string>
-    <string name="abc_searchview_description_voice">ভয়েস অনুসন্ধান</string>
-    <string name="abc_activitychooserview_choose_application">একটি অ্যাপ্লিকেশান বেছে নিন</string>
-    <string name="abc_activity_chooser_view_see_all">সবগুলো দেখুন</string>
-    <string name="abc_shareactionprovider_share_with_application">%s এর সাথে শেয়ার করুন</string>
-    <string name="abc_shareactionprovider_share_with">এর সাথে শেয়ার করুন</string>
-    <string name="status_bar_notification_info_overflow">৯৯৯+</string>
-    <string name="abc_capital_on">চালু</string>
-    <string name="abc_capital_off">বন্ধ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">সম্পন্ন হয়েছে</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">হোম এ নেভিগেট করুন</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">উপরের দিকে নেভিগেট করুন</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">আরো বিকল্প</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">সঙ্কুচিত করুন</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">অনুসন্ধান করুন</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">অনুসন্ধান…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">ক্যোয়ারী অনুসন্ধান করুন</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">ক্যোয়ারী সাফ করুন</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">ক্যোয়ারী জমা দিন</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">ভয়েস অনুসন্ধান</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">একটি অ্যাপ্লিকেশান বেছে নিন</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">সবগুলো দেখুন</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s এর সাথে শেয়ার করুন</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">এর সাথে শেয়ার করুন</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">৯৯৯+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">চালু</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">বন্ধ</string>
     <string name="app_name">Leanback লঞ্চার</string>
     <string name="app_label">হোম স্ক্রীন</string>
     <string name="search_hint_text">চলচ্চিত্র, টিভি এবং আরো কিছু অনুসন্ধান করুন</string>
@@ -101,10 +101,10 @@
     <string name="settings_network">নেটওয়ার্ক সেটিংস</string>
     <string name="notif_service_name">বিজ্ঞপ্তিগুলির পরিষেবা</string>
     <string name="recm_service_name">প্রস্তাবনা দেওয়ার পরিষেবা</string>
-    <string name="install_pending">ইনস্টল করা মুলতবি হয়ে আছে...</string>
-    <string name="update_pending">আপডেট মুলতবি হয়ে আছে...</string>
-    <string name="restore_pending">পুনরুদ্ধার মুলতবি হয়ে আছে...</string>
-    <string name="downloading">ডাউনলোড হচ্ছে...</string>
+    <string name="install_pending">ইনস্টল করা মুলতবি হয়ে আছে…</string>
+    <string name="update_pending">আপডেট মুলতবি হয়ে আছে…</string>
+    <string name="restore_pending">পুনরুদ্ধার মুলতবি হয়ে আছে…</string>
+    <string name="downloading">ডাউনলোড হচ্ছে…</string>
     <string name="installing">ইনস্টল করা হচ্ছে…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>

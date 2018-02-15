@@ -2,6 +2,7 @@ package com.rockon999.android.leanbacklauncher.recline.app;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,7 @@ import android.media.AudioManager;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,24 +97,24 @@ class DialogActionAdapter extends Adapter {
                     this.mResourcesSet = true;
                     Resources res = v.getContext().getResources();
                     this.mAnimationDuration = res.getInteger(R.integer.lb_dialog_animation_duration);
-                    this.mUnselectedAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_unselected_text_alpha)).floatValue();
-                    this.mSelectedTitleAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_selected_title_text_alpha)).floatValue();
-                    this.mDisabledTitleAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_disabled_title_text_alpha)).floatValue();
-                    this.mSelectedDescriptionAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_selected_description_text_alpha)).floatValue();
-                    this.mUnselectedDescriptionAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_unselected_description_text_alpha)).floatValue();
-                    this.mDisabledDescriptionAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_disabled_description_text_alpha)).floatValue();
-                    this.mSelectedChevronAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_selected_chevron_background_alpha)).floatValue();
-                    this.mDisabledChevronAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_disabled_chevron_background_alpha)).floatValue();
+                    this.mUnselectedAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_unselected_text_alpha));
+                    this.mSelectedTitleAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_selected_title_text_alpha));
+                    this.mDisabledTitleAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_disabled_title_text_alpha));
+                    this.mSelectedDescriptionAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_selected_description_text_alpha));
+                    this.mUnselectedDescriptionAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_unselected_description_text_alpha));
+                    this.mDisabledDescriptionAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_disabled_description_text_alpha));
+                    this.mSelectedChevronAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_selected_chevron_background_alpha));
+                    this.mDisabledChevronAlpha = Float.valueOf(res.getString(R.string.lb_dialog_list_item_disabled_chevron_background_alpha));
                 }
                 DialogFragment.Action action = ((ActionViewHolder) v.getTag(R.id.action_title)).getAction();
                 float titleAlpha = (!action.isEnabled() || action.infoOnly()) ? this.mDisabledTitleAlpha : hasFocus ? this.mSelectedTitleAlpha : this.mUnselectedAlpha;
                 float descriptionAlpha = (!hasFocus || action.infoOnly()) ? this.mUnselectedDescriptionAlpha : action.isEnabled() ? this.mSelectedDescriptionAlpha : this.mDisabledDescriptionAlpha;
                 float chevronAlpha = (!action.hasNext() || action.infoOnly()) ? 0.0f : action.isEnabled() ? this.mSelectedChevronAlpha : this.mDisabledChevronAlpha;
-                setAlpha((TextView) v.findViewById(R.id.action_title), shouldAnimate, titleAlpha);
-                setAlpha((TextView) v.findViewById(R.id.action_description), shouldAnimate, descriptionAlpha);
-                setAlpha((ImageView) v.findViewById(R.id.action_checkmark), shouldAnimate, titleAlpha);
-                setAlpha((ImageView) v.findViewById(R.id.action_icon), shouldAnimate, titleAlpha);
-                setAlpha((ImageView) v.findViewById(R.id.action_next_chevron), shouldAnimate, chevronAlpha);
+                setAlpha(v.findViewById(R.id.action_title), shouldAnimate, titleAlpha);
+                setAlpha(v.findViewById(R.id.action_description), shouldAnimate, descriptionAlpha);
+                setAlpha(v.findViewById(R.id.action_checkmark), shouldAnimate, titleAlpha);
+                setAlpha(v.findViewById(R.id.action_icon), shouldAnimate, titleAlpha);
+                setAlpha(v.findViewById(R.id.action_next_chevron), shouldAnimate, chevronAlpha);
             }
         }
 
@@ -173,6 +175,7 @@ class DialogActionAdapter extends Adapter {
             ((AudioManager) context.getSystemService("audio")).playSoundEffect(soundEffect);
         }
 
+        @SuppressLint("PrivateResource")
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (v == null) {
                 return false;
@@ -242,7 +245,7 @@ class DialogActionAdapter extends Adapter {
                 ViewGroup parent = (ViewGroup) v.getTag(R.layout.lb_dialog_action_list_item);
                 int size = this.mActions.size();
                 for (int i = 0; i < size; i++) {
-                    DialogFragment.Action a = (DialogFragment.Action) this.mActions.get(i);
+                    DialogFragment.Action a = this.mActions.get(i);
                     if (a != action && a.getCheckSetId() == actionCheckSetId && a.isChecked()) {
                         a.setChecked(false);
                         View viewToAnimateOut = parent.getChildAt(i);
@@ -354,14 +357,16 @@ class DialogActionAdapter extends Adapter {
 
         private int getDescriptionMaxHeight(Context context, TextView title) {
             Resources res = context.getResources();
-            return (int) ((((float) ((WindowManager) context.getSystemService("window")).getDefaultDisplay().getHeight()) - (2.0f * res.getDimension(R.dimen.lb_dialog_list_item_vertical_padding))) - ((float) ((res.getInteger(R.integer.lb_dialog_action_title_max_lines) * 2) * title.getLineHeight())));
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
+            return (int) ((((displayMetrics.heightPixels)) - (2.0f * res.getDimension(R.dimen.lb_dialog_list_item_vertical_padding))) - ((float) ((res.getInteger(R.integer.lb_dialog_action_title_max_lines) * 2) * title.getLineHeight())));
         }
     }
 
     public DialogActionAdapter(DialogFragment.Action.Listener listener, DialogFragment.Action.OnFocusListener onFocusListener, List<DialogFragment.Action> actions) {
         this.mOnClickListener = new C02091();
         this.mListener = listener;
-        this.mActions = new ArrayList(actions);
+        this.mActions = new ArrayList<>(actions);
         this.mActionOnKeyPressAnimator = new ActionOnKeyPressAnimator(listener, this.mActions);
         this.mActionOnFocusAnimator = new ActionOnFocusAnimator(onFocusListener);
     }
@@ -378,7 +383,7 @@ class DialogActionAdapter extends Adapter {
     public void onBindViewHolder(ViewHolder baseHolder, int position) {
         ActionViewHolder holder = (ActionViewHolder) baseHolder;
         if (position < this.mActions.size()) {
-            holder.init((DialogFragment.Action) this.mActions.get(position));
+            holder.init(this.mActions.get(position));
         }
     }
 

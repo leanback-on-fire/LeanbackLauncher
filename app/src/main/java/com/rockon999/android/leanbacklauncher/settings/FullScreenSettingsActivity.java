@@ -18,6 +18,7 @@ import com.rockon999.android.leanbacklauncher.recline.app.DialogFragment;
 import com.rockon999.android.leanbacklauncher.recline.app.DialogFragment.Action;
 import com.rockon999.android.leanbacklauncher.recline.app.DialogFragment.Action.Listener;
 import com.rockon999.android.leanbacklauncher.recline.app.DialogFragment.Builder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -90,10 +91,10 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
                 int size = actions.size();
                 int a = 0;
                 while (a < size) {
-                    if (TextUtils.equals(((Action) actions.get(a)).getKey(), "recs")) {
+                    if (TextUtils.equals(actions.get(a).getKey(), "recs")) {
                         frag.setActions(getBaseActions());
                         return;
-                    } else if (TextUtils.equals(((Action) actions.get(a)).getKey(), "appOrder")) {
+                    } else if (TextUtils.equals(actions.get(a).getKey(), "appOrder")) {
                         frag.setActions(getHomeScreenOrderActions());
                         return;
                     } else {
@@ -106,32 +107,41 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
 
     public void onActionClicked(Action action) {
         String key = action.getKey();
-        if (key.equals("recs")) {
-            showBlacklistDialog();
-        } else if (key.equals("homeScreenOrder")) {
-            showHomeScreenOrderDialog();
-        } else if (key.equals("appOrder")) {
-            showSelectAppOrderDialog();
-        } else if (key.equals("customizeApps")) {
-            launchEditMode("extra_start_customize_apps");
-        } else if (key.equals("customizeGames")) {
-            launchEditMode("extra_start_customize_games");
-        } else if (key.equals("recency")) {
-            checkAndSetSortMode(action, SortingMode.RECENCY);
-        } else if (key.equals("fixed")) {
-            checkAndSetSortMode(action, SortingMode.FIXED);
-        } else {
-            action.setChecked(!action.isChecked());
-            this.mSaved = false;
-            if (action.isChecked()) {
-                this.mBlacklistedPackageNames.remove(key);
-            } else {
-                this.mBlacklistedPackageNames.add(key);
-            }
-            DialogFragment fragment = DialogFragment.getCurrentDialogFragment(getFragmentManager());
-            if (fragment != null) {
-                fragment.setActions(fragment.getActions());
-            }
+        switch (key) {
+            case "recs":
+                showBlacklistDialog();
+                break;
+            case "homeScreenOrder":
+                showHomeScreenOrderDialog();
+                break;
+            case "appOrder":
+                showSelectAppOrderDialog();
+                break;
+            case "customizeApps":
+                launchEditMode("extra_start_customize_apps");
+                break;
+            case "customizeGames":
+                launchEditMode("extra_start_customize_games");
+                break;
+            case "recency":
+                checkAndSetSortMode(action, SortingMode.RECENCY);
+                break;
+            case "fixed":
+                checkAndSetSortMode(action, SortingMode.FIXED);
+                break;
+            default:
+                action.setChecked(!action.isChecked());
+                this.mSaved = false;
+                if (action.isChecked()) {
+                    this.mBlacklistedPackageNames.remove(key);
+                } else {
+                    this.mBlacklistedPackageNames.add(key);
+                }
+                DialogFragment fragment = DialogFragment.getCurrentDialogFragment(getFragmentManager());
+                if (fragment != null) {
+                    fragment.setActions(fragment.getActions());
+                }
+                break;
         }
     }
 
@@ -167,7 +177,7 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
 
     private ArrayList<Action> getHomeScreenOrderActions() {
         String appOrderActionDescription;
-        ArrayList<Action> actions = new ArrayList(this.mPackageNames.size());
+        ArrayList<Action> actions = new ArrayList<>(this.mPackageNames.size());
         SortingMode sortingMode = SortingModeManager.getSavedSortingMode(getApplicationContext());
         if (sortingMode == SortingMode.FIXED) {
             appOrderActionDescription = getString(R.string.select_app_order_action_description_fixed);
@@ -186,21 +196,13 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
         boolean z;
         int i = 0;
         String title = getString(R.string.select_app_order_content_title);
-        ArrayList<Action> actions = new ArrayList(this.mPackageNames.size());
+        ArrayList<Action> actions = new ArrayList<>(this.mPackageNames.size());
         SortingMode sortingMode = SortingModeManager.getSavedSortingMode(getApplicationContext());
         Action.Builder description = new Action.Builder().title(getString(R.string.recency_order_action_title)).description(getString(R.string.recency_order_action_description));
-        if (sortingMode == SortingMode.RECENCY) {
-            z = true;
-        } else {
-            z = false;
-        }
+        z = sortingMode == SortingMode.RECENCY;
         actions.add(description.checked(z).key("recency").build());
         description = new Action.Builder().title(getString(R.string.fixed_order_action_title)).description(getString(R.string.fixed_order_action_description));
-        if (sortingMode == SortingMode.FIXED) {
-            z = true;
-        } else {
-            z = false;
-        }
+        z = sortingMode == SortingMode.FIXED;
         actions.add(description.checked(z).key("fixed").build());
         FragmentManager fragmentManager = getFragmentManager();
         Builder actions2 = new Builder().actions(actions);
@@ -214,7 +216,7 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
         PackageManager pkgMan = getPackageManager();
         String title = getString(R.string.recommendation_blacklist_content_title);
         String description = getString(R.string.recommendation_blacklist_content_description);
-        ArrayList<Action> actions = new ArrayList(this.mPackageNames.size());
+        ArrayList<Action> actions = new ArrayList<>(this.mPackageNames.size());
         for (String packageName : this.mPackageNames) {
             CharSequence appTitle;
             int resId = 0;
@@ -242,11 +244,7 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
             if (!TextUtils.isEmpty(appTitle)) {
                 boolean z;
                 Action.Builder key = new Action.Builder().title(appTitle.toString()).resourcePackageName(packageName).drawableResource(resId).key(packageName);
-                if (this.mBlacklistedPackageNames.contains(packageName)) {
-                    z = false;
-                } else {
-                    z = true;
-                }
+                z = !this.mBlacklistedPackageNames.contains(packageName);
                 actions.add(key.checked(z).build());
             }
         }
@@ -270,7 +268,7 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
     }
 
     public void onRecommendationPackagesLoaded(String[] recommendationPackaged, String[] blacklistedPackages) {
-        this.mPackageNames = new ArrayList(Arrays.asList(recommendationPackaged));
+        this.mPackageNames = new ArrayList<>(Arrays.asList(recommendationPackaged));
         this.mBlacklistedPackageNames = new HashSet(Arrays.asList(blacklistedPackages));
         DialogFragment.add(getFragmentManager(), buildFragment(getString(R.string.settings_dialog_title), R.drawable.ic_settings_home, new Builder().actions(getBaseActions())));
     }
@@ -280,13 +278,13 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
             return false;
         }
         this.mSaved = true;
-        this.mBlacklistManager.saveEntityBlacklist(new ArrayList(this.mBlacklistedPackageNames));
+        this.mBlacklistManager.saveEntityBlacklist(new ArrayList<>(this.mBlacklistedPackageNames));
         return true;
     }
 
     private ArrayList<Action> getBaseActions() {
-        ArrayList<Action> actions = new ArrayList(1);
-        actions.add(new Action.Builder().title(getString(R.string.recommendation_blacklist_action_title)).description(getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, this.mBlacklistedPackageNames.size(), new Object[]{Integer.valueOf(this.mBlacklistedPackageNames.size())})).key("recs").build());
+        ArrayList<Action> actions = new ArrayList<>(1);
+        actions.add(new Action.Builder().title(getString(R.string.recommendation_blacklist_action_title)).description(getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, this.mBlacklistedPackageNames.size(), this.mBlacklistedPackageNames.size())).key("recs").build());
         actions.add(new Action.Builder().title(getString(R.string.home_screen_order_action_title)).key("homeScreenOrder").build());
         return actions;
     }

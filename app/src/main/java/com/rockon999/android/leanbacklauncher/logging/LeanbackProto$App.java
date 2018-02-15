@@ -40,7 +40,7 @@ public final class LeanbackProto$App extends ExtendableMessageNano<LeanbackProto
 
     public void writeTo(CodedOutputByteBufferNano output) throws IOException {
         if (this.position != null) {
-            output.writeUInt32(1, this.position.intValue());
+            output.writeUInt32(1, this.position);
         }
         if (this.packageName != null) {
             output.writeString(2, this.packageName);
@@ -49,7 +49,7 @@ public final class LeanbackProto$App extends ExtendableMessageNano<LeanbackProto
             output.writeString(3, this.appTitle);
         }
         if (this.score != null) {
-            output.writeFloat(8, this.score.floatValue());
+            output.writeFloat(8, this.score);
         }
         super.writeTo(output);
     }
@@ -57,7 +57,7 @@ public final class LeanbackProto$App extends ExtendableMessageNano<LeanbackProto
     protected int computeSerializedSize() {
         int size = super.computeSerializedSize();
         if (this.position != null) {
-            size += CodedOutputByteBufferNano.computeUInt32Size(1, this.position.intValue());
+            size += CodedOutputByteBufferNano.computeUInt32Size(1, this.position);
         }
         if (this.packageName != null) {
             size += CodedOutputByteBufferNano.computeStringSize(2, this.packageName);
@@ -68,6 +68,6 @@ public final class LeanbackProto$App extends ExtendableMessageNano<LeanbackProto
         if (this.score == null) {
             return size;
         }
-        return size + CodedOutputByteBufferNano.computeFloatSize(8, this.score.floatValue());
+        return size + CodedOutputByteBufferNano.computeFloatSize(8, this.score);
     }
 }

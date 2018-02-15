@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play सेवाएं त्रुटि</string>
     <string name="common_google_play_services_notification_needs_installation_title">ऐप्लिकेशन के लिए Google Play सेवाएं इंस्टॉल किए जाने की आवश्यकता है.</string>
     <string name="common_google_play_services_notification_needs_update_title">ऐप्लिकेशन के लिए Google Play सेवाओं में नई जानकारी की आवश्यकता है.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">प्रारंभ करें</string>
     <string name="lb_onboarding_accessibility_next">अगला</string>
-    <string name="abc_action_mode_done">पूर्ण</string>
-    <string name="abc_action_bar_home_description">मुख्यपृष्ठ पर नेविगेट करें</string>
-    <string name="abc_action_bar_up_description">ऊपर नेविगेट करें</string>
-    <string name="abc_action_menu_overflow_description">अधिक विकल्प</string>
-    <string name="abc_toolbar_collapse_description">संक्षिप्त करें</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">खोजें</string>
-    <string name="abc_search_hint">खोजा जा रहा है…</string>
-    <string name="abc_searchview_description_query">खोज क्वेरी</string>
-    <string name="abc_searchview_description_clear">क्‍वेरी साफ़ करें</string>
-    <string name="abc_searchview_description_submit">क्वेरी सबमिट करें</string>
-    <string name="abc_searchview_description_voice">ध्वनि खोज</string>
-    <string name="abc_activitychooserview_choose_application">कोई एप्‍लिकेशन चुनें</string>
-    <string name="abc_activity_chooser_view_see_all">सभी देखें</string>
-    <string name="abc_shareactionprovider_share_with_application">%s के साथ साझा करें</string>
-    <string name="abc_shareactionprovider_share_with">इसके द्वारा साझा करें</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">चालू</string>
-    <string name="abc_capital_off">बंद</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">पूर्ण</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">मुख्यपृष्ठ पर नेविगेट करें</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">ऊपर नेविगेट करें</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">अधिक विकल्प</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">संक्षिप्त करें</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">खोजें</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">खोजा जा रहा है…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">खोज क्वेरी</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">क्‍वेरी साफ़ करें</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">क्वेरी सबमिट करें</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">ध्वनि खोज</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">कोई एप्‍लिकेशन चुनें</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">सभी देखें</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s के साथ साझा करें</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">इसके द्वारा साझा करें</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">चालू</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">बंद</string>
     <string name="app_name">Leanback लॉन्चर</string>
     <string name="app_label">होम स्क्रीन</string>
     <string name="search_hint_text">फ़िल्में, टीवी तथा और भी बहुत कुछ खोजें</string>
@@ -101,10 +101,10 @@
     <string name="settings_network">नेटवर्क सेटिंग</string>
     <string name="notif_service_name">नोटिफिकेशन सेवा</string>
     <string name="recm_service_name">सुझाव सेवा</string>
-    <string name="install_pending">इंस्टॉल करना लंबित है...</string>
+    <string name="install_pending">इंस्टॉल करना लंबित है…</string>
     <string name="update_pending">अपडेट लंबित है…</string>
     <string name="restore_pending">पुनर्स्थापना लंबित है…</string>
-    <string name="downloading">डाउनलोड हो रहा है...</string>
+    <string name="downloading">डाउनलोड हो रहा है…</string>
     <string name="installing">इंस्‍टॉल किया जा रहा है…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>

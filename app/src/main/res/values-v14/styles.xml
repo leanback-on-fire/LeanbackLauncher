@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="TextAppearance.StatusBar.EventContent" parent="@android:style/TextAppearance.StatusBar.EventContent" />
-    <style name="TextAppearance.StatusBar.EventContent.Title" parent="@android:style/TextAppearance.StatusBar.EventContent.Title" />
-    <style name="TextAppearance.StatusBar.EventContent.Line2" parent="@style/TextAppearance.StatusBar.EventContent">
-        <item name="android:textSize">@dimen/notification_subtext_size</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="TextAppearance.StatusBar.EventContent" parent="@android:style/TextAppearance.StatusBar.EventContent" tools:ignore="PrivateResource" />
+    <style name="TextAppearance.StatusBar.EventContent.Title" parent="@android:style/TextAppearance.StatusBar.EventContent.Title" tools:ignore="PrivateResource" />
+    <style name="TextAppearance.StatusBar.EventContent.Line2" parent="@style/TextAppearance.StatusBar.EventContent" tools:ignore="PrivateResource">
+        <item name="android:textSize" tools:ignore="PrivateResource">@dimen/notification_subtext_size</item>
     </style>
-    <style name="TextAppearance.StatusBar.EventContent.Info" parent="@style/TextAppearance.StatusBar.EventContent" />
-    <style name="TextAppearance.StatusBar.EventContent.Time" parent="@style/TextAppearance.StatusBar.EventContent" />
-    <style name="Base.TextAppearance.AppCompat.Button" parent="@style/Base.TextAppearance.AppCompat">
-        <item name="android:textSize">@dimen/abc_text_size_button_material</item>
+    <style name="TextAppearance.StatusBar.EventContent.Info" parent="@style/TextAppearance.StatusBar.EventContent" tools:ignore="PrivateResource" />
+    <style name="TextAppearance.StatusBar.EventContent.Time" parent="@style/TextAppearance.StatusBar.EventContent" tools:ignore="PrivateResource" />
+    <style name="Base.TextAppearance.AppCompat.Button" parent="@style/Base.TextAppearance.AppCompat" tools:ignore="PrivateResource">
+        <item name="android:textSize" tools:ignore="PrivateResource">@dimen/abc_text_size_button_material</item>
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:textAllCaps">true</item>
     </style>
-    <style name="Platform.AppCompat" parent="@style/Platform.V14.AppCompat" />
-    <style name="Platform.AppCompat.Light" parent="@style/Platform.V14.AppCompat.Light" />
-    <style name="Platform.V14.AppCompat" parent="@style/Platform.V11.AppCompat">
+    <style name="Platform.AppCompat" parent="@style/Platform.V14.AppCompat" tools:ignore="PrivateResource" />
+    <style name="Platform.AppCompat.Light" parent="@style/Platform.V14.AppCompat.Light" tools:ignore="PrivateResource" />
+    <style name="Platform.V14.AppCompat" parent="@style/Platform.V11.AppCompat" tools:ignore="PrivateResource">
         <item name="android:actionModeSelectAllDrawable">?actionModeSelectAllDrawable</item>
-        <item name="android:listPreferredItemPaddingLeft">@dimen/abc_list_item_padding_horizontal_material</item>
-        <item name="android:listPreferredItemPaddingRight">@dimen/abc_list_item_padding_horizontal_material</item>
+        <item name="android:listPreferredItemPaddingLeft" tools:ignore="PrivateResource">@dimen/abc_list_item_padding_horizontal_material</item>
+        <item name="android:listPreferredItemPaddingRight" tools:ignore="PrivateResource">@dimen/abc_list_item_padding_horizontal_material</item>
     </style>
-    <style name="Platform.V14.AppCompat.Light" parent="@style/Platform.V11.AppCompat.Light">
+    <style name="Platform.V14.AppCompat.Light" parent="@style/Platform.V11.AppCompat.Light" tools:ignore="PrivateResource">
         <item name="android:actionModeSelectAllDrawable">?actionModeSelectAllDrawable</item>
-        <item name="android:listPreferredItemPaddingLeft">@dimen/abc_list_item_padding_horizontal_material</item>
-        <item name="android:listPreferredItemPaddingRight">@dimen/abc_list_item_padding_horizontal_material</item>
+        <item name="android:listPreferredItemPaddingLeft" tools:ignore="PrivateResource">@dimen/abc_list_item_padding_horizontal_material</item>
+        <item name="android:listPreferredItemPaddingRight" tools:ignore="PrivateResource">@dimen/abc_list_item_padding_horizontal_material</item>
     </style>
 </resources>

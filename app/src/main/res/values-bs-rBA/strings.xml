@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="lb_navigation_menu_contentDescription">Meni za navigaciju</string>
     <string name="orb_search_action">Pretraživanje</string>
     <string name="lb_search_bar_hint">Pretraga</string>
@@ -37,24 +37,24 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ZAPOČNITE</string>
     <string name="lb_onboarding_accessibility_next">Sljedeća</string>
-    <string name="abc_action_mode_done">Završeno</string>
-    <string name="abc_action_bar_home_description">Vrati se na početnu stranicu</string>
-    <string name="abc_action_bar_up_description">Navigiraj prema gore</string>
-    <string name="abc_action_menu_overflow_description">Više opcija</string>
-    <string name="abc_toolbar_collapse_description">Skupi</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Traži</string>
-    <string name="abc_search_hint">Pretraži...</string>
-    <string name="abc_searchview_description_query">Pretraži upit</string>
-    <string name="abc_searchview_description_clear">Obriši upit</string>
-    <string name="abc_searchview_description_submit">Pošalji upit</string>
-    <string name="abc_searchview_description_voice">Pretraživanje glasom</string>
-    <string name="abc_activitychooserview_choose_application">Odaberite aplikaciju</string>
-    <string name="abc_activity_chooser_view_see_all">Vidi sve</string>
-    <string name="abc_shareactionprovider_share_with_application">Podijeli sa %s</string>
-    <string name="abc_shareactionprovider_share_with">Podijeli sa</string>
-    <string name="status_bar_notification_info_overflow">>999</string>
-    <string name="abc_capital_on">UKLJUČI</string>
-    <string name="abc_capital_off">ISKLJUČI</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Završeno</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Vrati se na početnu stranicu</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Navigiraj prema gore</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Više opcija</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Skupi</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Traži</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Pretraži…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Pretraži upit</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Obriši upit</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Pošalji upit</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Pretraživanje glasom</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Odaberite aplikaciju</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Vidi sve</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Podijeli sa %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Podijeli sa</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">>999</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">UKLJUČI</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ISKLJUČI</string>
 </resources>

@@ -47,7 +47,7 @@ public class LeanbackCardView extends ViewGroup {
         public void onAnimationEnd(Animation animation) {
             if (LeanbackCardView.this.mInfoOffset == 0.0f) {
                 for (int i = 0; i < LeanbackCardView.this.mExtraViewList.size(); i++) {
-                    ((View) LeanbackCardView.this.mExtraViewList.get(i)).setVisibility(8);
+                    LeanbackCardView.this.mExtraViewList.get(i).setVisibility(8);
                 }
             }
         }
@@ -67,7 +67,7 @@ public class LeanbackCardView extends ViewGroup {
         public void onAnimationEnd(Animation animation) {
             if (LeanbackCardView.this.mInfoOffset == 0.0f) {
                 for (int i = 0; i < LeanbackCardView.this.mExtraViewList.size(); i++) {
-                    ((View) LeanbackCardView.this.mExtraViewList.get(i)).setVisibility(8);
+                    LeanbackCardView.this.mExtraViewList.get(i).setVisibility(8);
                 }
             }
         }
@@ -87,7 +87,7 @@ public class LeanbackCardView extends ViewGroup {
         public void onAnimationEnd(Animation animation) {
             if (((double) LeanbackCardView.this.mInfoAlpha) == 0.0d) {
                 for (int i = 0; i < LeanbackCardView.this.mInfoViewList.size(); i++) {
-                    ((View) LeanbackCardView.this.mInfoViewList.get(i)).setVisibility(8);
+                    LeanbackCardView.this.mInfoViewList.get(i).setVisibility(8);
                 }
             }
         }
@@ -108,7 +108,7 @@ public class LeanbackCardView extends ViewGroup {
         protected void applyTransformation(float interpolatedTime, Transformation t) {
             LeanbackCardView.this.mInfoAlpha = this.mStartValue + (this.mDelta * interpolatedTime);
             for (int i = 0; i < LeanbackCardView.this.mInfoViewList.size(); i++) {
-                ((View) LeanbackCardView.this.mInfoViewList.get(i)).setAlpha(LeanbackCardView.this.mInfoAlpha);
+                LeanbackCardView.this.mInfoViewList.get(i).setAlpha(LeanbackCardView.this.mInfoAlpha);
             }
         }
     }
@@ -205,11 +205,11 @@ public class LeanbackCardView extends ViewGroup {
         int mainHeight = 0;
         int infoHeight = 0;
         int extraHeight = 0;
-        boolean infoOnSelected = this.mInfoOnSelected ? this.mCardType == 2 || this.mCardType == 1 : false;
+        boolean infoOnSelected = this.mInfoOnSelected && (this.mCardType == 2 || this.mCardType == 1);
         findChildrenViews();
         int unspecifiedSpec = MeasureSpec.makeMeasureSpec(0, 0);
         for (i = 0; i < this.mMainViewList.size(); i++) {
-            View mainView = (View) this.mMainViewList.get(i);
+            View mainView = this.mMainViewList.get(i);
             if (mainView.getVisibility() != 8) {
                 measureChild(mainView, unspecifiedSpec, unspecifiedSpec);
                 this.mMeasuredWidth = Math.max(this.mMeasuredWidth, mainView.getMeasuredWidth());
@@ -220,7 +220,7 @@ public class LeanbackCardView extends ViewGroup {
         int cardWidthMeasureSpec = MeasureSpec.makeMeasureSpec(this.mMeasuredWidth, 1073741824);
         if (this.mCardType == 1 || this.mCardType == 2 || this.mCardType == 3) {
             for (i = 0; i < this.mInfoViewList.size(); i++) {
-                View infoView = (View) this.mInfoViewList.get(i);
+                View infoView = this.mInfoViewList.get(i);
                 if (infoView.getVisibility() != 8) {
                     measureChild(infoView, cardWidthMeasureSpec, unspecifiedSpec);
                     if (this.mCardType != 1) {
@@ -231,7 +231,7 @@ public class LeanbackCardView extends ViewGroup {
             }
             if (this.mCardType == 3) {
                 for (i = 0; i < this.mExtraViewList.size(); i++) {
-                    View extraView = (View) this.mExtraViewList.get(i);
+                    View extraView = this.mExtraViewList.get(i);
                     if (extraView.getVisibility() != 8) {
                         measureChild(extraView, cardWidthMeasureSpec, unspecifiedSpec);
                         extraHeight += extraView.getMeasuredHeight();
@@ -248,7 +248,7 @@ public class LeanbackCardView extends ViewGroup {
         int i;
         float currBottom = (float) getPaddingTop();
         for (i = 0; i < this.mMainViewList.size(); i++) {
-            View mainView = (View) this.mMainViewList.get(i);
+            View mainView = this.mMainViewList.get(i);
             if (mainView.getVisibility() != 8) {
                 mainView.layout(getPaddingLeft(), (int) currBottom, this.mMeasuredWidth + getPaddingLeft(), (int) (((float) mainView.getMeasuredHeight()) + currBottom));
                 currBottom += (float) mainView.getMeasuredHeight();
@@ -257,7 +257,7 @@ public class LeanbackCardView extends ViewGroup {
         if (this.mCardType != 0) {
             float infoHeight = 0.0f;
             for (i = 0; i < this.mInfoViewList.size(); i++) {
-                infoHeight += (float) ((View) this.mInfoViewList.get(i)).getMeasuredHeight();
+                infoHeight += (float) this.mInfoViewList.get(i).getMeasuredHeight();
             }
             if (this.mCardType == 1) {
                 currBottom -= infoHeight;
@@ -270,7 +270,7 @@ public class LeanbackCardView extends ViewGroup {
                 infoHeight *= this.mInfoVisFraction;
             }
             for (i = 0; i < this.mInfoViewList.size(); i++) {
-                View infoView = (View) this.mInfoViewList.get(i);
+                View infoView = this.mInfoViewList.get(i);
                 if (infoView.getVisibility() != 8) {
                     int viewHeight = infoView.getMeasuredHeight();
                     if (((float) viewHeight) > infoHeight) {
@@ -286,7 +286,7 @@ public class LeanbackCardView extends ViewGroup {
             }
             if (this.mCardType == 3) {
                 for (i = 0; i < this.mExtraViewList.size(); i++) {
-                    View extraView = (View) this.mExtraViewList.get(i);
+                    View extraView = this.mExtraViewList.get(i);
                     if (extraView.getVisibility() != 8) {
                         extraView.layout(getPaddingLeft(), (int) currBottom, this.mMeasuredWidth + getPaddingLeft(), (int) (((float) extraView.getMeasuredHeight()) + currBottom));
                         currBottom += (float) extraView.getMeasuredHeight();
@@ -354,15 +354,15 @@ public class LeanbackCardView extends ViewGroup {
         if (this.mCardType == 3) {
             if (visible) {
                 for (i = 0; i < this.mInfoViewList.size(); i++) {
-                    ((View) this.mInfoViewList.get(i)).setVisibility(0);
+                    this.mInfoViewList.get(i).setVisibility(0);
                 }
                 return;
             }
             for (i = 0; i < this.mInfoViewList.size(); i++) {
-                ((View) this.mInfoViewList.get(i)).setVisibility(8);
+                this.mInfoViewList.get(i).setVisibility(8);
             }
             for (i = 0; i < this.mExtraViewList.size(); i++) {
-                ((View) this.mExtraViewList.get(i)).setVisibility(8);
+                this.mExtraViewList.get(i).setVisibility(8);
             }
             this.mInfoOffset = 0.0f;
         } else if (this.mCardType == 2) {
@@ -372,7 +372,7 @@ public class LeanbackCardView extends ViewGroup {
             }
             for (i = 0; i < this.mInfoViewList.size(); i++) {
                 int i2;
-                View view = (View) this.mInfoViewList.get(i);
+                View view = this.mInfoViewList.get(i);
                 if (visible) {
                     i2 = 0;
                 } else {
@@ -418,7 +418,7 @@ public class LeanbackCardView extends ViewGroup {
             int widthSpec = MeasureSpec.makeMeasureSpec(this.mMeasuredWidth, 1073741824);
             int heightSpec = MeasureSpec.makeMeasureSpec(0, 0);
             for (int i = 0; i < this.mExtraViewList.size(); i++) {
-                View extraView = (View) this.mExtraViewList.get(i);
+                View extraView = this.mExtraViewList.get(i);
                 extraView.setVisibility(0);
                 extraView.measure(widthSpec, heightSpec);
                 extraHeight = Math.max(extraHeight, extraView.getMeasuredHeight());
@@ -442,7 +442,7 @@ public class LeanbackCardView extends ViewGroup {
             int widthSpec = MeasureSpec.makeMeasureSpec(this.mMeasuredWidth, 1073741824);
             int heightSpec = MeasureSpec.makeMeasureSpec(0, 0);
             for (int i = 0; i < this.mExtraViewList.size(); i++) {
-                View extraView = (View) this.mExtraViewList.get(i);
+                View extraView = this.mExtraViewList.get(i);
                 extraView.setVisibility(0);
                 extraView.measure(widthSpec, heightSpec);
                 extraHeight = Math.max(extraHeight, extraView.getMeasuredHeight());
@@ -459,7 +459,7 @@ public class LeanbackCardView extends ViewGroup {
         cancelAnimations();
         if (shown) {
             for (int i = 0; i < this.mInfoViewList.size(); i++) {
-                ((View) this.mInfoViewList.get(i)).setVisibility(0);
+                this.mInfoViewList.get(i).setVisibility(0);
             }
         }
         this.mAnim = new InfoAlphaAnimation(this.mInfoAlpha, shown ? 1.0f : 0.0f);

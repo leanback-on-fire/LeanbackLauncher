@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <attr name="adSize" format="string" />
     <attr name="adSizes" format="string" />
     <attr name="adUnitId" format="string" />
@@ -416,12 +416,12 @@
     <attr name="windowNoTitle" format="boolean" />
     <attr name="windowActionBarOverlay" format="boolean" />
     <attr name="windowActionModeOverlay" format="boolean" />
-    <attr name="windowFixedWidthMajor" format="dimension|fraction" />
-    <attr name="windowFixedHeightMinor" format="dimension|fraction" />
-    <attr name="windowFixedWidthMinor" format="dimension|fraction" />
-    <attr name="windowFixedHeightMajor" format="dimension|fraction" />
-    <attr name="windowMinWidthMajor" format="dimension|fraction" />
-    <attr name="windowMinWidthMinor" format="dimension|fraction" />
+    <attr name="windowFixedWidthMajor" format="dimension|fraction" tools:ignore="PrivateResource" />
+    <attr name="windowFixedHeightMinor" format="dimension|fraction" tools:ignore="PrivateResource" />
+    <attr name="windowFixedWidthMinor" format="dimension|fraction" tools:ignore="PrivateResource" />
+    <attr name="windowFixedHeightMajor" format="dimension|fraction" tools:ignore="PrivateResource" />
+    <attr name="windowMinWidthMajor" format="dimension|fraction" tools:ignore="PrivateResource" />
+    <attr name="windowMinWidthMinor" format="dimension|fraction" tools:ignore="PrivateResource" />
     <attr name="actionBarTabStyle" format="reference" />
     <attr name="actionBarTabBarStyle" format="reference" />
     <attr name="actionBarTabTextStyle" format="reference" />
@@ -451,7 +451,7 @@
     <attr name="actionModeShareDrawable" format="reference" />
     <attr name="actionModeFindDrawable" format="reference" />
     <attr name="actionModeWebSearchDrawable" format="reference" />
-    <attr name="actionModePopupWindowStyle" format="reference" />
+    <attr name="actionModePopupWindowStyle" format="reference" tools:ignore="PrivateResource" />
     <attr name="textAppearanceLargePopupMenu" format="reference" />
     <attr name="textAppearanceSmallPopupMenu" format="reference" />
     <attr name="textAppearancePopupMenuHeader" format="reference" />
@@ -459,7 +459,7 @@
     <attr name="dialogPreferredPadding" format="dimension" />
     <attr name="listDividerAlertDialog" format="reference" />
     <attr name="actionDropDownStyle" format="reference" />
-    <attr name="dropdownListPreferredItemHeight" format="dimension" />
+    <attr name="dropdownListPreferredItemHeight" format="dimension" tools:ignore="PrivateResource" />
     <attr name="spinnerDropDownItemStyle" format="reference" />
     <attr name="homeAsUpIndicator" format="reference" />
     <attr name="actionButtonStyle" format="reference" />
@@ -470,7 +470,7 @@
     <attr name="borderlessButtonStyle" format="reference" />
     <attr name="dividerVertical" format="reference" />
     <attr name="dividerHorizontal" format="reference" />
-    <attr name="activityChooserViewStyle" format="reference" />
+    <attr name="activityChooserViewStyle" format="reference" tools:ignore="PrivateResource" />
     <attr name="toolbarStyle" format="reference" />
     <attr name="toolbarNavigationButtonStyle" format="reference" />
     <attr name="popupMenuStyle" format="reference" />
@@ -480,7 +480,7 @@
     <attr name="imageButtonStyle" format="reference" />
     <attr name="textAppearanceSearchResultTitle" format="reference" />
     <attr name="textAppearanceSearchResultSubtitle" format="reference" />
-    <attr name="textColorSearchUrl" format="reference|color" />
+    <attr name="textColorSearchUrl" format="reference|color" tools:ignore="PrivateResource" />
     <attr name="searchViewStyle" format="reference" />
     <attr name="listPreferredItemHeight" format="dimension" />
     <attr name="listPreferredItemHeightSmall" format="dimension" />
@@ -492,8 +492,8 @@
     <attr name="textAppearanceListItem" format="reference" />
     <attr name="textAppearanceListItemSmall" format="reference" />
     <attr name="panelBackground" format="reference" />
-    <attr name="panelMenuListWidth" format="dimension" />
-    <attr name="panelMenuListTheme" format="reference" />
+    <attr name="panelMenuListWidth" format="dimension" tools:ignore="PrivateResource" />
+    <attr name="panelMenuListTheme" format="reference" tools:ignore="PrivateResource" />
     <attr name="listChoiceBackgroundIndicator" format="reference" />
     <attr name="colorPrimary" format="color" />
     <attr name="colorPrimaryDark" format="color" />
@@ -502,12 +502,12 @@
     <attr name="colorControlActivated" format="color" />
     <attr name="colorControlHighlight" format="color" />
     <attr name="colorButtonNormal" format="color" />
-    <attr name="colorSwitchThumbNormal" format="color" />
-    <attr name="controlBackground" format="reference" />
+    <attr name="colorSwitchThumbNormal" format="color" tools:ignore="PrivateResource" />
+    <attr name="controlBackground" format="reference" tools:ignore="PrivateResource" />
     <attr name="colorBackgroundFloating" format="color" />
     <attr name="alertDialogStyle" format="reference" />
-    <attr name="alertDialogButtonGroupStyle" format="reference" />
-    <attr name="alertDialogCenterButtons" format="boolean" />
+    <attr name="alertDialogButtonGroupStyle" format="reference" tools:ignore="PrivateResource" />
+    <attr name="alertDialogCenterButtons" format="boolean" tools:ignore="PrivateResource" />
     <attr name="alertDialogTheme" format="reference" />
     <attr name="textColorAlertDialogListItem" format="reference|color" />
     <attr name="buttonBarPositiveButtonStyle" format="reference" />
@@ -526,7 +526,7 @@
     <attr name="seekBarStyle" format="reference" />
     <attr name="spinnerStyle" format="reference" />
     <attr name="switchStyle" format="reference" />
-    <attr name="listMenuViewStyle" format="reference" />
+    <attr name="listMenuViewStyle" format="reference" tools:ignore="PrivateResource" />
 <!--    <attr name="navigationMode">
         <enum name="normal" value="0" />
         <enum name="listMode" value="1" />
@@ -578,7 +578,7 @@
         <enum name="src_over" value="3" />
     </attr>-->
     <attr name="preserveIconSpacing" format="boolean" />
-    <attr name="subMenuArrow" format="reference" />
+    <attr name="subMenuArrow" format="reference" tools:ignore="PrivateResource" />
 <!--    <attr name="showAsAction">
         <flag name="always" value="0x00000002" />
         <flag name="collapseActionView" value="0x00000008" />
@@ -592,7 +592,7 @@
     <attr name="layout" format="reference" />
     <attr name="iconifiedByDefault" format="boolean" />
     <attr name="queryHint" format="string" />
-    <attr name="defaultQueryHint" format="string" />
+    <attr name="defaultQueryHint" format="string" tools:ignore="PrivateResource" />
     <attr name="closeIcon" format="reference" />
     <attr name="goIcon" format="reference" />
     <attr name="searchIcon" format="reference" />
@@ -602,8 +602,8 @@
     <attr name="suggestionRowLayout" format="reference" />
     <attr name="queryBackground" format="reference" />
     <attr name="submitBackground" format="reference" />
-    <attr name="initialActivityCount" format="string" />
-    <attr name="expandActivityOverflowButtonDrawable" format="reference" />
+    <attr name="initialActivityCount" format="string" tools:ignore="PrivateResource" />
+    <attr name="expandActivityOverflowButtonDrawable" format="reference" tools:ignore="PrivateResource" />
     <attr name="textAllCaps" format="reference|boolean" />
     <attr name="measureWithLargestChild" format="boolean" />
 <!--    <attr name="showDividers">
@@ -633,7 +633,7 @@
     <attr name="logoDescription" format="string" />
     <attr name="titleTextColor" format="color" />
     <attr name="subtitleTextColor" format="color" />
-    <attr name="state_above_anchor" format="boolean" />
+    <attr name="state_above_anchor" format="boolean" tools:ignore="PrivateResource" />
     <attr name="overlapAnchor" format="boolean" />
     <attr name="color" format="color" />
     <attr name="spinBars" format="boolean" />
@@ -652,7 +652,7 @@
         <enum name="src_in" value="5" />
         <enum name="src_over" value="3" />
     </attr>-->
-    <attr name="thumbTint" format="color" />
+    <attr name="thumbTint" format="color" tools:ignore="PrivateResource" />
     <!--<attr name="thumbTintMode">
         <enum name="multiply" value="14" />
         <enum name="screen" value="15" />
@@ -662,7 +662,7 @@
         <enum name="add" value="16" />
     </attr>-->
     <attr name="track" format="reference" />
-    <attr name="trackTint" format="color" />
+    <attr name="trackTint" format="color" tools:ignore="PrivateResource" />
    <!-- <attr name="trackTintMode">
         <enum name="multiply" value="14" />
         <enum name="screen" value="15" />
@@ -677,12 +677,12 @@
     <attr name="switchPadding" format="dimension" />
     <attr name="splitTrack" format="boolean" />
     <attr name="showText" format="boolean" />
-    <attr name="buttonPanelSideLayout" format="reference" />
-    <attr name="listLayout" format="reference" />
-    <attr name="multiChoiceItemLayout" format="reference" />
-    <attr name="singleChoiceItemLayout" format="reference" />
-    <attr name="listItemLayout" format="reference" />
-    <attr name="allowStacking" format="boolean" />
+    <attr name="buttonPanelSideLayout" format="reference" tools:ignore="PrivateResource" />
+    <attr name="listLayout" format="reference" tools:ignore="PrivateResource" />
+    <attr name="multiChoiceItemLayout" format="reference" tools:ignore="PrivateResource" />
+    <attr name="singleChoiceItemLayout" format="reference" tools:ignore="PrivateResource" />
+    <attr name="listItemLayout" format="reference" tools:ignore="PrivateResource" />
+    <attr name="allowStacking" format="boolean" tools:ignore="PrivateResource" />
     <attr name="alpha" format="float" />
     <attr name="srcCompat" format="reference" />
     <attr name="tickMark" format="reference" />

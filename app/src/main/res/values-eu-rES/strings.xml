@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play zerbitzuen errorea</string>
     <string name="common_google_play_services_notification_needs_installation_title">Aplikazio batek Google Play zerbitzuak instalatzea eskatzen du.</string>
     <string name="common_google_play_services_notification_needs_update_title">Aplikazio batek Google Play zerbitzuak eguneratzea eskatzen du.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">LEHEN URRATSAK</string>
     <string name="lb_onboarding_accessibility_next">Hurrengoa</string>
-    <string name="abc_action_mode_done">Eginda</string>
-    <string name="abc_action_bar_home_description">Joan orri nagusira</string>
-    <string name="abc_action_bar_up_description">Joan gora</string>
-    <string name="abc_action_menu_overflow_description">Aukera gehiago</string>
-    <string name="abc_toolbar_collapse_description">Tolestu</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Bilatu</string>
-    <string name="abc_search_hint">Bilatu…</string>
-    <string name="abc_searchview_description_query">Bilaketa-kontsulta</string>
-    <string name="abc_searchview_description_clear">Garbitu kontsulta</string>
-    <string name="abc_searchview_description_submit">Bidali kontsulta</string>
-    <string name="abc_searchview_description_voice">Ahots bidezko bilaketa</string>
-    <string name="abc_activitychooserview_choose_application">Aukeratu aplikazio bat</string>
-    <string name="abc_activity_chooser_view_see_all">Ikusi guztiak</string>
-    <string name="abc_shareactionprovider_share_with_application">Partekatu %s erabiltzailearekin</string>
-    <string name="abc_shareactionprovider_share_with">Partekatu hauekin</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">AKTIBATUTA</string>
-    <string name="abc_capital_off">DESAKTIBATUTA</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Eginda</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Joan orri nagusira</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Joan gora</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Aukera gehiago</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Tolestu</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Bilatu</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Bilatu…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Bilaketa-kontsulta</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Garbitu kontsulta</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Bidali kontsulta</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Ahots bidezko bilaketa</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Aukeratu aplikazio bat</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Ikusi guztiak</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Partekatu %s erabiltzailearekin</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Partekatu hauekin</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">AKTIBATUTA</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">DESAKTIBATUTA</string>
     <string name="app_name">Leanback abiarazlea</string>
     <string name="app_label">Hasierako pantaila</string>
     <string name="search_hint_text">Bilatu filmak, telebista eta gehiago</string>

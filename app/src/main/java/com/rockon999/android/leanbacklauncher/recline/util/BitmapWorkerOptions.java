@@ -119,10 +119,7 @@ public class BitmapWorkerOptions implements CachedTaskPool.TaskOption {
     }
 
     public boolean isFromResource() {
-        if (getIconResource() != null || UriUtils.isAndroidResourceUri(getResourceUri())) {
-            return true;
-        }
-        return UriUtils.isShortcutIconResourceUri(getResourceUri());
+        return getIconResource() != null || UriUtils.isAndroidResourceUri(getResourceUri()) || UriUtils.isShortcutIconResourceUri(getResourceUri());
     }
 
     public boolean isMemCacheEnabled() {

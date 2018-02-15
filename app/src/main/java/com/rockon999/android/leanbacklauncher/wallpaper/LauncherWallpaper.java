@@ -1,11 +1,11 @@
 package com.rockon999.android.leanbacklauncher.wallpaper;
 
+import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -71,6 +71,7 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
         C02051() {
         }
 
+        @SuppressLint("PrivateResource")
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:

@@ -17,7 +17,7 @@ public class LauncherReturnAnimator extends ForwardingAnimatorSet {
         int fadeDuration = res.getInteger(R.integer.app_launch_animation_header_fade_in_duration);
         int fadeDelay = res.getInteger(R.integer.app_launch_animation_header_fade_in_delay);
 
-        builder = ((AnimatorSet) this.mDelegate).play(new MassSlideAnimator.Builder(root).setEpicenter(epicenter).setDirection(Direction.SLIDE_IN).setFade(false).build());
+        builder = this.mDelegate.play(new MassSlideAnimator.Builder(root).setEpicenter(epicenter).setDirection(Direction.SLIDE_IN).setFade(false).build());
 
 
         for (View header : headers) {

@@ -21,11 +21,11 @@ public final class LoggingUtils {
         LeanbackProto$LeanbackEvent leanbackEvent = new LeanbackProto$LeanbackEvent();
         leanbackEvent.appRankAction = new LeanbackProto$AppRankAction();
         LeanbackProto$App[] apps = new LeanbackProto$App[lps.size()];
-        leanbackEvent.type = Integer.valueOf(3);
-        leanbackEvent.timestamp = Long.valueOf(System.currentTimeMillis() * 1000);
+        leanbackEvent.type = 3;
+        leanbackEvent.timestamp = System.currentTimeMillis() * 1000;
         for (int i = 0; i < lps.size(); i++) {
-            LaunchPoint lp = (LaunchPoint) lps.get(i);
-            AppsEntity entity = (AppsEntity) entities.get(lp.getPackageName());
+            LaunchPoint lp = lps.get(i);
+            AppsEntity entity = entities.get(lp.getPackageName());
             apps[i] = createApp(i, lp.getPackageName(), lp.getTitle(), entity == null ? 0 : entity.getOrder(lp.getComponentName()));
         }
         leanbackEvent.appRankAction.apps = apps;
@@ -35,10 +35,10 @@ public final class LoggingUtils {
 
     private static LeanbackProto$App createApp(int position, String packageName, String appTitle, long score) {
         LeanbackProto$App app = new LeanbackProto$App();
-        app.position = Integer.valueOf(position);
+        app.position = position;
         app.packageName = packageName;
         app.appTitle = appTitle;
-        app.score = Float.valueOf((float) score);
+        app.score = (float) score;
         return app;
     }
 
@@ -47,12 +47,12 @@ public final class LoggingUtils {
             Log.v(TAG, "Log Ranker Action Leanback Event");
         }
         LeanbackProto$LeanbackEvent leanbackEvent = new LeanbackProto$LeanbackEvent();
-        leanbackEvent.type = Integer.valueOf(1);
-        leanbackEvent.timestamp = Long.valueOf(System.currentTimeMillis() * 1000);
+        leanbackEvent.type = 1;
+        leanbackEvent.timestamp = System.currentTimeMillis() * 1000;
         LeanbackProto$RankerAction rankerAction = new LeanbackProto$RankerAction();
         rankerAction.packageName = packageName;
-        rankerAction.actionType = Integer.valueOf(actionType);
-        rankerAction.rowPosition = Integer.valueOf(rowPosition);
+        rankerAction.actionType = actionType;
+        rankerAction.rowPosition = rowPosition;
         rankerAction.tag = tag;
         leanbackEvent.rankerAction = rankerAction;
         log(leanbackEvent, context);

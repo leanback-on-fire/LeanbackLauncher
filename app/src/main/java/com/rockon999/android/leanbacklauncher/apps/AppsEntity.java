@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,43 +30,44 @@ public class AppsEntity {
     }
 
     public void setLastOpenedTimeStamp(String component, long timeStamp) {
-        this.mLastOpened.put(component, Long.valueOf(timeStamp));
+        this.mLastOpened.put(component, timeStamp);
     }
 
     public long getLastOpenedTimeStamp(String component) {
-        Long lastOpened = (Long) this.mLastOpened.get(component);
+        Long lastOpened = this.mLastOpened.get(component);
         if (lastOpened == null) {
-            lastOpened = (Long) this.mLastOpened.get(null);
+            lastOpened = this.mLastOpened.get(null);
             if (lastOpened == null) {
-                lastOpened = Long.valueOf(0);
+                lastOpened = 0L;
             }
         }
-        return lastOpened.longValue();
+        return lastOpened;
     }
 
     public long getOrder(String component) {
-        Long order = (Long) this.mOrder.get(component);
-        if ((order == null || order.longValue() == 0) && this.mOrder.keySet().size() == 1) {
-            order = (Long) this.mOrder.values().iterator().next();
+        Long order = this.mOrder.get(component);
+        if ((order == null || order == 0) && this.mOrder.keySet().size() == 1) {
+            order = this.mOrder.values().iterator().next();
             if (order == null) {
-                order = Long.valueOf(0);
+                order = 0L;
             }
-            setOrder(component, order.longValue());
+            setOrder(component, order);
         }
         if (order != null) {
-            return order.longValue();
+            return order;
         }
         return 0;
     }
 
     public void setOrder(String component, long order) {
-        this.mOrder.put(component, Long.valueOf(order));
+        this.mOrder.put(component, order);
     }
 
     public String getKey() {
         return this.mPackageName;
     }
 
+    @SuppressLint("PrivateResource")
     public synchronized void onAction(int actionType, String component, String group) {
         long time = new Date().getTime();
         if (this.mDbHelper.getMostRecentTimeStamp() >= time) {

@@ -12,10 +12,7 @@ public final class UriUtils {
     }
 
     public static boolean isContentUri(Uri uri) {
-        if ("content".equals(uri.getScheme())) {
-            return true;
-        }
-        return "file".equals(uri.getScheme());
+        return "content".equals(uri.getScheme()) || "file".equals(uri.getScheme());
     }
 
     public static boolean isShortcutIconResourceUri(Uri uri) {
@@ -46,6 +43,6 @@ public final class UriUtils {
         } else {
             obj = resourceUri.getScheme().toLowerCase();
         }
-        return !"http".equals(obj) ? "https".equals(obj) : true;
+        return "http".equals(obj) || "https".equals(obj);
     }
 }

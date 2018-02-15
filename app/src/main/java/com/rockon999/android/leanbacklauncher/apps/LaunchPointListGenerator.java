@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.bean.AppInfo;
 import com.rockon999.android.leanbacklauncher.data.ConstData;
 import com.rockon999.android.leanbacklauncher.modle.db.AppInfoService;
+import com.rockon999.android.leanbacklauncher.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,6 +87,7 @@ public class LaunchPointListGenerator {
             this.mSuccess = success;
         }
 
+        @SuppressLint("PrivateResource")
         public void apply() {
             switch (this.mAction) {
                 case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
@@ -131,8 +134,11 @@ public class LaunchPointListGenerator {
             if (normLaunchPoints != null && normLaunchPoints.size() > 0) {
                 for (ResolveInfo itemRawLaunchPoint : normLaunchPoints) {
                     if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
-                        rawComponents.put(itemRawLaunchPoint.activityInfo.packageName, itemRawLaunchPoint.activityInfo.name);
-                        allLaunchPoints.add(itemRawLaunchPoint);
+                        // any system app that isn't TV-optimized likely isn't something the user needs or wants.
+                        if (!Util.isSystemApp(LaunchPointListGenerator.this.mContext, itemRawLaunchPoint.activityInfo.packageName)) { // todo optimize
+                            rawComponents.put(itemRawLaunchPoint.activityInfo.packageName, itemRawLaunchPoint.activityInfo.name);
+                            allLaunchPoints.add(itemRawLaunchPoint);
+                        }
                     }
                 }
             }
@@ -150,6 +156,7 @@ public class LaunchPointListGenerator {
                 ResolveInfo info = allLaunchPoints.get(x);
 
                 ActivityInfo activityInfo = info.activityInfo;
+
                 if (activityInfo != null) {
                     String name = rawComponents.get(activityInfo.packageName);
 
@@ -169,6 +176,7 @@ public class LaunchPointListGenerator {
                     }
                 }
             }
+
             return launcherItems;
         }
 
@@ -180,9 +188,6 @@ public class LaunchPointListGenerator {
             synchronized (LaunchPointListGenerator.this.mCachedActions) {
                 Log.i(TAG, "mCachedActions is empty:" + mCachedActions.isEmpty());
                 LaunchPointListGenerator.this.mIsReady = true;
-              /*  while (!LaunchPointListGenerator.this.mCachedActions.isEmpty()) {
-                    ((CachedAction) LaunchPointListGenerator.this.mCachedActions.remove()).apply();
-                }*/
                 LaunchPointListGenerator.this.mShouldNotify = true;
                 for (Listener onLaunchPointListGeneratorReady : LaunchPointListGenerator.this.mListeners) {
                     Log.i(TAG, "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.getClass().getName());
@@ -224,10 +229,9 @@ public class LaunchPointListGenerator {
             synchronized (this.mCachedActions) {
                 if (this.mIsReady) {
                     synchronized (this.mLock) {
-                        ArrayList<LaunchPoint> removedLaunchPoints = new ArrayList();
-                        //getLaunchPoints(this.mInstallingLaunchPoints, removedLaunchPoints, pkgName, true);
-                        //getLaunchPoints(this.mAllLaunchPoints, removedLaunchPoints, pkgName, true);
+                        ArrayList<LaunchPoint> removedLaunchPoints = new ArrayList<>();
                         ArrayList<LaunchPoint> launchPoints = createLaunchPoints(pkgName, removedLaunchPoints);
+
                         if (!launchPoints.isEmpty()) {
                             this.mAllLaunchPoints.addAll(launchPoints);
                             if (!isBlacklisted(pkgName) && this.mShouldNotify) {
@@ -259,7 +263,7 @@ public class LaunchPointListGenerator {
             synchronized (this.mCachedActions) {
                 if (this.mIsReady) {
                     synchronized (this.mLock) {
-                        ArrayList<LaunchPoint> removedLaunchPoints = new ArrayList();
+                        ArrayList<LaunchPoint> removedLaunchPoints = new ArrayList<>();
                         getLaunchPoints(this.mInstallingLaunchPoints, removedLaunchPoints, pkgName, true);
                         getLaunchPoints(this.mAllLaunchPoints, removedLaunchPoints, pkgName, true);
                         if (!(removedLaunchPoints.isEmpty() || isBlacklisted(pkgName))) {
@@ -295,13 +299,13 @@ public class LaunchPointListGenerator {
                 boolean added = false;
                 synchronized (this.mLock) {
                     HashMap<String, Integer> blacklist = updatable ? this.mUpdatableBlacklist : this.mNonUpdatableBlacklist;
-                    Integer occurrences = (Integer) blacklist.get(pkgName);
-                    Integer otherOccurrences = (Integer) (updatable ? this.mNonUpdatableBlacklist : this.mUpdatableBlacklist).get(pkgName);
-                    if (occurrences == null || occurrences.intValue() <= 0) {
-                        occurrences = Integer.valueOf(0);
-                        if (otherOccurrences == null || otherOccurrences.intValue() <= 0) {
+                    Integer occurrences = blacklist.get(pkgName);
+                    Integer otherOccurrences = (updatable ? this.mNonUpdatableBlacklist : this.mUpdatableBlacklist).get(pkgName);
+                    if (occurrences == null || occurrences <= 0) {
+                        occurrences = 0;
+                        if (otherOccurrences == null || otherOccurrences <= 0) {
                             added = true;
-                            ArrayList<LaunchPoint> blacklistedLaunchPoints = new ArrayList();
+                            ArrayList<LaunchPoint> blacklistedLaunchPoints = new ArrayList<>();
                             getLaunchPoints(this.mInstallingLaunchPoints, blacklistedLaunchPoints, pkgName, false);
                             getLaunchPoints(this.mAllLaunchPoints, blacklistedLaunchPoints, pkgName, false);
                             if (!blacklistedLaunchPoints.isEmpty() && this.mShouldNotify) {
@@ -311,9 +315,9 @@ public class LaunchPointListGenerator {
                             }
                         }
                     }
-                    int intValue = occurrences.intValue() + 1;
-                    occurrences = Integer.valueOf(intValue);
-                    blacklist.put(pkgName, Integer.valueOf(intValue));
+                    int intValue = occurrences + 1;
+                    occurrences = intValue;
+                    blacklist.put(pkgName, intValue);
                 }
                 return added;
             }
@@ -339,15 +343,15 @@ public class LaunchPointListGenerator {
                 boolean removed = false;
                 synchronized (this.mLock) {
                     HashMap<String, Integer> blacklist = updatable ? this.mUpdatableBlacklist : this.mNonUpdatableBlacklist;
-                    Integer occurrences = (Integer) blacklist.get(pkgName);
-                    Integer otherOccurrences = (Integer) (updatable ? this.mNonUpdatableBlacklist : this.mUpdatableBlacklist).get(pkgName);
+                    Integer occurrences = blacklist.get(pkgName);
+                    Integer otherOccurrences = (updatable ? this.mNonUpdatableBlacklist : this.mUpdatableBlacklist).get(pkgName);
                     if (occurrences != null) {
-                        occurrences = Integer.valueOf(occurrences.intValue() - 1);
-                        if (occurrences.intValue() <= 0 || force) {
+                        occurrences = occurrences.intValue() - 1;
+                        if (occurrences <= 0 || force) {
                             blacklist.remove(pkgName);
                             if (otherOccurrences == null) {
                                 removed = true;
-                                ArrayList<LaunchPoint> blacklistedLaunchPoints = new ArrayList();
+                                ArrayList<LaunchPoint> blacklistedLaunchPoints = new ArrayList<>();
                                 getLaunchPoints(this.mInstallingLaunchPoints, blacklistedLaunchPoints, pkgName, false);
                                 getLaunchPoints(this.mAllLaunchPoints, blacklistedLaunchPoints, pkgName, false);
                                 if (!blacklistedLaunchPoints.isEmpty() && this.mShouldNotify) {
@@ -373,12 +377,12 @@ public class LaunchPointListGenerator {
             synchronized (this.mCachedActions) {
                 if (this.mIsReady) {
                     String pkgName = launchPoint.getPackageName();
-                    ArrayList<LaunchPoint> launchPoints = new ArrayList();
+                    ArrayList<LaunchPoint> launchPoints = new ArrayList<>();
                     synchronized (this.mLock) {
                         getLaunchPoints(this.mInstallingLaunchPoints, launchPoints, pkgName, true);
                         getLaunchPoints(this.mAllLaunchPoints, launchPoints, pkgName, true);
                         for (int i = 0; i < launchPoints.size(); i++) {
-                            ((LaunchPoint) launchPoints.get(i)).setInstallationState(launchPoint);
+                            launchPoints.get(i).setInstallationState(launchPoint);
                         }
                         if (launchPoints.isEmpty()) {
                             launchPoints.add(launchPoint);
@@ -413,11 +417,11 @@ public class LaunchPointListGenerator {
 
     private ArrayList<LaunchPoint> getLaunchPoints(List<LaunchPoint> parentList, ArrayList<LaunchPoint> removeLaunchPoints, String pkgName, boolean remove) {
         if (removeLaunchPoints == null) {
-            removeLaunchPoints = new ArrayList();
+            removeLaunchPoints = new ArrayList<>();
         }
         Iterator<LaunchPoint> itt = parentList.iterator();
         while (itt.hasNext()) {
-            LaunchPoint lp = (LaunchPoint) itt.next();
+            LaunchPoint lp = itt.next();
             if (TextUtils.equals(pkgName, lp.getPackageName())) {
                 removeLaunchPoints.add(lp);
                 if (remove) {
@@ -437,14 +441,13 @@ public class LaunchPointListGenerator {
     }
 
     public ArrayList<LaunchPoint> getAllLaunchPoints() {
-        // return getLaunchPoints(true, true);
-        ArrayList<LaunchPoint> allLuanchPoints = new ArrayList<>();
+        ArrayList<LaunchPoint> allLaunchPoints = new ArrayList<>();
         if (mAllLaunchPoints != null && mAllLaunchPoints.size() > 0) {
-            for (LaunchPoint itemLaunchPoint : mAllLaunchPoints) {
-                allLuanchPoints.add(itemLaunchPoint);
+            for (LaunchPoint lp : mAllLaunchPoints) {
+                allLaunchPoints.add(lp);
             }
         }
-        return allLuanchPoints;
+        return allLaunchPoints;
     }
 
     public ArrayList<LaunchPoint> getRecommendLaunchPoints() {
@@ -457,14 +460,14 @@ public class LaunchPointListGenerator {
                 AppInfo itemAppInfo = new AppInfo();
                 itemAppInfo.setAppType(4);
                 itemAppInfo.setPackageName(ConstData.DEFAULT_RECOMMEND_PACKAGES[i]);
-                itemAppInfo.setCompentName(ConstData.DEFAULT_RECOMMEND_ACTIVITIES[i]);
+                itemAppInfo.setComponentName(ConstData.DEFAULT_RECOMMEND_ACTIVITIES[i]);
                 saveAppInfos.add(itemAppInfo);
             }
-            ArrayList<LaunchPoint> allLaunchePoints = getAllLaunchPoints();
-            if (allLaunchePoints != null && allLaunchePoints.size() > 0) {
+            ArrayList<LaunchPoint> allLauncherPoints = getAllLaunchPoints();
+            if (allLauncherPoints != null && allLauncherPoints.size() > 0) {
                 List<AppInfo> removedAppInfos = new ArrayList<>();
                 for (AppInfo itemInfo : saveAppInfos) {
-                    if (!allLaunchePoints.contains(itemInfo))
+                    if (!allLauncherPoints.contains(itemInfo))
                         removedAppInfos.add(itemInfo);
                 }
                 saveAppInfos.removeAll(removedAppInfos);
@@ -502,11 +505,13 @@ public class LaunchPointListGenerator {
         }
     }
 
-    public ArrayList getSettingsLaunchPoints(boolean force) {
+    public ArrayList<LaunchPoint> getSettingsLaunchPoints(boolean force) {
         if (force || this.mSettingsLaunchPoints == null) {
             this.mSettingsLaunchPoints = createSettingsList();
         }
-        return (ArrayList) this.mSettingsLaunchPoints.clone();
+        ArrayList<LaunchPoint> copied = new ArrayList<>();
+        copied.addAll(this.mSettingsLaunchPoints);
+        return copied;
     }
 
     public void refreshLaunchPointList() {
@@ -538,7 +543,7 @@ public class LaunchPointListGenerator {
         rawItt = rawLaunchPoints.iterator();
 
         while (rawItt.hasNext()) {
-            launchPoints.add(new LaunchPoint(this.mContext, pkgMan, (ResolveInfo) rawItt.next()));
+            launchPoints.add(new LaunchPoint(this.mContext, pkgMan, rawItt.next()));
         }
         return launchPoints;
     }
@@ -586,7 +591,7 @@ public class LaunchPointListGenerator {
         List<ResolveInfo> rawLaunchPoints = this.mContext.getPackageManager().queryIntentActivities(mainIntent, 129);
         int size = rawLaunchPoints.size();
         for (int ptr = 0; ptr < size; ptr++) {
-            ResolveInfo info = (ResolveInfo) rawLaunchPoints.get(ptr);
+            ResolveInfo info = rawLaunchPoints.get(ptr);
             boolean system = (info.activityInfo.applicationInfo.flags & 1) != 0;
             if (info.activityInfo != null && system && TextUtils.equals(info.activityInfo.applicationInfo.packageName, packageName)) {
                 return true;
@@ -620,9 +625,6 @@ public class LaunchPointListGenerator {
     }
 
     private boolean isBlacklisted(String pkgName) {
-        if (this.mUpdatableBlacklist.containsKey(pkgName)) {
-            return true;
-        }
-        return this.mNonUpdatableBlacklist.containsKey(pkgName);
+        return this.mUpdatableBlacklist.containsKey(pkgName) || this.mNonUpdatableBlacklist.containsKey(pkgName);
     }
 }

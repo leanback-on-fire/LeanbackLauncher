@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -120,11 +121,11 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     public HomeScreenAdapter(MainActivity context, HomeScrollManager scrollMgr, LaunchPointListGenerator launchPointListGenerator, EditModeView editModeView, AppsRanker appsRanker) {
         this.mHeaders = new SparseArray(7);
-        this.mAllRowsList = new ArrayList(7);
-        this.mVisRowsList = new ArrayList(7);
-        this.mMainActivity = (MainActivity) Preconditions.checkNotNull(context);
-        this.mScrollManager = (HomeScrollManager) Preconditions.checkNotNull(scrollMgr);
-        this.mLaunchPointListGenerator = (LaunchPointListGenerator) Preconditions.checkNotNull(launchPointListGenerator);
+        this.mAllRowsList = new ArrayList<>(7);
+        this.mVisRowsList = new ArrayList<>(7);
+        this.mMainActivity = Preconditions.checkNotNull(context);
+        this.mScrollManager = Preconditions.checkNotNull(scrollMgr);
+        this.mLaunchPointListGenerator = Preconditions.checkNotNull(launchPointListGenerator);
         this.mAppsRanker = appsRanker;
         this.mPartner = Partner.get(this.mMainActivity);
         this.mInflater = LayoutInflater.from(context);
@@ -167,8 +168,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     public void resetRowPositions(boolean smooth) {
         for (int i = 0; i < this.mAllRowsList.size(); i++) {
-            if (((HomeScreenRow) this.mAllRowsList.get(i)).getRowView() instanceof ActiveFrame) {
-                ((ActiveFrame) ((HomeScreenRow) this.mAllRowsList.get(i)).getRowView()).resetScrollPosition(smooth);
+            if (this.mAllRowsList.get(i).getRowView() instanceof ActiveFrame) {
+                ((ActiveFrame) this.mAllRowsList.get(i).getRowView()).resetScrollPosition(smooth);
             }
         }
     }
@@ -193,7 +194,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         int index = -1;
         int size = this.mVisRowsList.size();
         for (int i = 0; i < size; i++) {
-            if (((HomeScreenRow) this.mVisRowsList.get(i)).getType() == rowType) {
+            if (this.mVisRowsList.get(i).getType() == rowType) {
                 index = i;
             }
         }
@@ -262,8 +263,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             int insertPoint = this.mVisRowsList.size();
             i = 0;
             while (i < this.mVisRowsList.size()) {
-                if (((HomeScreenRow) this.mVisRowsList.get(i)).getPosition() != position) {
-                    if (((HomeScreenRow) this.mVisRowsList.get(i)).getPosition() > position) {
+                if (this.mVisRowsList.get(i).getPosition() != position) {
+                    if (this.mVisRowsList.get(i).getPosition() > position) {
                         insertPoint = i;
                         break;
                     }
@@ -273,12 +274,12 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 }
             }
             Log.i(TAG, "insertPosition:" + insertPoint);
-            this.mVisRowsList.add(insertPoint, (HomeScreenRow) this.mAllRowsList.get(position));
+            this.mVisRowsList.add(insertPoint, this.mAllRowsList.get(position));
             notifyItemInserted(insertPoint);
         } else {
             int pos = -1;
             for (i = 0; i < this.mVisRowsList.size(); i++) {
-                if (((HomeScreenRow) this.mVisRowsList.get(i)).getPosition() == position) {
+                if (this.mVisRowsList.get(i).getPosition() == position) {
                     pos = i;
                     break;
                 }
@@ -306,19 +307,20 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     }
 
     public long getItemId(int position) {
-        return (long) ((HomeScreenRow) this.mVisRowsList.get(position)).getType();
+        return (long) this.mVisRowsList.get(position).getType();
     }
 
     public int getItemViewType(int position) {
         if (position >= this.mVisRowsList.size()) {
             return -1;
         }
-        return ((HomeScreenRow) this.mVisRowsList.get(position)).getPosition();
+        return this.mVisRowsList.get(position).getPosition();
     }
 
+    @SuppressLint("PrivateResource")
     public HomeViewHolder onCreateViewHolder(ViewGroup parent, int position) {
         View view;
-        HomeScreenRow row = (HomeScreenRow) this.mAllRowsList.get(position);
+        HomeScreenRow row = this.mAllRowsList.get(position);
         switch (row.getType()) {
             case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
                 view = this.mInflater.inflate(R.layout.home_search_orb, parent, false);
@@ -356,7 +358,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 return null;
         }
         row.setRowView(view);
-        view.setTag(Integer.valueOf(row.getType()));
+        view.setTag(row.getType());
         return new HomeViewHolder(view);
     }
 
@@ -382,7 +384,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         int n = this.mHeaders.size();
         View[] headers = new View[n];
         for (int i = 0; i < n; i++) {
-            headers[i] = (View) this.mHeaders.valueAt(i);
+            headers[i] = this.mHeaders.valueAt(i);
         }
         return headers;
     }
@@ -394,7 +396,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     }
 
     public ArrayList<HomeScreenRow> getAllRows() {
-        return new ArrayList(this.mAllRowsList);
+        return new ArrayList<>(this.mAllRowsList);
     }
 
     public void setRows() {
@@ -410,6 +412,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     }
 
+    @SuppressLint("PrivateResource")
     private void initAppRow(ActiveFrame group, HomeScreenRow row) {
         if (group != null) {
             Resources res = this.mMainActivity.getResources();
@@ -497,6 +500,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         ((ActiveItemsRowView) group.findViewById(R.id.list)).setAdapter(null);
     }
 
+    @SuppressLint("PrivateResource")
     private Adapter<?> initAdapter(int type) {
         switch (type) {
             case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
@@ -549,7 +553,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     public int getScrollOffset(int index) {
         if (index >= 0 || index < this.mVisRowsList.size()) {
-            return ((HomeScreenRow) this.mVisRowsList.get(index)).getRowScrollOffset();
+            return this.mVisRowsList.get(index).getRowScrollOffset();
         }
         return 0;
     }

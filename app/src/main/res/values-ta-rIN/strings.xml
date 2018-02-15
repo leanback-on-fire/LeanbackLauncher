@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play சேவைகள் பிழை</string>
     <string name="common_google_play_services_notification_needs_installation_title">பயன்பாடானது Google Play சேவைகள் நிறுவ கேட்கிறது.</string>
     <string name="common_google_play_services_notification_needs_update_title">பயன்பாடானது Google Play சேவைகளுக்கான புதுப்பிப்பைக் கேட்கிறது.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">தொடங்குக</string>
     <string name="lb_onboarding_accessibility_next">அடுத்து</string>
-    <string name="abc_action_mode_done">முடிந்தது</string>
-    <string name="abc_action_bar_home_description">முகப்பிற்கு வழிசெலுத்து</string>
-    <string name="abc_action_bar_up_description">மேலே வழிசெலுத்து</string>
-    <string name="abc_action_menu_overflow_description">மேலும் விருப்பங்கள்</string>
-    <string name="abc_toolbar_collapse_description">சுருக்கு</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">தேடு</string>
-    <string name="abc_search_hint">தேடு...</string>
-    <string name="abc_searchview_description_query">தேடல் வினவல்</string>
-    <string name="abc_searchview_description_clear">வினவலை அழி</string>
-    <string name="abc_searchview_description_submit">வினவலைச் சமர்ப்பி</string>
-    <string name="abc_searchview_description_voice">குரல் தேடல்</string>
-    <string name="abc_activitychooserview_choose_application">பயன்பாட்டைத் தேர்வுசெய்க</string>
-    <string name="abc_activity_chooser_view_see_all">எல்லாம் காட்டு</string>
-    <string name="abc_shareactionprovider_share_with_application">%s உடன் பகிர்</string>
-    <string name="abc_shareactionprovider_share_with">இதனுடன் பகிர்</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">இயக்கு</string>
-    <string name="abc_capital_off">முடக்கு</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">முடிந்தது</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">முகப்பிற்கு வழிசெலுத்து</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">மேலே வழிசெலுத்து</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">மேலும் விருப்பங்கள்</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">சுருக்கு</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">தேடு</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">தேடு…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">தேடல் வினவல்</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">வினவலை அழி</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">வினவலைச் சமர்ப்பி</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">குரல் தேடல்</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">பயன்பாட்டைத் தேர்வுசெய்க</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">எல்லாம் காட்டு</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s உடன் பகிர்</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">இதனுடன் பகிர்</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">இயக்கு</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">முடக்கு</string>
     <string name="app_name">Leanback துவக்கி</string>
     <string name="app_label">முகப்புத் திரை</string>
     <string name="search_hint_text">மூவிகள், டிவி மற்றும் பலவற்றைத் தேடவும்</string>

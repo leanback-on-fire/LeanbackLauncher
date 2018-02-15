@@ -56,7 +56,7 @@ public class MarketUpdateReceiver extends BroadcastReceiver {
             String pkgName = uri.getSchemeSpecificPart();
             if (pkgName != null && !isNonLeanbackApp(context, pkgName)) {
                 String action = intent.getAction();
-                LaunchPoint installLaunchPoint = (LaunchPoint) this.mInstallLaunchPoints.get(pkgName);
+                LaunchPoint installLaunchPoint = this.mInstallLaunchPoints.get(pkgName);
                 if (installLaunchPoint != null || intent.getBooleanExtra("user_initiated", false)) {
                     boolean wasAdded = false;
                     if (installLaunchPoint == null) {

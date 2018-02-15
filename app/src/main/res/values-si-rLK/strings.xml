@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play සේවා දෝෂය</string>
     <string name="common_google_play_services_notification_needs_installation_title">යෙදුමකට Google Play සේවා ස්ථාපනයක් අවශ්‍යය.</string>
     <string name="common_google_play_services_notification_needs_update_title">යෙදුමකට Google Play සේවාවන් සඳහා යාවත්කාලීනයක් අවශ්‍යය.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ආරම්භ කරන්න</string>
     <string name="lb_onboarding_accessibility_next">ඊළඟ</string>
-    <string name="abc_action_mode_done">අවසාන වූ</string>
-    <string name="abc_action_bar_home_description">ගෙදරට සංචාලනය කරන්න</string>
-    <string name="abc_action_bar_up_description">ඉහලට සංචාලනය කරන්න</string>
-    <string name="abc_action_menu_overflow_description">තවත් විකල්ප</string>
-    <string name="abc_toolbar_collapse_description">හකුළන්න</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">සෙවීම</string>
-    <string name="abc_search_hint">සොයන්න...</string>
-    <string name="abc_searchview_description_query">සෙවුම් විමසුම</string>
-    <string name="abc_searchview_description_clear">විමසුම හිස් කරන්න</string>
-    <string name="abc_searchview_description_submit">විමසුම යොමු කරන්න</string>
-    <string name="abc_searchview_description_voice">හඬ සෙවීම</string>
-    <string name="abc_activitychooserview_choose_application">යෙදුමක් තෝරන්න</string>
-    <string name="abc_activity_chooser_view_see_all">සියල්ල බලන්න</string>
-    <string name="abc_shareactionprovider_share_with_application">%s සමඟ බෙදාගන්න</string>
-    <string name="abc_shareactionprovider_share_with">සමඟ බෙදාගන්න</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ක්‍රියාත්මකයි</string>
-    <string name="abc_capital_off">ක්‍රියාවිරහිතයි</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">අවසාන වූ</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">ගෙදරට සංචාලනය කරන්න</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">ඉහලට සංචාලනය කරන්න</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">තවත් විකල්ප</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">හකුළන්න</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">සෙවීම</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">සොයන්න…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">සෙවුම් විමසුම</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">විමසුම හිස් කරන්න</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">විමසුම යොමු කරන්න</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">හඬ සෙවීම</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">යෙදුමක් තෝරන්න</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">සියල්ල බලන්න</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s සමඟ බෙදාගන්න</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">සමඟ බෙදාගන්න</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ක්‍රියාත්මකයි</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ක්‍රියාවිරහිතයි</string>
     <string name="app_name">Leanback දියත්කරණය</string>
     <string name="app_label">මුල් තිරය</string>
     <string name="search_hint_text">චිත්‍රපටි, රූපවාහිනී සහ තවත් දේ සොයන්න</string>

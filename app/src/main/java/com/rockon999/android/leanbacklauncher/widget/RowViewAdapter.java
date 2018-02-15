@@ -26,7 +26,7 @@ public abstract class RowViewAdapter<VH extends ViewHolder> extends Adapter<VH> 
     }
 
     protected RowViewAdapter(Context context) {
-        this.mContext = (MainActivity) Preconditions.checkNotNull((MainActivity) context);
+        this.mContext = Preconditions.checkNotNull((MainActivity) context);
     }
 
     public void onViewDetachedFromWindow(VH holder) {

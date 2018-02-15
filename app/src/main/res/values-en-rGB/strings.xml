@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play services error</string>
     <string name="common_google_play_services_notification_needs_installation_title">An application requires installation of Google Play services.</string>
     <string name="common_google_play_services_notification_needs_update_title">An application requires an update for Google Play Services.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">GET STARTED</string>
     <string name="lb_onboarding_accessibility_next">Next</string>
-    <string name="abc_action_mode_done">Done</string>
-    <string name="abc_action_bar_home_description">Navigate home</string>
-    <string name="abc_action_bar_up_description">Navigate up</string>
-    <string name="abc_action_menu_overflow_description">More options</string>
-    <string name="abc_toolbar_collapse_description">Collapse</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Search</string>
-    <string name="abc_search_hint">Search…</string>
-    <string name="abc_searchview_description_query">Search query</string>
-    <string name="abc_searchview_description_clear">Clear query</string>
-    <string name="abc_searchview_description_submit">Submit query</string>
-    <string name="abc_searchview_description_voice">Voice search</string>
-    <string name="abc_activitychooserview_choose_application">Choose an app</string>
-    <string name="abc_activity_chooser_view_see_all">See all</string>
-    <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
-    <string name="abc_shareactionprovider_share_with">Share with</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ON</string>
-    <string name="abc_capital_off">OFF</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Done</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Navigate home</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Navigate up</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">More options</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Collapse</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Search</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Search…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Search query</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Clear query</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Submit query</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Voice search</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Choose an app</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">See all</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Share with %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Share with</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ON</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">OFF</string>
     <string name="app_name">Leanback Launcher</string>
     <string name="app_label">Home Screen</string>
     <string name="search_hint_text">Search movies, TV and more</string>

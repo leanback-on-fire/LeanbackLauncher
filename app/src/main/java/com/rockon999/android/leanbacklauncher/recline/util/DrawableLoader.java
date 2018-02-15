@@ -91,7 +91,7 @@ class DrawableLoader extends AsyncTask<CachedTaskPool.TaskOption, Void, Object> 
 
     protected void onPostExecute(Object bitmap) {
         if (this.mImageView != null) {
-            ImageView imageView = (ImageView) this.mImageView.get();
+            ImageView imageView = this.mImageView.get();
             if (imageView != null) {
                 imageView.setImageDrawable((Drawable) bitmap);
             }
@@ -211,7 +211,7 @@ class DrawableLoader extends AsyncTask<CachedTaskPool.TaskOption, Void, Object> 
                     return null;
                 }
                 if (this.mPostProc != null) {
-                    bitmap = (Bitmap) this.mPostProc.postProcess(bitmap);
+                    bitmap = this.mPostProc.postProcess(bitmap);
                 }
                 RefcountObject object = new RefcountObject(bitmap);
                 object.addRef();
@@ -295,6 +295,6 @@ class DrawableLoader extends AsyncTask<CachedTaskPool.TaskOption, Void, Object> 
         if ((value.type != 3 || !value.string.toString().endsWith(".xml")) && (value.type < 28 || value.type > 31)) {
             return resources.openRawResource(id, value);
         }
-        return resources.getDrawable(id);
+        return resources.getDrawable(id, context.getTheme()); // todo added theme
     }
 }

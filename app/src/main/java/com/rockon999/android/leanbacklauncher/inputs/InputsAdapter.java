@@ -1,17 +1,18 @@
 package com.rockon999.android.leanbacklauncher.inputs;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
-///import android.hardware.hdmi.HdmiDeviceInfo;
 import android.media.tv.TvContract;
 import android.media.tv.TvContract.Channels;
 import android.media.tv.TvInputInfo;
 import android.media.tv.TvInputManager;
 import android.media.tv.TvInputManager.TvInputCallback;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.rockon999.android.leanbacklauncher.LauncherViewHolder;
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.apps.BannerView;
@@ -41,6 +43,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+///import android.hardware.hdmi.HdmiDeviceInfo;
 
 public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder> {
     private static final String[] PHYSICAL_TUNER_BLACK_LIST;
@@ -68,6 +72,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         C01891() {
         }
 
+        @SuppressLint("PrivateResource")
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
@@ -154,7 +159,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             if (this.mDisconnected) {
                 String toastText = Partner.get(InputsAdapter.this.mContext).getDisconnectedInputToastText();
                 if (!TextUtils.isEmpty(toastText)) {
-                    Toast.makeText(InputsAdapter.this.mContext, toastText, 0).show();
+                    Toast.makeText(InputsAdapter.this.mContext, toastText, Toast.LENGTH_SHORT).show();
                 }
             } else if (this.mEnabled) {
                 super.onClick(v);
@@ -184,11 +189,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
                 if (InputsAdapter.this.mConfig.mDisableDiconnectedInputs) {
                     boolean disconnectedR;
                     boolean disconnectedL = lhs.mState == 2;
-                    if (rhs.mState == 2) {
-                        disconnectedR = true;
-                    } else {
-                        disconnectedR = false;
-                    }
+                    disconnectedR = rhs.mState == 2;
                     if (disconnectedL != disconnectedR) {
                         if (!disconnectedL) {
                             i2 = -1;
@@ -259,10 +260,16 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             } else {
                 this.mHdmiInfo = null;
             }
-            CharSequence label = info.loadCustomLabel(ctx);
+            CharSequence label = null;
+
+            if (VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                label = info.loadCustomLabel(ctx);
+            }
+
             if (TextUtils.isEmpty(label)) {
                 label = info.loadLabel(ctx);
             }
+
             if (label != null) {
                 this.mLabel = label.toString();
             } else {
@@ -271,7 +278,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             this.mTextColorOption = this.mInfo.getServiceInfo().metaData.getInt("input_banner_label_color_option", 0);
             this.mSortKey = this.mInfo.getServiceInfo().metaData.getInt("input_sort_key", Integer.MAX_VALUE);
             this.mState = state;
-            Object deviceInfo = invokeMethod("getHdmiDeviceInfo", info, new Class[]{}, new Object[] {});
+            Object deviceInfo = invokeMethod("getHdmiDeviceInfo", info, new Class[]{}, new Object[]{});
             //isCecDevice
             if (deviceInfo != null && (Boolean) invokeMethod("isCecDevice", deviceInfo, new Class[]{}, new Object[]{})) {
                /* switch (info.getHdmiDeviceInfo().getDeviceType()) {
@@ -292,7 +299,11 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             }
             this.mParentEntry = parent;
             if (this.mParentEntry != null) {
-                label = this.mParentEntry.mInfo.loadCustomLabel(ctx);
+
+                if (VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    label = this.mParentEntry.mInfo.loadCustomLabel(ctx);
+                }
+
                 if (TextUtils.isEmpty(label)) {
                     label = this.mParentEntry.mInfo.loadLabel(ctx);
                 }
@@ -334,6 +345,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             return !isBundledTuner() && this.mState == 2;
         }
 
+        @SuppressLint("PrivateResource")
         public Drawable getImageDrawable(int newState) {
             if (this.mBanner != null && this.mState == this.mBannerState) {
                 return this.mBanner;
@@ -439,7 +451,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
                         break;
                     }
 
-                    switch ((int)invokeMethod("getDeviceType", mHdmiInfo, new Class[]{}, new Object[]{})) {
+                    switch ((int) invokeMethod("getDeviceType", mHdmiInfo, new Class[]{}, new Object[]{})) {
                         case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
                             drawableId = R.drawable.ic_input_livetv;
                             break;
@@ -456,7 +468,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
                             drawableId = R.drawable.ic_input_audio;
                             break;
                         default:
-                            boolean isMhl = (boolean)invokeMethod("isMhlDevice", mHdmiInfo, new Class[]{}, new Object[]{});
+                            boolean isMhl = (boolean) invokeMethod("isMhlDevice", mHdmiInfo, new Class[]{}, new Object[]{});
                             if (!isMhl) {
                                 drawableId = R.drawable.ic_input_tuner;
                                 break;
@@ -558,7 +570,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         this.mHandler = new C01891();
         this.mComp = new InputsComparator();
         this.mInputs = new HashMap();
-        this.mVisibleInputs = new ArrayList();
+        this.mVisibleInputs = new ArrayList<>();
         this.mPhysicalTunerInputs = new LinkedHashMap();
         this.mVirtualTunerInputs = new HashMap();
         this.mConfig = config;
@@ -595,7 +607,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     public void onBindViewHolder(InputViewHolder holder, int position) {
         if (position < this.mVisibleInputs.size()) {
-            holder.init((TvInputEntry) this.mVisibleInputs.get(position));
+            holder.init(this.mVisibleInputs.get(position));
         }
     }
 
@@ -618,7 +630,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             List<TvInputInfo> serviceInputs = this.mTvManager.getTvInputList();
             if (serviceInputs != null) {
                 for (int i = 0; i < serviceInputs.size(); i++) {
-                    inputAdded((TvInputInfo) serviceInputs.get(i), true);
+                    inputAdded(serviceInputs.get(i), true);
                 }
                 Collections.sort(this.mVisibleInputs, this.mComp);
             }
@@ -628,7 +640,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     private void hideBundledTunerInput(boolean isRefresh) {
         if (this.mIsBundledTunerVisible) {
             for (int i = this.mVisibleInputs.size() - 1; i >= 0; i--) {
-                if (((TvInputEntry) this.mVisibleInputs.get(i)).isBundledTuner()) {
+                if (this.mVisibleInputs.get(i).isBundledTuner()) {
                     this.mVisibleInputs.remove(i);
                     if (!isRefresh) {
                         notifyItemRemoved(i);
@@ -655,12 +667,12 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         try {
             int state = this.mTvManager.getInputState(input.getId());
             TvInputEntry parentEntry = null;
-            if (((TvInputEntry) this.mInputs.get(input.getId())) == null) {
-                boolean isConnected = (boolean)invokeMethod("isConnectedToHdmiSwitch", input, new Class[]{}, new Object[]{});
+            if (this.mInputs.get(input.getId()) == null) {
+                boolean isConnected = (boolean) invokeMethod("isConnectedToHdmiSwitch", input, new Class[]{}, new Object[]{});
                 if (!(input.getParentId() == null || isConnected)) {
                     TvInputInfo parentInfo = this.mTvManager.getTvInputInfo(input.getParentId());
                     if (parentInfo != null) {
-                        parentEntry = (TvInputEntry) this.mInputs.get(parentInfo.getId());
+                        parentEntry = this.mInputs.get(parentInfo.getId());
                         if (parentEntry == null) {
                             parentEntry = new TvInputEntry(parentInfo, null, this.mTvManager.getInputState(parentInfo.getId()), this.mContext);
                             this.mInputs.put(parentInfo.getId(), parentEntry);
@@ -670,7 +682,8 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
                 }
                 TvInputEntry entry = new TvInputEntry(input, parentEntry, state, this.mContext);
                 this.mInputs.put(input.getId(), entry);
-                if (!entry.mInfo.isHidden(this.mContext) && (parentEntry == null || !parentEntry.mInfo.isHidden(this.mContext))) {
+
+                if (VERSION.SDK_INT < Build.VERSION_CODES.N || (!entry.mInfo.isHidden(this.mContext) && (parentEntry == null || !parentEntry.mInfo.isHidden(this.mContext)))) {
                     if (isRefresh) {
                         this.mVisibleInputs.add(entry);
                         if (!(parentEntry == null || parentEntry.mInfo.getParentId() != null || this.mVisibleInputs.contains(parentEntry))) {
@@ -684,6 +697,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
                     }
                 }
             }
+
         } catch (IllegalArgumentException e) {
             Log.e("InputsAdapter", "Failed to get state for Input, droppig entry. Id = " + input.getId());
         }
@@ -691,7 +705,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     private int getIndexInVisibleList(String id) {
         for (int i = 0; i < this.mVisibleInputs.size(); i++) {
-            TvInputInfo info = ((TvInputEntry) this.mVisibleInputs.get(i)).mInfo;
+            TvInputInfo info = this.mVisibleInputs.get(i).mInfo;
             if (info != null && TextUtils.equals(info.getId(), id)) {
                 return i;
             }
@@ -701,7 +715,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     private int insertEntryIntoSortedList(TvInputEntry entry, List<TvInputEntry> list) {
         int i = 0;
-        while (i < list.size() && this.mComp.compare(entry, (TvInputEntry) list.get(i)) > 0) {
+        while (i < list.size() && this.mComp.compare(entry, list.get(i)) > 0) {
             i++;
         }
         if (!list.contains(entry)) {
@@ -711,7 +725,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     }
 
     private void inputStateUpdated(String id, int state) {
-        TvInputEntry entry = (TvInputEntry) this.mInputs.get(id);
+        TvInputEntry entry = this.mInputs.get(id);
         if (entry != null) {
             boolean wasConnected = entry.mState != 2;
             boolean isNowConnected = state != 2;
@@ -745,21 +759,23 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             addInputEntry(info, isRefresh);
         } else if (isPhysicalTuner(this.mContext.getPackageManager(), info)) {
             this.mPhysicalTunerInputs.put(info.getId(), info);
+
             if (this.mConfig.mShowPhysicalTunersSeparately) {
                 addInputEntry(info, isRefresh);
-            } else if (!info.isHidden(this.mContext)) {
+            } else if (VERSION.SDK_INT < Build.VERSION_CODES.N || !info.isHidden(this.mContext)) {
                 showBundledTunerInput(isRefresh);
             }
         } else {
             this.mVirtualTunerInputs.put(info.getId(), info);
-            if (!info.isHidden(this.mContext)) {
+
+            if (VERSION.SDK_INT < Build.VERSION_CODES.N || !info.isHidden(this.mContext)) {
                 showBundledTunerInput(isRefresh);
             }
         }
     }
 
     private void inputRemoved(String id) {
-        TvInputEntry entry = (TvInputEntry) this.mInputs.get(id);
+        TvInputEntry entry = this.mInputs.get(id);
         if (entry == null || entry.mInfo == null || !entry.mInfo.isPassthroughInput()) {
             removeTuner(id);
         } else {
@@ -780,11 +796,11 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     }
 
     private void removeEntry(String id) {
-        TvInputEntry entry = (TvInputEntry) this.mInputs.get(id);
+        TvInputEntry entry = this.mInputs.get(id);
         if (entry != null) {
             this.mInputs.remove(id);
             for (int i = this.mVisibleInputs.size() - 1; i >= 0; i--) {
-                TvInputEntry anEntry = (TvInputEntry) this.mVisibleInputs.get(i);
+                TvInputEntry anEntry = this.mVisibleInputs.get(i);
                 if (!(anEntry.mParentEntry == null || anEntry.mParentEntry.mInfo == null || !TextUtils.equals(anEntry.mParentEntry.mInfo.getId(), id))) {
                     this.mInputs.remove(anEntry.mInfo.getId());
                     this.mVisibleInputs.remove(i);
@@ -845,20 +861,20 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     private int getPriorityForType(int type) {
         if (this.mTypePriorities != null) {
-            Integer priority = (Integer) this.mTypePriorities.get(Integer.valueOf(type));
+            Integer priority = this.mTypePriorities.get(type);
             if (priority != null) {
-                return priority.intValue();
+                return priority;
             }
         }
         return Integer.MAX_VALUE;
     }
 
     private int addToPriorityIfMissing(int key, int priority) {
-        if (this.mTypePriorities.containsKey(Integer.valueOf(key))) {
+        if (this.mTypePriorities.containsKey(key)) {
             return priority;
         }
         int priority2 = priority + 1;
-        this.mTypePriorities.put(Integer.valueOf(key), Integer.valueOf(priority));
+        this.mTypePriorities.put(key, priority);
         return priority2;
     }
 
@@ -867,39 +883,39 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         int priority = addToPriorityIfMissing(1000, addToPriorityIfMissing(1003, addToPriorityIfMissing(1005, addToPriorityIfMissing(1008, addToPriorityIfMissing(1001, addToPriorityIfMissing(1002, addToPriorityIfMissing(1004, addToPriorityIfMissing(1006, addToPriorityIfMissing(1007, addToPriorityIfMissing(-6, addToPriorityIfMissing(-5, addToPriorityIfMissing(-4, addToPriorityIfMissing(-2, addToPriorityIfMissing(0, addToPriorityIfMissing(-3, this.mTypePriorities.size())))))))))))))));
     }
 
-    public Object invokeMethod(String methodName, Object object, Class[] methodParams, Object[] paramValues){
-        try{
+    public Object invokeMethod(String methodName, Object object, Class[] methodParams, Object[] paramValues) {
+        try {
             Method method = object.getClass().getMethod(methodName, methodParams);
             method.setAccessible(true);
             return method.invoke(object, paramValues);
-        }catch (Exception e){
-            try{
-                Method method2 =  object.getClass().getSuperclass().getMethod(methodName, methodParams);
+        } catch (Exception e) {
+            try {
+                Method method2 = object.getClass().getSuperclass().getMethod(methodName, methodParams);
                 method2.setAccessible(true);
-                return  method2.invoke(object, paramValues);
-            }catch (Exception e2){
+                return method2.invoke(object, paramValues);
+            } catch (Exception ignored) {
 
             }
         }
-        return  null;
+        return null;
 
     }
 
-    public Object getFieldValue(Object object, String fieldName){
-        try{
+    public Object getFieldValue(Object object, String fieldName) {
+        try {
             Field field = object.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
-            return  field.get(object);
-        }catch (Exception e){
-            try{
+            return field.get(object);
+        } catch (Exception e) {
+            try {
                 Field field = object.getClass().getSuperclass().getDeclaredField(fieldName);
                 field.setAccessible(true);
-                return  field.get(fieldName);
-            }catch (Exception e2){
+                return field.get(fieldName);
+            } catch (Exception ignored) {
 
             }
         }
-        return  null;
+        return null;
 
     }
 }

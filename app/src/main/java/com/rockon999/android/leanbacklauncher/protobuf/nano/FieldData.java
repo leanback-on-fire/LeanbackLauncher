@@ -11,7 +11,7 @@ class FieldData implements Cloneable {
     private Object value;
 
     FieldData() {
-        this.unknownFieldData = new ArrayList();
+        this.unknownFieldData = new ArrayList<>();
     }
 
     int computeSerializedSize() {
@@ -113,7 +113,7 @@ class FieldData implements Cloneable {
                     byte[][] cloneArray = new byte[valueArray.length][];
                     clone.value = cloneArray;
                     for (int i = 0; i < valueArray.length; i++) {
-                        cloneArray[i] = (byte[]) valueArray[i].clone();
+                        cloneArray[i] = valueArray[i].clone();
                     }
                 } else if (this.value instanceof boolean[]) {
                     clone.value = ((boolean[]) this.value).clone();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play Services-fout</string>
     <string name="common_google_play_services_notification_needs_installation_title">"'n Program vereis dat Google Play Services geïnstalleer word."</string>
     <string name="common_google_play_services_notification_needs_update_title">"'n Program vereis dat Google Play Services opgedateer word."</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">BEGIN HIER</string>
     <string name="lb_onboarding_accessibility_next">Volgende</string>
-    <string name="abc_action_mode_done">Klaar</string>
-    <string name="abc_action_bar_home_description">Navigeer tuis</string>
-    <string name="abc_action_bar_up_description">Navigeer op</string>
-    <string name="abc_action_menu_overflow_description">Nog opsies</string>
-    <string name="abc_toolbar_collapse_description">Vou in</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Soek</string>
-    <string name="abc_search_hint">Soek …</string>
-    <string name="abc_searchview_description_query">Soeknavraag</string>
-    <string name="abc_searchview_description_clear">Vee navraag uit</string>
-    <string name="abc_searchview_description_submit">Dien navraag in</string>
-    <string name="abc_searchview_description_voice">Stemsoektog</string>
-    <string name="abc_activitychooserview_choose_application">"Kies 'n program"</string>
-    <string name="abc_activity_chooser_view_see_all">Sien alles</string>
-    <string name="abc_shareactionprovider_share_with_application">Deel met %s</string>
-    <string name="abc_shareactionprovider_share_with">Deel met</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">AAN</string>
-    <string name="abc_capital_off">AF</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Klaar</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Navigeer tuis</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Navigeer op</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Nog opsies</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Vou in</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Soek</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Soek …</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Soeknavraag</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Vee navraag uit</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Dien navraag in</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Stemsoektog</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">"Kies 'n program"</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Sien alles</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Deel met %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Deel met</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">AAN</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">AF</string>
     <string name="app_name">Leanback-lanseerder</string>
     <string name="app_label">Tuisskerm</string>
     <string name="search_hint_text">Soek flieks, TV-programme en meer</string>

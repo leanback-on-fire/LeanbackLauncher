@@ -5,12 +5,10 @@ import android.content.res.Resources;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.TextView;
-import android.widget.TextView.BufferType;
 
 import com.rockon999.android.leanbacklauncher.R;
 
-public final class InputsTextView extends TextView {
+public final class InputsTextView extends android.support.v7.widget.AppCompatTextView {
     private TypedValue mPaddingDefault;
     private TypedValue mPaddingWrapped;
     private Resources mRes;
@@ -38,15 +36,6 @@ public final class InputsTextView extends TextView {
 
     public InputsTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.mPaddingDefault = new TypedValue();
-        this.mPaddingWrapped = new TypedValue();
-        this.mTextSizeDefault = new TypedValue();
-        this.mTextSizeWrapped = new TypedValue();
-        init(context);
-    }
-
-    public InputsTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         this.mPaddingDefault = new TypedValue();
         this.mPaddingWrapped = new TypedValue();
         this.mTextSizeDefault = new TypedValue();
@@ -86,7 +75,7 @@ public final class InputsTextView extends TextView {
     }
 
     private void setTextSize(TypedValue value) {
-        setTextSize((value.data >> 0) & 15, TypedValue.complexToFloat(value.data));
+        setTextSize((value.data) & 15, TypedValue.complexToFloat(value.data));
     }
 
     private void setPaddingBottom(TypedValue value) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="lb_navigation_menu_contentDescription">નૅવિગેશન મેનૂ</string>
     <string name="orb_search_action">શોધ ક્રિયા</string>
     <string name="lb_search_bar_hint">શોધો</string>
@@ -37,24 +37,24 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">પ્રારંભ કરો</string>
     <string name="lb_onboarding_accessibility_next">આગલું</string>
-    <string name="abc_action_mode_done">થઈ ગયું</string>
-    <string name="abc_action_bar_home_description">હોમ પર નેવિગેટ કરો</string>
-    <string name="abc_action_bar_up_description">ઉપર નેવિગેટ કરો</string>
-    <string name="abc_action_menu_overflow_description">વધુ વિકલ્પો</string>
-    <string name="abc_toolbar_collapse_description">સંકુચિત કરો</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">શોધો</string>
-    <string name="abc_search_hint">શોધો…</string>
-    <string name="abc_searchview_description_query">શોધ ક્વેરી</string>
-    <string name="abc_searchview_description_clear">ક્વેરી સાફ કરો</string>
-    <string name="abc_searchview_description_submit">ક્વેરી સબમિટ કરો</string>
-    <string name="abc_searchview_description_voice">વૉઇસ શોધ</string>
-    <string name="abc_activitychooserview_choose_application">એક ઍપ્લિકેશન પસંદ કરો</string>
-    <string name="abc_activity_chooser_view_see_all">બધું જુઓ</string>
-    <string name="abc_shareactionprovider_share_with_application">%s સાથે શેર કરો</string>
-    <string name="abc_shareactionprovider_share_with">આની સાથે શેર કરો</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ચાલુ</string>
-    <string name="abc_capital_off">બંધ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">થઈ ગયું</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">હોમ પર નેવિગેટ કરો</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">ઉપર નેવિગેટ કરો</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">વધુ વિકલ્પો</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">સંકુચિત કરો</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">શોધો</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">શોધો…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">શોધ ક્વેરી</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">ક્વેરી સાફ કરો</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">ક્વેરી સબમિટ કરો</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">વૉઇસ શોધ</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">એક ઍપ્લિકેશન પસંદ કરો</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">બધું જુઓ</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s સાથે શેર કરો</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">આની સાથે શેર કરો</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ચાલુ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">બંધ</string>
 </resources>

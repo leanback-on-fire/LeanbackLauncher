@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play szolgáltatások – hiba</string>
     <string name="common_google_play_services_notification_needs_installation_title">Egy alkalmazás Google Play-szolgáltatások telepítését kéri.</string>
     <string name="common_google_play_services_notification_needs_update_title">Egy alkalmazás Google Play-szolgáltatások frissítését kéri.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">KEZDŐ LÉPÉSEK</string>
     <string name="lb_onboarding_accessibility_next">Következő</string>
-    <string name="abc_action_mode_done">Kész</string>
-    <string name="abc_action_bar_home_description">Ugrás a főoldalra</string>
-    <string name="abc_action_bar_up_description">Felfelé mozgatás</string>
-    <string name="abc_action_menu_overflow_description">További lehetőségek</string>
-    <string name="abc_toolbar_collapse_description">Összecsukás</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Keresés</string>
-    <string name="abc_search_hint">Keresés…</string>
-    <string name="abc_searchview_description_query">Keresési lekérdezés</string>
-    <string name="abc_searchview_description_clear">Lekérdezés törlése</string>
-    <string name="abc_searchview_description_submit">Lekérdezés küldése</string>
-    <string name="abc_searchview_description_voice">Hangalapú keresés</string>
-    <string name="abc_activitychooserview_choose_application">Válasszon ki egy alkalmazást</string>
-    <string name="abc_activity_chooser_view_see_all">Összes megtekintése</string>
-    <string name="abc_shareactionprovider_share_with_application">Megosztás a következővel: %s</string>
-    <string name="abc_shareactionprovider_share_with">Megosztás a következővel:</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">BE</string>
-    <string name="abc_capital_off">KI</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Kész</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Ugrás a főoldalra</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Felfelé mozgatás</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">További lehetőségek</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Összecsukás</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Keresés</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Keresés…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Keresési lekérdezés</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Lekérdezés törlése</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Lekérdezés küldése</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Hangalapú keresés</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Válasszon ki egy alkalmazást</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Összes megtekintése</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Megosztás a következővel: %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Megosztás a következővel:</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">BE</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">KI</string>
     <string name="app_name">Leanback-indító</string>
     <string name="app_label">Kezdőképernyő</string>
     <string name="search_hint_text">Keresés a filmek, tévéműsorok stb. között</string>

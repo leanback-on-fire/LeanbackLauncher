@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Pogreška Usluga za Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Aplikacija zahtijeva instaliranje Usluga za Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Aplikacija zahtijeva ažuriranje Usluga za Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">.</string>
     <string name="lb_onboarding_get_started">POČETAK</string>
     <string name="lb_onboarding_accessibility_next">Dalje</string>
-    <string name="abc_action_mode_done">Gotovo</string>
-    <string name="abc_action_bar_home_description">Idi na početnu</string>
-    <string name="abc_action_bar_up_description">Idi gore</string>
-    <string name="abc_action_menu_overflow_description">Dodatne opcije</string>
-    <string name="abc_toolbar_collapse_description">Sažmi</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Pretraživanje</string>
-    <string name="abc_search_hint">Pretražite…</string>
-    <string name="abc_searchview_description_query">Upit za pretraživanje</string>
-    <string name="abc_searchview_description_clear">Izbriši upit</string>
-    <string name="abc_searchview_description_submit">Pošalji upit</string>
-    <string name="abc_searchview_description_voice">Glasovno pretraživanje</string>
-    <string name="abc_activitychooserview_choose_application">Odabir aplikacije</string>
-    <string name="abc_activity_chooser_view_see_all">Prikaži sve</string>
-    <string name="abc_shareactionprovider_share_with_application">Dijeljenje sa: %s</string>
-    <string name="abc_shareactionprovider_share_with">Dijeljenje sa</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">UKLJUČENO</string>
-    <string name="abc_capital_off">ISKLJUČENO</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Gotovo</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Idi na početnu</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Idi gore</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Dodatne opcije</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Sažmi</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Pretraživanje</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Pretražite…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Upit za pretraživanje</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Izbriši upit</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Pošalji upit</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Glasovno pretraživanje</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Odabir aplikacije</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Prikaži sve</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Dijeljenje sa: %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Dijeljenje sa</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">UKLJUČENO</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ISKLJUČENO</string>
     <string name="app_name">Pokretač aplikacije Leanback</string>
     <string name="app_label">Početni zaslon</string>
     <string name="search_hint_text">Pretraživanje filmova, TV emisija i još mnogo toga</string>
@@ -105,7 +105,7 @@
     <string name="update_pending">Ažuriranje na čekanju…</string>
     <string name="restore_pending">Vraćanje na čekanju…</string>
     <string name="downloading">Preuzimanje…</string>
-    <string name="installing">Instaliranje...</string>
+    <string name="installing">Instaliranje…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Sad se reproducira</string>

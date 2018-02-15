@@ -3,6 +3,7 @@ package com.rockon999.android.leanbacklauncher.animation;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.view.View;
 import com.rockon999.android.leanbacklauncher.util.Preconditions;
 
@@ -22,7 +23,7 @@ public class FadeAnimator extends ValueAnimator implements Resettable {
         }
 
         public void onAnimationUpdate(ValueAnimator animation) {
-            FadeAnimator.this.mTarget.setAlpha(((Float) FadeAnimator.this.getAnimatedValue()).floatValue());
+            FadeAnimator.this.mTarget.setAlpha((Float) FadeAnimator.this.getAnimatedValue());
         }
 
         public void onAnimationCancel(Animator animation) {
@@ -41,20 +42,21 @@ public class FadeAnimator extends ValueAnimator implements Resettable {
         int[] iArr = new int[Direction.values().length];
         try {
             iArr[Direction.FADE_IN.ordinal()] = 1;
-        } catch (NoSuchFieldError e) {
+        } catch (NoSuchFieldError ignored) {
         }
         try {
             iArr[Direction.FADE_OUT.ordinal()] = 2;
-        } catch (NoSuchFieldError e2) {
+        } catch (NoSuchFieldError ignored) {
         }
         f2x7e91832 = iArr;
         return iArr;
     }
 
+    @SuppressLint("PrivateResource")
     public FadeAnimator(View target, Direction direction) {
         float endAlpha;
         this.mListener = new FadeAnimatorListener();
-        this.mTarget = (View) Preconditions.checkNotNull(target);
+        this.mTarget = Preconditions.checkNotNull(target);
         switch (m1982x207b7d0e()[direction.ordinal()]) {
             case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
                 this.mStartAlpha = 0.0f;
@@ -67,7 +69,7 @@ public class FadeAnimator extends ValueAnimator implements Resettable {
             default:
                 throw new IllegalArgumentException("Illegal direction: " + direction);
         }
-        setFloatValues(new float[]{this.mStartAlpha, endAlpha});
+        setFloatValues(this.mStartAlpha, endAlpha);
         addListener(this.mListener);
         addUpdateListener(this.mListener);
     }

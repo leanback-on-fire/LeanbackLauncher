@@ -28,7 +28,7 @@ public class AppsRanker implements Listener {
     private static boolean DEBUG;
     private static String TAG;
     private static AppsRanker sAppsRanker;
-    private Queue<CachedAction> mCachedActions;
+    private final Queue<CachedAction> mCachedActions;
     private Context mContext;
     private AppsDbHelper mDbHelper;
     private HashMap<String, AppsEntity> mEntities;
@@ -121,7 +121,7 @@ public class AppsRanker implements Listener {
         }
 
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            AppsRanker appsRanker = (AppsRanker) this.mAppsRankerRef.get();
+            AppsRanker appsRanker = this.mAppsRankerRef.get();
             if (appsRanker != null) {
                 appsRanker.checkForSortingModeChange();
             }
@@ -140,7 +140,7 @@ public class AppsRanker implements Listener {
         this.mCachedActions = new LinkedList();
         this.mEntities = new HashMap();
         this.mSortingMode = SortingModeManager.SortingMode.FIXED;
-        this.mLastLaunchPointRankingLogDump = new ArrayList();
+        this.mLastLaunchPointRankingLogDump = new ArrayList<>();
         this.mContext = ctx;
         this.mDbHelper = dbHelper;
         this.mSortingMode = SortingModeManager.getSavedSortingMode(this.mContext);
@@ -190,13 +190,13 @@ public class AppsRanker implements Listener {
             }
             synchronized (this.mCachedActions) {
                 if (this.mQueryingScores) {
-                    if (DEBUG || Log.isLoggable(TAG, 2)) {
+                    if (DEBUG || Log.isLoggable(TAG, Log.VERBOSE)) {
                         Log.d(TAG, "Scores not ready, caching this action");
                     }
                     this.mCachedActions.add(new CachedAction(key, component, group, actionType));
                     return;
                 }
-                if (DEBUG || Log.isLoggable(TAG, 2)) {
+                if (DEBUG || Log.isLoggable(TAG, Log.VERBOSE)) {
                     Log.v(TAG, "action: " + actionType + " for " + key + " - group = " + group);
                 }
                 synchronized (this.mEntitiesLock) {
@@ -227,7 +227,7 @@ public class AppsRanker implements Listener {
         if (registerListenerIfNecessary(listener)) {
             return false;
         }
-        if (DEBUG || Log.isLoggable(TAG, 2)) {
+        if (DEBUG || Log.isLoggable(TAG, Log.VERBOSE)) {
             Log.v(TAG, "refreshing Launchpoint ranking");
         }
         synchronized (this.mEntitiesLock) {
@@ -235,7 +235,7 @@ public class AppsRanker implements Listener {
             this.mLastLaunchPointRankingLogDump.clear();
             this.mLastLaunchPointRankingLogDump.add("Last Launchpoint Ranking Ordering: " + new Date().toString());
             for (LaunchPoint lp : launchPoints) {
-                AppsEntity entity = (AppsEntity) this.mEntities.get(lp.getPackageName());
+                AppsEntity entity = this.mEntities.get(lp.getPackageName());
                 if (entity != null) {
                     this.mLastLaunchPointRankingLogDump.add(lp.getTitle() + " | " + "Last Opened " + entity.getOrder(lp.getComponentName()));
                 }
@@ -253,7 +253,7 @@ public class AppsRanker implements Listener {
     }
 
     public int insertLaunchPoint(ArrayList<LaunchPoint> launchPoints, LaunchPoint newLp) {
-        if (DEBUG || Log.isLoggable(TAG, 2)) {
+        if (DEBUG || Log.isLoggable(TAG, Log.VERBOSE)) {
             Log.v(TAG, "Inserting new LaunchPoint");
         }
         if (registerListenerIfNecessary(null)) {
@@ -297,7 +297,7 @@ public class AppsRanker implements Listener {
         synchronized (this.mCachedActions) {
             mustRegister = this.mQueryingScores;
             if (mustRegister) {
-                if (DEBUG || Log.isLoggable(TAG, 2)) {
+                if (DEBUG || Log.isLoggable(TAG, Log.VERBOSE)) {
                     Log.d(TAG, "Entities not ready");
                 }
                 if (listener != null) {
@@ -315,7 +315,7 @@ public class AppsRanker implements Listener {
         }
         synchronized (this.mCachedActions) {
             this.mQueryingScores = false;
-            if (DEBUG || Log.isLoggable(TAG, 2)) {
+            if (DEBUG || Log.isLoggable(TAG, Log.VERBOSE)) {
                 Log.d(TAG, "Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
             }
             while (!this.mCachedActions.isEmpty()) {

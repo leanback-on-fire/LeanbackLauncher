@@ -19,14 +19,10 @@ public final class MessageNanoPrinter {
         try {
             print(null, message, new StringBuffer(), buf);
             return buf.toString();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             str = "Error printing proto: ";
             valueOf = String.valueOf(e.getMessage());
-            return valueOf.length() == 0 ? new String(str) : str.concat(valueOf);
-        } catch (InvocationTargetException e2) {
-            str = "Error printing proto: ";
-            valueOf = String.valueOf(e2.getMessage());
-            return valueOf.length() == 0 ? new String(str) : str.concat(valueOf);
+            return valueOf.length() == 0 ? str : str.concat(valueOf);
         }
     }
 
@@ -77,24 +73,24 @@ public final class MessageNanoPrinter {
                         String str2 = "has";
                         String valueOf = String.valueOf(subfieldName);
                         if (valueOf.length() == 0) {
-                            str = new String(str2);
+                            str = str2;
                         } else {
                             valueOf = str2.concat(valueOf);
                         }
-                        if (((Boolean) clazz.getMethod(valueOf, new Class[0]).invoke(object, new Object[0])).booleanValue()) {
+                        if ((Boolean) clazz.getMethod(valueOf, new Class[0]).invoke(object, new Object[0])) {
                             try {
                                 str2 = "get";
                                 valueOf = String.valueOf(subfieldName);
                                 if (valueOf.length() == 0) {
-                                    str = new String(str2);
+                                    str = str2;
                                 } else {
                                     valueOf = str2.concat(valueOf);
                                 }
-                                print(subfieldName, clazz.getMethod(valueOf, new Class[0]).invoke(object, new Object[0]), indentBuf, buf);
-                            } catch (NoSuchMethodException e) {
+                                print(subfieldName, clazz.getMethod(valueOf, new Class[0]).invoke(object), indentBuf, buf);
+                            } catch (NoSuchMethodException ignored) {
                             }
                         }
-                    } catch (NoSuchMethodException e2) {
+                    } catch (NoSuchMethodException ignored) {
                     }
                 }
             }
@@ -117,7 +113,8 @@ public final class MessageNanoPrinter {
     }
 
     private static String deCamelCaseify(String identifier) {
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
+
         for (int i = 0; i < identifier.length(); i++) {
             char currentChar = identifier.charAt(i);
             if (i == 0) {
@@ -128,6 +125,7 @@ public final class MessageNanoPrinter {
                 out.append(currentChar);
             }
         }
+
         return out.toString();
     }
 
@@ -146,7 +144,7 @@ public final class MessageNanoPrinter {
             if (original >= ' ' && original <= '~' && original != '\"' && original != '\'') {
                 b.append(original);
             } else {
-                b.append(String.format("\\u%04x", new Object[]{Integer.valueOf(original)}));
+                b.append(String.format("\\u%04x", new Object[]{(int) original}));
             }
         }
         return b.toString();
@@ -162,7 +160,7 @@ public final class MessageNanoPrinter {
                 } else if (ch >= 32 && ch < 127) {
                     builder.append((char) ch);
                 } else {
-                    builder.append(String.format("\\%03o", new Object[]{Integer.valueOf(ch)}));
+                    builder.append(String.format("\\%03o", new Object[]{ch}));
                 }
             }
             builder.append('\"');

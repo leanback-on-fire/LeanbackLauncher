@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play సేవల లోపం</string>
     <string name="common_google_play_services_notification_needs_installation_title">ఒక అనువర్తనానికి Google Play సేవల యొక్క ఇన్‌స్టాలేషన్ అవసరం.</string>
     <string name="common_google_play_services_notification_needs_update_title">ఒక అనువర్తనానికి Google Play సేవలు నవీకరించబడటం అవసరం.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ప్రారంభించు</string>
     <string name="lb_onboarding_accessibility_next">తదుపరి</string>
-    <string name="abc_action_mode_done">పూర్తయింది</string>
-    <string name="abc_action_bar_home_description">హోమ్‌కు నావిగేట్ చేయండి</string>
-    <string name="abc_action_bar_up_description">పైకి నావిగేట్ చేయండి</string>
-    <string name="abc_action_menu_overflow_description">మరిన్ని ఎంపికలు</string>
-    <string name="abc_toolbar_collapse_description">కుదించండి</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">శోధించు</string>
-    <string name="abc_search_hint">శోధించు...</string>
-    <string name="abc_searchview_description_query">ప్రశ్న శోధించండి</string>
-    <string name="abc_searchview_description_clear">ప్రశ్నను క్లియర్ చేయి</string>
-    <string name="abc_searchview_description_submit">ప్రశ్నని సమర్పించు</string>
-    <string name="abc_searchview_description_voice">వాయిస్ శోధన</string>
-    <string name="abc_activitychooserview_choose_application">అనువర్తనాన్ని ఎంచుకోండి</string>
-    <string name="abc_activity_chooser_view_see_all">అన్నీ చూడండి</string>
-    <string name="abc_shareactionprovider_share_with_application">%sతో భాగస్వామ్యం చేయి</string>
-    <string name="abc_shareactionprovider_share_with">వీరితో భాగస్వామ్యం చేయి</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ఆన్ చేయి</string>
-    <string name="abc_capital_off">ఆఫ్ చేయి</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">పూర్తయింది</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">హోమ్‌కు నావిగేట్ చేయండి</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">పైకి నావిగేట్ చేయండి</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">మరిన్ని ఎంపికలు</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">కుదించండి</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">శోధించు</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">శోధించు…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">ప్రశ్న శోధించండి</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">ప్రశ్నను క్లియర్ చేయి</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">ప్రశ్నని సమర్పించు</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">వాయిస్ శోధన</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">అనువర్తనాన్ని ఎంచుకోండి</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">అన్నీ చూడండి</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%sతో భాగస్వామ్యం చేయి</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">వీరితో భాగస్వామ్యం చేయి</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ఆన్ చేయి</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ఆఫ్ చేయి</string>
     <string name="app_name">Leanback లాంచర్</string>
     <string name="app_label">హోమ్ స్క్రీన్</string>
     <string name="search_hint_text">చలనచిత్రాలు, టీవీ మరియు మరిన్నింటిని శోధించండి</string>
@@ -101,9 +101,9 @@
     <string name="settings_network">నెట్‌వర్క్ సెట్టింగ్‌లు</string>
     <string name="notif_service_name">నోటిఫికేషన్‌ల సేవ</string>
     <string name="recm_service_name">సిఫార్సుల సేవ</string>
-    <string name="install_pending">ఇన్‌స్టాల్ పెండింగ్‌లో ఉంది...</string>
-    <string name="update_pending">నవీకరణ పెండింగ్‌లో ఉంది...</string>
-    <string name="restore_pending">పునరుద్ధరణ పెండింగ్‌లో ఉంది...</string>
+    <string name="install_pending">ఇన్‌స్టాల్ పెండింగ్‌లో ఉంది…</string>
+    <string name="update_pending">నవీకరణ పెండింగ్‌లో ఉంది…</string>
+    <string name="restore_pending">పునరుద్ధరణ పెండింగ్‌లో ఉంది…</string>
     <string name="downloading">డౌన్‌లోడ్ చేస్తోంది…</string>
     <string name="installing">ఇన్‌స్టాల్ చేస్తోంది…</string>
     <string name="unknown_state">…</string>

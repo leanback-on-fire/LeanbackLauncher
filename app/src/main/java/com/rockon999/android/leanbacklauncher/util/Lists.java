@@ -41,7 +41,7 @@ public final class Lists {
     }
 
     public static <T> List<Change> getChanges(List<T> left, List<T> right, Comparator<T> comparator) {
-        ArrayList<Change> changes = new ArrayList();
+        ArrayList<Change> changes = new ArrayList<>();
         int lSize = left.size();
         int rSize = right.size();
         int offset = 0;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Virhe Google Play -palveluissa</string>
     <string name="common_google_play_services_notification_needs_installation_title">Asenna Google Play -palvelut, jotta sovellus toimii.</string>
     <string name="common_google_play_services_notification_needs_update_title">Päivitä Google Play -palvelut, jotta sovellus toimii.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">.</string>
     <string name="lb_onboarding_get_started">ALOITA</string>
     <string name="lb_onboarding_accessibility_next">Seuraava</string>
-    <string name="abc_action_mode_done">Valmis</string>
-    <string name="abc_action_bar_home_description">Siirry etusivulle</string>
-    <string name="abc_action_bar_up_description">Siirry ylös</string>
-    <string name="abc_action_menu_overflow_description">Lisää</string>
-    <string name="abc_toolbar_collapse_description">Kutista</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Haku</string>
-    <string name="abc_search_hint">Haku…</string>
-    <string name="abc_searchview_description_query">Hakulauseke</string>
-    <string name="abc_searchview_description_clear">Tyhjennä kysely</string>
-    <string name="abc_searchview_description_submit">Lähetä kysely</string>
-    <string name="abc_searchview_description_voice">Puhehaku</string>
-    <string name="abc_activitychooserview_choose_application">Valitse sovellus</string>
-    <string name="abc_activity_chooser_view_see_all">Näytä kaikki</string>
-    <string name="abc_shareactionprovider_share_with_application">Jakaminen: %s</string>
-    <string name="abc_shareactionprovider_share_with">Jakaminen:</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">KÄYTÖSSÄ</string>
-    <string name="abc_capital_off">POIS KÄYTÖSTÄ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Valmis</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Siirry etusivulle</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Siirry ylös</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Lisää</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Kutista</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Haku</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Haku…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Hakulauseke</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Tyhjennä kysely</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Lähetä kysely</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Puhehaku</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Valitse sovellus</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Näytä kaikki</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Jakaminen: %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Jakaminen:</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">KÄYTÖSSÄ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">POIS KÄYTÖSTÄ</string>
     <string name="app_name">Käynnistysohjelma – Leanback</string>
     <string name="app_label">Aloitusruutu</string>
     <string name="search_hint_text">Hae elokuvia, TV-ohjelmia ja paljon muuta</string>

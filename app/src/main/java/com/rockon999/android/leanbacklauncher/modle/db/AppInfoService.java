@@ -47,7 +47,7 @@ public class AppInfoService extends AppBeanService<AppInfo>{
                     continue;
                 AppInfo appInfo = new AppInfo();
                 appInfo.setAppType(type);
-                appInfo.setCompentName(itemLaunchPoint.getComponentName());
+                appInfo.setComponentName(itemLaunchPoint.getComponentName());
                 appInfo.setPackageName(itemLaunchPoint.getPackageName());
                 saveAppInfos.add(appInfo);
             }

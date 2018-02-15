@@ -25,7 +25,7 @@ public class HomeScrollManager {
     }
 
     public HomeScrollManager(Context context, RecyclerView recyclerView) {
-        this.mScrollListeners = new ArrayList();
+        this.mScrollListeners = new ArrayList<>();
         this.mAnimationsEnabled = true;
         this.mRecyclerView = recyclerView;
         Resources resources = context.getResources();
@@ -67,7 +67,7 @@ public class HomeScrollManager {
 
     private void updateListeners() {
         for (int i = 0; i < this.mScrollListeners.size(); i++) {
-            ((HomeScrollFractionListener) this.mScrollListeners.get(i)).onScrollPositionChanged(this.mScrollPosition, this.mFractionFromTop);
+            this.mScrollListeners.get(i).onScrollPositionChanged(this.mScrollPosition, this.mFractionFromTop);
         }
     }
 

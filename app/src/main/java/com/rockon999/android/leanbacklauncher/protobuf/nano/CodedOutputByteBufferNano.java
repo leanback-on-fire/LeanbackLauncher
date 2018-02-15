@@ -12,7 +12,7 @@ public final class CodedOutputByteBufferNano {
         private static final long serialVersionUID = -6947486886997889499L;
         private static final String valueOf = String.valueOf("CodedOutputStream was writing to a flat byte array and ran out of space (pos ");
         OutOfSpaceException(int position, int limit) {
-            super(new StringBuilder(String.valueOf(valueOf).length() + 31).append(valueOf).append(position).append(" limit ").append(limit).append(").").toString());
+            super(valueOf + position + " limit " + limit + ").");
         }
     }
 
@@ -200,7 +200,7 @@ public final class CodedOutputByteBufferNano {
             if (c >= '\u0080') {
                 break;
             }
-            bytes[offset + i] = (byte) ((byte) c);
+            bytes[offset + i] = (byte) c;
             i++;
         }
         if (i == utf16Length) {
@@ -211,22 +211,22 @@ public final class CodedOutputByteBufferNano {
             char c = sequence.charAt(i);
             if (c < '\u0080' && j2 < limit) {
                 j = j2 + 1;
-                bytes[j2] = (byte) ((byte) c);
+                bytes[j2] = (byte) c;
             } else if (c < '\u0800' && j2 <= limit - 2) {
                 j = j2 + 1;
-                bytes[j2] = (byte) ((byte) ((c >>> 6) | 960));
+                bytes[j2] = (byte) ((c >>> 6) | 960);
                 j2 = j + 1;
-                bytes[j] = (byte) ((byte) ((c & 63) | 128));
+                bytes[j] = (byte) ((c & 63) | 128);
                 j = j2;
             } else {
                 if (c < '\ud800' || '\udfff' < c) {
                     if (j2 <= limit - 3) {
                         j = j2 + 1;
-                        bytes[j2] = (byte) ((byte) ((c >>> 12) | 480));
+                        bytes[j2] = (byte) ((c >>> 12) | 480);
                         j2 = j + 1;
-                        bytes[j] = (byte) ((byte) (((c >>> 6) & 63) | 128));
+                        bytes[j] = (byte) (((c >>> 6) & 63) | 128);
                         j = j2 + 1;
-                        bytes[j2] = (byte) ((byte) ((c & 63) | 128));
+                        bytes[j2] = (byte) ((c & 63) | 128);
                     }
                 }
                 if (j2 > limit - 4) {
@@ -238,13 +238,13 @@ public final class CodedOutputByteBufferNano {
                     if (Character.isSurrogatePair(c, low)) {
                         int codePoint = Character.toCodePoint(c, low);
                         j = j2 + 1;
-                        bytes[j2] = (byte) ((byte) ((codePoint >>> 18) | 240));
+                        bytes[j2] = (byte) ((codePoint >>> 18) | 240);
                         j2 = j + 1;
-                        bytes[j] = (byte) ((byte) (((codePoint >>> 12) & 63) | 128));
+                        bytes[j] = (byte) (((codePoint >>> 12) & 63) | 128);
                         j = j2 + 1;
-                        bytes[j2] = (byte) ((byte) (((codePoint >>> 6) & 63) | 128));
+                        bytes[j2] = (byte) (((codePoint >>> 6) & 63) | 128);
                         j2 = j + 1;
-                        bytes[j] = (byte) ((byte) ((codePoint & 63) | 128));
+                        bytes[j] = (byte) ((codePoint & 63) | 128);
                         j = j2;
                     }
                 }

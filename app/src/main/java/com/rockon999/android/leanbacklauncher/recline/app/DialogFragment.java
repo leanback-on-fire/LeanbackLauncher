@@ -7,6 +7,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -22,6 +23,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v17.leanback.widget.VerticalGridView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
@@ -141,7 +143,7 @@ public class DialogFragment extends Fragment {
             public void run() {
                 if (DialogFragment.this.isAdded()) {
                     this.val$dialogView.setVisibility(0);
-                    ObjectAnimator oa = ObjectAnimator.ofInt(this.val$bgDrawable, "alpha", new int[]{255});
+                    ObjectAnimator oa = ObjectAnimator.ofInt(this.val$bgDrawable, "alpha", 255);
                     oa.setDuration(250);
                     oa.setStartDelay(120);
                     oa.setInterpolator(new DecelerateInterpolator(1.0f));
@@ -369,16 +371,12 @@ public class DialogFragment extends Fragment {
                 return null;
             }
             if (this.mResourcePackageName == null) {
-                return context.getResources().getDrawable(this.mDrawableResource);
+                return ContextCompat.getDrawable(context, this.mDrawableResource);
             }
             Drawable icon = null;
             try {
                 icon = context.createPackageContext(this.mResourcePackageName, 0).getResources().getDrawable(this.mDrawableResource);
-            } catch (NameNotFoundException e) {
-                if (Log.isLoggable("Action", 5)) {
-                    Log.w("Action", "No icon for this action.");
-                }
-            } catch (NotFoundException e2) {
+            } catch (NameNotFoundException | NotFoundException e) {
                 if (Log.isLoggable("Action", 5)) {
                     Log.w("Action", "No icon for this action.");
                 }
@@ -683,10 +681,10 @@ public class DialogFragment extends Fragment {
             this.mIconResourceId = state.getInt("iconResourceId", 0);
         }
         if (this.mIconUri == null) {
-            this.mIconUri = (Uri) state.getParcelable("iconUri");
+            this.mIconUri = state.getParcelable("iconUri");
         }
         if (this.mIconBitmap == null) {
-            this.mIconBitmap = (Bitmap) state.getParcelable("iconBitmap");
+            this.mIconBitmap = state.getParcelable("iconBitmap");
         }
         if (this.mIconBackgroundColor == 0) {
             this.mIconBackgroundColor = state.getInt("iconBackground", 0);
@@ -772,6 +770,7 @@ public class DialogFragment extends Fragment {
         }
     }
 
+    @SuppressLint("PrivateResource")
     public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
         View dialogView = getView();
         View contentView = (View) dialogView.getTag(R.id.content_fragment);
@@ -811,6 +810,7 @@ public class DialogFragment extends Fragment {
         return this.mEntryTransitionEnabled;
     }
 
+    @SuppressLint("PrivateResource")
     protected void addContentViewAnimations(View contentView, int nextAnim, ArrayList<Animator> animators) {
         View titleView = (View) contentView.getTag(R.id.title);
         View breadcrumbView = (View) contentView.getTag(R.id.breadcrumb);
@@ -948,7 +948,7 @@ public class DialogFragment extends Fragment {
     private int getFirstCheckedAction() {
         int size = this.mActions.size();
         for (int i = 0; i < size; i++) {
-            if (((Action) this.mActions.get(i)).isChecked()) {
+            if (this.mActions.get(i).isChecked()) {
                 return i;
             }
         }
@@ -961,7 +961,7 @@ public class DialogFragment extends Fragment {
         if (intrinsicWidth > 0) {
             lp.height = (lp.width * iconView.getDrawable().getIntrinsicHeight()) / intrinsicWidth;
         } else {
-            lp.height = lp.width;
+            lp.height = lp.width; // todo check this
         }
     }
 
@@ -1038,7 +1038,7 @@ public class DialogFragment extends Fragment {
     }
 
     private Animator createAlphaAnimator(View v, float fromAlpha, float toAlpha) {
-        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(v, "alpha", new float[]{fromAlpha, toAlpha});
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(v, "alpha", fromAlpha, toAlpha);
         alphaAnimator.setDuration((long) getResources().getInteger(17694722));
         return alphaAnimator;
     }

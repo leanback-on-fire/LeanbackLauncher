@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -147,6 +148,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         C01603() {
         }
 
+        @SuppressLint("PrivateResource")
         public void handleMessage(Message msg) {
             boolean z = true;
             switch (msg.what) {
@@ -158,7 +160,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                     }
                     mainActivity.mIsIdle = z;
                     for (int i = 0; i < MainActivity.this.mIdleListeners.size(); i++) {
-                        ((IdleListener) MainActivity.this.mIdleListeners.get(i)).onIdleStateChange(MainActivity.this.mIsIdle);
+                        MainActivity.this.mIdleListeners.get(i).onIdleStateChange(MainActivity.this.mIsIdle);
                     }
 
                     break;
@@ -215,10 +217,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         }
 
 
+        @SuppressLint("PrivateResource")
         public void onChildViewAdded(View parent, View child) {
             int tag = 0;
             if (child.getTag() instanceof Integer) {
-                tag = ((Integer) child.getTag()).intValue();
+                tag = (Integer) child.getTag();
             }
             switch (tag) {
                 case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
@@ -402,11 +405,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     public void onBackgroundVisibleBehindChanged(boolean visible) {
         boolean z;
-        if (visible) {
-            z = false;
-        } else {
-            z = true;
-        }
+        z = !visible;
         setShyMode(z, true);
     }
 
@@ -538,11 +537,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mHomeAdapter.resetRowPositions(smooth);
         if (this.mAppEditMode) {
             boolean z;
-            if (smooth) {
-                z = true;
-            } else {
-                z = false;
-            }
+            z = smooth;
             setEditMode(false, z);
         }
         int notifIndex = this.mHomeAdapter.getRowIndex(1);
@@ -617,7 +612,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         }
         for (int i = 0; i < this.mIdleListeners.size(); i++) {
             Log.i(TAG, "mIdleListeners.get(i)->className:" + mIdleListeners.get(i).getClass().getName());
-            ((IdleListener) this.mIdleListeners.get(i)).onVisibilityChange(true);
+            this.mIdleListeners.get(i).onVisibilityChange(true);
         }
         this.mResetAfterIdleEnabled = true;
         this.mHandler.removeMessages(3);
@@ -672,7 +667,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mHandler.removeMessages(6);
         this.mHandler.removeMessages(7);
         for (int i = 0; i < this.mIdleListeners.size(); i++) {
-            ((IdleListener) this.mIdleListeners.get(i)).onVisibilityChange(false);
+            this.mIdleListeners.get(i).onVisibilityChange(false);
         }
         if (this.mAppEditMode) {
             new EditModeMassFadeAnimator(this, EditModeMassFadeAnimator.EditMode.EXIT).start();
@@ -865,11 +860,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 if (appWidgetComp != null) {
                     for (AppWidgetProviderInfo appWidgetInfo : this.mAppWidgetManager.getInstalledProviders()) {
                         if (appWidgetComp.equals(appWidgetInfo.provider)) {
-                            if (appWidgetId != 0) {
-                                z = true;
-                            } else {
-                                z = false;
-                            }
+                            z = appWidgetId != 0;
                             if (z && !appWidgetComp.equals(Util.getWidgetComponentName(this))) {
                                 clearWidget(appWidgetId);
                                 z = false;
@@ -896,7 +887,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 }
                 if (!z) {
                     clearWidget(appWidgetId);
-                    wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, null));
+                    wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrapper)); // todo 2nd arg added from null
                 }
                 return;
             }
@@ -991,11 +982,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         boolean firstRun;
         Intent dummyIntent = new Intent("android.intent.category.LEANBACK_LAUNCHER");
         dummyIntent.setClass(this, DummyActivity.class);
-        if (PendingIntent.getActivity(this, 0, dummyIntent, 536870912) == null) {
-            firstRun = true;
-        } else {
-            firstRun = false;
-        }
+        firstRun = PendingIntent.getActivity(this, 0, dummyIntent, 536870912) == null;
         if (firstRun) {
             ((AlarmManager) getSystemService("alarm")).set(2, SystemClock.elapsedRealtime() + 711573504, PendingIntent.getActivity(this, 0, dummyIntent, 0));
         }
@@ -1019,11 +1006,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     public boolean isLaunchAnimationInProgress() {
-        return !this.mLaunchAnimation.isPrimed() ? this.mLaunchAnimation.isRunning() : true;
+        return this.mLaunchAnimation.isPrimed() || this.mLaunchAnimation.isRunning();
     }
 
     public boolean isEditAnimationInProgress() {
-        return !this.mEditModeAnimation.isPrimed() ? this.mEditModeAnimation.isRunning() : true;
+        return this.mEditModeAnimation.isPrimed() || this.mEditModeAnimation.isRunning();
     }
 
     public void includeInLaunchAnimation(View target) {
@@ -1112,8 +1099,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         LaunchPoint selectItem = mAllAppGridAdapter.getItem(position);
         if (selectItem != null) {
             boolean isRecommend = selectItem.isRecommendApp();
-            isRecommend = !isRecommend;
-            selectItem.setRecommendApp(isRecommend);
+            selectItem.setRecommendApp(!isRecommend);
             CheckBox selectBox = (CheckBox) view.findViewById(R.id.check_select);
             selectBox.setChecked(isRecommend);
         }

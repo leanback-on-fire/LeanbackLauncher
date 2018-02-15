@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">កំហុស​​សេវាកម្ម​ Google កម្សាន្ត</string>
     <string name="common_google_play_services_notification_needs_installation_title">កម្មវិធី​ទាមទារ​ឲ្យ​ដំឡើង​សេវាកម្ម​ Google កម្សាន្ត។</string>
     <string name="common_google_play_services_notification_needs_update_title">កម្មវិធី​ទាមទារ​​ធ្វើ​បច្ចុប្បន្នភាព​សេវាកម្ម ​Google កម្សាន្ត។</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">៖</string>
     <string name="lb_onboarding_get_started">ចាប់ផ្ដើម</string>
     <string name="lb_onboarding_accessibility_next">បន្ទាប់</string>
-    <string name="abc_action_mode_done">រួចរាល់</string>
-    <string name="abc_action_bar_home_description">រកមើល​ទៅ​ដើម</string>
-    <string name="abc_action_bar_up_description">រកមើល​ឡើងលើ</string>
-    <string name="abc_action_menu_overflow_description">ជម្រើស​ច្រើន​ទៀត</string>
-    <string name="abc_toolbar_collapse_description">បង្រួម</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">ស្វែងរក</string>
-    <string name="abc_search_hint">ស្វែងរក…</string>
-    <string name="abc_searchview_description_query">ស្វែងរក​សំណួរ</string>
-    <string name="abc_searchview_description_clear">សម្អាត​សំណួរ</string>
-    <string name="abc_searchview_description_submit">ដាក់​​​ស្នើ​សំណួរ</string>
-    <string name="abc_searchview_description_voice">ការស្វែងរក​សំឡេង</string>
-    <string name="abc_activitychooserview_choose_application">ជ្រើស​កម្មវិធី​​</string>
-    <string name="abc_activity_chooser_view_see_all">មើល​ទាំងអស់</string>
-    <string name="abc_shareactionprovider_share_with_application">ចែករំលែក​ជាមួយ %s</string>
-    <string name="abc_shareactionprovider_share_with">ចែករំលែក​ជាមួយ</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">បើក</string>
-    <string name="abc_capital_off">បិទ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">រួចរាល់</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">រកមើល​ទៅ​ដើម</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">រកមើល​ឡើងលើ</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">ជម្រើស​ច្រើន​ទៀត</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">បង្រួម</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">ស្វែងរក</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">ស្វែងរក…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">ស្វែងរក​សំណួរ</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">សម្អាត​សំណួរ</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">ដាក់​​​ស្នើ​សំណួរ</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">ការស្វែងរក​សំឡេង</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">ជ្រើស​កម្មវិធី​​</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">មើល​ទាំងអស់</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">ចែករំលែក​ជាមួយ %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">ចែករំលែក​ជាមួយ</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">បើក</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">បិទ</string>
     <string name="app_name">កម្មវិធី​ចាប់ផ្ដើម Leanback</string>
     <string name="app_label">អេក្រង់​​ដើម</string>
     <string name="search_hint_text">ស្វែងរក​ភាពយន្ត, ទូរទស្សន៍ និង​ច្រើន​ទៀត</string>
@@ -101,11 +101,11 @@
     <string name="settings_network">ការ​កំណត់​បណ្តេញ</string>
     <string name="notif_service_name">សេវាកម្មការជូនដំណឹង</string>
     <string name="recm_service_name">សេវាកម្មការណែនាំ</string>
-    <string name="install_pending">ការ​ដំឡើង​កំពុង​រង់ចាំ...</string>
-    <string name="update_pending">ការ​ធ្វើ​បច្ចុប្បន្នភាព​កំពុង​រង់ចាំ...</string>
-    <string name="restore_pending">ការ​ស្ដារ​ឡើងវិញ​កំពុង​រង់ចាំ...</string>
-    <string name="downloading">កំពុង​ទាញ​យក...</string>
-    <string name="installing">កំពុង​ដំឡើង...</string>
+    <string name="install_pending">ការ​ដំឡើង​កំពុង​រង់ចាំ…</string>
+    <string name="update_pending">ការ​ធ្វើ​បច្ចុប្បន្នភាព​កំពុង​រង់ចាំ…</string>
+    <string name="restore_pending">ការ​ស្ដារ​ឡើងវិញ​កំពុង​រង់ចាំ…</string>
+    <string name="downloading">កំពុង​ទាញ​យក…</string>
+    <string name="installing">កំពុង​ដំឡើង…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">ឥឡូវ​កំពុង​លេង</string>

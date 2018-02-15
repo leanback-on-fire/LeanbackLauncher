@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher.animation;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,16 +39,17 @@ public  class EditModeMassFadeAnimator extends PropagatingAnimator<PropagatingAn
             int[] iArr = new int[Direction.values().length];
             try {
                 iArr[Direction.FADE_IN.ordinal()] = 1;
-            } catch (NoSuchFieldError e) {
+            } catch (NoSuchFieldError ignored) {
             }
             try {
                 iArr[Direction.FADE_OUT.ordinal()] = 2;
-            } catch (NoSuchFieldError e2) {
+            } catch (NoSuchFieldError ignored) {
             }
             f1x162e7c0 = iArr;
             return iArr;
         }
 
+        @SuppressLint("PrivateResource")
         ViewHolder(View view, Direction direction) {
             super(view);
             this.mOnOffOnly = false;
@@ -76,7 +78,7 @@ public  class EditModeMassFadeAnimator extends PropagatingAnimator<PropagatingAn
 
     public EditModeMassFadeAnimator(MainActivity activity, EditMode editMode) {
         super(10);
-        this.mEditMode = (EditMode) Preconditions.checkNotNull(editMode);
+        this.mEditMode = Preconditions.checkNotNull(editMode);
         if (editMode == EditMode.EXIT) {
             setDuration((long) activity.getResources().getInteger(R.integer.edit_mode_exit_fade_duration));
             //setDuration(1000);
@@ -209,7 +211,7 @@ public  class EditModeMassFadeAnimator extends PropagatingAnimator<PropagatingAn
         StringBuilder buf = new StringBuilder().append("EditModeMassFadeAnimator@").append(Integer.toHexString(hashCode())).append(':').append(this.mEditMode == EditMode.ENTER ? "ENTER" : "EXIT").append('{');
         int n = size();
         for (int i = 0; i < n; i++) {
-            buf.append("\n    ").append(((ViewHolder) getView(i)).toString().replaceAll("\n", "\n    "));
+            buf.append("\n    ").append(getView(i).toString().replaceAll("\n", "\n    "));
         }
         return buf.append("\n}").toString();
     }

@@ -47,7 +47,7 @@ public class ViewFocusAnimator implements OnFocusChangeListener {
         this.mSelectedScaleDelta = res.getFraction(R.fraction.lb_focus_zoom_factor_medium, 1, 1) - this.mUnselectedScale;
         this.mUnselectedZ = (float) res.getDimensionPixelOffset(R.dimen.unselected_item_z);
         this.mSelectedZDelta = (float) res.getDimensionPixelOffset(R.dimen.selected_item_z_delta);
-        this.mFocusAnimation = ObjectAnimator.ofFloat(this, "focusProgress", new float[]{0.0f});
+        this.mFocusAnimation = ObjectAnimator.ofFloat(this, "focusProgress", 0.0f);
         this.mFocusAnimation.setDuration((long) res.getInteger(R.integer.item_scale_anim_duration));
         this.mFocusAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         setFocusProgress(0.0f);
@@ -74,7 +74,7 @@ public class ViewFocusAnimator implements OnFocusChangeListener {
                 this.mFocusAnimation.cancel();
             }
             if (getFocusProgress() != (focused ? 1.0f : 0.0f)) {
-                this.mFocusAnimation.setFloatValues(new float[]{getFocusProgress(), focused ? 1.0f : 0.0f});
+                this.mFocusAnimation.setFloatValues(getFocusProgress(), focused ? 1.0f : 0.0f);
                 this.mFocusAnimation.start();
             }
             return;

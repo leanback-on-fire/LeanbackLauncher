@@ -66,7 +66,7 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
 
     public BannerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.mSelectedListeners = new ArrayList();
+        this.mSelectedListeners = new ArrayList<>();
         this.mFocusAnimator = new AppViewFocusAnimator(this);
         this.mSelectedListeners.add(this.mFocusAnimator);
         this.mEditModeManager = EditModeManager.getInstance();
@@ -221,10 +221,7 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
 
     public boolean isEditable() {
         ViewParent parent = getParent();
-        if (parent instanceof ActiveItemsRowView) {
-            return ((ActiveItemsRowView) parent).isRowEditable();
-        }
-        return false;
+        return parent instanceof ActiveItemsRowView && ((ActiveItemsRowView) parent).isRowEditable();
     }
 
     public void onClickInEditMode() {

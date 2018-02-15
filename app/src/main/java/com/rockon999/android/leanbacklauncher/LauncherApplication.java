@@ -1,6 +1,5 @@
 package com.rockon999.android.leanbacklauncher;
 
-import android.app.Application;
 import android.util.Log;
 
 import com.rockon999.android.leanbacklauncher.data.ConstData;

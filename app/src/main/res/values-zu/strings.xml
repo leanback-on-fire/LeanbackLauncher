@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Iphutha lamasevisi we-Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Uhlelo lokusebenza ludinga ukufakwa kwamasevisi we-Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Uhlelo lokusebenza ludinga isibuyekezo samasevisi we-Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">QALISA</string>
     <string name="lb_onboarding_accessibility_next">Okulandelayo</string>
-    <string name="abc_action_mode_done">Kwenziwe</string>
-    <string name="abc_action_bar_home_description">Zulazulela ekhaya</string>
-    <string name="abc_action_bar_up_description">Zulazulela phezulu</string>
-    <string name="abc_action_menu_overflow_description">Izinketho eziningi</string>
-    <string name="abc_toolbar_collapse_description">Goqa</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Sesha</string>
-    <string name="abc_search_hint">Iyasesha...</string>
-    <string name="abc_searchview_description_query">Umbuzo wosesho</string>
-    <string name="abc_searchview_description_clear">Sula inkinga</string>
-    <string name="abc_searchview_description_submit">Hambisa umbuzo</string>
-    <string name="abc_searchview_description_voice">Ukusesha ngezwi</string>
-    <string name="abc_activitychooserview_choose_application">Khetha uhlelo lokusebenza</string>
-    <string name="abc_activity_chooser_view_see_all">Buka konke</string>
-    <string name="abc_shareactionprovider_share_with_application">Yabelana no-%s</string>
-    <string name="abc_shareactionprovider_share_with">Yabelana no-</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">VULIWE</string>
-    <string name="abc_capital_off">VALIWE</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Kwenziwe</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Zulazulela ekhaya</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Zulazulela phezulu</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Izinketho eziningi</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Goqa</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Sesha</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Iyasesha…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Umbuzo wosesho</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Sula inkinga</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Hambisa umbuzo</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Ukusesha ngezwi</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Khetha uhlelo lokusebenza</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Buka konke</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Yabelana no-%s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Yabelana no-</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">VULIWE</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">VALIWE</string>
     <string name="app_name">Isiqalisi se-Leanback</string>
     <string name="app_label">Isikrini Sasekhaya</string>
     <string name="search_hint_text">Sesha ama-movie, i-TV, nokuningi</string>
@@ -101,12 +101,12 @@
     <string name="settings_network">Izilungiselelo Zenethiwekhi</string>
     <string name="notif_service_name">Isevisi yezaziso</string>
     <string name="recm_service_name">Isevisi yezincomo</string>
-    <string name="install_pending">Ukufaka kulindile...</string>
-    <string name="update_pending">Ukubuyekeza kulindile...</string>
-    <string name="restore_pending">Ukubuyisela kulindile...</string>
-    <string name="downloading">Iyalanda...</string>
-    <string name="installing">Iyafaka...</string>
-    <string name="unknown_state">...</string>
+    <string name="install_pending">Ukufaka kulindile…</string>
+    <string name="update_pending">Ukubuyekeza kulindile…</string>
+    <string name="restore_pending">Ukubuyisela kulindile…</string>
+    <string name="downloading">Iyalanda…</string>
+    <string name="installing">Iyafaka…</string>
+    <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Okudlalayo manje</string>
     <string name="now_playing_card_paused">Kumiswe okwesikhashana</string>

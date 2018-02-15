@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="store_picture_title">[ŠåVé îḿåĝé one two]</string>
     <string name="store_picture_message">[Åļļöŵ Åð ţö šţöŕé îḿåĝé îñ Þîçţûŕé ĝåļļéŕý¿ one two three four five]</string>
     <string name="accept">[Åççéþţ one two]</string>
@@ -74,26 +74,26 @@
     <string name="lb_onboarding_accessibility_next">[Ñéхţ one]</string>
     <string name="v7_preference_on">[ÖÑ one]</string>
     <string name="v7_preference_off">[ÖFF one]</string>
-    <string name="abc_action_mode_done">[Ðöñé one]</string>
-    <string name="abc_action_bar_home_description">[ÑåVîĝåţé ĥöḿé one two]</string>
-    <string name="abc_action_bar_up_description">[ÑåVîĝåţé ûþ one two]</string>
-    <string name="abc_action_menu_overflow_description">[Ḿöŕé öþţîöñš one two]</string>
-    <string name="abc_toolbar_collapse_description">[Çöļļåþšé one two]</string>
-    <string name="abc_action_bar_home_description_format">[»%1$s«, »%2$s« one]</string>
-    <string name="abc_action_bar_home_subtitle_description_format">[»%1$s«, »%2$s«, »%3$s« one]</string>
-    <string name="abc_searchview_description_search">[Šéåŕçĥ one two]</string>
-    <string name="abc_search_hint">[Šéåŕçĥ… one two]</string>
-    <string name="abc_searchview_description_query">[Šéåŕçĥ Qûéŕý one two]</string>
-    <string name="abc_searchview_description_clear">[Çļéåŕ Qûéŕý one two]</string>
-    <string name="abc_searchview_description_submit">[Šûɓḿîţ Qûéŕý one two]</string>
-    <string name="abc_searchview_description_voice">[νöîçé šéåŕçĥ one two]</string>
-    <string name="abc_activitychooserview_choose_application">[Çĥööšé åñ åþþ one two]</string>
-    <string name="abc_activity_chooser_view_see_all">[Šéé åļļ one two]</string>
-    <string name="abc_shareactionprovider_share_with_application">[Šĥåŕé ŵîţĥ »%s« one two]</string>
-    <string name="abc_shareactionprovider_share_with">[Šĥåŕé ŵîţĥ one two]</string>
-    <string name="status_bar_notification_info_overflow">[999+ one]</string>
-    <string name="abc_capital_on">[ÖÑ one]</string>
-    <string name="abc_capital_off">[ÖFF one]</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">[Ðöñé one]</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">[ÑåVîĝåţé ĥöḿé one two]</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">[ÑåVîĝåţé ûþ one two]</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">[Ḿöŕé öþţîöñš one two]</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">[Çöļļåþšé one two]</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">[»%1$s«, »%2$s« one]</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">[»%1$s«, »%2$s«, »%3$s« one]</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">[Šéåŕçĥ one two]</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">[Šéåŕçĥ… one two]</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">[Šéåŕçĥ Qûéŕý one two]</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">[Çļéåŕ Qûéŕý one two]</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">[Šûɓḿîţ Qûéŕý one two]</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">[νöîçé šéåŕçĥ one two]</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">[Çĥööšé åñ åþþ one two]</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">[Šéé åļļ one two]</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">[Šĥåŕé ŵîţĥ »%s« one two]</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">[Šĥåŕé ŵîţĥ one two]</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">[999+ one]</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">[ÖÑ one]</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">[ÖFF one]</string>
     <string name="app_name">[Leanback Ļåûñçĥéŕ one two]</string>
     <string name="app_label">[Ĥöḿé Šçŕééñ one two]</string>
     <string name="search_hint_text">[Šéåŕçĥ ḿöVîéš, Ţν, åñð ḿöŕé one two three four]</string>

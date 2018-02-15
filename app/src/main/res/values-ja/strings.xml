@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play開発者サービスのエラー</string>
     <string name="common_google_play_services_notification_needs_installation_title">アプリではGoogle Play開発者サービスをインストールする必要があります</string>
     <string name="common_google_play_services_notification_needs_update_title">アプリではGoogle Play開発者サービスを更新する必要があります</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">使ってみる</string>
     <string name="lb_onboarding_accessibility_next">次へ</string>
-    <string name="abc_action_mode_done">完了</string>
-    <string name="abc_action_bar_home_description">ホームへ移動</string>
-    <string name="abc_action_bar_up_description">上へ移動</string>
-    <string name="abc_action_menu_overflow_description">その他のオプション</string>
-    <string name="abc_toolbar_collapse_description">折りたたむ</string>
-    <string name="abc_action_bar_home_description_format">%1$s、%2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s、%2$s、%3$s</string>
-    <string name="abc_searchview_description_search">検索</string>
-    <string name="abc_search_hint">検索…</string>
-    <string name="abc_searchview_description_query">検索キーワード</string>
-    <string name="abc_searchview_description_clear">検索キーワードを削除</string>
-    <string name="abc_searchview_description_submit">検索キーワードを送信</string>
-    <string name="abc_searchview_description_voice">音声検索</string>
-    <string name="abc_activitychooserview_choose_application">アプリの選択</string>
-    <string name="abc_activity_chooser_view_see_all">すべて表示</string>
-    <string name="abc_shareactionprovider_share_with_application">%sと共有</string>
-    <string name="abc_shareactionprovider_share_with">共有</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ON</string>
-    <string name="abc_capital_off">OFF</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">完了</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">ホームへ移動</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">上へ移動</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">その他のオプション</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">折りたたむ</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s、%2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s、%2$s、%3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">検索</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">検索…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">検索キーワード</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">検索キーワードを削除</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">検索キーワードを送信</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">音声検索</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">アプリの選択</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">すべて表示</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%sと共有</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">共有</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ON</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">OFF</string>
     <string name="app_name">Leanbackランチャー</string>
     <string name="app_label">ホーム画面</string>
     <string name="search_hint_text">映画、テレビ番組などを検索</string>

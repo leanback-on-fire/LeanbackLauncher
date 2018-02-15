@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Lỗi dịch vụ của Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Một ứng dụng yêu cầu cài đặt các dịch vụ của Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Một ứng dụng yêu cầu cập nhật đối với các dịch vụ của Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">BẮT ĐẦU</string>
     <string name="lb_onboarding_accessibility_next">Tiếp theo</string>
-    <string name="abc_action_mode_done">Xong</string>
-    <string name="abc_action_bar_home_description">Điều hướng về trang chủ</string>
-    <string name="abc_action_bar_up_description">Điều hướng lên trên</string>
-    <string name="abc_action_menu_overflow_description">Thêm tùy chọn</string>
-    <string name="abc_toolbar_collapse_description">Thu gọn</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Tìm kiếm</string>
-    <string name="abc_search_hint">Tìm kiếm…</string>
-    <string name="abc_searchview_description_query">Tìm kiếm truy vấn</string>
-    <string name="abc_searchview_description_clear">Xóa truy vấn</string>
-    <string name="abc_searchview_description_submit">Gửi truy vấn</string>
-    <string name="abc_searchview_description_voice">Tìm kiếm bằng giọng nói</string>
-    <string name="abc_activitychooserview_choose_application">Chọn một ứng dụng</string>
-    <string name="abc_activity_chooser_view_see_all">Xem tất cả</string>
-    <string name="abc_shareactionprovider_share_with_application">Chia sẻ với %s</string>
-    <string name="abc_shareactionprovider_share_with">Chia sẻ với</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">BẬT</string>
-    <string name="abc_capital_off">TẮT</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Xong</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Điều hướng về trang chủ</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Điều hướng lên trên</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Thêm tùy chọn</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Thu gọn</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Tìm kiếm</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Tìm kiếm…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Tìm kiếm truy vấn</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Xóa truy vấn</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Gửi truy vấn</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Tìm kiếm bằng giọng nói</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Chọn một ứng dụng</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Xem tất cả</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Chia sẻ với %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Chia sẻ với</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">BẬT</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">TẮT</string>
     <string name="app_name">Trình chạy Leanback</string>
     <string name="app_label">Màn hình chính</string>
     <string name="search_hint_text">Tìm kiếm phim, chương trình truyền hình và hơn thế nữa</string>
@@ -104,7 +104,7 @@
     <string name="install_pending">Đang chờ cài đặt…</string>
     <string name="update_pending">Đang chờ cập nhật…</string>
     <string name="restore_pending">Đang chờ khôi phục…</string>
-    <string name="downloading">Đang tải xuống...</string>
+    <string name="downloading">Đang tải xuống…</string>
     <string name="installing">Đang cài đặt…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>

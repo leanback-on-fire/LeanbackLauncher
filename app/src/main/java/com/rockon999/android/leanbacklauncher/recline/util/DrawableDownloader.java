@@ -83,7 +83,7 @@ public class DrawableDownloader {
         BitmapDrawable findDrawable(BitmapWorkerOptions options) {
             int c = this.mObjects.size();
             for (int i = 0; i < c; i++) {
-                BitmapDrawable d = (BitmapDrawable) this.mObjects.get(i);
+                BitmapDrawable d = this.mObjects.get(i);
                 if (d.getIntrinsicWidth() == this.mOriginalWidth && d.getIntrinsicHeight() == this.mOriginalHeight) {
                     return d;
                 }
@@ -101,7 +101,7 @@ public class DrawableDownloader {
         public void addItem(BitmapDrawable d) {
             int i = 0;
             int c = this.mObjects.size();
-            while (i < c && ((BitmapDrawable) this.mObjects.get(i)).getIntrinsicHeight() >= d.getIntrinsicHeight()) {
+            while (i < c && this.mObjects.get(i).getIntrinsicHeight() >= d.getIntrinsicHeight()) {
                 i++;
             }
             this.mObjects.add(i, d);
@@ -111,7 +111,7 @@ public class DrawableDownloader {
         public void clear() {
             int c = this.mObjects.size();
             for (int i = 0; i < c; i++) {
-                BitmapDrawable d = (BitmapDrawable) this.mObjects.get(i);
+                BitmapDrawable d = this.mObjects.get(i);
                 if (d instanceof RefcountBitmapDrawable) {
                     ((RefcountBitmapDrawable) d).getRefcountObject().releaseRef();
                 }
@@ -151,7 +151,7 @@ public class DrawableDownloader {
     }
 
     public PostProc<Bitmap> getPostProc(int postProcId) {
-        return (PostProc) this.mPostProcs.get(postProcId);
+        return this.mPostProcs.get(postProcId);
     }
 
     public void getBitmap(BitmapWorkerOptions options, BitmapCallback callback) {
@@ -163,7 +163,7 @@ public class DrawableDownloader {
         if (key instanceof ImageView) {
             SoftReference<DrawableLoader> softReference = (SoftReference) ((ImageView) key).getTag(R.id.lb_image_download_task_tag);
             if (softReference != null) {
-                task = (DrawableLoader) softReference.get();
+                task = softReference.get();
                 softReference.clear();
             }
             if (task != null) {

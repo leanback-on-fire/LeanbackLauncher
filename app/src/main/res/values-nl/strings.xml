@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Fout met Google Play-services</string>
     <string name="common_google_play_services_notification_needs_installation_title">Google Play-services moet zijn geïnstalleerd voor een app.</string>
     <string name="common_google_play_services_notification_needs_update_title">Google Play-services moet worden geüpdatet voor een app.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">AAN DE SLAG</string>
     <string name="lb_onboarding_accessibility_next">Volgende</string>
-    <string name="abc_action_mode_done">Gereed</string>
-    <string name="abc_action_bar_home_description">Navigeren naar startpositie</string>
-    <string name="abc_action_bar_up_description">Omhoog navigeren</string>
-    <string name="abc_action_menu_overflow_description">Meer opties</string>
-    <string name="abc_toolbar_collapse_description">Samenvouwen</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Zoeken</string>
-    <string name="abc_search_hint">Zoeken…</string>
-    <string name="abc_searchview_description_query">Zoekopdracht</string>
-    <string name="abc_searchview_description_clear">Zoekopdracht wissen</string>
-    <string name="abc_searchview_description_submit">Zoekopdracht verzenden</string>
-    <string name="abc_searchview_description_voice">Gesproken zoekopdracht</string>
-    <string name="abc_activitychooserview_choose_application">Een app selecteren</string>
-    <string name="abc_activity_chooser_view_see_all">Alles weergeven</string>
-    <string name="abc_shareactionprovider_share_with_application">Delen met %s</string>
-    <string name="abc_shareactionprovider_share_with">Delen met</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">AAN</string>
-    <string name="abc_capital_off">UIT</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Gereed</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Navigeren naar startpositie</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Omhoog navigeren</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Meer opties</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Samenvouwen</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Zoeken</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Zoeken…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Zoekopdracht</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Zoekopdracht wissen</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Zoekopdracht verzenden</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Gesproken zoekopdracht</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Een app selecteren</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Alles weergeven</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Delen met %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Delen met</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">AAN</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">UIT</string>
     <string name="app_name">Leanback Launcher</string>
     <string name="app_label">Startscherm</string>
     <string name="search_hint_text">"Zoek films, tv-programma's en meer"</string>

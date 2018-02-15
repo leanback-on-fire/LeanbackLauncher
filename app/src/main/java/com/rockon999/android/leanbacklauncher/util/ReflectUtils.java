@@ -3,7 +3,7 @@ package com.rockon999.android.leanbacklauncher.util;
 import java.lang.reflect.Method;
 
 /**
- * Created by GaoFei on 2017/6/16.
+ * Created by rockon999 on 2017/6/16.
  */
 
 public class ReflectUtils {
@@ -12,7 +12,7 @@ public class ReflectUtils {
             Method  method= className.getDeclaredMethod(methodName, paramsClasss);
             method.setAccessible(true);
             return method.invoke(object, paramsObjects);
-        }catch (Exception e){
+        }catch (Exception ignored){
 
         }
         return null;

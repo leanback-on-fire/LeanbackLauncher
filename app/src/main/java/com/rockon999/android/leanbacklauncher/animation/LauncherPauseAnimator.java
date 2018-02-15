@@ -12,6 +12,6 @@ public final class LauncherPauseAnimator extends ForwardingAnimatorSet {
         Resources res = root.getResources();
         Animator anim = new FadeAnimator(root, FadeAnimator.Direction.FADE_OUT);
         anim.setDuration((long) res.getInteger(R.integer.launcher_pause_animation_duration));
-        ((AnimatorSet) this.mDelegate).play(anim);
+        this.mDelegate.play(anim);
     }
 }

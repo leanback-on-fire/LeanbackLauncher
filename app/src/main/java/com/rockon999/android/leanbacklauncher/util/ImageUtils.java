@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 /**
- * Created by GaoFei on 2017/6/14.
+ * Created by rockon999 on 2017/6/14.
  */
 
 public class ImageUtils {
@@ -71,8 +71,7 @@ public class ImageUtils {
         float scale = Math.max(scaleX, scaleY);
         options.inSampleSize = (int)(scale);
         options.inJustDecodeBounds = false;
-        Bitmap targetBitmap = BitmapFactory.decodeFile(path, options);
-        return targetBitmap;
+        return BitmapFactory.decodeFile(path, options);
     }
 
     /**

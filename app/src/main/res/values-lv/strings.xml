@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play pakalpojumu kļūda</string>
     <string name="common_google_play_services_notification_needs_installation_title">Lai lietojumprogramma darbotos, jāinstalē Google Play pakalpojumi.</string>
     <string name="common_google_play_services_notification_needs_update_title">Lai lietojumprogramma darbotos, jāatjaunina Google Play pakalpojumi.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">SĀKT DARBU</string>
     <string name="lb_onboarding_accessibility_next">Nākamā</string>
-    <string name="abc_action_mode_done">Gatavs</string>
-    <string name="abc_action_bar_home_description">Pārvietoties uz sākuma ekrānu</string>
-    <string name="abc_action_bar_up_description">Pārvietoties augšup</string>
-    <string name="abc_action_menu_overflow_description">Vairāk opciju</string>
-    <string name="abc_toolbar_collapse_description">Sakļaut</string>
-    <string name="abc_action_bar_home_description_format">%1$s: %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s: %3$s</string>
-    <string name="abc_searchview_description_search">Meklēt</string>
-    <string name="abc_search_hint">Meklējiet…</string>
-    <string name="abc_searchview_description_query">Meklēšanas vaicājums</string>
-    <string name="abc_searchview_description_clear">Notīrīt vaicājumu</string>
-    <string name="abc_searchview_description_submit">Iesniegt vaicājumu</string>
-    <string name="abc_searchview_description_voice">Meklēšana ar balsi</string>
-    <string name="abc_activitychooserview_choose_application">Izvēlieties lietotni</string>
-    <string name="abc_activity_chooser_view_see_all">Skatīt visu</string>
-    <string name="abc_shareactionprovider_share_with_application">Kopīgot ar %s</string>
-    <string name="abc_shareactionprovider_share_with">Kopīgot ar:</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">IESLĒGTS</string>
-    <string name="abc_capital_off">IZSLĒGTS</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Gatavs</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Pārvietoties uz sākuma ekrānu</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Pārvietoties augšup</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Vairāk opciju</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Sakļaut</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s: %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s: %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Meklēt</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Meklējiet…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Meklēšanas vaicājums</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Notīrīt vaicājumu</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Iesniegt vaicājumu</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Meklēšana ar balsi</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Izvēlieties lietotni</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Skatīt visu</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Kopīgot ar %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Kopīgot ar:</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">IESLĒGTS</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">IZSLĒGTS</string>
     <string name="app_name">Leanback palaidējs</string>
     <string name="app_label">Sākuma ekrāns</string>
     <string name="search_hint_text">Meklējiet filmas, TV un citu saturu.</string>
@@ -105,7 +105,7 @@
     <string name="update_pending">Gaida atjauninājumu…</string>
     <string name="restore_pending">Gaida atjaunošanu…</string>
     <string name="downloading">Notiek lejupielāde…</string>
-    <string name="installing">Notiek instalēšana...</string>
+    <string name="installing">Notiek instalēšana…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Notiek atskaņošana</string>

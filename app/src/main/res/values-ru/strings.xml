@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Ошибка сервисов Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Для работы приложения требуется установить сервисы Google Play</string>
     <string name="common_google_play_services_notification_needs_update_title">Для работы приложения требуется обновить сервисы Google Play</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">НАЧАТЬ</string>
     <string name="lb_onboarding_accessibility_next">Далее</string>
-    <string name="abc_action_mode_done">Готово</string>
-    <string name="abc_action_bar_home_description">Перейти на главный экран</string>
-    <string name="abc_action_bar_up_description">Перейти вверх</string>
-    <string name="abc_action_menu_overflow_description">Другие параметры</string>
-    <string name="abc_toolbar_collapse_description">Свернуть</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Поиск</string>
-    <string name="abc_search_hint">Поиск</string>
-    <string name="abc_searchview_description_query">Поисковый запрос</string>
-    <string name="abc_searchview_description_clear">Удалить запрос</string>
-    <string name="abc_searchview_description_submit">Отправить запрос</string>
-    <string name="abc_searchview_description_voice">Голосовой поиск</string>
-    <string name="abc_activitychooserview_choose_application">Выбрать приложение</string>
-    <string name="abc_activity_chooser_view_see_all">Показать все</string>
-    <string name="abc_shareactionprovider_share_with_application">Открыть доступ пользователю %s</string>
-    <string name="abc_shareactionprovider_share_with">Открыть доступ</string>
-    <string name="status_bar_notification_info_overflow">>999</string>
-    <string name="abc_capital_on">ВКЛ.</string>
-    <string name="abc_capital_off">ОТКЛ.</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Готово</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Перейти на главный экран</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Перейти вверх</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Другие параметры</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Свернуть</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Поиск</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Поиск</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Поисковый запрос</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Удалить запрос</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Отправить запрос</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Голосовой поиск</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Выбрать приложение</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Показать все</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Открыть доступ пользователю %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Открыть доступ</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">>999</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ВКЛ.</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ОТКЛ.</string>
     <string name="app_name">Запуск Leanback</string>
     <string name="app_label">Главный экран</string>
     <string name="search_hint_text">Ищите фильмы, сериалы и многое другое</string>

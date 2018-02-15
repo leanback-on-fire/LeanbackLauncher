@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">የGoogle Play አገልግሎቶች ስህተት</string>
     <string name="common_google_play_services_notification_needs_installation_title">አንድ መተግበሪያ የGoogle Play አገልግሎቶች እንዲጫኑ ይፈልጋል።</string>
     <string name="common_google_play_services_notification_needs_update_title">አንድ መተግበሪያ የGoogle Play አገልግሎቶች እንዲዘምኑ ይፈልጋል።</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">፦</string>
     <string name="lb_onboarding_get_started">ይጀምሩ</string>
     <string name="lb_onboarding_accessibility_next">ቀጣይ</string>
-    <string name="abc_action_mode_done">ተከናውኗል</string>
-    <string name="abc_action_bar_home_description">ወደ መነሻ ይዳስሱ</string>
-    <string name="abc_action_bar_up_description">ወደ ላይ ይዳስሱ</string>
-    <string name="abc_action_menu_overflow_description">ተጨማሪ አማራጮች</string>
-    <string name="abc_toolbar_collapse_description">ሰብስብ</string>
-    <string name="abc_action_bar_home_description_format">%1$s፣ %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s፣ %2$s፣ %3$s</string>
-    <string name="abc_searchview_description_search">ፍለጋ</string>
-    <string name="abc_search_hint">ፈልግ…</string>
-    <string name="abc_searchview_description_query">የፍለጋ ጥያቄ</string>
-    <string name="abc_searchview_description_clear">መጠይቅ አጽዳ</string>
-    <string name="abc_searchview_description_submit">መጠይቅ ያስረክቡ</string>
-    <string name="abc_searchview_description_voice">የድምፅ ፍለጋ</string>
-    <string name="abc_activitychooserview_choose_application">መተግበሪያ ይምረጡ</string>
-    <string name="abc_activity_chooser_view_see_all">ሁሉንም ይመልከቱ</string>
-    <string name="abc_shareactionprovider_share_with_application">ከ%s ጋር ያጋሩ</string>
-    <string name="abc_shareactionprovider_share_with">ከሚከተለው ጋር ያጋሩ</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">በርቷል</string>
-    <string name="abc_capital_off">ጠፍቷል</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">ተከናውኗል</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">ወደ መነሻ ይዳስሱ</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">ወደ ላይ ይዳስሱ</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">ተጨማሪ አማራጮች</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">ሰብስብ</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s፣ %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s፣ %2$s፣ %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">ፍለጋ</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">ፈልግ…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">የፍለጋ ጥያቄ</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">መጠይቅ አጽዳ</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">መጠይቅ ያስረክቡ</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">የድምፅ ፍለጋ</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">መተግበሪያ ይምረጡ</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">ሁሉንም ይመልከቱ</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">ከ%s ጋር ያጋሩ</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">ከሚከተለው ጋር ያጋሩ</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">በርቷል</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ጠፍቷል</string>
     <string name="app_name">የLeanback ማስጀመሪያ</string>
     <string name="app_label">መነሻ ማያ ገጽ</string>
     <string name="search_hint_text">ፊልሞችን፣ ቴሌቪዥን እና ተጨማሪ ነገሮችን ይፈልጉ</string>

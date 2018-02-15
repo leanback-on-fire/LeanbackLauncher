@@ -65,7 +65,7 @@ public class RecommendationsPreferenceFragment extends LeanbackPreferenceFragmen
     }
 
     public void onRecommendationPackagesLoaded(String[] recommendationPackaged, String[] blacklistedPackages) {
-        this.mBlacklist = new ArrayList(Arrays.asList(blacklistedPackages));
+        this.mBlacklist = new ArrayList<>(Arrays.asList(blacklistedPackages));
         Context context = getPreferenceManager().getContext();
         PackageManager pm = context.getPackageManager();
         PreferenceScreen screen = getPreferenceScreen();
@@ -102,7 +102,7 @@ public class RecommendationsPreferenceFragment extends LeanbackPreferenceFragmen
                 if (drawable == null && info.icon != 0) {
                     icon = res.getDrawable(info.icon, null);
                 }
-            } catch (NameNotFoundException e) {
+            } catch (NameNotFoundException ignored) {
             }
             if (TextUtils.isEmpty(charSequence)) {
                 charSequence = packageName;
@@ -127,7 +127,7 @@ public class RecommendationsPreferenceFragment extends LeanbackPreferenceFragmen
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Boolean optIn = (Boolean) newValue;
         String packageName = preference.getKey();
-        if (optIn.booleanValue()) {
+        if (optIn) {
             this.mBlacklist.remove(packageName);
         } else {
             this.mBlacklist.add(packageName);

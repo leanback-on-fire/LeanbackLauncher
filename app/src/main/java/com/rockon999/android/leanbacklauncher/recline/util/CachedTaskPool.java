@@ -55,7 +55,7 @@ public class CachedTaskPool {
         public abstract T getItem(CachedTaskPool cachedTaskPool, TaskOption taskOption);
 
         public CacheItem() {
-            this.mObjects = new ArrayList(3);
+            this.mObjects = new ArrayList<>(3);
         }
     }
 
@@ -90,7 +90,7 @@ public class CachedTaskPool {
     }
 
     public Object getObjectFromMemCache(TaskOption options) {
-        CacheItem item = (CacheItem) this.mMemoryCache.get(options.getCacheKey());
+        CacheItem item = this.mMemoryCache.get(options.getCacheKey());
         if (item != null) {
             return item.getItem(this, options);
         }
@@ -111,10 +111,10 @@ public class CachedTaskPool {
 
     public static void scheduleTask(AsyncTask<TaskOption, Void, Object> task, TaskOption options) {
         if (options.isLocal()) {
-            task.executeOnExecutor(LOCAL_DOWNLOADER_THREAD_POOL_EXECUTOR, new TaskOption[]{options});
+            task.executeOnExecutor(LOCAL_DOWNLOADER_THREAD_POOL_EXECUTOR, options);
             return;
         }
-        task.executeOnExecutor(DOWNLOADER_THREAD_POOL_EXECUTOR, new TaskOption[]{options});
+        task.executeOnExecutor(DOWNLOADER_THREAD_POOL_EXECUTOR, options);
     }
 
     public boolean cancelTask(TaskCompleteCallback key) {

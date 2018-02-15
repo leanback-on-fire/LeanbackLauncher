@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">„Google Play“ paslaugų klaida</string>
     <string name="common_google_play_services_notification_needs_installation_title">Norint naudoti programą būtina įdiegti „Google Play“ paslaugas.</string>
     <string name="common_google_play_services_notification_needs_update_title">Norint naudoti programą būtina atnaujinti „Google Play“ paslaugas.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">PRADĖTI</string>
     <string name="lb_onboarding_accessibility_next">Kitas</string>
-    <string name="abc_action_mode_done">Atlikta</string>
-    <string name="abc_action_bar_home_description">Eiti į pagrindinį puslapį</string>
-    <string name="abc_action_bar_up_description">Eiti į viršų</string>
-    <string name="abc_action_menu_overflow_description">Daugiau parinkčių</string>
-    <string name="abc_toolbar_collapse_description">Sutraukti</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Paieška</string>
-    <string name="abc_search_hint">Ieškoti...</string>
-    <string name="abc_searchview_description_query">Paieškos užklausa</string>
-    <string name="abc_searchview_description_clear">Išvalyti užklausą</string>
-    <string name="abc_searchview_description_submit">Pateikti užklausą</string>
-    <string name="abc_searchview_description_voice">Paieška balsu</string>
-    <string name="abc_activitychooserview_choose_application">Pasirinkti programą</string>
-    <string name="abc_activity_chooser_view_see_all">Peržiūrėti viską</string>
-    <string name="abc_shareactionprovider_share_with_application">Bendrinti naudojant „%s“</string>
-    <string name="abc_shareactionprovider_share_with">Bendrinti naudojant</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ĮJUNGTI</string>
-    <string name="abc_capital_off">IŠJUNGTA</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Atlikta</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Eiti į pagrindinį puslapį</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Eiti į viršų</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Daugiau parinkčių</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Sutraukti</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Paieška</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Ieškoti…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Paieškos užklausa</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Išvalyti užklausą</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Pateikti užklausą</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Paieška balsu</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Pasirinkti programą</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Peržiūrėti viską</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Bendrinti naudojant „%s“</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Bendrinti naudojant</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ĮJUNGTI</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">IŠJUNGTA</string>
     <string name="app_name">„Leanback“ paleid. priemonė</string>
     <string name="app_label">Pagrindinis ekranas</string>
     <string name="search_hint_text">Ieškokite filmų, TV laidų ir daugiau</string>
@@ -105,7 +105,7 @@
     <string name="update_pending">Laukiama atnaujinimo…</string>
     <string name="restore_pending">Laukiama atkūrimo…</string>
     <string name="downloading">Atsisiunčiama…</string>
-    <string name="installing">Diegiama...</string>
+    <string name="installing">Diegiama…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d %%</string>
     <string name="now_playing_card_playing">Dabar leidžiama</string>

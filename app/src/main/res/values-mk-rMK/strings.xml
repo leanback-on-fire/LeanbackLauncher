@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Грешка на услугите на Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Апликацијата бара да се инсталираат услугите на Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Апликацијата бара да се ажурираат услугите на Google Play.</string>
@@ -65,24 +65,24 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ЗАПОЧНИ</string>
     <string name="lb_onboarding_accessibility_next">Следно</string>
-    <string name="abc_action_mode_done">Готово</string>
-    <string name="abc_action_bar_home_description">Движи се кон дома</string>
-    <string name="abc_action_bar_up_description">Движи се нагоре</string>
-    <string name="abc_action_menu_overflow_description">Повеќе опции</string>
-    <string name="abc_toolbar_collapse_description">Собери</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Пребарај</string>
-    <string name="abc_search_hint">Пребарување…</string>
-    <string name="abc_searchview_description_query">Пребарај барање</string>
-    <string name="abc_searchview_description_clear">Исчисти барање</string>
-    <string name="abc_searchview_description_submit">Поднеси барање</string>
-    <string name="abc_searchview_description_voice">Гласовно пребарување</string>
-    <string name="abc_activitychooserview_choose_application">Избери апликација</string>
-    <string name="abc_activity_chooser_view_see_all">Види ги сите</string>
-    <string name="abc_shareactionprovider_share_with">Сподели со</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ВКЛУЧЕНО</string>
-    <string name="abc_capital_off">ИСКЛУЧЕНО</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Готово</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Движи се кон дома</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Движи се нагоре</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Повеќе опции</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Собери</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Пребарај</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Пребарување…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Пребарај барање</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Исчисти барање</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Поднеси барање</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Гласовно пребарување</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Избери апликација</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Види ги сите</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Сподели со</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ВКЛУЧЕНО</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ИСКЛУЧЕНО</string>
     <string name="app_name">Leanback Стартер</string>
     <string name="app_label">Почетен екран</string>
     <string name="search_hint_text">Барајте филмови, ТВ и многу повеќе</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" android:drawable="@drawable/abc_tab_indicator_mtrl_alpha" />
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:drawable="@drawable/abc_tab_indicator_mtrl_alpha" tools:ignore="PrivateResource" />
     <item android:drawable="@android:color/transparent" />
 </selector>

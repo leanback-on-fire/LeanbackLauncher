@@ -33,10 +33,10 @@ public final class LeanbackProto$LeanbackEvent extends ExtendableMessageNano<Lea
 
     public void writeTo(CodedOutputByteBufferNano output) throws IOException {
         if (this.type != null) {
-            output.writeInt32(1, this.type.intValue());
+            output.writeInt32(1, this.type);
         }
         if (this.timestamp != null) {
-            output.writeInt64(2, this.timestamp.longValue());
+            output.writeInt64(2, this.timestamp);
         }
         if (this.rankerAction != null) {
             output.writeMessage(3, this.rankerAction);
@@ -59,10 +59,10 @@ public final class LeanbackProto$LeanbackEvent extends ExtendableMessageNano<Lea
     protected int computeSerializedSize() {
         int size = super.computeSerializedSize();
         if (this.type != null) {
-            size += CodedOutputByteBufferNano.computeInt32Size(1, this.type.intValue());
+            size += CodedOutputByteBufferNano.computeInt32Size(1, this.type);
         }
         if (this.timestamp != null) {
-            size += CodedOutputByteBufferNano.computeInt64Size(2, this.timestamp.longValue());
+            size += CodedOutputByteBufferNano.computeInt64Size(2, this.timestamp);
         }
         if (this.rankerAction != null) {
             size += CodedOutputByteBufferNano.computeMessageSize(3, this.rankerAction);

@@ -10,7 +10,7 @@ public abstract class ForwardingAnimatorSet extends ForwardingAnimator<AnimatorS
     }
 
     public void reset() {
-        for (Animator animation : ((AnimatorSet) this.mDelegate).getChildAnimations()) {
+        for (Animator animation : this.mDelegate.getChildAnimations()) {
             if (animation instanceof Resettable) {
                 ((Resettable) animation).reset();
             }
@@ -18,7 +18,7 @@ public abstract class ForwardingAnimatorSet extends ForwardingAnimator<AnimatorS
     }
 
     public void include(View target) {
-        for (Animator animation : ((AnimatorSet) this.mDelegate).getChildAnimations()) {
+        for (Animator animation : this.mDelegate.getChildAnimations()) {
             if (animation instanceof Joinable) {
                 ((Joinable) animation).include(target);
             }
@@ -26,7 +26,7 @@ public abstract class ForwardingAnimatorSet extends ForwardingAnimator<AnimatorS
     }
 
     public void exclude(View target) {
-        for (Animator animation : ((AnimatorSet) this.mDelegate).getChildAnimations()) {
+        for (Animator animation : this.mDelegate.getChildAnimations()) {
             if (animation instanceof Joinable) {
                 ((Joinable) animation).exclude(target);
             }
@@ -35,7 +35,7 @@ public abstract class ForwardingAnimatorSet extends ForwardingAnimator<AnimatorS
 
     public String toString() {
         StringBuilder buf = new StringBuilder().append(getClass().getSimpleName()).append('@').append(Integer.toHexString(hashCode())).append('{');
-        for (Animator animation : ((AnimatorSet) this.mDelegate).getChildAnimations()) {
+        for (Animator animation : this.mDelegate.getChildAnimations()) {
             buf.append("\n    ").append(animation.toString().replaceAll("\n", "\n    "));
         }
         return buf.append("\n}").toString();

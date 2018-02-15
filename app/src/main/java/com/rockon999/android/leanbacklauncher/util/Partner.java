@@ -33,21 +33,21 @@ public class Partner {
 
     static {
         sDefaultPrioritiesMap = new HashMap();
-        sDefaultPrioritiesMap.put("input_type_combined_tuners", Integer.valueOf(-3));
-        sDefaultPrioritiesMap.put("input_type_tuner", Integer.valueOf(0));
-        sDefaultPrioritiesMap.put("input_type_cec_logical", Integer.valueOf(-2));
-        sDefaultPrioritiesMap.put("input_type_cec_recorder", Integer.valueOf(-4));
-        sDefaultPrioritiesMap.put("input_type_cec_playback", Integer.valueOf(-5));
-        sDefaultPrioritiesMap.put("input_type_mhl_mobile", Integer.valueOf(-6));
-        sDefaultPrioritiesMap.put("input_type_hdmi", Integer.valueOf(1007));
-        sDefaultPrioritiesMap.put("input_type_dvi", Integer.valueOf(1006));
-        sDefaultPrioritiesMap.put("input_type_component", Integer.valueOf(1004));
-        sDefaultPrioritiesMap.put("input_type_svideo", Integer.valueOf(1002));
-        sDefaultPrioritiesMap.put("input_type_composite", Integer.valueOf(1001));
-        sDefaultPrioritiesMap.put("input_type_displayport", Integer.valueOf(1008));
-        sDefaultPrioritiesMap.put("input_type_vga", Integer.valueOf(1005));
-        sDefaultPrioritiesMap.put("input_type_scart", Integer.valueOf(1003));
-        sDefaultPrioritiesMap.put("input_type_other", Integer.valueOf(1000));
+        sDefaultPrioritiesMap.put("input_type_combined_tuners", -3);
+        sDefaultPrioritiesMap.put("input_type_tuner", 0);
+        sDefaultPrioritiesMap.put("input_type_cec_logical", -2);
+        sDefaultPrioritiesMap.put("input_type_cec_recorder", -4);
+        sDefaultPrioritiesMap.put("input_type_cec_playback", -5);
+        sDefaultPrioritiesMap.put("input_type_mhl_mobile", -6);
+        sDefaultPrioritiesMap.put("input_type_hdmi", 1007);
+        sDefaultPrioritiesMap.put("input_type_dvi", 1006);
+        sDefaultPrioritiesMap.put("input_type_component", 1004);
+        sDefaultPrioritiesMap.put("input_type_svideo", 1002);
+        sDefaultPrioritiesMap.put("input_type_composite", 1001);
+        sDefaultPrioritiesMap.put("input_type_displayport", 1008);
+        sDefaultPrioritiesMap.put("input_type_vga", 1005);
+        sDefaultPrioritiesMap.put("input_type_scart", 1003);
+        sDefaultPrioritiesMap.put("input_type_other", 1000);
         sSearched = false;
         sLock = new Object();
     }
@@ -217,19 +217,18 @@ public class Partner {
         if (!this.mRowDataReady) {
             return -1;
         }
-        return ((Integer) this.mRowPositions.get(row.trim().toLowerCase())).intValue();
+        return (Integer) this.mRowPositions.get(row.trim().toLowerCase());
     }
 
     public String getRowTitle(String row, String defaultValue) {
-        String title = defaultValue;
         if (this.mResources == null || TextUtils.isEmpty(this.mPackageName)) {
-            return title;
+            return defaultValue;
         }
         int resId = this.mResources.getIdentifier(row + "_title", "string", this.mPackageName);
         if (resId != 0) {
             return this.mResources.getString(resId);
         }
-        return title;
+        return defaultValue;
     }
 
     public Drawable getRowIcon(String row) {
@@ -259,10 +258,7 @@ public class Partner {
             return false;
         }
         int resId = this.mResources.getIdentifier("partner_show_live_tv_on_start_up", "bool", this.mPackageName);
-        if (resId != 0) {
-            return this.mResources.getBoolean(resId);
-        }
-        return false;
+        return resId != 0 && this.mResources.getBoolean(resId);
     }
 
     public Map<Integer, Integer> getInputsOrderMap() {
@@ -279,10 +275,10 @@ public class Partner {
                 int priority = 0;
                 while (i < length) {
                     int priority2;
-                    Integer type = (Integer) sDefaultPrioritiesMap.get(inputsArray[i]);
+                    Integer type = sDefaultPrioritiesMap.get(inputsArray[i]);
                     if (type != null) {
                         priority2 = priority + 1;
-                        map.put(type, Integer.valueOf(priority));
+                        map.put(type, priority);
                     } else {
                         priority2 = priority;
                     }
@@ -299,10 +295,7 @@ public class Partner {
             return false;
         }
         int resId = this.mResources.getIdentifier("show_physical_tuners_separately", "bool", this.mPackageName);
-        if (resId != 0) {
-            return this.mResources.getBoolean(resId);
-        }
-        return false;
+        return resId != 0 && this.mResources.getBoolean(resId);
     }
 
     public boolean disableDiconnectedInputs() {
@@ -310,10 +303,7 @@ public class Partner {
             return true;
         }
         int resId = this.mResources.getIdentifier("disable_disconnected_inputs", "bool", this.mPackageName);
-        if (resId != 0) {
-            return this.mResources.getBoolean(resId);
-        }
-        return true;
+        return resId == 0 || this.mResources.getBoolean(resId);
     }
 
     public boolean getStateIconFromTVInput() {
@@ -321,10 +311,7 @@ public class Partner {
             return false;
         }
         int resId = this.mResources.getIdentifier("enable_input_state_icon", "bool", this.mPackageName);
-        if (resId != 0) {
-            return this.mResources.getBoolean(resId);
-        }
-        return false;
+        return resId != 0 && this.mResources.getBoolean(resId);
     }
 
     public String getBundledTunerTitle() {
@@ -365,15 +352,14 @@ public class Partner {
     }
 
     public int getBundledTunerLabelColorOption(int defaultColor) {
-        int color = defaultColor;
         if (this.mResources == null || TextUtils.isEmpty(this.mPackageName)) {
-            return color;
+            return defaultColor;
         }
         int nameResId = this.mResources.getIdentifier("bundled_tuner_label_color_option", "integer", this.mPackageName);
         if (nameResId != 0) {
             return this.mResources.getInteger(nameResId);
         }
-        return color;
+        return defaultColor;
     }
 
     private void fetchRowsData() {
@@ -386,15 +372,15 @@ public class Partner {
         }
         if (rowsArray != null) {
             this.mRowPositions.clear();
-            this.mRowPositions.put("partner_row", Integer.valueOf(-1));
-            this.mRowPositions.put("apps_row", Integer.valueOf(-1));
-            this.mRowPositions.put("games_row", Integer.valueOf(-1));
-            this.mRowPositions.put("inputs_row", Integer.valueOf(-1));
-            this.mRowPositions.put("settings_row", Integer.valueOf(-1));
+            this.mRowPositions.put("partner_row", -1);
+            this.mRowPositions.put("apps_row", -1);
+            this.mRowPositions.put("games_row", -1);
+            this.mRowPositions.put("inputs_row", -1);
+            this.mRowPositions.put("settings_row", -1);
             int position = 0;
             for (String row : rowsArray) {
-                if (((Integer) this.mRowPositions.get(row)).intValue() == -1) {
-                    this.mRowPositions.put(row, Integer.valueOf(position));
+                if ((Integer) this.mRowPositions.get(row) == -1) {
+                    this.mRowPositions.put(row, position);
                     position++;
                 }
             }
@@ -416,9 +402,6 @@ public class Partner {
     }
 
     private static boolean isSystemApp(ResolveInfo info) {
-        if (info.activityInfo == null || (info.activityInfo.applicationInfo.flags & 1) == 0) {
-            return false;
-        }
-        return true;
+        return !(info.activityInfo == null || (info.activityInfo.applicationInfo.flags & 1) == 0);
     }
 }

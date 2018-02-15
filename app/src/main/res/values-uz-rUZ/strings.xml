@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play xizmatlari xatosi</string>
     <string name="common_google_play_services_notification_needs_installation_title">Ilova Google Play xizmatlarining o‘rnatilishini talab qiladi.</string>
     <string name="common_google_play_services_notification_needs_update_title">Ilova Google Play xizmatlarining yangilanishini talab qiladi.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">BOSHLADIK</string>
     <string name="lb_onboarding_accessibility_next">Keyingisi</string>
-    <string name="abc_action_mode_done">Tayyor</string>
-    <string name="abc_action_bar_home_description">Boshiga o‘tish</string>
-    <string name="abc_action_bar_up_description">Yuqoriga o‘tish</string>
-    <string name="abc_action_menu_overflow_description">Boshqa parametrlar</string>
-    <string name="abc_toolbar_collapse_description">Yig‘ish</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Qidirish</string>
-    <string name="abc_search_hint">Qidirish…</string>
-    <string name="abc_searchview_description_query">So‘rovni izlash</string>
-    <string name="abc_searchview_description_clear">So‘rovni tozalash</string>
-    <string name="abc_searchview_description_submit">So‘rov yaratish</string>
-    <string name="abc_searchview_description_voice">Ovozli qidiruv</string>
-    <string name="abc_activitychooserview_choose_application">Dastur tanlang</string>
-    <string name="abc_activity_chooser_view_see_all">Barchasini ko‘rish</string>
-    <string name="abc_shareactionprovider_share_with_application">%sga ruxsat berish</string>
-    <string name="abc_shareactionprovider_share_with">Ruxsat berish</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">YONIQ</string>
-    <string name="abc_capital_off">O‘CHIQ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Tayyor</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Boshiga o‘tish</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Yuqoriga o‘tish</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Boshqa parametrlar</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Yig‘ish</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Qidirish</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Qidirish…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">So‘rovni izlash</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">So‘rovni tozalash</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">So‘rov yaratish</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Ovozli qidiruv</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Dastur tanlang</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Barchasini ko‘rish</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%sga ruxsat berish</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Ruxsat berish</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">YONIQ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">O‘CHIQ</string>
     <string name="app_name">Leanback Launcher</string>
     <string name="app_label">Bosh ekran</string>
     <string name="search_hint_text">Film, serial, teleshou va boshqalarni qidiring</string>

@@ -38,7 +38,7 @@ public class AppsUpdateListener implements PackageChangedReceiver.Listener, Inst
     }
 
     public AppsUpdateListener(Context context, LaunchPointListGenerator launchPointListGenerator, AppsRanker appsRanker) {
-        this.mRows = new ArrayList();
+        this.mRows = new ArrayList<>();
         this.mContext = context;
         this.mAppsRanker = appsRanker;
         this.mLaunchPointGen = launchPointListGenerator;
@@ -71,7 +71,7 @@ public class AppsUpdateListener implements PackageChangedReceiver.Listener, Inst
 
     public void refreshRows() {
         for (int i = 0; i < this.mRows.size(); i++) {
-            refreshRow((HomeScreenRow) this.mRows.get(i));
+            refreshRow(this.mRows.get(i));
         }
     }
 

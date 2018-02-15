@@ -2,6 +2,7 @@ package com.rockon999.android.leanbacklauncher.settings;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v17.preference.LeanbackPreferenceFragment;
@@ -39,12 +40,25 @@ public class AppsAndGamesPreferenceFragment extends LeanbackPreferenceFragment i
     }
 
     public boolean onPreferenceChange(Preference preference, Object o) {
-        SortingModeManager.SortingMode sortingMode = ((Boolean) o).booleanValue() ? SortingModeManager.SortingMode.RECENCY : SortingModeManager.SortingMode.FIXED;
-        if (sortingMode != SortingModeManager.getSavedSortingMode(getContext())) {
-            SortingModeManager.saveSortingMode(getActivity(), sortingMode);
-            updateSortingPreferenceVisibility(sortingMode);
+        if (o instanceof Boolean) {
+            SortingModeManager.SortingMode sortingMode = ((Boolean) o) ? SortingModeManager.SortingMode.RECENCY : SortingModeManager.SortingMode.FIXED;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (sortingMode != SortingModeManager.getSavedSortingMode(getContext())) {
+
+                    SortingModeManager.saveSortingMode(getActivity(), sortingMode);
+                    updateSortingPreferenceVisibility(sortingMode);
+                }
+            } else {
+                if (sortingMode != SortingModeManager.getSavedSortingMode(getActivity().getApplicationContext())) {
+
+                    SortingModeManager.saveSortingMode(getActivity(), sortingMode);
+                    updateSortingPreferenceVisibility(sortingMode);
+                }
+            }
+            return true;
         }
-        return true;
+        return false; // todo
     }
 
     private void updateSortingPreferenceVisibility(SortingModeManager.SortingMode sortingMode) {

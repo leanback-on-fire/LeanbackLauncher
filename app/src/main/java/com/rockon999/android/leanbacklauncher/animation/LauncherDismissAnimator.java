@@ -11,7 +11,7 @@ import com.rockon999.android.leanbacklauncher.R;
 
 public class LauncherDismissAnimator extends ForwardingAnimatorSet {
     public LauncherDismissAnimator(ViewGroup root, boolean fade, View[] headers) {
-        Builder builder = ((AnimatorSet) this.mDelegate).play(new MassSlideAnimator.Builder(root).setDirection(MassSlideAnimator.Direction.SLIDE_OUT).setFade(fade).build());
+        Builder builder = this.mDelegate.play(new MassSlideAnimator.Builder(root).setDirection(MassSlideAnimator.Direction.SLIDE_OUT).setFade(fade).build());
         Resources res = root.getResources();
         int fadeDuration = res.getInteger(R.integer.app_launch_animation_header_fade_out_duration);
         int fadeDelay = res.getInteger(R.integer.app_launch_animation_header_fade_out_delay);

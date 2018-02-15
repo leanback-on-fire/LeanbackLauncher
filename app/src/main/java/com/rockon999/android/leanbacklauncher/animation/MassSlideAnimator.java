@@ -1,6 +1,7 @@
 package com.rockon999.android.leanbacklauncher.animation;
 
 import android.animation.TimeInterpolator;
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.support.v17.leanback.widget.HorizontalGridView;
@@ -43,21 +44,21 @@ public final class MassSlideAnimator extends PropagatingAnimator<PropagatingAnim
             this.mEpicenter = new Rect();
             this.mTargetClass = ParticipatesInLaunchAnimation.class;
             this.mFade = true;
-            this.mRoot = (ViewGroup) Preconditions.checkNotNull(root);
+            this.mRoot = Preconditions.checkNotNull(root);
         }
 
         public Builder setDirection(Direction direction) {
-            this.mDirection = (Direction) Preconditions.checkNotNull(direction);
+            this.mDirection = Preconditions.checkNotNull(direction);
             return this;
         }
 
         public Builder setEpicenter(Rect epicenter) {
-            this.mEpicenter = (Rect) Preconditions.checkNotNull(epicenter);
+            this.mEpicenter = Preconditions.checkNotNull(epicenter);
             return this;
         }
 
         public Builder setExclude(View exclude) {
-            this.mExclude = (View) Preconditions.checkNotNull(exclude);
+            this.mExclude = Preconditions.checkNotNull(exclude);
             return this;
         }
 
@@ -99,6 +100,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<PropagatingAnim
             return (long) Math.round((((float) duration) / MassSlideAnimator.this.mPropagationSpeed) * distanceFraction);
         }
 
+        @SuppressLint("PrivateResource")
         private int getDistance(ViewHolder holder) {
             int distance;
             int targetX = holder.mCenter[0];
@@ -158,16 +160,17 @@ public final class MassSlideAnimator extends PropagatingAnimator<PropagatingAnim
             int[] iArr = new int[Direction.values().length];
             try {
                 iArr[Direction.SLIDE_IN.ordinal()] = 1;
-            } catch (NoSuchFieldError e) {
+            } catch (NoSuchFieldError ignored) {
             }
             try {
                 iArr[Direction.SLIDE_OUT.ordinal()] = 2;
-            } catch (NoSuchFieldError e2) {
+            } catch (NoSuchFieldError ignored) {
             }
             f4x4d0261f3 = iArr;
             return iArr;
         }
 
+        @SuppressLint("PrivateResource")
         private ViewHolder(MassSlideAnimator this$0, View view, ViewGroup root, Rect epicenter, Direction direction) {
             super(view);
             int i = 1;
@@ -220,6 +223,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<PropagatingAnim
             return scale;
         }
 
+        @SuppressLint("PrivateResource")
         private float getEndY(ViewGroup root) {
             float scaleFactor = getScaleFactor(root);
             switch (this.mSide) {
@@ -244,11 +248,11 @@ public final class MassSlideAnimator extends PropagatingAnimator<PropagatingAnim
         int[] iArr = new int[Direction.values().length];
         try {
             iArr[Direction.SLIDE_IN.ordinal()] = 1;
-        } catch (NoSuchFieldError e) {
+        } catch (NoSuchFieldError ignored) {
         }
         try {
             iArr[Direction.SLIDE_OUT.ordinal()] = 2;
-        } catch (NoSuchFieldError e2) {
+        } catch (NoSuchFieldError ignored) {
         }
         f5x4d0261f3 = iArr;
         return iArr;
@@ -259,12 +263,13 @@ public final class MassSlideAnimator extends PropagatingAnimator<PropagatingAnim
         sSlideOutInterpolator = new PathInterpolator(0.4f, 0.0f, 1.0f, 1.0f);
     }
 
+    @SuppressLint("PrivateResource")
     private MassSlideAnimator(Builder builder) {
         super(20);
         TypedValue propagationSpeed = new TypedValue();
         Resources res = builder.mRoot.getResources();
         res.getValue(R.raw.slide_animator_propagation_speed, propagationSpeed, true);
-        this.mRows = new ArrayList();
+        this.mRows = new ArrayList<>();
         this.mRoot = builder.mRoot;
         this.mEpicenter = builder.mEpicenter;
         this.mDirection = builder.mDirection;
@@ -386,18 +391,14 @@ public final class MassSlideAnimator extends PropagatingAnimator<PropagatingAnim
     }
 
     private boolean isExcluded(View view) {
-        if (view != this.mExclude) {
-            return this.mExcludeClass != null ? this.mExcludeClass.isInstance(view) : false;
-        } else {
-            return true;
-        }
+        return view == this.mExclude || this.mExcludeClass != null && this.mExcludeClass.isInstance(view);
     }
 
     public String toString() {
         StringBuilder buf = new StringBuilder().append("MassSlideAnimator@").append(Integer.toHexString(hashCode())).append(':').append(this.mDirection == Direction.SLIDE_IN ? "SLIDE_IN" : "SLIDE_OUT").append(':').append(this.mEpicenter.centerX()).append(',').append(this.mEpicenter.centerY()).append('{');
         int n = size();
         for (int i = 0; i < n; i++) {
-            buf.append("\n    ").append(((ViewHolder) getView(i)).toString().replaceAll("\n", "\n    "));
+            buf.append("\n    ").append(getView(i).toString().replaceAll("\n", "\n    "));
         }
         return buf.append("\n}").toString();
     }

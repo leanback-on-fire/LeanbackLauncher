@@ -31,25 +31,16 @@ public class Util {
     }
 
     public static boolean isContentUri(String uriString) {
-        if (TextUtils.isEmpty(uriString)) {
-            return false;
-        }
-        return isContentUri(Uri.parse(uriString));
+        return !TextUtils.isEmpty(uriString) && isContentUri(Uri.parse(uriString));
     }
 
     public static boolean isContentUri(Uri uri) {
-        if ("content".equals(uri.getScheme())) {
-            return true;
-        }
-        return "file".equals(uri.getScheme());
+        return "content".equals(uri.getScheme()) || "file".equals(uri.getScheme());
     }
 
     public static boolean isPackagePresent(PackageManager pkgMan, String packageName) {
         try {
-            if (pkgMan.getApplicationInfo(packageName, 0) != null) {
-                return true;
-            }
-            return false;
+            return pkgMan.getApplicationInfo(packageName, 0) != null;
         } catch (NameNotFoundException e) {
             return false;
         }
@@ -69,7 +60,7 @@ public class Util {
             return true;
         } catch (Throwable t) {
             Log.e("LeanbackLauncher", "Could not launch intent", t);
-            Toast.makeText(context, R.string.failed_launch, 0).show();
+            Toast.makeText(context, R.string.failed_launch, Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -86,7 +77,7 @@ public class Util {
                 if (info != null) {
                     return info.firstInstallTime;
                 }
-            } catch (NameNotFoundException e) {
+            } catch (NameNotFoundException ignored) {
             }
         }
         return -1;
@@ -150,10 +141,7 @@ public class Util {
 
     public static boolean isSystemApp(Context context, String packageName) {
         try {
-            if ((context.getPackageManager().getApplicationInfo(packageName, 0).flags & 1) != 0) {
-                return true;
-            }
-            return false;
+            return (context.getPackageManager().getApplicationInfo(packageName, 0).flags & 1) != 0;
         } catch (NameNotFoundException e) {
             return false;
         }
@@ -184,7 +172,7 @@ public class Util {
 
     public static boolean isInTouchExploration(Context context) {
         AccessibilityManager am = (AccessibilityManager) context.getSystemService("accessibility");
-        return am.isEnabled() ? am.isTouchExplorationEnabled() : false;
+        return am.isEnabled() && am.isTouchExplorationEnabled();
     }
 
 

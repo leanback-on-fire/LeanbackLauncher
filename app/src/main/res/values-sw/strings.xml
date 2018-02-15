@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Hitilafu kwenye huduma za Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">Programu inahitaji usakinishaji wa huduma za Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">Programu inahitaji toleo jipya la huduma za Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ANZA KUTUMIA</string>
     <string name="lb_onboarding_accessibility_next">Inayofuata</string>
-    <string name="abc_action_mode_done">Nimemaliza</string>
-    <string name="abc_action_bar_home_description">Nenda mwanzo</string>
-    <string name="abc_action_bar_up_description">Nenda juu</string>
-    <string name="abc_action_menu_overflow_description">Chaguo zaidi</string>
-    <string name="abc_toolbar_collapse_description">Kunja</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Tafuta</string>
-    <string name="abc_search_hint">Tafuta…</string>
-    <string name="abc_searchview_description_query">Hoja ya utafutaji</string>
-    <string name="abc_searchview_description_clear">Futa hoja</string>
-    <string name="abc_searchview_description_submit">Wasilisha hoja</string>
-    <string name="abc_searchview_description_voice">Tafuta kwa kutamka</string>
-    <string name="abc_activitychooserview_choose_application">Chagua programu</string>
-    <string name="abc_activity_chooser_view_see_all">Angalia zote</string>
-    <string name="abc_shareactionprovider_share_with_application">Shiriki na %s</string>
-    <string name="abc_shareactionprovider_share_with">Shiriki na:</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">IMEWASHWA</string>
-    <string name="abc_capital_off">IMEZIMWA</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Nimemaliza</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Nenda mwanzo</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Nenda juu</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Chaguo zaidi</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Kunja</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Tafuta</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Tafuta…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Hoja ya utafutaji</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Futa hoja</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Wasilisha hoja</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Tafuta kwa kutamka</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Chagua programu</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Angalia zote</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Shiriki na %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Shiriki na:</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">IMEWASHWA</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">IMEZIMWA</string>
     <string name="app_name">Kifungua Programu ya Leanback</string>
     <string name="app_label">Skrini ya Kwanza</string>
     <string name="search_hint_text">Tafuta filamu, vipindi vya televisheni na mengine</string>
@@ -101,12 +101,12 @@
     <string name="settings_network">Mipangilio ya Mtandao</string>
     <string name="notif_service_name">Huduma ya Arifa</string>
     <string name="recm_service_name">Huduma ya Mapendekezo</string>
-    <string name="install_pending">Inasubiri kusanikisha ...</string>
-    <string name="update_pending">Sasisho inasubiri ...</string>
-    <string name="restore_pending">Inasubiri Kurudisha...</string>
+    <string name="install_pending">Inasubiri kusanikisha …</string>
+    <string name="update_pending">Sasisho inasubiri …</string>
+    <string name="restore_pending">Inasubiri Kurudisha…</string>
     <string name="downloading">Inapakua…</string>
-    <string name="installing">Inasakinisha...</string>
-    <string name="unknown_state">...</string>
+    <string name="installing">Inasakinisha…</string>
+    <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">Inacheza Sasa</string>
     <string name="now_playing_card_paused">Imesitishwa</string>

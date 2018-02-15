@@ -18,7 +18,7 @@ public final class LauncherLaunchAnimator extends ForwardingAnimatorSet {
         int fadeDelay = res.getInteger(R.integer.app_launch_animation_header_fade_out_delay);
         Animator anim = new CircleTakeoverAnimator(cause, circleLayerView, color);
         anim.setDuration((long) res.getInteger(R.integer.app_launch_animation_explode_duration));
-        Builder builder = ((AnimatorSet) this.mDelegate).play(anim);
+        Builder builder = this.mDelegate.play(anim);
         anim = new FadeAnimator(cause, FadeAnimator.Direction.FADE_OUT);
         anim.setDuration((long) res.getInteger(R.integer.app_launch_animation_target_fade_duration));
         anim.setStartDelay((long) res.getInteger(R.integer.app_launch_animation_target_fade_delay));

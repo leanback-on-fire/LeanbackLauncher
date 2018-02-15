@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -70,12 +71,12 @@ public class AppsDbHelper extends SQLiteOpenHelper {
                     }
                     long lastOpened = lastOpenedIndex == -1 ? 0 : c.getLong(lastOpenedIndex);
                     synchronized (AppsDbHelper.this.mLock) {
-                        if (AppsDbHelper.this.mMostRecentTimeStamp.longValue() < lastOpened) {
-                            AppsDbHelper.this.mMostRecentTimeStamp = Long.valueOf(lastOpened);
+                        if (AppsDbHelper.this.mMostRecentTimeStamp < lastOpened) {
+                            AppsDbHelper.this.mMostRecentTimeStamp = lastOpened;
                         }
                     }
                     if (!TextUtils.isEmpty(key)) {
-                        AppsEntity entity = (AppsEntity) entities.get(key);
+                        AppsEntity entity = entities.get(key);
                         if (entity != null) {
                             entity.setOrder(component, entityScore);
                             entity.setLastOpenedTimeStamp(component, lastOpened);
@@ -123,13 +124,13 @@ public class AppsDbHelper extends SQLiteOpenHelper {
 
         public SaveEntityTask(AppsEntity entity) {
             this.mKey = entity.getKey();
-            this.mComponents = new ArrayList();
+            this.mComponents = new ArrayList<>();
             for (String component : entity.getComponents()) {
                 ContentValues cv = new ContentValues();
                 cv.put("key", this.mKey);
                 cv.put("component", component);
-                cv.put("entity_score", Long.valueOf(entity.getOrder(component)));
-                cv.put("last_opened", Long.valueOf(entity.getLastOpenedTimeStamp(component)));
+                cv.put("entity_score", entity.getOrder(component));
+                cv.put("last_opened", entity.getLastOpenedTimeStamp(component));
                 this.mComponents.add(cv);
             }
         }
@@ -144,10 +145,10 @@ public class AppsDbHelper extends SQLiteOpenHelper {
             for (ContentValues componentValues : this.mComponents) {
                 int count;
                 String component = componentValues.getAsString("component");
-                long timeStamp = componentValues.getAsLong("last_opened").longValue();
+                long timeStamp = componentValues.getAsLong("last_opened");
                 synchronized (AppsDbHelper.this.mLock) {
-                    if (AppsDbHelper.this.mMostRecentTimeStamp.longValue() < timeStamp) {
-                        AppsDbHelper.this.mMostRecentTimeStamp = Long.valueOf(timeStamp);
+                    if (AppsDbHelper.this.mMostRecentTimeStamp < timeStamp) {
+                        AppsDbHelper.this.mMostRecentTimeStamp = timeStamp;
                     }
                 }
                 if (component == null) {
@@ -175,7 +176,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
 
     public AppsDbHelper(Context context, String databaseName) {
         super(context, databaseName, null, 11);
-        this.mMostRecentTimeStamp = new Long(0);
+        this.mMostRecentTimeStamp = 0L;
         this.mLock = new Object();
         this.mContext = context;
     }
@@ -361,7 +362,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
 
     public void saveEntity(AppsEntity entity) {
         if (!TextUtils.isEmpty(entity.getKey())) {
-            createSaveEntityTask(entity).execute(new Void[0]);
+            createSaveEntityTask(entity).execute();
         }
     }
 
@@ -371,23 +372,24 @@ public class AppsDbHelper extends SQLiteOpenHelper {
 
     public void removeEntity(String key, boolean fullRemoval) {
         if (!TextUtils.isEmpty(key)) {
-            new RemoveEntityTask(key, fullRemoval).execute(new Void[0]);
+            new RemoveEntityTask(key, fullRemoval).execute();
         }
     }
 
     public void loadEntities(Listener listener) {
-        new LoadEntitiesTask(listener).execute(new Void[0]);
+        new LoadEntitiesTask(listener).execute();
     }
 
     public long getMostRecentTimeStamp() {
         long longValue;
         synchronized (this.mLock) {
-            longValue = this.mMostRecentTimeStamp.longValue();
+            longValue = this.mMostRecentTimeStamp;
         }
         return longValue;
     }
 
-    public File getRecommendationMigrationFile() throws IOException {
+    @SuppressLint("PrivateResource")
+    public File getRecommendationMigrationFile() {
         switch (getRecommendationMigrationState()) {
             case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
                 return null;
@@ -407,7 +409,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void writeRecommendationMigrationFile(SQLiteDatabase db) throws IOException {
+    public void writeRecommendationMigrationFile(SQLiteDatabase db) {
 
     }
 

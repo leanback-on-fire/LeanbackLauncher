@@ -28,7 +28,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         protected final View view;
 
         protected ViewHolder(View view) {
-            this.view = (View) Preconditions.checkNotNull(view);
+            this.view = Preconditions.checkNotNull(view);
         }
 
         public String toString() {
@@ -63,7 +63,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
             long totalPlayTime = PropagatingAnimator.this.getCurrentPlayTime();
             int n = PropagatingAnimator.this.mViews.size();
             for (int i = 0; i < n; i++) {
-                ViewHolder holder = (ViewHolder) PropagatingAnimator.this.mViews.get(i);
+                ViewHolder holder = PropagatingAnimator.this.mViews.get(i);
                 float fraction = ((float) (totalPlayTime - holder.normalizedStartDelay)) / ((float) duration);
                 if (fraction >= 0.0f) {
                     if (fraction > 1.0f) {
@@ -96,11 +96,11 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
     }
 
     protected PropagatingAnimator() {
-        this.mViews = new ArrayList();
+        this.mViews = new ArrayList<>();
         this.mListener = new PropagatingAnimatorListener();
         this.mPropagation = (Propagation<VH>) sDefaultPropagation;
         this.mState = (byte) 1;
-        setFloatValues(new float[]{0.0f, 1.0f});
+        setFloatValues(0.0f, 1.0f);
         addListener();
     }
 
@@ -110,7 +110,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
     }
 
     public PropagatingAnimator<VH> setPropagation(Propagation<VH> propagation) {
-        this.mPropagation = (Propagation) Preconditions.checkNotNull(propagation);
+        this.mPropagation = Preconditions.checkNotNull(propagation);
         return this;
     }
 
@@ -136,7 +136,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
     }
 
     public VH removeView(int index) {
-        ViewHolder holder = (ViewHolder) this.mViews.remove(index);
+        ViewHolder holder = this.mViews.remove(index);
         long startDelay = holder.normalizedStartDelay;
         if (startDelay == 0 || startDelay == this.mMaxStartDelay) {
             this.mNormalized = false;
@@ -161,7 +161,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
     }
 
     public VH getView(int index) {
-        return (VH) this.mViews.get(index);
+        return this.mViews.get(index);
     }
 
     public int size() {
@@ -188,7 +188,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         }
         int n = this.mViews.size();
         for (int i = 0; i < n; i++) {
-            onResetView((VH) this.mViews.get(i));
+            onResetView(this.mViews.get(i));
         }
         this.mState = (byte) 32;
     }
@@ -200,7 +200,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         super.setDuration(duration);
         int n = this.mViews.size();
         for (int i = 0; i < n; i++) {
-            invalidateView((VH) this.mViews.get(i));
+            invalidateView(this.mViews.get(i));
         }
         this.mNormalized = false;
         return this;
@@ -219,7 +219,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         if (this.mState != (byte) 2) {
             int n = this.mViews.size();
             for (int i = 0; i < n; i++) {
-                onSetupStartValues((VH) this.mViews.get(i));
+                onSetupStartValues(this.mViews.get(i));
             }
             this.mState = (byte) 2;
         }
@@ -230,7 +230,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         if (startDelay >= 0 && startDelay < getDuration()) {
             return startDelay;
         }
-        throw new UnsupportedOperationException(String.format("Illegal start delay returned by %s: %d", new Object[]{this.mPropagation, Long.valueOf(startDelay)}));
+        throw new UnsupportedOperationException(String.format("Illegal start delay returned by %s: %d", new Object[]{this.mPropagation, startDelay}));
     }
 
     private void normalizeStartDelays() {
@@ -239,11 +239,11 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         int n = this.mViews.size();
         long minRawDelay = Long.MAX_VALUE;
         for (i = 0; i < n; i++) {
-            minRawDelay = Math.min(minRawDelay, ((ViewHolder) this.mViews.get(i)).rawStartDelay);
+            minRawDelay = Math.min(minRawDelay, this.mViews.get(i).rawStartDelay);
         }
         this.mMaxStartDelay = n == 0 ? 0 : Long.MIN_VALUE;
         for (i = 0; i < n; i++) {
-            ViewHolder holder = (ViewHolder) this.mViews.get(i);
+            ViewHolder holder = this.mViews.get(i);
             long normalizedDelay = holder.rawStartDelay - minRawDelay;
             this.mMaxStartDelay = Math.max(this.mMaxStartDelay, normalizedDelay);
             holder.normalizedStartDelay = normalizedDelay;

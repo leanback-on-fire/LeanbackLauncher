@@ -11,17 +11,17 @@ import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 
 import com.rockon999.android.leanbacklauncher.R;
-import com.rockon999.android.leanbacklauncher.bean.AppInfo;
 import com.rockon999.android.leanbacklauncher.data.ConstData;
+import com.rockon999.android.leanbacklauncher.util.ApplicationInfo;
 import com.rockon999.android.leanbacklauncher.util.Util;
 import com.rockon999.android.leanbacklauncher.recline.util.DrawableDownloader;
 import com.rockon999.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
@@ -29,17 +29,12 @@ import com.rockon999.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
 import java.io.File;
 import java.util.Date;
 import java.util.Map;
-import java.util.Random;
 
 import momo.cn.edu.fjnu.androidutils.data.CommonValues;
 import momo.cn.edu.fjnu.androidutils.utils.BitmapUtils;
 import momo.cn.edu.fjnu.androidutils.utils.SizeUtils;
 
-import static android.R.attr.anyDensity;
-import static android.R.attr.bitmap;
-import static android.R.attr.icon;
-
-public class LaunchPoint {
+public class LaunchPoint extends ApplicationInfo {
     protected String mAppTitle;
     protected Drawable mBannerDrawable;
     private final DrawableDownloader.BitmapCallback mBitmapCallback;
@@ -162,7 +157,7 @@ public class LaunchPoint {
         } // todo optimize
 
         if (key != null) {
-            this.mBannerDrawable = ConstData.appContext.getResources().getDrawable(overrides.get(key));
+            this.mBannerDrawable = ContextCompat.getDrawable(ConstData.appContext, overrides.get(key));
             if (this.mBannerDrawable instanceof BitmapDrawable) {
                 this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable) this.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
             }
@@ -215,11 +210,7 @@ public class LaunchPoint {
                         BitmapUtils.saveBitmapToImage(((BitmapDrawable) mBannerDrawable).getBitmap(), bannerPath, Bitmap.CompressFormat.PNG, 80);
                 }
             }
-            if (this.mBannerDrawable != null) {
-                this.mHasBanner = true;
-            } else {
-                this.mHasBanner = false;
-            }
+            this.mHasBanner = this.mBannerDrawable != null;
         }
 
         if (key == null) {
@@ -294,32 +285,6 @@ public class LaunchPoint {
         return this;
     }
 
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        boolean equals;
-        String pkgName = null;
-        CharSequence compName = null;
-        if (other instanceof LaunchPoint) {
-            pkgName = ((LaunchPoint) other).getPackageName();
-            compName = ((LaunchPoint) other).getComponentName();
-        } else if ((other instanceof ResolveInfo) && getLaunchIntent((ResolveInfo) other).getComponent() != null) {
-            pkgName = this.mLaunchIntent.getComponent().getPackageName();
-            compName = this.mLaunchIntent.getComponent().flattenToString();
-        } else if (other instanceof AppInfo) {
-            AppInfo appInfo = (AppInfo) other;
-            pkgName = appInfo.getPackageName();
-            compName = appInfo.getCompentName();
-        }
-        if (TextUtils.equals(this.mPackageName, pkgName)) {
-            equals = TextUtils.equals(this.mComponentName, compName);
-        } else {
-            equals = false;
-        }
-        return equals;
-    }
-
     private static Intent getLaunchIntent(ResolveInfo info) {
         ComponentName componentName = new ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name);
         Intent intent = new Intent("android.intent.action.MAIN");
@@ -344,27 +309,23 @@ public class LaunchPoint {
     }
 
     private static int getColor(Context context, Bitmap bitmap) {
-     /*   int length = ConstData.APP_ITEM_BACK_COLORS.length;
-        return ConstData.APP_ITEM_BACK_COLORS[new Random().nextInt(length)];*/
         Palette p = Palette.from(bitmap).generate();
-        Palette.Swatch swatch = p.getDarkMutedSwatch();//ok, 1
+        Palette.Swatch swatch = p.getDarkMutedSwatch();
+
         if (swatch != null)
             return swatch.getRgb();
-      /*  else if((swatch = p.getLightMutedSwatch()) != null)
+        else if ((swatch = p.getLightMutedSwatch()) != null)
             return swatch.getRgb();
-        else if((swatch = p.getVibrantSwatch()) != null)
+        else if ((swatch = p.getVibrantSwatch()) != null)
             return swatch.getRgb();
-        else if((swatch = p.getMutedSwatch()) != null)
+        else if ((swatch = p.getMutedSwatch()) != null)
             return swatch.getRgb();
-        else if((swatch = p.getDarkVibrantSwatch()) != null)
+        else if ((swatch = p.getDarkVibrantSwatch()) != null)
             return swatch.getRgb();
-        else if((swatch = p.getDarkMutedSwatch()) != null)
-            return swatch.getRgb();*/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return context.getColor(R.color.banner_background);
-        }
+        else if ((swatch = p.getDarkMutedSwatch()) != null)
+            return swatch.getRgb();
 
-        return R.color.banner_background;
+        return ContextCompat.getColor(context, R.color.banner_background); // for API 22
     }
 
     private static boolean isTranslucentTheme(Context myContext, ResolveInfo info) {
@@ -430,9 +391,7 @@ public class LaunchPoint {
     }
 
     public boolean isTranslucentTheme() {
-        if (this.mIsSettingsItem)
-            return true;
-        return false;
+        return this.mIsSettingsItem;
     }
 
     public int getPriority() {

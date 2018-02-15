@@ -1,8 +1,6 @@
 package com.rockon999.android.leanbacklauncher.bean;
 
-import android.text.TextUtils;
-
-import com.rockon999.android.leanbacklauncher.apps.LaunchPoint;
+import com.rockon999.android.leanbacklauncher.util.ApplicationInfo;
 
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
@@ -13,11 +11,11 @@ import org.xutils.db.annotation.Table;
  */
 
 @Table(name = "AppInfo")
-public class AppInfo {
+public class AppInfo extends ApplicationInfo {
     @Column(name = "id", isId = true)
     private int id;
-    @Column(name = "compentName")
-    private String compentName;
+    @Column(name = "componentName")
+    private String componentName;
     @Column(name = "appType")
     private int appType;
     @Column(name = "packageName")
@@ -31,12 +29,12 @@ public class AppInfo {
         this.id = id;
     }
 
-    public String getCompentName() {
-        return compentName;
+    public String getComponentName() {
+        return componentName;
     }
 
-    public void setCompentName(String compentName) {
-        this.compentName = compentName;
+    public void setComponentName(String componentName) {
+        this.componentName = componentName;
     }
 
     public int getAppType() {
@@ -56,25 +54,10 @@ public class AppInfo {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null)
-            return false;
-        boolean isEqual = false;
-        if(obj instanceof AppInfo){
-            AppInfo otherInfo = (AppInfo)obj;
-            isEqual = TextUtils.equals(compentName, otherInfo.compentName) && TextUtils.equals(packageName, otherInfo.packageName);
-        }else if(obj instanceof LaunchPoint){
-            LaunchPoint otherLaunchPoint = (LaunchPoint)obj;
-            isEqual = TextUtils.equals(compentName, otherLaunchPoint.getComponentName()) && TextUtils.equals(packageName, otherLaunchPoint.getPackageName());
-        }
-        return isEqual;
-    }
-
-    @Override
     public String toString() {
         return "AppInfo{" +
                 "id=" + id +
-                ", compentName='" + compentName + '\'' +
+                ", componentName='" + componentName + '\'' +
                 ", appType=" + appType +
                 ", packageName='" + packageName + '\'' +
                 '}';

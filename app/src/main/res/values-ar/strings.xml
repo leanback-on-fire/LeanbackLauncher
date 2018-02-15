@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">‏خطأ في خدمات Google Play</string>
     <string name="common_google_play_services_notification_needs_installation_title">‏يتطلب أحد التطبيقات تثبيت خدمات Google Play.</string>
     <string name="common_google_play_services_notification_needs_update_title">‏يتطلب أحد التطبيقات تحديث خدمات Google Play.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">البدء</string>
     <string name="lb_onboarding_accessibility_next">التالية</string>
-    <string name="abc_action_mode_done">تم</string>
-    <string name="abc_action_bar_home_description">التنقل إلى الشاشة الرئيسية</string>
-    <string name="abc_action_bar_up_description">التنقل إلى أعلى</string>
-    <string name="abc_action_menu_overflow_description">خيارات إضافية</string>
-    <string name="abc_toolbar_collapse_description">تصغير</string>
-    <string name="abc_action_bar_home_description_format">%1$s، %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s، %2$s، %3$s</string>
-    <string name="abc_searchview_description_search">بحث</string>
-    <string name="abc_search_hint">بحث…</string>
-    <string name="abc_searchview_description_query">طلب البحث</string>
-    <string name="abc_searchview_description_clear">محو طلب البحث</string>
-    <string name="abc_searchview_description_submit">إرسال طلب البحث</string>
-    <string name="abc_searchview_description_voice">البحث الصوتي</string>
-    <string name="abc_activitychooserview_choose_application">اختيار تطبيق</string>
-    <string name="abc_activity_chooser_view_see_all">عرض الكل</string>
-    <string name="abc_shareactionprovider_share_with_application">‏مشاركة مع %s</string>
-    <string name="abc_shareactionprovider_share_with">مشاركة مع</string>
-    <string name="status_bar_notification_info_overflow">+999</string>
-    <string name="abc_capital_on">تشغيل</string>
-    <string name="abc_capital_off">إيقاف</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">تم</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">التنقل إلى الشاشة الرئيسية</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">التنقل إلى أعلى</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">خيارات إضافية</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">تصغير</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s، %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s، %2$s، %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">بحث</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">بحث…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">طلب البحث</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">محو طلب البحث</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">إرسال طلب البحث</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">البحث الصوتي</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">اختيار تطبيق</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">عرض الكل</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">‏مشاركة مع %s</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">مشاركة مع</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">+999</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">تشغيل</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">إيقاف</string>
     <string name="app_name">Leanback Launcher</string>
     <string name="app_label">الشاشة الرئيسية</string>
     <string name="search_hint_text">البحث عن أفلام وعروض تلفزيونية وغيرها</string>
@@ -104,8 +104,8 @@
     <string name="install_pending">التثبيت معلّق…</string>
     <string name="update_pending">التحديث معلّق…</string>
     <string name="restore_pending">الاستعادة معلّقة…</string>
-    <string name="downloading">جارٍ التنزيل...</string>
-    <string name="installing">جارٍ التثبيت...</string>
+    <string name="downloading">جارٍ التنزيل…</string>
+    <string name="installing">جارٍ التثبيت…</string>
     <string name="unknown_state">…</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="now_playing_card_playing">يجري التشغيل الآن</string>

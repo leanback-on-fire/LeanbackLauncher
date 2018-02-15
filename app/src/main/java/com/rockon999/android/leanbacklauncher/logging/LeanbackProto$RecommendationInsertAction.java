@@ -32,7 +32,7 @@ public final class LeanbackProto$RecommendationInsertAction extends ExtendableMe
 
     public void writeTo(CodedOutputByteBufferNano output) throws IOException {
         if (this.position != null) {
-            output.writeUInt32(1, this.position.intValue());
+            output.writeUInt32(1, this.position);
         }
         if (this.packageName != null) {
             output.writeString(2, this.packageName);
@@ -41,16 +41,16 @@ public final class LeanbackProto$RecommendationInsertAction extends ExtendableMe
             output.writeString(3, this.tagName);
         }
         if (this.bucketId != null) {
-            output.writeUInt32(4, this.bucketId.intValue());
+            output.writeUInt32(4, this.bucketId);
         }
         if (this.unnormalizedPriority != null) {
-            output.writeInt32(5, this.unnormalizedPriority.intValue());
+            output.writeInt32(5, this.unnormalizedPriority);
         }
         if (this.normalizedPriority != null) {
-            output.writeFloat(6, this.normalizedPriority.floatValue());
+            output.writeFloat(6, this.normalizedPriority);
         }
         if (this.score != null) {
-            output.writeFloat(7, this.score.floatValue());
+            output.writeFloat(7, this.score);
         }
         super.writeTo(output);
     }
@@ -58,7 +58,7 @@ public final class LeanbackProto$RecommendationInsertAction extends ExtendableMe
     protected int computeSerializedSize() {
         int size = super.computeSerializedSize();
         if (this.position != null) {
-            size += CodedOutputByteBufferNano.computeUInt32Size(1, this.position.intValue());
+            size += CodedOutputByteBufferNano.computeUInt32Size(1, this.position);
         }
         if (this.packageName != null) {
             size += CodedOutputByteBufferNano.computeStringSize(2, this.packageName);
@@ -67,17 +67,17 @@ public final class LeanbackProto$RecommendationInsertAction extends ExtendableMe
             size += CodedOutputByteBufferNano.computeStringSize(3, this.tagName);
         }
         if (this.bucketId != null) {
-            size += CodedOutputByteBufferNano.computeUInt32Size(4, this.bucketId.intValue());
+            size += CodedOutputByteBufferNano.computeUInt32Size(4, this.bucketId);
         }
         if (this.unnormalizedPriority != null) {
-            size += CodedOutputByteBufferNano.computeInt32Size(5, this.unnormalizedPriority.intValue());
+            size += CodedOutputByteBufferNano.computeInt32Size(5, this.unnormalizedPriority);
         }
         if (this.normalizedPriority != null) {
-            size += CodedOutputByteBufferNano.computeFloatSize(6, this.normalizedPriority.floatValue());
+            size += CodedOutputByteBufferNano.computeFloatSize(6, this.normalizedPriority);
         }
         if (this.score == null) {
             return size;
         }
-        return size + CodedOutputByteBufferNano.computeFloatSize(7, this.score.floatValue());
+        return size + CodedOutputByteBufferNano.computeFloatSize(7, this.score);
     }
 }

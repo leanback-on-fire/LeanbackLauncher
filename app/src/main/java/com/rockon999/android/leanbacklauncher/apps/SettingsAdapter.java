@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -29,6 +30,7 @@ public class SettingsAdapter extends AppsAdapter {
         C01871() {
         }
 
+        @SuppressLint("PrivateResource")
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:

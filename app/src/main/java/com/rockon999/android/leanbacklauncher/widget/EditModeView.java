@@ -49,7 +49,7 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
 
     public EditModeView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.mActionListeners = new ArrayList();
+        this.mActionListeners = new ArrayList<>();
     }
 
     protected void onFinishInflate() {
@@ -283,11 +283,8 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
                 this.mUninstallListener.onUninstallPressed(notifyPrepForUninstall());
             }
             return true;
-        } else if (action == 1) {
-            return true;
-        } else {
-            return super.dispatchKeyEvent(event);
-        }
+        } else
+            return action == 1 || super.dispatchKeyEvent(event);
     }
 
     private void setUninstallCircleLayout() {

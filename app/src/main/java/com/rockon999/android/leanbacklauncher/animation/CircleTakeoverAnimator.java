@@ -48,10 +48,7 @@ final class CircleTakeoverAnimator extends ForwardingAnimator<Animator> {
     }
 
     public boolean isStarted() {
-        if (this.mFinished) {
-            return false;
-        }
-        return super.isStarted();
+        return !this.mFinished && super.isStarted();
     }
 
     public void addPauseListener(AnimatorPauseListener listener) {

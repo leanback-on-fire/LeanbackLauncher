@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="common_google_play_services_notification_ticker">Google Play қызметтерінің қатесі</string>
     <string name="common_google_play_services_notification_needs_installation_title">Қолданба Google Play қызметтерін орнатуды талап етеді.</string>
     <string name="common_google_play_services_notification_needs_update_title">Қолданба Google Play қызметтерін жаңартуды талап етеді.</string>
@@ -65,26 +65,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">ІСКЕ КІРІСУ</string>
     <string name="lb_onboarding_accessibility_next">Келесі</string>
-    <string name="abc_action_mode_done">Дайын</string>
-    <string name="abc_action_bar_home_description">Негізгі бетте қозғалу</string>
-    <string name="abc_action_bar_up_description">Жоғары қозғалу</string>
-    <string name="abc_action_menu_overflow_description">Басқа опциялар</string>
-    <string name="abc_toolbar_collapse_description">Тасалау</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Іздеу</string>
-    <string name="abc_search_hint">Іздеу…</string>
-    <string name="abc_searchview_description_query">Сұрақты іздеу</string>
-    <string name="abc_searchview_description_clear">Сұрақты жою</string>
-    <string name="abc_searchview_description_submit">Сұрақты жіберу</string>
-    <string name="abc_searchview_description_voice">Дауыс арқылы іздеу</string>
-    <string name="abc_activitychooserview_choose_application">Қолданбаны таңдау</string>
-    <string name="abc_activity_chooser_view_see_all">Барлығын көру</string>
-    <string name="abc_shareactionprovider_share_with_application">%s бөлісу</string>
-    <string name="abc_shareactionprovider_share_with">Бөлісу</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="abc_capital_on">ҚОСУЛЫ</string>
-    <string name="abc_capital_off">ӨШІРУЛІ</string>
+    <string name="abc_action_mode_done" tools:ignore="PrivateResource">Дайын</string>
+    <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Негізгі бетте қозғалу</string>
+    <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Жоғары қозғалу</string>
+    <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">Басқа опциялар</string>
+    <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Тасалау</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
+    <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Іздеу</string>
+    <string name="abc_search_hint" tools:ignore="PrivateResource">Іздеу…</string>
+    <string name="abc_searchview_description_query" tools:ignore="PrivateResource">Сұрақты іздеу</string>
+    <string name="abc_searchview_description_clear" tools:ignore="PrivateResource">Сұрақты жою</string>
+    <string name="abc_searchview_description_submit" tools:ignore="PrivateResource">Сұрақты жіберу</string>
+    <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Дауыс арқылы іздеу</string>
+    <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Қолданбаны таңдау</string>
+    <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">Барлығын көру</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">%s бөлісу</string>
+    <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Бөлісу</string>
+    <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
+    <string name="abc_capital_on" tools:ignore="PrivateResource">ҚОСУЛЫ</string>
+    <string name="abc_capital_off" tools:ignore="PrivateResource">ӨШІРУЛІ</string>
     <string name="app_name">Leanback қосқышы</string>
     <string name="app_label">Негізгі экран</string>
     <string name="search_hint_text">Фильмдерді, ТД және т.б. іздеу</string>

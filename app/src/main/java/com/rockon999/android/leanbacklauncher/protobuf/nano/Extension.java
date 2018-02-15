@@ -9,7 +9,7 @@ public class Extension<M extends ExtendableMessageNano<M>, T> {
     public  int tag;
     protected  int type;
 
-    void writeTo(Object value, CodedOutputByteBufferNano output) throws IOException {
+    void writeTo(Object value, CodedOutputByteBufferNano output) {
         if (this.repeated) {
             writeRepeatedData(value, output);
         } else {

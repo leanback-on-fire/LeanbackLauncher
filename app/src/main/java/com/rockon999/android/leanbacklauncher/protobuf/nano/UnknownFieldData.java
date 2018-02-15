@@ -8,7 +8,7 @@ final class UnknownFieldData {
     int tag;
 
     int computeSerializedSize() {
-        return (CodedOutputByteBufferNano.computeRawVarint32Size(this.tag) + 0) + this.bytes.length;
+        return (CodedOutputByteBufferNano.computeRawVarint32Size(this.tag)) + this.bytes.length;
     }
 
     void writeTo(CodedOutputByteBufferNano output) throws IOException {

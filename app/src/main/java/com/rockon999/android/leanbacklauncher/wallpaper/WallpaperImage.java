@@ -3,11 +3,12 @@ package com.rockon999.android.leanbacklauncher.wallpaper;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+
 import com.rockon999.android.leanbacklauncher.recline.util.RefcountBitmapDrawable;
 
-public class WallpaperImage extends ImageView {
+public class WallpaperImage extends AppCompatImageView {
     protected float mZoom;
 
     public WallpaperImage(Context context) {
