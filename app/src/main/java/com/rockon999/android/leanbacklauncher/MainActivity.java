@@ -878,7 +878,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 int appWidgetId = Util.getWidgetId(this);
 
                 clearWidget(appWidgetId);
-                wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrapper));
+                wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, null));
 
                 return;
             }
