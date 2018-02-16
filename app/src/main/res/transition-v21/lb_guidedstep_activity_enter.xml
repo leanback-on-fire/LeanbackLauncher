@@ -18,6 +18,7 @@
         <targets>
             <target android:targetId="@id/action_fragment_background" />
             <target android:targetId="@id/guidedactions_list_background" />
+            <target android:targetId="@id/guidedactions_sub_list_background" />
             <target android:targetId="@id/guidedactions_content" />
             <target android:targetId="@id/guidedactions_list" />
             <target android:targetId="@id/guidedactions_sub_list" />

@@ -141,7 +141,7 @@ public class DrawableDownloader {
     }
 
     private DrawableDownloader(Context context) {
-        this.mPostProcs = new SparseArray();
+        this.mPostProcs = new SparseArray<>();
         this.mTaskPool = CachedTaskPool.getInstance(context);
         this.mRecycledBitmaps = new RecycleBitmapPool();
     }

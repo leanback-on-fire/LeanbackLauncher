@@ -1,20 +1,15 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.rockon999.android.leanbacklauncher.util.Util;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +34,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
         }
 
         protected HashMap<String, AppsEntity> doInBackground(Void... params) {
-            HashMap<String, AppsEntity> entities = new HashMap();
+            HashMap<String, AppsEntity> entities = new HashMap<>();
             SQLiteDatabase db = AppsDbHelper.this.getWritableDatabase();
             Cursor c = db.query("entity", null, null, null, null, null, null);
             try {
@@ -95,7 +90,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    interface RecommendationMigrationTable {
+    interface FavoriteMigrationTable {
     }
 
     private class RemoveEntityTask extends AsyncTask<Void, Void, Void> {
@@ -193,6 +188,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
+        // todo error?
         db.execSQL("CREATE TABLE IF NOT EXISTS entity ( key TEXT PRIMARY KEY ) ");
         db.execSQL("CREATE TABLE IF NOT EXISTS entity_scores ( key TEXT NOT NULL , component TEXT, entity_score INTEGER NOT NULL , last_opened INTEGER,  PRIMARY KEY ( key, component ),  FOREIGN KEY ( key )  REFERENCES entity ( key )  ) ");
         db.execSQL("CREATE TABLE IF NOT EXISTS rec_migration ( state INTEGER NOT NULL ) ");
@@ -200,151 +196,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
         Util.setInitialRankingAppliedFlag(this.mContext, false);
     }
 
-    /* JADX WARNING: inconsistent code. */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
     public void onUpgrade(SQLiteDatabase r19, int r20, int r21) {
-        /*
-        r18 = this;
-        switch(r20) {
-            case 6: goto L_0x0007;
-            case 7: goto L_0x000f;
-            case 8: goto L_0x001f;
-            case 9: goto L_0x008b;
-            case 10: goto L_0x00e7;
-            default: goto L_0x0003;
-        };
-    L_0x0003:
-        r18.recreate(r19);
-    L_0x0006:
-        return;
-    L_0x0007:
-        r2 = "CREATE TABLE IF NOT EXISTS rec_blacklist (key TEXT PRIMARY KEY)";
-        r0 = r19;
-        r0.execSQL(r2);
-    L_0x000f:
-        r2 = "ALTER TABLE entity ADD COLUMN has_recs INTEGER";
-        r0 = r19;
-        r0.execSQL(r2);
-        r2 = "DELETE FROM rec_blacklist";
-        r0 = r19;
-        r0.execSQL(r2);
-    L_0x001f:
-        r2 = "CREATE TABLE IF NOT EXISTS entity_scores ( key TEXT NOT NULL, component TEXT, entity_score INTEGER NOT NULL, last_opened INTEGER,  PRIMARY KEY  (key , component),  FOREIGN KEY  (key) REFERENCES entity (key))";
-        r0 = r19;
-        r0.execSQL(r2);
-        r3 = "entity";
-        r2 = 2;
-        r4 = new java.lang.String[r2];
-        r2 = "key";
-        r5 = 0;
-        r4[r5] = r2;
-        r2 = "last_opened";
-        r5 = 1;
-        r4[r5] = r2;
-        r5 = 0;
-        r6 = 0;
-        r7 = 0;
-        r8 = 0;
-        r9 = 0;
-        r2 = r19;
-        r10 = r2.query(r3, r4, r5, r6, r7, r8, r9);
-        r12 = new android.content.ContentValues;	 Catch:{ all -> 0x0083 }
-        r12.<init>();	 Catch:{ all -> 0x0083 }
-    L_0x0049:
-        r2 = r10.moveToNext();	 Catch:{ all -> 0x0083 }
-        if (r2 == 0) goto L_0x0088;
-    L_0x004f:
-        r2 = 0;
-        r14 = r10.getString(r2);	 Catch:{ all -> 0x0083 }
-        r2 = android.text.TextUtils.isEmpty(r14);	 Catch:{ all -> 0x0083 }
-        if (r2 != 0) goto L_0x0049;
-    L_0x005a:
-        r2 = 1;
-        r16 = r10.getLong(r2);	 Catch:{ all -> 0x0083 }
-        r2 = "key";
-        r12.put(r2, r14);	 Catch:{ all -> 0x0083 }
-        r2 = "last_opened";
-        r3 = java.lang.Long.valueOf(r16);	 Catch:{ all -> 0x0083 }
-        r12.put(r2, r3);	 Catch:{ all -> 0x0083 }
-        r2 = "entity_score";
-        r3 = java.lang.Long.valueOf(r16);	 Catch:{ all -> 0x0083 }
-        r12.put(r2, r3);	 Catch:{ all -> 0x0083 }
-        r2 = "entity_scores";
-        r3 = 0;
-        r0 = r19;
-        r0.insert(r2, r3, r12);	 Catch:{ all -> 0x0083 }
-        goto L_0x0049;
-    L_0x0083:
-        r2 = move-exception;
-        r10.close();
-        throw r2;
-    L_0x0088:
-        r10.close();
-    L_0x008b:
-        r3 = "entity";
-        r2 = 2;
-        r4 = new java.lang.String[r2];
-        r2 = "key";
-        r5 = 0;
-        r4[r5] = r2;
-        r2 = "oob_order";
-        r5 = 1;
-        r4[r5] = r2;
-        r5 = 0;
-        r6 = 0;
-        r7 = 0;
-        r8 = 0;
-        r9 = 0;
-        r2 = r19;
-        r11 = r2.query(r3, r4, r5, r6, r7, r8, r9);
-        r12 = new android.content.ContentValues;	 Catch:{ all -> 0x00df }
-        r12.<init>();	 Catch:{ all -> 0x00df }
-    L_0x00ad:
-        r2 = r11.moveToNext();	 Catch:{ all -> 0x00df }
-        if (r2 == 0) goto L_0x00e4;
-    L_0x00b3:
-        r2 = 0;
-        r14 = r11.getString(r2);	 Catch:{ all -> 0x00df }
-        r2 = android.text.TextUtils.isEmpty(r14);	 Catch:{ all -> 0x00df }
-        if (r2 != 0) goto L_0x00ad;
-    L_0x00be:
-        r2 = "entity_score";
-        r3 = 1;
-        r4 = r11.getLong(r3);	 Catch:{ all -> 0x00df }
-        r3 = java.lang.Long.valueOf(r4);	 Catch:{ all -> 0x00df }
-        r12.put(r2, r3);	 Catch:{ all -> 0x00df }
-        r2 = "entity_scores";
-        r3 = "key=?";
-        r4 = 1;
-        r4 = new java.lang.String[r4];	 Catch:{ all -> 0x00df }
-        r5 = 0;
-        r4[r5] = r14;	 Catch:{ all -> 0x00df }
-        r0 = r19;
-        r0.update(r2, r12, r3, r4);	 Catch:{ all -> 0x00df }
-        goto L_0x00ad;
-    L_0x00df:
-        r2 = move-exception;
-        r11.close();
-        throw r2;
-    L_0x00e4:
-        r11.close();
-    L_0x00e7:
-        r2 = "CREATE TABLE IF NOT EXISTS rec_migration (state INTEGER NOT NULL)";
-        r0 = r19;
-        r0.execSQL(r2);
-        r18.writeRecommendationMigrationFile(r19);	 Catch:{ IOException -> 0x00fc }
-        r2 = "INSERT INTO rec_migration (state) VALUES (1)";
-        r0 = r19;
-        r0.execSQL(r2);	 Catch:{ IOException -> 0x00fc }
-        goto L_0x0006;
-    L_0x00fc:
-        r13 = move-exception;
-        r2 = "INSERT INTO rec_migration (state) VALUES (0)";
-        r0 = r19;
-        r0.execSQL(r2);
-        goto L_0x0006;
-        */
-        throw new UnsupportedOperationException("Method not decompiled: AppsDbHelper.onUpgrade(android.database.sqlite.SQLiteDatabase, int, int):void");
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -386,31 +238,6 @@ public class AppsDbHelper extends SQLiteOpenHelper {
             longValue = this.mMostRecentTimeStamp;
         }
         return longValue;
-    }
-
-    @SuppressLint("PrivateResource")
-    public File getRecommendationMigrationFile() {
-        switch (getRecommendationMigrationState()) {
-            case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
-                return null;
-            case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
-                return new File(this.mContext.getFilesDir(), "migration_launcher");
-            case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager /*2*/:
-            default:
-                return null;
-        }
-    }
-
-    public int getRecommendationMigrationState() {
-        try {
-            return (int) DatabaseUtils.longForQuery(getReadableDatabase(), "SELECT state FROM rec_migration", null);
-        } catch (SQLiteDoneException e) {
-            return 0;
-        }
-    }
-
-    public void writeRecommendationMigrationFile(SQLiteDatabase db) {
-
     }
 
     public void onMigrationComplete() {

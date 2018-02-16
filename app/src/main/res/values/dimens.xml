@@ -464,4 +464,5 @@
     <dimen name="preference_item_banner_width">64.0dip</dimen>
     <dimen name="preference_item_banner_height">36.0dip</dimen>
     <dimen name="preference_item_icon_size">24.0dip</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

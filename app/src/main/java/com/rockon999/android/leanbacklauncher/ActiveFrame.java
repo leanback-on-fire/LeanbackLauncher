@@ -211,7 +211,7 @@ public class ActiveFrame extends LinearLayout implements ParticipatesInScrollAni
             this.mExpandAnim.cancel();
             this.mExpandAnim = null;
         }
-        if (animate && isAttachedToWindow() && getVisibility() == 0) {
+        if (animate && isAttachedToWindow() && getVisibility() == View.VISIBLE) {
             float f2 = this.mExpanded;
             if (!expanded) {
                 f = 0.0f;

@@ -2,9 +2,6 @@ package com.rockon999.android.leanbacklauncher.logging;
 
 import android.content.Context;
 import android.util.Log;
-//import com.rockon999.android.leanbacklauncher.gms.clearcut.ClearcutLogger;
-//import com.rockon999.android.leanbacklauncher.gms.common.api.GoogleApiClient;
-//import com.google.protobuf.nano.MessageNano;
 import java.util.concurrent.TimeUnit;
 
 public final class LeanbackLauncherEventLogger {
@@ -12,8 +9,6 @@ public final class LeanbackLauncherEventLogger {
     private static final long MAX_FLUSH_WAIT_TIME_USEC;
     private static final String TAG;
     private static LeanbackLauncherEventLogger sInstance;
-    //private final ClearcutLogger mEventLogger;
-    //private GoogleApiClient mGoogleApiClient;
 
     static {
         TAG = LeanbackLauncherEventLogger.class.getSimpleName();
@@ -39,12 +34,6 @@ public final class LeanbackLauncherEventLogger {
     }
 
     private LeanbackLauncherEventLogger(Context context) {
-        //this.mGoogleApiClient = null;
-        //this.mEventLogger = new ClearcutLogger(context, 134, null, null);
-    }
-
-    public void setGoogleApiClient(Object googleApiClient) {
-        //this.mGoogleApiClient = googleApiClient;
     }
 
     public boolean flush() {

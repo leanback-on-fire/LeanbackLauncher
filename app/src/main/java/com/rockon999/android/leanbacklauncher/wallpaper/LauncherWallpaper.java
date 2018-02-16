@@ -22,10 +22,10 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import com.rockon999.android.leanbacklauncher.HomeScrollManager.HomeScrollFractionListener;
 import com.rockon999.android.leanbacklauncher.MainActivity;
 import com.rockon999.android.leanbacklauncher.R;
-import com.rockon999.android.leanbacklauncher.util.Partner;
 import com.rockon999.android.leanbacklauncher.util.Util;
 import com.rockon999.android.leanbacklauncher.wallpaper.AnimatedLayer.AnimationListener;
 import com.rockon999.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
@@ -79,7 +79,7 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
                     break;
                 case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager /*2*/:
                     PendingUpdateData args = (PendingUpdateData) msg.obj;
-                    if(args != null)
+                    if (args != null)
                         LauncherWallpaper.this.setOverlayBackground(args.image, args.uri);
                     break;
                 case android.support.v7.preference.R.styleable.Preference_android_layout /*3*/:
@@ -150,10 +150,8 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
         this.mDimmer = ColorFilterDimmer.create(ColorFilterCache.getColorFilterCache(backgroundColor), 0.0f, this.mScrollDarkeningAmount);
         this.mWallpaperDelay = getResources().getInteger(R.integer.wallpaper_update_delay);
         this.mWallpaperFetchTimeout = getResources().getInteger(R.integer.wallpaper_fetch_timeout);
-        Bitmap maskBitmap = Partner.get(context).getSystemBackgroundMask();
-        if (maskBitmap == null) {
-            maskBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_protection);
-        }
+        Bitmap maskBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_protection);
+
         DisplayMetrics metrics = Util.getDisplayMetrics(context);
         this.mBitmapDownloader.registerPostProc(R.drawable.bg_protection, new BackgroundImagePostProcessor(context.getResources(), maskBitmap, metrics.widthPixels, metrics.heightPixels));
     }
@@ -211,10 +209,7 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
         this.mVideoFadeMask = (FadeMaskView) findViewById(R.id.video_fade_mask);
         this.mVideoFadeMaskExt = (ImageView) findViewById(R.id.video_fade_mask_extension);
         if (this.mVideoFadeMask != null) {
-            Bitmap videoMask = Partner.get(getContext()).getSystemBackgroundVideoMask();
-            if (videoMask == null) {
-                videoMask = BitmapFactory.decodeResource(getResources(), R.drawable.bg_protection_video);
-            }
+            Bitmap videoMask = BitmapFactory.decodeResource(getResources(), R.drawable.bg_protection_video);
             this.mVideoFadeMask.setBitmap(videoMask);
         }
         this.mOverlay.setAnimationListener(this);

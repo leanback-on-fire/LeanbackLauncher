@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.util.Log;
 import android.util.SparseArray;
+
 import java.lang.ref.SoftReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,13 +22,13 @@ public class RecycleBitmapPool {
     }
 
     public RecycleBitmapPool() {
-        this.mRecycled8888 = new SparseArray();
+        this.mRecycled8888 = new SparseArray<>();
     }
 
     public static int getSize(Bitmap bitmap) {
         if (sGetAllocationByteCount != null) {
             try {
-                return (Integer) sGetAllocationByteCount.invoke(bitmap, new Object[0]);
+                return (Integer) sGetAllocationByteCount.invoke(bitmap);
             } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException e) {
                 Log.e("RecycleBitmapPool", "getAllocationByteCount() failed", e);
                 sGetAllocationByteCount = null;

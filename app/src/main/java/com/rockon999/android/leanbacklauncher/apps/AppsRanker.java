@@ -11,7 +11,6 @@ import android.util.Log;
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.apps.AppsDbHelper.Listener;
 import com.rockon999.android.leanbacklauncher.logging.LoggingUtils;
-import com.rockon999.android.leanbacklauncher.util.Partner;
 import com.rockon999.android.leanbacklauncher.util.Util;
 
 import java.io.PrintWriter;
@@ -27,7 +26,7 @@ import java.util.Queue;
 public class AppsRanker implements Listener {
     private static boolean DEBUG;
     private static String TAG;
-    private static AppsRanker sAppsRanker;
+    private static AppsRanker sAppsRanker; // todo remove memory leak
     private final Queue<CachedAction> mCachedActions;
     private Context mContext;
     private AppsDbHelper mDbHelper;
@@ -117,7 +116,7 @@ public class AppsRanker implements Listener {
         private WeakReference<AppsRanker> mAppsRankerRef;
 
         public SharedPreferencesChangeListener(AppsRanker appsRanker) {
-            this.mAppsRankerRef = new WeakReference(appsRanker);
+            this.mAppsRankerRef = new WeakReference<>(appsRanker);
         }
 
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -136,9 +135,9 @@ public class AppsRanker implements Listener {
 
     private AppsRanker(Context ctx, AppsDbHelper dbHelper) {
         this.mEntitiesLock = new Object();
-        this.mListeners = new LinkedList();
-        this.mCachedActions = new LinkedList();
-        this.mEntities = new HashMap();
+        this.mListeners = new LinkedList<>();
+        this.mCachedActions = new LinkedList<>();
+        this.mEntities = new HashMap<>();
         this.mSortingMode = SortingModeManager.SortingMode.FIXED;
         this.mLastLaunchPointRankingLogDump = new ArrayList<>();
         this.mContext = ctx;
@@ -274,9 +273,9 @@ public class AppsRanker implements Listener {
         synchronized (this.mEntitiesLock) {
             AppsEntity entity = (AppsEntity) this.mEntities.get(lp.getPackageName());
 
-        if (entity != null) {
-            return (double) entity.getLastOpenedTimeStamp(lp.getComponentName());
-        }
+            if (entity != null) {
+                return (double) entity.getLastOpenedTimeStamp(lp.getComponentName());
+            }
         }
         return -100.0d;
     }
@@ -324,23 +323,14 @@ public class AppsRanker implements Listener {
             }
             if (!Util.initialRankingApplied(this.mContext)) {
                 String[] outOfBoxOrder = this.mContext.getResources().getStringArray(R.array.out_of_box_order);
-                String[] partnerOutOfBoxOrder = Partner.get(this.mContext).getOutOfBoxOrder();
-                int partnerLength = partnerOutOfBoxOrder != null ? partnerOutOfBoxOrder.length : 0;
-                if (outOfBoxOrder != null) {
-                    defaultLength = outOfBoxOrder.length;
-                }
-                int totalOrderings = defaultLength + partnerLength;
-                if (partnerOutOfBoxOrder != null) {
-                    applyOutOfBoxOrdering(partnerOutOfBoxOrder, 0, totalOrderings);
-                }
-                if (outOfBoxOrder != null) {
-                    applyOutOfBoxOrdering(outOfBoxOrder, partnerLength, totalOrderings);
-                }
+
+                applyOutOfBoxOrdering(outOfBoxOrder, 0, defaultLength);
+
                 Util.setInitialRankingAppliedFlag(this.mContext, true);
             }
         }
         while (!this.mListeners.isEmpty()) {
-            ((RankingListener) this.mListeners.remove()).onRankerReady();
+            this.mListeners.remove().onRankerReady();
         }
     }
 
@@ -398,7 +388,7 @@ public class AppsRanker implements Listener {
     }
 
     private void saveEntityOrder(LaunchPoint launchPoint, int position) {
-        AppsEntity e = (AppsEntity) this.mEntities.get(launchPoint.getPackageName());
+        AppsEntity e = this.mEntities.get(launchPoint.getPackageName());
         if (e != null) {
             e.setOrder(launchPoint.getComponentName(), ((long) position) + 1);
         } else {

@@ -25,12 +25,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rockon999.android.leanbacklauncher.LauncherViewHolder;
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.apps.BannerView;
-import com.rockon999.android.leanbacklauncher.util.Partner;
 import com.rockon999.android.leanbacklauncher.widget.RowViewAdapter;
 
 import java.lang.reflect.Field;
@@ -42,7 +40,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 ///import android.hardware.hdmi.HdmiDeviceInfo;
 
@@ -63,7 +60,6 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     private final int mTextColorDark;
     private final int mTextColorLight;
     private final TvInputManager mTvManager;
-    private Map<Integer, Integer> mTypePriorities;
     private final HashMap<String, TvInputInfo> mVirtualTunerInputs;
     private final List<TvInputEntry> mVisibleInputs;
 
@@ -135,7 +131,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         }
 
         public void init(TvInputEntry entry) {
-            this.itemView.setVisibility(0);
+            this.itemView.setVisibility(View.VISIBLE);
             if (entry != null) {
                 boolean connected = entry.isConnected();
                 this.mEnabled = entry.isEnabled();
@@ -156,12 +152,8 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         }
 
         public void onClick(View v) {
-            if (this.mDisconnected) {
-                String toastText = Partner.get(InputsAdapter.this.mContext).getDisconnectedInputToastText();
-                if (!TextUtils.isEmpty(toastText)) {
-                    Toast.makeText(InputsAdapter.this.mContext, toastText, Toast.LENGTH_SHORT).show();
-                }
-            } else if (this.mEnabled) {
+            // todo re-add disable toast?
+            if (this.mEnabled) {
                 super.onClick(v);
             }
         }
@@ -561,7 +553,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     }
 
     static {
-        PHYSICAL_TUNER_BLACK_LIST = new String[]{"com.rockon999.android.videos", "com.rockon999.android.youtube.tv"};
+        PHYSICAL_TUNER_BLACK_LIST = new String[]{ "com.rockon999.android.videos", "com.rockon999.android.youtube.tv"};
     }
 
     public InputsAdapter(Context context, Configuration config) {
@@ -569,10 +561,10 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         this.mIsBundledTunerVisible = false;
         this.mHandler = new C01891();
         this.mComp = new InputsComparator();
-        this.mInputs = new HashMap();
+        this.mInputs = new HashMap<>();
         this.mVisibleInputs = new ArrayList<>();
-        this.mPhysicalTunerInputs = new LinkedHashMap();
-        this.mVirtualTunerInputs = new HashMap();
+        this.mPhysicalTunerInputs = new LinkedHashMap<>();
+        this.mVirtualTunerInputs = new HashMap<>();
         this.mConfig = config;
         this.mTvManager = (TvInputManager) context.getSystemService("tv_input");
         this.mInflater = (LayoutInflater) context.getSystemService("layout_inflater");
@@ -653,7 +645,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     private void showBundledTunerInput(boolean isRefresh) {
         if (!this.mIsBundledTunerVisible) {
-            TvInputEntry bundledTuner = new TvInputEntry(Partner.get(this.mContext).getBundledTunerTitle(), Partner.get(this.mContext).getBundledTunerBanner(), Partner.get(this.mContext).getBundledTunerLabelColorOption(0), -3);
+            TvInputEntry bundledTuner = new TvInputEntry(null, null, 0, -3);
             if (isRefresh) {
                 this.mVisibleInputs.add(bundledTuner);
             } else {
@@ -860,27 +852,10 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     }
 
     private int getPriorityForType(int type) {
-        if (this.mTypePriorities != null) {
-            Integer priority = this.mTypePriorities.get(type);
-            if (priority != null) {
-                return priority;
-            }
-        }
         return Integer.MAX_VALUE;
     }
 
-    private int addToPriorityIfMissing(int key, int priority) {
-        if (this.mTypePriorities.containsKey(key)) {
-            return priority;
-        }
-        int priority2 = priority + 1;
-        this.mTypePriorities.put(key, priority);
-        return priority2;
-    }
-
     private void setupDeviceTypePriorities() {
-        this.mTypePriorities = Partner.get(this.mContext).getInputsOrderMap();
-        int priority = addToPriorityIfMissing(1000, addToPriorityIfMissing(1003, addToPriorityIfMissing(1005, addToPriorityIfMissing(1008, addToPriorityIfMissing(1001, addToPriorityIfMissing(1002, addToPriorityIfMissing(1004, addToPriorityIfMissing(1006, addToPriorityIfMissing(1007, addToPriorityIfMissing(-6, addToPriorityIfMissing(-5, addToPriorityIfMissing(-4, addToPriorityIfMissing(-2, addToPriorityIfMissing(0, addToPriorityIfMissing(-3, this.mTypePriorities.size())))))))))))))));
     }
 
     public Object invokeMethod(String methodName, Object object, Class[] methodParams, Object[] paramValues) {

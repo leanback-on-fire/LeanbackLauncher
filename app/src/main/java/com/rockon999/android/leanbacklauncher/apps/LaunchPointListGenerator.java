@@ -17,9 +17,11 @@ import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.bean.AppInfo;
 import com.rockon999.android.leanbacklauncher.data.ConstData;
 import com.rockon999.android.leanbacklauncher.modle.db.AppInfoService;
+import com.rockon999.android.leanbacklauncher.util.FireTVUtils;
 import com.rockon999.android.leanbacklauncher.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -115,7 +117,7 @@ public class LaunchPointListGenerator {
         }
 
         protected List<LaunchPoint> doInBackground(Void... params) {
-            Set wrap0 = this.mFilterChannelsActivities ? LaunchPointListGenerator.this.getChannelActivities() : null;
+            // Set wrap0 = this.mFilterChannelsActivities ? LaunchPointListGenerator.this.getChannelActivities() : null;
             Intent mainIntent = new Intent("android.intent.action.MAIN");
             mainIntent.addCategory("android.intent.category.LAUNCHER");
 
@@ -131,18 +133,6 @@ public class LaunchPointListGenerator {
             Map<String, String> rawComponents = new HashMap<>();
             List<ResolveInfo> allLaunchPoints = new ArrayList<>();
 
-            if (normLaunchPoints != null && normLaunchPoints.size() > 0) {
-                for (ResolveInfo itemRawLaunchPoint : normLaunchPoints) {
-                    if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
-                        // any system app that isn't TV-optimized likely isn't something the user needs or wants.
-                        if (!Util.isSystemApp(LaunchPointListGenerator.this.mContext, itemRawLaunchPoint.activityInfo.packageName)) { // todo optimize
-                            rawComponents.put(itemRawLaunchPoint.activityInfo.packageName, itemRawLaunchPoint.activityInfo.name);
-                            allLaunchPoints.add(itemRawLaunchPoint);
-                        }
-                    }
-                }
-            }
-
             if (tvLaunchPoints != null && tvLaunchPoints.size() > 0) {
                 for (ResolveInfo itemTvLaunchPoint : tvLaunchPoints) {
                     if (itemTvLaunchPoint.activityInfo != null && itemTvLaunchPoint.activityInfo.packageName != null && itemTvLaunchPoint.activityInfo.name != null) {
@@ -152,30 +142,42 @@ public class LaunchPointListGenerator {
                 }
             }
 
+            if (normLaunchPoints != null && normLaunchPoints.size() > 0) {
+                for (ResolveInfo itemRawLaunchPoint : normLaunchPoints) {
+                    if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
+                        // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
+                        if (!Util.isSystemApp(LaunchPointListGenerator.this.mContext, itemRawLaunchPoint.activityInfo.packageName) || itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.bueller")) { // todo optimize & don't hardcode
+                            if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName)) {
+                                allLaunchPoints.add(itemRawLaunchPoint);
+                            }
+                        }
+                    }
+                }
+            }
+
+
             for (int x = 0, size = allLaunchPoints.size(); x < size; x++) {
                 ResolveInfo info = allLaunchPoints.get(x);
 
                 ActivityInfo activityInfo = info.activityInfo;
 
                 if (activityInfo != null) {
-                    String name = rawComponents.get(activityInfo.packageName);
-
-                    if (name.equals(activityInfo.name)) {
-                        launcherItems.add(new LaunchPoint(LaunchPointListGenerator.this.mContext, pkgMan, info));
-                    }
+                    launcherItems.add(new LaunchPoint(LaunchPointListGenerator.this.mContext, pkgMan, info));
                 }
             }
 
             AppInfoService appInfoService = new AppInfoService();
-            List<AppInfo> recommendAppInfos = appInfoService.getAppInfosByType(4);
+            List<AppInfo> favoriteAppInfos = appInfoService.getAppInfosByType(4);
 
             if (launcherItems.size() > 0) {
                 for (LaunchPoint itemLaunchPoint : launcherItems) {
-                    if (recommendAppInfos.contains(itemLaunchPoint)) { // todo
-                        itemLaunchPoint.setRecommendApp(true);
+                    if (favoriteAppInfos.contains(itemLaunchPoint)) { // todo
+                        itemLaunchPoint.setFavorite(true);
                     }
                 }
             }
+
+            Log.d(TAG, "is anything interesting happening? " + Arrays.toString(launcherItems.toArray(new LaunchPoint[launcherItems.size()])));
 
             return launcherItems;
         }
@@ -346,7 +348,7 @@ public class LaunchPointListGenerator {
                     Integer occurrences = blacklist.get(pkgName);
                     Integer otherOccurrences = (updatable ? this.mNonUpdatableBlacklist : this.mUpdatableBlacklist).get(pkgName);
                     if (occurrences != null) {
-                        occurrences = occurrences.intValue() - 1;
+                        occurrences = occurrences - 1;
                         if (occurrences <= 0 || force) {
                             blacklist.remove(pkgName);
                             if (otherOccurrences == null) {
@@ -432,77 +434,108 @@ public class LaunchPointListGenerator {
         return removeLaunchPoints;
     }
 
-    public ArrayList<LaunchPoint> getGameLaunchPoints() {
-        return getLaunchPoints(false, true);
-    }
-
-    public ArrayList<LaunchPoint> getNonGameLaunchPoints() {
-        return getLaunchPoints(true, false);
+    public ArrayList<LaunchPoint> getLaunchPointsByType(int type) {
+        return getLaunchPoints(type);
     }
 
     public ArrayList<LaunchPoint> getAllLaunchPoints() {
         ArrayList<LaunchPoint> allLaunchPoints = new ArrayList<>();
         if (mAllLaunchPoints != null && mAllLaunchPoints.size() > 0) {
-            for (LaunchPoint lp : mAllLaunchPoints) {
-                allLaunchPoints.add(lp);
-            }
+            allLaunchPoints.addAll(mAllLaunchPoints);
         }
         return allLaunchPoints;
     }
 
-    public ArrayList<LaunchPoint> getRecommendLaunchPoints() {
-        ArrayList<LaunchPoint> recommendLaunchPoints = new ArrayList<>();
-        String firstLoad = StorageUtils.getDataFromSharedPreference(ConstData.SharedKey.IS_FIRST_LOAD_RECOMMEND_APP);
+    public ArrayList<LaunchPoint> getFavoriteLaunchPoints() {
+        ArrayList<LaunchPoint> favoriteLaunchPoints = new ArrayList<>();
+        String firstLoad = StorageUtils.getDataFromSharedPreference(ConstData.SharedKey.IS_FIRST_LOAD_FAVORITE_APP);
         AppInfoService appInfoService = new AppInfoService();
+
         if (TextUtils.isEmpty(firstLoad)) {
             List<AppInfo> saveAppInfos = new ArrayList<>();
-            for (int i = 0; i < ConstData.DEFAULT_RECOMMEND_PACKAGES.length; ++i) {
-                AppInfo itemAppInfo = new AppInfo();
-                itemAppInfo.setAppType(4);
-                itemAppInfo.setPackageName(ConstData.DEFAULT_RECOMMEND_PACKAGES[i]);
-                itemAppInfo.setComponentName(ConstData.DEFAULT_RECOMMEND_ACTIVITIES[i]);
-                saveAppInfos.add(itemAppInfo);
-            }
+
             ArrayList<LaunchPoint> allLauncherPoints = getAllLaunchPoints();
+
             if (allLauncherPoints != null && allLauncherPoints.size() > 0) {
-                List<AppInfo> removedAppInfos = new ArrayList<>();
-                for (AppInfo itemInfo : saveAppInfos) {
-                    if (!allLauncherPoints.contains(itemInfo))
-                        removedAppInfos.add(itemInfo);
+                for (int i = 0; i < ConstData.DEFAULT_FAVORITE_PACKAGES.length; ++i) {
+                    AppInfo itemAppInfo = new AppInfo();
+                    itemAppInfo.setAppType(ConstData.AppType.FAVORITE);
+                    itemAppInfo.setPackageName(ConstData.DEFAULT_FAVORITE_PACKAGES[i]);
+                    itemAppInfo.setComponentName(ConstData.DEFAULT_RECOMMEND_ACTIVITIES[i]);
+
+                    int index = allLauncherPoints.indexOf(itemAppInfo);
+                    if (index >= 0) {
+                        saveAppInfos.add(itemAppInfo);
+                    }
+
                 }
-                saveAppInfos.removeAll(removedAppInfos);
             }
-            appInfoService.deleteByType(4);
+
+            appInfoService.deleteByType(ConstData.AppType.FAVORITE);
             appInfoService.saveAll(saveAppInfos);
-            StorageUtils.saveDataToSharedPreference(ConstData.SharedKey.IS_FIRST_LOAD_RECOMMEND_APP, "true");
+            StorageUtils.saveDataToSharedPreference(ConstData.SharedKey.IS_FIRST_LOAD_FAVORITE_APP, "true");
         }
-        List<AppInfo> appInfos = appInfoService.getAppInfosByType(4);
+
+        List<AppInfo> appInfos = appInfoService.getAppInfosByType(ConstData.AppType.FAVORITE);
+
         if (appInfos != null) {
             for (LaunchPoint itemLaunchPoint : mAllLaunchPoints) {
-                if (appInfos.contains(itemLaunchPoint))
-                    recommendLaunchPoints.add(itemLaunchPoint);
+                if (appInfos.contains(itemLaunchPoint)) {
+                    favoriteLaunchPoints.add(itemLaunchPoint);
+                }
             }
         }
-        recommendLaunchPoints.add(LaunchPoint.createAddItem());
-        return recommendLaunchPoints;
+
+        favoriteLaunchPoints.add(LaunchPoint.createAddItem());
+
+        return favoriteLaunchPoints;
     }
 
-    private ArrayList<LaunchPoint> getLaunchPoints(boolean nonGames, boolean games) {
+    private ArrayList<LaunchPoint> getLaunchPoints(int type) {
         ArrayList<LaunchPoint> launchPoints = new ArrayList<>();
         synchronized (this.mLock) {
-            getLaunchPointsLocked(this.mInstallingLaunchPoints, launchPoints, nonGames, games);
-            getLaunchPointsLocked(this.mAllLaunchPoints, launchPoints, nonGames, games);
+            getLaunchPointsLocked(this.mInstallingLaunchPoints, launchPoints, type);
+            getLaunchPointsLocked(this.mAllLaunchPoints, launchPoints, type);
         }
         return launchPoints;
     }
 
-    private void getLaunchPointsLocked(List<LaunchPoint> parentList, List<LaunchPoint> childList, boolean nonGames, boolean games) {
-        boolean z = nonGames && games;
-        for (LaunchPoint lp : parentList) {
-            if (!isBlacklisted(lp.getPackageName()) && (games == lp.isGame() || z)) {
-                childList.add(lp);
-            }
+    // todo clean up the AppType mess
+    private void getLaunchPointsLocked(List<LaunchPoint> parentList, List<LaunchPoint> childList, int type) {
+        switch (type) {
+            case ConstData.AppType.ALL:
+            case ConstData.AppType.DEFAULT:
+                childList.addAll(getAllLaunchPoints());
+                break;
+            case ConstData.AppType.FAVORITE:
+                childList.addAll(getFavoriteLaunchPoints());
+                break;
+            case ConstData.AppType.GAME:
+                for (LaunchPoint lp : parentList) {
+                    if (!isBlacklisted(lp.getPackageName()) && lp.isGame()) {
+                        childList.add(lp);
+                    }
+                }
+                break;
+            case ConstData.AppType.MUSIC:
+                for (LaunchPoint lp : parentList) {
+                    if (!isBlacklisted(lp.getPackageName()) && lp.getType() == ConstData.AppType.MUSIC) {
+                        childList.add(lp);
+                    }
+                }
+                break;
+            case ConstData.AppType.SETTINGS:
+                childList.addAll(getSettingsLaunchPoints(false));
+                break;
+            case ConstData.AppType.VIDEO:
+                for (LaunchPoint lp : parentList) {
+                    if (!isBlacklisted(lp.getPackageName()) && lp.getType() == ConstData.AppType.VIDEO) {
+                        childList.add(lp);
+                    }
+                }
+                break;
         }
+
     }
 
     public ArrayList<LaunchPoint> getSettingsLaunchPoints(boolean force) {
@@ -573,6 +606,12 @@ public class LaunchPointListGenerator {
 
         lp = new LaunchPoint(this.mContext, "Bluetooth", ConstData.appContext.getDrawable(R.drawable.ic_signal_cellular_cellular_4_bar), intent, 0);
         lp.addLaunchIntentFlags(32768);
+        lp.setSettingsType(1);
+        settingsItems.add(lp);
+
+        lp = new LaunchPoint(this.mContext, "Notifications", ConstData.appContext.getDrawable(R.drawable.ic_settings_notification), FireTVUtils.getNotificationCenterIntent(), 0);
+        lp.addLaunchIntentFlags(32768);
+        lp.setSettingsType(3);
         settingsItems.add(lp);
 
         return settingsItems;

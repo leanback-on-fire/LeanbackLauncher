@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.rockon999.android.leanbacklauncher.notifications.RecommendationCardMetaDataView android:id="@id/metadata" android:layout_width="fill_parent" android:layout_height="@dimen/notif_card_info_height" custom:layout_viewType="info"
+<com.rockon999.android.leanbacklauncher.apps.notifications.RecommendationCardMetaDataView android:id="@id/metadata" android:layout_width="fill_parent" android:layout_height="@dimen/notif_card_info_height" custom:layout_viewType="info"
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:custom="http://schemas.android.com/apk/res-auto">
     <FrameLayout android:id="@id/source_field" android:layout_width="fill_parent" android:layout_height="@dimen/notif_card_info_height" android:layout_alignParentTop="true" android:paddingStart="@dimen/notif_card_info_start_margin" android:layout_toStartOf="@id/badge_frame" android:layout_alignParentStart="true">
@@ -8,7 +8,7 @@
     <FrameLayout android:id="@id/badge_frame" android:paddingBottom="@dimen/notif_card_info_badge_bottom_margin" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_marginStart="@dimen/notif_card_info_badge_start_margin" android:layout_marginEnd="@dimen/notif_card_info_badge_end_margin" android:layout_alignParentEnd="true">
         <ImageView android:id="@id/badge" android:background="@android:color/transparent" android:layout_width="@dimen/notif_card_extra_badge_size" android:layout_height="@dimen/notif_card_extra_badge_size" android:scaleType="fitCenter" android:contentDescription="@null" />
     </FrameLayout>
-    <com.rockon999.android.leanbacklauncher.notifications.PrescaledLayout
+    <com.rockon999.android.leanbacklauncher.apps.notifications.PrescaledLayout
         android:id="@id/selected_metadata_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentStart="true" custom:layout_viewType="info">
         <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
             <RelativeLayout android:id="@id/info_field" android:background="@color/notif_background_color" android:paddingTop="@dimen/notif_card_info_margin_top" android:paddingBottom="@dimen/notif_card_info_margin_bottom" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="@dimen/notif_card_info_start_margin" android:paddingEnd="@dimen/notif_card_info_title_end_margin">
@@ -19,5 +19,5 @@
                 <ImageView android:id="@id/badge_selected" android:background="@android:color/transparent" android:layout_width="@dimen/notif_card_extra_badge_size" android:layout_height="@dimen/notif_card_extra_badge_size" android:scaleType="fitCenter" android:contentDescription="@null" />
             </FrameLayout>
         </FrameLayout>
-    </com.rockon999.android.leanbacklauncher.notifications.PrescaledLayout>
-</com.rockon999.android.leanbacklauncher.notifications.RecommendationCardMetaDataView>
+    </com.rockon999.android.leanbacklauncher.apps.notifications.PrescaledLayout>
+</com.rockon999.android.leanbacklauncher.apps.notifications.RecommendationCardMetaDataView>

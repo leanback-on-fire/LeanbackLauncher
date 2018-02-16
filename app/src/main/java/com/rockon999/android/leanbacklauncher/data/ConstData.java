@@ -30,11 +30,10 @@ public class ConstData {
             Color.parseColor("#009dd0"),
             Color.parseColor("#fdad59"), Color.parseColor("#fe8459"), Color.parseColor("#fe599f"),
             Color.parseColor("#fe5959")};
-    public static final String[] DEFAULT_RECOMMEND_PACKAGES = {"com.google.android.youtube.tv"};
+    public static final String[] DEFAULT_FAVORITE_PACKAGES = {"com.google.android.youtube.tv"};
     public static final String[] DEFAULT_RECOMMEND_ACTIVITIES = {
             "com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.TvGuideActivity"};
-    public static final String SETTINGS_PACKAGE = "com.android.tv.settings";
-    public static final String SETTINGS_ACTIVITY = "com.android.tv.settings.MainSettings";
+    public static final String SETTINGS_PACKAGE = "com.amazon.tv.settings";
 
     public static final int APP_ROW_COUNT = 10;
     public static final int APP_COL_COUNT = 10;
@@ -54,15 +53,28 @@ public class ConstData {
         int ETHERNET = 2;
     }
 
-
     public interface AppType {
-        int RECOMMENDED = 0;
-        int VIDEO = 1;
-        int MUSIC = 2;
+        int DEFAULT = 0;
+        int SETTINGS = 2;
         int ALL = 3;
+        int FAVORITE = 4;
+        int VIDEO = 6;
+        int MUSIC = 7;
+        int GAME = 8;
+
+    }
+
+    public interface RowType {
+        int SYSTEM_UI = 0;
+        int ALL_APPS = 3;
+        int SETTINGS = 5;
+        int FAVORITE = 8;
+        int VIDEO = 9;
+        int MUSIC = 10;
+        int INPUTS = 6;
     }
 
     public interface SharedKey {
-        String IS_FIRST_LOAD_RECOMMEND_APP = "is_first_load_recommend_app";
+        String IS_FIRST_LOAD_FAVORITE_APP = "is_first_load_favorite_app";
     }
 }

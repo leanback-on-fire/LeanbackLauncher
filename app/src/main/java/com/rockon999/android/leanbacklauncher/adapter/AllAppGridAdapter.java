@@ -24,6 +24,7 @@ public class AllAppGridAdapter extends ArrayAdapter<LaunchPoint> {
     private Context mContext;
     private int mResourceId;
     private LayoutInflater mInflator;
+
     public AllAppGridAdapter(Context context, int resource, List<LaunchPoint> objects) {
         super(context, resource, objects);
         mResourceId = resource;
@@ -36,6 +37,7 @@ public class AllAppGridAdapter extends ArrayAdapter<LaunchPoint> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View itemView = convertView;
         ViewHolder holder;
+
         if(itemView == null){
             itemView = mInflator.inflate(mResourceId, parent, false);
             holder = new ViewHolder();
@@ -46,12 +48,15 @@ public class AllAppGridAdapter extends ArrayAdapter<LaunchPoint> {
         }else{
             holder = (ViewHolder) itemView.getTag();
         }
+
         LaunchPoint launchPoint = getItem(position);
+
         if(launchPoint != null){
             holder.appIcon.setImageDrawable(launchPoint.getIconDrawable());
-            holder.selectBox.setChecked(launchPoint.isRecommendApp());
+            holder.selectBox.setChecked(launchPoint.isFavorited());
             holder.textTitle.setText(launchPoint.getTitle());
         }
+
         return itemView;
     }
 

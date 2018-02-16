@@ -77,7 +77,7 @@ public final class MessageNanoPrinter {
                         } else {
                             valueOf = str2.concat(valueOf);
                         }
-                        if ((Boolean) clazz.getMethod(valueOf, new Class[0]).invoke(object, new Object[0])) {
+                        if ((Boolean) clazz.getMethod(valueOf, new Class[0]).invoke(object)) {
                             try {
                                 str2 = "get";
                                 valueOf = String.valueOf(subfieldName);

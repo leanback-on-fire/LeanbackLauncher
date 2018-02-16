@@ -778,7 +778,7 @@ public class DialogFragment extends Fragment {
         View actionContainerView = dialogView.findViewById(R.id.action_fragment);
         View listView = (View) actionView.getTag(R.id.list);
         View selectorView = (View) actionView.getTag(R.id.selector);
-        ArrayList<Animator> animators = new ArrayList();
+        ArrayList<Animator> animators = new ArrayList<>();
         addContentViewAnimations(contentView, nextAnim, animators);
         switch (nextAnim) {
             case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:

@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.rockon999.android.leanbacklauncher.ActiveItemsRowView;
 import com.rockon999.android.leanbacklauncher.DimmableItem;
 import com.rockon999.android.leanbacklauncher.R;
@@ -41,6 +42,11 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     private AppsAdapter.AppViewHolder mViewHolder;
     public boolean mIsAddItem;
     private int mBannerBackColor = -1;
+
+    public AppsAdapter.AppViewHolder getViewHolder() {
+        return mViewHolder;
+    }
+
     /* renamed from: BannerView.1 */
     class C01841 implements Runnable {
         C01841() {
@@ -236,7 +242,7 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     }
 
     public boolean onLongClick(View v) {
-        if(v instanceof BannerView && ((BannerView)v).mIsAddItem)
+        if (v instanceof BannerView && ((BannerView) v).mIsAddItem)
             return true;
         Log.i(TAG, "onLongClick->v->className:" + v.getClass().getName());
         if (isEditable() && !this.mEditMode) {
@@ -321,11 +327,11 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
         this.mDimmer.setAnimationEnabled(enabled);
     }
 
-    public void setBannerBackColor(int bannerBackColor){
+    public void setBannerBackColor(int bannerBackColor) {
         mBannerBackColor = bannerBackColor;
     }
 
-    public int getBannerBackColor(){
+    public int getBannerBackColor() {
         return mBannerBackColor;
     }
 }

@@ -7,9 +7,7 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProviderInfo;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -50,13 +48,16 @@ import com.rockon999.android.leanbacklauncher.animation.MassSlideAnimator.Direct
 import com.rockon999.android.leanbacklauncher.animation.ParticipatesInLaunchAnimation;
 import com.rockon999.android.leanbacklauncher.apps.AppsAdapter;
 import com.rockon999.android.leanbacklauncher.apps.AppsRanker;
+import com.rockon999.android.leanbacklauncher.apps.BannerView;
 import com.rockon999.android.leanbacklauncher.apps.LaunchPoint;
 import com.rockon999.android.leanbacklauncher.apps.LaunchPointListGenerator;
 import com.rockon999.android.leanbacklauncher.apps.OnEditModeChangedListener;
+import com.rockon999.android.leanbacklauncher.apps.notifications.NotificationListenerMonitor;
+import com.rockon999.android.leanbacklauncher.data.ConstData;
 import com.rockon999.android.leanbacklauncher.logging.LeanbackLauncherEventLogger;
 import com.rockon999.android.leanbacklauncher.modle.db.AppInfoService;
 import com.rockon999.android.leanbacklauncher.recline.util.DrawableDownloader;
-import com.rockon999.android.leanbacklauncher.util.Partner;
+import com.rockon999.android.leanbacklauncher.settings.AppInfoActivity;
 import com.rockon999.android.leanbacklauncher.util.ReflectUtils;
 import com.rockon999.android.leanbacklauncher.util.Util;
 import com.rockon999.android.leanbacklauncher.wallpaper.LauncherWallpaper;
@@ -104,13 +105,12 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     private boolean mUserInteracted;
     private LauncherWallpaper mWallpaper;
 
-    private LinearLayout mLayoutNetworkContainer;
     private RelativeLayout mLayoutLoading;
     private GridView mAllAppGridView;
     private AllAppGridAdapter mAllAppGridAdapter;
     private List<LaunchPoint> mAllLaunchPoints;
     /**
-     * 是否是第一次加载
+     * Whether the launcher is being loaded for the first time...
      */
     private boolean mIsFirstLoad = true;
     /**
@@ -132,8 +132,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     /* renamed from: MainActivity.2 */
-    class C01592 implements Runnable {
-        C01592() {
+    class ResetLaunchAnimation implements Runnable {
+        ResetLaunchAnimation() {
         }
 
         public void run() {
@@ -185,8 +185,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
 
     /* renamed from: MainActivity.5 */
-    class C01625 extends BroadcastReceiver {
-        C01625() {
+    class PackageUpdateReceiver extends BroadcastReceiver {
+        PackageUpdateReceiver() {
         }
 
         public void onReceive(Context context, Intent intent) {
@@ -288,7 +288,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     public MainActivity() {
         this.mRefreshHomeAdapter = new C01581();
-        this.mMoveTaskToBack = new C01592();
+        this.mMoveTaskToBack = new ResetLaunchAnimation();
         this.mLaunchAnimation = new AnimatorLifecycle();
         this.mEditModeAnimation = new AnimatorLifecycle();
         this.mPauseAnimation = new AnimatorLifecycle();
@@ -296,7 +296,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mUserInteracted = false;
         this.mHandler = new C01603();
 
-        this.mPackageReplacedReceiver = new C01625();
+        this.mPackageReplacedReceiver = new PackageUpdateReceiver();
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,9 +307,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         Context appContext = getApplicationContext();
         DrawableDownloader.getInstance(appContext);
         setContentView(R.layout.activity_main);
-        this.mAccessibilityManager = (AccessibilityManager) getSystemService("accessibility");
+        this.mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
         this.mAppsRanker = AppsRanker.getInstance(this);
         this.mLaunchPointListGenerator = new LaunchPointListGenerator(this);
+        this.mLaunchPointListGenerator.addToBlacklist(BuildConfig.APPLICATION_ID, false);
         mLayoutLoading = (RelativeLayout) findViewById(R.id.layout_loading);
         mAllAppGridView = (AllAppGridView) findViewById(R.id.grid_all_app);
         this.mEditModeView = (EditModeView) findViewById(R.id.edit_mode_view);
@@ -337,6 +338,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         if (notifIndex != -1) {
             this.mList.setSelectedPosition(notifIndex);
         }
+        this.mList.setOnHierarchyChangeListener(new C01656());
         this.mList.addOnScrollListener(new C01667());
         this.mShyMode = true;
         setShyMode(!this.mShyMode, true);
@@ -345,13 +347,14 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mFadeDismissAndSummonAnimations = getResources().getBoolean(R.bool.app_launch_animation_fade);
         this.mKeepUiReset = true;
         this.mHomeAdapter.onInitUi();
-        //this.mGoogleApiClient = new Builder(appContext).addApi(ClearcutLogger.API).build();
         this.mEventLogger = LeanbackLauncherEventLogger.getInstance(appContext);
-        //this.mEventLogger.setGoogleApiClient(this.mGoogleApiClient);
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.PACKAGE_REPLACED");
         filter.addDataScheme("package");
         registerReceiver(this.mPackageReplacedReceiver, filter);
+
+        startService(new Intent(this, NotificationListenerMonitor.class));
+
     }
 
     public void onDestroy() {
@@ -579,9 +582,6 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             this.mLaunchAnimation.schedule();
         }
         this.mStartingEditMode = false;
-      /*  if (this.mGoogleApiClient != null) {
-            this.mGoogleApiClient.connect();
-        }*/
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -694,11 +694,6 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         setShyMode(false, false);
         this.mHomeAdapter.sortRowsIfNeeded(false);
         this.mLaunchAnimation.reset();
-        /*
-        if (this.mGoogleApiClient != null) {
-            boolean flushResult = this.mEventLogger.flush();
-            this.mGoogleApiClient.disconnect();
-        }*/
     }
 
     public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
@@ -783,17 +778,18 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                         rowView.setVisibility(View.VISIBLE);
                     }
                 }
-                //重新保存至数据库
+                // Save the database again...
                 if (mAllLaunchPoints != null && mAllLaunchPoints.size() > 0) {
                     List<LaunchPoint> selectLaunchPoints = new ArrayList<>();
                     for (LaunchPoint itemLaunchPoint : mAllLaunchPoints) {
-                        if (itemLaunchPoint.isRecommendApp())
+                        if (itemLaunchPoint.isFavorited()) {
                             selectLaunchPoints.add(itemLaunchPoint);
+                        }
                     }
                     Log.i(TAG, "selectLaunchPoints->size:" + selectLaunchPoints.size());
                     AppInfoService appInfoService = new AppInfoService();
-                    appInfoService.deleteByType(4);
-                    appInfoService.saveByLaunchPoints(selectLaunchPoints, 4);
+                    appInfoService.deleteByType(ConstData.AppType.FAVORITE);
+                    appInfoService.saveByLaunchPoints(selectLaunchPoints, ConstData.AppType.FAVORITE);
                 }
                 mHomeAdapter.refreshAdapterData();
                 return true;
@@ -830,14 +826,41 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU && this.mAllAppGridView.getVisibility() != View.VISIBLE) {
+            View selectItem = mList.getFocusedChild();
+
+            if (selectItem instanceof ActiveFrame) {
+                ActiveItemsRowView v = ((ActiveFrame) selectItem).mRow;
+                View child = v.getCurView();
+
+                if (child instanceof BannerView) {
+                    BannerView banner = (BannerView) child;
+                    AppsAdapter.AppViewHolder holder = banner.getViewHolder();
+                    String pkg = holder.getPackageName();
+
+                    Intent intent = new Intent(this, AppInfoActivity.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("pkg", pkg);
+                    intent.putExtras(bundle);
+
+                    startActivity(intent);
+                }
+
+            }
+
+            return true;
+        }
+
         if (this.mShyMode || !isMediaKey(event.getKeyCode())) {
             return super.onKeyUp(keyCode, event);
         }
+
         switch (keyCode) {
-            case 79:
-            case 85:
-            case 86:
-            case 127:
+            case KeyEvent.KEYCODE_HEADSETHOOK:
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_STOP:
+            case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 setShyMode(true, true);
                 break;
         }
@@ -847,48 +870,16 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     private void addWidget(boolean refresh) {
         ViewGroup wrapper = (LinearLayout) findViewById(R.id.widget_wrapper);
         if (wrapper != null) {
-            mLayoutNetworkContainer = (LinearLayout) wrapper.findViewById(R.id.layout_network_container);
             if (refresh || this.mAppWidgetHostView == null) {
                 int childCount = wrapper.getChildCount();
                 Log.i(TAG, "addWidget->childCount:" + childCount);
                 wrapper.removeAllViews();
-                wrapper.addView(mLayoutNetworkContainer);
 
-                boolean z = false;
                 int appWidgetId = Util.getWidgetId(this);
-                ComponentName appWidgetComp = Partner.get(this).getWidgetComponentName();
-                if (appWidgetComp != null) {
-                    for (AppWidgetProviderInfo appWidgetInfo : this.mAppWidgetManager.getInstalledProviders()) {
-                        if (appWidgetComp.equals(appWidgetInfo.provider)) {
-                            z = appWidgetId != 0;
-                            if (z && !appWidgetComp.equals(Util.getWidgetComponentName(this))) {
-                                clearWidget(appWidgetId);
-                                z = false;
-                            }
-                            if (!z) {
-                                int width = (int) getResources().getDimension(R.dimen.widget_width);
-                                int height = (int) getResources().getDimension(R.dimen.widget_height);
-                                Bundle options = new Bundle();
-                                options.putInt("appWidgetMinWidth", width);
-                                options.putInt("appWidgetMaxWidth", width);
-                                options.putInt("appWidgetMinHeight", height);
-                                options.putInt("appWidgetMaxHeight", height);
-                                appWidgetId = this.mAppWidgetHost.allocateAppWidgetId();
-                                z = this.mAppWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, appWidgetInfo.provider, options);
-                            }
-                            if (z) {
-                                this.mAppWidgetHostView = this.mAppWidgetHost.createView(this, appWidgetId, appWidgetInfo);
-                                this.mAppWidgetHostView.setAppWidget(appWidgetId, appWidgetInfo);
-                                wrapper.addView(this.mAppWidgetHostView);
-                                Util.setWidget(this, appWidgetId, appWidgetInfo.provider);
-                            }
-                        }
-                    }
-                }
-                if (!z) {
-                    clearWidget(appWidgetId);
-                    wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrapper)); // todo 2nd arg added from null
-                }
+
+                clearWidget(appWidgetId);
+                wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrapper));
+
                 return;
             }
             ViewGroup parent = (ViewGroup) this.mAppWidgetHostView.getParent();
@@ -897,9 +888,6 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                     parent.removeView(this.mAppWidgetHostView);
                 }
                 wrapper.removeAllViews();
-
-                if (mLayoutNetworkContainer != null)
-                    wrapper.addView(mLayoutNetworkContainer);
 
                 wrapper.addView(this.mAppWidgetHostView);
             }
@@ -984,7 +972,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         dummyIntent.setClass(this, DummyActivity.class);
         firstRun = PendingIntent.getActivity(this, 0, dummyIntent, 536870912) == null;
         if (firstRun) {
-            ((AlarmManager) getSystemService("alarm")).set(2, SystemClock.elapsedRealtime() + 711573504, PendingIntent.getActivity(this, 0, dummyIntent, 0));
+            ((AlarmManager) getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 711573504, PendingIntent.getActivity(this, 0, dummyIntent, 0));
         }
         return firstRun;
     }
@@ -1097,11 +1085,12 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         LaunchPoint selectItem = mAllAppGridAdapter.getItem(position);
+
         if (selectItem != null) {
-            boolean isRecommend = selectItem.isRecommendApp();
-            selectItem.setRecommendApp(!isRecommend);
+            boolean isRecommend = selectItem.isFavorited();
+            selectItem.setFavorite(!isRecommend);
             CheckBox selectBox = (CheckBox) view.findViewById(R.id.check_select);
-            selectBox.setChecked(isRecommend);
+            selectBox.setChecked(selectItem.isFavorited());
         }
     }
 
@@ -1114,7 +1103,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             for (int i = 0; i < itemCount; ++i) {
                 Log.i(TAG, "run1");
                 RecyclerView.Adapter<?> rowAdapter = visibleRows.get(i).getAdapter();
-                if (rowAdapter instanceof AppsAdapter && ((AppsAdapter) rowAdapter).getAppType() == 0 && rowAdapter.getItemCount() > 0) {
+                if (rowAdapter instanceof AppsAdapter && ((AppsAdapter) rowAdapter).getAppType() == ConstData.AppType.ALL && rowAdapter.getItemCount() > 0) {
                     mLayoutLoading.setVisibility(View.GONE);
                     mList.setVisibility(View.VISIBLE);
                     mTimerHandler.removeCallbacks(this);

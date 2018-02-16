@@ -19,8 +19,8 @@ public class AppsEntity {
     }
 
     public AppsEntity(Context ctx, AppsDbHelper helper, String packageName) {
-        this.mLastOpened = new HashMap();
-        this.mOrder = new HashMap();
+        this.mLastOpened = new HashMap<>();
+        this.mOrder = new HashMap<>();
         this.mDbHelper = helper;
         this.mPackageName = packageName;
     }

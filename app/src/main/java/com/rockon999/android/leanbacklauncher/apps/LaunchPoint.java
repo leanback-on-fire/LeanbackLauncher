@@ -14,17 +14,16 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.data.ConstData;
+import com.rockon999.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
+import com.rockon999.android.leanbacklauncher.recline.util.DrawableDownloader;
 import com.rockon999.android.leanbacklauncher.util.ApplicationInfo;
 import com.rockon999.android.leanbacklauncher.util.Util;
-import com.rockon999.android.leanbacklauncher.recline.util.DrawableDownloader;
-import com.rockon999.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
 
 import java.io.File;
 import java.util.Date;
@@ -55,17 +54,25 @@ public class LaunchPoint extends ApplicationInfo {
     protected int mSettingsType;
     protected boolean mTranslucentTheme;
     /**
-     * 是否是添加项
+     * Whether this app is the favorites add item.
      */
     private boolean mIsAddItem;
     /**
-     * 是否是设置项
+     * Whether this app is a settings item.
      */
     private boolean mIsSettingsItem;
     /**
-     * 是否是收藏APP
+     * Whether this app is a user favorite.
      */
-    private boolean mIsRecommendApp;
+    private boolean mIsFavorited;
+    /**
+     * A rudimentary system for distinguising app types.
+     */
+    private int mAppType;
+
+    public int getType() {
+        return mAppType;
+    }
 
     /* renamed from: LaunchPoint.1 */
     class C01861 extends DrawableDownloader.BitmapCallback {
@@ -103,8 +110,7 @@ public class LaunchPoint extends ApplicationInfo {
     public LaunchPoint(Context context, String appTitle, String iconUrl, String pkgName, Intent launchIntent, boolean isGame, InstallingLaunchPointListener listener) {
         this(context, appTitle, null, launchIntent, context.getResources().getColor(R.color.app_launch_ripple_default_color));
         this.mPackageName = pkgName;
-        //this.mIsGame = isGame;
-        this.mIsGame = false;
+        this.mIsGame = isGame;
         this.mListener = listener;
         this.mIsInitialInstall = true;
         this.mPackageInstallTime = new Date().getTime();
@@ -189,8 +195,57 @@ public class LaunchPoint extends ApplicationInfo {
             }
         }
 
-        // z = (actInfo.applicationInfo.flags & 33554432) == 0 ? actInfo.applicationInfo.metaData != null ? actInfo.applicationInfo.metaData.getBoolean("isGame", false) : false : true;
-        this.mIsGame = false;
+        if (actInfo != null) {
+            this.mIsGame = (actInfo.applicationInfo.flags & 33554432) != 0 || (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false));
+        } else {
+            this.mIsGame = false;
+        }
+
+        // todo move out of LaunchPoint
+
+        String[] videoFilter = new String[]{
+                "video",
+                "netflix",
+                "youtube",
+                "twitter",
+                "twittertv",
+                "hbo",
+                "disney",
+                "starz",
+                "foxnews",
+                "twitch",
+                "mtv",
+                "showtime",
+                "dramafever",
+                "cbs",
+                "hulu"
+        };
+
+        String[] musicFilter = new String[]{
+                "music",
+                "spotify",
+                "pandora"
+        };
+
+        String pkg = this.getPackageName().toLowerCase();
+
+        for (String s : videoFilter) {
+            if (pkg.contains(s)) {
+                this.mAppType = ConstData.AppType.VIDEO;
+                break;
+            }
+        }
+
+        for (String s : musicFilter) {
+            if (pkg.contains(s)) {
+                this.mAppType = ConstData.AppType.MUSIC;
+                break;
+            }
+        }
+
+        if (this.mIsGame) {
+            this.mAppType = ConstData.AppType.GAME;
+        }
 
         if (this.mBannerDrawable != null) {
             this.mHasBanner = true;
@@ -465,12 +520,12 @@ public class LaunchPoint extends ApplicationInfo {
         this.mIsAddItem = isAddItem;
     }
 
-    public boolean isRecommendApp() {
-        return mIsRecommendApp;
+    public boolean isFavorited() {
+        return mIsFavorited;
     }
 
-    public void setRecommendApp(boolean isRecommendApp) {
-        mIsRecommendApp = isRecommendApp;
+    public void setFavorite(boolean isFavorited) {
+        mIsFavorited = isFavorited;
     }
 
     /**

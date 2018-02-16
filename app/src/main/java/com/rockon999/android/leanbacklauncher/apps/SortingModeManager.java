@@ -2,7 +2,6 @@ package com.rockon999.android.leanbacklauncher.apps;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import com.rockon999.android.leanbacklauncher.util.Partner;
 
 public class SortingModeManager {
 
@@ -12,7 +11,7 @@ public class SortingModeManager {
     }
 
     public static SortingMode getSavedSortingMode(Context context) {
-        return SortingMode.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString("apps_ranker_sorting_mode", Partner.get(context).getAppSortingMode().toString()));
+        return SortingMode.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString("apps_ranker_sorting_mode", SortingModeManager.SortingMode.FIXED.toString())); // todo check this
     }
 
     public static void saveSortingMode(Context context, SortingMode mode) {

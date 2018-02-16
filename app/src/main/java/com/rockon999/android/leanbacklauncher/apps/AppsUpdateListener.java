@@ -86,47 +86,35 @@ public class AppsUpdateListener implements PackageChangedReceiver.Listener, Inst
 
     public void onPackageAdded(String packageName) {
         Log.i(TAG, "onPackageAdded->packageName:" + packageName);
-        /*this.mAppsRanker.onAction(packageName, 0);
-        this.mLaunchPointGen.addOrUpdatePackage(packageName);
-        checkForSearchChanges(packageName);*/
+
         this.mLaunchPointGen.refreshLaunchPointList();
     }
 
     public void onPackageChanged(String packageName) {
         Log.i(TAG, "onPackageChanged->packageName:" + packageName);
-       /* Partner.resetIfNecessary(this.mContext, packageName);
-        this.mLaunchPointGen.addOrUpdatePackage(packageName);
-        checkForSearchChanges(packageName);*/
+
         this.mLaunchPointGen.refreshLaunchPointList();
     }
 
     public void onPackageFullyRemoved(String packageName) {
         Log.i(TAG, "onPackageFullyRemoved->packageName:" + packageName);
-      /*  this.mAppsRanker.onAction(packageName, 3);
-        Partner.resetIfNecessary(this.mContext, packageName);
-        this.mLaunchPointGen.removePackage(packageName);*/
-        //checkForSearchChanges(packageName);
+
         this.mLaunchPointGen.refreshLaunchPointList();
     }
 
     public void onPackageRemoved(String packageName) {
         Log.i(TAG, "onPackageRemoved->packageName:" + packageName);
-      /*  Partner.resetIfNecessary(this.mContext, packageName);
-        this.mLaunchPointGen.removePackage(packageName);
-        if (!(this.mSearchChangeListener == null || packageName == null || !packageName.equalsIgnoreCase(this.mSearchPackageName))) {
-            this.mSearchChangeListener.onSearchPackageChanged();
-        }
-        checkForSearchChanges(packageName);*/
+
         this.mLaunchPointGen.refreshLaunchPointList();
     }
 
     public void onPackageReplaced(String packageName) {
         Log.i(TAG, "onPackageReplaced->packageName:" + packageName);
-        /*Partner.resetIfNecessary(this.mContext, packageName);
-        this.mLaunchPointGen.addOrUpdatePackage(packageName);*/
+
         this.mLaunchPointGen.refreshLaunchPointList();
     }
 
+    // todo look into this method
     private void checkForSearchChanges(String packageName) {
         if (this.mSearchChangeListener != null && packageName != null && packageName.equalsIgnoreCase(this.mSearchPackageName)) {
             this.mSearchChangeListener.onSearchPackageChanged();

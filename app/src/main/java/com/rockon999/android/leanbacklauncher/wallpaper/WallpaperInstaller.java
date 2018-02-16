@@ -18,12 +18,12 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.rockon999.android.leanbacklauncher.R;
-import com.rockon999.android.leanbacklauncher.util.Partner;
 import com.rockon999.android.leanbacklauncher.util.Util;
+
 import java.io.IOException;
 
 public class WallpaperInstaller {
-    private static WallpaperInstaller sInstance;
+    private static WallpaperInstaller sInstance; // todo remove memory leak
     private Context mContext;
     private boolean mInstallationPending;
     private boolean mInstallingWallpaper;
@@ -75,11 +75,7 @@ public class WallpaperInstaller {
 
     public Bitmap getWallpaperBitmap() {
         Resources resources = this.mContext.getResources();
-        Partner partner = Partner.get(this.mContext);
-        Drawable systemBg = partner.getSystemBackground();
-        if (systemBg == null) {
-            systemBg = resources.getDrawable(R.drawable.bg_default, null);
-        }
+        Drawable systemBg = resources.getDrawable(R.drawable.bg_default, null);
         int intrinsicWidth = systemBg.getIntrinsicWidth();
         int intrinsicHeight = systemBg.getIntrinsicHeight();
         int wallpaperWidth = Util.getDisplayMetrics(this.mContext).widthPixels;
@@ -91,10 +87,8 @@ public class WallpaperInstaller {
         systemBg.draw(canvas);
 
 
-        Bitmap maskBitmap = partner.getSystemBackgroundMask();
-        if (maskBitmap == null) {
-            maskBitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_protection);
-        }
+        Bitmap maskBitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_protection);
+
         BitmapDrawable maskDrawable = new BitmapDrawable(resources, maskBitmap);
         maskDrawable.setTileModeX(TileMode.REPEAT);
         maskDrawable.setTileModeY(TileMode.CLAMP);

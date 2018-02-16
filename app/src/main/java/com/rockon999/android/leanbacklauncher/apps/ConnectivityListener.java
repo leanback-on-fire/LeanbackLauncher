@@ -72,7 +72,7 @@ public class ConnectivityListener {
         private WeakReference<ConnectivityListener> mListener;
 
         public LeanbackLauncherPhoneStateListener(ConnectivityListener listener) {
-            this.mListener = new WeakReference(listener);
+            this.mListener = new WeakReference<>(listener);
         }
 
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {

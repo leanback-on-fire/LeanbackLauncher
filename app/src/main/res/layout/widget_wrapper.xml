@@ -9,10 +9,4 @@
     android:focusable="false"
     android:gravity="end|center|top"
     android:orientation="horizontal">
-    <LinearLayout
-        android:id="@+id/layout_network_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-    </LinearLayout>
 </LinearLayout>

@@ -172,6 +172,7 @@
     <item type="id" name="guidance_description">false</item>
     <item type="id" name="guidedactions_root">false</item>
     <item type="id" name="guidedactions_list_background">false</item>
+    <item type="id" name="guidedactions_sub_list_background">false</item>
     <item type="id" name="guidedactions_content">false</item>
     <item type="id" name="guidedactions_list">false</item>
     <item type="id" name="guidedactions_sub_list">false</item>

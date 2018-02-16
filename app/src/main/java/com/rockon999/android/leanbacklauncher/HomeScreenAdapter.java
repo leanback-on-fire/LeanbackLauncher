@@ -30,8 +30,8 @@ import com.rockon999.android.leanbacklauncher.apps.ConnectivityListener.Listener
 import com.rockon999.android.leanbacklauncher.apps.LaunchPointListGenerator;
 import com.rockon999.android.leanbacklauncher.apps.OnEditModeChangedListener;
 import com.rockon999.android.leanbacklauncher.apps.SettingsAdapter;
+import com.rockon999.android.leanbacklauncher.data.ConstData;
 import com.rockon999.android.leanbacklauncher.inputs.InputsAdapter;
-import com.rockon999.android.leanbacklauncher.util.Partner;
 import com.rockon999.android.leanbacklauncher.util.Preconditions;
 import com.rockon999.android.leanbacklauncher.widget.EditModeView;
 
@@ -54,12 +54,11 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     private InputsAdapter mInputsAdapter;
     private final LaunchPointListGenerator mLaunchPointListGenerator;
     private final MainActivity mMainActivity;
-    private final Partner mPartner;
 
     private BroadcastReceiver mReceiver;
 
     private final HomeScrollManager mScrollManager;
-    private SearchOrbView mSearch;
+    protected SearchOrbView mSearch;
     private final SettingsAdapter mSettingsAdapter;
     private ArrayList<HomeScreenRow> mVisRowsList;
 
@@ -120,14 +119,13 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     }
 
     public HomeScreenAdapter(MainActivity context, HomeScrollManager scrollMgr, LaunchPointListGenerator launchPointListGenerator, EditModeView editModeView, AppsRanker appsRanker) {
-        this.mHeaders = new SparseArray(7);
+        this.mHeaders = new SparseArray<>(7);
         this.mAllRowsList = new ArrayList<>(7);
         this.mVisRowsList = new ArrayList<>(7);
         this.mMainActivity = Preconditions.checkNotNull(context);
         this.mScrollManager = Preconditions.checkNotNull(scrollMgr);
         this.mLaunchPointListGenerator = Preconditions.checkNotNull(launchPointListGenerator);
         this.mAppsRanker = appsRanker;
-        this.mPartner = Partner.get(this.mMainActivity);
         this.mInflater = LayoutInflater.from(context);
         this.mAppRefresher = new AppsUpdateListener(this.mMainActivity, this.mLaunchPointListGenerator, this.mAppsRanker);
 
@@ -201,25 +199,28 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         return index;
     }
 
+    @Override
     public void onConnectivityChange() {
         this.mSettingsAdapter.onConnectivityChange();
-
     }
 
     private void buildRowList() {
         Resources res = this.mMainActivity.getResources();
-        String partnerFont = this.mPartner.getPartnerFontName();
-        buildRow(0, 0, null, null, null, R.dimen.home_scroll_size_search, false);
-        //推荐
-        buildRow(8, 1, res.getString(R.string.home_collection), null, partnerFont, R.dimen.home_scroll_size_apps, false);
-     /*   //视频
-        buildRow(9, 2,  res.getString(R.string.home_video), null, partnerFont, R.dimen.home_scroll_size_apps, false);
-        //音乐
-        buildRow(10, 3,  res.getString(R.string.home_music), null, partnerFont, R.dimen.home_scroll_size_apps, false);*/
-        //所有应用
-        buildRow(3, 2, res.getString(R.string.category_label_apps), this.mPartner.getRowIcon("apps_row"), partnerFont, R.dimen.home_scroll_size_apps, false);
-        //设置
-        buildRow(5, 3, this.mPartner.getRowTitle("settings_row", res.getString(R.string.category_label_settings)), this.mPartner.getRowIcon("settings_row"), partnerFont, R.dimen.home_scroll_size_settings, false);
+
+        int position = 0;
+
+        buildRow(ConstData.RowType.SYSTEM_UI, position++, null, null, null, R.dimen.home_scroll_size_search, false);
+
+        buildRow(ConstData.RowType.FAVORITE, position++, res.getString(R.string.home_collection), null, null, R.dimen.home_scroll_size_apps, false);
+
+        buildRow(ConstData.RowType.VIDEO, position++, res.getString(R.string.home_video), null, null, R.dimen.home_scroll_size_apps, true);
+
+        buildRow(ConstData.RowType.MUSIC, position++, res.getString(R.string.home_music), null, null, R.dimen.home_scroll_size_apps, true);
+
+        buildRow(ConstData.RowType.ALL_APPS, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, false);
+
+        buildRow(ConstData.RowType.SETTINGS, position, res.getString(R.string.category_label_settings), null, null, R.dimen.home_scroll_size_settings, false);
+
         ListComparator comp = new ListComparator();
         Collections.sort(this.mAllRowsList, comp);
         Collections.sort(this.mVisRowsList, comp);
@@ -241,12 +242,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     private void addRowEntry(HomeScreenRow row) {
         this.mAllRowsList.add(row);
         row.setChangeListener(this);
-/*       if (!(row.getType() == 3 || row.getType() == 4)) {
-            if (row.getType() == 5) {
-            }
-            if (row.isVisible())
-            }
-        }*/
+
         this.mAppRefresher.addAppRow(row);
         if (row.isVisible()) {
             this.mVisRowsList.add(row);
@@ -322,7 +318,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         View view;
         HomeScreenRow row = this.mAllRowsList.get(position);
         switch (row.getType()) {
-            case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
+            case ConstData.RowType.SYSTEM_UI:
                 view = this.mInflater.inflate(R.layout.home_search_orb, parent, false);
                 this.mHeaders.put(row.getType(), view);
                 this.mSearch = (SearchOrbView) view;
@@ -331,22 +327,14 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     break;
                 }
                 break;
-            case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
-            case android.support.v7.preference.R.styleable.Preference_android_layout /*3*/:
-              /*  view = this.mInflater.inflate(R.layout.home_apps_row, parent, false);
-                this.mHeaders.put(row.getType(), view.findViewById(R.id.header));
-                if (view instanceof ActiveFrame) {
-                    initAppRow((ActiveFrame) view, row);
-                    break;
-                }
-                break;*/
-            case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager /*2*/:
-            case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
-            case android.support.v7.preference.R.styleable.Preference_android_selectable /*5*/:
-            case android.support.v7.preference.R.styleable.Preference_android_key /*6*/:
-            case 8:
-            case 9:
-            case 10:
+            case ConstData.RowType.ALL_APPS:
+            case ConstData.RowType.FAVORITE:
+            case ConstData.RowType.INPUTS:
+            case ConstData.RowType.MUSIC:
+            case ConstData.RowType.VIDEO:
+            case ConstData.RowType.SETTINGS:
+            case 2: // todo
+            case 4:
                 view = this.mInflater.inflate(R.layout.home_apps_row, parent, false);
                 this.mHeaders.put(row.getType(), view.findViewById(R.id.header));
                 if (view instanceof ActiveFrame) {
@@ -427,7 +415,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 list.setContentDescription(row.getTitle());
                 ((TextView) group.findViewById(R.id.title)).setText(row.getTitle());
                 if (!TextUtils.isEmpty(row.getFontName())) {
-                    Typeface font = Typeface.create(row.getFontName(), 0);
+                    Typeface font = Typeface.create(row.getFontName(), Typeface.NORMAL);
                     if (font != null) {
                         ((TextView) group.findViewById(R.id.title)).setTypeface(font);
                     }
@@ -503,24 +491,20 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     @SuppressLint("PrivateResource")
     private Adapter<?> initAdapter(int type) {
         switch (type) {
-            case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
-
-            case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager /*2*/:
-
-            case android.support.v7.preference.R.styleable.Preference_android_layout /*3*/:
-                return new AppsAdapter(this.mMainActivity, 0, this.mLaunchPointListGenerator, this.mAppsRanker, null);
-            case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
-                return new AppsAdapter(this.mMainActivity, 1, this.mLaunchPointListGenerator, this.mAppsRanker, null);
-            case 8:
-                return new AppsAdapter(this.mMainActivity, 4, this.mLaunchPointListGenerator, this.mAppsRanker, null);
-            case 9:
-                return new AppsAdapter(this.mMainActivity, 5, this.mLaunchPointListGenerator, this.mAppsRanker, null);
-            case 10:
-                return new AppsAdapter(this.mMainActivity, 6, this.mLaunchPointListGenerator, this.mAppsRanker, null);
-            case android.support.v7.preference.R.styleable.Preference_android_selectable /*5*/:
+            case ConstData.RowType.ALL_APPS:
+                return new AppsAdapter(this.mMainActivity, ConstData.AppType.ALL, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+            case ConstData.RowType.FAVORITE:
+                return new AppsAdapter(this.mMainActivity, ConstData.AppType.FAVORITE, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+            case ConstData.RowType.MUSIC:
+                return new AppsAdapter(this.mMainActivity, ConstData.AppType.MUSIC, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+            case ConstData.RowType.VIDEO:
+                return new AppsAdapter(this.mMainActivity, ConstData.AppType.VIDEO, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+            case ConstData.RowType.SETTINGS:
                 return this.mSettingsAdapter;
-            case android.support.v7.preference.R.styleable.Preference_android_key /*6*/:
-                Adapter<?> adapter = new InputsAdapter(this.mMainActivity, new InputsAdapter.Configuration(this.mPartner.showPhysicalTunersSeparately(), this.mPartner.disableDiconnectedInputs(), this.mPartner.getStateIconFromTVInput()));
+            case ConstData.RowType.SYSTEM_UI:
+                //return this.mSearch;
+            case ConstData.RowType.INPUTS:
+                Adapter<?> adapter = new InputsAdapter(this.mMainActivity, new InputsAdapter.Configuration(false, false, false)); // todo changed to default:false x3
                 this.mInputsAdapter = (InputsAdapter) adapter;
                 return adapter;
             default:

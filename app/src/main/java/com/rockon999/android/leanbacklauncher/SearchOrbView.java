@@ -24,11 +24,11 @@ import android.widget.FrameLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
+
 import com.rockon999.android.leanbacklauncher.MainActivity.IdleListener;
-import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.apps.AppsUpdateListener.SearchPackageChangeListener;
-import com.rockon999.android.leanbacklauncher.util.Partner;
 import com.rockon999.android.leanbacklauncher.util.Util;
+
 import java.util.Random;
 
 public class SearchOrbView extends FrameLayout implements IdleListener, SearchPackageChangeListener {
@@ -63,7 +63,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
     private final String[] mTextToShow;
     private final int mUnfocusedColor;
     private boolean mWahlbergUx;
-    private View mWidgetView;
+    protected View mWidgetView;
 
     public interface SearchLaunchListener {
         void onSearchLaunched();
@@ -162,6 +162,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
             }
         }
     }
+
     public SearchOrbView(Context context, AttributeSet attrs) {
         super(context, attrs);
         boolean z = false;
@@ -217,7 +218,6 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
     }
 
     public void onFinishInflate() {
-        super.onFinishInflate(); // todo added
         Resources res = this.mContext.getResources();
         Theme theme = this.mContext.getTheme();
         this.mWidgetView = findViewById(R.id.widget_wrapper);
@@ -268,10 +268,8 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
             this.mKeyboardOrbView = null;
             this.mKeyboardContainer = null;
         }
-        Drawable partnerSearchIcon = Partner.get(this.mContext).getCustomSearchIcon();
-        if (partnerSearchIcon != null) {
-            this.mMicOrbView.setOrbIcon(partnerSearchIcon);
-        } else if (this.mWahlbergUx) {
+
+        if (this.mWahlbergUx) {
             this.mMicOrbView.setOrbColor(getColor(res, R.color.search_orb_bg_bright_color, theme));
             this.mMicOrbView.setOrbIcon(res.getDrawable(R.drawable.ic_mic_color, theme));
             this.mMicOrbView.enableOrbColorAnimation(false);

@@ -5,7 +5,7 @@
 
     <uses-sdk
         android:minSdkVersion="22"
-        android:targetSdkVersion="27" />
+        android:targetSdkVersion="24" />
 
     <uses-feature
         android:name="android.software.leanback"
@@ -20,7 +20,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.BIND_APPWIDGET"
+    <uses-permission
+        android:name="android.permission.BIND_APPWIDGET"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -28,14 +29,14 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA" />
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
-    <uses-permission android:name="com.rockon999.android.leanbacklauncher.recommendations.permission.RECOMMENDATIONS" />
-    <uses-permission android:name="com.rockon999.android.providers.gsf.permission.READ_GSERVICES" />
 
     <permission
         android:name="com.rockon999.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA"
@@ -49,9 +50,6 @@
         android:supportsRtl="true"
         android:theme="@style/LeanbackLauncherTheme"
         tools:ignore="MissingTvBanner">
-        <meta-data
-            android:name="com.rockon999.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name="com.rockon999.android.leanbacklauncher.MainActivity"
@@ -70,6 +68,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.rockon999.android.leanbacklauncher.settings.AppInfoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Leanback.GuidedStep" />
         <activity
             android:name="com.rockon999.android.leanbacklauncher.settings.HomeScreenSettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
@@ -93,14 +95,14 @@
             </intent-filter>
         </activity>
 
-        <!--<service
-            android:name="com.rockon999.android.leanbacklauncher.recommendations.NotificationsService"
+        <service
+            android:name="com.rockon999.android.leanbacklauncher.apps.notifications.NotificationListenerV5"
             android:label="@string/notif_service_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
-        </service>-->
+        </service>
 
         <receiver android:name="com.rockon999.android.leanbacklauncher.MediaButtonBroadcastReceiver">
             <intent-filter android:priority="2">
@@ -127,5 +129,7 @@
                 <action android:name="android.intent.action.WALLPAPER_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <service android:name=".apps.notifications.NotificationListenerMonitor"/>
     </application>
 </manifest>

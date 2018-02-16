@@ -1,7 +1,6 @@
 package com.rockon999.android.leanbacklauncher.animation;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.content.res.Resources;
 import android.view.ViewGroup;
 

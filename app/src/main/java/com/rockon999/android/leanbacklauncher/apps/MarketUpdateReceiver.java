@@ -32,7 +32,7 @@ public class MarketUpdateReceiver extends BroadcastReceiver {
     }
 
     public MarketUpdateReceiver(InstallingLaunchPointListener listener) {
-        this.mInstallLaunchPoints = new HashMap();
+        this.mInstallLaunchPoints = new HashMap<>();
         this.mListener = listener;
     }
 

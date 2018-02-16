@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.widget.ImageView;
 
 import com.rockon999.android.leanbacklauncher.recline.util.RefcountObject.RefcountListener;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +45,7 @@ class DrawableLoader extends AsyncTask<CachedTaskPool.TaskOption, Void, Object> 
 
     DrawableLoader(ImageView imageView, RecycleBitmapPool recycledBitmapPool, PostProc<Bitmap> postProc) {
         this.mRefcountListener = new C02221();
-        this.mImageView = new WeakReference(imageView);
+        this.mImageView = new WeakReference<>(imageView);
         this.mRecycledBitmaps = recycledBitmapPool;
         this.mPostProc = postProc;
     }
@@ -243,9 +244,9 @@ class DrawableLoader extends AsyncTask<CachedTaskPool.TaskOption, Void, Object> 
             if (bufferedStream != null) {
                 bufferedStream.close();
             }
-           // throw th;
+            // throw th;
         }
-        return  null;
+        return null;
     }
 
     private Drawable getBitmapFromHttp(BitmapWorkerOptions options) throws IOException {

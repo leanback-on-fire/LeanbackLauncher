@@ -1,13 +1,17 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.rockon999.android.leanbacklauncher.R;
@@ -24,6 +28,7 @@ public class SettingsAdapter extends AppsAdapter {
     private final Handler mHandler;
     private Resources mNetResources;
     private boolean mNetResourcesSet;
+
 
     /* renamed from: SettingsAdapter.1 */
     class C01871 extends Handler {
@@ -63,9 +68,21 @@ public class SettingsAdapter extends AppsAdapter {
 
     public SettingsAdapter(Context context, LaunchPointListGenerator launchPointListGenerator, ConnectivityListener listener, AppsRanker appsRanker) {
         super(context, 2, launchPointListGenerator, appsRanker, null);
+
         this.mNetResourcesSet = false;
         this.mHandler = new C01871();
         this.mConnectivityListener = listener;
+
+        BroadcastReceiver onNotice = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "Count updating...");
+                int amt = intent.getIntExtra("count", -2);
+                SettingsAdapter.this.onNotificationCountUpdated(amt);
+            }
+        };
+
+        LocalBroadcastManager.getInstance(context).registerReceiver(onNotice, new IntentFilter("NotificationCountUpdate"));
     }
 
     protected final void onPostRefresh() {
@@ -78,6 +95,14 @@ public class SettingsAdapter extends AppsAdapter {
     }
 
     public void onNotificationCountUpdated(int count) {
+        Log.i(TAG, "count updated");
+        for (int i = 0; i < this.mLaunchPoints.size(); i++) {
+            LaunchPoint launchPoint = this.mLaunchPoints.get(i);
+            if (launchPoint.getSettingsType() == 3) {
+                Log.i(TAG, "count 1");
+                launchPoint.setTitle("Notifications (" + count + ")"); // todo rtl
+            }
+        }
     }
 
     private int updateNetwork() {
@@ -179,4 +204,6 @@ public class SettingsAdapter extends AppsAdapter {
 
     public void onLaunchPointsRemoved(ArrayList<LaunchPoint> arrayList) {
     }
+
+
 }
