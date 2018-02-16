@@ -203,40 +203,18 @@ public class LaunchPoint extends ApplicationInfo {
 
         // todo move out of LaunchPoint
 
-        String[] videoFilter = new String[]{
-                "video",
-                "netflix",
-                "youtube",
-                "twitter",
-                "twittertv",
-                "hbo",
-                "disney",
-                "starz",
-                "foxnews",
-                "twitch",
-                "mtv",
-                "showtime",
-                "dramafever",
-                "cbs",
-                "hulu"
-        };
 
-        String[] musicFilter = new String[]{
-                "music",
-                "spotify",
-                "pandora"
-        };
 
         String pkg = this.getPackageName().toLowerCase();
 
-        for (String s : videoFilter) {
+        for (String s : ConstData.VIDEO_FILTER) {
             if (pkg.contains(s)) {
                 this.mAppType = ConstData.AppType.VIDEO;
                 break;
             }
         }
 
-        for (String s : musicFilter) {
+        for (String s : ConstData.MUSIC_FILTER) {
             if (pkg.contains(s)) {
                 this.mAppType = ConstData.AppType.MUSIC;
                 break;
@@ -528,11 +506,6 @@ public class LaunchPoint extends ApplicationInfo {
         mIsFavorited = isFavorited;
     }
 
-    /**
-     * 创建添加项
-     *
-     * @return
-     */
     public static LaunchPoint createAddItem() {
         LaunchPoint launchPoint = new LaunchPoint();
         launchPoint.mInstallProgressPercent = -1;

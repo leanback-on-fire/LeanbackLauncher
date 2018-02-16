@@ -42,13 +42,13 @@ public abstract class LauncherViewHolder extends ViewHolder implements OnClickLi
 
     public void onClick(View v) {
         if(v instanceof BannerView && ((BannerView)v).mIsAddItem){
-            //启动添加页面
+
             Log.i(TAG, "onClick->addItem->className:" + v.getContext().getClass().getName());
             Context context =  v.getContext();
             if(context != null && context instanceof MainActivity){
                 ((MainActivity)context).preformIconMoreClick();
             }
-            //Toast.makeText(v.getContext(), "启动添加页面", Toast.LENGTH_SHORT).show();
+
             return;
         }
         if (v != null && v == this.itemView) {

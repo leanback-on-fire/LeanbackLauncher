@@ -74,6 +74,32 @@ public class ConstData {
         int INPUTS = 6;
     }
 
+    public static final String[] VIDEO_FILTER = new String[]{
+            "video",
+            "netflix",
+            "youtube",
+            "twitter",
+            "twittertv",
+            "hbo",
+            "disney",
+            "starz",
+            "foxnews",
+            "fx",
+            "fox",
+            "twitch",
+            "mtv",
+            "showtime",
+            "dramafever",
+            "cbs",
+            "hulu"
+    };
+
+    public static final String[] MUSIC_FILTER = new String[]{
+            "music",
+            "spotify",
+            "pandora"
+    };
+
     public interface SharedKey {
         String IS_FIRST_LOAD_FAVORITE_APP = "is_first_load_favorite_app";
     }

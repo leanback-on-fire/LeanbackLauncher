@@ -113,9 +113,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
      * Whether the launcher is being loaded for the first time...
      */
     private boolean mIsFirstLoad = true;
-    /**
-     * 监测Activity状态
-     */
+
     private int mActivityState;
     private Handler mTimerHandler;
 

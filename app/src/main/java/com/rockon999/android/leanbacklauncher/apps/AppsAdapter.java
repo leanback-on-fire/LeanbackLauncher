@@ -464,7 +464,9 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
                 if (this.mLabelView != null) {
                     this.mLabelView.setText(launchPoint.getTitle());
                 }
-                this.mMainView.setContentDescription(launchPoint.getContentDescription());
+                if (this.mMainView != null) {
+                    this.mMainView.setContentDescription(launchPoint.getContentDescription());
+                }
             }
         }
     }
