@@ -1,4 +1,4 @@
-package com.rockon999.android.leanbacklauncher.settings;
+package com.rockon999.android.leanbacklauncher.apps;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

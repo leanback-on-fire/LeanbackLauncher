@@ -2,6 +2,7 @@ package com.rockon999.android.leanbacklauncher.apps;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
@@ -11,18 +12,20 @@ public class AppsEntity {
     private HashMap<String, Long> mLastOpened;
     private HashMap<String, Long> mOrder;
     private String mPackageName;
+    private boolean mIsFavorite;
 
-    public AppsEntity(Context context, AppsDbHelper helper, String packageName, long lastOpenTime, long initialOrder) {
-        this(context, helper, packageName);
+    public AppsEntity(Context context, AppsDbHelper helper, String packageName, long lastOpenTime, long initialOrder, boolean isFavorite) {
+        this(context, helper, packageName, isFavorite);
         setLastOpenedTimeStamp(null, lastOpenTime);
         setOrder(null, initialOrder);
     }
 
-    public AppsEntity(Context ctx, AppsDbHelper helper, String packageName) {
+    public AppsEntity(Context ctx, AppsDbHelper helper, String packageName, boolean isFavorite) {
         this.mLastOpened = new HashMap<>();
         this.mOrder = new HashMap<>();
         this.mDbHelper = helper;
         this.mPackageName = packageName;
+        this.mIsFavorite = isFavorite;
     }
 
     public Set<String> getComponents() {
@@ -87,5 +90,13 @@ public class AppsEntity {
                 this.mLastOpened.clear();
                 break;
         }
+    }
+
+    public boolean isFavorite() {
+        return mIsFavorite;
+    }
+
+    public void setFavorited(boolean category) {
+        this.mIsFavorite = category;
     }
 }

@@ -20,141 +20,32 @@ import com.rockon999.android.leanbacklauncher.LauncherViewHolder;
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.animation.ViewDimmer.DimState;
 import com.rockon999.android.leanbacklauncher.apps.AppsAdapter.AppViewHolder;
-import com.rockon999.android.leanbacklauncher.apps.AppsRanker.RankingListener;
 import com.rockon999.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener;
-import com.rockon999.android.leanbacklauncher.bean.AppInfo;
-import com.rockon999.android.leanbacklauncher.data.ConstData;
-import com.rockon999.android.leanbacklauncher.modle.db.AppInfoService;
+import com.rockon999.android.leanbacklauncher.util.Lists;
 import com.rockon999.android.leanbacklauncher.widget.RowViewAdapter;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements RankingListener, Listener {
+public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements AppsRanker.RankingListener, Listener {
     private static final String TAG = "AppsAdapter";
-    private final ActionOpenLaunchPointListener mActionOpenLaunchPointListener;
-    protected final int mAppType;
     final AppsRanker mAppsRanker;
+    private final boolean mFavoritesRow;
     protected boolean mFlaggedForResort;
     protected final LayoutInflater mInflater;
     private boolean mItemsHaveBeenSorted;
-    private LaunchPointListGenerator mLaunchPointGen;
-    protected ArrayList<LaunchPoint> mLaunchPoints;
+    protected LaunchPointListGenerator mLaunchPointGen;
+    protected List<LaunchPoint> mLaunchPoints;
     private Handler mNotifyHandler;
-
-    /* renamed from: AppsAdapter.1 */
-    class C01811 implements Runnable {
-        final List<LaunchPoint> val$launchPoints;
-
-        C01811(List<LaunchPoint> val$launchPoints) {
-            this.val$launchPoints = val$launchPoints;
-        }
-
-        public void run() {
-
-            //boolean isGame = AppsAdapter.this.mAppType == 1;
-            //boolean isGame = false;
-            boolean saveAppOrderChanges = false;
-            for (int i = this.val$launchPoints.size() - 1; i >= 0; i--) {
-                //boolean gameMatch = ((LaunchPoint) this.val$launchPoints.get(i)).isGame() == isGame;
-                boolean found = false;
-                int j = AppsAdapter.this.mLaunchPoints.size() - 1;
-                while (j >= 0) {
-                    if (this.val$launchPoints.contains(AppsAdapter.this.mLaunchPoints.get(j))) {
-                        /*if (gameMatch) {
-                            AppsAdapter.this.mLaunchPoints.set(j, (LaunchPoint) this.val$launchPoints.get(i));
-                            AppsAdapter.this.notifyItemChanged(j);
-                            saveAppOrderChanges = true;
-                        } else { */
-                        AppsAdapter.this.mLaunchPoints.remove(j);
-                        AppsAdapter.this.notifyItemRemoved(j);
-                        saveAppOrderChanges = true;
-                        //}
-                        found = true;
-                        //if (!found && gameMatch) {
-                        //    AppsAdapter.this.notifyItemInserted(AppsAdapter.this.mAppsRanker.insertLaunchPoint(AppsAdapter.this.mLaunchPoints, (LaunchPoint) this.val$launchPoints.get(i)));
-                        //    saveAppOrderChanges = true;
-                        //}
-                    } else {
-                        j--;
-                    }
-                }
-                AppsAdapter.this.notifyItemInserted(AppsAdapter.this.mAppsRanker.insertLaunchPoint(AppsAdapter.this.mLaunchPoints, this.val$launchPoints.get(i)));
-                saveAppOrderChanges = true;
-            }
-            if (saveAppOrderChanges && AppsAdapter.this.mAppsRanker.getSortingMode() == SortingModeManager.SortingMode.FIXED) {
-                AppsAdapter.this.saveAppOrderSnapshot();
-            }
-        }
-    }
-
-    /* renamed from: AppsAdapter.2 */
-    class C01822 implements Runnable {
-        final /* synthetic */ ArrayList val$launchPoints;
-
-        C01822(ArrayList val$launchPoints) {
-            this.val$launchPoints = val$launchPoints;
-        }
-
-        public void run() {
-            boolean saveAppOrderChanges = false;
-            int itemRemovedAt = -1;
-            for (int j = AppsAdapter.this.mLaunchPoints.size() - 1; j >= 0; j--) {
-                int i;
-                for (i = this.val$launchPoints.size() - 1; i >= 0; i--) {
-                    if (AppsAdapter.this.mLaunchPoints.get(j).equals(this.val$launchPoints.get(i)) && itemRemovedAt == -1) {
-                        ((LaunchPoint) this.val$launchPoints.get(i)).cancelPendingOperations(AppsAdapter.this.mContext);
-                        this.val$launchPoints.remove(i);
-                        saveAppOrderChanges = true;
-                        itemRemovedAt = j;
-                        break;
-                    }
-                }
-            }
-            if (saveAppOrderChanges && AppsAdapter.this.mAppsRanker.getSortingMode() == SortingModeManager.SortingMode.FIXED) {
-                AppsAdapter.this.saveAppOrderSnapshot();
-            }
-            if (itemRemovedAt != -1) {
-                int numRows;
-                int viewType = AppsAdapter.this.getItemViewType(itemRemovedAt);
-                Resources res = AppsAdapter.this.mContext.getResources();
-                if (AppsAdapter.this.getItemCount() > res.getInteger(R.integer.two_row_cut_off)) {
-                    numRows = res.getInteger(R.integer.max_num_banner_rows);
-                } else {
-                    numRows = res.getInteger(R.integer.min_num_banner_rows);
-                }
-                if ((viewType == 0 || viewType == 1) && numRows > 1) {
-                    int lastPosition = itemRemovedAt;
-                    int i;
-                    for (i = itemRemovedAt; i + numRows < AppsAdapter.this.mLaunchPoints.size(); i += numRows) {
-                        AppsAdapter.this.moveLaunchPoint(i, i + numRows, false);
-                        lastPosition = i + numRows;
-                    }
-                    AppsAdapter.this.mLaunchPoints.remove(lastPosition);
-                    AppsAdapter.this.notifyItemRemoved(lastPosition);
-                } else {
-                    AppsAdapter.this.mLaunchPoints.remove(itemRemovedAt);
-                    AppsAdapter.this.notifyItemRemoved(itemRemovedAt);
-                }
-            }
-            AppsAdapter.this.saveAppOrderSnapshot();
-        }
-    }
-
-    public interface ActionOpenLaunchPointListener {
-        void onActionOpenLaunchPoint(String str, String str2);
-    }
 
     public static class AppViewHolder extends LauncherViewHolder {
         private final AppsAdapter mAdapter;
         private BannerView mBannerView;
         private String mComponentName;
         private String mPackageName;
+        private AppCategory mAppCategory;
 
         AppViewHolder(View v, AppsAdapter adapter) {
             super(v);
@@ -170,6 +61,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             if (launchPoint != null) {
                 this.mPackageName = launchPoint.getPackageName();
                 this.mComponentName = launchPoint.getComponentName();
+                this.mAppCategory = launchPoint.getAppCategory();
                 setLaunchIntent(launchPoint.getLaunchIntent());
                 setLaunchTranslucent(launchPoint.isTranslucentTheme());
                 setLaunchColor(launchPoint.getLaunchColor());
@@ -199,9 +91,9 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
         protected void onLaunchSucceeded() {
             if (this.mAdapter != null) {
-                this.mAdapter.mAppsRanker.onAction(this.mPackageName, this.mComponentName, 1);
-                this.mAdapter.onActionOpenLaunchPoint(this.mComponentName, this.mPackageName);
-                if (this.mAdapter.mAppsRanker.getSortingMode() == SortingModeManager.SortingMode.RECENCY) {
+                this.mAdapter.mAppsRanker.onAction(this.mPackageName, this.mComponentName, 1, this.mAppCategory);
+                //this.mAdapter.onActionOpenLaunchPoint(this.mComponentName, this.mPackageName);
+                if (this.mAdapter.mAppsRanker.getSortingMode() == AppsPreferences.SortingMode.RECENCY) {
                     this.mAdapter.mFlaggedForResort = true;
                 }
             }
@@ -240,11 +132,11 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         private final ImageView mBannerView;
         private final InstallStateOverlayHelper mOverlayHelper;
 
-        public /* bridge */ /* synthetic */ void init(String packageName, String componentName, Intent launchIntent, int launchColor) {
+        public void init(String packageName, String componentName, Intent launchIntent, int launchColor) {
             super.init(packageName, componentName, launchIntent, launchColor);
         }
 
-        public /* bridge */ /* synthetic */ void onClick(View v) {
+        public void onClick(View v) {
             super.onClick(v);
         }
 
@@ -287,6 +179,12 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         }
     }
 
+    private static final class AppEditViewHolder extends AppViewHolder {
+        public AppEditViewHolder(View v, AppsAdapter adapter) {
+            super(v, adapter);
+        }
+    }
+
     private static final class AppFallbackViewHolder extends AppViewHolder {
         private final ImageView mIconView;
         private final TextView mLabelView;
@@ -314,20 +212,27 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
 
         public void init(LaunchPoint launchPoint) {
             super.init(launchPoint);
+
             if (launchPoint != null) {
                 Log.i(TAG, "AppFallbackViewHolder->init");
                 Drawable icon = launchPoint.getIconDrawable();
+
                 if (this.mIconView != null) {
                     this.mIconView.setImageDrawable(icon);
                 }
+
                 if (this.mLabelView != null) {
                     this.mLabelView.setText(launchPoint.getTitle());
                 }
+
                 if (this.mBannerView != null) {
                     mBannerView.setBackgroundColor(launchPoint.getLaunchColor());
-                    if (rootView != null)
+
+                    if (rootView != null) {
                         rootView.setBannerBackColor(launchPoint.getLaunchColor());
+                    }
                 }
+
                 if (launchPoint.isInstalling()) {
                     this.mOverlayHelper.initOverlay(launchPoint);
                 } else {
@@ -335,10 +240,6 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
                 }
             }
         }
-    }
-
-    @Retention(RetentionPolicy.SOURCE)
-    @interface ContentType {
     }
 
     private static class InstallStateOverlayHelper {
@@ -389,58 +290,35 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         }
     }
 
-    private class RefreshTask extends AsyncTask<Void, Void, ArrayList<LaunchPoint>> {
+    protected class RefreshTask extends AsyncTask<Void, Void, List<LaunchPoint>> {
         private RefreshTask() {
         }
 
-        // todo fix this mess
-        protected ArrayList<LaunchPoint> doInBackground(Void... params) {
-            AppInfoService appInfoService = new AppInfoService();
-            List<AppInfo> appInfos = appInfoService.getAppInfosByType(mAppType);
-            List<LaunchPoint> originLaunchPoints = AppsAdapter.this.getRefreshedLaunchPointList();
-
-            Log.d(TAG, "is anything interesting happening? (4)" + Arrays.toString(originLaunchPoints.toArray(new LaunchPoint[originLaunchPoints.size()])));
-
-            ArrayList<LaunchPoint> resultLaunchPoints = new ArrayList<>(originLaunchPoints);
-
-            Log.i(TAG, "RefreshTask->appInfos2:" + appInfos);
-
-            for (LaunchPoint itemLaunchPoint : originLaunchPoints) {
-                Log.i(TAG, "RefreshTask->itemLaunchPoint->packageName:" + itemLaunchPoint.getPackageName());
-                Log.i(TAG, "RefreshTask->itemLaunchPoint->componentName:" + itemLaunchPoint.getComponentName());
-            }
-
-            Log.i(TAG, "RefreshTask->resultLaunchPoints:" + resultLaunchPoints);
-            if (mAppType == ConstData.AppType.FAVORITE && resultLaunchPoints.size() > 1 || mAppType != ConstData.AppType.FAVORITE && resultLaunchPoints.size() > 0) {
-                //  Save the database again
-                appInfoService.deleteByType(mAppType);
-                appInfoService.saveByLaunchPoints(resultLaunchPoints, mAppType);
-            }
-
-
-            Log.d(TAG, "is anything interesting happening? (5)" + Arrays.toString(resultLaunchPoints.toArray(new LaunchPoint[resultLaunchPoints.size()])));
-
-
-            return resultLaunchPoints;
+        protected List<LaunchPoint> doInBackground(Void... paramVarArgs) {
+            return AppsAdapter.this.getRefreshedLaunchPointList();
         }
 
-        protected void onPostExecute(ArrayList<LaunchPoint> launchPoints) {
-            Log.i(TAG, "RefreshTask->onPostExecute->notifyDataSetChanged");
+        protected void onPostExecute(List<LaunchPoint> paramArrayList) {
+            List<Lists.Change> localObject = Lists.getChanges(AppsAdapter.this.mLaunchPoints, paramArrayList, AppsAdapter.this.mAppsRanker.getLaunchPointComparator());
 
-            AppsAdapter.this.mLaunchPoints = launchPoints;
+            AppsAdapter.this.mLaunchPoints = paramArrayList;
             AppsAdapter.this.onPostRefresh();
-            notifyDataSetChanged();
+
+            for (Lists.Change localObj : localObject) {
+                AppsAdapter.this.notifyItemRangeInserted(localObj.index, localObj.count);
+            }
         }
     }
 
-    private static final class SettingViewHolder extends AppViewHolder {
+    public static final class SettingViewHolder extends AppViewHolder {
         private final ImageView mIconView;
         private final TextView mLabelView;
         private final View mMainView;
+        private int settingsType;
 
         public SettingViewHolder(View v, AppsAdapter adapter) {
             super(v, adapter);
-            Log.d("AppsAdapter", "Created Settings View Holder v = " + v);
+            Log.d("AppsAdapter", "Created SettingsUtil View Holder v = " + v);
             if (v != null) {
                 this.mMainView = v.findViewById(R.id.main);
                 this.mIconView = (ImageView) v.findViewById(R.id.icon);
@@ -467,57 +345,101 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
                 if (this.mMainView != null) {
                     this.mMainView.setContentDescription(launchPoint.getContentDescription());
                 }
+                this.settingsType = launchPoint.getSettingsType();
             }
+        }
+
+        public int getSettingsType() {
+            return settingsType;
         }
     }
 
-    @Retention(RetentionPolicy.SOURCE)
-    @interface ViewType {
+    enum ViewType {
+
+        BANNER(0),
+        LEGACY(1),
+        SETTINGS(2);
+
+        public final int type;
+
+        ViewType(int type) {
+            this.type = type;
+        }
+
+        public static ViewType fromId(int viewType) {
+            // todo
+            switch (viewType) {
+                case 0:
+                    return BANNER;
+                case 1:
+                    return LEGACY;
+                case 2:
+                    return SETTINGS;
+            }
+
+            return BANNER;
+        }
     }
 
-    public AppsAdapter(Context context, int appType, LaunchPointListGenerator launchPointListGenerator, AppsRanker appsRanker, ActionOpenLaunchPointListener actionOpenLaunchPointListener) {
+    private List<AppCategory> mIncludedCategories;
+
+    public AppsAdapter(Context context, LaunchPointListGenerator launchPointListGenerator, AppsRanker appsRanker, boolean isFavoritesRow, AppCategory... included) {
         super(context);
         this.mNotifyHandler = new Handler();
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mLaunchPoints = new ArrayList<>();
         this.mAppsRanker = appsRanker;
-        this.mAppType = appType;
+        this.mIncludedCategories = included == null ? Collections.<AppCategory>emptyList() : Arrays.asList(included);
         this.mFlaggedForResort = false;
-        this.mActionOpenLaunchPointListener = actionOpenLaunchPointListener;
         this.mLaunchPointGen = launchPointListGenerator;
         this.mLaunchPointGen.registerChangeListener(this);
+        this.mFavoritesRow = isFavoritesRow;
+    }
+
+    public AppsAdapter(Context context, LaunchPointListGenerator launchPointListGenerator, AppsRanker appsRanker, boolean isFavoritesRow) {
+        super(context);
+        this.mNotifyHandler = new Handler();
+        this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mLaunchPoints = new ArrayList<>();
+        this.mIncludedCategories = Collections.emptyList();
+        this.mAppsRanker = appsRanker;
+        this.mFlaggedForResort = false;
+        this.mLaunchPointGen = launchPointListGenerator;
+        this.mLaunchPointGen.registerChangeListener(this);
+        this.mFavoritesRow = isFavoritesRow;
     }
 
     public int getItemViewType(int position) {
-        Log.i(TAG, "getItemViewType->mAppType:" + mAppType);
-        // return mAppType;
-        int i = 0;
         if (position >= this.mLaunchPoints.size()) {
             Log.e("AppsAdapter", "getItemViewType with out of bounds index = " + position);
-            if (this.mAppType == ConstData.AppType.SETTINGS) {
-                i = 2;
+            if (this.mIncludedCategories != null && this.mIncludedCategories.contains(AppCategory.SETTINGS)) {
+                return ViewType.SETTINGS.type;
             }
-            return i;
+            return ViewType.BANNER.type;
         }
+
         LaunchPoint launchPoint = this.mLaunchPoints.get(position);
-        if (this.mAppType == ConstData.AppType.SETTINGS) {
-            return 2;
+
+        if (mIncludedCategories != null && mIncludedCategories.contains(AppCategory.SETTINGS)) {
+            return ViewType.SETTINGS.type;
+        } else if (launchPoint.hasBanner()) {
+            return ViewType.BANNER.type;
+        } else {
+            return ViewType.LEGACY.type;
         }
-        if (launchPoint.hasBanner()) {
-            return 0;
-        }
-        return 1;
     }
 
     @SuppressLint("PrivateResource")
     public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.i(TAG, "onCreateViewHolder->viewType:" + viewType);
-        switch (viewType) {
-            case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
+        ViewType type = ViewType.fromId(viewType);
+
+        switch (type) {
+            case BANNER:
                 return new AppBannerViewHolder(this.mInflater.inflate(R.layout.app_banner, parent, false), this);
-            case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
+            case LEGACY:
                 return new AppFallbackViewHolder(this.mInflater.inflate(R.layout.app_fallback_banner, parent, false), this);
-            case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager /*2*/:
+            case SETTINGS:
                 return new SettingViewHolder(this.mInflater.inflate(R.layout.setting, parent, false), this);
             default:
                 return null;
@@ -531,10 +453,6 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             LaunchPoint launchPoint = this.mLaunchPoints.get(position);
             Log.i(TAG, "onBindViewHolder->packageName:" + launchPoint.getPackageName());
             int itemViewType = holder.getItemViewType();
-            if (itemViewType != 2 && holder.itemView instanceof BannerView) {
-                BannerView itemView = (BannerView) holder.itemView;
-                itemView.mIsAddItem = launchPoint.isAddItem();
-            }
             holder.clearBannerState();
             holder.init(launchPoint);
         }
@@ -566,7 +484,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         Log.i(TAG, "sortItemsIfNeeded");
         boolean z = this.mFlaggedForResort || force;
         this.mFlaggedForResort = false;
-        if (force && this.mAppsRanker.getSortingMode() == SortingModeManager.SortingMode.FIXED) {
+        if (force && this.mAppsRanker.getSortingMode() == AppsPreferences.SortingMode.FIXED) {
             saveAppOrderSnapshot();
         }
         if (z) {
@@ -581,32 +499,38 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         return sorted;
     }
 
-    public boolean moveLaunchPoint(int initPosition, int desiredPosition, boolean userAction) {
+    public boolean moveLaunchPoint(int fromPosition, int toPosition, boolean userAction) {
         Log.i(TAG, "moveLaunchPoint");
-        if (desiredPosition == mLaunchPoints.size() - 1 && mLaunchPoints.get(mLaunchPoints.size() - 1).isAddItem())
-            return false;
-        if (desiredPosition < 0 || desiredPosition > this.mLaunchPoints.size() - 1 || initPosition < 0 || initPosition > this.mLaunchPoints.size() - 1) {
+        if ((toPosition < 0) || (toPosition > this.mLaunchPoints.size() - 1)) {
+            return false; //todo?
+        }
+        if ((fromPosition < 0) || (fromPosition > this.mLaunchPoints.size() - 1)) {
             return false;
         }
-        LaunchPoint focused = this.mLaunchPoints.get(initPosition);
-        this.mLaunchPoints.set(initPosition, this.mLaunchPoints.get(desiredPosition));
-        this.mLaunchPoints.set(desiredPosition, focused);
-        AppInfoService appInfoService = new AppInfoService();
-        appInfoService.deleteByType(mAppType);
-        appInfoService.saveByLaunchPoints(mLaunchPoints, mAppType);
-        notifyItemMoved(initPosition, desiredPosition);
-        if (Math.abs(desiredPosition - initPosition) > 1) {
-            notifyItemMoved(desiredPosition + (desiredPosition - initPosition > 0 ? -1 : 1), initPosition);
+        LaunchPoint localLaunchPoint1 = this.mLaunchPoints.get(fromPosition);
+        LaunchPoint localLaunchPoint2 = this.mLaunchPoints.get(toPosition);
+
+        this.mLaunchPoints.set(fromPosition, localLaunchPoint2);
+        this.mLaunchPoints.set(toPosition, localLaunchPoint1);
+
+        notifyItemMoved(fromPosition, toPosition);
+
+        if (Math.abs(toPosition - fromPosition) > 1 && toPosition <= fromPosition) {
+            notifyItemMoved(toPosition + 1, fromPosition);
         }
+
         if (userAction) {
-            SortingModeManager.saveSortingMode(this.mContext, SortingModeManager.SortingMode.FIXED);
+            AppsPreferences.saveSortingMode(this.mContext, AppsPreferences.SortingMode.FIXED);
         }
         return true;
     }
 
+
     public void saveAppOrderSnapshot() {
         Log.d("LauncherEditMode", "AppsAdapter saw EditMode change and initiated snapshot.");
         this.mAppsRanker.saveOrderSnapshot(this.mLaunchPoints);
+
+        this.notifyDataSetChanged(); // todo debug why this is currently necessary
     }
 
     public Drawable getDrawableFromLaunchPoint(int index) {
@@ -614,39 +538,51 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     }
 
     public LaunchPoint getLaunchPointForPosition(int index) {
-        return this.mLaunchPoints.get(index);
+        return index >= this.mLaunchPoints.size() ? null : this.mLaunchPoints.get(index);
     }
 
-    private void onActionOpenLaunchPoint(String component, String group) {
-        Log.i(TAG, "onActionOpenLaunchPoint");
-        if (this.mActionOpenLaunchPointListener != null) {
-            this.mActionOpenLaunchPointListener.onActionOpenLaunchPoint(component, group);
+    protected List<LaunchPoint> getRefreshedLaunchPointList() {
+        ArrayList<LaunchPoint> launchPoints = new ArrayList<>();
+        if (this.mIncludedCategories == null || this.mIncludedCategories.isEmpty()) {
+            launchPoints.addAll(this.mLaunchPointGen.getAllLaunchPoints());
+        } else {
+            for (AppCategory category : this.mIncludedCategories) {
+                switch (category) {
+                    case SETTINGS:
+                        launchPoints.addAll(this.mLaunchPointGen.getSettingsLaunchPoints(true));
+                        break;
+                    case MUSIC:
+                        launchPoints.addAll(this.mLaunchPointGen.getLaunchPointsByType(AppCategory.MUSIC));
+                        break;
+                    case VIDEO:
+                        launchPoints.addAll(this.mLaunchPointGen.getLaunchPointsByType(AppCategory.VIDEO));
+                        break;
+                    case OTHER:
+                        launchPoints.addAll(this.mLaunchPointGen.getLaunchPointsByType(AppCategory.OTHER));
+                        break;
+                    case GAME:
+                        launchPoints.addAll(this.mLaunchPointGen.getLaunchPointsByType(AppCategory.GAME));
+                        break;
+                    default:
+                        launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
+                }
+            }
         }
-    }
 
-    private ArrayList<LaunchPoint> getRefreshedLaunchPointList() {
-        ArrayList<LaunchPoint> launchPoints = null;
-        switch (this.mAppType) {
-            case ConstData.AppType.ALL:
-            case ConstData.AppType.DEFAULT:
-                launchPoints = this.mLaunchPointGen.getAllLaunchPoints();
-                break;
-            case ConstData.AppType.SETTINGS:
-                launchPoints = this.mLaunchPointGen.getSettingsLaunchPoints(true);
-                break;
-            case ConstData.AppType.FAVORITE:
-                launchPoints = this.mLaunchPointGen.getFavoriteLaunchPoints();
-                break;
-            case ConstData.AppType.MUSIC:
-                launchPoints = this.mLaunchPointGen.getLaunchPointsByType(ConstData.AppType.MUSIC);
-                break;
-            case ConstData.AppType.VIDEO:
-                launchPoints = this.mLaunchPointGen.getLaunchPointsByType(ConstData.AppType.VIDEO);
-                break;
-        }
-
-        if (launchPoints == null) {
-            launchPoints = new ArrayList<>();
+        if (mFavoritesRow) {
+            for (int x = launchPoints.size() - 1; x >= 0; x--) {
+                LaunchPoint lp = launchPoints.get(x);
+                if (!this.mAppsRanker.isFavorite(lp)) {
+                    launchPoints.remove(x);
+                }
+            }
+        } else {
+            for (int x = launchPoints.size() - 1; x >= 0; x--) {
+                LaunchPoint lp = launchPoints.get(x);
+                if (this.mAppsRanker.isFavorite(lp)) {
+                    launchPoints.remove(x);
+                }
+            }
         }
 
         sortLaunchPoints(launchPoints);
@@ -661,30 +597,21 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
     protected void sortLaunchPoints(ArrayList<LaunchPoint> launchPoints) {
         Log.i(TAG, "sortLaunchPoints");
 
-        if (this.mAppType != ConstData.AppType.SETTINGS) {
-            this.mAppsRanker.rankLaunchPoints(launchPoints, this);
-        } else {
-            Collections.sort(launchPoints, new Comparator<LaunchPoint>() {
-                @Override
-                public int compare(LaunchPoint o1, LaunchPoint o2) {
-                    if (o1.getComponentName().toLowerCase().contains("bluetooth")) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                }
-            });
-        }
+        //if (this.mIncludedCategories == null || !this.mIncludedCategories.contains(AppCategory.SETTINGS)) {
+        //    this.mAppsRanker.rankLaunchPoints(launchPoints, this);
+        //} else {
+        this.mAppsRanker.rankLaunchPoints(launchPoints, this);
+        //}
     }
 
     public void onLaunchPointsAddedOrUpdated(ArrayList<LaunchPoint> launchPoints) {
         Log.i(TAG, "onLaunchPointAddedOrUpdated:");
-        this.mNotifyHandler.post(new C01811(launchPoints));
+        this.mNotifyHandler.post(new LaunchPointsAdded(launchPoints));
     }
 
     public void onLaunchPointsRemoved(ArrayList<LaunchPoint> launchPoints) {
         Log.i(TAG, "onLaunchPointsRemoved");
-        this.mNotifyHandler.post(new C01822(launchPoints));
+        this.mNotifyHandler.post(new LaunchPointsRemoved(launchPoints));
     }
 
     public void onLaunchPointListGeneratorReady() {
@@ -714,7 +641,90 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
         new RefreshTask().execute();
     }
 
-    public int getAppType() {
-        return mAppType;
+    /* renamed from: AppsAdapter.1 */
+    class LaunchPointsAdded implements Runnable {
+        final List<LaunchPoint> val$launchPoints;
+
+        LaunchPointsAdded(List<LaunchPoint> val$launchPoints) {
+            this.val$launchPoints = val$launchPoints;
+        }
+
+        public void run() {
+            boolean saveAppOrderChanges = false;
+
+            for (int i = this.val$launchPoints.size() - 1; i >= 0; i--) {
+                int j = AppsAdapter.this.mLaunchPoints.size() - 1;
+                while (j >= 0) {
+                    if (this.val$launchPoints.contains(AppsAdapter.this.mLaunchPoints.get(j))) {
+                        AppsAdapter.this.mLaunchPoints.remove(j);
+                        AppsAdapter.this.notifyItemRemoved(j);
+                    } else {
+                        j--;
+                    }
+                }
+                AppsAdapter.this.notifyItemInserted(AppsAdapter.this.mAppsRanker.insertLaunchPoint(AppsAdapter.this.mLaunchPoints, this.val$launchPoints.get(i)));
+                saveAppOrderChanges = true;
+            }
+            if (saveAppOrderChanges && AppsAdapter.this.mAppsRanker.getSortingMode() == AppsPreferences.SortingMode.FIXED) {
+                AppsAdapter.this.saveAppOrderSnapshot();
+            }
+        }
+    }
+
+    /* renamed from: AppsAdapter.2 */
+    class LaunchPointsRemoved implements Runnable {
+        final List<LaunchPoint> val$launchPoints;
+
+        LaunchPointsRemoved(List<LaunchPoint> val$launchPoints) {
+            this.val$launchPoints = val$launchPoints;
+        }
+
+        public void run() {
+            boolean saveAppOrderChanges = false;
+            int itemRemovedAt = -1;
+            for (int j = AppsAdapter.this.mLaunchPoints.size() - 1; j >= 0; j--) {
+                int i;
+                for (i = this.val$launchPoints.size() - 1; i >= 0; i--) {
+                    if (AppsAdapter.this.mLaunchPoints.get(j).equals(this.val$launchPoints.get(i)) && itemRemovedAt == -1) {
+                        this.val$launchPoints.get(i).cancelPendingOperations(AppsAdapter.this.mContext);
+                        this.val$launchPoints.remove(i);
+                        saveAppOrderChanges = true;
+                        itemRemovedAt = j;
+                        break;
+                    }
+                }
+            }
+            if (saveAppOrderChanges && AppsAdapter.this.mAppsRanker.getSortingMode() == AppsPreferences.SortingMode.FIXED) {
+                AppsAdapter.this.saveAppOrderSnapshot();
+            }
+            if (itemRemovedAt != -1) {
+                int numRows;
+                int viewType = AppsAdapter.this.getItemViewType(itemRemovedAt);
+                Resources res = AppsAdapter.this.mContext.getResources();
+                if (AppsAdapter.this.getItemCount() > res.getInteger(R.integer.two_row_cut_off)) {
+                    numRows = res.getInteger(R.integer.max_num_banner_rows);
+                } else {
+                    numRows = res.getInteger(R.integer.min_num_banner_rows);
+                }
+                if ((viewType == 0 || viewType == 1) && numRows > 1) {
+                    int lastPosition = itemRemovedAt;
+                    int i;
+                    for (i = itemRemovedAt; i + numRows < AppsAdapter.this.mLaunchPoints.size(); i += numRows) {
+                        AppsAdapter.this.moveLaunchPoint(i, i + numRows, false);
+                        lastPosition = i + numRows;
+                    }
+                    AppsAdapter.this.mLaunchPoints.remove(lastPosition);
+                    AppsAdapter.this.notifyItemRemoved(lastPosition);
+                } else {
+                    AppsAdapter.this.mLaunchPoints.remove(itemRemovedAt);
+                    AppsAdapter.this.notifyItemRemoved(itemRemovedAt);
+                }
+            }
+            AppsAdapter.this.saveAppOrderSnapshot();
+        }
+    }
+
+    public List<AppCategory> getAppCategories() {
+        return mIncludedCategories;
     }
 }

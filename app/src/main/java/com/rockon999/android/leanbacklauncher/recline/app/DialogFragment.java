@@ -650,8 +650,8 @@ public class DialogFragment extends Fragment {
         boolean hasDialog = getCurrentDialogFragment(fm) != null;
         FragmentTransaction ft = fm.beginTransaction();
         if (hasDialog) {
-            ft.setCustomAnimations(1, 2, 3, 4);
-            ft.addToBackStack(null);
+            // ft.setCustomAnimations(1, 2, 3, 4);
+            // ft.addToBackStack(null);
         }
         ft.replace(id, f, "leanBackDialogFragment").commit();
     }
@@ -1039,7 +1039,7 @@ public class DialogFragment extends Fragment {
 
     private Animator createAlphaAnimator(View v, float fromAlpha, float toAlpha) {
         ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(v, "alpha", fromAlpha, toAlpha);
-        alphaAnimator.setDuration((long) getResources().getInteger(17694722));
+        alphaAnimator.setDuration(500); // (long) getResources().getInteger(17694722)
         return alphaAnimator;
     }
 }

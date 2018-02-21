@@ -2,8 +2,10 @@ package com.rockon999.android.leanbacklauncher.logging;
 
 import android.content.Context;
 import android.util.Log;
+
 import com.rockon999.android.leanbacklauncher.apps.AppsEntity;
 import com.rockon999.android.leanbacklauncher.apps.LaunchPoint;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +28,7 @@ public final class LoggingUtils {
         for (int i = 0; i < lps.size(); i++) {
             LaunchPoint lp = lps.get(i);
             AppsEntity entity = entities.get(lp.getPackageName());
-            apps[i] = createApp(i, lp.getPackageName(), lp.getTitle(), entity == null ? 0 : entity.getOrder(lp.getComponentName()));
+            apps[i] = createApp(i, lp.getPackageName(), lp.getTitle(), -1);
         }
         leanbackEvent.appRankAction.apps = apps;
         log(leanbackEvent, context);

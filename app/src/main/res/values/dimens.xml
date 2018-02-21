@@ -387,7 +387,7 @@
     <dimen name="edit_app_banner_z">6.0dip</dimen>
     <dimen name="edit_uninstall_icon_z">10.0dip</dimen>
     <dimen name="edit_finish_button_start_margin">56.0dip</dimen>
-    <dimen name="edit_finish_button_bottom_margin">138.0dip</dimen>
+    <dimen name="edit_finish_button_bottom_margin">98.0dip</dimen>
     <dimen name="edit_finish_text_size">16.0sp</dimen>
     <dimen name="input_banner_width">142.0dip</dimen>
     <dimen name="input_banner_height">80.0dip</dimen>
@@ -465,4 +465,6 @@
     <dimen name="preference_item_banner_height">36.0dip</dimen>
     <dimen name="preference_item_icon_size">24.0dip</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+
 </resources>

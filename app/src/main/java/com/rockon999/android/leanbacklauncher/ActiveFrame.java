@@ -90,7 +90,7 @@ public class ActiveFrame extends LinearLayout implements ParticipatesInScrollAni
         this.mRowPadding = getResources().getDimension(R.dimen.row_padding);
         this.mCardSpacing = getResources().getDimension(R.dimen.card_spacing);
         TypedValue out = new TypedValue();
-        getResources().getValue(R.raw.inactive_banner_scale_down_amount, out, true);
+        getResources().getValue(R.fraction.inactive_banner_scale_down_amount, out, true);
         this.mDownscaleFactor = out.getFloat();
         if (this.mDownscaleFactor < 0.0f || this.mDownscaleFactor >= 1.0f) {
             this.mDownscaleFactor = 0.0f;

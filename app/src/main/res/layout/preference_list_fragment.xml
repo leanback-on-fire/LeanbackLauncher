@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
     <!--todo check this too -->
     <FrameLayout
-        android:id="@+id/list"
+        android:id="@android:id/list_container"
         android:layout_width="fill_parent"
         android:layout_height="0.0dip"
-        android:layout_weight="1.0" />
+        android:layout_weight="1.0"
+        tools:ignore="NewApi" />
 
     <TextView
         android:id="@android:id/empty"

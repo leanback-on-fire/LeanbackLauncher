@@ -4,7 +4,13 @@
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
-/build
+build/
 /captures
 /.idea
 .externalNativeBuild
+*.log
+.settings/
+.project
+.classpath
+*.bak
+*.apk

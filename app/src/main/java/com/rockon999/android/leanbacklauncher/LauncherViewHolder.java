@@ -8,9 +8,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-import com.rockon999.android.leanbacklauncher.R;
-import com.rockon999.android.leanbacklauncher.apps.BannerView;
+import com.rockon999.android.leanbacklauncher.apps.AppsAdapter;
 import com.rockon999.android.leanbacklauncher.core.LaunchException;
+import com.rockon999.android.leanbacklauncher.settings.FullScreenSettingsActivity;
+import com.rockon999.android.leanbacklauncher.util.SettingsUtil;
 
 public abstract class LauncherViewHolder extends ViewHolder implements OnClickListener {
     private static final String TAG = "LauncherViewHolder";
@@ -19,9 +20,8 @@ public abstract class LauncherViewHolder extends ViewHolder implements OnClickLi
     private Intent mLaunchIntent;
     private boolean mLaunchTranslucent;
 
-    /* renamed from: LauncherViewHolder.1 */
-    class C01571 implements Runnable {
-        C01571() {
+    class Launch implements Runnable {
+        Launch() {
         }
 
         public void run() {
@@ -41,19 +41,29 @@ public abstract class LauncherViewHolder extends ViewHolder implements OnClickLi
     }
 
     public void onClick(View v) {
-        if(v instanceof BannerView && ((BannerView)v).mIsAddItem){
+        // todo this is horrible
+        if (this instanceof AppsAdapter.SettingViewHolder) {
+            int type = ((AppsAdapter.SettingViewHolder) this).getSettingsType();
 
-            Log.i(TAG, "onClick->addItem->className:" + v.getContext().getClass().getName());
-            Context context =  v.getContext();
-            if(context != null && context instanceof MainActivity){
-                ((MainActivity)context).preformIconMoreClick();
+            if (type == SettingsUtil.Type.EDIT_FAVORITES.getCode()) {
+                Log.i(TAG, "onClick->addItem->className:" + v.getContext().getClass().getName());
+                Context context = v.getContext();
+                if (context != null && context instanceof MainActivity) {
+                    ((MainActivity) context).editFavorites();
+                }
+                return;
+            } else if (type == SettingsUtil.Type.APP_CONFIGURE.getCode()) {
+                Intent intent = new Intent(mCtx, FullScreenSettingsActivity.class);
+                mCtx.startActivity(intent);
+                return;
             }
+        }
 
-            return;
-        }
+
         if (v != null && v == this.itemView) {
-            ((MainActivity) this.mCtx).beginLaunchAnimation(v, this.mLaunchTranslucent, this.mLaunchColor, new C01571());
+            ((MainActivity) this.mCtx).beginLaunchAnimation(v, this.mLaunchTranslucent, this.mLaunchColor, new Launch());
         }
+
     }
 
     protected final void setLaunchTranslucent(boolean launchTranslucent) {

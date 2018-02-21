@@ -10,4 +10,31 @@
     <fraction name="lb_view_dimmed_level">60.000004%</fraction>
     <fraction name="lb_search_orb_focused_zoom">119.99817%</fraction>
     <fraction name="lb_search_bar_speech_orb_max_level_zoom">143.9972%</fraction>
+
+    <fraction name="open_bonus_launchpoint">0.0</fraction>
+    <fraction name="open_bonus_notification">1.0</fraction>
+    <fraction name="slide_animator_propagation_speed">5.8</fraction>
+    <fraction name="launcher_active_dim_level">0.0</fraction>
+    <fraction name="launcher_inactive_dim_level">0.4</fraction>
+    <fraction name="launcher_edit_mode_dim_level">0.5</fraction>
+    <fraction name="launcher_active_header_alpha">1.0</fraction>
+    <fraction name="launcher_inactive_header_alpha">0.0</fraction>
+    <fraction name="selected_search_alpha">1.0</fraction>
+    <fraction name="unselected_search_alpha">0.75</fraction>
+    <fraction name="unselected_scale">1.0</fraction>
+    <fraction name="search_active_dim_level">0.0</fraction>
+    <fraction name="search_inactive_dim_level">0.3</fraction>
+    <fraction name="wallpaper_fade_in_initial_scale">1.02</fraction>
+    <fraction name="wallpaper_fade_in_final_scale">1.0</fraction>
+    <fraction name="badge_icon_alpha">0.5</fraction>
+    <fraction name="wallpaper_to_launcher_scroll_scale">4.0</fraction>
+    <fraction name="wallpaper_scroll_darkening_amount">0.6</fraction>
+    <fraction name="wallpaper_zoom_amount">0.05</fraction>
+    <fraction name="wallpaper_zoom_to_darkening_scale">2.0</fraction>
+    <fraction name="inactive_banner_scale_down_amount">0.1</fraction>
+    <fraction name="input_banner_connected_text_alpha">1.0</fraction>
+    <fraction name="input_banner_disconnected_text_alpha">0.3</fraction>
+    <fraction name="input_banner_connected_image_alpha">1.0</fraction>
+    <fraction name="input_banner_disconnected_image_alpha">0.5</fraction>
+    <fraction name="now_playing_icon_color_darkening">0.6</fraction>
 </resources>

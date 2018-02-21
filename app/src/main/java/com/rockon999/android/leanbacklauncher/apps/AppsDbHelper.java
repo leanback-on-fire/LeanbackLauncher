@@ -40,10 +40,12 @@ public class AppsDbHelper extends SQLiteOpenHelper {
             try {
                 String key;
                 int keyIndex = c.getColumnIndexOrThrow("key");
+                int categoryIndex = c.getColumnIndexOrThrow("is_favorite");
                 while (c.moveToNext()) {
                     key = c.getString(keyIndex);
+                    boolean isFavorite = c.getInt(categoryIndex) != 0;
                     if (!TextUtils.isEmpty(key)) {
-                        entities.put(key, new AppsEntity(AppsDbHelper.this.mContext, AppsDbHelper.this, key));
+                        entities.put(key, new AppsEntity(AppsDbHelper.this.mContext, AppsDbHelper.this, key, isFavorite));
                     }
                 }
                 c = db.query("entity_scores", null, null, null, null, null, null);
@@ -90,9 +92,6 @@ public class AppsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    interface FavoriteMigrationTable {
-    }
-
     private class RemoveEntityTask extends AsyncTask<Void, Void, Void> {
         boolean mFullRemoval;
         private String mKey;
@@ -115,28 +114,35 @@ public class AppsDbHelper extends SQLiteOpenHelper {
 
     private class SaveEntityTask extends AsyncTask<Void, Void, Void> {
         private final List<ContentValues> mComponents;
+        private final ContentValues mEntity;
         private final String mKey;
 
-        public SaveEntityTask(AppsEntity entity) {
+        public SaveEntityTask(AppsEntity entity, boolean saveScore) {
             this.mKey = entity.getKey();
             this.mComponents = new ArrayList<>();
-            for (String component : entity.getComponents()) {
-                ContentValues cv = new ContentValues();
-                cv.put("key", this.mKey);
-                cv.put("component", component);
-                cv.put("entity_score", entity.getOrder(component));
-                cv.put("last_opened", entity.getLastOpenedTimeStamp(component));
-                this.mComponents.add(cv);
+
+            this.mEntity = new ContentValues();
+            this.mEntity.put("key", this.mKey);
+            this.mEntity.put("is_favorite", entity.isFavorite() ? 1 : 0);
+
+            if (saveScore) {
+                for (String component : entity.getComponents()) {
+                    ContentValues cv = new ContentValues();
+                    cv.put("key", this.mKey);
+                    cv.put("component", component);
+                    cv.put("entity_score", entity.getOrder(component));
+                    cv.put("last_opened", entity.getLastOpenedTimeStamp(component));
+                    this.mComponents.add(cv);
+                }
             }
         }
 
         protected Void doInBackground(Void... param) {
-            ContentValues cv = new ContentValues();
-            cv.put("key", this.mKey);
             SQLiteDatabase db = AppsDbHelper.this.getWritableDatabase();
-            if (db.update("entity", cv, "key = ? ", new String[]{this.mKey}) == 0) {
-                db.insert("entity", null, cv);
+            if (db.update("entity", this.mEntity, "key = ? ", new String[]{this.mKey}) == 0) {
+                db.insert("entity", null, this.mEntity);
             }
+
             for (ContentValues componentValues : this.mComponents) {
                 int count;
                 String component = componentValues.getAsString("component");
@@ -170,7 +176,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
     }
 
     public AppsDbHelper(Context context, String databaseName) {
-        super(context, databaseName, null, 11);
+        super(context, databaseName, null, 12);
         this.mMostRecentTimeStamp = 0L;
         this.mLock = new Object();
         this.mContext = context;
@@ -188,15 +194,15 @@ public class AppsDbHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
-        // todo error?
-        db.execSQL("CREATE TABLE IF NOT EXISTS entity ( key TEXT PRIMARY KEY ) ");
-        db.execSQL("CREATE TABLE IF NOT EXISTS entity_scores ( key TEXT NOT NULL , component TEXT, entity_score INTEGER NOT NULL , last_opened INTEGER,  PRIMARY KEY ( key, component ),  FOREIGN KEY ( key )  REFERENCES entity ( key )  ) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS entity ( 'key' TEXT PRIMARY KEY, is_favorite INTEGER DEFAULT 0 ) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS entity_scores ( 'key' TEXT NOT NULL , component TEXT, entity_score INTEGER NOT NULL , last_opened INTEGER,  PRIMARY KEY ( 'key', component ),  FOREIGN KEY ( 'key' )  REFERENCES entity ( 'key' )  ) ");
         db.execSQL("CREATE TABLE IF NOT EXISTS rec_migration ( state INTEGER NOT NULL ) ");
         db.execSQL("INSERT INTO rec_migration (state) VALUES (0)");
         Util.setInitialRankingAppliedFlag(this.mContext, false);
     }
 
-    public void onUpgrade(SQLiteDatabase r19, int r20, int r21) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("ALTER TABLE entity ADD COLUMN is_favorite INTEGER DEFAULT 0");
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -212,14 +218,14 @@ public class AppsDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void saveEntity(AppsEntity entity) {
+    public void saveEntity(AppsEntity entity, boolean saveScores) {
         if (!TextUtils.isEmpty(entity.getKey())) {
-            createSaveEntityTask(entity).execute();
+            createSaveEntityTask(entity, saveScores).execute();
         }
     }
 
-    AsyncTask<Void, Void, Void> createSaveEntityTask(AppsEntity entity) {
-        return new SaveEntityTask(entity);
+    AsyncTask<Void, Void, Void> createSaveEntityTask(AppsEntity entity, boolean saveScores) {
+        return new SaveEntityTask(entity, saveScores);
     }
 
     public void removeEntity(String key, boolean fullRemoval) {

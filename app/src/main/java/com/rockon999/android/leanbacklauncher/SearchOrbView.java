@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-//import android.support.v17.leanback.R.integer;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,16 +31,12 @@ import com.rockon999.android.leanbacklauncher.util.Util;
 import java.util.Random;
 
 public class SearchOrbView extends FrameLayout implements IdleListener, SearchPackageChangeListener {
-    private int mClickDeviceId;
-    private int mColorBright;
-    private int mColorDim;
+    private int mClickDeviceId, mColorBright, mColorDim, mCurrentIndex;
+    private final String mFocusedKeyboardText, mFocusedMicText, mFocusedText;
+
     private Context mContext;
-    private int mCurrentIndex;
     private boolean mEatDpadCenterKeyDown;
     private final int mFocusedColor;
-    private final String mFocusedKeyboardText;
-    private final String mFocusedMicText;
-    private final String mFocusedText;
     private Handler mHandler;
     private final int mIdleTextFlipDelay;
     private final boolean mIsHintFlippingAllowed;
@@ -49,11 +44,10 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
     private Drawable mKeyboardFocusedIcon;
     private final int mKeyboardOrbAnimationDuration;
     private float mKeyboardOrbProgress;
-    private android.support.v17.leanback.widget.SearchOrbView mKeyboardOrbView;
+    private android.support.v17.leanback.widget.SearchOrbView mKeyboardOrbView, mMicOrbView;
     private Drawable mKeyboardUnfocusedIcon;
     private final int mLaunchFadeDuration;
     private SearchLaunchListener mListener;
-    private android.support.v17.leanback.widget.SearchOrbView mMicOrbView;
     private ObjectAnimator mOrbAnimation;
     private final String mSearchHintText;
     private final Intent mSearchIntent;
@@ -69,9 +63,8 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
         void onSearchLaunched();
     }
 
-    /* renamed from: SearchOrbView.1 */
-    class C01691 implements OnFocusChangeListener {
-        C01691() {
+    class SearchOrbFocusListener implements OnFocusChangeListener {
+        SearchOrbFocusListener() {
         }
 
         public void onFocusChange(View v, boolean hasFocus) {
@@ -79,9 +72,8 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
         }
     }
 
-    /* renamed from: SearchOrbView.2 */
-    class C01702 implements OnFocusChangeListener {
-        C01702() {
+    class KeyboardOrbFocusListener implements OnFocusChangeListener {
+        KeyboardOrbFocusListener() {
         }
 
         public void onFocusChange(View v, boolean hasFocus) {
@@ -91,18 +83,20 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
         }
     }
 
-    /* renamed from: SearchOrbView.3 */
-    class C01713 implements ViewFactory {
+    class TextHintFactory implements ViewFactory {
         LayoutInflater inflater;
-        final /* synthetic */ Context val$context;
+        final Context viewContext;
 
-        C01713(Context val$context) {
-            this.val$context = val$context;
-            this.inflater = (LayoutInflater) this.val$context.getSystemService("layout_inflater");
+        TextHintFactory(Context viewContext) {
+            this.viewContext = viewContext;
+            this.inflater = (LayoutInflater) this.viewContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         public View makeView() {
-            return this.inflater.inflate(R.layout.search_orb_text_hint, SearchOrbView.this, false);
+            if (this.inflater != null) {
+                return this.inflater.inflate(R.layout.search_orb_text_hint, SearchOrbView.this, false);
+            }
+            return null;
         }
     }
 
@@ -218,11 +212,12 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
     }
 
     public void onFinishInflate() {
+        super.onFinishInflate(); // todo
         Resources res = this.mContext.getResources();
         Theme theme = this.mContext.getTheme();
         this.mWidgetView = findViewById(R.id.widget_wrapper);
         this.mMicOrbView = (android.support.v17.leanback.widget.SearchOrbView) findViewById(R.id.mic_orb);
-        this.mMicOrbView.setOnFocusChangeListener(new C01691());
+        this.mMicOrbView.setOnFocusChangeListener(new SearchOrbFocusListener());
         initializeSearchOrbs();
         initTextSwitcher(getContext());
     }
@@ -257,7 +252,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
             this.mKeyboardOrbView.setOrbIcon(this.mKeyboardUnfocusedIcon);
             this.mKeyboardOrbView.enableOrbColorAnimation(false);
             if (this.mKeyboardOrbView != null) {
-                this.mKeyboardOrbView.setOnFocusChangeListener(new C01702());
+                this.mKeyboardOrbView.setOnFocusChangeListener(new KeyboardOrbFocusListener());
                 this.mOrbAnimation = ObjectAnimator.ofFloat(this, "keyboardOrbProgress", 0.0f);
                 this.mOrbAnimation.setDuration((long) this.mKeyboardOrbAnimationDuration);
                 setKeyboardOrbProgress(0.0f);
@@ -323,7 +318,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
     private void initTextSwitcher(Context context) {
         this.mSwitcher = (TextSwitcher) findViewById(R.id.text_switcher);
         this.mSwitcher.setAnimateFirstView(false);
-        this.mSwitcher.setFactory(new C01713(context));
+        this.mSwitcher.setFactory(new TextHintFactory(context));
         this.mSwitchRunnable = new C01724();
         reset();
     }
@@ -435,12 +430,16 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
         boolean isTouchExplorationEnabled;
         super.onAttachedToWindow();
         setVisibile(true);
-        AccessibilityManager am = (AccessibilityManager) this.mContext.getSystemService("accessibility");
-        isTouchExplorationEnabled = am.isEnabled() && am.isTouchExplorationEnabled();
-        OnClickListener listener = new C01746(isTouchExplorationEnabled);
-        this.mMicOrbView.setOnClickListener(listener);
-        if (this.mKeyboardOrbView != null) {
-            this.mKeyboardOrbView.setOnClickListener(listener);
+        AccessibilityManager am = (AccessibilityManager) this.mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
+        if (am != null) {
+            isTouchExplorationEnabled = am.isEnabled() && am.isTouchExplorationEnabled();
+            OnClickListener listener = new C01746(isTouchExplorationEnabled);
+
+            this.mMicOrbView.setOnClickListener(listener);
+
+            if (this.mKeyboardOrbView != null) {
+                this.mKeyboardOrbView.setOnClickListener(listener);
+            }
         }
     }
 

@@ -15,8 +15,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.rockon999.android.leanbacklauncher.R;
-import com.rockon999.android.leanbacklauncher.data.ConstData;
+import com.rockon999.android.leanbacklauncher.apps.notifications.NotificationListenerV12;
+import com.rockon999.android.leanbacklauncher.util.ConstData;
 import com.rockon999.android.leanbacklauncher.util.NetworkUtils;
+import com.rockon999.android.leanbacklauncher.util.SettingsUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,21 +31,22 @@ public class SettingsAdapter extends AppsAdapter {
     private Resources mNetResources;
     private boolean mNetResourcesSet;
 
-
-    /* renamed from: SettingsAdapter.1 */
-    class C01871 extends Handler {
-        C01871() {
+    class SettingsHandler extends Handler {
+        SettingsHandler() {
         }
 
         @SuppressLint("PrivateResource")
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
+                case 1:
                     int index = SettingsAdapter.this.updateNetwork();
+
                     if (index >= 0) {
                         SettingsAdapter.this.notifyItemChanged(index);
                     }
+                    break;
                 default:
+                    break;
             }
         }
     }
@@ -56,21 +59,24 @@ public class SettingsAdapter extends AppsAdapter {
             if (lhs.getPriority() != rhs.getPriority()) {
                 return rhs.getPriority() - lhs.getPriority();
             }
-            if (lhs.getTitle() == null) {
-                return -1;
-            }
-            if (rhs.getTitle() == null) {
+
+            // todo magic numbers
+            if (lhs.getSettingsType() < 0) {
                 return 1;
             }
-            return lhs.getTitle().compareToIgnoreCase(rhs.getTitle());
+            if (rhs.getSettingsType() < 0) {
+                return -1;
+            }
+
+            return Integer.compare(lhs.getSettingsType(), rhs.getSettingsType());
         }
     }
 
     public SettingsAdapter(Context context, LaunchPointListGenerator launchPointListGenerator, ConnectivityListener listener, AppsRanker appsRanker) {
-        super(context, 2, launchPointListGenerator, appsRanker, null);
+        super(context, launchPointListGenerator, appsRanker, false, AppCategory.SETTINGS);
 
         this.mNetResourcesSet = false;
-        this.mHandler = new C01871();
+        this.mHandler = new SettingsHandler();
         this.mConnectivityListener = listener;
 
         BroadcastReceiver onNotice = new BroadcastReceiver() {
@@ -82,7 +88,7 @@ public class SettingsAdapter extends AppsAdapter {
             }
         };
 
-        LocalBroadcastManager.getInstance(context).registerReceiver(onNotice, new IntentFilter("NotificationCountUpdate"));
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext()).registerReceiver(onNotice, new IntentFilter(NotificationListenerV12.LISTENER_INTENT));
     }
 
     protected final void onPostRefresh() {
@@ -98,9 +104,10 @@ public class SettingsAdapter extends AppsAdapter {
         Log.i(TAG, "count updated");
         for (int i = 0; i < this.mLaunchPoints.size(); i++) {
             LaunchPoint launchPoint = this.mLaunchPoints.get(i);
-            if (launchPoint.getSettingsType() == 3) {
-                Log.i(TAG, "count 1");
+            if (launchPoint.getSettingsType() == SettingsUtil.Type.NOTIFICATIONS.getCode()) {
+                Log.i(TAG, "count: " + count);
                 launchPoint.setTitle("Notifications (" + count + ")"); // todo rtl
+                notifyDataSetChanged();
             }
         }
     }
@@ -109,7 +116,7 @@ public class SettingsAdapter extends AppsAdapter {
         Log.i(TAG, "updateNetwork");
         for (int i = 0; i < this.mLaunchPoints.size(); i++) {
             LaunchPoint launchPoint = this.mLaunchPoints.get(i);
-            if (launchPoint.getSettingsType() == 0) {
+            if (launchPoint.getSettingsType() == SettingsUtil.Type.WIFI.getCode()) {
                 Log.i(TAG, "updateNetwork 1");
                 setNetwork(this.mContext.getResources(), launchPoint);
                 return i;
@@ -118,7 +125,7 @@ public class SettingsAdapter extends AppsAdapter {
         return -1;
     }
 
-    private LaunchPoint setNetwork(Resources res, LaunchPoint launchPoint) {
+    private void setNetwork(Resources res, LaunchPoint launchPoint) {
         Log.i(TAG, "setNetwork->mNetResourcesSet:" + mNetResourcesSet);
         String str = null;
         if (!this.mNetResourcesSet) {
@@ -128,14 +135,14 @@ public class SettingsAdapter extends AppsAdapter {
         String title = null;
         boolean hasNetworkName = false;
         launchPoint.setIconDrawable(null);
-        int networkState = NetworkUtils.getCurrentNetworkState();
+        int networkState = NetworkUtils.getCurrentNetworkState(mContext);
         if (networkState == ConstData.NetworkState.NO) {
             titleId = R.string.settings_network;
             launchPoint.setIconDrawable(getNetResourceDrawable(launchPoint, "network_state_disconnected"));
         } else if (networkState == ConstData.NetworkState.WIFI) {
             hasNetworkName = true;
-            title = NetworkUtils.getWifiSSID();
-            int wifiStrength = NetworkUtils.getWifiStrength();
+            title = NetworkUtils.getWifiSSID(mContext);
+            int wifiStrength = NetworkUtils.getWifiStrength(mContext);
             launchPoint.setIconDrawable(getNetResourceDrawable(launchPoint, "network_state_wifi_" + wifiStrength));
         } else if (networkState == ConstData.NetworkState.ETHERNET) {
             launchPoint.setIconDrawable(getNetResourceDrawable(launchPoint, "network_state_ethernet"));
@@ -157,7 +164,6 @@ public class SettingsAdapter extends AppsAdapter {
             str = res.getString(R.string.settings_network);
         }
         launchPoint.setContentDescription(str);
-        return launchPoint;
     }
 
     public void onRankerReady() {

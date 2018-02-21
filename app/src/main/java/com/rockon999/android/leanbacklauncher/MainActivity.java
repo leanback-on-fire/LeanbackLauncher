@@ -10,7 +10,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,7 +34,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.rockon999.android.leanbacklauncher.adapter.AllAppGridAdapter;
+import com.rockon999.android.leanbacklauncher.adapter.AppGridAdapter;
 import com.rockon999.android.leanbacklauncher.animation.AnimatorLifecycle;
 import com.rockon999.android.leanbacklauncher.animation.EditModeMassFadeAnimator;
 import com.rockon999.android.leanbacklauncher.animation.ForwardingAnimatorSet;
@@ -46,6 +45,7 @@ import com.rockon999.android.leanbacklauncher.animation.LauncherReturnAnimator;
 import com.rockon999.android.leanbacklauncher.animation.MassSlideAnimator;
 import com.rockon999.android.leanbacklauncher.animation.MassSlideAnimator.Direction;
 import com.rockon999.android.leanbacklauncher.animation.ParticipatesInLaunchAnimation;
+import com.rockon999.android.leanbacklauncher.apps.AllAppsAdapter;
 import com.rockon999.android.leanbacklauncher.apps.AppsAdapter;
 import com.rockon999.android.leanbacklauncher.apps.AppsRanker;
 import com.rockon999.android.leanbacklauncher.apps.BannerView;
@@ -53,15 +53,13 @@ import com.rockon999.android.leanbacklauncher.apps.LaunchPoint;
 import com.rockon999.android.leanbacklauncher.apps.LaunchPointListGenerator;
 import com.rockon999.android.leanbacklauncher.apps.OnEditModeChangedListener;
 import com.rockon999.android.leanbacklauncher.apps.notifications.NotificationListenerMonitor;
-import com.rockon999.android.leanbacklauncher.data.ConstData;
 import com.rockon999.android.leanbacklauncher.logging.LeanbackLauncherEventLogger;
-import com.rockon999.android.leanbacklauncher.modle.db.AppInfoService;
 import com.rockon999.android.leanbacklauncher.recline.util.DrawableDownloader;
-import com.rockon999.android.leanbacklauncher.settings.AppInfoActivity;
+import com.rockon999.android.leanbacklauncher.apps.AppInfoActivity;
+import com.rockon999.android.leanbacklauncher.util.ConstData;
 import com.rockon999.android.leanbacklauncher.util.ReflectUtils;
 import com.rockon999.android.leanbacklauncher.util.Util;
 import com.rockon999.android.leanbacklauncher.wallpaper.LauncherWallpaper;
-import com.rockon999.android.leanbacklauncher.widget.AllAppGridView;
 import com.rockon999.android.leanbacklauncher.widget.EditModeView;
 
 import java.io.FileDescriptor;
@@ -94,7 +92,6 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     private VerticalGridView mList;
     private final Runnable mMoveTaskToBack;
 
-    BroadcastReceiver mPackageReplacedReceiver;
     private AnimatorLifecycle mPauseAnimation;
     private final Runnable mRefreshHomeAdapter;
     private boolean mResetAfterIdleEnabled;
@@ -107,7 +104,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     private RelativeLayout mLayoutLoading;
     private GridView mAllAppGridView;
-    private AllAppGridAdapter mAllAppGridAdapter;
+    private AppGridAdapter mAllAppGridAdapter;
     private List<LaunchPoint> mAllLaunchPoints;
     /**
      * Whether the launcher is being loaded for the first time...
@@ -116,6 +113,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     private int mActivityState;
     private Handler mTimerHandler;
+    private AnimatorLifecycle.OnAnimationFinishedListener mLaunchAnimationListener;
+
+    public AppsRanker getAppRankings() {
+        return mAppsRanker;
+    }
 
     /* renamed from: MainActivity.1 */
     class C01581 implements Runnable {
@@ -194,9 +196,6 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             }
             if (packageName != null && packageName.toString().contains("com.rockon999.android.leanbacklauncher.recommendations")) {
                 Log.d("LeanbackLauncher", "Recommendations Service updated, reconnecting");
-                if (MainActivity.this.mHomeAdapter != null) {
-                    MainActivity.this.mHomeAdapter.onReconnectToRecommendationsService();
-                }
             }
         }
     }
@@ -294,9 +293,9 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mUserInteracted = false;
         this.mHandler = new C01603();
 
-        this.mPackageReplacedReceiver = new PackageUpdateReceiver();
     }
 
+    @SuppressLint("RestrictedApi")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIsFirstLoad = true;
@@ -305,12 +304,12 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         Context appContext = getApplicationContext();
         DrawableDownloader.getInstance(appContext);
         setContentView(R.layout.activity_main);
-        this.mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
         this.mAppsRanker = AppsRanker.getInstance(this);
         this.mLaunchPointListGenerator = new LaunchPointListGenerator(this);
         this.mLaunchPointListGenerator.addToBlacklist(BuildConfig.APPLICATION_ID, false);
         mLayoutLoading = (RelativeLayout) findViewById(R.id.layout_loading);
-        mAllAppGridView = (AllAppGridView) findViewById(R.id.grid_all_app);
+
+        this.mAllAppGridView = (GridView) findViewById(R.id.grid_all_app);
         this.mEditModeView = (EditModeView) findViewById(R.id.edit_mode_view);
         this.mEditModeView.setUninstallListener(this);
         this.mWallpaper = (LauncherWallpaper) findViewById(R.id.background_container);
@@ -346,10 +345,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mKeepUiReset = true;
         this.mHomeAdapter.onInitUi();
         this.mEventLogger = LeanbackLauncherEventLogger.getInstance(appContext);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.intent.action.PACKAGE_REPLACED");
-        filter.addDataScheme("package");
-        registerReceiver(this.mPackageReplacedReceiver, filter);
+
+        //IntentFilter filter = new IntentFilter();
+        //filter.addAction("android.intent.action.PACKAGE_REPLACED");
+        //filter.addDataScheme("package");
+        //registerReceiver(this.mPackageReplacedReceiver, filter);
 
         startService(new Intent(this, NotificationListenerMonitor.class));
 
@@ -366,7 +366,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         if (this.mAppsRanker != null) {
             this.mAppsRanker.unregisterListeners();
         }
-        unregisterReceiver(this.mPackageReplacedReceiver);
+        //unregisterReceiver(this.mPackageReplacedReceiver);
     }
 
     public void onUserInteraction() {
@@ -412,16 +412,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     public void onEditModeChanged(boolean editMode) {
         Log.i(TAG, "onEditModeChanged->editMode:" + editMode);
-        Log.i(TAG, "onEditModeChanged->mAccessibilityManager->isEnabled:" + mAccessibilityManager.isEnabled());
         if (this.mAppEditMode == editMode) {
             return;
         }
         setEditMode(editMode, false);
-        /*if (this.mAccessibilityManager.isEnabled()) {
-            setEditMode(editMode, false);
-        } else {
-            setEditMode(editMode, true);
-        }*/
     }
 
     public void onUninstallPressed(String packageName) {
@@ -493,9 +487,9 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         if (!exitingEditMode) {
             if (intent.getExtras() != null) {
                 if (intent.getExtras().getBoolean("extra_start_customize_apps")) {
-                    startEditMode(3);
+                    startEditMode(ConstData.RowType.ALL_APPS);
                 } else if (intent.getExtras().getBoolean("extra_start_customize_games")) {
-                    startEditMode(4);
+                    startEditMode(ConstData.RowType.FAVORITE); // todo
                 }
             }
             if (!this.mStartingEditMode) {
@@ -527,10 +521,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mStartingEditMode = true;
         this.mHomeAdapter.resetRowPositions(false);
         this.mLaunchAnimation.cancel();
-        this.mList.setSelectedPosition(this.mHomeAdapter.getRowIndex(rowType));
+        //  this.mList.setSelectedPosition(this.mHomeAdapter.getRowIndex(rowType));
         this.mHomeAdapter.prepareEditMode(rowType);
     }
 
+    @SuppressLint("RestrictedApi")
     private void resetLauncherState(boolean smooth) {
         Log.i(TAG, "resetLauncherState");
         this.mScrollManager.onScrolled(0, 0);
@@ -553,7 +548,6 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                     focusedChild.clearFocus();
                 }
             }
-
         }
         this.mLaunchAnimation.cancel();
     }
@@ -586,6 +580,17 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     protected void onSaveInstanceState(Bundle savedInstanceState) {
+    }
+
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        LaunchPoint selectItem = mAllAppGridAdapter.getItem(position);
+
+        if (selectItem != null) {
+            boolean isFavorited = this.mAppsRanker.isFavorite(selectItem);
+            this.mAppsRanker.setFavorited(selectItem, !isFavorited);
+            CheckBox selectBox = (CheckBox) view.findViewById(R.id.check_select);
+            selectBox.setChecked(this.mAppsRanker.isFavorite(selectItem));
+        }
     }
 
     protected void onResume() {
@@ -725,6 +730,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         return pos;
     }
 
+    @SuppressLint("RestrictedApi")
     private void onNotificationRowStateUpdate(int state) {
         Log.i(TAG, "onNotificationRowStateUpdate");
         if (state == 1 || state == 2) {
@@ -768,7 +774,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 mAllAppGridView.setVisibility(View.GONE);
                 int itemCount = mList.getChildCount();
-                int selectedPosition = mList.getSelectedPosition();
+                @SuppressLint("RestrictedApi") int selectedPosition = mList.getSelectedPosition();
                 ArrayList<HomeScreenRow> visibleRows = mHomeAdapter.getVisRowList();
                 for (int i = 0; i < itemCount; ++i) {
                     View rowView = visibleRows.get(i).getRowView();
@@ -776,19 +782,23 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                         rowView.setVisibility(View.VISIBLE);
                     }
                 }
+
+
                 // Save the database again...
                 if (mAllLaunchPoints != null && mAllLaunchPoints.size() > 0) {
                     List<LaunchPoint> selectLaunchPoints = new ArrayList<>();
                     for (LaunchPoint itemLaunchPoint : mAllLaunchPoints) {
-                        if (itemLaunchPoint.isFavorited()) {
+                        if (this.mAppsRanker.isFavorite(itemLaunchPoint)) {
                             selectLaunchPoints.add(itemLaunchPoint);
                         }
                     }
                     Log.i(TAG, "selectLaunchPoints->size:" + selectLaunchPoints.size());
-                    AppInfoService appInfoService = new AppInfoService();
-                    appInfoService.deleteByType(ConstData.AppType.FAVORITE);
-                    appInfoService.saveByLaunchPoints(selectLaunchPoints, ConstData.AppType.FAVORITE);
+
+                    this.mAppsRanker.saveFavoriteSnapshot(selectLaunchPoints);
                 }
+
+                // todo performance?
+
                 mHomeAdapter.refreshAdapterData();
                 return true;
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
@@ -1019,6 +1029,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mLaunchAnimation.setOnAnimationFinishedListener(l);
     }
 
+
     private void primeAnimationAfterLayout() {
         this.mList.getRootView().getViewTreeObserver().addOnGlobalLayoutListener(new C01689());
         this.mList.requestLayout();
@@ -1059,37 +1070,26 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         return false;
     }
 
-    public void preformIconMoreClick() {
+    public void editFavorites() {
         int itemCount = mList.getChildCount();
-        int selectedPosition = mList.getSelectedPosition();
-        ArrayList<HomeScreenRow> visibleRows = mHomeAdapter.getVisRowList();
+        @SuppressLint("RestrictedApi") int selectedPosition = mList.getSelectedPosition();
+
+        List<HomeScreenRow> visibleRows = mHomeAdapter.getVisRowList();
         for (int i = 0; i < itemCount; ++i) {
             View rowView = visibleRows.get(i).getRowView();
             if (rowView instanceof ActiveFrame && i != selectedPosition) {
                 rowView.setVisibility(View.GONE);
-
             }
         }
+
         mAllAppGridView.setVisibility(View.VISIBLE);
         mAllLaunchPoints = mLaunchPointListGenerator.getAllLaunchPoints();
-        mAllAppGridAdapter = new AllAppGridAdapter(this, R.layout.adapter_item_allapp, mAllLaunchPoints);
+        mAllAppGridAdapter = new AppGridAdapter(this, R.layout.adapter_item_allapp, mAllLaunchPoints);
         mAllAppGridView.setAdapter(mAllAppGridAdapter);
         mAllAppGridView.setOnItemClickListener(this);
         mAllAppGridView.setFocusable(true);
         mAllAppGridView.setFocusableInTouchMode(true);
         mAllAppGridView.requestFocus();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        LaunchPoint selectItem = mAllAppGridAdapter.getItem(position);
-
-        if (selectItem != null) {
-            boolean isRecommend = selectItem.isFavorited();
-            selectItem.setFavorite(!isRecommend);
-            CheckBox selectBox = (CheckBox) view.findViewById(R.id.check_select);
-            selectBox.setChecked(selectItem.isFavorited());
-        }
     }
 
     @Override
@@ -1101,7 +1101,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             for (int i = 0; i < itemCount; ++i) {
                 Log.i(TAG, "run1");
                 RecyclerView.Adapter<?> rowAdapter = visibleRows.get(i).getAdapter();
-                if (rowAdapter instanceof AppsAdapter && ((AppsAdapter) rowAdapter).getAppType() == ConstData.AppType.ALL && rowAdapter.getItemCount() > 0) {
+                if (rowAdapter instanceof AppsAdapter && rowAdapter instanceof AllAppsAdapter && rowAdapter.getItemCount() > 0) {
                     mLayoutLoading.setVisibility(View.GONE);
                     mList.setVisibility(View.VISIBLE);
                     mTimerHandler.removeCallbacks(this);

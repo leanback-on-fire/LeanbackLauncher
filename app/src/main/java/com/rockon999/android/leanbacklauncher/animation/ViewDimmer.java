@@ -99,11 +99,11 @@ public class ViewDimmer {
             }
         }
         TypedValue out = new TypedValue();
-        this.mTargetView.getResources().getValue(R.raw.launcher_active_dim_level, out, true);
+        this.mTargetView.getResources().getValue(R.fraction.launcher_active_dim_level, out, true);
         this.mActiveDimLevel = out.getFloat();
-        this.mTargetView.getResources().getValue(R.raw.launcher_inactive_dim_level, out, true);
+        this.mTargetView.getResources().getValue(R.fraction.launcher_inactive_dim_level, out, true);
         this.mInactiveDimLevel = out.getFloat();
-        this.mTargetView.getResources().getValue(R.raw.launcher_edit_mode_dim_level, out, true);
+        this.mTargetView.getResources().getValue(R.fraction.launcher_edit_mode_dim_level, out, true);
         this.mEditModeDimLevel = out.getFloat();
         int dimAnimDuration = this.mTargetView.getResources().getInteger(R.integer.item_dim_anim_duration);
         this.mDimAnimation = ObjectAnimator.ofFloat(this, "dimLevel", this.mInactiveDimLevel);

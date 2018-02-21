@@ -570,13 +570,13 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         this.mInflater = (LayoutInflater) context.getSystemService("layout_inflater");
         setupDeviceTypePriorities();
         TypedValue out = new TypedValue();
-        context.getResources().getValue(R.raw.input_banner_connected_text_alpha, out, true);
+        context.getResources().getValue(R.fraction.input_banner_connected_text_alpha, out, true);
         this.mTextAlphaConnected = out.getFloat();
-        context.getResources().getValue(R.raw.input_banner_disconnected_text_alpha, out, true);
+        context.getResources().getValue(R.fraction.input_banner_disconnected_text_alpha, out, true);
         this.mTextAlphaDisconnected = out.getFloat();
-        context.getResources().getValue(R.raw.input_banner_connected_image_alpha, out, true);
+        context.getResources().getValue(R.fraction.input_banner_connected_image_alpha, out, true);
         this.mImageAlphaConnected = out.getFloat();
-        context.getResources().getValue(R.raw.input_banner_disconnected_image_alpha, out, true);
+        context.getResources().getValue(R.fraction.input_banner_disconnected_image_alpha, out, true);
         this.mImageAlphaDisconnected = out.getFloat();
         this.mTextColorLight = this.mContext.getResources().getColor(R.color.input_banner_label_text_color_light);
         this.mTextColorDark = this.mContext.getResources().getColor(R.color.input_banner_label_text_color_dark);

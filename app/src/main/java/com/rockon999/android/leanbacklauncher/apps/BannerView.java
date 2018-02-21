@@ -40,7 +40,6 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     private boolean mLeavingEditMode;
     private ArrayList<BannerSelectedChangedListener> mSelectedListeners;
     private AppsAdapter.AppViewHolder mViewHolder;
-    public boolean mIsAddItem;
     private int mBannerBackColor = -1;
 
     public AppsAdapter.AppViewHolder getViewHolder() {
@@ -242,8 +241,6 @@ public class BannerView extends FrameLayout implements DimmableItem, Participate
     }
 
     public boolean onLongClick(View v) {
-        if (v instanceof BannerView && ((BannerView) v).mIsAddItem)
-            return true;
         Log.i(TAG, "onLongClick->v->className:" + v.getClass().getName());
         if (isEditable() && !this.mEditMode) {
             Log.i(TAG, "onLongClick1");

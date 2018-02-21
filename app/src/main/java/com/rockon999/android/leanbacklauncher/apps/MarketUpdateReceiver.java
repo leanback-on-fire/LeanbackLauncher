@@ -118,6 +118,7 @@ public class MarketUpdateReceiver extends BroadcastReceiver {
     }
 
     private LaunchPoint createInstallLaunchPoint(Context context, String pkgName, Intent intent) {
-        return new LaunchPoint(context, intent.getStringExtra("app_name"), intent.getStringExtra("app_icon"), pkgName, (Intent) intent.getParcelableExtra("app_detailIntent"), intent.getBooleanExtra("app_is_game", false), this.mListener);
+        // intent.getBooleanExtra("app_is_game", false)
+        return new LaunchPoint(context, intent.getStringExtra("app_name"), intent.getStringExtra("app_icon"), pkgName, (Intent) intent.getParcelableExtra("app_detailIntent"), this.mListener);
     }
 }

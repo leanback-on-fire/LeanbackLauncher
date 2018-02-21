@@ -26,28 +26,35 @@
 
     <include layout="@layout/edit_mode_layer" />
 
-    <com.rockon999.android.leanbacklauncher.widget.AllAppGridView
+    <GridView
         android:id="@+id/grid_all_app"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="300dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/edit_mode_background_color"
         android:columnWidth="100dp"
         android:horizontalSpacing="0dp"
         android:listSelector="@drawable/common_list_background"
         android:numColumns="auto_fit"
+        android:paddingBottom="48dp"
+        android:paddingEnd="48dp"
+        android:paddingStart="48dp"
+        android:paddingTop="48dp"
+        android:requiresFadingEdge="vertical"
         android:stretchMode="columnWidth"
         android:verticalSpacing="0dp"
         android:visibility="gone" />
+
 
     <RelativeLayout
         android:id="@+id/layout_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:focusable="false"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:focusable="false">
 
         <ProgressBar
             android:id="@id/empty_state_spinner"

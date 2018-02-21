@@ -137,13 +137,13 @@ public class LauncherWallpaper extends FrameLayout implements AnimationListener,
         this.mWallpaperInstaller = WallpaperInstaller.getInstance(context);
         this.mScrollDarkeningOffset = (float) getContext().getResources().getDimensionPixelOffset(R.dimen.home_scroll_size_search);
         TypedValue out = new TypedValue();
-        getResources().getValue(R.raw.wallpaper_scroll_darkening_amount, out, true);
+        getResources().getValue(R.fraction.wallpaper_scroll_darkening_amount, out, true);
         this.mScrollDarkeningAmount = out.getFloat();
-        getResources().getValue(R.raw.wallpaper_to_launcher_scroll_scale, out, true);
+        getResources().getValue(R.fraction.wallpaper_to_launcher_scroll_scale, out, true);
         this.mWallpaperScrollScale = out.getFloat();
-        getResources().getValue(R.raw.wallpaper_zoom_amount, out, true);
+        getResources().getValue(R.fraction.wallpaper_zoom_amount, out, true);
         this.mZoom = out.getFloat();
-        getResources().getValue(R.raw.wallpaper_zoom_to_darkening_scale, out, true);
+        getResources().getValue(R.fraction.wallpaper_zoom_to_darkening_scale, out, true);
         this.mZoomThreshold = this.mScrollDarkeningOffset / out.getFloat();
         int backgroundColor = ContextCompat.getColor(context, R.color.launcher_background_color);
         this.mBackgroundColor = new ColorDrawable(backgroundColor);

@@ -1,5 +1,6 @@
 package com.rockon999.android.leanbacklauncher;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 
 import com.rockon999.android.leanbacklauncher.animation.ViewDimmer;
 import com.rockon999.android.leanbacklauncher.animation.ViewDimmer.DimState;
+import com.rockon999.android.leanbacklauncher.apps.AllAppsAdapter;
 import com.rockon999.android.leanbacklauncher.apps.AppsAdapter;
 import com.rockon999.android.leanbacklauncher.apps.BannerSelectedChangedListener;
 import com.rockon999.android.leanbacklauncher.apps.BannerView;
@@ -106,6 +108,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
         this(context, attrs, 0);
     }
 
+    @SuppressLint("RestrictedApi")
     public ActiveItemsRowView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.mChangeObserver = new C01531();
@@ -276,23 +279,20 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
                 ((Activity) getContext()).setTitle(R.string.title_app_edit_mode);
             }
             if (this.mEditMode != editMode) {
-                int dimensionPixelSize;
                 if (DEBUG) {
                     Log.d(TAG, "change EditMode ============== " + editMode);
                 }
                 this.mEditMode = editMode;
-                if (editMode) {
-                    dimensionPixelSize = getResources().getDimensionPixelSize(R.dimen.banner_width);
-                } else {
-                    dimensionPixelSize = 0;
-                }
-                setExtraLayoutSpace(dimensionPixelSize);
+
                 if (!editMode) {
                     getViewTreeObserver().removeOnGlobalFocusChangeListener(this);
                     AppsAdapter adapter = (AppsAdapter) getAdapter();
+
                     if (adapter != null) {
                         adapter.saveAppOrderSnapshot();
                     }
+
+
                 } else if (isAccessibilityEnabled()) {
                     getViewTreeObserver().addOnGlobalFocusChangeListener(this);
                 }

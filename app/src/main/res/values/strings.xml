@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="store_picture_title">Save image</string>
-    <string name="store_picture_message">Allow Ad to store image in Picture gallery?</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
-    <string name="create_calendar_title">Create calendar event</string>
-    <string name="create_calendar_message">Allow Ad to create a calendar event?</string>
-    <string name="common_google_play_services_notification_ticker">Google Play services error</string>
-    <string name="common_google_play_services_notification_needs_installation_title">An application requires installation of Google Play services.</string>
-    <string name="common_google_play_services_notification_needs_update_title">An application requires an update for Google Play services.</string>
-    <string name="common_android_wear_notification_needs_update_text">An application requires an update to the Android Wear app.</string>
-    <string name="common_google_play_services_needs_enabling_title">An application requires Google Play services to be enabled.</string>
-    <string name="common_google_play_services_error_notification_requested_by_msg">Requested by %1$s</string>
-    <string name="common_google_play_services_install_title">Get Google Play services</string>
-    <string name="common_google_play_services_install_text_phone">"This app won't run without Google Play services, which are missing from your phone."</string>
-    <string name="common_google_play_services_install_text_tablet">"This app won't run without Google Play services, which are missing from your tablet."</string>
-    <string name="common_google_play_services_install_button">Get Google Play services</string>
-    <string name="common_google_play_services_enable_title">Enable Google Play services</string>
-    <string name="common_google_play_services_enable_text">"This app won't work unless you enable Google Play services."</string>
-    <string name="common_google_play_services_enable_button">Enable Google Play services</string>
-    <string name="common_google_play_services_update_title">Update Google Play services</string>
-    <string name="common_android_wear_update_title">Update Android Wear</string>
-    <string name="common_google_play_services_update_text">"This app won't run unless you update Google Play services."</string>
-    <string name="common_android_wear_update_text">"This app won't run unless you update the Android Wear app."</string>
-    <string name="common_google_play_services_network_error_title">Network Error</string>
-    <string name="common_google_play_services_network_error_text">A data connection is required to connect to Google Play services.</string>
-    <string name="common_google_play_services_invalid_account_title">Invalid Account</string>
-    <string name="common_google_play_services_invalid_account_text">The specified account does not exist on this device. Please choose a different account.</string>
-    <string name="common_google_play_services_unknown_issue">Unknown issue with Google Play services.</string>
-    <string name="common_google_play_services_unsupported_title">Google Play services</string>
-    <string name="common_google_play_services_unsupported_text">Google Play services, which some of your applications rely on, is not supported by your device. Please contact the manufacturer for assistance.</string>
-    <string name="common_google_play_services_update_button">Update</string>
-    <string name="common_signin_button_text">Sign in</string>
-    <string name="common_signin_button_text_long">Sign in with Google</string>
-    <string name="common_open_on_phone">Open on phone</string>
-    <string name="wallet_buy_button_place_holder">Buy with Google</string>
+    <string name="store_picture_title" tools:ignore="MissingTranslation">Save image</string>
+    <string name="store_picture_message" tools:ignore="MissingTranslation">Allow Ad to store image in Picture gallery?</string>
+    <string name="accept" tools:ignore="MissingTranslation">Accept</string>
+    <string name="decline" tools:ignore="MissingTranslation">Decline</string>
+    <string name="create_calendar_title" tools:ignore="MissingTranslation">Create calendar event</string>
+    <string name="create_calendar_message" tools:ignore="MissingTranslation">Allow Ad to create a calendar event?</string>
+    <string name="common_google_play_services_notification_ticker" tools:ignore="MissingTranslation">Google Play services error</string>
+    <string name="common_google_play_services_notification_needs_installation_title" tools:ignore="MissingTranslation">An application requires installation of Google Play services.</string>
+    <string name="common_google_play_services_notification_needs_update_title" tools:ignore="MissingTranslation">An application requires an update for Google Play services.</string>
+    <string name="common_android_wear_notification_needs_update_text" tools:ignore="MissingTranslation">An application requires an update to the Android Wear app.</string>
+    <string name="common_google_play_services_needs_enabling_title" tools:ignore="MissingTranslation">An application requires Google Play services to be enabled.</string>
+    <string name="common_google_play_services_error_notification_requested_by_msg" tools:ignore="MissingTranslation">Requested by %1$s</string>
+    <string name="common_google_play_services_install_title" tools:ignore="MissingTranslation">Get Google Play services</string>
+    <string name="common_google_play_services_install_text_phone" tools:ignore="MissingTranslation">"This app won't run without Google Play services, which are missing from your phone."</string>
+    <string name="common_google_play_services_install_text_tablet" tools:ignore="MissingTranslation">"This app won't run without Google Play services, which are missing from your tablet."</string>
+    <string name="common_google_play_services_install_button" tools:ignore="MissingTranslation">Get Google Play services</string>
+    <string name="common_google_play_services_enable_title" tools:ignore="MissingTranslation">Enable Google Play services</string>
+    <string name="common_google_play_services_enable_text" tools:ignore="MissingTranslation">"This app won't work unless you enable Google Play services."</string>
+    <string name="common_google_play_services_enable_button" tools:ignore="MissingTranslation">Enable Google Play services</string>
+    <string name="common_google_play_services_update_title" tools:ignore="MissingTranslation">Update Google Play services</string>
+    <string name="common_android_wear_update_title" tools:ignore="MissingTranslation">Update Android Wear</string>
+    <string name="common_google_play_services_update_text" tools:ignore="MissingTranslation">"This app won't run unless you update Google Play services."</string>
+    <string name="common_android_wear_update_text" tools:ignore="MissingTranslation">"This app won't run unless you update the Android Wear app."</string>
+    <string name="common_google_play_services_network_error_title" tools:ignore="MissingTranslation">Network Error</string>
+    <string name="common_google_play_services_network_error_text" tools:ignore="MissingTranslation">A data connection is required to connect to Google Play services.</string>
+    <string name="common_google_play_services_invalid_account_title" tools:ignore="MissingTranslation">Invalid Account</string>
+    <string name="common_google_play_services_invalid_account_text" tools:ignore="MissingTranslation">The specified account does not exist on this device. Please choose a different account.</string>
+    <string name="common_google_play_services_unknown_issue" tools:ignore="MissingTranslation">Unknown issue with Google Play services.</string>
+    <string name="common_google_play_services_unsupported_title" tools:ignore="MissingTranslation">Google Play services</string>
+    <string name="common_google_play_services_unsupported_text" tools:ignore="MissingTranslation">Google Play services, which some of your applications rely on, is not supported by your device. Please contact the manufacturer for assistance.</string>
+    <string name="common_google_play_services_update_button" tools:ignore="MissingTranslation">Update</string>
+    <string name="common_signin_button_text" tools:ignore="MissingTranslation">Sign in</string>
+    <string name="common_signin_button_text_long" tools:ignore="MissingTranslation">Sign in with Google</string>
+    <string name="common_open_on_phone" tools:ignore="MissingTranslation">Open on phone</string>
+    <string name="wallet_buy_button_place_holder" tools:ignore="MissingTranslation">Buy with Google</string>
     <item type="string" name="lb_dialog_list_item_selected_title_text_alpha">1.0</item>
     <item type="string" name="lb_dialog_list_item_selected_description_text_alpha">0.5</item>
     <item type="string" name="lb_dialog_list_item_selected_chevron_background_alpha">1.0</item>
@@ -65,9 +65,9 @@
     <string name="lb_playback_controls_play">Play</string>
     <string name="lb_playback_controls_pause">Pause</string>
     <string name="lb_playback_controls_fast_forward">Fast Forward</string>
-    <string name="lb_playback_controls_fast_forward_multiplier">Fast Forward %1$dX</string>
+    <string name="lb_playback_controls_fast_forward_multiplier" tools:ignore="MissingTranslation">Fast Forward %1$dX</string>
     <string name="lb_playback_controls_rewind">Rewind</string>
-    <string name="lb_playback_controls_rewind_multiplier">Rewind %1$dX</string>
+    <string name="lb_playback_controls_rewind_multiplier" tools:ignore="MissingTranslation">Rewind %1$dX</string>
     <string name="lb_playback_controls_skip_next">Skip Next</string>
     <string name="lb_playback_controls_skip_previous">Skip Previous</string>
     <string name="lb_playback_controls_more_actions">More Actions</string>
@@ -91,26 +91,26 @@
     <string name="lb_time_separator">:</string>
     <string name="lb_onboarding_get_started">GET STARTED</string>
     <string name="lb_onboarding_accessibility_next">Next</string>
-    <string name="v7_preference_on">ON</string>
-    <string name="v7_preference_off">OFF</string>
-    <string name="abc_font_family_display_4_material" tools:ignore="PrivateResource">sans-serif-light</string>
-    <string name="abc_font_family_display_3_material" tools:ignore="PrivateResource">sans-serif</string>
-    <string name="abc_font_family_display_2_material" tools:ignore="PrivateResource">sans-serif</string>
-    <string name="abc_font_family_display_1_material" tools:ignore="PrivateResource">sans-serif</string>
-    <string name="abc_font_family_headline_material" tools:ignore="PrivateResource">sans-serif</string>
-    <string name="abc_font_family_title_material" tools:ignore="PrivateResource">sans-serif-medium</string>
-    <string name="abc_font_family_subhead_material" tools:ignore="PrivateResource">sans-serif</string>
-    <string name="abc_font_family_menu_material" tools:ignore="PrivateResource">sans-serif</string>
-    <string name="abc_font_family_body_2_material" tools:ignore="PrivateResource">sans-serif-medium</string>
-    <string name="abc_font_family_body_1_material" tools:ignore="PrivateResource">sans-serif</string>
-    <string name="abc_font_family_caption_material" tools:ignore="PrivateResource">sans-serif</string>
-    <string name="abc_font_family_button_material" tools:ignore="PrivateResource">sans-serif-medium</string>
+    <string name="v7_preference_on" tools:ignore="MissingTranslation">ON</string>
+    <string name="v7_preference_off" tools:ignore="MissingTranslation">OFF</string>
+    <string name="abc_font_family_display_4_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif-light</string>
+    <string name="abc_font_family_display_3_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif</string>
+    <string name="abc_font_family_display_2_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif</string>
+    <string name="abc_font_family_display_1_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif</string>
+    <string name="abc_font_family_headline_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif</string>
+    <string name="abc_font_family_title_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif-medium</string>
+    <string name="abc_font_family_subhead_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif</string>
+    <string name="abc_font_family_menu_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif</string>
+    <string name="abc_font_family_body_2_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif-medium</string>
+    <string name="abc_font_family_body_1_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif</string>
+    <string name="abc_font_family_caption_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif</string>
+    <string name="abc_font_family_button_material" tools:ignore="MissingTranslation,PrivateResource">sans-serif-medium</string>
     <string name="abc_action_mode_done" tools:ignore="PrivateResource">Done</string>
     <string name="abc_action_bar_home_description" tools:ignore="PrivateResource">Navigate home</string>
     <string name="abc_action_bar_up_description" tools:ignore="PrivateResource">Navigate up</string>
     <string name="abc_action_menu_overflow_description" tools:ignore="PrivateResource">More options</string>
     <string name="abc_toolbar_collapse_description" tools:ignore="PrivateResource">Collapse</string>
-    <string name="abc_action_bar_home_description_format" tools:ignore="PrivateResource">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_description_format" tools:ignore="MissingTranslation,PrivateResource">%1$s, %2$s</string>
     <string name="abc_action_bar_home_subtitle_description_format" tools:ignore="PrivateResource">%1$s, %2$s, %3$s</string>
     <string name="abc_searchview_description_search" tools:ignore="PrivateResource">Search</string>
     <string name="abc_search_hint" tools:ignore="PrivateResource">Search…</string>
@@ -120,83 +120,86 @@
     <string name="abc_searchview_description_voice" tools:ignore="PrivateResource">Voice search</string>
     <string name="abc_activitychooserview_choose_application" tools:ignore="PrivateResource">Choose an app</string>
     <string name="abc_activity_chooser_view_see_all" tools:ignore="PrivateResource">See all</string>
-    <string name="abc_shareactionprovider_share_with_application" tools:ignore="PrivateResource">Share with %s</string>
+    <string name="abc_shareactionprovider_share_with_application" tools:ignore="MissingTranslation,PrivateResource">Share with %s</string>
     <string name="abc_shareactionprovider_share_with" tools:ignore="PrivateResource">Share with</string>
     <string name="status_bar_notification_info_overflow" tools:ignore="PrivateResource">999+</string>
     <string name="abc_capital_on" tools:ignore="PrivateResource">ON</string>
     <string name="abc_capital_off" tools:ignore="PrivateResource">OFF</string>
-    <string name="app_name">Leanback on Fire</string>
-    <string name="app_label">Leanback on Fire</string>
-    <string name="font">sans-serif-condensed</string>
-    <string name="light_font">sans-serif-light</string>
-    <string name="regular_font">sans-serif</string>
-    <string name="search_hint_text">Search movies, TV, and more</string>
-    <string name="focused_search_hint_text">Click to search</string>
-    <string name="focused_search_mic_hint_text">Click to speak</string>
-    <string name="focused_search_keyboard_hint_text">Click to type</string>
-    <string name="edit_uninstall_focused_text">Uninstall</string>
-    <string name="edit_finish_button_text">Done</string>
-    <string name="category_label_apps">Apps</string>
-    <string name="category_label_games">Games</string>
-    <string name="category_label_settings" />
-    <string name="input_title_bundled_tuner">Channels</string>
-    <string name="category_label_inputs">Inputs</string>
-    <string name="settings_network">Network Settings</string>
-    <string name="notif_service_name">Notifications Service</string>
-    <string name="recm_service_name">Recommendations Service</string>
-    <string name="install_pending">Install pending…</string>
-    <string name="update_pending">Update pending…</string>
-    <string name="restore_pending">Restore pending…</string>
-    <string name="downloading">Downloading…</string>
-    <string name="installing">Installing…</string>
-    <string name="unknown_state">…</string>
-    <string name="progress_percent">%1$d%%</string>
-    <string name="now_playing_card_playing">Now Playing</string>
-    <string name="now_playing_card_paused">Paused</string>
-    <string name="now_playing_card_stopped">Stopped</string>
-    <string name="unknown_title">Unknown</string>
-    <string name="unknown_artist">Unknown</string>
-    <string name="unknown_album">Unknown</string>
-    <string name="unknown_album_artist">Unknown</string>
-    <string name="recommendation_row_preparing_message">Preparing Recommendations</string>
-    <string name="recommendation_row_empty_message_recs_disabled">"Some recommendations are hidden
+    <string name="app_name" tools:ignore="MissingTranslation">Leanback on Fire</string>
+    <string name="app_label" tools:ignore="MissingTranslation">Leanback on Fire</string>
+    <string name="font" tools:ignore="MissingTranslation">sans-serif-condensed</string>
+    <string name="light_font" tools:ignore="MissingTranslation">sans-serif-light</string>
+    <string name="regular_font" tools:ignore="MissingTranslation">sans-serif</string>
+    <string name="search_hint_text" tools:ignore="MissingTranslation">Search movies, TV, and more</string>
+    <string name="focused_search_hint_text" tools:ignore="MissingTranslation">Click to search</string>
+    <string name="focused_search_mic_hint_text" tools:ignore="MissingTranslation">Click to speak</string>
+    <string name="focused_search_keyboard_hint_text" tools:ignore="MissingTranslation">Click to type</string>
+    <string name="edit_uninstall_focused_text" tools:ignore="MissingTranslation">Uninstall</string>
+    <string name="edit_finish_button_text" tools:ignore="MissingTranslation">Done</string>
+    <string name="category_label_apps" tools:ignore="MissingTranslation">Apps</string>
+    <string name="category_label_games" tools:ignore="MissingTranslation">Games</string>
+    <string name="category_label_settings" tools:ignore="MissingTranslation" />
+    <string name="input_title_bundled_tuner" tools:ignore="MissingTranslation">Channels</string>
+    <string name="category_label_inputs" tools:ignore="MissingTranslation">Inputs</string>
+    <string name="settings_network" tools:ignore="MissingTranslation">Network Settings</string>
+    <string name="notif_service_name" tools:ignore="MissingTranslation">Notifications Service</string>
+    <string name="recm_service_name" tools:ignore="MissingTranslation">Recommendations Service</string>
+    <string name="install_pending" tools:ignore="MissingTranslation">Install pending…</string>
+    <string name="update_pending" tools:ignore="MissingTranslation">Update pending…</string>
+    <string name="restore_pending" tools:ignore="MissingTranslation">Restore pending…</string>
+    <string name="downloading" tools:ignore="MissingTranslation">Downloading…</string>
+    <string name="installing" tools:ignore="MissingTranslation">Installing…</string>
+    <string name="unknown_state" tools:ignore="MissingTranslation">…</string>
+    <string name="progress_percent" tools:ignore="MissingTranslation">%1$d%%</string>
+    <string name="now_playing_card_playing" tools:ignore="MissingTranslation">Now Playing</string>
+    <string name="now_playing_card_paused" tools:ignore="MissingTranslation">Paused</string>
+    <string name="now_playing_card_stopped" tools:ignore="MissingTranslation">Stopped</string>
+    <string name="unknown_title" tools:ignore="MissingTranslation">Unknown</string>
+    <string name="unknown_artist" tools:ignore="MissingTranslation">Unknown</string>
+    <string name="unknown_album" tools:ignore="MissingTranslation">Unknown</string>
+    <string name="unknown_album_artist" tools:ignore="MissingTranslation">Unknown</string>
+    <string name="recommendation_row_preparing_message" tools:ignore="MissingTranslation">Preparing Recommendations</string>
+    <string name="recommendation_row_empty_message_recs_disabled" tools:ignore="MissingTranslation">"Some recommendations are hidden
 To enable, go to Settings"</string>
-    <string name="recommendation_row_empty_message_no_recs">No recommendations available at this time</string>
-    <string name="recommendation_row_empty_message_no_connection">No internet connection at this time</string>
-    <string name="input_source_disconnected">Disconnected</string>
-    <string name="input_source_unknown">Unknown</string>
-    <string name="failed_launch">"Can't open this right now"</string>
-    <string name="settings_dialog_title">Home screen</string>
-    <string name="recommendation_blacklist_action_title">Recommendations row</string>
-    <string name="recommendation_blacklist_content_title">Recommendations row</string>
-    <string name="recommendation_blacklist_content_description">Selected sources may display recommendations on the home screen. To hide these, turn off recommendations from specific sources.</string>
-    <string name="home_screen_order_action_title">Apps and games rows</string>
-    <string name="home_screen_order_content_title">Apps and games rows</string>
-    <string name="home_screen_order_content_description">Reorder apps and games by holding down the select button.</string>
-    <string name="select_app_order_action_title">Organize apps and games</string>
-    <string name="select_app_order_action_description_recency">Recency order</string>
-    <string name="select_app_order_action_description_fixed">Customize order</string>
-    <string name="apps_order_pref_label">Sort automatically by recent usage</string>
-    <string name="customize_app_order_action_title">Reorder apps row</string>
-    <string name="customize_game_order_action_title">Reorder games row</string>
-    <string name="title_app_edit_mode">Reorder apps mode</string>
-    <string name="title_game_edit_mode">Reorder games mode</string>
-    <string name="select_app_order_content_title">Organize apps and games</string>
-    <string name="recency_order_action_title">Recency order</string>
-    <string name="recency_order_action_description">Apps and games ordered based on recent usage</string>
-    <string name="fixed_order_action_title">Customize order</string>
-    <string name="fixed_order_action_description">Order apps and games to your liking</string>
-    <string name="notification_card_view_description_title_label_content">%1$s %2$s %3$s</string>
-    <string name="notification_card_view_description_title_label">%1$s %2$s</string>
-    <string name="notification_card_view_description_title_content">%1$s %2$s</string>
-    <string name="notification_card_view_description_label_content">%1$s %2$s</string>
-    <string name="notification_card_view_description_default">No title</string>
-    <string name="home_video">Video</string>
-    <string name="home_music">Music</string>
-    <string name="home_collection">Favorites</string>
-    <string name="loading">Loading&#8230;</string>
-    <string name="app_info_in_store">View in Store</string>
-    <string name="app_info_settings">App Settings</string>
-    <string name="app_info_notification_settings">Notification Settings</string>
+    <string name="recommendation_row_empty_message_no_recs" tools:ignore="MissingTranslation">No recommendations available at this time</string>
+    <string name="recommendation_row_empty_message_no_connection" tools:ignore="MissingTranslation">No internet connection at this time</string>
+    <string name="input_source_disconnected" tools:ignore="MissingTranslation">Disconnected</string>
+    <string name="input_source_unknown" tools:ignore="MissingTranslation">Unknown</string>
+    <string name="failed_launch" tools:ignore="MissingTranslation">"Can't open this right now"</string>
+    <string name="settings_dialog_title" tools:ignore="MissingTranslation">Home screen</string>
+    <string name="recommendation_blacklist_action_title" tools:ignore="MissingTranslation">Recommendations row</string>
+    <string name="recommendation_blacklist_content_title" tools:ignore="MissingTranslation">Recommendations row</string>
+    <string name="recommendation_blacklist_content_description" tools:ignore="MissingTranslation">Selected sources may display recommendations on the home screen. To hide these, turn off recommendations from specific sources.</string>
+    <string name="home_screen_order_action_title" tools:ignore="MissingTranslation">Apps and games rows</string>
+    <string name="home_screen_order_content_title" tools:ignore="MissingTranslation">Apps and games rows</string>
+    <string name="home_screen_order_content_description" tools:ignore="MissingTranslation">Reorder apps and games by holding down the select button.</string>
+    <string name="select_app_order_action_title" tools:ignore="MissingTranslation">Organize apps and games</string>
+    <string name="select_app_order_action_description_recency" tools:ignore="MissingTranslation">Recency order</string>
+    <string name="select_app_order_action_description_fixed" tools:ignore="MissingTranslation">Customize order</string>
+    <string name="apps_order_pref_label" tools:ignore="MissingTranslation">Sort automatically by recent usage</string>
+    <string name="customize_app_order_action_title" tools:ignore="MissingTranslation">Reorder apps row</string>
+    <string name="customize_game_order_action_title" tools:ignore="MissingTranslation">Reorder games row</string>
+    <string name="title_app_edit_mode" tools:ignore="MissingTranslation">Reorder apps mode</string>
+    <string name="title_game_edit_mode" tools:ignore="MissingTranslation">Reorder games mode</string>
+    <string name="select_app_order_content_title" tools:ignore="MissingTranslation">Organize apps and games</string>
+    <string name="recency_order_action_title" tools:ignore="MissingTranslation">Recency order</string>
+    <string name="recency_order_action_description" tools:ignore="MissingTranslation">Apps and games ordered based on recent usage</string>
+    <string name="fixed_order_action_title" tools:ignore="MissingTranslation">Customize order</string>
+    <string name="fixed_order_action_description" tools:ignore="MissingTranslation">Order apps and games to your liking</string>
+    <string name="notification_card_view_description_title_label_content" tools:ignore="MissingTranslation">%1$s %2$s %3$s</string>
+    <string name="notification_card_view_description_title_label" tools:ignore="MissingTranslation">%1$s %2$s</string>
+    <string name="notification_card_view_description_title_content" tools:ignore="MissingTranslation">%1$s %2$s</string>
+    <string name="notification_card_view_description_label_content" tools:ignore="MissingTranslation">%1$s %2$s</string>
+    <string name="notification_card_view_description_default" tools:ignore="MissingTranslation">No title</string>
+    <string name="home_video" tools:ignore="MissingTranslation">Video</string>
+    <string name="home_music" tools:ignore="MissingTranslation">Music</string>
+    <string name="home_collection" tools:ignore="MissingTranslation">Favorites</string>
+    <string name="loading" tools:ignore="MissingTranslation">Loading&#8230;</string>
+    <string name="app_info_in_store" tools:ignore="MissingTranslation">View in Store</string>
+    <string name="app_info_settings" tools:ignore="MissingTranslation">App Settings</string>
+    <string name="app_info_notification_settings" tools:ignore="MissingTranslation">Notification Settings</string>
+    <string name="edit_favorites">Edit Favorites</string>
+    <string name="notifications">Notifications</string>
+    <string name="launcher_settings">Launcher Settings</string>
 
 </resources>

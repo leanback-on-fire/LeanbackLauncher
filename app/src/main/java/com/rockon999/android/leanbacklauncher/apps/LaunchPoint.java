@@ -11,6 +11,7 @@ import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -19,21 +20,19 @@ import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 
 import com.rockon999.android.leanbacklauncher.R;
-import com.rockon999.android.leanbacklauncher.data.ConstData;
 import com.rockon999.android.leanbacklauncher.recline.util.BitmapWorkerOptions;
 import com.rockon999.android.leanbacklauncher.recline.util.DrawableDownloader;
-import com.rockon999.android.leanbacklauncher.util.ApplicationInfo;
+import com.rockon999.android.leanbacklauncher.util.BitmapUtils;
+import com.rockon999.android.leanbacklauncher.util.ConstData;
+import com.rockon999.android.leanbacklauncher.util.SettingsUtil;
 import com.rockon999.android.leanbacklauncher.util.Util;
 
 import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
-import momo.cn.edu.fjnu.androidutils.data.CommonValues;
-import momo.cn.edu.fjnu.androidutils.utils.BitmapUtils;
-import momo.cn.edu.fjnu.androidutils.utils.SizeUtils;
 
-public class LaunchPoint extends ApplicationInfo {
+public class LaunchPoint {
     protected String mAppTitle;
     protected Drawable mBannerDrawable;
     private final DrawableDownloader.BitmapCallback mBitmapCallback;
@@ -41,40 +40,27 @@ public class LaunchPoint extends ApplicationInfo {
     protected String mContentDescription;
     protected boolean mHasBanner;
     protected Drawable mIconDrawable;
-    private int mInstallProgressPercent;
-    private int mInstallStateStringResourceId;
-    protected boolean mIsGame;
+    protected int mInstallProgressPercent;
+    protected int mInstallStateStringResourceId;
     protected boolean mIsInitialInstall;
     protected int mLaunchColor;
     protected Intent mLaunchIntent;
-    private InstallingLaunchPointListener mListener;
+    protected InstallingLaunchPointListener mListener;
     protected long mPackageInstallTime;
     protected String mPackageName;
     protected int mPriority;
-    protected int mSettingsType;
+    protected int mSettingsType = SettingsUtil.Type.UNKNOWN.getCode();
     protected boolean mTranslucentTheme;
-    /**
-     * Whether this app is the favorites add item.
-     */
-    private boolean mIsAddItem;
-    /**
-     * Whether this app is a settings item.
-     */
-    private boolean mIsSettingsItem;
-    /**
-     * Whether this app is a user favorite.
-     */
-    private boolean mIsFavorited;
-    /**
-     * A rudimentary system for distinguising app types.
-     */
-    private int mAppType;
 
-    public int getType() {
-        return mAppType;
+    private boolean mIsSettingsItem;
+    private AppCategory mAppCategory;
+    private boolean hasGameFlag;
+
+    public AppCategory getAppCategory() {
+        return mAppCategory;
     }
 
-    /* renamed from: LaunchPoint.1 */
+
     class C01861 extends DrawableDownloader.BitmapCallback {
         C01861() {
         }
@@ -107,10 +93,9 @@ public class LaunchPoint extends ApplicationInfo {
         }
     }
 
-    public LaunchPoint(Context context, String appTitle, String iconUrl, String pkgName, Intent launchIntent, boolean isGame, InstallingLaunchPointListener listener) {
+    public LaunchPoint(Context context, String appTitle, String iconUrl, String pkgName, Intent launchIntent, InstallingLaunchPointListener listener) {
         this(context, appTitle, null, launchIntent, context.getResources().getColor(R.color.app_launch_ripple_default_color));
         this.mPackageName = pkgName;
-        this.mIsGame = isGame;
         this.mListener = listener;
         this.mIsInitialInstall = true;
         this.mPackageInstallTime = new Date().getTime();
@@ -163,7 +148,7 @@ public class LaunchPoint extends ApplicationInfo {
         } // todo optimize
 
         if (key != null) {
-            this.mBannerDrawable = ContextCompat.getDrawable(ConstData.appContext, overrides.get(key));
+            this.mBannerDrawable = ContextCompat.getDrawable(ctx, overrides.get(key));
             if (this.mBannerDrawable instanceof BitmapDrawable) {
                 this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable) this.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
             }
@@ -171,15 +156,18 @@ public class LaunchPoint extends ApplicationInfo {
             if (mComponentName != null) {
                 componentName = mComponentName.replace(".", "_").replace("/", "__");
 
-                bannerPath = ConstData.CACHE_IMG_DIR + componentName + "_banner.png";
-                iconPath = ConstData.CACHE_IMG_DIR + componentName + "_icon.png";
+                bannerPath = ctx.getFilesDir() + "/" + ConstData.CACHE_IMG_DIR + "/" + componentName + "_banner.png";
+                iconPath = ctx.getFilesDir() + "/" + ConstData.CACHE_IMG_DIR + "/" + componentName + "_icon.png";
             }
 
             if (actInfo != null) {
                 if (useBanner) {
                     Bitmap cacheBitmap = null;
                     if (bannerPath != null && new File(bannerPath).exists()) {
-                        cacheBitmap = BitmapUtils.getBitmapFromFile(bannerPath);
+                        File file = new File(bannerPath);
+                        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                        cacheBitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
+
                         this.mBannerDrawable = new BitmapDrawable(res, cacheBitmap);
                     }
                     if (cacheBitmap == null || !new File(bannerPath).exists()) {
@@ -195,35 +183,10 @@ public class LaunchPoint extends ApplicationInfo {
             }
         }
 
-        if (actInfo != null) {
-            this.mIsGame = (actInfo.applicationInfo.flags & 33554432) != 0 || (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false));
-        } else {
-            this.mIsGame = false;
-        }
 
         // todo move out of LaunchPoint
 
-
-
-        String pkg = this.getPackageName().toLowerCase();
-
-        for (String s : ConstData.VIDEO_FILTER) {
-            if (pkg.contains(s)) {
-                this.mAppType = ConstData.AppType.VIDEO;
-                break;
-            }
-        }
-
-        for (String s : ConstData.MUSIC_FILTER) {
-            if (pkg.contains(s)) {
-                this.mAppType = ConstData.AppType.MUSIC;
-                break;
-            }
-        }
-
-        if (this.mIsGame) {
-            this.mAppType = ConstData.AppType.GAME;
-        }
+        resetAppCategory(actInfo);
 
         if (this.mBannerDrawable != null) {
             this.mHasBanner = true;
@@ -235,54 +198,132 @@ public class LaunchPoint extends ApplicationInfo {
                     this.mBannerDrawable = new BitmapDrawable(res, cacheBitmap);
                 }
                 if (cacheBitmap == null || !new File(bannerPath).exists()) {
-                    this.mBannerDrawable = actInfo.loadLogo(pm);
+                    if (actInfo != null) {
+                        this.mBannerDrawable = actInfo.loadLogo(pm);
+                    }
                     if (this.mBannerDrawable instanceof BitmapDrawable) {
                         this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable) this.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
                     }
-                    if (mBannerDrawable instanceof BitmapDrawable)
+                    if (mBannerDrawable instanceof BitmapDrawable) {
                         BitmapUtils.saveBitmapToImage(((BitmapDrawable) mBannerDrawable).getBitmap(), bannerPath, Bitmap.CompressFormat.PNG, 80);
+                    }
                 }
             }
             this.mHasBanner = this.mBannerDrawable != null;
         }
 
-        if (key == null) {
+        if (key == null)
+
+        {
             Bitmap cacheBitmap = null;
-            if (iconPath != null && new File(iconPath).exists()) {
-                cacheBitmap = BitmapUtils.getBitmapFromFile(iconPath);
-                this.mIconDrawable = new BitmapDrawable(res, cacheBitmap);
-            }
-            if (cacheBitmap == null || !new File(iconPath).exists()) {
-                this.mIconDrawable = info.loadIcon(pm);
-                if (this.mIconDrawable instanceof BitmapDrawable) {
-                    this.mIconDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable) this.mIconDrawable).getBitmap(), SizeUtils.dp2px(CommonValues.application, 80), SizeUtils.dp2px(CommonValues.application, 80)));
-                    BitmapUtils.saveBitmapToImage(((BitmapDrawable) mIconDrawable).getBitmap(), iconPath, Bitmap.CompressFormat.PNG, 80);
+
+            if (iconPath != null) {
+                File parent = new File(iconPath).getParentFile();
+
+                if (parent != null) {
+                    parent.mkdirs(); // todo
+                }
+
+                if (new File(iconPath).exists()) {
+                    cacheBitmap = BitmapUtils.getBitmapFromFile(iconPath);
+                    this.mIconDrawable = new BitmapDrawable(res, cacheBitmap);
+                }
+
+                if (cacheBitmap == null || !new File(iconPath).exists()) {
+                    this.mIconDrawable = info.loadIcon(pm);
+                    if (this.mIconDrawable instanceof BitmapDrawable) {
+                        // todo sizecap
+                        this.mIconDrawable = new BitmapDrawable(res, ((BitmapDrawable) this.mIconDrawable).getBitmap());
+                        BitmapUtils.saveBitmapToImage(((BitmapDrawable) mIconDrawable).getBitmap(), iconPath, Bitmap.CompressFormat.PNG, 80);
+                    }
                 }
             }
         }
 
 
         this.mPriority = info.priority;
-        this.mTranslucentTheme = isTranslucentTheme(ctx, info);
-       /* if(mHasBanner && mBannerDrawable != null && mBannerDrawable instanceof BitmapDrawable){
-           mLaunchColor = getColor(ctx, ((BitmapDrawable) mBannerDrawable).getBitmap());
-        }else*/
-        if (!mHasBanner && mIconDrawable != null && mIconDrawable instanceof BitmapDrawable) {
+        this.mTranslucentTheme =
+
+                isTranslucentTheme(ctx, info);
+
+        if (!mHasBanner && mIconDrawable != null && mIconDrawable instanceof BitmapDrawable)
+
+        {
             if (mComponentName != null)
                 mLaunchColor = ConstData.APP_ITEM_BACK_COLORS[Math.abs(mComponentName.hashCode() % ConstData.APP_ITEM_BACK_COLORS.length)];
             else
                 mLaunchColor = ctx.getResources().getColor(R.color.banner_background);
-           /* mLaunchColor = getColor(ctx, ((BitmapDrawable) mIconDrawable).getBitmap());
-            int r = Color.red(mLaunchColor);
-            int g = Color.green(mLaunchColor);
-            int b = Color.blue(mLaunchColor);
-            mLaunchColor = Color.rgb(255 - Color.red(mLaunchColor), 255 - Color.green(mLaunchColor), 255 - Color.blue(mLaunchColor));*/
-            //mLaunchColor = Color.rgb(r * r % 256, g * g % 256, b * b % 256);
-        } else {
+        } else
+
+        {
             this.mLaunchColor = getColor(ctx, info);
         }
         this.mPackageInstallTime = Util.getInstallTimeForPackage(ctx, this.mPackageName);
         return this;
+    }
+
+    public void resetAppCategory() {
+        this.mAppCategory = null;
+
+        if (hasGameFlag) {
+            this.mAppCategory = AppCategory.GAME;
+        }
+
+        String pkg = this.getPackageName().toLowerCase();
+
+        for (String s : ConstData.VIDEO_FILTER) {
+            if (pkg.contains(s)) {
+                this.mAppCategory = AppCategory.VIDEO;
+                return;
+            }
+        }
+
+        for (String s : ConstData.MUSIC_FILTER) {
+            if (pkg.contains(s)) {
+                this.mAppCategory = AppCategory.MUSIC;
+                return;
+            }
+        }
+
+        this.mAppCategory = AppCategory.OTHER;
+    }
+
+    public void resetAppCategory(ActivityInfo actInfo) {
+        if (this.mAppCategory == null) {
+            if (actInfo != null) {
+                if ((actInfo.applicationInfo.flags & 33554432) != 0 || (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false))) {
+                    this.mAppCategory = AppCategory.GAME;
+
+                    hasGameFlag = true;
+                } else {
+                    hasGameFlag = false;
+                }
+            }
+        }
+
+        String pkg = this.getPackageName().toLowerCase();
+
+        if (this.mAppCategory == null) {
+            for (String s : ConstData.VIDEO_FILTER) {
+                if (pkg.contains(s)) {
+                    this.mAppCategory = AppCategory.VIDEO;
+                    break;
+                }
+            }
+        }
+
+        if (this.mAppCategory == null) {
+            for (String s : ConstData.MUSIC_FILTER) {
+                if (pkg.contains(s)) {
+                    this.mAppCategory = AppCategory.MUSIC;
+                    break;
+                }
+            }
+        }
+
+        if (this.mAppCategory == null) {
+            this.mAppCategory = AppCategory.OTHER; // todo
+        }
     }
 
     public void addLaunchIntentFlags(int flags) {
@@ -305,8 +346,7 @@ public class LaunchPoint extends ApplicationInfo {
         this.mLaunchIntent = null;
         this.mHasBanner = false;
         this.mPriority = -1;
-        this.mSettingsType = -1;
-        this.mIsGame = false;
+        this.mSettingsType = SettingsUtil.Type.UNKNOWN.getCode();
         this.mIsInitialInstall = false;
         this.mListener = null;
         this.mPackageInstallTime = -1;
@@ -408,7 +448,7 @@ public class LaunchPoint extends ApplicationInfo {
     }
 
     public boolean isGame() {
-        return this.mIsGame;
+        return this.mAppCategory == AppCategory.GAME;
     }
 
     public void setIconDrawable(Drawable drawable) {
@@ -490,50 +530,24 @@ public class LaunchPoint extends ApplicationInfo {
         DrawableDownloader.getInstance(context).cancelDownload(this.mBitmapCallback);
     }
 
-    public boolean isAddItem() {
-        return mIsAddItem;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LaunchPoint)) return false;
 
-    public void setAddItem(boolean isAddItem) {
-        this.mIsAddItem = isAddItem;
-    }
+        LaunchPoint that = (LaunchPoint) o;
 
-    public boolean isFavorited() {
-        return mIsFavorited;
-    }
-
-    public void setFavorite(boolean isFavorited) {
-        mIsFavorited = isFavorited;
-    }
-
-    public static LaunchPoint createAddItem() {
-        LaunchPoint launchPoint = new LaunchPoint();
-        launchPoint.mInstallProgressPercent = -1;
-        launchPoint.mInstallStateStringResourceId = 0;
-        launchPoint.mComponentName = null;
-        launchPoint.mPackageName = null;
-        launchPoint.mBannerDrawable = ConstData.appContext.getDrawable(R.drawable.icon_more);
-        int maxWidth = CommonValues.application.getResources().getDimensionPixelOffset(R.dimen.max_banner_image_width);
-        int maxHeight = CommonValues.application.getResources().getDimensionPixelOffset(R.dimen.max_banner_image_height);
-        if (launchPoint.mBannerDrawable instanceof BitmapDrawable) {
-            launchPoint.mBannerDrawable = new BitmapDrawable(CommonValues.application.getResources(), Util.getSizeCappedBitmap(((BitmapDrawable) launchPoint.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
+        if (mComponentName != null && !mComponentName.equals(that.mComponentName)) {
+            return false;
         }
-        //launchPoint.mBannerDrawable = null;
-        launchPoint.mAppTitle = null;
-        launchPoint.mContentDescription = null;
-        launchPoint.mIconDrawable = null;
-        launchPoint.mLaunchColor = 0;
-        launchPoint.mLaunchIntent = null;
-        launchPoint.mHasBanner = true;
-        launchPoint.mPriority = -1;
-        launchPoint.mSettingsType = -1;
-        launchPoint.mIsGame = false;
-        launchPoint.mIsInitialInstall = false;
-        launchPoint.mListener = null;
-        launchPoint.mPackageInstallTime = -1;
-        launchPoint.setAddItem(true);
-        return launchPoint;
+
+        return (mPackageName != null && !mPackageName.equals(that.mPackageName));
     }
 
-
+    @Override
+    public int hashCode() {
+        int result = mComponentName != null ? mComponentName.hashCode() : 0;
+        result = 31 * result + (mPackageName != null ? mPackageName.hashCode() : 0);
+        return result;
+    }
 }

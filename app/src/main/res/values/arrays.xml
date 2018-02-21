@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="out_of_box_order">
-        <item>com.google.android.apps.mediashell</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="out_of_box_order" tools:ignore="MissingTranslation">
         <item>com.google.android.videos</item>
         <item>com.google.android.youtube.tv</item>
         <item>com.android.vending</item>
         <item>com.google.android.music</item>
-        <item>com.google.android.play.games</item>
-        <item>com.google.android.apps.plus</item>
     </string-array>
-    <string-array name="search_orb_text_to_show">
+    <string-array name="search_orb_text_to_show" tools:ignore="MissingTranslation">
         <item>Try searching for \"Will Smith\"</item>
         <item>Try searching for \"Michael Fassbender\"</item>
         <item>Try searching for \"Jennifer Lawrence\"</item>
@@ -39,5 +36,13 @@
         <item>Try asking, \"When was John Wayne born?\"</item>
         <item>Try, \"open YouTube\"</item>
         <item>Try, \"open Play Movies\"</item>
+    </string-array>
+    <string-array name="sorting_mode_keys">
+        <item>@string/recency_order_action_title</item>
+        <item>@string/fixed_order_action_title</item>
+    </string-array>
+    <string-array name="sorting_mode_values">
+        <item>"RECENCY"</item>
+        <item>"FIXED"</item>
     </string-array>
 </resources>

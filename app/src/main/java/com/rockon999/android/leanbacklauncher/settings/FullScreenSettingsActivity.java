@@ -3,64 +3,30 @@ package com.rockon999.android.leanbacklauncher.settings;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.rockon999.android.leanbacklauncher.R;
-import com.rockon999.android.leanbacklauncher.apps.SortingModeManager;
-import com.rockon999.android.leanbacklauncher.apps.SortingModeManager.SortingMode;
-import com.rockon999.android.leanbacklauncher.settings.BlacklistManager.LoadRecommendationPackagesCallback;
+import com.rockon999.android.leanbacklauncher.apps.AppsPreferences;
+import com.rockon999.android.leanbacklauncher.apps.AppsPreferences.SortingMode;
 import com.rockon999.android.leanbacklauncher.recline.app.DialogFragment;
 import com.rockon999.android.leanbacklauncher.recline.app.DialogFragment.Action;
 import com.rockon999.android.leanbacklauncher.recline.app.DialogFragment.Action.Listener;
 import com.rockon999.android.leanbacklauncher.recline.app.DialogFragment.Builder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 
-public class FullScreenSettingsActivity extends Activity implements Listener, LoadRecommendationPackagesCallback {
-    private boolean mAppOrderChanged;
-    private BlacklistManager mBlacklistManager;
-    private HashSet<String> mBlacklistedPackageNames;
+public class FullScreenSettingsActivity extends Activity { // implements Listener {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.settings_fragment);
+    }
+    /*private boolean mAppOrderChanged;
     private String mClickedActionTitle;
-    private ArrayList<String> mPackageNames;
     private boolean mSaved;
 
-    private class ActionComparator implements Comparator<Action> {
-        private ActionComparator() {
-        }
-
-        public int compare(Action lhs, Action rhs) {
-            if (lhs == null) {
-                return -1;
-            }
-            if (rhs == null) {
-                return 1;
-            }
-            return compare(lhs.getTitle(), rhs.getTitle());
-        }
-
-        private int compare(String lhs, String rhs) {
-            if (lhs == null) {
-                return -1;
-            }
-            if (rhs == null) {
-                return 1;
-            }
-            return lhs.compareTo(rhs);
-        }
-    }
-
     public FullScreenSettingsActivity() {
-        this.mPackageNames = null;
-        this.mBlacklistedPackageNames = null;
         this.mSaved = true;
         this.mAppOrderChanged = true;
     }
@@ -68,60 +34,23 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.settings_dialog_bg_protection));
-        this.mBlacklistManager = new BlacklistManager(this);
-        this.mBlacklistManager.loadRecommendationPackages(this);
+
+        DialogFragment.add(getFragmentManager(), buildFragment(getString(R.string.settings_dialog_title), R.drawable.ic_settings_home, new Builder().actions(getBaseActions())));
     }
 
-    public void onPause() {
-        saveBlacklistIfNecessary();
-        super.onPause();
-    }
-
-    public void onStop() {
-        super.onStop();
-        finish();
-    }
-
+    @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (saveBlacklistIfNecessary() || this.mAppOrderChanged) {
-            DialogFragment frag = DialogFragment.getCurrentDialogFragment(getFragmentManager());
-            if (frag != null) {
-                ArrayList<Action> actions = frag.getActions();
-                int size = actions.size();
-                int a = 0;
-                while (a < size) {
-                    if (TextUtils.equals(actions.get(a).getKey(), "recs")) {
-                        frag.setActions(getBaseActions());
-                        return;
-                    } else if (TextUtils.equals(actions.get(a).getKey(), "appOrder")) {
-                        frag.setActions(getHomeScreenOrderActions());
-                        return;
-                    } else {
-                        a++;
-                    }
-                }
-            }
-        }
+
     }
 
     public void onActionClicked(Action action) {
         String key = action.getKey();
         switch (key) {
-            case "recs":
-                showBlacklistDialog();
-                break;
             case "homeScreenOrder":
                 showHomeScreenOrderDialog();
                 break;
             case "appOrder":
                 showSelectAppOrderDialog();
-                break;
-            case "customizeApps":
-                launchEditMode("extra_start_customize_apps");
-                break;
-            case "customizeGames":
-                launchEditMode("extra_start_customize_games");
                 break;
             case "recency":
                 checkAndSetSortMode(action, SortingMode.RECENCY);
@@ -130,26 +59,8 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
                 checkAndSetSortMode(action, SortingMode.FIXED);
                 break;
             default:
-                action.setChecked(!action.isChecked());
-                this.mSaved = false;
-                if (action.isChecked()) {
-                    this.mBlacklistedPackageNames.remove(key);
-                } else {
-                    this.mBlacklistedPackageNames.add(key);
-                }
-                DialogFragment fragment = DialogFragment.getCurrentDialogFragment(getFragmentManager());
-                if (fragment != null) {
-                    fragment.setActions(fragment.getActions());
-                }
                 break;
         }
-    }
-
-    private void launchEditMode(String editModeExtraKey) {
-        Intent startMain = new Intent("android.intent.action.MAIN");
-        startMain.addCategory("android.intent.category.HOME");
-        startMain.putExtra(editModeExtraKey, true);
-        startActivity(startMain);
     }
 
     private void checkAndSetSortMode(Action action, SortingMode sortMode) {
@@ -159,7 +70,7 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
         }
         this.mAppOrderChanged = true;
         action.setChecked(true);
-        SortingModeManager.saveSortingMode(getApplicationContext(), sortMode);
+        AppsPreferences.saveSortingMode(getApplicationContext(), sortMode);
         DialogFragment fragment = DialogFragment.getCurrentDialogFragment(getFragmentManager());
         if (fragment != null) {
             for (Action otherAction : fragment.getActions()) {
@@ -175,20 +86,21 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
         DialogFragment.add(getFragmentManager(), buildFragment(getString(R.string.home_screen_order_content_title), R.drawable.ic_settings_home, new Builder().description(getString(R.string.home_screen_order_content_description)).actions(getHomeScreenOrderActions())));
     }
 
+
     private ArrayList<Action> getHomeScreenOrderActions() {
         String appOrderActionDescription;
-        ArrayList<Action> actions = new ArrayList<>(this.mPackageNames.size());
-        SortingMode sortingMode = SortingModeManager.getSavedSortingMode(getApplicationContext());
+        ArrayList<Action> actions = new ArrayList<>();
+        SortingMode sortingMode = AppsPreferences.getSavedSortingMode(getApplicationContext());
         if (sortingMode == SortingMode.FIXED) {
             appOrderActionDescription = getString(R.string.select_app_order_action_description_fixed);
         } else {
             appOrderActionDescription = getString(R.string.select_app_order_action_description_recency);
         }
         actions.add(new Action.Builder().title(getString(R.string.select_app_order_action_title)).description(appOrderActionDescription).key("appOrder").build());
-        if (sortingMode == SortingMode.FIXED) {
-            actions.add(new Action.Builder().title(getString(R.string.customize_app_order_action_title)).key("customizeApps").build());
-            actions.add(new Action.Builder().title(getString(R.string.customize_game_order_action_title)).key("customizeGames").build());
-        }
+        //if (sortingMode == SortingMode.FIXED) {
+        //    actions.add(new Action.Builder().title(getString(R.string.customize_app_order_action_title)).key("customizeApps").build());
+        //    actions.add(new Action.Builder().title(getString(R.string.customize_game_order_action_title)).key("customizeGames").build());
+        //}
         return actions;
     }
 
@@ -196,8 +108,8 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
         boolean z;
         int i = 0;
         String title = getString(R.string.select_app_order_content_title);
-        ArrayList<Action> actions = new ArrayList<>(this.mPackageNames.size());
-        SortingMode sortingMode = SortingModeManager.getSavedSortingMode(getApplicationContext());
+        ArrayList<Action> actions = new ArrayList<>();
+        SortingMode sortingMode = AppsPreferences.getSavedSortingMode(getApplicationContext());
         Action.Builder description = new Action.Builder().title(getString(R.string.recency_order_action_title)).description(getString(R.string.recency_order_action_description));
         z = sortingMode == SortingMode.RECENCY;
         actions.add(description.checked(z).key("recency").build());
@@ -210,46 +122,6 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
             i = 1;
         }
         DialogFragment.add(fragmentManager, buildFragment(title, R.drawable.ic_settings_home, actions2.selectedIndex(i)));
-    }
-
-    private void showBlacklistDialog() {
-        PackageManager pkgMan = getPackageManager();
-        String title = getString(R.string.recommendation_blacklist_content_title);
-        String description = getString(R.string.recommendation_blacklist_content_description);
-        ArrayList<Action> actions = new ArrayList<>(this.mPackageNames.size());
-        for (String packageName : this.mPackageNames) {
-            CharSequence appTitle;
-            int resId = 0;
-            try {
-                ApplicationInfo info = pkgMan.getApplicationInfo(packageName, 0);
-                appTitle = pkgMan.getApplicationLabel(info);
-                Intent intent = new Intent();
-                intent.addCategory("android.intent.category.LEANBACK_LAUNCHER");
-                intent.setAction("android.intent.action.MAIN");
-                intent.setPackage(packageName);
-                ResolveInfo resolveInfo = pkgMan.resolveActivity(intent, 0);
-                if (!(resolveInfo == null || resolveInfo.activityInfo == null)) {
-                    resId = resolveInfo.activityInfo.banner;
-                }
-                if (resId == 0) {
-                    resId = info.banner;
-                }
-                if (resId == 0) {
-                    resId = info.icon != 0 ? info.icon : 17301651;
-                }
-            } catch (NameNotFoundException e) {
-                appTitle = null;
-                resId = 0;
-            }
-            if (!TextUtils.isEmpty(appTitle)) {
-                boolean z;
-                Action.Builder key = new Action.Builder().title(appTitle.toString()).resourcePackageName(packageName).drawableResource(resId).key(packageName);
-                z = !this.mBlacklistedPackageNames.contains(packageName);
-                actions.add(key.checked(z).build());
-            }
-        }
-        Collections.sort(actions, new ActionComparator());
-        DialogFragment.add(getFragmentManager(), buildFragment(title, R.drawable.ic_settings_home, new Builder().description(description).actions(actions)));
     }
 
     private DialogFragment buildFragment(String title, int iconResourceId, Builder builder) {
@@ -267,25 +139,12 @@ public class FullScreenSettingsActivity extends Activity implements Listener, Lo
         return builder.build();
     }
 
-    public void onRecommendationPackagesLoaded(String[] recommendationPackaged, String[] blacklistedPackages) {
-        this.mPackageNames = new ArrayList<>(Arrays.asList(recommendationPackaged));
-        this.mBlacklistedPackageNames = new HashSet(Arrays.asList(blacklistedPackages));
-        DialogFragment.add(getFragmentManager(), buildFragment(getString(R.string.settings_dialog_title), R.drawable.ic_settings_home, new Builder().actions(getBaseActions())));
-    }
-
-    private boolean saveBlacklistIfNecessary() {
-        if (this.mSaved || this.mBlacklistedPackageNames == null) {
-            return false;
-        }
-        this.mSaved = true;
-        this.mBlacklistManager.saveEntityBlacklist(new ArrayList<>(this.mBlacklistedPackageNames));
-        return true;
-    }
-
     private ArrayList<Action> getBaseActions() {
-        ArrayList<Action> actions = new ArrayList<>(1);
-        actions.add(new Action.Builder().title(getString(R.string.recommendation_blacklist_action_title)).description(getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, this.mBlacklistedPackageNames.size(), this.mBlacklistedPackageNames.size())).key("recs").build());
-        actions.add(new Action.Builder().title(getString(R.string.home_screen_order_action_title)).key("homeScreenOrder").build());
-        return actions;
-    }
+        //ArrayList<Action> actions = new ArrayList<>(1);
+        // actions.add(new Action.Builder().title(getString(R.string.recommendation_blacklist_action_title)).description(getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, this.mBlacklistedPackageNames.size(), this.mBlacklistedPackageNames.size())).key("recs").build());
+        //actions.add(new Action.Builder().title(getString(R.string.home_screen_order_action_title)).key("homeScreenOrder").build());
+        return getHomeScreenOrderActions();
+    }*/
 }
+
+

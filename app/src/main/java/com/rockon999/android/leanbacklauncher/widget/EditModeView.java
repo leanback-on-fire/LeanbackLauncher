@@ -2,6 +2,7 @@ package com.rockon999.android.leanbacklauncher.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v17.leanback.widget.VerticalGridView;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.rockon999.android.leanbacklauncher.ActiveItemsRowView;
+import com.rockon999.android.leanbacklauncher.HomeScreenAdapter;
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.animation.EditModeUninstallAnimationHolder;
 import com.rockon999.android.leanbacklauncher.animation.ViewFocusAnimator;
@@ -32,8 +35,13 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
     private ImageView mUninstallCircle;
     private ImageView mUninstallIcon;
     private ImageView mUninstallIconCircle;
+    private HomeScreenAdapter mHomeAdapter;
     private OnEditModeUninstallPressedListener mUninstallListener;
     private TextView mUninstallText;
+
+    public void setHomeScreenAdapter(HomeScreenAdapter homeScreenAdapter) {
+        this.mHomeAdapter = homeScreenAdapter;
+    }
 
     public interface OnEditModeUninstallPressedListener {
         void onUninstallPressed(String str);
@@ -69,6 +77,7 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
         this.mUninstallApp.setClipToOutline(true);
         this.mFinishButton.setOnClickListener(this);
         this.mUninstallText.setImportantForAccessibility(2);
+
         setUninstallCircleLayout();
         setUninstallIconCircleLayout();
         setUninstallTextLayout();
@@ -140,11 +149,11 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
     }
 
     public void clearUninstallAndFinishLayers() {
-        this.mUninstallIconCircle.setVisibility(8);
-        this.mUninstallText.setVisibility(8);
-        this.mUninstallIcon.setVisibility(8);
-        this.mUninstallCircle.setVisibility(8);
-        this.mFinishButton.setVisibility(8);
+        this.mUninstallIconCircle.setVisibility(View.GONE);
+        this.mUninstallText.setVisibility(View.GONE);
+        this.mUninstallIcon.setVisibility(View.GONE);
+        this.mUninstallCircle.setVisibility(View.GONE);
+        this.mFinishButton.setVisibility(View.GONE);
     }
 
     public void addActionListener(EditModeViewActionListener listener) {
@@ -204,6 +213,7 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
     public Button getFinishButton() {
         return this.mFinishButton;
     }
+
 
     public ImageView getUninstallIcon() {
         return this.mUninstallIcon;
@@ -273,11 +283,11 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
         int action = event.getAction();
         int keyCode = event.getKeyCode();
         if (action == 0) {
-            if (keyCode == 19 && this.mFinishButton.isFocused()) {
+            if (keyCode == KeyEvent.KEYCODE_DPAD_UP && (this.mFinishButton.isFocused())) {
                 notifyOnFocusLeavingEditMode(0);
-            } else if ((keyCode == 19 && this.mUninstallIcon.isFocused()) || (keyCode == 4 && this.mUninstallIcon.isFocused())) {
+            } else if ((keyCode == KeyEvent.KEYCODE_DPAD_UP && this.mUninstallIcon.isFocused()) || (keyCode == KeyEvent.KEYCODE_BACK && this.mUninstallIcon.isFocused())) {
                 notifyOnFocusLeavingEditMode(1);
-            } else if ((Util.isConfirmKey(keyCode) || keyCode == 4) && this.mFinishButton.isFocused()) {
+            } else if ((Util.isConfirmKey(keyCode) || keyCode == KeyEvent.KEYCODE_BACK) && (this.mFinishButton.isFocused())) {
                 notifyOnExitEditModeTriggered();
             } else if (Util.isConfirmKey(keyCode) && this.mUninstallIcon.isFocused()) {
                 this.mUninstallListener.onUninstallPressed(notifyPrepForUninstall());
@@ -312,7 +322,11 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
         this.mUninstallText.setLayoutParams(textlp);
     }
 
+
+    @Override
     public void onClick(View v) {
+        VerticalGridView mGrid = (VerticalGridView) findViewById(R.id.main_list_view);
+
         if (v == this.mFinishButton) {
             notifyOnExitEditModeTriggered();
         }

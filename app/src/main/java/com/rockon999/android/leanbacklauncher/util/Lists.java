@@ -42,12 +42,13 @@ public final class Lists {
 
     public static <T> List<Change> getChanges(List<T> left, List<T> right, Comparator<T> comparator) {
         ArrayList<Change> changes = new ArrayList<>();
+
         int lSize = left.size();
         int rSize = right.size();
         int offset = 0;
-        Cursor<T> l = new Cursor();
-        Cursor<T> r = new Cursor();
-        Cursor<T> lookAhead = new Cursor();
+        Cursor<T> l = new Cursor<>();
+        Cursor<T> r = new Cursor<>();
+        Cursor<T> lookAhead = new Cursor<>();
         while (l.index < lSize && r.index < rSize) {
             l.element = left.get(l.index);
             r.element = right.get(r.index);
@@ -59,18 +60,18 @@ public final class Lists {
                 int count;
                 if (comparison < 0) {
                     count = scanWhileLessThan(left, l, r, comparator);
-                    if(l.index + offset == Change.Type.INSERTION.ordinal())
+                    if (l.index + offset == Change.Type.INSERTION.ordinal())
                         changes.add(new Change(Change.Type.INSERTION, count, 0));
-                    else if(l.index + offset == Change.Type.REMOVAL.ordinal())
+                    else if (l.index + offset == Change.Type.REMOVAL.ordinal())
                         changes.add(new Change(Change.Type.REMOVAL, count, 0));
                     //changes.add(new Change(l.index + offset, count, null));
                     offset -= count;
                     l.index += count;
                 } else if (comparison > 0) {
                     count = scanWhileLessThan(right, r, l, comparator);
-                    if(l.index + offset == Change.Type.INSERTION.ordinal())
+                    if (l.index + offset == Change.Type.INSERTION.ordinal())
                         changes.add(new Change(Change.Type.INSERTION, count, 0));
-                    else if(l.index + offset == Change.Type.REMOVAL.ordinal())
+                    else if (l.index + offset == Change.Type.REMOVAL.ordinal())
                         changes.add(new Change(Change.Type.REMOVAL, count, 0));
                     //changes.add(new Change(l.index + offset, count, null));
                     offset += count;
@@ -79,9 +80,9 @@ public final class Lists {
                     lookAhead.index = r.index;
                     count = scanForElement(right, l, comparator, lookAhead);
                     if (lookAhead.element != null) {
-                        if(l.index + offset == Change.Type.INSERTION.ordinal())
+                        if (l.index + offset == Change.Type.INSERTION.ordinal())
                             changes.add(new Change(Change.Type.INSERTION, count, 0));
-                        else if(l.index + offset == Change.Type.REMOVAL.ordinal())
+                        else if (l.index + offset == Change.Type.REMOVAL.ordinal())
                             changes.add(new Change(Change.Type.REMOVAL, count, 0));
                         //changes.add(new Change(l.index + offset, count, null));
                         offset += count;
@@ -90,9 +91,9 @@ public final class Lists {
                     } else {
                         lookAhead.index = l.index;
                         count = scanForElement(left, r, comparator, lookAhead);
-                        if(l.index + offset == Change.Type.INSERTION.ordinal())
+                        if (l.index + offset == Change.Type.INSERTION.ordinal())
                             changes.add(new Change(Change.Type.INSERTION, count, 0));
-                        else if(l.index + offset == Change.Type.REMOVAL.ordinal())
+                        else if (l.index + offset == Change.Type.REMOVAL.ordinal())
                             changes.add(new Change(Change.Type.REMOVAL, count, 0));
                         //changes.add(new Change(l.index + offset, count, null));
                         offset -= count;
@@ -102,15 +103,15 @@ public final class Lists {
             }
         }
         if (l.index < lSize) {
-            if(l.index + offset == Change.Type.INSERTION.ordinal())
+            if (l.index + offset == Change.Type.INSERTION.ordinal())
                 changes.add(new Change(Change.Type.INSERTION, lSize - 1, 0));
-            else if(l.index + offset == Change.Type.REMOVAL.ordinal())
+            else if (l.index + offset == Change.Type.REMOVAL.ordinal())
                 changes.add(new Change(Change.Type.REMOVAL, lSize - 1, 0));
             //changes.add(new Change(l.index + offset, lSize - l.index, null));
         } else if (r.index < rSize) {
-            if(l.index + offset == Change.Type.INSERTION.ordinal())
+            if (l.index + offset == Change.Type.INSERTION.ordinal())
                 changes.add(new Change(Change.Type.INSERTION, rSize - r.index, 0));
-            else if(l.index + offset == Change.Type.REMOVAL.ordinal())
+            else if (l.index + offset == Change.Type.REMOVAL.ordinal())
                 changes.add(new Change(Change.Type.REMOVAL, rSize - r.index, 0));
             //changes.add(new Change(lSize + offset, rSize - r.index, null));
         }

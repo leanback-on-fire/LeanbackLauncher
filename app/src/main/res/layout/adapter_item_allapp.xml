@@ -2,27 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp" >
+    android:padding="10dp">
+
     <ImageView
-        android:id="@+id/img_photo"
+        android:id="@+id/app_default_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_app_default" />
+
     <CheckBox
         android:id="@+id/check_select"
-        android:layout_alignEnd="@+id/img_photo"
-        android:layout_alignTop="@+id/img_photo"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_alignEnd="@+id/app_default_icon"
+        android:layout_alignTop="@+id/app_default_icon"
+        android:button="@drawable/check_background"
         android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:button="@drawable/check_background"/>
+        android:focusableInTouchMode="false" />
+
     <TextView
         android:id="@+id/text_title"
-        android:layout_below="@+id/img_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/app_default_icon"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="1"

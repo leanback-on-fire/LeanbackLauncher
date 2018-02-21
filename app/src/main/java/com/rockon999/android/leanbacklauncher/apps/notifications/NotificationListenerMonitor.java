@@ -33,7 +33,7 @@ public class NotificationListenerMonitor extends Service {
     }
 
     private void ensureListenerIsRunning() {
-        ComponentName notificationListenerComp = new ComponentName(this, NotificationListenerV5.class);
+        ComponentName notificationListenerComp = new ComponentName(this, NotificationListenerV12.class);
         Log.v(TAG, "Ensuring the notification listener is running: " + notificationListenerComp);
 
         boolean running = false;
@@ -68,7 +68,7 @@ public class NotificationListenerMonitor extends Service {
 
     private void toggleNotificationListenerService() {
         Log.d(TAG, "Toggling notification listener...");
-        ComponentName thisComponent = new ComponentName(this, NotificationListenerV5.class);
+        ComponentName thisComponent = new ComponentName(this, NotificationListenerV12.class);
 
         PackageManager pm = getPackageManager();
         pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
@@ -82,7 +82,7 @@ public class NotificationListenerMonitor extends Service {
             Log.d(TAG, "Perms granted");
 
             String listeners = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
-            String component = new ComponentName(context, NotificationListenerV5.class).flattenToShortString();
+            String component = new ComponentName(context, NotificationListenerV12.class).flattenToShortString();
             String[] list = listeners == null ? new String[0] : listeners.split("\\s*:\\s*");
             boolean enabled = false;
             for (CharSequence equals : list) {

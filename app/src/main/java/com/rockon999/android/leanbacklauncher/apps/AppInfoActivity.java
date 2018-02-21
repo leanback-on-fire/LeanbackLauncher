@@ -1,4 +1,4 @@
-package com.rockon999.android.leanbacklauncher.settings;
+package com.rockon999.android.leanbacklauncher.apps;
 
 import android.app.Activity;
 import android.content.pm.ApplicationInfo;
@@ -9,9 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v17.leanback.app.GuidedStepFragment;
 
-/**
- * TODO: Javadoc
- */
 public class AppInfoActivity extends Activity {
 
     private Drawable icon;

@@ -268,7 +268,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<PropagatingAnim
         super(20);
         TypedValue propagationSpeed = new TypedValue();
         Resources res = builder.mRoot.getResources();
-        res.getValue(R.raw.slide_animator_propagation_speed, propagationSpeed, true);
+        res.getValue(R.fraction.slide_animator_propagation_speed, propagationSpeed, true);
         this.mRows = new ArrayList<>();
         this.mRoot = builder.mRoot;
         this.mEpicenter = builder.mEpicenter;

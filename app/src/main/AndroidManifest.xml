@@ -5,7 +5,7 @@
 
     <uses-sdk
         android:minSdkVersion="22"
-        android:targetSdkVersion="24" />
+        android:targetSdkVersion="25" />
 
     <uses-feature
         android:name="android.software.leanback"
@@ -69,34 +69,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.rockon999.android.leanbacklauncher.settings.AppInfoActivity"
+            android:name="com.rockon999.android.leanbacklauncher.apps.AppInfoActivity"
             android:exported="false"
             android:theme="@style/Theme.Leanback.GuidedStep" />
         <activity
-            android:name="com.rockon999.android.leanbacklauncher.settings.HomeScreenSettingsActivity"
+            android:name="com.rockon999.android.leanbacklauncher.settings.FullScreenSettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:enabled="true"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.Settings.SidePanel">
-            <intent-filter>
-                <action android:name="com.rockon999.android.leanbacklauncher.SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.rockon999.android.leanbacklauncher.settings.FullScreenSettingsActivity"
-            android:configChanges="keyboard|keyboardHidden|navigation"
-            android:enabled="false"
-            android:excludeFromRecents="true"
             android:theme="@style/Theme.Settings.Fullscreen">
-            <intent-filter>
-                <action android:name="com.rockon999.android.leanbacklauncher.SETTINGS" />
+            <intent-filter
+                android:icon="@drawable/ic_settings_home"
+                android:label="Launcher Settings"> <!-- todo translate -->
+                <action android:name="android.intent.action.MAIN" />
+
+                <!--<category android:name="android.intent.category.LEANBACK_SETTINGS" />-->
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <service
-            android:name="com.rockon999.android.leanbacklauncher.apps.notifications.NotificationListenerV5"
+            android:name="com.rockon999.android.leanbacklauncher.apps.notifications.NotificationListenerV12"
             android:label="@string/notif_service_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -119,17 +112,12 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
-        <provider
-            android:name="com.rockon999.android.leanbacklauncher.migration.DbMigrationContentProvider"
-            android:authorities="com.android.google.tvrecommendations.migration"
-            android:exported="true"
-            android:permission="com.rockon999.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
         <receiver android:name="com.rockon999.android.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.WALLPAPER_CHANGED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".apps.notifications.NotificationListenerMonitor"/>
+        <service android:name=".apps.notifications.NotificationListenerMonitor" />
     </application>
 </manifest>

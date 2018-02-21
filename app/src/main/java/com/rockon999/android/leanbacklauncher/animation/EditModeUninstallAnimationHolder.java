@@ -128,7 +128,7 @@ public class EditModeUninstallAnimationHolder {
         int[] curBannerLocation = new int[2];
         int[] uninstallBannerLocation = new int[2];
         TypedValue out = new TypedValue();
-        this.mUninstallBanner.getResources().getValue(R.raw.unselected_scale, out, true);
+        this.mUninstallBanner.getResources().getValue(R.fraction.unselected_scale, out, true);
         float bannerSelectedScaleDelta = this.mUninstallBanner.getResources().getFraction(R.fraction.lb_focus_zoom_factor_medium, 1, 1) - out.getFloat();
         curBanner.getLocationOnScreen(curBannerLocation);
         this.mUninstallBanner.getLocationOnScreen(uninstallBannerLocation);

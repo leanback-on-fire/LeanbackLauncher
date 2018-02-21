@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/settings_dialog_title">
+        <ListPreference
+            android:defaultValue="true"
+            android:entries="@array/sorting_mode_keys"
+            android:entryValues="@array/sorting_mode_values"
+            android:key="apps_ranker_sorting_mode"
+            android:title="@string/select_app_order_content_title" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

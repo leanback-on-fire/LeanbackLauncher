@@ -22,7 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rockon999.android.leanbacklauncher.HomeScrollManager.HomeScrollFractionListener;
+import com.rockon999.android.leanbacklauncher.apps.AllAppsAdapter;
+import com.rockon999.android.leanbacklauncher.apps.AppCategory;
 import com.rockon999.android.leanbacklauncher.apps.AppsAdapter;
+import com.rockon999.android.leanbacklauncher.apps.AppsPreferences;
 import com.rockon999.android.leanbacklauncher.apps.AppsRanker;
 import com.rockon999.android.leanbacklauncher.apps.AppsUpdateListener;
 import com.rockon999.android.leanbacklauncher.apps.ConnectivityListener;
@@ -30,14 +33,16 @@ import com.rockon999.android.leanbacklauncher.apps.ConnectivityListener.Listener
 import com.rockon999.android.leanbacklauncher.apps.LaunchPointListGenerator;
 import com.rockon999.android.leanbacklauncher.apps.OnEditModeChangedListener;
 import com.rockon999.android.leanbacklauncher.apps.SettingsAdapter;
-import com.rockon999.android.leanbacklauncher.data.ConstData;
 import com.rockon999.android.leanbacklauncher.inputs.InputsAdapter;
+import com.rockon999.android.leanbacklauncher.util.ConstData;
 import com.rockon999.android.leanbacklauncher.util.Preconditions;
 import com.rockon999.android.leanbacklauncher.widget.EditModeView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder> implements OnChildSelectedListener, HomeScreenRow.RowChangeListener, Listener, OnEditModeChangedListener {
     private static final String TAG = "HomeScreenAdapter";
@@ -62,6 +67,10 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     private final SettingsAdapter mSettingsAdapter;
     private ArrayList<HomeScreenRow> mVisRowsList;
 
+    public LaunchPointListGenerator getLaunchPointListGenerator() {
+        return mLaunchPointListGenerator;
+    }
+
     /* renamed from: HomeScreenAdapter.1 */
     class C01551 extends BroadcastReceiver {
         final /* synthetic */ Adapter val$adapter;
@@ -80,10 +89,10 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     }
 
     /* renamed from: HomeScreenAdapter.2 */
-    class C01562 implements OnLayoutChangeListener {
+    class LayoutChangeListener implements OnLayoutChangeListener {
         final /* synthetic */ HomeViewHolder val$holder;
 
-        C01562(HomeViewHolder val$holder) {
+        LayoutChangeListener(HomeViewHolder val$holder) {
             this.val$holder = val$holder;
         }
 
@@ -132,6 +141,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         this.mConnectivityListener = new ConnectivityListener(context, this);
         this.mSettingsAdapter = new SettingsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mConnectivityListener, appsRanker);
         this.mEditModeView = editModeView;
+        this.mEditModeView.setHomeScreenAdapter(this);
 
         setHasStableIds(true);
         buildRowList();
@@ -211,13 +221,11 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
         buildRow(ConstData.RowType.SYSTEM_UI, position++, null, null, null, R.dimen.home_scroll_size_search, false);
 
-        buildRow(ConstData.RowType.FAVORITE, position++, res.getString(R.string.home_collection), null, null, R.dimen.home_scroll_size_apps, false);
-
-        buildRow(ConstData.RowType.VIDEO, position++, res.getString(R.string.home_video), null, null, R.dimen.home_scroll_size_apps, true);
-
-        buildRow(ConstData.RowType.MUSIC, position++, res.getString(R.string.home_music), null, null, R.dimen.home_scroll_size_apps, true);
+        buildRow(ConstData.RowType.FAVORITE, position++, res.getString(R.string.home_collection), null, null, R.dimen.home_scroll_size_apps, true);
 
         buildRow(ConstData.RowType.ALL_APPS, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, false);
+
+        // todo buildRow(ConstData.RowType.GAMES, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, false);
 
         buildRow(ConstData.RowType.SETTINGS, position, res.getString(R.string.category_label_settings), null, null, R.dimen.home_scroll_size_settings, false);
 
@@ -333,8 +341,6 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             case ConstData.RowType.MUSIC:
             case ConstData.RowType.VIDEO:
             case ConstData.RowType.SETTINGS:
-            case 2: // todo
-            case 4:
                 view = this.mInflater.inflate(R.layout.home_apps_row, parent, false);
                 this.mHeaders.put(row.getType(), view.findViewById(R.id.header));
                 if (view instanceof ActiveFrame) {
@@ -400,7 +406,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     }
 
-    @SuppressLint("PrivateResource")
+    @SuppressLint({"PrivateResource", "RestrictedApi"})
     private void initAppRow(ActiveFrame group, HomeScreenRow row) {
         if (group != null) {
             Resources res = this.mMainActivity.getResources();
@@ -434,20 +440,19 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             group.setScaledWhenUnfocused(true);
             int type = row.getType();
             switch (type) {
-                case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager /*2*/:
-                case android.support.v7.preference.R.styleable.Preference_android_layout /*3*/:
-                case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
-                case android.support.v7.preference.R.styleable.Preference_android_key /*6*/:
-                case 8:
+                case ConstData.RowType.SETTINGS:
+                    lp.height = (int) res.getDimension(R.dimen.settings_row_height);
+                    break;
+                case ConstData.RowType.ALL_APPS:
+                case ConstData.RowType.INPUTS:
+                case ConstData.RowType.FAVORITE:
+                default:
                     int rowHeight = (int) res.getDimension(R.dimen.banner_height);
                     list.setIsNumRowsAdjustable(true);
                     list.adjustNumRows(res.getInteger(R.integer.max_num_banner_rows), cardSpacing, rowHeight);
                     break;
-                case android.support.v7.preference.R.styleable.Preference_android_selectable /*5*/:
-                    lp.height = (int) res.getDimension(R.dimen.settings_row_height);
-                    break;
             }
-            if (type == 3 || type == 4 || type == 8) {
+            if (type == ConstData.RowType.ALL_APPS || type == ConstData.RowType.FAVORITE) {
                 list.setIsRowEditable(true);
             }
             list.setItemMargin(cardSpacing);
@@ -460,6 +465,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             View child = rowView.getChildAt(0);
             child.requestFocus();
             child.setSelected(true);
+
             rowView.setEditMode(true);
         }
     }
@@ -491,22 +497,32 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     @SuppressLint("PrivateResource")
     private Adapter<?> initAdapter(int type) {
         switch (type) {
-            case ConstData.RowType.ALL_APPS:
-                return new AppsAdapter(this.mMainActivity, ConstData.AppType.ALL, this.mLaunchPointListGenerator, this.mAppsRanker, null);
             case ConstData.RowType.FAVORITE:
-                return new AppsAdapter(this.mMainActivity, ConstData.AppType.FAVORITE, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+                return new AppsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mAppsRanker, true);
             case ConstData.RowType.MUSIC:
-                return new AppsAdapter(this.mMainActivity, ConstData.AppType.MUSIC, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+                return new AppsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mAppsRanker, false, AppCategory.MUSIC);
             case ConstData.RowType.VIDEO:
-                return new AppsAdapter(this.mMainActivity, ConstData.AppType.VIDEO, this.mLaunchPointListGenerator, this.mAppsRanker, null);
+                return new AppsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mAppsRanker, false, AppCategory.VIDEO);
             case ConstData.RowType.SETTINGS:
                 return this.mSettingsAdapter;
-            case ConstData.RowType.SYSTEM_UI:
-                //return this.mSearch;
             case ConstData.RowType.INPUTS:
                 Adapter<?> adapter = new InputsAdapter(this.mMainActivity, new InputsAdapter.Configuration(false, false, false)); // todo changed to default:false x3
                 this.mInputsAdapter = (InputsAdapter) adapter;
                 return adapter;
+            case ConstData.RowType.ALL_APPS:
+                Set<String> stringSet = AppsPreferences.getEnabledCategories(this.mMainActivity);
+                Set<AppCategory> categories = new HashSet<>();
+
+                for (AppCategory ac : AppCategory.values()) {
+                    if (!stringSet.contains(ac.name()) && ac != AppCategory.SETTINGS) { // todo hardcoded
+                        categories.add(ac);
+                    }
+                }
+
+                // todo figure out a less hacky way
+                return new AllAppsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mAppsRanker, categories.toArray(new AppCategory[categories.size()]));
+
+            case ConstData.RowType.SYSTEM_UI:
             default:
                 return null;
         }
@@ -529,10 +545,9 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             this.mActiveItem.setActivated(false);
         }
         this.mActiveItem = child;
-        if (child != null) {
-            Log.i(TAG, "onChildSelect 4");
-            this.mActiveItem.setActivated(true);
-        }
+
+        Log.i(TAG, "onChildSelect 4");
+        this.mActiveItem.setActivated(true);
     }
 
     public int getScrollOffset(int index) {
@@ -540,10 +555,6 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             return this.mVisRowsList.get(index).getRowScrollOffset();
         }
         return 0;
-    }
-
-    public void onReconnectToRecommendationsService() {
-
     }
 
     public void onInitUi() {
@@ -576,7 +587,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         if (holder.itemView instanceof HomeScrollFractionListener) {
             this.mScrollManager.addHomeScrollListener((HomeScrollFractionListener) holder.itemView);
         }
-        holder.itemView.addOnLayoutChangeListener(new C01562(holder));
+        holder.itemView.addOnLayoutChangeListener(new LayoutChangeListener(holder));
     }
 
     private void beginEditModeForPendingRow(ActiveFrame frame) {
