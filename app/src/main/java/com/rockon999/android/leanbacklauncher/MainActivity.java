@@ -306,7 +306,6 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         setContentView(R.layout.activity_main);
         this.mAppsRanker = AppsRanker.getInstance(this);
         this.mLaunchPointListGenerator = new LaunchPointListGenerator(this);
-        this.mLaunchPointListGenerator.addToBlacklist(BuildConfig.APPLICATION_ID, false);
         mLayoutLoading = (RelativeLayout) findViewById(R.id.layout_loading);
 
         this.mAllAppGridView = (GridView) findViewById(R.id.grid_all_app);

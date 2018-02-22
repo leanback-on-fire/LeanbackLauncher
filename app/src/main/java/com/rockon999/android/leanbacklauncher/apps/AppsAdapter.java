@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rockon999.android.leanbacklauncher.ActiveItemsRowView;
+import com.rockon999.android.leanbacklauncher.BuildConfig;
 import com.rockon999.android.leanbacklauncher.LauncherViewHolder;
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.animation.ViewDimmer.DimState;
@@ -616,6 +617,8 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements AppsRa
 
     public void onLaunchPointListGeneratorReady() {
         Log.i(TAG, "onLaunchPointListGeneratorReady");
+        this.mLaunchPointGen.addToBlacklist(BuildConfig.APPLICATION_ID, false);
+
         if (this.mAppsRanker.isReady()) {
             refreshDataSetAsync();
         }

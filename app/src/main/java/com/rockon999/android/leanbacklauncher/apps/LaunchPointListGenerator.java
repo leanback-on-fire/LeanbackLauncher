@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.rockon999.android.leanbacklauncher.BuildConfig;
 import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.leanbacklauncher.util.FireTVUtils;
 import com.rockon999.android.leanbacklauncher.util.SettingsUtil;
@@ -421,8 +422,15 @@ public class LaunchPointListGenerator {
     public ArrayList<LaunchPoint> getAllLaunchPoints() {
         ArrayList<LaunchPoint> allLaunchPoints = new ArrayList<>();
         if (mAllLaunchPoints != null && mAllLaunchPoints.size() > 0) {
-            allLaunchPoints.addAll(mAllLaunchPoints);
+            // allLaunchPoints.addAll(mAllLaunchPoints);
+
+            for (LaunchPoint lp : mAllLaunchPoints) {
+                if (!isBlacklisted(lp.getPackageName())) {
+                    allLaunchPoints.add(lp);
+                }
+            }
         }
+
         return allLaunchPoints;
     }
 
