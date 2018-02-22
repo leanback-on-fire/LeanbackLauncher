@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.rockon999.android.leanbacklauncher.apps.AppsAdapter;
 import com.rockon999.android.leanbacklauncher.core.LaunchException;
-import com.rockon999.android.leanbacklauncher.settings.FullScreenSettingsActivity;
+import com.rockon999.android.leanbacklauncher.settings.SettingsActivity;
 import com.rockon999.android.leanbacklauncher.util.SettingsUtil;
 
 public abstract class LauncherViewHolder extends ViewHolder implements OnClickListener {
@@ -53,7 +53,7 @@ public abstract class LauncherViewHolder extends ViewHolder implements OnClickLi
                 }
                 return;
             } else if (type == SettingsUtil.Type.APP_CONFIGURE.getCode()) {
-                Intent intent = new Intent(mCtx, FullScreenSettingsActivity.class);
+                Intent intent = new Intent(mCtx, SettingsActivity.class);
                 mCtx.startActivity(intent);
                 return;
             }

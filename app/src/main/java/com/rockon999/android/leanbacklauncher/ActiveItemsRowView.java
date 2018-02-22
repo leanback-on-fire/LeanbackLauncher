@@ -53,6 +53,19 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     private int mNumRows;
     private int mRowHeight;
 
+    private int minNumberOfRows;
+    private int maxNumberOfRows;
+
+    public void setRowConstraints(int minNumberOfRows, int maxNumberOfRows) {
+        if (minNumberOfRows == 0 || maxNumberOfRows == 0) {
+            return;
+        }
+
+        // todo abs?
+        this.minNumberOfRows = Math.abs(minNumberOfRows);
+        this.maxNumberOfRows = Math.abs(maxNumberOfRows);
+    }
+
     public interface RowCountChangeListener {
         void onRowCountChanged();
     }
@@ -62,6 +75,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
         C01531() {
         }
 
+        @SuppressLint("RestrictedApi")
         public void onChanged() {
             Log.i(TAG, "onChanged");
             ActiveItemsRowView.this.adjustNumRows();
@@ -117,6 +131,11 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
         setAnimateChildLayout(true);
         this.mEditListeners = new ArrayList<>();
         this.mDimState = DimState.INACTIVE;
+
+        Resources res = context.getResources();
+
+        this.minNumberOfRows = res.getInteger(R.integer.min_num_banner_rows);
+        this.maxNumberOfRows = res.getInteger(R.integer.max_num_banner_rows);
     }
 
     public void setAdapter(Adapter adapter) {
@@ -241,7 +260,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
     }
 
     public void refreshSelectedView() {
-        int pos = getSelectedPosition();
+        @SuppressLint("RestrictedApi") int pos = getSelectedPosition();
         int childCount = 0;
         Adapter adapter = getAdapter();
         if (adapter != null) {
@@ -327,24 +346,42 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnChildSel
         setOnHierarchyChangeListener(isAdjustable ? this : null);
     }
 
-    public void adjustNumRows(int numRows, int cardSpacing, int rowHeight) {
-        if (this.mIsAdjustable && this.mNumRows != numRows) {
-            this.mNumRows = numRows;
+    public void adjustNumRows(int cardSpacing, int rowHeight) {
+        int numOfRows = calculateNumRows();
+
+        if (this.mIsAdjustable && this.mNumRows != numOfRows) {
+            this.mNumRows = numOfRows;
             this.mCardSpacing = cardSpacing;
             this.mRowHeight = rowHeight;
             post(new C01542());
         }
     }
 
-    private void adjustNumRows() {
-        int integer;
-        Resources res = getResources();
-        if (getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off)) {
-            integer = res.getInteger(R.integer.max_num_banner_rows);
-        } else {
-            integer = res.getInteger(R.integer.min_num_banner_rows);
+    private int calculateNumRows() {
+        // todo double check this
+
+        int itemCount = getAdapter().getItemCount();
+
+        int cutOff = getResources().getInteger(R.integer.row_cut_off);
+
+        double initNumOfRows = ((double) itemCount) / cutOff;
+
+        int numOfRows = (int) Math.ceil(initNumOfRows);
+
+        numOfRows = Math.min(numOfRows, maxNumberOfRows);
+        numOfRows = Math.max(numOfRows, minNumberOfRows);
+
+        if (numOfRows > itemCount) {
+            numOfRows = itemCount;
         }
-        adjustNumRows(integer, this.mCardSpacing, this.mRowHeight);
+
+        return numOfRows;
+    }
+
+    private void adjustNumRows() {
+        // todo double check this
+
+        adjustNumRows(this.mCardSpacing, this.mRowHeight);
     }
 
     public void childHasTransientStateChanged(View child, boolean hasTransientState) {

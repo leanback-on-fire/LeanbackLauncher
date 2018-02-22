@@ -3,19 +3,21 @@ package com.rockon999.android.leanbacklauncher.util;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 
 /**
  * Created by rockon999 on 2/15/18.
  */
 
 public class FireTVUtils {
-    private static Object synchronize = new Object();
 
     public static void startAppSettings(Context context, String packageName) {
         try {
@@ -32,7 +34,17 @@ public class FireTVUtils {
         }
     }
 
-    public static void openAppInStore(Context context, String packageName) {
+    public static boolean isAmazonStoreInstalled(Context context) {
+        Intent localIntent = new Intent();
+        localIntent.setPackage("com.amazon.venezia");
+
+        PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(localIntent, 0);
+
+        return activities.size() > 0;
+    }
+
+    public static void openAppInAmazonStore(Context context, String packageName) {
         try {
             Intent localIntent = new Intent();
             localIntent.setPackage("com.amazon.venezia");
@@ -42,6 +54,7 @@ public class FireTVUtils {
             localIntent.putExtra("packageName", packageName);
             localIntent.putExtra("clickStreamReftag", AmazonStoreSpoofer.buildRefTag());
             localIntent.setFlags(32768);
+
             context.startActivity(localIntent);
         } catch (Exception e) {
             StringWriter errors = new StringWriter();

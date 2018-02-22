@@ -62,7 +62,7 @@ public class AppInfoFragment extends GuidedStepFragment {
     @Override
     public void onGuidedActionClicked(GuidedAction action) {
         if (action.getId() == ACTION_ID_IN_STORE) {
-            FireTVUtils.openAppInStore(getActivity(), pkg);
+            FireTVUtils.openAppInAmazonStore(getActivity(), pkg);
         } else if (action.getId() == ACTION_ID_SETTINGS) {
             FireTVUtils.startAppSettings(getActivity(), pkg);
         } else if (action.getId() == ACTION_ID_NOTIFICATION_SETTINGS) {

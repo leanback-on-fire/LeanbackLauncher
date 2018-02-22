@@ -62,6 +62,7 @@
     <integer name="now_playing_fade_out_duration">200</integer>
     <integer name="tag_has_header">0</integer>
     <integer name="two_row_cut_off">16</integer>
+    <integer name="row_cut_off">8</integer>
     <integer name="min_num_banner_rows">1</integer>
     <integer name="max_num_banner_rows">2</integer>
     <integer name="impression_delay">3000</integer>

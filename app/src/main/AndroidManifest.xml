@@ -73,7 +73,7 @@
             android:exported="false"
             android:theme="@style/Theme.Leanback.GuidedStep" />
         <activity
-            android:name="com.rockon999.android.leanbacklauncher.settings.FullScreenSettingsActivity"
+            android:name="com.rockon999.android.leanbacklauncher.settings.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:enabled="true"
             android:excludeFromRecents="true"

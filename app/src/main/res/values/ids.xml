@@ -298,4 +298,6 @@
     <item name="background_imagein" type="id">false</item>
     <item name="background_dim" type="id">false</item>
     <item name="add_button" type="id">add_button</item>
+    <item name="number_picker_preference" type="id">number_picker_preference</item>
+    <item name="number_picker_preference_view" type="id">number_picker_preference_view</item>
 </resources>

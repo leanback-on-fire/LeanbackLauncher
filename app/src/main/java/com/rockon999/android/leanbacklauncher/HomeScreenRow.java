@@ -18,17 +18,28 @@ public class HomeScreenRow extends AdapterDataObserver {
     private String mTitle;
     private final int mType;
     private boolean mVisible;
+    private int minNumberOfRows, maxNumberOfRows;
+
+    public int getMinNumberOfRows() {
+        return minNumberOfRows;
+    }
+
+    public int getMaxNumberOfRows() {
+        return maxNumberOfRows;
+    }
 
     public interface RowChangeListener {
         void onRowVisibilityChanged(int i, boolean z);
     }
 
-    HomeScreenRow(int type, int position, boolean hideIfEmpty) {
+    HomeScreenRow(int type, int position, int minRows, int maxRows, boolean hideIfEmpty) {
         this.mType = type;
         this.mHomeScreenPosition = position;
         this.mHideIfEmpty = hideIfEmpty;
         this.mVisible = isVisible();
         this.mRowView = null;
+        this.minNumberOfRows = minRows;
+        this.maxNumberOfRows = maxRows;
     }
 
     public int getType() {

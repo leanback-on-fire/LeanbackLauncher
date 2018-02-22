@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.rockon999.android.leanbacklauncher.settings.FullScreenSettingsFragment"
+        android:name="com.rockon999.android.leanbacklauncher.settings.SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

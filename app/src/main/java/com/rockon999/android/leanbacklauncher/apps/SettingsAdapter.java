@@ -1,6 +1,7 @@
 package com.rockon999.android.leanbacklauncher.apps;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -30,6 +31,9 @@ public class SettingsAdapter extends AppsAdapter {
     private final Handler mHandler;
     private Resources mNetResources;
     private boolean mNetResourcesSet;
+
+    private NotificationManager manager;
+
 
     class SettingsHandler extends Handler {
         SettingsHandler() {
@@ -88,12 +92,19 @@ public class SettingsAdapter extends AppsAdapter {
             }
         };
 
-        LocalBroadcastManager.getInstance(mContext.getApplicationContext()).registerReceiver(onNotice, new IntentFilter(NotificationListenerV12.LISTENER_INTENT));
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext()).registerReceiver(onNotice, new IntentFilter(NotificationListenerV12.LISTENER_INTENT_OUT));
     }
 
     protected final void onPostRefresh() {
         this.mNetResourcesSet = false;
         updateNetwork();
+        updateNotificationCount();
+    }
+
+    public void updateNotificationCount() {
+        Log.d(TAG, "Sending broadcast to request an update for notifications");
+        Intent msgrcv = new Intent(NotificationListenerV12.LISTENER_INTENT_IN);
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext()).sendBroadcast(msgrcv);
     }
 
     public void onConnectivityChange() {

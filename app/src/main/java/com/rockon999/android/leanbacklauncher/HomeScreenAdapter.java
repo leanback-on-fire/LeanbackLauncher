@@ -41,7 +41,6 @@ import com.rockon999.android.leanbacklauncher.widget.EditModeView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Set;
 
 public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder> implements OnChildSelectedListener, HomeScreenRow.RowChangeListener, Listener, OnEditModeChangedListener {
@@ -127,6 +126,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         }
     }
 
+    private Context mContext;
+
     public HomeScreenAdapter(MainActivity context, HomeScrollManager scrollMgr, LaunchPointListGenerator launchPointListGenerator, EditModeView editModeView, AppsRanker appsRanker) {
         this.mHeaders = new SparseArray<>(7);
         this.mAllRowsList = new ArrayList<>(7);
@@ -142,6 +143,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         this.mSettingsAdapter = new SettingsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mConnectivityListener, appsRanker);
         this.mEditModeView = editModeView;
         this.mEditModeView.setHomeScreenAdapter(this);
+        this.mContext = context;
 
         setHasStableIds(true);
         buildRowList();
@@ -221,11 +223,25 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
         buildRow(ConstData.RowType.SYSTEM_UI, position++, null, null, null, R.dimen.home_scroll_size_search, false);
 
-        buildRow(ConstData.RowType.FAVORITE, position++, res.getString(R.string.home_collection), null, null, R.dimen.home_scroll_size_apps, true);
+        if (AppsPreferences.areFavoritesEnabled(mContext)) {
+            buildRow(ConstData.RowType.FAVORITE, position++, res.getString(R.string.category_label_favorites), null, null, R.dimen.home_scroll_size_apps, true);
+        }
+
+        Set<AppCategory> enabledCategories = AppsPreferences.getEnabledCategories(mContext);
+
+        if (enabledCategories.contains(AppCategory.GAME)) {
+            buildRow(ConstData.RowType.GAMES, position++, res.getString(R.string.category_label_games), null, null, R.dimen.home_scroll_size_apps, true);
+        }
+
+        if (enabledCategories.contains(AppCategory.MUSIC)) {
+            buildRow(ConstData.RowType.MUSIC, position++, res.getString(R.string.category_label_music), null, null, R.dimen.home_scroll_size_apps, true);
+        }
+
+        if (enabledCategories.contains(AppCategory.VIDEO)) {
+            buildRow(ConstData.RowType.VIDEO, position++, res.getString(R.string.category_label_videos), null, null, R.dimen.home_scroll_size_apps, true);
+        }
 
         buildRow(ConstData.RowType.ALL_APPS, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, false);
-
-        // todo buildRow(ConstData.RowType.GAMES, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, false);
 
         buildRow(ConstData.RowType.SETTINGS, position, res.getString(R.string.category_label_settings), null, null, R.dimen.home_scroll_size_settings, false);
 
@@ -240,7 +256,38 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         Log.i(TAG, "buildRow->title:" + title);
         Log.i(TAG, "buildRow->hideIfEmpty:" + hideIfEmpty);
         Log.i(TAG, "buildRow->font:" + font);
-        HomeScreenRow row = new HomeScreenRow(type, position, hideIfEmpty);
+
+        Resources res = mContext.getResources();
+
+        int min = res.getInteger(R.integer.min_num_banner_rows), max = res.getInteger(R.integer.max_num_banner_rows);
+        int[] constraints = null;
+
+        switch (type) {
+            case ConstData.RowType.FAVORITE:
+                constraints = AppsPreferences.getFavoriteRowConstraints(mContext);
+                break;
+            case ConstData.RowType.ALL_APPS:
+                constraints = AppsPreferences.getAllAppsConstraints(mContext);
+                break;
+            case ConstData.RowType.GAMES:
+                constraints = AppsPreferences.getRowConstraints(AppCategory.GAME, mContext);
+                break;
+            case ConstData.RowType.MUSIC:
+                constraints = AppsPreferences.getRowConstraints(AppCategory.MUSIC, mContext);
+                break;
+            case ConstData.RowType.VIDEO:
+                constraints = AppsPreferences.getRowConstraints(AppCategory.VIDEO, mContext);
+                break;
+            default:
+                break;
+        }
+
+        if (constraints != null) {
+            min = constraints[0];
+            max = constraints[1];
+        }
+
+        HomeScreenRow row = new HomeScreenRow(type, position, min, max, hideIfEmpty);
         row.setHeaderInfo(title != null, title, icon, font);
         row.setAdapter(initAdapter(type));
         row.setViewScrollOffset(this.mMainActivity.getResources().getDimensionPixelOffset(scrollOffsetResId));
@@ -340,6 +387,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             case ConstData.RowType.INPUTS:
             case ConstData.RowType.MUSIC:
             case ConstData.RowType.VIDEO:
+            case ConstData.RowType.GAMES:
             case ConstData.RowType.SETTINGS:
                 view = this.mInflater.inflate(R.layout.home_apps_row, parent, false);
                 this.mHeaders.put(row.getType(), view.findViewById(R.id.header));
@@ -417,6 +465,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             list.addEditModeListener(this);
             list.setHasFixedSize(true);
             list.setAdapter(row.getAdapter());
+            list.setRowConstraints(row.getMinNumberOfRows(), row.getMaxNumberOfRows());
             if (row.hasHeader()) {
                 list.setContentDescription(row.getTitle());
                 ((TextView) group.findViewById(R.id.title)).setText(row.getTitle());
@@ -449,7 +498,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 default:
                     int rowHeight = (int) res.getDimension(R.dimen.banner_height);
                     list.setIsNumRowsAdjustable(true);
-                    list.adjustNumRows(res.getInteger(R.integer.max_num_banner_rows), cardSpacing, rowHeight);
+                    list.adjustNumRows(cardSpacing, rowHeight);
                     break;
             }
             if (type == ConstData.RowType.ALL_APPS || type == ConstData.RowType.FAVORITE) {
@@ -503,6 +552,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 return new AppsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mAppsRanker, false, AppCategory.MUSIC);
             case ConstData.RowType.VIDEO:
                 return new AppsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mAppsRanker, false, AppCategory.VIDEO);
+            case ConstData.RowType.GAMES:
+                return new AppsAdapter(this.mMainActivity, this.mLaunchPointListGenerator, this.mAppsRanker, false, AppCategory.GAME);
             case ConstData.RowType.SETTINGS:
                 return this.mSettingsAdapter;
             case ConstData.RowType.INPUTS:
@@ -510,11 +561,10 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 this.mInputsAdapter = (InputsAdapter) adapter;
                 return adapter;
             case ConstData.RowType.ALL_APPS:
-                Set<String> stringSet = AppsPreferences.getEnabledCategories(this.mMainActivity);
-                Set<AppCategory> categories = new HashSet<>();
+                Set<AppCategory> categories = AppsPreferences.getEnabledCategories(this.mMainActivity);
 
                 for (AppCategory ac : AppCategory.values()) {
-                    if (!stringSet.contains(ac.name()) && ac != AppCategory.SETTINGS) { // todo hardcoded
+                    if (!categories.contains(ac) && ac != AppCategory.SETTINGS) { // todo hardcoded
                         categories.add(ac);
                     }
                 }

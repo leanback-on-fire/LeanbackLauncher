@@ -325,8 +325,6 @@ public final class EditModeView extends RelativeLayout implements OnEditModeChan
 
     @Override
     public void onClick(View v) {
-        VerticalGridView mGrid = (VerticalGridView) findViewById(R.id.main_list_view);
-
         if (v == this.mFinishButton) {
             notifyOnExitEditModeTriggered();
         }
