@@ -9,8 +9,8 @@ android {
         applicationId "com.rockon999.android.leanbacklauncher"
         minSdkVersion 22
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,6 +38,4 @@ dependencies {
     compile 'com.android.support:preference-leanback-v17:25.4.0'
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:palette-v7:25.4.0'
-    //compile files('libs/xutils.jar')
-    //compile files('libs/androidutils.jar')
 }
