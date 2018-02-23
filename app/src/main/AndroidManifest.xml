@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.rockon999.android.leanbacklauncher">
 
-    <uses-sdk
-        android:minSdkVersion="22"
-        android:targetSdkVersion="25" />
-
     <uses-feature
         android:name="android.software.leanback"
         android:required="true" />

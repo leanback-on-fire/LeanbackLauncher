@@ -29,8 +29,6 @@ LOCAL_PROGUARD_ENABLED := disabled
 include $(BUILD_PACKAGE)
 
 #include $(CLEAR_VARS)
-LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := libxutils:app/libs/xutils.jar
-LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += libandroidutils:app/libs/androidutils.jar
 #LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += libjunit:libs/junit.jar
 #LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += libfm:libs/fm.jar
 #include $(BUILD_MULTI_PREBUILT)
