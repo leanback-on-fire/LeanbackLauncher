@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.rockon999.android.leanbacklauncher.R;
 
@@ -62,11 +63,23 @@ public class AppsPreferences {
 
     public enum SortingMode {
         FIXED,
-        RECENCY
+        RECENCY;
+
+        public static SortingMode fromString(String s) {
+            if ("FIXED".equalsIgnoreCase(s)) {
+                return FIXED;
+            } else if ("RECENCY".equalsIgnoreCase(s)) {
+                return RECENCY;
+            }
+
+            Log.d(AppsPreferences.TAG, "Warning, could not find: " + s + " as a sorting mode. Defaulting to fixed.");
+
+            return FIXED;
+        }
     }
 
     public static SortingMode getSavedSortingMode(Context context) {
-        return SortingMode.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString("apps_ranker_sorting_mode", AppsPreferences.SortingMode.FIXED.toString())); // todo check this
+        return SortingMode.fromString(PreferenceManager.getDefaultSharedPreferences(context).getString("apps_ranker_sorting_mode", AppsPreferences.SortingMode.FIXED.toString()));
     }
 
     public static void saveSortingMode(Context context, SortingMode mode) {
@@ -92,4 +105,6 @@ public class AppsPreferences {
 
         return categories;
     }
+
+    public static final String TAG = "AppPrefs";
 }
