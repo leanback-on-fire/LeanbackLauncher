@@ -34,18 +34,18 @@ public class ProgramUtil
   {
     paramContext = paramContext.getResources();
     ProgramSettings localProgramSettings = new ProgramSettings();
-    localProgramSettings.defaultHeight = paramContext.getDimensionPixelSize(2131558971);
-    localProgramSettings.defaultTopMargin = paramContext.getDimensionPixelSize(2131558974);
-    localProgramSettings.defaultBottomMargin = paramContext.getDimensionPixelSize(2131558972);
-    localProgramSettings.defaultHorizontalMargin = paramContext.getDimensionPixelSize(2131558973);
-    localProgramSettings.selectedHeight = paramContext.getDimensionPixelSize(2131558998);
-    localProgramSettings.selectedVerticalMargin = paramContext.getDimensionPixelSize(2131558999);
-    localProgramSettings.zoomedOutHeight = paramContext.getDimensionPixelSize(2131559000);
-    localProgramSettings.zoomedOutVerticalMargin = paramContext.getDimensionPixelSize(2131559002);
-    localProgramSettings.zoomedOutHorizontalMargin = paramContext.getDimensionPixelSize(2131559001);
-    localProgramSettings.focusedAnimationDuration = paramContext.getInteger(2131689518);
+    localProgramSettings.defaultHeight = paramContext.getDimensionPixelSize(R.dimen.program_default_height);
+    localProgramSettings.defaultTopMargin = paramContext.getDimensionPixelSize(R.dimen.program_default_margin_top);
+    localProgramSettings.defaultBottomMargin = paramContext.getDimensionPixelSize(R.dimen.program_default_margin_bottom);
+    localProgramSettings.defaultHorizontalMargin = paramContext.getDimensionPixelSize(R.dimen.program_default_margin_horizontal);
+    localProgramSettings.selectedHeight = paramContext.getDimensionPixelSize(R.dimen.program_selected_height);
+    localProgramSettings.selectedVerticalMargin = paramContext.getDimensionPixelSize(R.dimen.program_selected_margin_vertical);
+    localProgramSettings.zoomedOutHeight = paramContext.getDimensionPixelSize(R.dimen.program_zoomed_out_height);
+    localProgramSettings.zoomedOutVerticalMargin = paramContext.getDimensionPixelSize(R.dimen.program_zoomed_out_margin_vertical);
+    localProgramSettings.zoomedOutHorizontalMargin = paramContext.getDimensionPixelSize(R.dimen.program_zoomed_out_margin_horizontal);
+    localProgramSettings.focusedAnimationDuration = paramContext.getInteger(R.integer.program_focused_animation_duration_ms);
     localProgramSettings.focusedScale = paramContext.getFraction(2131886096, 1, 1);
-    localProgramSettings.focusedElevation = paramContext.getDimension(2131558976);
+    localProgramSettings.focusedElevation = paramContext.getDimension(R.dimen.program_focused_elevation);
     return localProgramSettings;
   }
   
@@ -76,7 +76,7 @@ public class ProgramUtil
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/util/ProgramUtil.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/util/ProgramUtil.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

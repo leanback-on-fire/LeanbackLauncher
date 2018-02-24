@@ -49,10 +49,10 @@ public class NotificationPanelDismissibleItemView
   protected void onFinishInflate()
   {
     super.onFinishInflate();
-    this.mDismissButton = findViewById(2131951996);
-    this.mDismissText = ((TextView)findViewById(2131951997));
-    this.mViewFocusTranslationX = getResources().getDimensionPixelSize(2131558911);
-    this.mDismissTranslationX = getResources().getDimensionPixelSize(2131558894);
+    this.mDismissButton = findViewById(R.id.dismiss_button);
+    this.mDismissText = ((TextView)findViewById(R.id.dismiss_text));
+    this.mViewFocusTranslationX = getResources().getDimensionPixelSize(R.dimen.notification_panel_item_show_button_translate_x);
+    this.mDismissTranslationX = getResources().getDimensionPixelSize(R.dimen.notification_panel_item_dismiss_translate_x);
     final Object localObject1 = getResources().getConfiguration();
     updateBackgrounds(((Configuration)localObject1).getLayoutDirection());
     if (((Configuration)localObject1).getLayoutDirection() == 1)
@@ -69,7 +69,7 @@ public class NotificationPanelDismissibleItemView
       {
         NotificationPanelDismissibleItemView.this.mDismissButton.setVisibility(4);
         NotificationPanelDismissibleItemView.this.mMainContentText.setVisibility(4);
-        NotificationPanelDismissibleItemView.this.setBackgroundColor(NotificationPanelDismissibleItemView.this.getContext().getColor(2131820694));
+        NotificationPanelDismissibleItemView.this.setBackgroundColor(NotificationPanelDismissibleItemView.this.getContext().getColor(R.color.notification_selection_color));
         NotificationPanelDismissibleItemView.this.mEventLogger.log(new UserActionEvent("dismiss_notification").putParameter("placement", "panel").putParameter("key", NotificationPanelDismissibleItemView.this.mNotificationKey));
         NotificationsUtils.dismissNotification(NotificationPanelDismissibleItemView.this.getContext(), NotificationPanelDismissibleItemView.this.mNotificationKey);
       }
@@ -126,7 +126,7 @@ public class NotificationPanelDismissibleItemView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationPanelDismissibleItemView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationPanelDismissibleItemView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

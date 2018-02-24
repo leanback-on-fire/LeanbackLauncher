@@ -55,18 +55,18 @@ public class AccessibilityContextMenu
         }
       }
     });
-    this.mMenuItemFocusedColor = this.mActivity.getColor(2131820589);
-    this.mMenuItemUnfocusedColor = this.mActivity.getColor(2131820590);
-    this.mMenuItemHeight = paramActivity.getDimensionPixelSize(2131558480);
-    this.mMenuItemWidth = paramActivity.getDimensionPixelSize(2131558490);
-    this.mMenuItemMarginEnd = paramActivity.getDimensionPixelSize(2131558483);
-    this.mMenuItemMarginTop = paramActivity.getDimensionPixelSize(2131558484);
+    this.mMenuItemFocusedColor = this.mActivity.getColor(R.color.context_menu_background_focused_color);
+    this.mMenuItemUnfocusedColor = this.mActivity.getColor(R.color.context_menu_background_unfocused_color);
+    this.mMenuItemHeight = paramActivity.getDimensionPixelSize(R.dimen.accessibility_context_menu_item_height);
+    this.mMenuItemWidth = paramActivity.getDimensionPixelSize(R.dimen.accessibility_context_menu_item_width);
+    this.mMenuItemMarginEnd = paramActivity.getDimensionPixelSize(R.dimen.accessibility_context_menu_item_margin_end);
+    this.mMenuItemMarginTop = paramActivity.getDimensionPixelSize(R.dimen.accessibility_context_menu_item_margin_top);
   }
   
   private void bindMenuItemView(final ContextMenuItem paramContextMenuItem, final View paramView)
   {
-    ((TextView)paramView.findViewById(2131951740)).setText(paramContextMenuItem.getTitle());
-    ImageView localImageView = (ImageView)paramView.findViewById(2131951739);
+    ((TextView)paramView.findViewById(R.id.title)).setText(paramContextMenuItem.getTitle());
+    ImageView localImageView = (ImageView)paramView.findViewById(R.id.icon);
     localImageView.setImageTintList(paramView.getContext().getResources().getColorStateList(2131820592, null));
     localImageView.setImageDrawable(paramContextMenuItem.getIcon());
     localImageView.setBackgroundColor(this.mMenuItemUnfocusedColor);
@@ -150,7 +150,7 @@ public class AccessibilityContextMenu
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/util/AccessibilityContextMenu.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/util/AccessibilityContextMenu.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

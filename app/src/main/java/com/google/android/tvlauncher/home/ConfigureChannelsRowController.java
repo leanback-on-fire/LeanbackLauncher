@@ -29,8 +29,8 @@ class ConfigureChannelsRowController
   ConfigureChannelsRowController(View paramView)
   {
     this.mView = paramView;
-    this.mButton = ((TextView)paramView.findViewById(2131951826));
-    this.mDescriptionView = ((TextView)paramView.findViewById(2131951827));
+    this.mButton = ((TextView)paramView.findViewById(R.id.button));
+    this.mDescriptionView = ((TextView)paramView.findViewById(R.id.description_text));
     this.mButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -38,10 +38,10 @@ class ConfigureChannelsRowController
         paramAnonymousView.getContext().startActivity(new Intent(paramAnonymousView.getContext(), AppChannelPermissionActivity.class));
       }
     });
-    Object localObject = paramView.getContext().getString(2131492891);
+    Object localObject = paramView.getContext().getString(R.string.action_configure_channels_content_description_format);
     this.mButton.setContentDescription(String.format((String)localObject, new Object[] { this.mButton.getText(), this.mDescriptionView.getText() }));
     paramView = paramView.getContext().getResources();
-    localObject = new ScaleFocusHandler(paramView.getInteger(2131689485), paramView.getFraction(2131886085, 1, 1), paramView.getDimensionPixelSize(2131558605), 1);
+    localObject = new ScaleFocusHandler(paramView.getInteger(R.integer.home_configure_channels_button_focused_animation_duration_ms), paramView.getFraction(2131886085, 1, 1), paramView.getDimensionPixelSize(R.dimen.home_configure_channels_button_focused_elevation), 1);
     ((ScaleFocusHandler)localObject).setView(this.mButton);
     ((ScaleFocusHandler)localObject).setOnFocusChangeListener(new View.OnFocusChangeListener()
     {
@@ -53,12 +53,12 @@ class ConfigureChannelsRowController
         ConfigureChannelsRowController.this.updateSelectedState(paramAnonymousBoolean);
       }
     });
-    this.mDefaultTopMargin = paramView.getDimensionPixelSize(2131558614);
-    this.mSelectedTopMargin = paramView.getDimensionPixelSize(2131558615);
-    this.mDefaultStartMargin = paramView.getDimensionPixelSize(2131558607);
-    this.mZoomedOutStartMargin = paramView.getDimensionPixelSize(2131558609);
-    this.mChannelActionsStartMargin = paramView.getDimensionPixelSize(2131558606);
-    this.mMoveChannelStartMargin = paramView.getDimensionPixelSize(2131558608);
+    this.mDefaultTopMargin = paramView.getDimensionPixelSize(R.dimen.home_configure_channels_row_margin_top);
+    this.mSelectedTopMargin = paramView.getDimensionPixelSize(R.dimen.home_configure_channels_row_selected_margin_top);
+    this.mDefaultStartMargin = paramView.getDimensionPixelSize(R.dimen.home_configure_channels_button_margin_default);
+    this.mZoomedOutStartMargin = paramView.getDimensionPixelSize(R.dimen.home_configure_channels_button_margin_zoomed_out);
+    this.mChannelActionsStartMargin = paramView.getDimensionPixelSize(R.dimen.home_configure_channels_button_margin_channel_actions);
+    this.mMoveChannelStartMargin = paramView.getDimensionPixelSize(R.dimen.home_configure_channels_button_margin_move_channel);
   }
   
   private void updateSelectedState(boolean paramBoolean)
@@ -118,7 +118,7 @@ class ConfigureChannelsRowController
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ConfigureChannelsRowController.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ConfigureChannelsRowController.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

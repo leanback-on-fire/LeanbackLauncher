@@ -188,7 +188,7 @@ class WatchNextItemsAdapter
       {
         public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
         {
-          paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(2131558510));
+          paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
         }
       });
       paramView.setClipToOutline(true);
@@ -261,7 +261,7 @@ class WatchNextItemsAdapter
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/WatchNextItemsAdapter.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/WatchNextItemsAdapter.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

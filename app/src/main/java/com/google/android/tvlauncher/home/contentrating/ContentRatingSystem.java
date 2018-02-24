@@ -211,7 +211,7 @@ public class ContentRatingSystem
           if (this.mCountries.contains(((Locale)localObject2).getCountry())) {
             ((StringBuilder)localObject1).append(((Locale)localObject2).getDisplayCountry());
           } else {
-            ((StringBuilder)localObject1).append(this.mContext.getString(2131493053));
+            ((StringBuilder)localObject1).append(this.mContext.getString(R.string.other_countries));
           }
         }
       }
@@ -544,7 +544,7 @@ public class ContentRatingSystem
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/contentrating/ContentRatingSystem.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/contentrating/ContentRatingSystem.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -78,7 +78,7 @@ public class LaunchItem
     this.mIsInitialInstall = true;
     if (!TextUtils.isEmpty(paramString1))
     {
-      int i = paramContext.getResources().getDimensionPixelSize(2131558501);
+      int i = paramContext.getResources().getDimensionPixelSize(R.dimen.banner_icon_size);
       paramCharSequence = new SimpleTarget(i, i)
       {
         public void onResourceReady(Drawable paramAnonymousDrawable, Transition<? super Drawable> paramAnonymousTransition)
@@ -378,8 +378,8 @@ public class LaunchItem
       this.mBanner = paramResolveInfo.activityInfo.loadBanner(localPackageManager);
       if ((this.mBanner instanceof BitmapDrawable))
       {
-        i = Math.round(paramContext.getDimensionPixelOffset(2131558509) * paramContext.getFraction(2131886084, 1, 1));
-        j = Math.round(paramContext.getDimensionPixelOffset(2131558500) * paramContext.getFraction(2131886084, 1, 1));
+        i = Math.round(paramContext.getDimensionPixelOffset(R.dimen.banner_width) * paramContext.getFraction(2131886084, 1, 1));
+        j = Math.round(paramContext.getDimensionPixelOffset(R.dimen.banner_height) * paramContext.getFraction(2131886084, 1, 1));
         if (Looper.getMainLooper().getThread() != Thread.currentThread()) {
           break;
         }
@@ -452,7 +452,7 @@ public class LaunchItem
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/appsview/LaunchItem.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/appsview/LaunchItem.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

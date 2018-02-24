@@ -113,7 +113,7 @@ public class HomeFragment
   public void onViewCreated(View paramView, Bundle paramBundle)
   {
     super.onViewCreated(paramView, paramBundle);
-    paramView = (VerticalGridView)paramView.findViewById(2131951796);
+    paramView = (VerticalGridView)paramView.findViewById(R.id.home_row_list);
     paramBundle = new HomeBackgroundController(paramView);
     this.mHomeController = new HomeController(getActivity(), this.mEventLogger);
     this.mHomeController.setChannelLogoRequestManager(Glide.with(this));
@@ -129,7 +129,7 @@ public class HomeFragment
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/HomeFragment.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/HomeFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

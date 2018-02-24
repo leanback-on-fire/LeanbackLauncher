@@ -96,7 +96,7 @@ public class ContextMenu
     this.mAnchor = paramView;
     this.mActivity = paramActivity;
     this.mMenuContainer = new FrameLayout(this.mActivity);
-    this.mMenuContainer.setContentDescription(this.mActivity.getString(2131492930));
+    this.mMenuContainer.setContentDescription(this.mActivity.getString(R.string.context_menu_description));
     this.mPopupWindow = new PopupWindow(this.mMenuContainer, -2, -2);
     this.mPopupWindow.setFocusable(true);
     this.mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener()
@@ -123,17 +123,17 @@ public class ContextMenu
     this.mTriangleEdgeOffset = getDimenInPixels(2131558557);
     this.mTriangleHeight = getDimenInPixels(2131558558);
     this.mTriangleWidth = getDimenInPixels(2131558560);
-    this.mFocusedColor = this.mActivity.getColor(2131820589);
-    this.mUnfocusedColor = this.mActivity.getColor(2131820590);
-    this.mEnabledColor = this.mActivity.getColor(2131820592);
-    this.mDisabledColor = this.mActivity.getColor(2131820591);
+    this.mFocusedColor = this.mActivity.getColor(R.color.context_menu_background_focused_color);
+    this.mUnfocusedColor = this.mActivity.getColor(R.color.context_menu_background_unfocused_color);
+    this.mEnabledColor = this.mActivity.getColor(R.color.context_menu_icon_enabled_color);
+    this.mDisabledColor = this.mActivity.getColor(R.color.context_menu_icon_disabled_color);
     this.mMenuHeightPerRow = getDimenInPixels(2131558549);
     this.mOverscanHorizontal = getDimenInPixels(2131558953);
     this.mOverscanVertical = getDimenInPixels(2131558954);
-    this.mOverlayAlpha = getFloat(2131296261);
-    this.mOverlayShowAnimationDuration = this.mActivity.getResources().getInteger(2131689482);
-    this.mOverlayDismissAnimationDuration = this.mActivity.getResources().getInteger(2131689481);
-    this.mDimBackgroundColor = this.mActivity.getColor(2131820593);
+    this.mOverlayAlpha = getFloat(R.raw.context_menu_overlay_alpha);
+    this.mOverlayShowAnimationDuration = this.mActivity.getResources().getInteger(R.integer.context_menu_overlay_show_animation_duration_ms);
+    this.mOverlayDismissAnimationDuration = this.mActivity.getResources().getInteger(R.integer.context_menu_overlay_dismiss_animation_duration_ms);
+    this.mDimBackgroundColor = this.mActivity.getColor(R.color.context_menu_overlay_background_color);
     paramActivity = new RectF(this.mAnchorX, this.mAnchorY, this.mAnchorX + this.mAnchorRealWidth, this.mAnchorY + this.mAnchorRealHeight);
     this.mCutoutOverlay = new CutoutOverlayLayout(this.mActivity, i, paramInt);
     this.mCutoutOverlay.setAnchorRect(paramActivity);
@@ -309,14 +309,14 @@ public class ContextMenu
   
   private void bindMenuItemView(final ContextMenuItem paramContextMenuItem, final View paramView)
   {
-    Object localObject = (TextView)paramView.findViewById(2131951740);
+    Object localObject = (TextView)paramView.findViewById(R.id.title);
     ((TextView)localObject).setText(paramContextMenuItem.getTitle());
     Context localContext = paramView.getContext();
     if (paramContextMenuItem.isEnabled())
     {
       i = 2131820595;
       ((TextView)localObject).setTextColor(localContext.getColor(i));
-      localObject = (ImageView)paramView.findViewById(2131951739);
+      localObject = (ImageView)paramView.findViewById(R.id.icon);
       if (!paramContextMenuItem.isEnabled()) {
         break label168;
       }
@@ -558,11 +558,11 @@ public class ContextMenu
     {
       public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
       {
-        paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(2131558510));
+        paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
       }
     });
     this.mMenuLinearLayout.setClipToOutline(true);
-    this.mTriangle.setImageDrawable(this.mActivity.getDrawable(2130837608));
+    this.mTriangle.setImageDrawable(this.mActivity.getDrawable(R.drawable.context_menu_triangle));
     this.mTriangle.setColorFilter(this.mUnfocusedColor, PorterDuff.Mode.SRC_ATOP);
     addMenuItemViews();
     calculateMenuSize();
@@ -651,7 +651,7 @@ public class ContextMenu
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/util/ContextMenu.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/util/ContextMenu.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

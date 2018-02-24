@@ -115,8 +115,8 @@ public class AppChannelSelectAppFragment
     public void onBindViewHolder(PreferenceViewHolder paramPreferenceViewHolder)
     {
       super.onBindViewHolder(paramPreferenceViewHolder);
-      View localView = paramPreferenceViewHolder.findViewById(2131951788);
-      paramPreferenceViewHolder = (ImageView)paramPreferenceViewHolder.findViewById(2131951789);
+      View localView = paramPreferenceViewHolder.findViewById(R.id.icon_frame);
+      paramPreferenceViewHolder = (ImageView)paramPreferenceViewHolder.findViewById(R.id.banner);
       if (this.mBanner != null)
       {
         paramPreferenceViewHolder.setImageDrawable(this.mBanner);
@@ -136,7 +136,7 @@ public class AppChannelSelectAppFragment
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/settings/AppChannelSelectAppFragment.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/settings/AppChannelSelectAppFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

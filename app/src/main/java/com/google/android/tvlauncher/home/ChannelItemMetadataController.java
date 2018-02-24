@@ -89,29 +89,29 @@ class ChannelItemMetadataController
   ChannelItemMetadataController(View paramView)
   {
     this.mContext = paramView.getContext();
-    this.mFirstRow = ((TextView)paramView.findViewById(2131951813));
-    this.mSecondRow = ((TextView)paramView.findViewById(2131951815));
-    this.mThirdRow = ((TextView)paramView.findViewById(2131951824));
+    this.mFirstRow = ((TextView)paramView.findViewById(R.id.first));
+    this.mSecondRow = ((TextView)paramView.findViewById(R.id.second));
+    this.mThirdRow = ((TextView)paramView.findViewById(R.id.third));
     this.mThirdRowDefaultMaxLines = this.mThirdRow.getMaxLines();
-    this.mThumbCountUp = ((TextView)paramView.findViewById(2131951817));
-    this.mThumbCountDown = ((TextView)paramView.findViewById(2131951819));
-    this.mThumbUp = ((ImageView)paramView.findViewById(2131951816));
-    this.mThumbDown = ((ImageView)paramView.findViewById(2131951818));
-    this.mRatingPercentage = ((TextView)paramView.findViewById(2131951821));
-    this.mStarRating = ((LinearLayout)paramView.findViewById(2131951820));
-    this.mOldPrice = ((TextView)paramView.findViewById(2131951822));
-    this.mPrice = ((TextView)paramView.findViewById(2131951823));
-    this.mContentRating = ((TextView)paramView.findViewById(2131951814));
-    this.mLogo = ((ImageView)paramView.findViewById(2131951812));
+    this.mThumbCountUp = ((TextView)paramView.findViewById(R.id.thumbCountUp));
+    this.mThumbCountDown = ((TextView)paramView.findViewById(R.id.thumbCountDown));
+    this.mThumbUp = ((ImageView)paramView.findViewById(R.id.thumbUp));
+    this.mThumbDown = ((ImageView)paramView.findViewById(R.id.thumbDown));
+    this.mRatingPercentage = ((TextView)paramView.findViewById(R.id.rating_percentage));
+    this.mStarRating = ((LinearLayout)paramView.findViewById(R.id.star_rating));
+    this.mOldPrice = ((TextView)paramView.findViewById(R.id.old_price));
+    this.mPrice = ((TextView)paramView.findViewById(R.id.price));
+    this.mContentRating = ((TextView)paramView.findViewById(R.id.content_rating));
+    this.mLogo = ((ImageView)paramView.findViewById(R.id.program_logo));
     this.mOldPrice.setPaintFlags(this.mOldPrice.getPaintFlags() | 0x10);
-    this.mMetadataItemSeparator = this.mContext.getString(2131493090);
-    this.mMetadataPrefix = this.mContext.getString(2131493091);
-    this.mMetadataSuffix = this.mContext.getString(2131493092);
-    this.mFreeWithSubscriptionText = this.mContext.getString(2131493054);
-    this.mSeasonDisplayNumberFormat = this.mContext.getString(2131493065);
-    this.mEpisodeDisplayNumberFormat = this.mContext.getString(2131493055);
-    this.mEpisodeTitleFormat = this.mContext.getString(2131493056);
-    this.mEpisodeTitleAndDescriptionFormat = this.mContext.getString(2131493057);
+    this.mMetadataItemSeparator = this.mContext.getString(R.string.program_metadata_item_separator);
+    this.mMetadataPrefix = this.mContext.getString(R.string.program_metadata_prefix);
+    this.mMetadataSuffix = this.mContext.getString(R.string.program_metadata_suffix);
+    this.mFreeWithSubscriptionText = this.mContext.getString(R.string.program_availability_free_with_subscription);
+    this.mSeasonDisplayNumberFormat = this.mContext.getString(R.string.program_season_display_number);
+    this.mEpisodeDisplayNumberFormat = this.mContext.getString(R.string.program_episode_display_number);
+    this.mEpisodeTitleFormat = this.mContext.getString(R.string.program_episode_title);
+    this.mEpisodeTitleAndDescriptionFormat = this.mContext.getString(R.string.program_episode_title_and_short_description);
     this.mDateFormat = android.text.format.DateFormat.getLongDateFormat(this.mContext);
     this.mDurationFormat = MeasureFormat.getInstance(Locale.getDefault(), MeasureFormat.FormatWidth.NARROW);
     this.mCanonicalGenreUtil = new CanonicalGenreUtil(this.mContext);
@@ -341,15 +341,15 @@ class ChannelItemMetadataController
   
   private void initializeStarRatingSystem()
   {
-    this.mStarActiveTint = ColorStateList.valueOf(this.mContext.getColor(2131820717));
-    this.mStarInactiveTint = ColorStateList.valueOf(this.mContext.getColor(2131820718));
-    this.mRatingImageSize = this.mContext.getResources().getDimensionPixelSize(2131558992);
+    this.mStarActiveTint = ColorStateList.valueOf(this.mContext.getColor(R.color.program_meta_rating_active_color));
+    this.mStarInactiveTint = ColorStateList.valueOf(this.mContext.getColor(R.color.program_meta_rating_inactive_color));
+    this.mRatingImageSize = this.mContext.getResources().getDimensionPixelSize(R.dimen.program_meta_rating_size);
     this.mStarViews = new ArrayList(5);
     int i = 0;
     while (i < 5)
     {
       ImageView localImageView = new ImageView(this.mContext);
-      localImageView.setImageDrawable(this.mContext.getDrawable(2130837637));
+      localImageView.setImageDrawable(this.mContext.getDrawable(R.drawable.ic_channel_view_filled_star_black));
       this.mStarViews.add(localImageView);
       i += 1;
     }
@@ -875,7 +875,7 @@ class ChannelItemMetadataController
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ChannelItemMetadataController.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ChannelItemMetadataController.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

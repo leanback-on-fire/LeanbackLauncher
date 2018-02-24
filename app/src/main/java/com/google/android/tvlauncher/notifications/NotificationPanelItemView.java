@@ -81,7 +81,7 @@ public class NotificationPanelItemView
     this.mText.setVisibility(8);
     this.mTitle.setMaxLines(2);
     this.mExpandedText.setVisibility(0);
-    setBackgroundColor(getResources().getColor(2131820684));
+    setBackgroundColor(getResources().getColor(R.color.notification_expanded_text_background));
   }
   
   protected void onAttachedToWindow()
@@ -120,19 +120,19 @@ public class NotificationPanelItemView
   protected void onFinishInflate()
   {
     super.onFinishInflate();
-    this.mIcon = ((ImageView)findViewById(2131952000));
-    this.mTitle = ((TextView)findViewById(2131952001));
-    this.mText = ((TextView)findViewById(2131952002));
-    this.mMainContentText = findViewById(2131951999);
-    this.mExpandedText = ((TextView)findViewById(2131951998));
+    this.mIcon = ((ImageView)findViewById(R.id.notification_icon));
+    this.mTitle = ((TextView)findViewById(R.id.notification_title));
+    this.mText = ((TextView)findViewById(R.id.notification_text));
+    this.mMainContentText = findViewById(R.id.notification_container);
+    this.mExpandedText = ((TextView)findViewById(R.id.notification_expanded_text));
     this.mIsRtl = Util.isRtl(getContext());
     Resources localResources = getResources();
-    this.mProgressStrokeWidth = localResources.getDimensionPixelSize(2131558919);
+    this.mProgressStrokeWidth = localResources.getDimensionPixelSize(R.dimen.notification_progress_stroke_width);
     this.mProgressColor = localResources.getColor(2131820692, null);
     this.mProgressMaxColor = localResources.getColor(2131820693, null);
-    this.mProgressDiameter = localResources.getDimensionPixelSize(2131558918);
-    this.mProgressPaddingTop = localResources.getDimensionPixelOffset(2131558917);
-    this.mProgressPaddingStart = localResources.getDimensionPixelOffset(2131558916);
+    this.mProgressDiameter = localResources.getDimensionPixelSize(R.dimen.notification_progress_circle_size);
+    this.mProgressPaddingTop = localResources.getDimensionPixelOffset(R.dimen.notification_progress_circle_padding_top);
+    this.mProgressPaddingStart = localResources.getDimensionPixelOffset(R.dimen.notification_progress_circle_padding_start);
     this.mProgressPaint = new Paint();
     this.mProgressPaint.setAntiAlias(true);
     this.mProgressPaint.setStyle(Paint.Style.STROKE);
@@ -201,7 +201,7 @@ public class NotificationPanelItemView
     if (!TextUtils.isEmpty(paramTvNotification.getTitle())) {
       if (!TextUtils.isEmpty(paramTvNotification.getText()))
       {
-        paramEventLogger = getResources().getString(2131493048);
+        paramEventLogger = getResources().getString(R.string.notification_content_description_format);
         this.mMainContentText.setContentDescription(String.format(paramEventLogger, new Object[] { paramTvNotification.getTitle(), paramTvNotification.getText() }));
       }
     }
@@ -241,7 +241,7 @@ public class NotificationPanelItemView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationPanelItemView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationPanelItemView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

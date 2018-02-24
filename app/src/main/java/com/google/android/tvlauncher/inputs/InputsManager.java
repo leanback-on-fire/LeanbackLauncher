@@ -928,7 +928,7 @@ public class InputsManager
         return this.mLabel;
       }
       if (this.mType == -3) {
-        return InputsManager.this.mContext.getResources().getString(2131493001);
+        return InputsManager.this.mContext.getResources().getString(R.string.input_title_bundled_tuner);
       }
       return null;
     }
@@ -976,7 +976,7 @@ public class InputsManager
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/inputs/InputsManager.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/inputs/InputsManager.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

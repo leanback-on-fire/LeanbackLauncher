@@ -45,7 +45,7 @@ public class FavoriteAppBannerView
   {
     super(paramContext, paramAttributeSet, paramInt);
     setOnFocusChangeListener(null);
-    this.mMoveIconLeftRight = paramContext.getDrawable(2130837644);
+    this.mMoveIconLeftRight = paramContext.getDrawable(R.drawable.ic_context_menu_move_left_right_black);
   }
   
   private boolean checkExitEditMode()
@@ -64,9 +64,9 @@ public class FavoriteAppBannerView
     if (this.mAccessibilityContextMenu == null)
     {
       this.mAccessibilityContextMenu = new AccessibilityContextMenu((Activity)localContext);
-      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(0, localContext.getString(2131492886), localContext.getDrawable(2130837633)));
-      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(1, localContext.getString(2131492887), localContext.getDrawable(2130837634)));
-      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(2, localContext.getString(2131492884), localContext.getDrawable(2130837648)));
+      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(0, localContext.getString(R.string.accessibility_menu_item_move_left), localContext.getDrawable(R.drawable.ic_arrow_left_black_24dp)));
+      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(1, localContext.getString(R.string.accessibility_menu_item_move_right), localContext.getDrawable(R.drawable.ic_arrow_right_black_24dp)));
+      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(2, localContext.getString(R.string.accessibility_menu_item_done), localContext.getDrawable(R.drawable.ic_done_black_24dp)));
       this.mAccessibilityContextMenu.setOnMenuItemClickListener(new ContextMenu.OnItemClickListener()
       {
         public void onItemClick(ContextMenuItem paramAnonymousContextMenuItem)
@@ -140,7 +140,7 @@ public class FavoriteAppBannerView
   protected void onFinishInflate()
   {
     super.onFinishInflate();
-    this.mFocusedFrame = findViewById(2131951795);
+    this.mFocusedFrame = findViewById(R.id.edit_focused_frame);
     this.mFocusedFrame.setOutlineProvider(new ViewOutlineProvider()
     {
       public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
@@ -153,7 +153,7 @@ public class FavoriteAppBannerView
     {
       public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
       {
-        paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getResources().getDimensionPixelSize(2131558597), paramAnonymousView.getResources().getDimensionPixelSize(2131558594), FavoriteAppBannerView.this.mCornerRadius);
+        paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.home_app_banner_width), paramAnonymousView.getResources().getDimensionPixelSize(2131558594), FavoriteAppBannerView.this.mCornerRadius);
       }
     });
   }
@@ -217,7 +217,7 @@ public class FavoriteAppBannerView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/FavoriteAppBannerView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/FavoriteAppBannerView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

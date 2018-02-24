@@ -15,7 +15,7 @@ public class ChannelUtil
   {
     paramHorizontalGridView.setWindowAlignment(1);
     paramHorizontalGridView.setWindowAlignmentOffsetPercent(0.0F);
-    paramHorizontalGridView.setWindowAlignmentOffset(paramHorizontalGridView.getContext().getResources().getDimensionPixelSize(2131558521));
+    paramHorizontalGridView.setWindowAlignmentOffset(paramHorizontalGridView.getContext().getResources().getDimensionPixelSize(R.dimen.channel_items_list_padding_start));
     paramHorizontalGridView.setItemAlignmentOffsetPercent(0.0F);
   }
   
@@ -72,18 +72,18 @@ public class ChannelUtil
   public static void setWatchNextLogo(ImageView paramImageView)
   {
     Context localContext = paramImageView.getContext();
-    paramImageView.setContentDescription(localContext.getString(2131493084));
-    paramImageView.setBackgroundColor(localContext.getColor(2131820745));
-    paramImageView.setImageDrawable(localContext.getDrawable(2130837671));
+    paramImageView.setContentDescription(localContext.getString(R.string.watch_next_channel_title));
+    paramImageView.setBackgroundColor(localContext.getColor(R.color.watch_next_logo_background));
+    paramImageView.setImageDrawable(localContext.getDrawable(R.drawable.ic_watch_next_icon));
     paramImageView.setImageTintList(ContextCompat.getColorStateList(localContext, 2131820746));
     paramImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-    int i = localContext.getResources().getDimensionPixelOffset(2131559053);
+    int i = localContext.getResources().getDimensionPixelOffset(R.dimen.watch_next_logo_icon_padding);
     paramImageView.setPadding(i, i, i, i);
   }
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/util/ChannelUtil.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/util/ChannelUtil.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

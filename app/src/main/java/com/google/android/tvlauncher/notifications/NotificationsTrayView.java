@@ -33,10 +33,10 @@ public class NotificationsTrayView
   protected void onFinishInflate()
   {
     super.onFinishInflate();
-    this.mNotificationsRow = ((HorizontalGridView)findViewById(2131951844));
+    this.mNotificationsRow = ((HorizontalGridView)findViewById(R.id.notifications_row));
     this.mNotificationsRow.setWindowAlignment(0);
     this.mNotificationsRow.setWindowAlignmentOffsetPercent(0.0F);
-    this.mNotificationsRow.setWindowAlignmentOffset(getContext().getResources().getDimensionPixelSize(2131558951));
+    this.mNotificationsRow.setWindowAlignmentOffset(getContext().getResources().getDimensionPixelSize(R.dimen.notifications_list_padding_start));
     this.mNotificationsRow.setItemAlignmentOffsetPercent(0.0F);
   }
   
@@ -58,7 +58,7 @@ public class NotificationsTrayView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsTrayView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsTrayView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -310,7 +310,7 @@ class ChannelItemsAdapter
       {
         public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
         {
-          paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(2131558510));
+          paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
         }
       });
       paramView.setClipToOutline(true);
@@ -331,11 +331,11 @@ class ChannelItemsAdapter
     EmptyChannelProgramViewHolder(View paramView)
     {
       super(paramView);
-      this.mIconSize = paramView.getResources().getDimensionPixelSize(2131558568);
-      this.mTopLayerMarginEnd = paramView.getResources().getDimensionPixelSize(2131558572);
-      this.mBottomLayer = paramView.findViewById(2131952035);
-      this.mMiddleLayer = paramView.findViewById(2131952036);
-      this.mTopLayer = ((ImageView)paramView.findViewById(2131952037));
+      this.mIconSize = paramView.getResources().getDimensionPixelSize(R.dimen.empty_channel_program_channel_logo_size);
+      this.mTopLayerMarginEnd = paramView.getResources().getDimensionPixelSize(R.dimen.empty_channel_program_top_layer_margin_end);
+      this.mBottomLayer = paramView.findViewById(R.id.bottom_layer);
+      this.mMiddleLayer = paramView.findViewById(R.id.middle_layer);
+      this.mTopLayer = ((ImageView)paramView.findViewById(R.id.top_layer));
       setRoundedCornerClipOutline(this.mBottomLayer);
       setRoundedCornerClipOutline(this.mMiddleLayer);
       setRoundedCornerClipOutline(this.mTopLayer);
@@ -345,10 +345,10 @@ class ChannelItemsAdapter
         {
           if (paramAnonymousView.getLayoutDirection() == 0)
           {
-            paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth() - ChannelItemsAdapter.EmptyChannelProgramViewHolder.this.mTopLayerMarginEnd, paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(2131558510));
+            paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth() - ChannelItemsAdapter.EmptyChannelProgramViewHolder.this.mTopLayerMarginEnd, paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
             return;
           }
-          paramAnonymousOutline.setRoundRect(ChannelItemsAdapter.EmptyChannelProgramViewHolder.this.mTopLayerMarginEnd, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(2131558510));
+          paramAnonymousOutline.setRoundRect(ChannelItemsAdapter.EmptyChannelProgramViewHolder.this.mTopLayerMarginEnd, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
         }
       });
     }
@@ -411,11 +411,11 @@ class ChannelItemsAdapter
     LastProgramViewHolder(View paramView)
     {
       super(paramView);
-      this.mText = ((TextView)paramView.findViewById(2131952018));
+      this.mText = ((TextView)paramView.findViewById(R.id.text));
       setRoundedCornerClipOutline(paramView);
-      this.mUnfocusedBackgroundColor = paramView.getContext().getColor(2131820578);
-      this.mDefaultTextSize = paramView.getContext().getResources().getDimensionPixelSize(2131558524);
-      this.mZoomedOutTextSize = paramView.getContext().getResources().getDimensionPixelSize(2131558526);
+      this.mUnfocusedBackgroundColor = paramView.getContext().getColor(R.color.channel_last_item_unfocused_background);
+      this.mDefaultTextSize = paramView.getContext().getResources().getDimensionPixelSize(R.dimen.channel_last_item_default_text_size);
+      this.mZoomedOutTextSize = paramView.getContext().getResources().getDimensionPixelSize(R.dimen.channel_last_item_zoomed_out_text_size);
       this.mItemAlignmentDef = new ItemAlignmentFacet.ItemAlignmentDef();
       this.mItemAlignmentDef.setItemAlignmentOffsetPercent(-1.0F);
       this.mFacet = new ItemAlignmentFacet();
@@ -531,7 +531,7 @@ class ChannelItemsAdapter
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ChannelItemsAdapter.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ChannelItemsAdapter.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

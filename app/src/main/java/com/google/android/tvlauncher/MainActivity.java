@@ -12,6 +12,7 @@ import com.google.android.tvlauncher.home.contentrating.ContentRatingsManager;
 import com.google.android.tvlauncher.notifications.NotificationsUtils;
 import com.google.android.tvlauncher.trace.AppTrace;
 
+import java.util.List;
 import java.util.Set;
 
 public class MainActivity
@@ -32,9 +33,10 @@ public class MainActivity
         AppTrace.beginSection("onCreate");
         try {
             super.onCreate(paramBundle);
-            setContentView(2130968605);
+            setContentView(R.layout.activity_main); //2130968605
             if (paramBundle == null) {
-                getFragmentManager().beginTransaction().add(2131951783, new HomeFragment()).commit();
+                // 2131951783
+                getFragmentManager().beginTransaction().add(R.id.home_view_container, new HomeFragment()).commit();
             }
             AppTrace.endSection();
             new Handler().postDelayed(new Runnable() {
@@ -50,8 +52,8 @@ public class MainActivity
 
     public void onNewIntent(Intent paramIntent) {
         super.onNewIntent(paramIntent);
-        paramIntent = paramIntent.getCategories();
-        if ((paramIntent != null) && (paramIntent.contains("android.intent.category.HOME"))) {
+        Set<String> categories = paramIntent.getCategories();
+        if ((categories != null) && (categories.contains("android.intent.category.HOME"))) {
             MainBackHomeController.getInstance().onHomePressed(this);
         }
     }
@@ -63,7 +65,7 @@ public class MainActivity
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/MainActivity.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/MainActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

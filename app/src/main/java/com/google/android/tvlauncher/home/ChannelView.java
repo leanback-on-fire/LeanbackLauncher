@@ -579,11 +579,11 @@ public class ChannelView
     super.onFinishInflate();
     this.mIsRtl = Util.isRtl(getContext());
     Resources localResources = getResources();
-    this.mChannelLogoDefaultSize = localResources.getDimensionPixelSize(2131558532);
-    this.mChannelLogoZoomedOutSize = localResources.getDimensionPixelSize(2131558512);
-    this.mChannelLogoZoomedOutMargin = localResources.getDimensionPixelOffset(2131558533);
-    this.mItemsListMarginStart = localResources.getDimensionPixelOffset(2131558520);
-    this.mItemsListZoomedOutMarginStart = localResources.getDimensionPixelOffset(2131558523);
+    this.mChannelLogoDefaultSize = localResources.getDimensionPixelSize(R.dimen.channel_logo_size);
+    this.mChannelLogoZoomedOutSize = localResources.getDimensionPixelSize(R.dimen.channel_action_button_size);
+    this.mChannelLogoZoomedOutMargin = localResources.getDimensionPixelOffset(R.dimen.channel_logo_zoomed_out_margin);
+    this.mItemsListMarginStart = localResources.getDimensionPixelOffset(R.dimen.channel_items_list_margin_start);
+    this.mItemsListZoomedOutMarginStart = localResources.getDimensionPixelOffset(R.dimen.channel_items_list_zoomed_out_margin_start);
     setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -594,15 +594,15 @@ public class ChannelView
       }
     });
     setFocusable(false);
-    this.mChannelTitle = ((TextView)findViewById(2131951807));
-    this.mZoomedOutChannelTitle = ((TextView)findViewById(2131951808));
-    this.mActionsHint = findViewById(2131951801);
-    this.mZoomedOutPaddingView = findViewById(2131951802);
-    this.mChannelActionsPaddingView = findViewById(2131951803);
-    this.mMoveChannelPaddingView = findViewById(2131951804);
-    this.mNoMoveActionPaddingView = findViewById(2131951798);
-    this.mMovingChannelBackground = findViewById(2131951797);
-    final int i = getResources().getDimensionPixelSize(2131558882);
+    this.mChannelTitle = ((TextView)findViewById(R.id.channel_title));
+    this.mZoomedOutChannelTitle = ((TextView)findViewById(R.id.channel_title_zoomed_out));
+    this.mActionsHint = findViewById(R.id.actions_hint);
+    this.mZoomedOutPaddingView = findViewById(R.id.zoomed_out_padding);
+    this.mChannelActionsPaddingView = findViewById(R.id.channel_actions_padding);
+    this.mMoveChannelPaddingView = findViewById(R.id.move_channel_padding);
+    this.mNoMoveActionPaddingView = findViewById(R.id.no_move_action_padding);
+    this.mMovingChannelBackground = findViewById(R.id.moving_channel_background);
+    final int i = getResources().getDimensionPixelSize(R.dimen.moving_channel_background_corner_radius);
     this.mMovingChannelBackground.setOutlineProvider(new ViewOutlineProvider()
     {
       public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
@@ -611,7 +611,7 @@ public class ChannelView
       }
     });
     this.mMovingChannelBackground.setClipToOutline(true);
-    this.mChannelLogo = ((ImageView)findViewById(2131951806));
+    this.mChannelLogo = ((ImageView)findViewById(R.id.channel_logo));
     this.mChannelLogo.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -633,7 +633,7 @@ public class ChannelView
     if (!isInEditMode())
     {
       final float f = localResources.getFraction(2131886083, 1, 1);
-      new ScaleFocusHandler(localResources.getInteger(2131689479), f, localResources.getDimension(2131558530))
+      new ScaleFocusHandler(localResources.getInteger(R.integer.channel_logo_focused_animation_duration_ms), f, localResources.getDimension(R.dimen.channel_logo_focused_elevation))
       {
         public void onFocusChange(View paramAnonymousView, boolean paramAnonymousBoolean)
         {
@@ -647,8 +647,8 @@ public class ChannelView
         }
       }.setView(this.mChannelLogo);
     }
-    this.mChannelLogoContainer = findViewById(2131951805);
-    this.mRemoveButton = ((ImageView)findViewById(2131951799));
+    this.mChannelLogoContainer = findViewById(R.id.channel_logo_container);
+    this.mRemoveButton = ((ImageView)findViewById(R.id.remove));
     this.mRemoveButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -659,7 +659,7 @@ public class ChannelView
       }
     });
     translateNextFocusForRtl(this.mRemoveButton);
-    this.mMoveButton = ((ImageView)findViewById(2131951800));
+    this.mMoveButton = ((ImageView)findViewById(R.id.move));
     this.mMoveButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -669,9 +669,9 @@ public class ChannelView
         }
       }
     });
-    this.mItemsList = ((HorizontalGridView)findViewById(2131951810));
-    this.mItemsListContainer = ((FadingEdgeContainer)findViewById(2131951809));
-    this.mItemMetaContainer = findViewById(2131951811);
+    this.mItemsList = ((HorizontalGridView)findViewById(R.id.items_list));
+    this.mItemsListContainer = ((FadingEdgeContainer)findViewById(R.id.items_list_container));
+    this.mItemMetaContainer = findViewById(R.id.item_meta_container);
     getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener()
     {
       public void onGlobalFocusChanged(View paramAnonymousView1, View paramAnonymousView2)
@@ -683,9 +683,9 @@ public class ChannelView
         }
       }
     });
-    this.mActionMoveUpDownIcon = getContext().getDrawable(2130837628);
-    this.mActionMoveUpIcon = getContext().getDrawable(2130837627);
-    this.mActionMoveDownIcon = getContext().getDrawable(2130837624);
+    this.mActionMoveUpDownIcon = getContext().getDrawable(R.drawable.ic_action_move_up_down_black);
+    this.mActionMoveUpIcon = getContext().getDrawable(R.drawable.ic_action_move_up_black);
+    this.mActionMoveDownIcon = getContext().getDrawable(R.drawable.ic_action_move_down_black);
   }
   
   protected boolean onRequestFocusInDescendants(int paramInt, Rect paramRect)
@@ -822,7 +822,7 @@ public class ChannelView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ChannelView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ChannelView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

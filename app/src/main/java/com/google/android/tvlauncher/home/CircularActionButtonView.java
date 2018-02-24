@@ -34,7 +34,7 @@ public class CircularActionButtonView
     if (!isInEditMode())
     {
       Resources localResources = getResources();
-      new ScaleFocusHandler(localResources.getInteger(2131689478), localResources.getFraction(2131886082, 1, 1), localResources.getDimension(2131558511)).setView(this);
+      new ScaleFocusHandler(localResources.getInteger(R.integer.channel_action_button_focused_animation_duration_ms), localResources.getFraction(2131886082, 1, 1), localResources.getDimension(R.dimen.channel_action_button_focused_elevation)).setView(this);
     }
     setOutlineProvider(new ViewOutlineProvider()
     {
@@ -48,7 +48,7 @@ public class CircularActionButtonView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/CircularActionButtonView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/CircularActionButtonView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

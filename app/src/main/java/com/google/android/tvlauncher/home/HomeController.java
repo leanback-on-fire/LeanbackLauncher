@@ -281,8 +281,8 @@ class HomeController
         return localItemAlignmentFacet;
       }
     };
-    this.mDefaultChannelKeyline = this.mContext.getResources().getDimensionPixelSize(2131558518);
-    this.mZoomedOutChannelKeyline = this.mContext.getResources().getDimensionPixelSize(2131558522);
+    this.mDefaultChannelKeyline = this.mContext.getResources().getDimensionPixelSize(R.dimen.channel_items_list_default_keyline);
+    this.mZoomedOutChannelKeyline = this.mContext.getResources().getDimensionPixelSize(R.dimen.channel_items_list_zoomed_out_keyline);
     setHasStableIds(true);
     registerChannelsObserverAndLoadDataIfNeeded();
     this.mStarted = true;
@@ -864,7 +864,7 @@ class HomeController
     catch (ActivityNotFoundException localActivityNotFoundException)
     {
       Log.e("HomeController", "Exception starting settings", localActivityNotFoundException);
-      Toast.makeText(this.mContext, this.mContext.getString(2131492896), 0).show();
+      Toast.makeText(this.mContext, this.mContext.getString(R.string.app_unavailable), 0).show();
     }
   }
   
@@ -1000,7 +1000,7 @@ class HomeController
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/HomeController.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/HomeController.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

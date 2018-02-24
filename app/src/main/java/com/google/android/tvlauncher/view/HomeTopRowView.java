@@ -90,14 +90,14 @@ public class HomeTopRowView
   {
     this.mContext = paramContext;
     paramContext = paramContext.getResources();
-    this.mFocusedElevation = paramContext.getDimension(2131559040);
-    this.mUnfocusedElevation = paramContext.getDimension(2131559044);
+    this.mFocusedElevation = paramContext.getDimension(R.dimen.top_row_item_focused_z);
+    this.mUnfocusedElevation = paramContext.getDimension(R.dimen.top_row_item_unfocused_z);
     this.mFocusedZoom = paramContext.getFraction(2131886099, 1, 1);
-    this.mDuration = paramContext.getInteger(2131689528);
-    this.mDefaultItemsContainerHeight = paramContext.getDimensionPixelSize(2131559045);
-    this.mDefaultItemsContainerTopMargin = paramContext.getDimensionPixelSize(2131559046);
-    this.mSelectedItemsContainerHeight = paramContext.getDimensionPixelSize(2131559051);
-    this.mSelectedItemsContainerTopMargin = paramContext.getDimensionPixelSize(2131559052);
+    this.mDuration = paramContext.getInteger(R.integer.top_row_scale_duration_ms);
+    this.mDefaultItemsContainerHeight = paramContext.getDimensionPixelSize(R.dimen.top_row_items_container_height);
+    this.mDefaultItemsContainerTopMargin = paramContext.getDimensionPixelSize(R.dimen.top_row_items_container_margin_top);
+    this.mSelectedItemsContainerHeight = paramContext.getDimensionPixelSize(R.dimen.top_row_selected_items_container_height);
+    this.mSelectedItemsContainerTopMargin = paramContext.getDimensionPixelSize(R.dimen.top_row_selected_items_container_margin_top);
   }
   
   private void updateItemsSelectedState(boolean paramBoolean)
@@ -160,11 +160,11 @@ public class HomeTopRowView
         paramAnonymousOutline.setOval(0, 0, paramAnonymousView.getMeasuredWidth(), paramAnonymousView.getMeasuredHeight());
       }
     };
-    this.mItemsContainer = findViewById(2131951836);
-    this.mSearch = ((SearchOrbView)findViewById(2131951828));
+    this.mItemsContainer = findViewById(R.id.items_container);
+    this.mSearch = ((SearchOrbView)findViewById(R.id.search_view));
     this.mSearch.setOutlineProvider(local2);
     AppsManager.getInstance(getContext()).setSearchPackageChangeListener(this.mSearch, this.mSearch.getSearchPackageName());
-    this.mInputs = findViewById(2131951840);
+    this.mInputs = findViewById(R.id.inputs);
     this.mInputs.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -184,7 +184,7 @@ public class HomeTopRowView
     {
       this.mInputsCallback = new InputsCallback(null);
       this.mInputsHandler = new Handler();
-      View localView = findViewById(2131951841);
+      View localView = findViewById(R.id.settings);
       localView.setOnClickListener(new View.OnClickListener()
       {
         public void onClick(View paramAnonymousView)
@@ -196,7 +196,7 @@ public class HomeTopRowView
       });
       localView.setOutlineProvider(local2);
       localView.setClipToOutline(true);
-      this.mNotificationsTray = ((NotificationsTrayView)findViewById(2131951843));
+      this.mNotificationsTray = ((NotificationsTrayView)findViewById(R.id.notifications_tray));
       updateNotificationsTrayVisibility();
       return;
       this.mInputs.setVisibility(0);
@@ -226,7 +226,7 @@ public class HomeTopRowView
   public void setNotificationsPanelController(NotificationsPanelController paramNotificationsPanelController)
   {
     this.mPanelController = paramNotificationsPanelController;
-    paramNotificationsPanelController = (NotificationsPanelButtonView)findViewById(2131951837);
+    paramNotificationsPanelController = (NotificationsPanelButtonView)findViewById(R.id.notification_panel_button);
     this.mPanelController.setView(paramNotificationsPanelController);
   }
   
@@ -297,7 +297,7 @@ public class HomeTopRowView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/view/HomeTopRowView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/view/HomeTopRowView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

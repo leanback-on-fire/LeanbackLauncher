@@ -213,7 +213,7 @@ class ProgramController
     {
       public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
       {
-        paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(2131558510));
+        paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
       }
     });
     paramView.setClipToOutline(true);
@@ -227,43 +227,43 @@ class ProgramController
       Glide.get(this.mView.getContext()).getRegistry().register(Bitmap.class, ProgramPreviewImageData.class, new ProgramPreviewImageTranscoder(this.mView.getContext()));
       sPreviewImageTranscoderRegistered = true;
     }
-    this.mPreviewImage = ((ImageView)paramView.findViewById(2131951786));
-    this.mPreviewImageContainer = paramView.findViewById(2131952043);
-    this.mPreviewImageBackground = ((ImageView)paramView.findViewById(2131952044));
-    this.mPreviewVideo = ((InstantVideoView)paramView.findViewById(2131952042));
+    this.mPreviewImage = ((ImageView)paramView.findViewById(R.id.preview_image));
+    this.mPreviewImageContainer = paramView.findViewById(R.id.preview_image_container);
+    this.mPreviewImageBackground = ((ImageView)paramView.findViewById(R.id.preview_image_background));
+    this.mPreviewVideo = ((InstantVideoView)paramView.findViewById(R.id.preview_video_view));
     this.mPreviewVideo.setImageViewEnabled(false);
-    this.mThumbnail = ((ImageView)paramView.findViewById(2131952041));
-    this.mLogoBadgesContainer = paramView.findViewById(2131952045);
-    this.mLogo = ((ImageView)paramView.findViewById(2131952047));
-    this.mLogoDimmer = paramView.findViewById(2131952046);
-    this.mBadgesContainer = paramView.findViewById(2131952048);
-    this.mLiveBadge = ((TextView)paramView.findViewById(2131952049));
-    this.mLiveIcon = ((ImageView)paramView.findViewById(2131952050));
-    this.mDurationBadge = ((TextView)paramView.findViewById(2131952051));
+    this.mThumbnail = ((ImageView)paramView.findViewById(R.id.thumbnail));
+    this.mLogoBadgesContainer = paramView.findViewById(R.id.program_logo_badges_container);
+    this.mLogo = ((ImageView)paramView.findViewById(R.id.program_card_logo));
+    this.mLogoDimmer = paramView.findViewById(R.id.program_logo_dimmer);
+    this.mBadgesContainer = paramView.findViewById(R.id.program_badges_container);
+    this.mLiveBadge = ((TextView)paramView.findViewById(R.id.program_live_badge));
+    this.mLiveIcon = ((ImageView)paramView.findViewById(R.id.program_live_icon));
+    this.mDurationBadge = ((TextView)paramView.findViewById(R.id.program_duration_badge));
     this.mBadgesContainer.setOutlineProvider(new ViewOutlineProvider()
     {
       public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
       {
-        paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(2131558966));
+        paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.program_badge_background_corner_radius));
       }
     });
     this.mBadgesContainer.setClipToOutline(true);
-    this.mPreviewVideoDelayOverlay = paramView.findViewById(2131952053);
-    this.mPlaybackProgress = ((ProgressBar)paramView.findViewById(2131952054));
-    this.mPlaybackProgressDimmer = paramView.findViewById(2131952052);
+    this.mPreviewVideoDelayOverlay = paramView.findViewById(R.id.preview_video_delay_overlay);
+    this.mPlaybackProgress = ((ProgressBar)paramView.findViewById(R.id.watch_next_playback_progress));
+    this.mPlaybackProgressDimmer = paramView.findViewById(R.id.watch_next_program_playback_progress_dimmer);
     this.mFocusHandler = new ScaleAndExpandFocusHandler(this.mProgramSettings.focusedAnimationDuration, this.mProgramSettings.focusedScale, this.mProgramSettings.focusedElevation, 1);
     this.mFocusHandler.setView(paramView);
     this.mFocusHandler.setOnFocusChangeListener(this.mOnFocusChangeListener);
-    this.mProgramDefaultBackgroundDrawable = new ColorDrawable(paramView.getContext().getColor(2131820710));
-    this.mPreviewImageExpandedVerticalMargin = this.mView.getResources().getDimensionPixelOffset(2131558996);
+    this.mProgramDefaultBackgroundDrawable = new ColorDrawable(paramView.getContext().getColor(R.color.program_default_background));
+    this.mPreviewImageExpandedVerticalMargin = this.mView.getResources().getDimensionPixelOffset(R.dimen.program_preview_image_expanded_vertical_margin);
     int i = this.mProgramSettings.selectedHeight;
     int j = (int)(this.mProgramSettings.selectedHeight * 1.7777777777777777D);
     this.mImageRequestOptions = ((RequestOptions)((RequestOptions)new RequestOptions().override(j + 20, i)).centerInside(this.mView.getContext()));
-    this.mProgramMenuAddToWatchNextText = this.mView.getContext().getString(2131493060);
-    this.mProgramMenuRemoveText = this.mView.getContext().getString(2131493064);
-    this.mProgramMenuAddToWatchNextNotAvailableText = this.mView.getContext().getString(2131493059);
-    this.mProgramMenuAlreadyInWatchNextText = this.mView.getContext().getString(2131493061);
-    this.mProgramMenuRemoveNotAvailableText = this.mView.getContext().getString(2131493063);
+    this.mProgramMenuAddToWatchNextText = this.mView.getContext().getString(R.string.program_menu_add_to_watch_next_text);
+    this.mProgramMenuRemoveText = this.mView.getContext().getString(R.string.program_menu_remove_text);
+    this.mProgramMenuAddToWatchNextNotAvailableText = this.mView.getContext().getString(R.string.program_menu_add_to_watch_next_not_available_text);
+    this.mProgramMenuAlreadyInWatchNextText = this.mView.getContext().getString(R.string.program_menu_already_in_watch_next_text);
+    this.mProgramMenuRemoveNotAvailableText = this.mView.getContext().getString(R.string.program_menu_remove_no_available_text);
   }
   
   private boolean allowPreviewVideoPlaying()
@@ -782,11 +782,11 @@ class ProgramController
   
   public boolean onLongClick(View paramView)
   {
-    this.mProgramMenu = new ContextMenu((Activity)paramView.getContext(), paramView, paramView.getResources().getDimensionPixelSize(2131558510));
+    this.mProgramMenu = new ContextMenu((Activity)paramView.getContext(), paramView, paramView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
     Object localObject;
     if (Util.isAccessibilityEnabled(paramView.getContext()))
     {
-      localObject = new ContextMenuItem(1, paramView.getContext().getString(2131492901), null);
+      localObject = new ContextMenuItem(1, paramView.getContext().getString(R.string.banner_sidebar_primary_action_text), null);
       this.mProgramMenu.addItem((ContextMenuItem)localObject);
     }
     ContextMenuItem localContextMenuItem;
@@ -794,7 +794,7 @@ class ProgramController
     if (!this.mIsWatchNextProgram)
     {
       boolean bool2 = TvDataManager.getInstance(paramView.getContext()).isInWatchNext(this.mContentId, this.mChannelPackageName);
-      localContextMenuItem = new ContextMenuItem(2, null, paramView.getContext().getDrawable(2130837640));
+      localContextMenuItem = new ContextMenuItem(2, null, paramView.getContext().getDrawable(R.drawable.ic_context_menu_add_to_watch_next_black));
       this.mProgramMenu.addItem(localContextMenuItem);
       if ((this.mCanAddToWatchNext) && (!bool2))
       {
@@ -804,7 +804,7 @@ class ProgramController
           break label236;
         }
         localContextMenuItem.setTitle(this.mProgramMenuAlreadyInWatchNextText);
-        localObject = new ContextMenuItem(3, null, paramView.getContext().getDrawable(2130837647));
+        localObject = new ContextMenuItem(3, null, paramView.getContext().getDrawable(R.drawable.ic_context_menu_uninstall_black));
         this.mProgramMenu.addItem((ContextMenuItem)localObject);
         ((ContextMenuItem)localObject).setEnabled(this.mCanRemoveProgram);
         if (!this.mCanRemoveProgram) {
@@ -832,7 +832,7 @@ class ProgramController
       label268:
       paramView = this.mProgramMenuRemoveNotAvailableText;
       break label208;
-      this.mProgramMenu.addItem(new ContextMenuItem(4, paramView.getContext().getString(2131493062), paramView.getContext().getDrawable(2130837647)));
+      this.mProgramMenu.addItem(new ContextMenuItem(4, paramView.getContext().getString(R.string.program_menu_remove_for_watch_next_text), paramView.getContext().getDrawable(R.drawable.ic_context_menu_uninstall_black)));
     }
   }
   
@@ -868,7 +868,7 @@ class ProgramController
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ProgramController.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ProgramController.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

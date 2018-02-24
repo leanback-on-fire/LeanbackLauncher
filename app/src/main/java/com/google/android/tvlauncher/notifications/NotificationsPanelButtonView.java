@@ -31,7 +31,7 @@ public class NotificationsPanelButtonView
     this.mAllNotifsSeenUnfocusedColor = paramContext.getColor(2131820757, null);
     this.mAllNotifsSeenFocusedColor = paramContext.getColor(2131820689, null);
     this.mUnseenNotifsColor = paramContext.getColor(2131820691, null);
-    this.mNumberFormat = paramContext.getString(2131493050);
+    this.mNumberFormat = paramContext.getString(R.string.number_format);
     this.mBackground = paramContext.getDrawable(2130837588, null);
     this.mBackground.setTint(this.mAllNotifsSeenUnfocusedColor);
   }
@@ -39,9 +39,9 @@ public class NotificationsPanelButtonView
   protected void onFinishInflate()
   {
     super.onFinishInflate();
-    this.mCircle = ((ImageView)findViewById(2131951838));
+    this.mCircle = ((ImageView)findViewById(R.id.notification_panel_background_circle));
     this.mCircle.setImageDrawable(this.mBackground);
-    this.mTextView = ((TextView)findViewById(2131951839));
+    this.mTextView = ((TextView)findViewById(R.id.notification_panel_count));
     setOutlineProvider(new ViewOutlineProvider()
     {
       public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
@@ -116,7 +116,7 @@ public class NotificationsPanelButtonView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsPanelButtonView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsPanelButtonView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

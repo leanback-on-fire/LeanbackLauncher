@@ -96,17 +96,17 @@ public class SearchOrbView
     this.mContext = paramContext;
     this.mContext.getTheme();
     paramAttributeSet = paramContext.getResources();
-    this.mTextToShow = paramAttributeSet.getStringArray(2131361794);
-    this.mIdleTextFlipDelay = paramAttributeSet.getInteger(2131689524);
-    this.mLaunchFadeDuration = paramAttributeSet.getInteger(2131689525);
-    this.mSearchHintText = fixItalics(paramContext.getString(2131493070));
-    this.mFocusedText = fixItalics(paramContext.getString(2131492992));
-    this.mFocusedMicText = fixItalics(paramContext.getString(2131492994));
-    this.mFocusedKeyboardText = paramContext.getString(2131492993);
+    this.mTextToShow = paramAttributeSet.getStringArray(R.array.search_orb_text_to_show);
+    this.mIdleTextFlipDelay = paramAttributeSet.getInteger(R.integer.search_orb_idle_hint_flip_delay);
+    this.mLaunchFadeDuration = paramAttributeSet.getInteger(R.integer.search_orb_text_fade_duration);
+    this.mSearchHintText = fixItalics(paramContext.getString(R.string.search_hint_text));
+    this.mFocusedText = fixItalics(paramContext.getString(R.string.focused_search_hint_text));
+    this.mFocusedMicText = fixItalics(paramContext.getString(R.string.focused_search_mic_hint_text));
+    this.mFocusedKeyboardText = paramContext.getString(R.string.focused_search_keyboard_hint_text);
     this.mFocusedColor = ContextCompat.getColor(this.mContext, 2131820729);
     this.mUnfocusedColor = ContextCompat.getColor(this.mContext, 2131820730);
     boolean bool1 = bool2;
-    if (paramAttributeSet.getBoolean(2131755013))
+    if (paramAttributeSet.getBoolean(R.bool.is_hint_flipping_allowed))
     {
       bool1 = bool2;
       if (isKatnissPackagePresent()) {
@@ -115,8 +115,8 @@ public class SearchOrbView
     }
     this.mIsHintFlippingAllowed = bool1;
     this.mWahlbergUx = useWahlbergUx();
-    this.mSearchOrbsSpacing = paramAttributeSet.getDimensionPixelSize(2131559015);
-    this.mKeyboardOrbAnimationDuration = paramAttributeSet.getInteger(2131689517);
+    this.mSearchOrbsSpacing = paramAttributeSet.getDimensionPixelSize(R.dimen.search_orbs_spacing);
+    this.mKeyboardOrbAnimationDuration = paramAttributeSet.getInteger(R.integer.lb_search_orb_scale_duration_ms);
   }
   
   private void animateOut()
@@ -239,7 +239,7 @@ public class SearchOrbView
   
   private void initTextSwitcher(final Context paramContext)
   {
-    this.mSwitcher = ((TextSwitcher)findViewById(2131951834));
+    this.mSwitcher = ((TextSwitcher)findViewById(R.id.text_switcher));
     this.mSwitcher.setAnimateFirstView(false);
     this.mSwitcher.setFactory(new ViewSwitcher.ViewFactory()
     {
@@ -276,8 +276,8 @@ public class SearchOrbView
     setKeyboardOrbProgress(0.0F);
     if (this.mWahlbergUx)
     {
-      this.mKeyboardOrbView = ((android.support.v17.leanback.widget.SearchOrbView)findViewById(2131951833));
-      this.mKeyboardContainer = ((FrameLayout)findViewById(2131951831));
+      this.mKeyboardOrbView = ((android.support.v17.leanback.widget.SearchOrbView)findViewById(R.id.keyboard_orb));
+      this.mKeyboardContainer = ((FrameLayout)findViewById(R.id.keyboard_orb_container));
       this.mKeyboardFocusedIcon = ContextCompat.getDrawable(this.mContext, 2130837664);
       this.mKeyboardUnfocusedIcon = ContextCompat.getDrawable(this.mContext, 2130837665);
       this.mColorBright = ContextCompat.getColor(this.mContext, 2131820725);
@@ -504,7 +504,7 @@ public class SearchOrbView
     catch (ActivityNotFoundException localActivityNotFoundException)
     {
       Log.e("SearchOrbView", "Exception launching intent " + paramIntent, localActivityNotFoundException);
-      Toast.makeText(paramContext, paramContext.getString(2131492896), 0).show();
+      Toast.makeText(paramContext, paramContext.getString(R.string.app_unavailable), 0).show();
     }
     return false;
   }
@@ -671,7 +671,7 @@ public class SearchOrbView
   public void onFinishInflate()
   {
     super.onFinishInflate();
-    this.mMicOrbView = ((android.support.v17.leanback.widget.SearchOrbView)findViewById(2131951832));
+    this.mMicOrbView = ((android.support.v17.leanback.widget.SearchOrbView)findViewById(R.id.mic_orb));
     this.mMicOrbView.setOnFocusChangeListener(new View.OnFocusChangeListener()
     {
       public void onFocusChange(View paramAnonymousView, boolean paramAnonymousBoolean)
@@ -753,7 +753,7 @@ public class SearchOrbView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/view/SearchOrbView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/view/SearchOrbView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

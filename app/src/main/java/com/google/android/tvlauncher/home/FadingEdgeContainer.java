@@ -70,7 +70,7 @@ public class FadingEdgeContainer
   
   private void init()
   {
-    this.mFadeWidth = getContext().getResources().getDimensionPixelOffset(2131558519);
+    this.mFadeWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.channel_items_list_fade_width);
     this.mGradientRect = new Rect();
   }
   
@@ -127,7 +127,7 @@ public class FadingEdgeContainer
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/FadingEdgeContainer.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/FadingEdgeContainer.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -51,12 +51,12 @@ class WatchNextRowController
     this.mChannelView.setAllowMoving(false);
     this.mChannelView.setStateSettings(ChannelUtil.getDefaultChannelStateSettings(paramChannelView.getContext()));
     paramChannelView = this.mChannelView.getContext();
-    this.mChannelView.setChannelTitle(paramChannelView.getString(2131493084));
+    this.mChannelView.setChannelTitle(paramChannelView.getString(R.string.watch_next_channel_title));
     ChannelUtil.setWatchNextLogo(this.mChannelView.getChannelLogoImageView());
     this.mItemsListView = this.mChannelView.getItemsListView();
     ChannelUtil.configureItemsListAlignment(this.mItemsListView);
-    this.mLastItemMetaTitle = paramChannelView.getString(2131493084);
-    this.mLastItemMetaMessage = paramChannelView.getString(2131493085);
+    this.mLastItemMetaTitle = paramChannelView.getString(R.string.watch_next_channel_title);
+    this.mLastItemMetaMessage = paramChannelView.getString(R.string.watch_next_last_item_message);
   }
   
   private void ensureItemListIsSetUp()
@@ -93,8 +93,8 @@ class WatchNextRowController
     {
       Context localContext = this.mChannelView.getContext();
       this.mAccessibilityContextMenu = new AccessibilityContextMenu((Activity)localContext);
-      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(0, localContext.getString(2131492904), localContext.getDrawable(2130837668)));
-      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(1, localContext.getString(2131492884), localContext.getDrawable(2130837648)));
+      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(0, localContext.getString(R.string.channel_action_remove), localContext.getDrawable(R.drawable.ic_remove_circle_black)));
+      this.mAccessibilityContextMenu.addItem(new ContextMenuItem(1, localContext.getString(R.string.accessibility_menu_item_done), localContext.getDrawable(R.drawable.ic_done_black_24dp)));
       this.mAccessibilityContextMenu.setOnMenuItemClickListener(new ContextMenu.OnItemClickListener()
       {
         public void onItemClick(ContextMenuItem paramAnonymousContextMenuItem)
@@ -327,7 +327,7 @@ class WatchNextRowController
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/WatchNextRowController.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/WatchNextRowController.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

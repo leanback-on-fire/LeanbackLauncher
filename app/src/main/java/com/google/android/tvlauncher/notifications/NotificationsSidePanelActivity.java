@@ -55,7 +55,7 @@ public class NotificationsSidePanelActivity
     {
       public void run()
       {
-        NotificationsSidePanelActivity.this.findViewById(2131952027).setVisibility(8);
+        NotificationsSidePanelActivity.this.findViewById(R.id.notifications_panel_view).setVisibility(8);
       }
     });
     Slide localSlide = new Slide(8388613);
@@ -97,8 +97,8 @@ public class NotificationsSidePanelActivity
           public void run()
           {
             NotificationsSidePanelActivity.this.setContentView(2130968715);
-            NotificationsSidePanelActivity.access$002(NotificationsSidePanelActivity.this, NotificationsSidePanelActivity.this.findViewById(2131952028));
-            NotificationsSidePanelActivity.access$102(NotificationsSidePanelActivity.this, (RecyclerView)NotificationsSidePanelActivity.this.findViewById(2131952029));
+            NotificationsSidePanelActivity.access$002(NotificationsSidePanelActivity.this, NotificationsSidePanelActivity.this.findViewById(R.id.no_notifications_message));
+            NotificationsSidePanelActivity.access$102(NotificationsSidePanelActivity.this, (RecyclerView)NotificationsSidePanelActivity.this.findViewById(R.id.notifications_list));
             NotificationsSidePanelActivity.this.mNotifsList.setLayoutManager(new LinearLayoutManager(NotificationsSidePanelActivity.this, 1, false));
             NotificationsSidePanelActivity.this.mNotifsList.setAdapter(NotificationsSidePanelActivity.this.mPanelAdapter);
             NotificationsSidePanelActivity.this.getLoaderManager().initLoader(0, null, NotificationsSidePanelActivity.this);
@@ -145,7 +145,7 @@ public class NotificationsSidePanelActivity
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsSidePanelActivity.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsSidePanelActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

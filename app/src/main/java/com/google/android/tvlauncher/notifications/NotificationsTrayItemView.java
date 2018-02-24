@@ -47,13 +47,13 @@ public class NotificationsTrayItemView
   protected void onFinishInflate()
   {
     super.onFinishInflate();
-    this.mBigPicture = ((ImageView)findViewById(2131952021));
-    this.mIcon = ((ImageView)findViewById(2131952020));
-    this.mTitle = ((TextView)findViewById(2131952023));
-    this.mText = ((TextView)findViewById(2131952024));
-    this.mDismissButton = ((Button)findViewById(2131952026));
-    this.mSeeMoreButton = ((Button)findViewById(2131952025));
-    this.mNowPlayingIndicator = findViewById(2131952022);
+    this.mBigPicture = ((ImageView)findViewById(R.id.big_picture));
+    this.mIcon = ((ImageView)findViewById(R.id.small_icon));
+    this.mTitle = ((TextView)findViewById(R.id.notif_title));
+    this.mText = ((TextView)findViewById(R.id.notif_text));
+    this.mDismissButton = ((Button)findViewById(R.id.tray_dismiss));
+    this.mSeeMoreButton = ((Button)findViewById(R.id.tray_see_more));
+    this.mNowPlayingIndicator = findViewById(R.id.now_playing_bars);
   }
   
   public void setNotification(TvNotification paramTvNotification, EventLogger paramEventLogger)
@@ -84,7 +84,7 @@ public class NotificationsTrayItemView
       if (TextUtils.isEmpty(paramTvNotification.getText())) {
         break label392;
       }
-      setContentDescription(String.format(getResources().getString(2131493048), new Object[] { paramTvNotification.getTitle(), paramTvNotification.getText() }));
+      setContentDescription(String.format(getResources().getString(R.string.notification_content_description_format), new Object[] { paramTvNotification.getTitle(), paramTvNotification.getText() }));
       label181:
       if (!paramTvNotification.hasContentIntent()) {
         break label414;
@@ -158,7 +158,7 @@ public class NotificationsTrayItemView
 }
 
 
-/* Location:              /home/evan/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsTrayItemView.class
+/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsTrayItemView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */
