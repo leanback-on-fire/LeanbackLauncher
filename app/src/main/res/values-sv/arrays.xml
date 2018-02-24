@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Familj/barn</item>
+        <item>Sport</item>
+        <item>Shopping</item>
+        <item>Filmer</item>
+        <item>Komedi</item>
+        <item>Resor</item>
+        <item>Drama</item>
+        <item>Utbildning</item>
+        <item>Djur/natur</item>
+        <item>Nyheter</item>
+        <item>Spel</item>
+        <item>Konst</item>
+        <item>Underhållning</item>
+        <item>Livsstil</item>
+        <item>Musik</item>
+        <item>Premiär</item>
+        <item>Teknik/vetenskap</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Testa att söka efter ”Will Smith”</item>
+        <item>Testa att söka efter ”Michael Fassbender”</item>
+        <item>Testa att söka efter ”Jennifer Lawrence”</item>
+        <item>Testa att söka efter ”Olivia Wilde”</item>
+        <item>Testa att söka efter ”romantiska komedier”</item>
+        <item>Testa att söka efter ”science fiction-filmer”</item>
+        <item>Testa att söka efter ”superhjältefilmer”</item>
+        <item>Testa att söka efter ”actionfilmer”</item>
+        <item>Testa att söka efter ”Star Trek”</item>
+        <item>Testa att söka efter ”Sherlock”</item>
+        <item>Testa att söka efter ”American Idol”</item>
+        <item>Testa att söka efter ”Star Trek”</item>
+        <item>Testa att söka efter ”Castle”</item>
+        <item>Testa att söka efter ”bilder på Beyonce”</item>
+        <item>Testa att söka efter ”bilder av London”</item>
+        <item>Testa att söka efter ”bilder på Godzilla”</item>
+        <item>Testa att fråga ”vad står det i Giants-matchen?”</item>
+        <item>Testa att fråga ”vad står det i Knicks-matchen?”</item>
+        <item>Testa att fråga ”vad står det i Red Wings-matchen?</item>
+        <item>Testa att fråga ”vad står det i Seahawks-matchen?”</item>
+        <item>Testa att fråga ”vad är det för väder i New York?”</item>
+        <item>Testa att fråga ”vad är det för väder i San Francisco?”</item>
+        <item>Testa att fråga ”vad är det för väder i Paris?</item>
+        <item>Testa att fråga ”vad är det för väder i Cozumel?”</item>
+        <item>Testa att fråga ”hur lång är Brad Pitt?”</item>
+        <item>Testa att fråga ”hur varm är solen?”</item>
+        <item>Testa att fråga ”när föddes John Wayne?”</item>
+        <item>Testa ”öppna YouTube”</item>
+        <item>Testa ”öppna Play Filmer”</item>
+    </string-array>
+</resources>

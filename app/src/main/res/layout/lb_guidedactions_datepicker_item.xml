@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v17.leanback.widget.GuidedActionItemContainer style="?attr/guidedActionItemContainerStyle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/guidedactions_item_icon" style="?attr/guidedActionItemIconStyle" />
+    <TextView android:layout_gravity="center_vertical" android:id="@id/guidedactions_item_title" android:layout_width="wrap_content" style="?attr/guidedActionItemTitleStyle" />
+    <android.support.v17.leanback.widget.picker.DatePicker android:id="@id/guidedactions_activator_item" android:layout_width="wrap_content" android:layout_height="wrap_content" android:importantForAccessibility="yes" />
+</android.support.v17.leanback.widget.GuidedActionItemContainer>

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v17.leanback.widget.TitleView android:id="@id/browse_title_group" android:layout_width="fill_parent" android:layout_height="wrap_content" style="?attr/browseTitleViewStyle"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

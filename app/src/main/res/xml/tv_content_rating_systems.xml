@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rating-system-definitions android:versionCode="2"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <rating-system-definition android:name="AR_TV" android:country="AR">
+        <sub-rating-definition android:name="AR_TV_D" android:description="@string/description_ar_tv_d" android:title="D" />
+        <sub-rating-definition android:name="AR_TV_S" android:description="@string/description_ar_tv_s" android:title="S" />
+        <sub-rating-definition android:name="AR_TV_V" android:description="@string/description_ar_tv_v" android:title="V" />
+        <rating-definition android:name="AR_TV_ATP" android:description="@string/description_ar_tv_atp" android:title="ATP" android:contentAgeHint="0">
+            <sub-rating android:name="AR_TV_D" />
+            <sub-rating android:name="AR_TV_V" />
+            <sub-rating android:name="AR_TV_S" />
+        </rating-definition>
+        <rating-definition android:name="AR_TV_SAM_13" android:description="@string/description_ar_tv_sam_13" android:title="SAM 13" android:contentAgeHint="13">
+            <sub-rating android:name="AR_TV_D" />
+            <sub-rating android:name="AR_TV_V" />
+            <sub-rating android:name="AR_TV_S" />
+        </rating-definition>
+        <rating-definition android:name="AR_TV_SAM_16" android:description="@string/description_ar_tv_sam_16" android:title="SAM 16" android:contentAgeHint="16">
+            <sub-rating android:name="AR_TV_D" />
+            <sub-rating android:name="AR_TV_V" />
+            <sub-rating android:name="AR_TV_S" />
+        </rating-definition>
+        <rating-definition android:name="AR_TV_SAM_18" android:description="@string/description_ar_tv_sam_18" android:title="SAM 18" android:contentAgeHint="18">
+            <sub-rating android:name="AR_TV_D" />
+            <sub-rating android:name="AR_TV_V" />
+            <sub-rating android:name="AR_TV_S" />
+        </rating-definition>
+        <rating-order>
+            <rating android:name="AR_TV_ATP" />
+            <rating android:name="AR_TV_SAM_13" />
+            <rating android:name="AR_TV_SAM_16" />
+            <rating android:name="AR_TV_SAM_18" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="AU_TV" android:country="AU">
+        <rating-definition android:name="AU_TV_P" android:description="@string/description_au_tv_p" android:title="P" android:contentAgeHint="2" />
+        <rating-definition android:name="AU_TV_C" android:description="@string/description_au_tv_c" android:title="C" android:contentAgeHint="5" />
+        <rating-definition android:name="AU_TV_G" android:description="@string/description_au_tv_g" android:title="G" android:contentAgeHint="0" />
+        <rating-definition android:name="AU_TV_PG" android:description="@string/description_au_tv_pg" android:title="PG" android:contentAgeHint="15" />
+        <rating-definition android:name="AU_TV_M" android:description="@string/description_au_tv_m" android:title="M" android:contentAgeHint="15" />
+        <rating-definition android:name="AU_TV_MA" android:description="@string/description_au_tv_ma" android:title="MA" android:contentAgeHint="15" />
+        <rating-definition android:name="AU_TV_AV" android:description="@string/description_au_tv_av" android:title="AV" android:contentAgeHint="15" />
+        <rating-definition android:name="AU_TV_R" android:description="@string/description_au_tv_r" android:title="R" android:contentAgeHint="18" />
+        <rating-order>
+            <rating android:name="AU_TV_P" />
+            <rating android:name="AU_TV_C" />
+        </rating-order>
+        <rating-order>
+            <rating android:name="AU_TV_G" />
+            <rating android:name="AU_TV_PG" />
+            <rating android:name="AU_TV_M" />
+            <rating android:name="AU_TV_MA" />
+            <rating android:name="AU_TV_AV" />
+            <rating android:name="AU_TV_R" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="BR_TV" android:country="BR">
+        <sub-rating-definition android:name="BR_TV_D" android:description="@string/description_br_tv_d" android:title="D" />
+        <sub-rating-definition android:name="BR_TV_S" android:description="@string/description_br_tv_s" android:title="S" />
+        <sub-rating-definition android:name="BR_TV_V" android:description="@string/description_br_tv_v" android:title="V" />
+        <rating-definition android:name="BR_TV_L" android:description="@string/description_br_tv_l" android:title="@string/title_br_tv_l" android:contentAgeHint="0">
+            <sub-rating android:name="BR_TV_D" />
+            <sub-rating android:name="BR_TV_S" />
+            <sub-rating android:name="BR_TV_V" />
+        </rating-definition>
+        <rating-definition android:name="BR_TV_10" android:description="@string/description_br_tv_10" android:title="@string/title_br_tv_10" android:contentAgeHint="10">
+            <sub-rating android:name="BR_TV_D" />
+            <sub-rating android:name="BR_TV_S" />
+            <sub-rating android:name="BR_TV_V" />
+        </rating-definition>
+        <rating-definition android:name="BR_TV_12" android:description="@string/description_br_tv_12" android:title="@string/title_br_tv_12" android:contentAgeHint="12">
+            <sub-rating android:name="BR_TV_D" />
+            <sub-rating android:name="BR_TV_S" />
+            <sub-rating android:name="BR_TV_V" />
+        </rating-definition>
+        <rating-definition android:name="BR_TV_14" android:description="@string/description_br_tv_14" android:title="@string/title_br_tv_14" android:contentAgeHint="14">
+            <sub-rating android:name="BR_TV_D" />
+            <sub-rating android:name="BR_TV_S" />
+            <sub-rating android:name="BR_TV_V" />
+        </rating-definition>
+        <rating-definition android:name="BR_TV_16" android:description="@string/description_br_tv_16" android:title="@string/title_br_tv_16" android:contentAgeHint="16">
+            <sub-rating android:name="BR_TV_D" />
+            <sub-rating android:name="BR_TV_S" />
+            <sub-rating android:name="BR_TV_V" />
+        </rating-definition>
+        <rating-definition android:name="BR_TV_18" android:description="@string/description_br_tv_18" android:title="@string/title_br_tv_18" android:contentAgeHint="18">
+            <sub-rating android:name="BR_TV_D" />
+            <sub-rating android:name="BR_TV_S" />
+            <sub-rating android:name="BR_TV_V" />
+        </rating-definition>
+        <rating-order>
+            <rating android:name="BR_TV_L" />
+            <rating android:name="BR_TV_10" />
+            <rating android:name="BR_TV_12" />
+            <rating android:name="BR_TV_14" />
+            <rating android:name="BR_TV_16" />
+            <rating android:name="BR_TV_18" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="CA_TV_EN" android:country="CA">
+        <rating-definition android:name="CA_TV_EN_EXEMPT" android:description="@string/description_ca_tv_en_exempt" android:title="E" android:contentAgeHint="0" />
+        <rating-definition android:name="CA_TV_EN_C" android:description="@string/description_ca_tv_en_c" android:title="C" android:contentAgeHint="0" />
+        <rating-definition android:name="CA_TV_EN_C8" android:description="@string/description_ca_tv_en_c8" android:title="C8" android:contentAgeHint="8" />
+        <rating-definition android:name="CA_TV_EN_G" android:description="@string/description_ca_tv_en_g" android:title="G" android:contentAgeHint="0" />
+        <rating-definition android:name="CA_TV_EN_PG" android:description="@string/description_ca_tv_en_pg" android:title="PG" android:contentAgeHint="14" />
+        <rating-definition android:name="CA_TV_EN_14" android:description="@string/description_ca_tv_en_14" android:title="14+" android:contentAgeHint="14" />
+        <rating-definition android:name="CA_TV_EN_18" android:description="@string/description_ca_tv_en_18" android:title="18+" android:contentAgeHint="18" />
+        <rating-order>
+            <rating android:name="CA_TV_EN_C" />
+            <rating android:name="CA_TV_EN_C8" />
+        </rating-order>
+        <rating-order>
+            <rating android:name="CA_TV_EN_G" />
+            <rating android:name="CA_TV_EN_PG" />
+            <rating android:name="CA_TV_EN_14" />
+            <rating android:name="CA_TV_EN_18" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="CA_TV_FR" android:title="@string/title_ca_tv_fr" android:country="CA">
+        <rating-definition android:name="CA_TV_FR_E" android:description="@string/description_ca_tv_fr_e" android:title="E" android:contentAgeHint="0" />
+        <rating-definition android:name="CA_TV_FR_G" android:description="@string/description_ca_tv_fr_g" android:title="G" android:contentAgeHint="0" />
+        <rating-definition android:name="CA_TV_FR_8" android:description="@string/description_ca_tv_fr_8" android:title="8ans+" android:contentAgeHint="8" />
+        <rating-definition android:name="CA_TV_FR_13" android:description="@string/description_ca_tv_fr_13" android:title="13ans+" android:contentAgeHint="13" />
+        <rating-definition android:name="CA_TV_FR_16" android:description="@string/description_ca_tv_fr_16" android:title="16ans+" android:contentAgeHint="16" />
+        <rating-definition android:name="CA_TV_FR_18" android:description="@string/description_ca_tv_fr_18" android:title="18ans+" android:contentAgeHint="18" />
+        <rating-order>
+            <rating android:name="CA_TV_FR_G" />
+            <rating android:name="CA_TV_FR_8" />
+            <rating android:name="CA_TV_FR_13" />
+            <rating android:name="CA_TV_FR_16" />
+            <rating android:name="CA_TV_FR_18" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="DVB" android:country="AM, BG, CH, DE, DK, FI, GR, HU, ID, IE, IL, IS, MY, NL, NZ, PL, PT, RO, RU, RS, SI, TH, TR, TW, UA">
+        <rating-definition android:name="DVB_4" android:description="@string/description_age_4" android:title="4" android:contentAgeHint="4" />
+        <rating-definition android:name="DVB_5" android:description="@string/description_age_5" android:title="5" android:contentAgeHint="5" />
+        <rating-definition android:name="DVB_6" android:description="@string/description_age_6" android:title="6" android:contentAgeHint="6" />
+        <rating-definition android:name="DVB_7" android:description="@string/description_age_7" android:title="7" android:contentAgeHint="7" />
+        <rating-definition android:name="DVB_8" android:description="@string/description_age_8" android:title="8" android:contentAgeHint="8" />
+        <rating-definition android:name="DVB_9" android:description="@string/description_age_9" android:title="9" android:contentAgeHint="9" />
+        <rating-definition android:name="DVB_10" android:description="@string/description_age_10" android:title="10" android:contentAgeHint="10" />
+        <rating-definition android:name="DVB_11" android:description="@string/description_age_11" android:title="11" android:contentAgeHint="11" />
+        <rating-definition android:name="DVB_12" android:description="@string/description_age_12" android:title="12" android:contentAgeHint="12" />
+        <rating-definition android:name="DVB_13" android:description="@string/description_age_13" android:title="13" android:contentAgeHint="13" />
+        <rating-definition android:name="DVB_14" android:description="@string/description_age_14" android:title="14" android:contentAgeHint="14" />
+        <rating-definition android:name="DVB_15" android:description="@string/description_age_15" android:title="15" android:contentAgeHint="15" />
+        <rating-definition android:name="DVB_16" android:description="@string/description_age_16" android:title="16" android:contentAgeHint="16" />
+        <rating-definition android:name="DVB_17" android:description="@string/description_age_17" android:title="17" android:contentAgeHint="17" />
+        <rating-definition android:name="DVB_18" android:description="@string/description_age_18" android:title="18" android:contentAgeHint="18" />
+        <rating-order>
+            <rating android:name="DVB_4" />
+            <rating android:name="DVB_5" />
+            <rating android:name="DVB_6" />
+            <rating android:name="DVB_7" />
+            <rating android:name="DVB_8" />
+            <rating android:name="DVB_9" />
+            <rating android:name="DVB_10" />
+            <rating android:name="DVB_11" />
+            <rating android:name="DVB_12" />
+            <rating android:name="DVB_13" />
+            <rating android:name="DVB_14" />
+            <rating android:name="DVB_15" />
+            <rating android:name="DVB_16" />
+            <rating android:name="DVB_17" />
+            <rating android:name="DVB_18" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="ES_DVB" android:country="ES">
+        <rating-definition android:name="ES_DVB_ALL" android:description="@string/description_es_dvb_all" android:title="All" android:contentAgeHint="0" />
+        <rating-definition android:name="ES_DVB_C" android:description="@string/description_es_dvb_c" android:title="Children" android:contentAgeHint="12" />
+        <rating-definition android:name="ES_DVB_X" android:description="@string/description_es_dvb_x" android:title="X-Rated" android:contentAgeHint="18" />
+        <rating-definition android:name="ES_DVB_4" android:description="@string/description_age_4" android:title="4" android:contentAgeHint="4" />
+        <rating-definition android:name="ES_DVB_5" android:description="@string/description_age_5" android:title="5" android:contentAgeHint="5" />
+        <rating-definition android:name="ES_DVB_6" android:description="@string/description_age_6" android:title="6" android:contentAgeHint="6" />
+        <rating-definition android:name="ES_DVB_7" android:description="@string/description_age_7" android:title="7" android:contentAgeHint="7" />
+        <rating-definition android:name="ES_DVB_8" android:description="@string/description_age_8" android:title="8" android:contentAgeHint="8" />
+        <rating-definition android:name="ES_DVB_9" android:description="@string/description_age_9" android:title="9" android:contentAgeHint="9" />
+        <rating-definition android:name="ES_DVB_10" android:description="@string/description_age_10" android:title="10" android:contentAgeHint="10" />
+        <rating-definition android:name="ES_DVB_11" android:description="@string/description_age_11" android:title="11" android:contentAgeHint="11" />
+        <rating-definition android:name="ES_DVB_12" android:description="@string/description_age_12" android:title="12" android:contentAgeHint="12" />
+        <rating-definition android:name="ES_DVB_13" android:description="@string/description_age_13" android:title="13" android:contentAgeHint="13" />
+        <rating-definition android:name="ES_DVB_14" android:description="@string/description_age_14" android:title="14" android:contentAgeHint="14" />
+        <rating-definition android:name="ES_DVB_15" android:description="@string/description_age_15" android:title="15" android:contentAgeHint="15" />
+        <rating-definition android:name="ES_DVB_16" android:description="@string/description_age_16" android:title="16" android:contentAgeHint="16" />
+        <rating-definition android:name="ES_DVB_17" android:description="@string/description_age_17" android:title="17" android:contentAgeHint="17" />
+        <rating-definition android:name="ES_DVB_18" android:description="@string/description_age_18" android:title="18" android:contentAgeHint="18" />
+        <rating-order>
+            <rating android:name="ES_DVB_ALL" />
+            <rating android:name="ES_DVB_4" />
+            <rating android:name="ES_DVB_5" />
+            <rating android:name="ES_DVB_6" />
+            <rating android:name="ES_DVB_7" />
+            <rating android:name="ES_DVB_8" />
+            <rating android:name="ES_DVB_9" />
+            <rating android:name="ES_DVB_10" />
+            <rating android:name="ES_DVB_11" />
+            <rating android:name="ES_DVB_C" />
+            <rating android:name="ES_DVB_12" />
+            <rating android:name="ES_DVB_13" />
+            <rating android:name="ES_DVB_14" />
+            <rating android:name="ES_DVB_15" />
+            <rating android:name="ES_DVB_16" />
+            <rating android:name="ES_DVB_17" />
+            <rating android:name="ES_DVB_18" />
+            <rating android:name="ES_DVB_X" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="FR_DVB" android:country="FR">
+        <rating-definition android:name="FR_DVB_U" android:description="@string/description_fr_dvb_u" android:title="Universal" android:contentAgeHint="0" />
+        <rating-definition android:name="FR_DVB_4" android:description="@string/description_age_4" android:title="4" android:contentAgeHint="4" />
+        <rating-definition android:name="FR_DVB_5" android:description="@string/description_age_5" android:title="5" android:contentAgeHint="5" />
+        <rating-definition android:name="FR_DVB_6" android:description="@string/description_age_6" android:title="6" android:contentAgeHint="6" />
+        <rating-definition android:name="FR_DVB_7" android:description="@string/description_age_7" android:title="7" android:contentAgeHint="7" />
+        <rating-definition android:name="FR_DVB_8" android:description="@string/description_age_8" android:title="8" android:contentAgeHint="8" />
+        <rating-definition android:name="FR_DVB_9" android:description="@string/description_age_9" android:title="9" android:contentAgeHint="9" />
+        <rating-definition android:name="FR_DVB_10" android:description="@string/description_age_10" android:title="10" android:contentAgeHint="10" />
+        <rating-definition android:name="FR_DVB_11" android:description="@string/description_age_11" android:title="11" android:contentAgeHint="11" />
+        <rating-definition android:name="FR_DVB_12" android:description="@string/description_age_12" android:title="12" android:contentAgeHint="12" />
+        <rating-definition android:name="FR_DVB_13" android:description="@string/description_age_13" android:title="13" android:contentAgeHint="13" />
+        <rating-definition android:name="FR_DVB_14" android:description="@string/description_age_14" android:title="14" android:contentAgeHint="14" />
+        <rating-definition android:name="FR_DVB_15" android:description="@string/description_age_15" android:title="15" android:contentAgeHint="15" />
+        <rating-definition android:name="FR_DVB_16" android:description="@string/description_age_16" android:title="16" android:contentAgeHint="16" />
+        <rating-definition android:name="FR_DVB_17" android:description="@string/description_age_17" android:title="17" android:contentAgeHint="17" />
+        <rating-definition android:name="FR_DVB_18" android:description="@string/description_age_18" android:title="18" android:contentAgeHint="18" />
+        <rating-order>
+            <rating android:name="FR_DVB_U" />
+            <rating android:name="FR_DVB_4" />
+            <rating android:name="FR_DVB_5" />
+            <rating android:name="FR_DVB_6" />
+            <rating android:name="FR_DVB_7" />
+            <rating android:name="FR_DVB_8" />
+            <rating android:name="FR_DVB_9" />
+            <rating android:name="FR_DVB_10" />
+            <rating android:name="FR_DVB_11" />
+            <rating android:name="FR_DVB_12" />
+            <rating android:name="FR_DVB_13" />
+            <rating android:name="FR_DVB_14" />
+            <rating android:name="FR_DVB_15" />
+            <rating android:name="FR_DVB_16" />
+            <rating android:name="FR_DVB_17" />
+            <rating android:name="FR_DVB_18" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="ISDB" android:country="JP">
+        <rating-definition android:name="ISDB_4" android:description="@string/description_age_4" android:title="4" android:contentAgeHint="4" />
+        <rating-definition android:name="ISDB_5" android:description="@string/description_age_5" android:title="5" android:contentAgeHint="5" />
+        <rating-definition android:name="ISDB_6" android:description="@string/description_age_6" android:title="6" android:contentAgeHint="6" />
+        <rating-definition android:name="ISDB_7" android:description="@string/description_age_7" android:title="7" android:contentAgeHint="7" />
+        <rating-definition android:name="ISDB_8" android:description="@string/description_age_8" android:title="8" android:contentAgeHint="8" />
+        <rating-definition android:name="ISDB_9" android:description="@string/description_age_9" android:title="9" android:contentAgeHint="9" />
+        <rating-definition android:name="ISDB_10" android:description="@string/description_age_10" android:title="10" android:contentAgeHint="10" />
+        <rating-definition android:name="ISDB_11" android:description="@string/description_age_11" android:title="11" android:contentAgeHint="11" />
+        <rating-definition android:name="ISDB_12" android:description="@string/description_age_12" android:title="12" android:contentAgeHint="12" />
+        <rating-definition android:name="ISDB_13" android:description="@string/description_age_13" android:title="13" android:contentAgeHint="13" />
+        <rating-definition android:name="ISDB_14" android:description="@string/description_age_14" android:title="14" android:contentAgeHint="14" />
+        <rating-definition android:name="ISDB_15" android:description="@string/description_age_15" android:title="15" android:contentAgeHint="15" />
+        <rating-definition android:name="ISDB_16" android:description="@string/description_age_16" android:title="16" android:contentAgeHint="16" />
+        <rating-definition android:name="ISDB_17" android:description="@string/description_age_17" android:title="17" android:contentAgeHint="17" />
+        <rating-definition android:name="ISDB_18" android:description="@string/description_age_18" android:title="18" android:contentAgeHint="18" />
+        <rating-definition android:name="ISDB_19" android:description="@string/description_age_19" android:title="19" android:contentAgeHint="19" />
+        <rating-definition android:name="ISDB_20" android:description="@string/description_age_20" android:title="20" android:contentAgeHint="20" />
+        <rating-order>
+            <rating android:name="ISDB_4" />
+            <rating android:name="ISDB_5" />
+            <rating android:name="ISDB_6" />
+            <rating android:name="ISDB_7" />
+            <rating android:name="ISDB_8" />
+            <rating android:name="ISDB_9" />
+            <rating android:name="ISDB_10" />
+            <rating android:name="ISDB_11" />
+            <rating android:name="ISDB_12" />
+            <rating android:name="ISDB_13" />
+            <rating android:name="ISDB_14" />
+            <rating android:name="ISDB_15" />
+            <rating android:name="ISDB_16" />
+            <rating android:name="ISDB_17" />
+            <rating android:name="ISDB_18" />
+            <rating android:name="ISDB_19" />
+            <rating android:name="ISDB_20" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="KR_TV" android:country="KR">
+        <rating-definition android:name="KR_TV_ALL" android:description="@string/description_kr_tv_all" android:title="@string/title_kr_tv_all" android:contentAgeHint="0" />
+        <rating-definition android:name="KR_TV_7" android:description="@string/description_kr_tv_7" android:title="@string/title_kr_tv_7" android:contentAgeHint="7" />
+        <rating-definition android:name="KR_TV_12" android:description="@string/description_kr_tv_12" android:title="@string/title_kr_tv_12" android:contentAgeHint="12" />
+        <rating-definition android:name="KR_TV_15" android:description="@string/description_kr_tv_15" android:title="@string/title_kr_tv_15" android:contentAgeHint="15" />
+        <rating-definition android:name="KR_TV_19" android:description="@string/description_kr_tv_19" android:title="@string/title_kr_tv_19" android:contentAgeHint="19" />
+        <rating-order>
+            <rating android:name="KR_TV_ALL" />
+            <rating android:name="KR_TV_7" />
+            <rating android:name="KR_TV_12" />
+            <rating android:name="KR_TV_15" />
+            <rating android:name="KR_TV_19" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="SG_TV" android:country="SG">
+        <rating-definition android:name="SG_TV_G" android:description="@string/description_sg_tv_g" android:title="G" android:contentAgeHint="0" />
+        <rating-definition android:name="SG_TV_PG" android:description="@string/description_sg_tv_pg" android:title="PG" android:contentAgeHint="0" />
+        <rating-definition android:name="SG_TV_PG13" android:description="@string/description_sg_tv_pg13" android:title="PG13" android:contentAgeHint="13" />
+        <rating-definition android:name="SG_TV_NC16" android:description="@string/description_sg_tv_nc16" android:title="NC16" android:contentAgeHint="16" />
+        <rating-definition android:name="SG_TV_M18" android:description="@string/description_sg_tv_m18" android:title="M18" android:contentAgeHint="18" />
+        <rating-definition android:name="SG_TV_R21" android:description="@string/description_sg_tv_r21" android:title="R21" android:contentAgeHint="21" />
+        <rating-order>
+            <rating android:name="SG_TV_G" />
+            <rating android:name="SG_TV_PG" />
+            <rating android:name="SG_TV_PG13" />
+            <rating android:name="SG_TV_NC16" />
+            <rating android:name="SG_TV_M18" />
+            <rating android:name="SG_TV_R21" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="US_TV" android:country="US">
+        <sub-rating-definition android:name="US_TV_D" android:description="@string/description_us_tv_d" android:title="D" />
+        <sub-rating-definition android:name="US_TV_L" android:description="@string/description_us_tv_l" android:title="L" />
+        <sub-rating-definition android:name="US_TV_S" android:description="@string/description_us_tv_s" android:title="S" />
+        <sub-rating-definition android:name="US_TV_V" android:description="@string/description_us_tv_v" android:title="V" />
+        <sub-rating-definition android:name="US_TV_FV" android:description="@string/description_us_tv_fv" android:title="FV" />
+        <rating-definition android:name="US_TV_Y" android:description="@string/description_us_tv_y" android:title="TV-Y" android:contentAgeHint="0" />
+        <rating-definition android:name="US_TV_Y7" android:description="@string/description_us_tv_y7" android:title="TV-Y7" android:contentAgeHint="7">
+            <sub-rating android:name="US_TV_FV" />
+        </rating-definition>
+        <rating-definition android:name="US_TV_G" android:description="@string/description_us_tv_g" android:title="TV-G" android:contentAgeHint="0" />
+        <rating-definition android:name="US_TV_PG" android:description="@string/description_us_tv_pg" android:title="TV-PG" android:contentAgeHint="14">
+            <sub-rating android:name="US_TV_D" />
+            <sub-rating android:name="US_TV_L" />
+            <sub-rating android:name="US_TV_S" />
+            <sub-rating android:name="US_TV_V" />
+        </rating-definition>
+        <rating-definition android:name="US_TV_14" android:description="@string/description_us_tv_14" android:title="TV-14" android:contentAgeHint="14">
+            <sub-rating android:name="US_TV_D" />
+            <sub-rating android:name="US_TV_L" />
+            <sub-rating android:name="US_TV_S" />
+            <sub-rating android:name="US_TV_V" />
+        </rating-definition>
+        <rating-definition android:name="US_TV_MA" android:description="@string/description_us_tv_ma" android:title="TV-MA" android:contentAgeHint="17">
+            <sub-rating android:name="US_TV_L" />
+            <sub-rating android:name="US_TV_S" />
+            <sub-rating android:name="US_TV_V" />
+        </rating-definition>
+        <rating-order>
+            <rating android:name="US_TV_Y" />
+            <rating android:name="US_TV_Y7" />
+        </rating-order>
+        <rating-order>
+            <rating android:name="US_TV_G" />
+            <rating android:name="US_TV_PG" />
+            <rating android:name="US_TV_14" />
+            <rating android:name="US_TV_MA" />
+        </rating-order>
+    </rating-system-definition>
+    <rating-system-definition android:name="US_MV" android:title="@string/title_us_mv" android:country="US">
+        <rating-definition android:name="US_MV_G" android:description="@string/description_us_mv_g" android:title="G" android:contentAgeHint="0" />
+        <rating-definition android:name="US_MV_PG" android:description="@string/description_us_mv_pg" android:title="PG" android:contentAgeHint="0" />
+        <rating-definition android:name="US_MV_PG13" android:description="@string/description_us_mv_pg13" android:title="PG-13" android:contentAgeHint="13" />
+        <rating-definition android:name="US_MV_R" android:description="@string/description_us_mv_r" android:title="R" android:contentAgeHint="17" />
+        <rating-definition android:name="US_MV_NC17" android:description="@string/description_us_mv_nc17" android:title="NC-17" android:contentAgeHint="17" />
+        <rating-order>
+            <rating android:name="US_MV_G" />
+            <rating android:name="US_MV_PG" />
+            <rating android:name="US_MV_PG13" />
+            <rating android:name="US_MV_R" />
+            <rating android:name="US_MV_NC17" />
+        </rating-order>
+    </rating-system-definition>
+</rating-system-definitions>

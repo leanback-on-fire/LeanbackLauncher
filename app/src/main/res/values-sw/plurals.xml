@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">Vituo %d</item>
+        <item quantity="one">Kituo %d</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Kuna arifa %d za mfumo</item>
+        <item quantity="one">Kuna arifa %d ya mfumo</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">Mashabiki %1$,d</item>
+        <item quantity="one">Shabiki %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">Wanaofuata: %1$,d</item>
+        <item quantity="one">Anayefuata: %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">Imependeza mara %1$,d</item>
+        <item quantity="one">Imependeza mara %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">Imesikilizwa mara %1$,d</item>
+        <item quantity="one">Imesikilizwa mara %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">Bomba %1$,d</item>
+        <item quantity="one">Bomba %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">Watazamaji %1$,d</item>
+        <item quantity="one">Mtazamaji %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">Imetazamwa mara %1$,d</item>
+        <item quantity="one">Imetazamwa mara %1$,d</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">Vipindi %1$,d</item>
+        <item quantity="one">Kipindi %1$,d</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">Misimu %1$,d</item>
+        <item quantity="one">Msimu %1$,d</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">Nyimbo %1$,d</item>
+        <item quantity="one">Wimbo %1$,d</item>
+    </plurals>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d kanavaa</item>
+        <item quantity="one">%d kanava</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d järjestelmäilmoitusta</item>
+        <item quantity="one">%d järjestelmäilmoitus</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d fania</item>
+        <item quantity="one">%1$,d fani</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d seuraajaa</item>
+        <item quantity="one">%1$,d seuraaja</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d tykkäystä</item>
+        <item quantity="one">%1$,d tykkäys</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d kuuntelukertaa</item>
+        <item quantity="one">%1$,d kuuntelukerta</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d tykkäystä</item>
+        <item quantity="one">%1$,d tykkäys</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d katsojaa</item>
+        <item quantity="one">%1$,d katsoja</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d katselukertaa</item>
+        <item quantity="one">%1$,d katselukerta</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d jaksoa</item>
+        <item quantity="one">%1$,d jakso</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d tuotantokautta</item>
+        <item quantity="one">%1$,d tuotantokausi</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d raitaa</item>
+        <item quantity="one">%1$,d raita</item>
+    </plurals>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Rodina a deti</item>
+        <item>Šport</item>
+        <item>Nakupovanie</item>
+        <item>Filmy</item>
+        <item>Komédie</item>
+        <item>Cestovanie</item>
+        <item>Drámy</item>
+        <item>Vzdelávanie</item>
+        <item>Zvieratá a príroda</item>
+        <item>Spravodajstvo</item>
+        <item>Hry</item>
+        <item>Umenie</item>
+        <item>Zábava</item>
+        <item>Životný štýl</item>
+        <item>Hudba</item>
+        <item>Premiéry</item>
+        <item>Veda a technika</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Skúste vyhľadať výraz „Will Smith“</item>
+        <item>Skúste vyhľadať výraz „Michael Fassbender“</item>
+        <item>Skúste vyhľadať výraz „Jennifer Lawrence“</item>
+        <item>Skúste povedať: „Olivia Wilde“</item>
+        <item>Skúste vyhľadať výraz „romantické komédie“</item>
+        <item>Skúste vyhľadať výraz „filmy sci-fi“</item>
+        <item>Skúste vyhľadať výraz „filmy so superhrdinami“</item>
+        <item>Skúste vyhľadať výraz „akčné filmy“</item>
+        <item>Skúste vyhľadať výraz „Star Trek“</item>
+        <item>Skúste vyhľadať výraz „Sherlock“</item>
+        <item>Skúste vyhľadať výraz „American Idol“</item>
+        <item>Skúste vyhľadať výraz „Star Trek“</item>
+        <item>Skúste vyhľadať výraz „Castle“</item>
+        <item>Skúste vyhľadať výraz „obrázky Beyonce“</item>
+        <item>Skúste vyhľadať výraz „obrázky Londýna“</item>
+        <item>Skúste vyhľadať výraz „obrázky Godzilly“</item>
+        <item>Skúste sa spýtať: „Aké je skóre tímu Giants?“</item>
+        <item>Skúste sa spýtať: „Aké je skóre tímu Knicks?“</item>
+        <item>Skúste sa spýtať: „Aké je skóre tímu Red Wings?“</item>
+        <item>Skúste sa spýtať: „Aké je skóre tímu Seahawks?“</item>
+        <item>Skúste sa spýtať: „Aké je počasie v New Yorku?“</item>
+        <item>Skúste sa spýtať: „Aké je počasie v San Franciscu?“</item>
+        <item>Skúste sa spýtať: „Aké je počasie v Paríži?“</item>
+        <item>Skúste sa spýtať: „Aké je počasie v Cozumeli?“</item>
+        <item>Skúste sa spýtať: „Koľko meria Brad Pitt?“</item>
+        <item>Skúste sa spýtať: „Akú teplotu má Slnko?“</item>
+        <item>Skúste sa spýtať: „Kedy sa narodil John Wayne?“</item>
+        <item>Skúste povedať: „otvoriť YouTube“</item>
+        <item>Skúste povedať: „otvoriť Filmy Play“</item>
+    </string-array>
+</resources>

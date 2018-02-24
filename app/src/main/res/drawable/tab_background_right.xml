@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/notification_selection_color" />
+    <corners android:topRightRadius="100.0dip" android:bottomRightRadius="100.0dip" />
+</shape>

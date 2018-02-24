@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Familie/kinderen</item>
+        <item>Sport</item>
+        <item>Winkelen</item>
+        <item>Films</item>
+        <item>Comedy</item>
+        <item>Reizen</item>
+        <item>Drama</item>
+        <item>Onderwijs</item>
+        <item>Dieren/natuur</item>
+        <item>Nieuws</item>
+        <item>Games</item>
+        <item>Kunst</item>
+        <item>Entertainment</item>
+        <item>Lifestyle</item>
+        <item>Muziek</item>
+        <item>Premier</item>
+        <item>Techniek/wetenschap</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>"Zoek eens naar 'Will Smith'"</item>
+        <item>"Zoek eens naar 'Michael Fassbender'"</item>
+        <item>"Zoek eens naar 'Jennifer Lawrence'"</item>
+        <item>"Zoek eens naar 'Olivia Wilde'"</item>
+        <item>"Zoek eens naar 'romantische komedies'"</item>
+        <item>"Zoek eens naar 'sciencefictionfilms'"</item>
+        <item>"Zoek eens naar 'superheldenfilms'"</item>
+        <item>"Zoek eens naar 'actiefilms'"</item>
+        <item>"Zoek eens naar 'Star Trek'"</item>
+        <item>"Zoek eens naar 'Sherlock'"</item>
+        <item>"Zoek eens naar 'American Idol'"</item>
+        <item>"Zoek eens naar 'Star Trek'"</item>
+        <item>"Zoek eens naar 'Castle'"</item>
+        <item>"Zoek eens naar 'foto's van Beyonce'"</item>
+        <item>"Zoek eens naar 'foto's van Londen'"</item>
+        <item>"Zoek eens naar 'foto's van Godzilla'"</item>
+        <item>"Vraag eens 'Wat is de uitslag van Ajax?'"</item>
+        <item>"Vraag eens 'Wat is de uitslag van Bloemendaal?'"</item>
+        <item>"Vraag eens 'Wat is de uitslag van de Tour de France?'"</item>
+        <item>"Vraag eens 'Wie heeft Wimbledon gewonnen?'"</item>
+        <item>"Vraag eens 'Wat is het weer in Den Haag?'"</item>
+        <item>"Vraag eens 'Wat is het weer in Groningen?'"</item>
+        <item>"Vraag eens 'Wat is het weer in Parijs?'"</item>
+        <item>"Vraag eens 'Wat is het weer in New York?'"</item>
+        <item>"Vraag eens 'Hoe lang is Brad Pitt?'"</item>
+        <item>"Vraag eens 'Hoe heet is de zon?'"</item>
+        <item>"Vraag eens 'Wanneer is John Wayne geboren?'"</item>
+        <item>"Probeer 'YouTube openen'"</item>
+        <item>"Probeer 'Play Films openen'"</item>
+    </string-array>
+</resources>

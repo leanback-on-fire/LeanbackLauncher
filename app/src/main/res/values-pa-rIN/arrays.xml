@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>ਪਰਿਵਾਰ/ਬੱਚੇ</item>
+        <item>ਖੇਡਾਂ</item>
+        <item>ਖਰੀਦਦਾਰੀ</item>
+        <item>ਮੂਵੀਆਂ</item>
+        <item>ਕਾਮੇਡੀ</item>
+        <item>ਯਾਤਰਾ</item>
+        <item>ਡਰਾਮਾ</item>
+        <item>ਸਿੱਖਿਆ</item>
+        <item>ਜਾਨਵਰ/ਵਣ-ਜੀਵਨ</item>
+        <item>ਖਬਰਾਂ</item>
+        <item>ਗੇਮਿੰਗ</item>
+        <item>ਕਲਾ</item>
+        <item>ਮਨੋਰੰਜਨ</item>
+        <item>ਜੀਵਨਸ਼ੈਲੀ</item>
+        <item>ਸੰਗੀਤ</item>
+        <item>ਪ੍ਰੀਮੀਅਰ</item>
+        <item>ਤਕਨਾਲੋਜੀ/ਵਿਗਿਆਨ</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>&amp;quot;ਵਿਲ ਸਮਿਥ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਮਾਈਕਲ ਫਾਸਬੈਂਡਰ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਜੈਨੀਫ਼ਰ ਲਾਰੈਂਸ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਓਲੀਵੀਆ ਵਾਈਲਡ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਰੁਮਾਂਟਿਕ ਕਾਮੇਡੀਆਂ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਵਿਗਿਆਨਕ-ਗਲਪ ਮੂਵੀਆਂ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਸੁਪਰਹੀਰੋ ਮੂਵੀਆਂ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਐਕਸ਼ਨ ਮੂਵੀਆਂ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਸਟਾਰ ਟ੍ਰੇਕ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਸ਼ੇਰਲੌਕ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਅਮੈਰਿਕਨ ਆਈਡਲ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਸਟਾਰ ਟ੍ਰੇਕ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਕੈਸਲ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਬੀਓਨਸੇ ਦੀਆਂ ਤਸਵੀਰਾਂ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਲੰਡਨ ਦੀਆਂ ਤਸਵੀਰਾਂ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੋ</item>
+        <item>&amp;quot;ਗੌਡਜ਼ਿਲਾ ਦੀਆਂ ਤਸਵੀਰਾਂ&amp;quot; ਨੂੰ ਖੋਜਣ ਦੀ ਕੋਸ਼ਿਸ ਕਰੋ</item>
+        <item>&amp;quot;ਜਾਇੰਟਸ ਦਾ ਸਕੋਰ ਕੀ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਨਿਕਸ ਦਾ ਸਕੋਰ ਕੀ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਰੈੱਡ ਵਿੰਗਜ਼ ਦਾ ਸਕੋਰ ਕੀ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਸੀਹੌਕਸ ਦਾ ਸਕੋਰ ਕੀ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਨਿਊ ਯਾਰਕ ਵਿੱਚ ਮੌਸਮ ਕਿਹੋ-ਜਿਹਾ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਸਾਨ ਫਰਾਂਸਿਸਕੋ ਵਿੱਚ ਮੌਸਮ ਕਿਹੋ-ਜਿਹਾ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਪੈਰਿਸ ਵਿਚ ਮੌਸਮ ਕਿਹੋ-ਜਿਹਾ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਕੋਜ਼ੂਮਲ ਵਿੱਚ ਮੌਸਮ ਕਿਹੋ-ਜਿਹਾ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਬ੍ਰੈਡ ਪਿਟ ਦਾ ਕੱਦ ਕਿੰਨਾ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਸੂਰਜ ਕਿੰਨਾ ਗਰਮ ਹੈ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;ਜੌਹਨ ਵੇਨ ਦਾ ਜਨਮ ਕਦੋਂ ਹੋਇਆ ਸੀ?&amp;quot; ਪੁੱਛਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</item>
+        <item>&amp;quot;YouTube ਖੋਲ੍ਹੋ&amp;quot; ਨੂੰ ਅਜ਼ਮਾਓ</item>
+        <item>&amp;quot;Play ਮੂਵੀਆਂ ਖੋਲ੍ਹੋ&amp;quot; ਨੂੰ ਅਜ਼ਮਾਓ</item>
+    </string-array>
+</resources>

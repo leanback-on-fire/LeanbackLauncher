@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <fraction name="banner_app_title_alpha">79.99999%</fraction>
+    <fraction name="banner_focused_scale">114.99939%</fraction>
+    <fraction name="channel_action_button_focused_scale">125.0%</fraction>
+    <fraction name="channel_logo_focused_scale">166.66565%</fraction>
+    <fraction name="home_app_banner_focused_scale">137.99744%</fraction>
+    <fraction name="home_configure_channels_button_focused_scale">119.99817%</fraction>
+    <fraction name="lb_browse_header_unselect_alpha">50.0%</fraction>
+    <fraction name="lb_browse_rows_scale">79.99999%</fraction>
+    <fraction name="lb_focus_zoom_factor_large">117.99927%</fraction>
+    <fraction name="lb_focus_zoom_factor_medium">113.99841%</fraction>
+    <fraction name="lb_focus_zoom_factor_small">109.99756%</fraction>
+    <fraction name="lb_focus_zoom_factor_xsmall">105.999756%</fraction>
+    <fraction name="lb_search_bar_speech_orb_max_level_zoom">143.9972%</fraction>
+    <fraction name="lb_search_orb_focused_zoom">119.99817%</fraction>
+    <fraction name="lb_view_active_level">0.0%</fraction>
+    <fraction name="lb_view_dimmed_level">60.000004%</fraction>
+    <fraction name="program_focused_scale">117.49878%</fraction>
+    <fraction name="program_logo_dimmer_center_x">29.999996%</fraction>
+    <fraction name="store_button_focused_scale">109.99756%</fraction>
+    <fraction name="top_row_item_focused_zoom">119.99817%</fraction>
+</resources>

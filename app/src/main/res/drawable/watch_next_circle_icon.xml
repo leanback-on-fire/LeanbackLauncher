@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size android:height="32.0dip" android:width="32.0dip" />
+            <solid android:color="@color/watch_next_logo_background" />
+        </shape>
+    </item>
+    <item android:gravity="center" android:drawable="@drawable/ic_watch_next_icon" />
+</layer-list>

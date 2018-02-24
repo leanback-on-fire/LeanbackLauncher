@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d canals</item>
+        <item quantity="one">%d canal</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Hi ha %d notificacions del sistema</item>
+        <item quantity="one">Hi ha %d notificació del sistema</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d fans</item>
+        <item quantity="one">%1$,d fan</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d seguidors</item>
+        <item quantity="one">%1$,d seguidor</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">"%1$,d m'agrada"</item>
+        <item quantity="one">"%1$,d m'agrada"</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d reproduccions</item>
+        <item quantity="one">%1$,d reproducció</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">"%1$,d m'agrada"</item>
+        <item quantity="one">"%1$,d m'agrada"</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d espectadors</item>
+        <item quantity="one">%1$,d espectador</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d visualitzacions</item>
+        <item quantity="one">%1$,d visualització</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d episodis</item>
+        <item quantity="one">%1$,d episodi</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d temporades</item>
+        <item quantity="one">%1$,d temporada</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d pistes</item>
+        <item quantity="one">%1$,d pista</item>
+    </plurals>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d saluran</item>
+        <item quantity="one">%d saluran</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Terdapat %d pemberitahuan sistem</item>
+        <item quantity="one">Terdapat %d pemberitahuan sistem</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d Peminat</item>
+        <item quantity="one">%1$,d Peminat</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d Pengikut</item>
+        <item quantity="one">%1$,d Pengikut</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d Suka</item>
+        <item quantity="one">%1$,d Suka</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d Dengar</item>
+        <item quantity="one">%1$,d Dengar</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d Bagus</item>
+        <item quantity="one">%1$,d Bagus</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d Penonton</item>
+        <item quantity="one">%1$,d Penonton</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d Tontonan</item>
+        <item quantity="one">%1$,d Tontonan</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d Episod</item>
+        <item quantity="one">%1$,d Episod</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d Musim</item>
+        <item quantity="one">%1$,d Musim</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d Lagu</item>
+        <item quantity="one">%1$,d Lagu</item>
+    </plurals>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.tvlauncher.notifications.NotificationPanelItemView android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:layout_width="fill_parent" android:layout_height="@dimen/notification_panel_item_height" layout="@layout/notification_panel_item_main_content" />
+    <include android:layout_width="wrap_content" android:layout_height="wrap_content" layout="@layout/notification_panel_item_expanded_text" />
+</com.google.android.tvlauncher.notifications.NotificationPanelItemView>

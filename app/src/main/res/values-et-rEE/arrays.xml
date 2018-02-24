@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Pere/lapsed</item>
+        <item>Sport</item>
+        <item>Ostud</item>
+        <item>Filmid</item>
+        <item>Komöödia</item>
+        <item>Reisimine</item>
+        <item>Draama</item>
+        <item>Haridus</item>
+        <item>Loomad/loodus</item>
+        <item>Uudised</item>
+        <item>Mängud</item>
+        <item>Kunst</item>
+        <item>Meelelahutus</item>
+        <item>Elustiil</item>
+        <item>Muusika</item>
+        <item>Esilinastus</item>
+        <item>Tehnika/teadus</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Proovige teha otsing „Will Smith”</item>
+        <item>Proovige teha otsing „Michael Fassbender”</item>
+        <item>Proovige teha otsing „Jennifer Lawrence”</item>
+        <item>Proovige teha otsing „Olivia Wilde”</item>
+        <item>Proovige teha otsing „romantilised komöödiad”</item>
+        <item>Proovige teha otsing „ulmefilmid”</item>
+        <item>Proovige teha otsing „superkangelastega filmid”</item>
+        <item>Proovige teha otsing „märulid”</item>
+        <item>Proovige teha otsing „Star Trek”</item>
+        <item>Proovige teha otsing „Sherlock”</item>
+        <item>Proovige teha otsing „American Idol”</item>
+        <item>Proovige teha otsing „Star Trek”</item>
+        <item>Proovige teha otsing „Castle”</item>
+        <item>"Proovige teha otsing „pildid Beyonce'ist”"</item>
+        <item>Proovige teha otsing „pildid Londonist”</item>
+        <item>Proovige teha otsing „pildid Godzillast”</item>
+        <item>Proovige küsida: „Milline on Giantsi punktiseis?”</item>
+        <item>Proovige küsida: „Milline on Knicksi punktiseis?”</item>
+        <item>Proovige küsida: „Milline on Red Wingsi punktiseis?”</item>
+        <item>Proovige küsida: „Milline on Seahawksi punktiseis?”</item>
+        <item>Proovige küsida: „Milline ilm on New Yorgis?”</item>
+        <item>Proovige küsida: „Milline ilm on San Franciscos?”</item>
+        <item>Proovige küsida: „Milline ilm on Pariisis?”</item>
+        <item>Proovige küsida: „Milline ilm on Cozumelil?”</item>
+        <item>Proovige küsida: „Kui pikk on Brad Pitt?”</item>
+        <item>Proovige küsida: „Kui kuum on päike?”</item>
+        <item>Proovige küsida: „Millal John Wayne sündis?”</item>
+        <item>Proovige käsku „Ava YouTube”</item>
+        <item>Proovige käsku „Ava Play filmid”</item>
+    </string-array>
+</resources>

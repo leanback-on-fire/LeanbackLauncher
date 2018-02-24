@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d ալիք</item>
+        <item quantity="one">%d channels</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Համակարգի %d ծանուցում կա</item>
+        <item quantity="one">There are %d system notifications</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d երկրպագու</item>
+        <item quantity="one">%1$,d երկրպագու</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d հետևող</item>
+        <item quantity="one">%1$,d հետևող</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d հավանում</item>
+        <item quantity="one">%1$,d հավանում</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d ունկնդրում</item>
+        <item quantity="one">%1$,d ունկնդրում</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d հրաշալի</item>
+        <item quantity="one">%1$,d հրաշալի</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d դիտող</item>
+        <item quantity="one">%1$,d դիտող</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d դիտում</item>
+        <item quantity="one">%1$,d դիտում</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d սերիա</item>
+        <item quantity="one">%1$,d սերիա</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d եթերաշրջան</item>
+        <item quantity="one">%1$,d եթերաշրջան</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d կատարում</item>
+        <item quantity="one">%1$,d կատարում</item>
+    </plurals>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d 個のチャンネル</item>
+        <item quantity="one">%d 個のチャンネル</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d 件のシステム通知があります</item>
+        <item quantity="one">%d 件のシステム通知があります</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d 人のファン</item>
+        <item quantity="one">%1$,d 人のファン</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d 人のフォロワー</item>
+        <item quantity="one">%1$,d 人のフォロワー</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d 件の高評価</item>
+        <item quantity="one">%1$,d 件の高評価</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d 件の視聴</item>
+        <item quantity="one">%1$,d 件の視聴</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d 件のグッド</item>
+        <item quantity="one">%1$,d 件のグッド</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d 人の視聴者</item>
+        <item quantity="one">%1$,d 人の視聴者</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">視聴回数 %1$,d 回</item>
+        <item quantity="one">視聴回数 %1$,d 回</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d 件のエピソード</item>
+        <item quantity="one">%1$,d 件のエピソード</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d 件のシーズン</item>
+        <item quantity="one">%1$,d 件のシーズン</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d 件のトラック</item>
+        <item quantity="one">%1$,d 件のトラック</item>
+    </plurals>
+</resources>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d kanala</item>
+        <item quantity="one">%d kanal</item>
+        <item quantity="few">%d kanala</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Ima %d sistemskih obavještenja</item>
+        <item quantity="one">Ima %d sistemsko obavještenje</item>
+        <item quantity="few">Imaju %d sistemska obavještenja</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d obožavalaca</item>
+        <item quantity="one">%1$,d obožavalac</item>
+        <item quantity="few">%1$,d obožavaoca</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d pratilaca</item>
+        <item quantity="one">%1$,d pratilac</item>
+        <item quantity="few">%1$,d pratioca</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d osoba je označilo s +1</item>
+        <item quantity="one">%1$,d osoba je označila s +1</item>
+        <item quantity="few">%1$,d osobe su označile s +1</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d preslušavanja</item>
+        <item quantity="one">%1$,d preslušavanje</item>
+        <item quantity="few">%1$,d preslušavanja</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d Pozitivnih ocjena</item>
+        <item quantity="one">%1$,d Pozitivna ocjena</item>
+        <item quantity="few">%1$,d Pozitivne ocjene</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d gledalaca</item>
+        <item quantity="one">%1$,d gledalac</item>
+        <item quantity="few">%1$,d gledaoca</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d prikaza</item>
+        <item quantity="one">%1$,d prikaz</item>
+        <item quantity="few">%1$,d prikaza</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d epizoda</item>
+        <item quantity="one">%1$,d epizoda</item>
+        <item quantity="few">%1$,d epizode</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d sezona</item>
+        <item quantity="one">%1$,d sezona</item>
+        <item quantity="few">%1$,d sezone</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d numera</item>
+        <item quantity="one">%1$,d numera</item>
+        <item quantity="few">%1$,d numere</item>
+    </plurals>
+</resources>

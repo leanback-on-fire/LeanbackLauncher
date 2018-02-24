@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Perhe/lapset</item>
+        <item>Urheilu</item>
+        <item>Ostokset</item>
+        <item>Elokuvat</item>
+        <item>Komedia</item>
+        <item>Matkailu</item>
+        <item>Draama</item>
+        <item>Opetus</item>
+        <item>Eläimet/luonto</item>
+        <item>Uutiset</item>
+        <item>Pelit</item>
+        <item>Taide</item>
+        <item>Viihde</item>
+        <item>Lifestyle</item>
+        <item>Musiikki</item>
+        <item>Ensiesitys</item>
+        <item>Tekniikka ja tiede</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s %2$s %3$s %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Kokeile hakua \"Will Smith\".</item>
+        <item>Kokeile hakua \"Michael Fassbender\".</item>
+        <item>Kokeile hakua \"Jennifer Lawrence\".</item>
+        <item>Kokeile hakua \"Olivia Wilde\".</item>
+        <item>Kokeile hakua \"romanttiset komediat\".</item>
+        <item>Kokeile hakua \"scifi-elokuvat\".</item>
+        <item>Kokeile hakua \"supersankarielokuvat\".</item>
+        <item>Kokeile hakua \"toimintaelokuvat\".</item>
+        <item>Kokeile hakua \"Star Trek\".</item>
+        <item>Kokeile hakua \"Sherlock\".</item>
+        <item>Kokeile hakua \"American Idol\".</item>
+        <item>Kokeile hakua \"Star Trek\".</item>
+        <item>Kokeile hakua \"Castle\".</item>
+        <item>Kokeile hakua \"kuvia Beyoncésta\".</item>
+        <item>Kokeile hakua \"kuvia Lontoosta\".</item>
+        <item>Kokeile hakua \"kuvia Godzillasta\".</item>
+        <item>Kokeile hakua \"Mikä on Giantsin pistetilanne?\".</item>
+        <item>Kokeile hakua \"Mikä on Knicksin pistetilanne?\".</item>
+        <item>Kokeile hakua \"Mikä on Red Wingsin pistetilanne?\".</item>
+        <item>Kokeile hakua \"Mikä on Seahawksin pistetilanne?\".</item>
+        <item>Kokeile hakua \"Millainen sää on New Yorkissa?\".</item>
+        <item>Kokeile hakua \"Millainen sää on San Franciscossa?\".</item>
+        <item>Kokeile hakua \"Millainen sää on Pariisissa?\".</item>
+        <item>Kokeile hakua \"Millainen sää on Cozumelissa?\".</item>
+        <item>Kokeile hakua \"Kuinka pitkä Brad Pitt on?\".</item>
+        <item>Kokeile hakua \"Kuinka kuuma aurinko on?\".</item>
+        <item>Kokeile hakua \"Milloin John Wayne syntyi?\".</item>
+        <item>Kokeile \"avaa YouTube\".</item>
+        <item>Kokeile \"avaa Play Elokuvat\".</item>
+    </string-array>
+</resources>

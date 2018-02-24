@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>家庭/兒童</item>
+        <item>體育</item>
+        <item>購物</item>
+        <item>電影</item>
+        <item>喜劇</item>
+        <item>旅遊</item>
+        <item>戲劇</item>
+        <item>教育</item>
+        <item>動物/野生動物</item>
+        <item>新聞</item>
+        <item>遊戲</item>
+        <item>藝術</item>
+        <item>娛樂</item>
+        <item>生活品味</item>
+        <item>音樂</item>
+        <item>首映</item>
+        <item>科技/科學</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s、%2$s</item>
+        <item>%1$s、%2$s、%3$s</item>
+        <item>%1$s、%2$s、%3$s、%4$s</item>
+        <item>%1$s、%2$s、%3$s、%4$s、%5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>嘗試搜尋「韋史密夫」</item>
+        <item>嘗試搜尋「米高法斯賓達」</item>
+        <item>嘗試搜尋「珍妮花羅倫絲」</item>
+        <item>嘗試搜尋「奧莉菲亞維特」</item>
+        <item>嘗試搜尋「愛情喜劇」</item>
+        <item>嘗試搜尋「科幻片」</item>
+        <item>嘗試搜尋「超級英雄片」</item>
+        <item>嘗試搜尋「動作片」</item>
+        <item>嘗試搜尋「星空奇遇記」</item>
+        <item>嘗試搜尋「福爾摩斯」</item>
+        <item>嘗試搜尋「美國偶像」</item>
+        <item>嘗試搜尋「星空奇遇記」</item>
+        <item>嘗試搜尋「賈神探」</item>
+        <item>嘗試搜尋「碧昂絲的相片」</item>
+        <item>嘗試搜尋「倫敦的相片」</item>
+        <item>嘗試搜尋「哥斯拉的相片」</item>
+        <item>嘗試詢問「巨人隊攞幾多分？」</item>
+        <item>嘗試詢問「紐約人隊攞幾多分？」</item>
+        <item>嘗試詢問「紅翼隊攞幾多分？」</item>
+        <item>嘗試詢問「海鷹隊攞幾多分？」</item>
+        <item>嘗試詢問「紐約嘅天氣係點樣？」</item>
+        <item>嘗試詢問「三藩市嘅天氣係點樣？」</item>
+        <item>嘗試詢問「巴黎嘅天氣係點樣？」</item>
+        <item>嘗試詢問「科蘇梅爾島嘅天氣係點樣？」</item>
+        <item>嘗試詢問「畢彼特有幾高？」</item>
+        <item>嘗試詢問「太陽嘅溫度有幾高？」</item>
+        <item>嘗試詢問「尊榮幾時出世？」</item>
+        <item>嘗試說出「打開 YouTube」</item>
+        <item>嘗試說出「打開『Play 電影』」</item>
+    </string-array>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Ailə/Uşaqlar</item>
+        <item>İdman</item>
+        <item>Alış-veriş</item>
+        <item>Filmlər</item>
+        <item>Komediya</item>
+        <item>Səyahət</item>
+        <item>Dram</item>
+        <item>Təhsil</item>
+        <item>Heyvan/Vəhşi təbiət</item>
+        <item>Xəbərlər</item>
+        <item>Oyun</item>
+        <item>İncəsənət</item>
+        <item>Əyləncə</item>
+        <item>Həyat tərzi</item>
+        <item>Musiqi</item>
+        <item>Premyera</item>
+        <item>Texnologiya/Elm</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Uill Smit\" üçün axtarın</item>
+        <item>\"Maykl Fassbender\" üçün axtarın</item>
+        <item>\"Cennifer Lourens\" üçün axtarın</item>
+        <item>\"Oliviya Uayld\" üçün axtarın</item>
+        <item>\"Romantik komediya\" üçün axtarın</item>
+        <item>\"Elmi-fantastik filmlər\" üçün axtarın</item>
+        <item>\"Qəhrəmanlıq filmləri\" üçün axtarın</item>
+        <item>\"Döyüş filmləri\" üçün axtarın</item>
+        <item>\"Fəza Yolu\" üçün axtarın</item>
+        <item>\"Şerlok\" üçün axtarın</item>
+        <item>\"Amerika Kumiri\" üçün axtarın</item>
+        <item>\"Fəza Yolu\" üçün axtarın</item>
+        <item>\"Qala\" üçün axtarın</item>
+        <item>\"Beyonce şəkilləri\" axtarın</item>
+        <item>\"London şəkilləri\" axtarın</item>
+        <item>\"Godzilla şəkilləri\" axtarın</item>
+        <item>\"Nəhəng hesabı neçədir?\" sualını verin</item>
+        <item>\"Niks hesabı neçədir?\" sualını verin</item>
+        <item>\"Qırmızı Qanad hesabı neçədir?\" sualını verin</item>
+        <item>\"Sixoks balı neçədir?\" sualını verin</item>
+        <item>\"Nyu Yorkda hava necədir?\" sualını verin</item>
+        <item>\"San Fransiskoda hava necədir?\" sualını verin</item>
+        <item>\"Parisdə hava necədir?\" sualını verin</item>
+        <item>\"Kozumeldə hava necədir?\" sualını verin</item>
+        <item>\"Bred Pittin boyu nə qədərdir?\" sualını verin</item>
+        <item>\"Günəş nə qədər istidir?\" sualını verin</item>
+        <item>\"Con Ueyn nə vaxt anadan olub?\" sualını verin</item>
+        <item>"\"YouTube'u açın\"ı sınayın"</item>
+        <item>\"Play Filmlərini açın\"ı sınayın</item>
+    </string-array>
+</resources>

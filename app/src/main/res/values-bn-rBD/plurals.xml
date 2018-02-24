@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%dটি চ্যানেল</item>
+        <item quantity="one">%dটি চ্যানেল</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">এখানে %dটি সিস্টেম বিজ্ঞপ্তি আছে</item>
+        <item quantity="one">এখানে %dটি সিস্টেম বিজ্ঞপ্তি আছে</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d জন ফ্যান</item>
+        <item quantity="one">%1$,d জন ফ্যান</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d জন অনুসরণকারী</item>
+        <item quantity="one">%1$,d জন অনুসরণকারী</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,dটি পছন্দ</item>
+        <item quantity="one">%1$,dটি পছন্দ</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d জন শুনছেন</item>
+        <item quantity="one">%1$,d জন শুনছেন</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d জন সাবাস দিয়েছেন</item>
+        <item quantity="one">%1$,d জন সাবাস দিয়েছেন</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d জন দর্শক</item>
+        <item quantity="one">%1$,d জন দর্শক</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d বার দেখা হয়েছে</item>
+        <item quantity="one">%1$,d বার দেখা হয়েছে</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,dটি পর্ব</item>
+        <item quantity="one">%1$,dটি পর্ব</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,dটি সিজন</item>
+        <item quantity="one">%1$,dটি সিজন</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,dটি গান</item>
+        <item quantity="one">%1$,dটি গান</item>
+    </plurals>
+</resources>

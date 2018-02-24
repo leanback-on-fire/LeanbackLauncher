@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.tvlauncher.notifications.NotificationPanelDismissibleItemView android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <include android:layout_width="@dimen/notification_panel_item_container_width" android:layout_height="@dimen/notification_panel_item_height" layout="@layout/notification_panel_item_main_content" />
+        <LinearLayout android:id="@id/dismiss_button" android:background="@drawable/notification_background_left" android:focusable="true" android:clickable="true" android:layout_width="@dimen/notification_panel_item_dismiss_button_width" android:layout_height="@dimen/notification_panel_item_height">
+            <ImageView android:layout_gravity="center_vertical" android:layout_width="@dimen/notification_panel_item_dismiss_icon_size" android:layout_height="@dimen/notification_panel_item_dismiss_icon_size" android:src="@drawable/ic_remove_circle_black" android:tint="@color/notification_icon_tint" android:layout_marginStart="@dimen/notification_panel_item_dismiss_icon_margin_start" android:layout_marginEnd="@dimen/notification_panel_item_dismiss_icon_margin_end" />
+            <TextView android:textSize="@dimen/notification_panel_item_primary_text_size" android:textColor="@color/notification_dimiss_text_color" android:layout_gravity="center_vertical" android:id="@id/dismiss_text" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-condensed" />
+        </LinearLayout>
+    </LinearLayout>
+    <include android:layout_width="wrap_content" android:layout_height="wrap_content" layout="@layout/notification_panel_item_expanded_text" />
+</com.google.android.tvlauncher.notifications.NotificationPanelDismissibleItemView>

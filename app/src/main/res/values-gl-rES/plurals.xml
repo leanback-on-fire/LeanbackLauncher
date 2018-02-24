@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d canles</item>
+        <item quantity="one">%d canle</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Hai %d notificacións do sistema</item>
+        <item quantity="one">Hai %d notificación do sistema</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d fans</item>
+        <item quantity="one">%1$,d fan</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d seguidores</item>
+        <item quantity="one">%1$,d seguidor</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d Gústame</item>
+        <item quantity="one">%1$,d Gústame</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d escoitas</item>
+        <item quantity="one">%1$,d escoita</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d polgares cara arriba</item>
+        <item quantity="one">%1$,d polgar cara arriba</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d espectadores</item>
+        <item quantity="one">%1$,d espectador</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d reproducións</item>
+        <item quantity="one">%1$,d reprodución</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d episodios</item>
+        <item quantity="one">%1$,d episodio</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d tempadas</item>
+        <item quantity="one">%1$,d tempada</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d pistas</item>
+        <item quantity="one">%1$,d pista</item>
+    </plurals>
+</resources>

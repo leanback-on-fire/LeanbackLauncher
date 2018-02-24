@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d канали</item>
+        <item quantity="one">%d канал</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Има %d известувања за системот</item>
+        <item quantity="one">Има %d известување за системот</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d обожаватели</item>
+        <item quantity="one">%1$,d обожавател</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d следбеници</item>
+        <item quantity="one">%1$,d следбеник</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d допаѓања</item>
+        <item quantity="one">%1$,d допаѓање</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d преслушувања</item>
+        <item quantity="one">%1$,d преслушување</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d палци нагоре</item>
+        <item quantity="one">%1$,d палец нагоре</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d гледачи</item>
+        <item quantity="one">%1$,d гледач</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d прегледи</item>
+        <item quantity="one">%1$,d преглед</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d епизоди</item>
+        <item quantity="one">%1$,d епизода</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d сезони</item>
+        <item quantity="one">%1$,d сезона</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d песни</item>
+        <item quantity="one">%1$,d песна</item>
+    </plurals>
+</resources>

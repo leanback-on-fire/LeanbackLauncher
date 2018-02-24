@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>خانوادگی/کودکان</item>
+        <item>ورزشی</item>
+        <item>خرید</item>
+        <item>فیلم</item>
+        <item>کمدی</item>
+        <item>سفر</item>
+        <item>درام</item>
+        <item>آموزش</item>
+        <item>حیوانات/حیات وحش</item>
+        <item>اخبار</item>
+        <item>بازی</item>
+        <item>هنر</item>
+        <item>سرگرمی</item>
+        <item>سبک زندگی</item>
+        <item>موسیقی</item>
+        <item>برتر</item>
+        <item>فناوری/علم</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s‏، %2$s</item>
+        <item>%1$s‏، %2$s،‏ %3$s</item>
+        <item>%1$s‏، %2$s،‏ %3$s، ‏%4$s</item>
+        <item>%1$s‏، %2$s،‏ %3$s، ‏%4$s، ‏%5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>جستجوی «Will Smith» (ویل اسمیت) را امتحان کنید</item>
+        <item>جستجوی «Michael Fassbender» (مایکل فاسبندر) را امتحان کنید</item>
+        <item>جستجوی «Jennifer Lawrence» (جنیفر لارنس) را امتحان کنید</item>
+        <item>جستجوی «Olivia Wilde» (اولیویا وایلد) را امتحان کنید</item>
+        <item>جستجوی «romantic comedies» (کمدی‌های رومانتیک) را امتحان کنید</item>
+        <item>جستجوی «sci-fi movies» (فیلم‌های علمی تخیلی) را امتحان کنید</item>
+        <item>جستجوی «superhero movies» (فیلم‌های ابرقهرمانی) را امتحان کنید</item>
+        <item>جستجوی «action movies» (فیلم‌های اکشن) را امتحان کنید</item>
+        <item>جستجوی «Star Trek» (پیشتازان فضا) را امتحان کنید</item>
+        <item>جستجوی «شرلوک» را امتحان کنید</item>
+        <item>جستجوی «American Idol» (آمریکن آیدُل) را امتحان کنید</item>
+        <item>جستجوی «Star Trek» (پیشتازان فضا) را امتحان کنید</item>
+        <item>جستجوی «Castle» (کاسل) را امتحان کنید</item>
+        <item>جستجوی «pictures of Beyonce» (تصاویر بیانسه) را امتحان کنید</item>
+        <item>جستجوی «pictures of London» (تصاویر لندن) را امتحان کنید</item>
+        <item>جستجوی «pictures of Godzilla» (تصاویر گودزیلا) را امتحان کنید</item>
+        <item>"بپرسید «what's the Giants score?‎» (امتیاز جاینتس چند است؟)"</item>
+        <item>"بپرسید «what's the Knicks score?‎» (امتیاز نیکس چند است؟)"</item>
+        <item>"بپرسید «what's the Red Wings score?‎» (امتیاز رد وینگز چند است؟)"</item>
+        <item>"بپرسید «what's the Seahawks score?‎» (امتیاز سی‌هاکس چند است؟)"</item>
+        <item>"بپرسید «what's the weather in New York?‎» (آب‌وهوای نیویورک چگونه است؟)"</item>
+        <item>"بپرسید «what's the weather in San Francisco?‎» (آب‌وهوای سان‌فرانسیسکو چگونه است؟)"</item>
+        <item>"بپرسید «what's the weather in Paris?‎» (آب‌وهوای پاریس چگونه است؟)"</item>
+        <item>"بپرسید «what's the weather in Cozumel?‎» (آب‌وهوای کوزومل چگونه است؟)"</item>
+        <item>بپرسید «How tall is Brad Pitt?‎» (قد براد پیت چقدر است؟)</item>
+        <item>بپرسید «How hot is the sun?‎» (دمای خورشید چقدر است؟)</item>
+        <item>بپرسید «When was John Wayne born?‎» (تاریخ تولد جان واین کی است؟)</item>
+        <item>امتحان کنید، «open YouTube» (‏YouTube را باز کن)</item>
+        <item>امتحان کنید، «open Play Movies» (پخش‌کننده فیلم را باز کن)</item>
+    </string-array>
+</resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">‎%d‎ ערוצים</item>
+        <item quantity="one">%d ערוץ</item>
+        <item quantity="two">‎%d‎ ערוצים</item>
+        <item quantity="many">‎%d‎ ערוצים</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">יש %d הודעות מערכת</item>
+        <item quantity="one">יש הודעת מערכת אחת</item>
+        <item quantity="two">יש %d הודעות מערכת</item>
+        <item quantity="many">יש %d הודעות מערכת</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d מעריצים</item>
+        <item quantity="one">מעריץ אחד</item>
+        <item quantity="two">%1$,d מעריצים</item>
+        <item quantity="many">%1$,d מעריצים</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d עוקבים</item>
+        <item quantity="one">עוקב אחד</item>
+        <item quantity="two">%1$,d עוקבים</item>
+        <item quantity="many">%1$,d עוקבים</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d סימוני ’אהבתי‘</item>
+        <item quantity="one">סימון ’אהבתי‘ אחד</item>
+        <item quantity="two">%1$,d סימוני ’אהבתי‘</item>
+        <item quantity="many">%1$,d סימוני ’אהבתי‘</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d האזנות</item>
+        <item quantity="one">האזנה אחת</item>
+        <item quantity="two">%1$,d האזנות</item>
+        <item quantity="many">%1$,d האזנות</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d סימוני ’אהבתי‘</item>
+        <item quantity="one">סימון ’אהבתי‘ אחד</item>
+        <item quantity="two">%1$,d סימוני ’אהבתי‘</item>
+        <item quantity="many">%1$,d סימוני ’אהבתי‘</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d צופים</item>
+        <item quantity="one">צופה אחד</item>
+        <item quantity="two">%1$,d צופים</item>
+        <item quantity="many">%1$,d צופים</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d צפיות</item>
+        <item quantity="one">צפייה אחת</item>
+        <item quantity="two">%1$,d צפיות</item>
+        <item quantity="many">%1$,d צפיות</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d פרקים</item>
+        <item quantity="one">פרק אחד</item>
+        <item quantity="two">%1$,d פרקים</item>
+        <item quantity="many">%1$,d פרקים</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d עונות</item>
+        <item quantity="one">עונה אחת</item>
+        <item quantity="two">%1$,d עונות</item>
+        <item quantity="many">%1$,d עונות</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d רצועות</item>
+        <item quantity="one">רצועה אחת</item>
+        <item quantity="two">%1$,d רצועות</item>
+        <item quantity="many">%1$,d רצועות</item>
+    </plurals>
+</resources>

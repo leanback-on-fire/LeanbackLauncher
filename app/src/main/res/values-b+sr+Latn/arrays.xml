@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Porodica/deca</item>
+        <item>Sport</item>
+        <item>Kupovina</item>
+        <item>Filmovi</item>
+        <item>Komedija</item>
+        <item>Putovanja</item>
+        <item>Drama</item>
+        <item>Obrazovanje</item>
+        <item>Životinje/divlji svet</item>
+        <item>Vesti</item>
+        <item>Video igre</item>
+        <item>Umetnost</item>
+        <item>Zabava</item>
+        <item>Stil života</item>
+        <item>Muzika</item>
+        <item>Premijum</item>
+        <item>Tehnologija/nauka</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Probajte da potražite „Will Smith“</item>
+        <item>Probajte da potražite „Michael Fassbender“</item>
+        <item>Probajte da potražite „Jennifer Lawrence“</item>
+        <item>Probajte da potražite „Olivia Wilde“</item>
+        <item>Probajte da potražite „romantic comedies“</item>
+        <item>Probajte da potražite „sci-fi movies“</item>
+        <item>Probajte da potražite „superhero movies“</item>
+        <item>Probajte da potražite „action movies“</item>
+        <item>Probajte da potražite „Star Trek“</item>
+        <item>Probajte da potražite „Sherlock“</item>
+        <item>Probajte da potražite „American Idol“</item>
+        <item>Probajte da potražite „Star Trek“</item>
+        <item>Probajte da potražite „Castle“</item>
+        <item>Probajte da potražite „pictures of Beyonce“</item>
+        <item>Probajte da potražite „pictures of London“</item>
+        <item>Probajte da potražite „pictures of Godzilla“</item>
+        <item>"Probajte da pitate „what's the Giants score?“"</item>
+        <item>"Probajte da pitate „what's the Knicks score?“"</item>
+        <item>"Probajte da pitate „what's the Red Wings score?“"</item>
+        <item>"Probajte da pitate „what's the Seahawks score?“"</item>
+        <item>"Probajte da pitate „what's the weather in New York?“"</item>
+        <item>"Probajte da pitate „what's the weather in San Francisco?“"</item>
+        <item>"Probajte da pitate „what's the weather in Paris?“"</item>
+        <item>"Probajte da pitate „what's the weather in Cozumel?“"</item>
+        <item>Probajte da pitate „How tall is Brad Pitt?“</item>
+        <item>Probajte da pitate „How hot is the sun?“</item>
+        <item>Probajte da pitate „When was John Wayne born?“</item>
+        <item>Isprobajte „open YouTube“</item>
+        <item>Isprobajte „open Play Movies“</item>
+    </string-array>
+</resources>

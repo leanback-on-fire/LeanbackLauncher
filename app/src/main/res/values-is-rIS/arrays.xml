@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Fjölskylduefni/barnaefni</item>
+        <item>Íþróttir</item>
+        <item>Verslun</item>
+        <item>Kvikmyndir</item>
+        <item>Grín</item>
+        <item>Ferðalög</item>
+        <item>Drama</item>
+        <item>Menntun</item>
+        <item>Dýr/dýralíf</item>
+        <item>Fréttir</item>
+        <item>Leikir</item>
+        <item>List</item>
+        <item>Afþreying</item>
+        <item>Lífsstíll</item>
+        <item>Tónlist</item>
+        <item>Úrvalsefni</item>
+        <item>Tækni og vísindi</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Prófaðu að leita að „Will Smith“</item>
+        <item>Prófaðu að leita að „Michael Fassbender“</item>
+        <item>Prófaðu að leita að „Jennifer Lawrence“</item>
+        <item>Prófaðu að leita að „Olivia Wilde“</item>
+        <item>Prófaðu að leita að „rómantískar gamanmyndir“</item>
+        <item>Prófaðu að leita að „sci-fi kvikmyndir“</item>
+        <item>Prófaðu að leita að „ofurhetjumyndir“</item>
+        <item>Prófaðu að leita að „hasarmyndir“</item>
+        <item>Prófaðu að leita að „Star Trek“</item>
+        <item>Prófaðu að leita að „Sherlock“</item>
+        <item>Prófaðu að leita að „American Idol“</item>
+        <item>Prófaðu að leita að „Star Trek“</item>
+        <item>Prófaðu að leita að „Castle“</item>
+        <item>Prófaðu að leita að „myndir af Beyonce“</item>
+        <item>Prófaðu að leita að „myndir af London“</item>
+        <item>Prófaðu að leita að „myndir af Godzilla“</item>
+        <item>Prófaðu að spyrja „hver er staðan í leik KR?“</item>
+        <item>Prófaðu að spyrja „hver er staðan í leik Liverpool?“</item>
+        <item>Prófaðu að spyrja „hver er staðan í leik FH?“</item>
+        <item>Prófaðu að spyrja „hver er staðan í leik Lakers?“</item>
+        <item>Prófaðu að spyrja „hvernig er veðrið í New York?“</item>
+        <item>Prófaðu að spyrja „hvernig er veðrið í San Francisco?“</item>
+        <item>Prófaðu að spyrja „hvernig er veðrið í París?“</item>
+        <item>Prófaðu að spyrja „hvernig er veðrið í Reykjavík?“</item>
+        <item>Prófaðu að spyrja „hversu hár er Brad Pitt?“</item>
+        <item>Prófaðu að spyrja „hversu heit er sólin?“</item>
+        <item>Prófaðu að spyrja „hvenær er John Wayne fæddur?“</item>
+        <item>Prófaðu „opna YouTube“</item>
+        <item>Prófaðu „opna Play Movies“</item>
+    </string-array>
+</resources>

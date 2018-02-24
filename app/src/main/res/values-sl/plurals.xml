@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d kanalov</item>
+        <item quantity="one">%d kanal</item>
+        <item quantity="two">%d kanala</item>
+        <item quantity="few">%d kanali</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d sistemskih obvestil</item>
+        <item quantity="one">%d sistemsko obvestilo</item>
+        <item quantity="two">%d sistemski obvestili</item>
+        <item quantity="few">%d sistemska obvestila</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d oboževalcev</item>
+        <item quantity="one">%1$,d oboževalec</item>
+        <item quantity="two">%1$,d oboževalca</item>
+        <item quantity="few">%1$,d oboževalci</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d spremljevalcev</item>
+        <item quantity="one">%1$,d spremljevalec</item>
+        <item quantity="two">%1$,d spremljevalca</item>
+        <item quantity="few">%1$,d spremljevalci</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d všečkov</item>
+        <item quantity="one">%1$,d všeček</item>
+        <item quantity="two">%1$,d všečka</item>
+        <item quantity="few">%1$,d všečki</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d poslušanj</item>
+        <item quantity="one">%1$,d poslušanje</item>
+        <item quantity="two">%1$,d poslušanji</item>
+        <item quantity="few">%1$,d poslušanja</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d oznak »všeč mi je«</item>
+        <item quantity="one">%1$,d oznaka »všeč mi je«</item>
+        <item quantity="two">%1$,d oznaki »všeč mi je«</item>
+        <item quantity="few">%1$,d oznake »všeč mi je«</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d gledalcev</item>
+        <item quantity="one">%1$,d gledalec</item>
+        <item quantity="two">%1$,d gledalca</item>
+        <item quantity="few">%1$,d gledalci</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d ogledov</item>
+        <item quantity="one">%1$,d ogled</item>
+        <item quantity="two">%1$,d ogleda</item>
+        <item quantity="few">%1$,d ogledi</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d epizod</item>
+        <item quantity="one">%1$,d epizoda</item>
+        <item quantity="two">%1$,d epizodi</item>
+        <item quantity="few">%1$,d epizode</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d sezon</item>
+        <item quantity="one">%1$,d sezona</item>
+        <item quantity="two">%1$,d sezoni</item>
+        <item quantity="few">%1$,d sezone</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d skladb</item>
+        <item quantity="one">%1$,d skladba</item>
+        <item quantity="two">%1$,d skladbi</item>
+        <item quantity="few">%1$,d skladbe</item>
+    </plurals>
+</resources>

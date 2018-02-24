@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d ጣቢያዎች</item>
+        <item quantity="one">%d ጣቢያዎች</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d የስርዓት ማሳወቂያዎች አሉ</item>
+        <item quantity="one">%d የስርዓት ማሳወቂያዎች አሉ</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d ደጋፊዎች</item>
+        <item quantity="one">%1$,d ደጋፊዎች</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d ተከታዮች</item>
+        <item quantity="one">%1$,d ተከታዮች</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d መውደዶች</item>
+        <item quantity="one">%1$,d መውደዶች</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d ማዳመጦች</item>
+        <item quantity="one">%1$,d ማዳመጦች</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d አሪፎች</item>
+        <item quantity="one">%1$,d አሪፎች</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d ተመልካቾች</item>
+        <item quantity="one">%1$,d ተመልካቾች</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d እይታዎች</item>
+        <item quantity="one">%1$,d እይታዎች</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d የትዕይንት ክፍሎች</item>
+        <item quantity="one">%1$,d የትዕይንት ክፍሎች</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d ምዕራፎች</item>
+        <item quantity="one">%1$,d ምዕራፎች</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d ትራኮች</item>
+        <item quantity="one">%1$,d ትራኮች</item>
+    </plurals>
+</resources>

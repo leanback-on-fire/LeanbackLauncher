@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d کانال</item>
+        <item quantity="one">%d کانال</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d اعلان سیستم وجود دارد</item>
+        <item quantity="one">%d اعلان سیستم وجود دارد</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d طرفدار</item>
+        <item quantity="one">%1$,d طرفدار</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d‎ دنبالگر</item>
+        <item quantity="one">%1$,d‎ دنبالگر</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d بار پسندیدن</item>
+        <item quantity="one">%1$,d بار پسندیدن</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d بار شنیدن</item>
+        <item quantity="one">%1$,d بار شنیدن</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d رأی موافق</item>
+        <item quantity="one">%1$,d رأی موافق</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d بیننده</item>
+        <item quantity="one">%1$,d بیننده</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d بازدید</item>
+        <item quantity="one">%1$,d بازدید</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d قسمت</item>
+        <item quantity="one">%1$,d قسمت</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d فصل</item>
+        <item quantity="one">%1$,d فصل</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d آهنگ</item>
+        <item quantity="one">%1$,d آهنگ</item>
+    </plurals>
+</resources>

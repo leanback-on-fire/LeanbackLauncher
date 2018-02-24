@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d арна</item>
+        <item quantity="one">%d арна</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d жүйе хабарландыруы бар</item>
+        <item quantity="one">%d жүйе хабарландыруы бар</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d фанат</item>
+        <item quantity="one">%1$,d фанат</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d жазылушы</item>
+        <item quantity="one">%1$,d жазылушы</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d ұнату белгісі</item>
+        <item quantity="one">%1$,d ұнату белгісі</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d рет тыңдалды</item>
+        <item quantity="one">%1$,d рет тыңдалды</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d жоғары қаратылған саусақ белгісі</item>
+        <item quantity="one">%1$,d жоғары қаратылған саусақ белгісі</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d көрермен</item>
+        <item quantity="one">%1$,d көрермен</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d рет көрілді</item>
+        <item quantity="one">%1$,d рет көрілді</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d серия</item>
+        <item quantity="one">%1$,d серия</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d маусым</item>
+        <item quantity="one">%1$,d маусым</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d аудио жол</item>
+        <item quantity="one">%1$,d аудио жол</item>
+    </plurals>
+</resources>

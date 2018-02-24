@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d ചാനലുകൾ</item>
+        <item quantity="one">%d ചാനൽ</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d സിസ്റ്റം അറിയിപ്പുകളുണ്ട്</item>
+        <item quantity="one">%d സിസ്റ്റം അറിയിപ്പുണ്ട്</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d ആരാധകർ</item>
+        <item quantity="one">%1$,d ആരാധകൻ</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d ഫോളോവർമാർ</item>
+        <item quantity="one">%1$,d ഫോളോവർ</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d ലൈക്കുകൾ</item>
+        <item quantity="one">%1$,d ലൈക്ക്</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d തവണ ശ്രവിച്ചു</item>
+        <item quantity="one">%1$,d തവണ ശ്രവിച്ചു</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d തംബ്‌സ് അപ്പ്</item>
+        <item quantity="one">%1$,d തമ്പ് അപ്പ്</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d കാഴ്‌ചക്കാർ</item>
+        <item quantity="one">%1$,d കാഴ്‌ചക്കാരൻ</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d കാഴ്‌ച്ചകൾ</item>
+        <item quantity="one">%1$,d കാഴ്‌ച</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d എപ്പിസോഡ്</item>
+        <item quantity="one">%1$,d എപ്പിസോഡ്</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d സീസൺ</item>
+        <item quantity="one">%1$,d സീസൺ</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d ട്രാക്കുകൾ</item>
+        <item quantity="one">%1$,d ട്രാക്ക്</item>
+    </plurals>
+</resources>

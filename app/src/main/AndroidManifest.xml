@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.google.android.tvlauncher" platformBuildVersionCode="26" platformBuildVersionName="8.0.0">
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.android.providers.tv.permission.ACCESS_ALL_EPG_DATA"/>
+    <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.NOTIFY_TV_INPUTS"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.BIND_APPWIDGET"/>
+    <uses-permission android:name="android.permission.CHANGE_HDMI_CEC_ACTIVE_SOURCE"/>
+    <uses-permission android:name="android.permission.READ_CONTENT_RATING_SYSTEMS"/>
+    <uses-feature android:name="android.software.leanback" android:required="true"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:name="com.google.android.tvlauncher.application.TvLauncherApplication" android:supportsRtl="true" android:theme="@style/AppTheme">
+        <activity android:excludeFromRecents="true" android:launchMode="singleTask" android:name="com.google.android.tvlauncher.MainActivity">
+            <intent-filter android:priority="2">
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.google.android.tvlauncher.appsview.MarketUpdateReceiver" android:permission="android.permission.INSTALL_PACKAGES">
+            <intent-filter>
+                <action android:name="com.android.launcher.action.ACTION_PACKAGE_ENQUEUED"/>
+                <action android:name="com.android.launcher.action.ACTION_PACKAGE_DOWNLOADING"/>
+                <action android:name="com.android.launcher.action.ACTION_PACKAGE_INSTALLING"/>
+                <action android:name="com.android.launcher.action.ACTION_PACKAGE_DEQUEUED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <activity android:excludeFromRecents="true" android:name="com.google.android.tvlauncher.notifications.NotificationsSidePanelActivity" android:theme="@style/Theme.Settings.SidePanel">
+            <intent-filter>
+                <action android:name="com.google.android.tvlauncher.NOTIFICATIONS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/add_channels_announcement" android:name="com.google.android.tvlauncher.settings.AppChannelPermissionActivity" android:theme="@style/Theme.Settings.SidePanel"/>
+        <activity android:name="com.google.android.tvlauncher.settings.FavoriteAppsActivity" android:theme="@style/Theme.Settings.SidePanel"/>
+        <activity android:configChanges="keyboard|keyboardHidden|navigation" android:excludeFromRecents="true" android:name="com.google.android.tvlauncher.settings.HomeScreenSettingsActivity" android:theme="@style/Theme.Settings.SidePanel">
+            <intent-filter>
+                <action android:name="com.google.android.leanbacklauncher.SETTINGS"/>
+                <action android:name="com.google.android.tvlauncher.SETTINGS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:excludeFromRecents="true" android:name="com.google.android.tvlauncher.inputs.InputsPanelActivity" android:theme="@style/Theme.Settings.SidePanel">
+            <intent-filter>
+                <action android:name="com.google.android.tvlauncher.INPUTS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:excludeFromRecents="true" android:label="@string/apps_view_title" android:launchMode="singleTask" android:name="com.google.android.tvlauncher.appsview.AppsViewActivity" android:theme="@style/Theme.Settings.SidePanel">
+            <intent-filter>
+                <action android:name="android.intent.action.ALL_APPS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <meta-data android:name="android.support.VERSION" android:value="26.0.0-SNAPSHOT"/>
+        <receiver android:enabled="true" android:exported="false" android:name="com.google.android.gms.measurement.AppMeasurementReceiver"/>
+        <receiver android:enabled="true" android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver" android:permission="android.permission.INSTALL_PACKAGES">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service android:enabled="true" android:exported="false" android:name="com.google.android.gms.measurement.AppMeasurementService"/>
+        <receiver android:exported="true" android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:exported="false" android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver"/>
+        <service android:exported="true" android:name="com.google.firebase.iid.FirebaseInstanceIdService">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity android:exported="false" android:name="com.google.android.gms.common.api.GoogleApiActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+    </application>
+</manifest>

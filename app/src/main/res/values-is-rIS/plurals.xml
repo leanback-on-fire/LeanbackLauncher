@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d rásir</item>
+        <item quantity="one">%d rás</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d kerfistilkynningar eru til staðar</item>
+        <item quantity="one">%d kerfistilkynning er til staðar</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d aðdáendur</item>
+        <item quantity="one">%1$,d aðdáandi</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d fylgjendur</item>
+        <item quantity="one">%1$,d fylgjandi</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d líkar við</item>
+        <item quantity="one">%1$,d líkar við</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d hlustanir</item>
+        <item quantity="one">%1$,d hlustun</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d þumlar upp</item>
+        <item quantity="one">%1$,d þumall upp</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d áhorfendur</item>
+        <item quantity="one">%1$,d áhorfandi</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d áhorf</item>
+        <item quantity="one">%1$,d áhorf</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d þættir</item>
+        <item quantity="one">%1$,d þáttur</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d þáttaraðir</item>
+        <item quantity="one">%1$,d þáttaröð</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d lög</item>
+        <item quantity="one">%1$,d lag</item>
+    </plurals>
+</resources>

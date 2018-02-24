@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>គ្រួសារ/កុមារ</item>
+        <item>កីឡា</item>
+        <item>ការទិញ​ទំនិញ</item>
+        <item>ភាពយន្ត</item>
+        <item>កំប្លែង</item>
+        <item>ការធ្វើ​ដំណើរ</item>
+        <item>ល្ខោន</item>
+        <item>ការអប់រំ</item>
+        <item>សត្វ​/សត្វព្រៃ</item>
+        <item>ព័ត៌មាន</item>
+        <item>ហ្គេម</item>
+        <item>សិល្បៈ</item>
+        <item>កម្សាន្ត</item>
+        <item>ជីវិតរស់នៅ</item>
+        <item>តន្ត្រី</item>
+        <item>ដំបូង</item>
+        <item>បច្ចេកវិទ្យា/វិទ្យាសាស្ត្រ</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>សាកល្បង​​ស្វែងរក \"Will Smith\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"Michael Fassbender\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Jennifer Lawrence\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Olivia Wilde\"</item>
+        <item>សាកល្បង​ស្វែងរក \"romantic comedies\"</item>
+        <item>សាកល្បង​ស្វែងរក \"sci-fi movies\"</item>
+        <item>សាកល្បង​ស្វែងរក \"superhero movies\"</item>
+        <item>សាកល្បងស្វែងរក \"action movies\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Star Trek\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Sherlock\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"American Idol\"</item>
+        <item>សាកល្បង​ស្វែងរក \"Star Trek\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"Castle\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"pictures of Beyonce\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"pictures of London\"</item>
+        <item>សាកល្បង​​ស្វែងរក \"pictures of Godzilla\"</item>
+        <item>"សាកល្បង​​សួរថា \"what's the Giants score?\""</item>
+        <item>"សាកល្បង​​សួរថា \"what's the Knicks score?\""</item>
+        <item>"សាកល្បង​​សួរថា \"what's the Red Wings score?\""</item>
+        <item>"សាកល្បង​​សួរថា \"what's the Seahawks score?\""</item>
+        <item>"សាកល្បង​​សួរថា \"what's the weather in New York?\""</item>
+        <item>"សាកល្បង​សួរថា \"what's the weather in San Francisco?\""</item>
+        <item>"សាកល្បង​សួរថា \"what's the weather in Paris?\""</item>
+        <item>"សាកល្បង​សួរថា \"what's the weather in Cozumel?\""</item>
+        <item>សាកល្បង​សួរថា \"How tall is Brad Pitt?\"</item>
+        <item>សាកល្បង​សួរថា \"How hot is the sun?\"</item>
+        <item>សាកល្បង​សួរថា \"When was John Wayne born?\"</item>
+        <item>សាកល្បង \"open YouTube\"</item>
+        <item>សាកល្បង \"open Play Movies\"</item>
+    </string-array>
+</resources>

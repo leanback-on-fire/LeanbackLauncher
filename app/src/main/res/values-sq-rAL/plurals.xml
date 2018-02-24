@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d kanale</item>
+        <item quantity="one">%d kanal</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Ka %d njoftime të sistemit</item>
+        <item quantity="one">Ka %d njoftim të sistemit</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d fansa</item>
+        <item quantity="one">%1$,d fans</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d ndjekës</item>
+        <item quantity="one">%1$,d ndjekës</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d pëlqime</item>
+        <item quantity="one">%1$,d pëlqim</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d dëgjime</item>
+        <item quantity="one">%1$,d dëgjim</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d pëlqime miratuese</item>
+        <item quantity="one">%1$,d pëlqim miratues</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d shikues</item>
+        <item quantity="one">%1$,d shikues</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d shikime</item>
+        <item quantity="one">%1$,d shikim</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d episode</item>
+        <item quantity="one">%1$,d episod</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d sezone</item>
+        <item quantity="one">%1$,d sezon</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d pjesë muzikore</item>
+        <item quantity="one">%1$,d pjesë muzikore</item>
+    </plurals>
+</resources>

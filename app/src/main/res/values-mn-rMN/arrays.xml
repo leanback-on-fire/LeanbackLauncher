@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Гэр бүл/Хүүхэд</item>
+        <item>Спорт</item>
+        <item>Дэлгүүр</item>
+        <item>Кино</item>
+        <item>Инээдмийн</item>
+        <item>Аялал</item>
+        <item>Жүжиг</item>
+        <item>Боловсрол</item>
+        <item>Амьтад/Амьтны ертөнц</item>
+        <item>Мэдээ</item>
+        <item>Тоглоом</item>
+        <item>Урлаг</item>
+        <item>Энтертэйнмент</item>
+        <item>Амьдралын хэв маяг</item>
+        <item>Хөгжим</item>
+        <item>Премьер</item>
+        <item>Технологи/ШУ</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s %2$s %3$s %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" гэж хайж үзээрэй</item>
+        <item>\"Michael Fassbender\" гэж хайж үзээрэй</item>
+        <item>\"Jennifer Lawrence\" гэж хайж үзээрэй</item>
+        <item>\"Olivia Wilde\" гэж хайж үзээрэй</item>
+        <item>\"Романтик инээдмийн\" гэж хайж үзээрэй</item>
+        <item>\"Шинжлэх ухааны уран зөгнөлт кино\" гэж хайж үзээрэй</item>
+        <item>\"Супер баатруудтай кино\" гэж хайж үзээрэй</item>
+        <item>\"Тулаант кино\" гэж хайж үзээрэй</item>
+        <item>\"Star Trek\" гэж хайж үзээрэй</item>
+        <item>\"Шерлок\" гэж хайж үзээрэй</item>
+        <item>\"American Idol\" гэж хайж үзээрэй</item>
+        <item>\"Star Trek\" гэж хайж үзээрэй</item>
+        <item>\"Castle\" гэж хайж үзээрэй</item>
+        <item>\"Beyonce-н зураг\" гэж хайж үзээрэй</item>
+        <item>\"Лондон хотын зураг\" гэж хайж үзээрэй</item>
+        <item>\"Godzilla-н зураг\" гэж хайж үзээрэй</item>
+        <item>\"Giants-н оноо хэд вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Knicks-н оноо хэд вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Red Wings-н оноо хэд вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Seahawks-н оноо хэд вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Нью Йорк хотод цаг агаар ямар байна вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Сан Франциско хотод цаг агаар ямар байна вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Парис хотод цаг агаар ямар байна вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Козумелд цаг агаар ямар байна вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Brad Pitt хэр өндөр вэ?\" гэж асууж үзээрэй</item>
+        <item>\"Нар хэр халуун бэ?\" гэж асууж үзээрэй</item>
+        <item>\"John Wayne хэзээ төрсөн бэ?\" гэж асууж үзээрэй</item>
+        <item>\"YouTube-г нээ\" гэж тушаана уу</item>
+        <item>\"Кино тоглуулахыг нээ\" гэж тушаана уу</item>
+    </string-array>
+</resources>

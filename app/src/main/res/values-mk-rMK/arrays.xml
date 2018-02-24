@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Семејни/Детски</item>
+        <item>Спорт</item>
+        <item>Пазарење</item>
+        <item>Филмови</item>
+        <item>Комедија</item>
+        <item>Патување</item>
+        <item>Драма</item>
+        <item>Образование</item>
+        <item>Животински свет</item>
+        <item>Вести</item>
+        <item>Игри</item>
+        <item>Уметност</item>
+        <item>Забава</item>
+        <item>Стил на живеење</item>
+        <item>Музика</item>
+        <item>Премиера</item>
+        <item>Технологија/Наука</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Побарајте го „Вил Смит“</item>
+        <item>Побарајте го „Мајкл Фасбендер“</item>
+        <item>Побарајте ја „Џенифер Лоренс“</item>
+        <item>Побарајте ја „Оливија Вајлд“</item>
+        <item>Побарајте „романтични комедии“</item>
+        <item>Побарајте „научно-фантастични филмови“</item>
+        <item>Побарајте „филмови со суперхерои“</item>
+        <item>Побарајте „филмови со акција“</item>
+        <item>Побарајте ги „Ѕвездени патеки“</item>
+        <item>Побарајте го „Шерлок“</item>
+        <item>Побарајте го „Американски идол“</item>
+        <item>Побарајте ги „Ѕвездени патеки“</item>
+        <item>Побарајте го „Кесл“</item>
+        <item>Побарајте „слики од Бијонсе“</item>
+        <item>Побарајте „слики од Лондон“</item>
+        <item>Побарајте „слики од Годзила“</item>
+        <item>Прашајте: „Каков е резултатот на Џиновите?“</item>
+        <item>Прашајте: „Каков е резултатот на Никсите?“</item>
+        <item>Прашајте: „Каков е резултатот на Црвените крила?“</item>
+        <item>Прашајте: „Каков е резултатот на Морските соколи?“</item>
+        <item>Прашајте: „Какво е времето во Њујорк?“</item>
+        <item>Прашајте: „Какво е времето во Сан Франциско?“</item>
+        <item>Прашајте: „Какво е времето во Париз?“</item>
+        <item>Прашајте: „Какво е времето во Козумел?“</item>
+        <item>Прашајте: „Колку е висок Бред Пит?“</item>
+        <item>Прашајте: „Колку е топло сонцето?“</item>
+        <item>Прашајте: „Кога е роден Џон Вејн?“</item>
+        <item>Обидете се со „отвори YouTube“</item>
+        <item>Обидете се со „отвори Play Movies\"</item>
+    </string-array>
+</resources>

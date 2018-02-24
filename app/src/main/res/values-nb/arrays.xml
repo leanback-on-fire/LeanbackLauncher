@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Familie/barn</item>
+        <item>Sport</item>
+        <item>Shopping</item>
+        <item>Filmer</item>
+        <item>Komedie</item>
+        <item>Reise</item>
+        <item>Drama</item>
+        <item>Utdanning</item>
+        <item>Dyr/villmarksliv</item>
+        <item>Nyheter</item>
+        <item>Spill</item>
+        <item>Kunst</item>
+        <item>Underholdning</item>
+        <item>Livsstil</item>
+        <item>Musikk</item>
+        <item>Premiere</item>
+        <item>Teknologi/vitenskap</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s – %2$s</item>
+        <item>%1$s – %2$s – %3$s</item>
+        <item>%1$s – %2$s – %3$s – %4$s</item>
+        <item>%1$s – %2$s – %3$s – %4$s – %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Prøv å søke etter «Will Smith»</item>
+        <item>Prøv å søke etter «Michael Fassbender»</item>
+        <item>Prøv å søke etter «Jennifer Lawrence»</item>
+        <item>Prøv å søke etter «Olivia Wilde»</item>
+        <item>Prøv å søke etter «romantiske komedier»</item>
+        <item>Prøv å søke etter «sci-fi-filmer»</item>
+        <item>Prøv å søke etter «filmer med superhelter»</item>
+        <item>Prøv å søke etter «actionfilmer»</item>
+        <item>Prøv å søke etter «Star Trek»</item>
+        <item>Prøv å søke etter «Sherlock»</item>
+        <item>Prøv å søke etter «American Idol»</item>
+        <item>Prøv å søke etter «Star Trek»</item>
+        <item>Prøv å søke etter «Castle»</item>
+        <item>Prøv å søke etter «bilder av Beyonce»</item>
+        <item>Prøv å søke etter «bilder av London»</item>
+        <item>Prøv å søke etter «bilder av Godzilla»</item>
+        <item>Prøv å spørre «Hva ble resultatet av Giants-kampen?»</item>
+        <item>Prøv å spørre «Hva ble resultatet av Knicks-kampen?»</item>
+        <item>Prøv å spørre «Hva ble resultatet av Red Wings-kampen?»</item>
+        <item>Prøv å spørre «Hva ble resultatet av Seahawks-kampen?»</item>
+        <item>Prøv å spørre «Hvordan er været i New York?»</item>
+        <item>Prøv å spørre «Hvordan er været i San Francisco?»</item>
+        <item>Prøv å spørre «Hvordan er været i Paris?»</item>
+        <item>Prøv å spørre «Hvordan er været i Cozumel?»</item>
+        <item>Prøv å spørre «Hvor høy er Brad Pitt?»</item>
+        <item>Prøv å spørre «Hvor varm er solen?»</item>
+        <item>Prøv å spørre «Når ble John Wayne født?»</item>
+        <item>Prøv «åpne YouTube»</item>
+        <item>Prøv «åpne Play Filmer»</item>
+    </string-array>
+</resources>

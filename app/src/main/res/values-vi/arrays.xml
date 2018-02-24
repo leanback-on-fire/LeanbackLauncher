@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Gia đình/Trẻ em</item>
+        <item>Thể thao</item>
+        <item>Mua sắm</item>
+        <item>Phim</item>
+        <item>Hài kịch</item>
+        <item>Du lịch</item>
+        <item>Kịch</item>
+        <item>Giáo dục</item>
+        <item>Động vật/Thiên nhiên</item>
+        <item>Tin tức</item>
+        <item>Trò chơi</item>
+        <item>Nghệ thuật</item>
+        <item>Giải trí</item>
+        <item>Lối sống</item>
+        <item>Âm nhạc</item>
+        <item>Cao cấp</item>
+        <item>Công nghệ/Khoa học</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s %2$s %3$s %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Thử tìm kiếm \"Will Smith\"</item>
+        <item>Thử tìm kiếm \"Michael Fassbender\"</item>
+        <item>Thử tìm kiếm \"Jennifer Lawrence\"</item>
+        <item>Thử tìm kiếm \"Olivia Wilde\"</item>
+        <item>Thử tìm kiếm \"romantic comedies (hài kịch lãng mạn)\"</item>
+        <item>Thử tìm kiếm \"sci-fi movies (phim khoa học viễn tưởng)\"</item>
+        <item>Thử tìm kiếm \"superhero movies (phim siêu nhân)\"</item>
+        <item>Thử tìm kiếm \"action movies (phim hành động)\"</item>
+        <item>Thử tìm kiếm \"Star Trek (Du hành giữa các vì sao)\"</item>
+        <item>Thử tìm kiếm \"Sherlock\"</item>
+        <item>Thử tìm kiếm \"American Idol (Thần tượng âm nhạc Mỹ)\"</item>
+        <item>Thử tìm kiếm \"Star Trek (Du hành giữa các vì sao)\"</item>
+        <item>Thử tìm kiếm \"Castle (Lâu đài)\"</item>
+        <item>Thử tìm kiếm \"pictures of Beyonce (ảnh về Beyonce)\"</item>
+        <item>Thử tìm kiếm \"pictures of London (ảnh về Luân Đôn)\"</item>
+        <item>Thử tìm kiếm \"pictures of Godzilla (ảnh về Godzilla)\"</item>
+        <item>"Thử hỏi \"what's the Giants score (Điểm số của Giants là bao nhiêu)?\""</item>
+        <item>"Thử hỏi \"what's the Knicks score (Điểm số của Knicks là bao nhiêu)?\""</item>
+        <item>"Thử hỏi \"what's the Red Wings score (Điểm số của Red Wings là bao nhiêu)?\""</item>
+        <item>"Thử hỏi \"what's the Seahawks score (Điểm số của Seahawks là bao nhiêu)?\""</item>
+        <item>"Thử hỏi \"what's the weather in New York (Thời tiết ở New York như thế nào)?\""</item>
+        <item>"Thử hỏi \"what's the weather in San Francisco (Thời tiết ở San Francisco như thế nào)?\""</item>
+        <item>"Thử hỏi \"what's the weather in Paris (Thời tiết ở Paris như thế nào)?\""</item>
+        <item>"Thử hỏi \"what's the weather in Cozumel (Thời tiết ở Cozumel như thế nào)?\""</item>
+        <item>Thử hỏi \"How tall is Brad Pitt (Brad Pitt cao bao nhiêu)?\"</item>
+        <item>Thử hỏi \"How hot is the sun (Nhiệt độ của mặt trời là bao nhiêu)?\"</item>
+        <item>Thử hỏi \"When was John Wayne born (John Wayne sinh ra khi nào)?\"</item>
+        <item>Thử \"open YouTube (mở YouTube)\"</item>
+        <item>Thử \"open Play Movies (mở Play Phim)\"</item>
+    </string-array>
+</resources>

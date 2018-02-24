@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Šeima / vaikai</item>
+        <item>Sportas</item>
+        <item>Apsipirkimas</item>
+        <item>Filmai</item>
+        <item>Komedijos</item>
+        <item>Kelionės</item>
+        <item>Dramos</item>
+        <item>Švietimas</item>
+        <item>Gyvūnija ir augalija</item>
+        <item>Naujienos</item>
+        <item>Žaidimai</item>
+        <item>Menai</item>
+        <item>Pramogos</item>
+        <item>Gyvenimo būdas</item>
+        <item>Muzika</item>
+        <item>Premjera</item>
+        <item>Technologijos / mokslas</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Pabandykite ieškoti pagal užklausą „Willas Smithas“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Michaelas Fassbenderis“</item>
+        <item>Pabandykite ieškot pagal užklausą „Jennifer Lawrence“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Olivia Wilde“</item>
+        <item>Pabandykite ieškoti pagal užklausą „romantinės komedijos“</item>
+        <item>Pabandykite ieškoti pagal užklausą „mokslinės fantastikos filmai“</item>
+        <item>Pabandykite ieškoti pagal užklausą „filmai apie superherojus“</item>
+        <item>Pabandykite ieškoti pagal užklausą „veiksmo filmai“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Žvaigždžių kelias“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Šerlokas“</item>
+        <item>Pabandykite ieškot pagal užklausą „Amerikos dievaitis“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Žvaigždžių kelias“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Kastlas“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Beyonce nuotraukos“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Londono nuotraukos“</item>
+        <item>Pabandykite ieškoti pagal užklausą „Godzilos paveikslėliai“</item>
+        <item>Pabandykite paklausti „Koks „Giants“ laimėtų taškų skaičius?“</item>
+        <item>Pabandykite paklausti „Koks „Knicks“ laimėtų taškų skaičius?“</item>
+        <item>Pabandykite paklausti „Koks „Red Wings“ laimėtų taškų skaičius?“</item>
+        <item>Pabandykite paklausti „Koks „Seahawks“ laimėtų taškų skaičius?“</item>
+        <item>Pabandykite paklausti „Koks oras Niujorke?“</item>
+        <item>Pabandykite paklausti „Koks oras San Fransiske?“</item>
+        <item>Pabandykite paklausti „Koks oras Paryžiuje?“</item>
+        <item>Pabandykite paklausti „Koks oras Kosumelyje?“</item>
+        <item>Pabandykite paklausti „Koks Brado Pitto ūgis?“</item>
+        <item>Pabandykite paklausti „Kokia saulės kaitra?“</item>
+        <item>"Pabandykite paklausti „Kada gimė Johnas Wayne'as?“"</item>
+        <item>Pabandykite pasakyti „Atidaryti „YouTube“</item>
+        <item>Pabandykite pasakyti „Atidaryti „Google Play“ filmus“</item>
+    </string-array>
+</resources>

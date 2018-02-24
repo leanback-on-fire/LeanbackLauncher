@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Familie/Copii</item>
+        <item>Sport</item>
+        <item>Cumpărături</item>
+        <item>Filme</item>
+        <item>Comedie</item>
+        <item>Călătorii</item>
+        <item>Dramă</item>
+        <item>Educație</item>
+        <item>Animale/Faună</item>
+        <item>Știri</item>
+        <item>Jocuri</item>
+        <item>Artă</item>
+        <item>Divertisment</item>
+        <item>Stil de viață</item>
+        <item>Muzică</item>
+        <item>Premieră</item>
+        <item>Tehnică/Știință</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Încercați să căutați „Will Smith”</item>
+        <item>Încercați să căutați „Michael Fassbender”</item>
+        <item>Încercați să căutați „Jennifer Lawrence”</item>
+        <item>Încercați să căutați „Olivia Wilde”</item>
+        <item>Încercați să căutați „comedii romantice”</item>
+        <item>Încercați să căutați „filme SF”</item>
+        <item>Încercați să căutați „filme cu supereroi”</item>
+        <item>Încercați să căutați „filme de acțiune”</item>
+        <item>Încercați să căutați „Star Trek”</item>
+        <item>Încercați să căutați „Sherlock”</item>
+        <item>Încercați să căutați „American Idol”</item>
+        <item>Încercați să căutați „Star Trek”</item>
+        <item>Încercați să căutați „Castle”</item>
+        <item>Încercați să căutați „imagini cu Beyonce”</item>
+        <item>Încercați să căutați „imagini din Londra”</item>
+        <item>Încercați să căutați „imagini cu Godzilla”</item>
+        <item>Încercați să întrebați „Care este scorul echipei Giants?”</item>
+        <item>Încercați să întrebați „Care este scorul echipei Knicks?”</item>
+        <item>Încercați să întrebați „Care este scorul echipei Red Wings?”</item>
+        <item>Încercați să întrebați „Care este scorul echipei Seahawks?”</item>
+        <item>Încercați să întrebați „Cum este vremea la New York?”</item>
+        <item>Încercați să întrebați „Cum este vremea la San Francisco?”</item>
+        <item>Încercați să întrebați „Cum este vremea la Paris?”</item>
+        <item>Încercați să întrebați „Cum este vremea la Cozumel?”</item>
+        <item>Încercați să întrebați „Cât de înalt este Brad Pitt?”</item>
+        <item>Încercați să întrebați „Cât de fierbinte este Soarele?”</item>
+        <item>Încercați să întrebați „Când s-a născut John Wayne?”</item>
+        <item>Încercați „deschide YouTube”</item>
+        <item>Încercați „deschide Filme Play”</item>
+    </string-array>
+</resources>

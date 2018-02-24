@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Família/crianças</item>
+        <item>Esportes</item>
+        <item>Compras</item>
+        <item>Filmes</item>
+        <item>Comédia</item>
+        <item>Viagens</item>
+        <item>Drama</item>
+        <item>Educação</item>
+        <item>Animais/vida selvagem</item>
+        <item>Notícias</item>
+        <item>Jogos</item>
+        <item>Artes</item>
+        <item>Entretenimento</item>
+        <item>Estilo de vida</item>
+        <item>Música</item>
+        <item>Premier</item>
+        <item>Tecnologia/ciência</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Tente pesquisar \"Will Smith\"</item>
+        <item>Tente pesquisar \"Michael Fassbender\"</item>
+        <item>Tente pesquisar \"Jennifer Lawrence\"</item>
+        <item>Tente pesquisar \"Olivia Wilde\"</item>
+        <item>Tente pesquisar \"comédias românticas\"</item>
+        <item>Tente pesquisar \"filmes de ficção científica\"</item>
+        <item>Tente pesquisar \"filmes de super-heróis\"</item>
+        <item>Tente pesquisar \"filmes de ação\"</item>
+        <item>Tente pesquisar \"Star Trek\"</item>
+        <item>Tente pesquisar \"Sherlock\"</item>
+        <item>Tente pesquisar \"American Idol\"</item>
+        <item>Tente pesquisar \"Star Trek\"</item>
+        <item>Tente pesquisar \"Castle\"</item>
+        <item>Tente pesquisar \"fotos de Beyonce\"</item>
+        <item>Tente pesquisar \"fotos de Londres\"</item>
+        <item>Tente pesquisar \"fotos de Godzilla\"</item>
+        <item>Tente perguntar: \"Qual é a pontuação do Giants?\"</item>
+        <item>Tente perguntar: \"Qual é a pontuação do Knicks?\"</item>
+        <item>Tente perguntar: \"Qual é a pontuação do Red Wings?\"</item>
+        <item>Tente perguntar: \"Qual é a pontuação do Seahawks?\"</item>
+        <item>Tente perguntar: \"Como está o tempo em Nova York?\"</item>
+        <item>Tente perguntar: \"Como está o tempo em São Francisco?\"</item>
+        <item>Tente perguntar: \"Como está o tempo em Paris?\"</item>
+        <item>Tente perguntar: \"Como está o tempo em Cozumel?\"</item>
+        <item>Tente perguntar: \"Qual é a altura de Brad Pitt?\"</item>
+        <item>Tente perguntar: \"Qual é a temperatura do sol?\"</item>
+        <item>Tente perguntar: \"Quando John Wayne nasceu?\"</item>
+        <item>Tente: \"Abrir o YouTube\"</item>
+        <item>Tente: \"Abrir o Play Movies\"</item>
+    </string-array>
+</resources>

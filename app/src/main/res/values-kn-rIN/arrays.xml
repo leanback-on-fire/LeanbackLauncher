@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>ಕುಟುಂಬ/ಮಕ್ಕಳು</item>
+        <item>ಕ್ರೀಡೆಗಳು</item>
+        <item>ಶಾಪಿಂಗ್</item>
+        <item>ಚಲನಚಿತ್ರಗಳು</item>
+        <item>ಹಾಸ್ಯ ಪ್ರಧಾನ</item>
+        <item>ಪ್ರಯಾಣ</item>
+        <item>ಡ್ರಾಮಾ</item>
+        <item>ಶಿಕ್ಷಣ</item>
+        <item>ಪ್ರಾಣಿ/ವನ್ಯಜೀವಿ</item>
+        <item>ಸುದ್ದಿ</item>
+        <item>ಗೇಮಿಂಗ್</item>
+        <item>ಕಲೆ</item>
+        <item>ಮನರಂಜನೆ</item>
+        <item>ಲೈಫ್‌ಸ್ಟೈಲ್‌‌</item>
+        <item>ಸಂಗೀತ</item>
+        <item>ಪ್ರೀಮಿಯರ್</item>
+        <item>ತಂತ್ರಜ್ಞಾನ/ವಿಜ್ಞಾನ</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Michael Fassbender\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Jennifer Lawrence\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Olivia Wilde\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"romantic comedies\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"sci-fi movies\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"superhero movies\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"action movies\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Star Trek\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Sherlock\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"American Idol\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Star Trek\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"Castle\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"pictures of Beyonce\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"pictures of London\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"pictures of Godzilla\" ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"Giants ಸ್ಕೋರ್‌ ಎಷ್ಟು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"Knicks ಸ್ಕೋರ್‌ ಎಷ್ಟು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"Red Wings ಸ್ಕೋರ್‌ ಎಷ್ಟು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"Seahawks ಸ್ಕೋರ್ ಎಷ್ಟು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ \"ನ್ಯೂಯಾರ್ಕ್‌ನಲ್ಲಿ ಹವಾಮಾನ ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಸ್ಯಾನ್ ಫ್ರಾನ್ಸಿಸ್ಕೋದಲ್ಲಿ ಹವಾಮಾನ ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಪ್ಯಾರಿಸ್‌ನಲ್ಲಿ ಹವಾಮಾನ ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಕಾಜುಮೆಲ್‌ನಲ್ಲಿ ಹವಾಮಾನ ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಬ್ರಾಡ್ ಪಿಟ್ ಎತ್ತರ ಎಷ್ಟು?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಬಿಸಿಲು ಹೇಗಿದೆ?\"</item>
+        <item>ಹೀಗೆ ಕೇಳಲು ಪ್ರಯತ್ನಿಸಿ, \"ಜಾನ್ ವೇಯ್ನ್ ಯಾವಾಗ ಜನಿಸಿದರು?\"</item>
+        <item>\"open YouTube\", ಪ್ರಯತ್ನಿಸಿ</item>
+        <item>\"open Play Movies\", ಪ್ರಯತ್ನಿಸಿ</item>
+    </string-array>
+</resources>

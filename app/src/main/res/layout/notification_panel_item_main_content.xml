@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/notification_container" android:background="?android:selectableItemBackground" android:paddingTop="@dimen/notification_panel_item_padding_top" android:paddingBottom="@dimen/notification_panel_item_padding_bottom" android:focusable="true" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="@dimen/notification_panel_item_padding_start" android:paddingEnd="@dimen/notification_panel_item_padding_end"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="center_vertical" android:id="@id/notification_icon" android:layout_width="@dimen/notification_panel_item_icon_size" android:layout_height="@dimen/notification_panel_item_icon_size" android:tint="@color/notification_icon_tint" android:layout_marginEnd="@dimen/notification_panel_item_icon_margin_end" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="@dimen/notification_panel_item_text_width" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/notification_panel_item_primary_text_size" android:textColor="@color/primary_text_color" android:ellipsize="end" android:id="@id/notification_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/notification_panel_item_text_margin_bottom" android:maxLines="1" android:fontFamily="sans-serif-condensed" />
+        <TextView android:textSize="@dimen/notification_panel_item_secondary_text_size" android:textColor="@color/secondary_text_color" android:ellipsize="end" android:id="@id/notification_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:fontFamily="sans-serif-condensed" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d na channel</item>
+        <item quantity="one">%d channel</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">May %d na system notification</item>
+        <item quantity="one">May %d system notification</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d na Tagahanga</item>
+        <item quantity="one">%1$,d Tagahanga</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d na Tagasubaybay</item>
+        <item quantity="one">%1$,d Tagasubaybay</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d na Like</item>
+        <item quantity="one">%1$,d Like</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d na Pakikinig</item>
+        <item quantity="one">%1$,d Pakikinig</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d na Thumbs up</item>
+        <item quantity="one">%1$,d Thumbs up</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d na Manonood</item>
+        <item quantity="one">%1$,d Manonood</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d na Panonood</item>
+        <item quantity="one">%1$,d Panonood</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d na Episode</item>
+        <item quantity="one">%1$,d Episode</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d na Season</item>
+        <item quantity="one">%1$,d Season</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d na Track</item>
+        <item quantity="one">%1$,d Track</item>
+    </plurals>
+</resources>

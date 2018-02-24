@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Familiar/infantil</item>
+        <item>Deportes</item>
+        <item>Compras</item>
+        <item>Películas</item>
+        <item>Comedia</item>
+        <item>Viajes</item>
+        <item>Drama</item>
+        <item>Educación</item>
+        <item>Animales/vida silvestre</item>
+        <item>Noticias</item>
+        <item>Videojuegos</item>
+        <item>Arte</item>
+        <item>Entretenimiento</item>
+        <item>Estilo de vida</item>
+        <item>Música</item>
+        <item>Estrenos</item>
+        <item>Ciencia/tecnología</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Busca \"Will Smith\"</item>
+        <item>Busca \"Michael Fassbender\"</item>
+        <item>Busca \"Jennifer Lawrence\"</item>
+        <item>Busca \"Olivia Wilde\"</item>
+        <item>Busca \"comedias románticas\"</item>
+        <item>Busca \"películas de ciencia ficción\"</item>
+        <item>Busca \"películas de superhéroes\"</item>
+        <item>Busca \"películas de acción\"</item>
+        <item>Busca \"Star Trek\"</item>
+        <item>Busca \"Sherlock\"</item>
+        <item>Busca \"American Idol\"</item>
+        <item>Busca \"Star Trek\"</item>
+        <item>Busca \"Castle\"</item>
+        <item>Busca \"imágenes de Beyoncé\"</item>
+        <item>Busca \"imágenes de Londres\"</item>
+        <item>Busca \"imágenes de Godzilla\"</item>
+        <item>Pregunta \"¿Cuál es el resultado del partido de los Giants?\"</item>
+        <item>Pregunta \"¿Cuál es el resultado del partido de los Knicks?\"</item>
+        <item>Pregunta \"¿Cuál es el resultado del partido de Red Wings?\"</item>
+        <item>Pregunta \"¿Cuál es el resultado del partido de Seahawks?\"</item>
+        <item>Pregunta \"¿Cómo está el tiempo en Nueva York?\"</item>
+        <item>Pregunta \"¿Cómo está el tiempo en San Francisco?\"</item>
+        <item>Pregunta \"¿Cómo está el tiempo en París?\"</item>
+        <item>Pregunta \"¿Cómo está el tiempo en Cozumel?\"</item>
+        <item>Pregunta \"¿Cuánto mide Brad Pitt?\"</item>
+        <item>Pregunta \"¿Qué temperatura tiene el sol?\"</item>
+        <item>Pregunta \"¿Cuándo nació John Wayne?\"</item>
+        <item>Prueba con \"abrir YouTube\"</item>
+        <item>Prueba con \"abrir Play Películas\"</item>
+    </string-array>
+</resources>

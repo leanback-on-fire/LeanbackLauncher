@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d ຊ່ອງ</item>
+        <item quantity="one">%d ຊ່ອງ</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">ມີການແຈ້ງເຕືອນລະບົບ %d ລາຍການ</item>
+        <item quantity="one">ມີການແຈ້ງເຕືອນລະບົບ %d ລາຍການ</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">ແຟນຄລັບ %1$,d ຄົນ</item>
+        <item quantity="one">ແຟນຄລັບ %1$,d ຄົນ</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">ຜູ້ຕິດຕາມ %1$,d ຄົນ</item>
+        <item quantity="one">ຜູ້ຕິດຕາມ %1$,d ຄົນ</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">ຖືກໃຈ %1$,d ຄົນ</item>
+        <item quantity="one">ຖືກໃຈ %1$,d ຄົນ</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">ຟັງ %1$,d ຄົນ</item>
+        <item quantity="one">ຟັງ %1$,d ຄົນ</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">ຍົກໂປ້ %1$,d ຄົນ</item>
+        <item quantity="one">ຍົກໂປ້ %1$,d ຄົນ</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">ຜູ້ຊົມ %1$,d ຄົນ</item>
+        <item quantity="one">ຜູ້ຊົມ %1$,d ຄົນ</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">ເບິ່ງ %1$,d ເທື່ອ</item>
+        <item quantity="one">ເບິ່ງ %1$,d ເທື່ອ</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d ເອັບພິໂສດ</item>
+        <item quantity="one">%1$,d ເອັບພິໂສດ</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d ຊີຊັນ</item>
+        <item quantity="one">%1$,d ຊີຊັນ</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d ເພງ</item>
+        <item quantity="one">%1$,d ເພງ</item>
+    </plurals>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Familie/børn</item>
+        <item>Sport</item>
+        <item>Shopping</item>
+        <item>Film</item>
+        <item>Komedie</item>
+        <item>Rejser</item>
+        <item>Drama</item>
+        <item>Undervisning</item>
+        <item>Dyr/naturens verden</item>
+        <item>Nyheder</item>
+        <item>Computerspil</item>
+        <item>Kunst</item>
+        <item>Underholdning</item>
+        <item>Livsstil</item>
+        <item>Musik</item>
+        <item>Premiere</item>
+        <item>Teknik/videnskab</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Prøv at søge efter \"Will Smith\"</item>
+        <item>Prøv at søge efter \"Michael Fassbender\"</item>
+        <item>Prøv at søge efter \"Jennifer Lawrence\"</item>
+        <item>Prøv at søge efter \"Olivia Wilde\"</item>
+        <item>Prøv at søge efter \"romantiske komedier\"</item>
+        <item>Prøv at søge efter \"sci-fi-film\"</item>
+        <item>Prøv at søge efter \"superheltefilm\"</item>
+        <item>Prøv at søge efter \"actionfilm\"</item>
+        <item>Prøv at søge efter \"Star Trek\"</item>
+        <item>Prøv at søge efter \"Sherlock\"</item>
+        <item>Prøv at søge efter \"X Factor\"</item>
+        <item>Prøv at søge efter \"Star Trek\"</item>
+        <item>Prøv at søge efter \"Castle\"</item>
+        <item>Prøv at søge efter \"billeder af Beyonce\"</item>
+        <item>Prøv at søge efter \"billeder af London\"</item>
+        <item>Prøv at søge efter \"billeder af Godzilla\"</item>
+        <item>Prøv at spørge: \"Hvad er stillingen i Brøndby-kampen?\"</item>
+        <item>Prøv at spørge: \"Hvad er stillingen i Bakken Bears-kampen?\"</item>
+        <item>Prøv at spørge: \"Hvad er stillingen i Herning Blue Fox-kampen?\"</item>
+        <item>Prøv at spørge: \"Hvad er stillingen i GOG-kampen?\"</item>
+        <item>Prøv at spørge: \"Hvordan er vejret i København?\"</item>
+        <item>Prøv at spørge: \"Hvordan er vejret i Århus?\"</item>
+        <item>Prøv at spørge: \"Hvordan er vejret i Paris?\"</item>
+        <item>Prøv at spørge: \"Hvordan er vejret på Mallorca?\"</item>
+        <item>Prøv at spørge: \"Hvor høj er Brad Pitt?\"</item>
+        <item>Prøv at spørge: \"Hvor varm er solen?\"</item>
+        <item>Prøv at spørge: \"Hvornår blev John Wayne født?\"</item>
+        <item>Prøv \"åbn YouTube\"</item>
+        <item>Prøv \"åbn Play Film\"</item>
+    </string-array>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/main_frame" android:background="@color/lb_preference_decor_list_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:transitionGroup="false"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/decor_title_container" android:background="?defaultBrandColor" android:layout_width="fill_parent" android:layout_height="wrap_content" android:transitionGroup="false" android:elevation="@dimen/lb_preference_decor_title_container_elevation">
+        <TextView android:textSize="@dimen/lb_preference_decor_title_text_size" android:textColor="?android:textColorPrimary" android:gravity="center_vertical" android:id="@id/decor_title" android:layout_width="fill_parent" android:layout_height="@dimen/lb_preference_decor_title_text_height" android:layout_marginTop="@dimen/lb_preference_decor_title_margin_top" android:singleLine="true" android:fontFamily="sans-serif-condensed" android:layout_marginStart="@dimen/lb_preference_decor_title_margin_start" android:layout_marginEnd="@dimen/lb_preference_decor_title_margin_end" />
+    </FrameLayout>
+</LinearLayout>

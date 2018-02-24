@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Családi/gyermekeknek szóló</item>
+        <item>Sport</item>
+        <item>Vásárlóknak szóló</item>
+        <item>Filmek</item>
+        <item>Vígjátékok</item>
+        <item>Utazás</item>
+        <item>Dráma</item>
+        <item>Oktatás</item>
+        <item>Állat-/vadvilág</item>
+        <item>Hírek</item>
+        <item>Játék</item>
+        <item>Művészet</item>
+        <item>Szórakoztató</item>
+        <item>Életstílus</item>
+        <item>Zenék</item>
+        <item>Bemutatók</item>
+        <item>Műszaki/tudományos</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s és %3$s</item>
+        <item>%1$s, %2$s, %3$s és %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s és %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Próbáljon a következőre keresni: „Will Smith”</item>
+        <item>Próbáljon a következőre keresni: „Michael Fassbender”</item>
+        <item>Próbáljon a következőre keresni: „Jennifer Lawrence”</item>
+        <item>Próbáljon a következőre keresni: „Olivia Wilde”</item>
+        <item>Próbáljon a következőre keresni: „romantikus vígjátékok”</item>
+        <item>Próbáljon a következőre keresni: „sci-fik”</item>
+        <item>Próbáljon a következőre keresni: „szuperhősös filmek”</item>
+        <item>Próbáljon a következőre keresni: „akciófilmek”</item>
+        <item>Próbáljon a következőre keresni: „Star Trek”</item>
+        <item>Próbáljon a következőre keresni: „Sherlock”</item>
+        <item>Próbáljon a következőre keresni: „American Idol”</item>
+        <item>Próbáljon a következőre keresni: „Star Trek”</item>
+        <item>Próbáljon a következőre keresni: „Castle”</item>
+        <item>Próbáljon a következőre keresni: „képek Beyoncéról”</item>
+        <item>Próbáljon a következőre keresni: „képek Londonról”</item>
+        <item>Próbáljon a következőre keresni: „képek Godzilláról”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Hogy áll a Giants-meccs?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Hogy áll a Knicks-meccs?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Hogy áll a Red Wings-meccs?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Hogy áll a Seahawks-meccs?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Milyen az időjárás New Yorkban?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Milyen az időjárás San Franciscóban?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Milyen az időjárás Párizsban?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Milyen az időjárás Cozumelben?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Milyen magas Brad Pitt?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Milyen meleg a nap?”</item>
+        <item>Próbálkozzon a következő kérdéssel: „Mikor született John Wayne?”</item>
+        <item>Próbálkozzon a következővel: „a YouTube megnyitása”</item>
+        <item>Próbálkozzon a következővel: „a Play Filmek megnyitása”</item>
+    </string-array>
+</resources>

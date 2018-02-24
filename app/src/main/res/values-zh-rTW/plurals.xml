@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d 個頻道</item>
+        <item quantity="one">%d 個頻道</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">有 %d 則系統通知</item>
+        <item quantity="one">有 %d 則系統通知</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d 位支持者</item>
+        <item quantity="one">%1$,d 位支持者</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d 位追蹤者</item>
+        <item quantity="one">%1$,d 位追蹤者</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d 人喜歡</item>
+        <item quantity="one">%1$,d 人喜歡</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d 次聆聽</item>
+        <item quantity="one">%1$,d 次聆聽</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d 人喜歡</item>
+        <item quantity="one">%1$,d 人喜歡</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d 位觀眾</item>
+        <item quantity="one">%1$,d 位觀眾</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d 次觀看</item>
+        <item quantity="one">%1$,d 次觀看</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d 集</item>
+        <item quantity="one">%1$,d 集</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d 季</item>
+        <item quantity="one">%1$,d 季</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d 首</item>
+        <item quantity="one">%1$,d 首</item>
+    </plurals>
+</resources>

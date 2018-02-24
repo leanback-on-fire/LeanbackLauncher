@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d kanale</item>
+        <item quantity="one">%d kanaal</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Daar is %d stelselkennisgewings</item>
+        <item quantity="one">Daar is %d stelselkennisgewing</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d aanhangers</item>
+        <item quantity="one">%1$,d aanhanger</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d volgers</item>
+        <item quantity="one">%1$,d volger</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d laaiks</item>
+        <item quantity="one">%1$,d laaik</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d luisters</item>
+        <item quantity="one">%1$,d luister</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d laaik baie</item>
+        <item quantity="one">%1$,d laaik baie</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d kykers</item>
+        <item quantity="one">%1$,d kyker</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d kyke</item>
+        <item quantity="one">%1$,d kyk</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d episodes</item>
+        <item quantity="one">%1$,d episode</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d seisoene</item>
+        <item quantity="one">%1$,d seisoen</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d snitte</item>
+        <item quantity="one">%1$,d snit</item>
+    </plurals>
+</resources>

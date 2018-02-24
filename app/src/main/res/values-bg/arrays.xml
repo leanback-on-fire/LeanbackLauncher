@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Семейство/деца</item>
+        <item>Спорт</item>
+        <item>Пазаруване</item>
+        <item>Филми</item>
+        <item>Комедия</item>
+        <item>Пътувания</item>
+        <item>Драма</item>
+        <item>Образование</item>
+        <item>Животни/дива природа</item>
+        <item>Новини</item>
+        <item>Игри</item>
+        <item>Изкуства</item>
+        <item>Развлечения</item>
+        <item>Начин на живот</item>
+        <item>Музика</item>
+        <item>Платени</item>
+        <item>Наука и технологии</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>„%1$s“</item>
+        <item>„%1$s“, „%2$s“</item>
+        <item>„%1$s“, „%2$s“, „%3$s“</item>
+        <item>„%1$s“, „%2$s“, „%3$s“, „%4$s“</item>
+        <item>„%1$s“, „%2$s“, „%3$s“, „%4$s“, „%5$s“</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Опитайте да потърсите „Will Smith“ (Уил Смит)</item>
+        <item>Опитайте да потърсите „Michael Fassbender“ (Майкъл Фасбендър)</item>
+        <item>Опитайте да потърсите „Jennifer Lawrence“ (Дженифър Лорънс)</item>
+        <item>Опитайте да потърсите „Olivia Wilde“ (Оливия Уайлд)</item>
+        <item>Опитайте да потърсите „romantic comedies“ (романтични комедии)</item>
+        <item>Опитайте да потърсите „sci-fi movies“ (научнофантастични филми)</item>
+        <item>Опитайте да потърсите „superhero movies“ (филми за супергерои)</item>
+        <item>Опитайте да потърсите „action movies“ (екшън филми)</item>
+        <item>Опитайте да потърсите „Star Trek“ (Стар трек)</item>
+        <item>Опитайте да потърсите „Sherlock“ (Шерлок)</item>
+        <item>Опитайте да потърсите „American Idol“ (Америкън айдъл)</item>
+        <item>Опитайте да потърсите „Star Trek“ (Стар трек)</item>
+        <item>Опитайте да потърсите „Castle“ (Касъл)</item>
+        <item>Опитайте да потърсите „pictures of Beyonce“ (снимки на Бионсе)</item>
+        <item>Опитайте да потърсите „pictures of London“ (снимки на Лондон)</item>
+        <item>Опитайте да потърсите „pictures of Godzilla“ (снимки на Годзила)</item>
+        <item>"Опитайте да попитате „what's the Giants score?“ (Какъв е резултатът на Джайънтс?)"</item>
+        <item>"Опитайте да попитате „what's the Knicks score?“ (Какъв е резултатът на Никс?)"</item>
+        <item>"Опитайте да попитате „what's the Red Wings score?“ (Какъв е резултатът на Ред Уингс?)"</item>
+        <item>"Опитайте да попитате „what's the Seahawks score?“ (Какъв е резултатът на Сийхоукс?)"</item>
+        <item>"Опитайте да попитате „what's the weather in New York?“ (Какво е времето в Ню Йорк?)"</item>
+        <item>"Опитайте да попитате „what's the weather in San Francisco?“ (Какво е времето в Сан Франциско?)"</item>
+        <item>"Опитайте да попитате „what's the weather in Paris?“ (Какво е времето в Париж?)"</item>
+        <item>"Опитайте да попитате „what's the weather in Cozumel?“ (Какво е времето в Косумел?)"</item>
+        <item>Опитайте да попитате „How tall is Brad Pitt?“ (Колко е висок Брад Пит?)</item>
+        <item>Опитайте да попитате „How hot is the sun?“ (Колко горещо е слънцето?)</item>
+        <item>Опитайте да попитате „When was John Wayne born?“ (Кога е роден Джон Уейн?)</item>
+        <item>Опитайте „open YouTube“ (отваряне на YouTube)</item>
+        <item>Опитайте „open Play Movies“ (отваряне на Play Филми)</item>
+    </string-array>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Pampamilya/Pambata</item>
+        <item>Sports</item>
+        <item>Pamimili</item>
+        <item>Mga Pelikula</item>
+        <item>Komedya</item>
+        <item>Paglalakbay</item>
+        <item>Drama</item>
+        <item>Edukasyon</item>
+        <item>Hayop/Wildlife</item>
+        <item>Balita</item>
+        <item>Gaming</item>
+        <item>Sining</item>
+        <item>Libangan</item>
+        <item>Paraan ng Pamumuhay</item>
+        <item>Musika</item>
+        <item>Premier</item>
+        <item>Teknolohiya/Agham</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Subukang hanapin si \"Will Smith\"</item>
+        <item>Subukang hanapin si \"Michael Fassbender\"</item>
+        <item>Subukang hanapin si \"Jennifer Lawrence\"</item>
+        <item>Subukang hanapin si \"Olivia Wilde\"</item>
+        <item>Subukang maghanap ng \"mga romantic comedy\"</item>
+        <item>Subukang maghanap ng \"mga sci-fi na pelikula\"</item>
+        <item>Subukang maghanap ng \"mga superhero movie\"</item>
+        <item>Subukang maghanap ng \"mga maaksyong pelikula\"</item>
+        <item>Subukang hanapin ang \"Star Trek\"</item>
+        <item>Subukang hanapin ang \"Sherlock\"</item>
+        <item>Subukang hanapin ang \"American Idol\"</item>
+        <item>Subukang hanapin ang \"Star Trek\"</item>
+        <item>Subukang hanapin ang \"Castle\"</item>
+        <item>Subukang maghanap ng \"mga larawan ni Beyonce\"</item>
+        <item>Subukang maghanap ng \"mga larawan ng London\"</item>
+        <item>Subukang maghanap ng \"mga larawan ni Godzilla\"</item>
+        <item>Subukang itanong, \"ano ang score ng Giants?\"</item>
+        <item>Subukang itanong, \"ano ang score ng Knicks?\"</item>
+        <item>Subukang itanong, \"ano ang score ng Red Wings?\"</item>
+        <item>Subukang itanong, \"ano ang score ng Seahawks?\"</item>
+        <item>Subukang itanong, \"ano ang lagay ng panahon sa New York?\"</item>
+        <item>Subukang itanong, \"ano ang lagay ng panahon sa San Francisco?\"</item>
+        <item>Subukang itanong, \"ano ang lagay ng panahon sa Paris?\"</item>
+        <item>Subukang itanong, \"ano ang lagay ng panahon sa Cozumel?\"</item>
+        <item>Subukang itanong, \"Gaano katangkad si Brad Pitt?\"</item>
+        <item>Subukang itanong, \"Gaano kainit ang araw?\"</item>
+        <item>Subukang itanong, \"Kailan ipinanganak si John Wayne?\"</item>
+        <item>Subukan ang, \"buksan ang YouTube\"</item>
+        <item>Subukan ang, \"buksan ang Play Movies\"</item>
+    </string-array>
+</resources>

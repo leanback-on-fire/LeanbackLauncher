@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d قناة</item>
+        <item quantity="zero">%d قناة</item>
+        <item quantity="one">قناة واحدة (%d)</item>
+        <item quantity="two">قناتان (%d)</item>
+        <item quantity="few">%d قنوات</item>
+        <item quantity="many">%d قناة</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">هناك %d إشعار نظام</item>
+        <item quantity="zero">هناك %d إشعار نظام</item>
+        <item quantity="one">هناك %d إشعار نظام</item>
+        <item quantity="two">هناك إشعارا نظام (%d)</item>
+        <item quantity="few">هناك %d إشعارات نظام</item>
+        <item quantity="many">هناك %d إشعار نظام</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d مُعجَب</item>
+        <item quantity="zero">%1$,d مُعجَب</item>
+        <item quantity="one">مُعجَب واحد (%1$,d)</item>
+        <item quantity="two">مُعجَبان (%1$,d)</item>
+        <item quantity="few">%1$,d مُعجَبين</item>
+        <item quantity="many">%1$,d مُعجَبًا</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d متابع</item>
+        <item quantity="zero">%1$,d متابع</item>
+        <item quantity="one">متابع واحد (%1$,d)</item>
+        <item quantity="two">متابعان (%1$,d)</item>
+        <item quantity="few">%1$,d متابعين</item>
+        <item quantity="many">%1$,d متابعًا</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d إبداء إعجاب</item>
+        <item quantity="zero">%1$,d إبداء إعجاب</item>
+        <item quantity="one">إبداء إعجاب واحد (%1$,d)</item>
+        <item quantity="two">إبداءان (%1$,d) للإعجاب</item>
+        <item quantity="few">%1$,d إبداءات للإعجاب</item>
+        <item quantity="many">%1$,d إبداء إعجاب</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">تم الاستماع %1$,d مرة</item>
+        <item quantity="zero">تم الاستماع %1$,d مرة</item>
+        <item quantity="one">تم الاستماع مرة واحدة (%1$,d)</item>
+        <item quantity="two">تم الاستماع مرتين (%1$,d)</item>
+        <item quantity="few">تم الاستماع %1$,d مرات</item>
+        <item quantity="many">تم الاستماع %1$,d مرة</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">تم التصنيف كرائع %1$,d مرة</item>
+        <item quantity="zero">تم التصنيف كرائع %1$,d مرة</item>
+        <item quantity="one">تم التصنيف كرائع مرة واحدة (%1$,d)</item>
+        <item quantity="two">تم التصنيف كرائع مرتين (%1$,d)</item>
+        <item quantity="few">تم التصنيف كرائع %1$,d مرات</item>
+        <item quantity="many">تم التصنيف كرائع %1$,d مرة</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d مُشاهِد</item>
+        <item quantity="zero">%1$,d مُشاهِد</item>
+        <item quantity="one">مُشاهِد واحد (%1$,d)</item>
+        <item quantity="two">مُشاهدان (%1$,d)</item>
+        <item quantity="few">%1$,d مُشاهِدين</item>
+        <item quantity="many">%1$,d مُشاهِدًا</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d مُشاهَدة</item>
+        <item quantity="zero">%1$,d مُشاهَدة</item>
+        <item quantity="one">مُشاهَدة واحدة (%1$,d)</item>
+        <item quantity="two">مُشاهَدتان (%1$,d)</item>
+        <item quantity="few">%1$,d مُشاهَدات</item>
+        <item quantity="many">%1$,d مُشاهَدة</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d حلقة</item>
+        <item quantity="zero">%1$,d حلقة</item>
+        <item quantity="one">حلقة واحدة (%1$,d)</item>
+        <item quantity="two">حلقتان (%1$,d)</item>
+        <item quantity="few">%1$,d حلقات</item>
+        <item quantity="many">%1$,d حلقة</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d موسم</item>
+        <item quantity="zero">%1$,d موسم</item>
+        <item quantity="one">موسم واحد (%1$,d)</item>
+        <item quantity="two">موسمان (%1$,d)</item>
+        <item quantity="few">%1$,d مواسم</item>
+        <item quantity="many">%1$,d موسمًا</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d مقطع صوتي</item>
+        <item quantity="zero">%1$,d مقطع صوتي</item>
+        <item quantity="one">مقطع صوتي واحد (%1$,d)</item>
+        <item quantity="two">مقطعان صوتيان (%1$,d)</item>
+        <item quantity="few">%1$,d مقاطع صوتية</item>
+        <item quantity="many">%1$,d مقطعًا صوتيًا</item>
+    </plurals>
+</resources>

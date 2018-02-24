@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Umndeni/izingane</item>
+        <item>Ezemidlalo</item>
+        <item>Ukuthenga</item>
+        <item>Ama-movie</item>
+        <item>Amahlaya</item>
+        <item>Ukuvakasha</item>
+        <item>IDrama</item>
+        <item>Imfundo</item>
+        <item>Izilwane/impilo yasendle</item>
+        <item>Izindaba</item>
+        <item>Amageyimu</item>
+        <item>Ezobuciko</item>
+        <item>Okokuzijabulisa</item>
+        <item>Indlela yokuphila</item>
+        <item>Umculo</item>
+        <item>I-Premier</item>
+        <item>Ubuchwepheshe/isayensi</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Zama ukuseshela u-\"Will Smith\"</item>
+        <item>Zama ukuseshela u-\"Michael Fassbender\"</item>
+        <item>Zama ukuseshela u-\"Jennifer Lawrence\"</item>
+        <item>Zama ukuseshela u-\"Olivia Wilde\"</item>
+        <item>Zama ukuseshela \"amahlaya wezothando\"</item>
+        <item>Zama ukuseshela \"ama-movie we-sci-fi\"</item>
+        <item>Zama ukuseshela \"ama-movie wamaqhawe\"</item>
+        <item>Zama ukuseshela \"ama-movie wokulwa\"</item>
+        <item>Zama ukuseshela i-\"Star Trek\"</item>
+        <item>Zama ukuseshela u-\"Sherlock\"</item>
+        <item>Zama ukuseshela i-\"American Idol\"</item>
+        <item>Zama ukuseshela i-\"Star Trek\"</item>
+        <item>Zama ukuseshela i-\"Castle\"</item>
+        <item>Zama ukuseshela \"izithombe zika-Beyonce\"</item>
+        <item>Zama ukuseshela \"izithombe zase-London\"</item>
+        <item>Zama ukuseshela \"izithombe ze-Godzilla\"</item>
+        <item>Zama ukubuza, \"yini isikolo se-Giants?\"</item>
+        <item>Zama ukubuza, \"yini isikolo se-Knicks?\"</item>
+        <item>Zama ukubuza, \"yini isikolo se-Red Wings?\"</item>
+        <item>Zama ukubuza, \"yini isikolo se-Seahawks?\"</item>
+        <item>Zama ukubuza, \"sithini isimo sezulu e-New York?\"</item>
+        <item>Zama ukubuza, \"sithini isimo sezulu e-San Francisco?\"</item>
+        <item>Zama ukubuza, \"sithini isimo sezulu e-Paris?\"</item>
+        <item>Zama ukubuza, \"sithini isimo sezulu e-Cozumel?\"</item>
+        <item>Zama ukubuza, \"mude kangakanani u-Brad Pitt?\"</item>
+        <item>Zama ukubuza, \"lishisa kangakanani ilanga?\"</item>
+        <item>Zama ukubuza, \"wazalwa nini u-John Wayne?\"</item>
+        <item>Zama, i-\"vula i-YouTube\"</item>
+        <item>Zama, i-\"vula Amamovie we-Google Play\"</item>
+    </string-array>
+</resources>

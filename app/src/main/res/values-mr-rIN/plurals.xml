@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d चॅनेल</item>
+        <item quantity="one">%d चॅनेल</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d सिटीम सूचना आहेत</item>
+        <item quantity="one">%d सिटीम सूचना आहे</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d चाहते</item>
+        <item quantity="one">%1$,d चाहता</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d अनुयायी</item>
+        <item quantity="one">%1$,d अनुयायी</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d आवडी</item>
+        <item quantity="one">%1$,d आवडी</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d ऐकले</item>
+        <item quantity="one">%1$,d ऐकले</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d थंब्स अप</item>
+        <item quantity="one">%1$,d थंब्स अप</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d दर्शक</item>
+        <item quantity="one">%1$,d दर्शक</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d वेळा पाहिले</item>
+        <item quantity="one">%1$,d वेळा पाहिले</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d भाग</item>
+        <item quantity="one">%1$,d भाग</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d सीझन</item>
+        <item quantity="one">%1$,d सीझन</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d ट्रॅक</item>
+        <item quantity="one">%1$,d ट्रॅक</item>
+    </plurals>
+</resources>

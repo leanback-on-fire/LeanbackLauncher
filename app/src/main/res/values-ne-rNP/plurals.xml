@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d च्यानलहरू</item>
+        <item quantity="one">%d च्यानल</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">प्रणाली सम्बन्धी %d सूचनाहरू देखाइएका छन्</item>
+        <item quantity="one">प्रणाली सम्बन्धी %d सूचना देखाइएको छ</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d प्रशंसकहरू</item>
+        <item quantity="one">%1$,d प्रशंसक</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d हालखबरबारे जानकारी राख्ने व्यक्तिहरू</item>
+        <item quantity="one">%1$,d हालखबरबारे जानकारी राख्ने व्यक्ति</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d जनाले मनपराउनु भयो</item>
+        <item quantity="one">%1$,d जनाले मनपराउनु भयो</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d जनाले सुन्नुभयो</item>
+        <item quantity="one">%1$,d जनाले सुन्नुभयो</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d जनालाई मनपर्यो</item>
+        <item quantity="one">%1$,d जनालाई मनपर्यो</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d दर्शकहरू</item>
+        <item quantity="one">%1$,d दर्शक</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d हेराइहरू</item>
+        <item quantity="one">%1$,d हेराइ</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d एपिसोडहरू</item>
+        <item quantity="one">%1$,d एपिसोड</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d सिजनहरू</item>
+        <item quantity="one">%1$,d सिजन</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d ट्र्याकहरू</item>
+        <item quantity="one">%1$,d ट्र्याक</item>
+    </plurals>
+</resources>

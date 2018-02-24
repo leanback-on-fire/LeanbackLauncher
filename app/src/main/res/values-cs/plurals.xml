@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d kanálů</item>
+        <item quantity="one">%d kanál</item>
+        <item quantity="few">%d kanály</item>
+        <item quantity="many">%d kanálu</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">K dispozici je %d systémových oznámení</item>
+        <item quantity="one">K dispozici je %d systémové oznámení</item>
+        <item quantity="few">K dispozici jsou %d systémová oznámení</item>
+        <item quantity="many">K dispozici je %d systémového oznámení</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d fanoušků</item>
+        <item quantity="one">%1$,d fanoušek</item>
+        <item quantity="few">%1$,d fanoušci</item>
+        <item quantity="many">%1$,d fanouška</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d sledujících</item>
+        <item quantity="one">%1$,d sledující</item>
+        <item quantity="few">%1$,d sledující</item>
+        <item quantity="many">%1$,d sledujícího</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d kladných hodnocení</item>
+        <item quantity="one">%1$,d kladné hodnocení</item>
+        <item quantity="few">%1$,d kladná hodnocení</item>
+        <item quantity="many">%1$,d kladného hodnocení</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d poslechů</item>
+        <item quantity="one">%1$,d poslech</item>
+        <item quantity="few">%1$,d poslechy</item>
+        <item quantity="many">%1$,d poslechu</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d palců nahoru</item>
+        <item quantity="one">%1$,d palec nahoru</item>
+        <item quantity="few">%1$,d palce nahoru</item>
+        <item quantity="many">%1$,d palce nahoru</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d diváků</item>
+        <item quantity="one">%1$,d divák</item>
+        <item quantity="few">%1$,d diváci</item>
+        <item quantity="many">%1$,d diváka</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d zhlédnutí</item>
+        <item quantity="one">%1$,d zhlédnutí</item>
+        <item quantity="few">%1$,d zhlédnutí</item>
+        <item quantity="many">%1$,d zhlédnutí</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d epizod</item>
+        <item quantity="one">%1$,d epizoda</item>
+        <item quantity="few">%1$,d epizody</item>
+        <item quantity="many">%1$,d epizody</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d sérií</item>
+        <item quantity="one">%1$,d série</item>
+        <item quantity="few">%1$,d série</item>
+        <item quantity="many">%1$,d série</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d skladeb</item>
+        <item quantity="one">%1$,d skladba</item>
+        <item quantity="few">%1$,d skladby</item>
+        <item quantity="many">%1$,d skladby</item>
+    </plurals>
+</resources>

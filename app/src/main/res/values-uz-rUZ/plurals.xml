@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d ta kanal</item>
+        <item quantity="one">%d ta kanal</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d ta tizim bildirishnomasi bor</item>
+        <item quantity="one">%d ta tizim bildirishnomasi bor</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d ta muxlis</item>
+        <item quantity="one">%1$,d ta muxlis</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d ta obunachi</item>
+        <item quantity="one">%1$,d ta obunachi</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d ta layk</item>
+        <item quantity="one">%1$,d ta layk</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d marta tinglangan</item>
+        <item quantity="one">%1$,d marta tinglangan</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d ta ijobiy baho</item>
+        <item quantity="one">%1$,d ta ijobiy baho</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d ta tomoshabin</item>
+        <item quantity="one">%1$,d ta tomoshabin</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d marta</item>
+        <item quantity="one">%1$,d marta</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d ta qism</item>
+        <item quantity="one">%1$,d ta qism</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d ta fasl</item>
+        <item quantity="one">%1$,d ta fasl</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d ta trek</item>
+        <item quantity="one">%1$,d ta trek</item>
+    </plurals>
+</resources>

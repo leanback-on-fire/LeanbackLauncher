@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/container" android:background="?android:selectableItemBackground" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="@dimen/lb_preference_item_padding_start" android:paddingEnd="@dimen/lb_preference_item_padding_end"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/lb_preference_item_text_space_top" android:layout_marginBottom="@dimen/lb_preference_item_text_space_bottom" android:layout_weight="1.0">
+        <ImageView android:layout_gravity="center" android:id="@android:id/icon" android:layout_width="@dimen/favorite_preference_icon_width" android:layout_height="@dimen/favorite_preference_icon_height" android:layout_marginEnd="@dimen/favorite_preference_icon_margin_end" />
+        <TextView android:textSize="@dimen/lb_preference_item_primary_text_size" android:textColor="@color/lb_preference_item_primary_text_color" android:ellipsize="end" android:layout_gravity="center" android:id="@android:id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/lb_preference_item_primary_text_margin_bottom" android:maxLines="1" android:fontFamily="sans-serif-condensed" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d канала</item>
+        <item quantity="one">%d канал</item>
+        <item quantity="few">%d каналы</item>
+        <item quantity="many">%d каналаў</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Ёсць %d сістэмнага апавяшчэння</item>
+        <item quantity="one">Ёсць %d сістэмнае апавяшчэнне</item>
+        <item quantity="few">Ёсць %d сістэмныя апавяшчэнні</item>
+        <item quantity="many">Ёсць %d сістэмных апавяшчэнняў</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d аматара</item>
+        <item quantity="one">%1$,d аматар</item>
+        <item quantity="few">%1$,d аматары</item>
+        <item quantity="many">%1$,d аматараў</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d падпісчыка</item>
+        <item quantity="one">%1$,d падпісчык</item>
+        <item quantity="few">%1$,d падпісчыкі</item>
+        <item quantity="many">%1$,d падпісчыкаў</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d адзнакі \"падабаецца\"</item>
+        <item quantity="one">%1$,d адзнака \"падабаецца\"</item>
+        <item quantity="few">%1$,d адзнакі \"падабаецца\"</item>
+        <item quantity="many">%1$,d адзнак \"падабаецца\"</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d праслухоўвання</item>
+        <item quantity="one">%1$,d праслухоўванне</item>
+        <item quantity="few">%1$,d праслухоўванні</item>
+        <item quantity="many">%1$,d праслухоўванняў</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d адзнакі \"вялікі палец уверх\"</item>
+        <item quantity="one">%1$,d адзнака \"вялікі палец уверх\"</item>
+        <item quantity="few">%1$,d адзнакі \"вялікі палец уверх\"</item>
+        <item quantity="many">%1$,d адзнак \"вялікі палец уверх\"</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d гледача</item>
+        <item quantity="one">%1$,d глядач</item>
+        <item quantity="few">%1$,d гледачы</item>
+        <item quantity="many">%1$,d гледачоў</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d прагляду</item>
+        <item quantity="one">%1$,d прагляд</item>
+        <item quantity="few">%1$,d прагляды</item>
+        <item quantity="many">%1$,d праглядаў</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d серыі</item>
+        <item quantity="one">%1$,d серыя</item>
+        <item quantity="few">%1$,d серыі</item>
+        <item quantity="many">%1$,d серый</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d сезона</item>
+        <item quantity="one">%1$,d сезон</item>
+        <item quantity="few">%1$,d сезоны</item>
+        <item quantity="many">%1$,d сезонаў</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d трэка</item>
+        <item quantity="one">%1$,d трэк</item>
+        <item quantity="few">%1$,d трэкі</item>
+        <item quantity="many">%1$,d трэкаў</item>
+    </plurals>
+</resources>

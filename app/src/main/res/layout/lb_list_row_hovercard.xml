@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/hovercard_panel" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" style="?attr/rowHoverCardTitleStyle" />
+    <TextView android:id="@id/description" android:layout_width="wrap_content" android:layout_height="wrap_content" style="?attr/rowHoverCardDescriptionStyle" />
+</LinearLayout>

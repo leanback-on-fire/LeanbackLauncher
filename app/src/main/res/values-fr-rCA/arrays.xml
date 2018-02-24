@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Famille/Enfants</item>
+        <item>Sports</item>
+        <item>Produits</item>
+        <item>Films</item>
+        <item>Humour</item>
+        <item>Voyages</item>
+        <item>Drame</item>
+        <item>Éducation</item>
+        <item>Animaux/Faune sauvage</item>
+        <item>Actualités</item>
+        <item>Jeux</item>
+        <item>Arts</item>
+        <item>Divertissements</item>
+        <item>Style de vie</item>
+        <item>Musique</item>
+        <item>Contenu exclusif</item>
+        <item>Technologies et sciences</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Essayez de rechercher « Will Smith »</item>
+        <item>Essayez de rechercher « Michael Fassbender »</item>
+        <item>Essayez de rechercher « Jennifer Lawrence »</item>
+        <item>Essayez de rechercher « Olivia Wilde »</item>
+        <item>Essayez de rechercher « comédies romantiques »</item>
+        <item>Essayez de rechercher « films de science-fiction »</item>
+        <item>Essayez de rechercher « films de super-héros »</item>
+        <item>"Essayez de rechercher « films d'action »"</item>
+        <item>Essayez de rechercher « Star Trek »</item>
+        <item>Essayez de rechercher « Sherlock »</item>
+        <item>Essayez de rechercher « American Idol »</item>
+        <item>Essayez de rechercher « Star Trek »</item>
+        <item>Essayez de rechercher « Castle »</item>
+        <item>Essayez de rechercher « photos de Beyoncé »</item>
+        <item>Essayez de rechercher « photos de Londres »</item>
+        <item>Essayez de rechercher « images de Godzilla »</item>
+        <item>Essayez de demander « Quel est le pointage des Canadiens? »</item>
+        <item>Essayez de demander « Quel est le pointage des Alouettes? »</item>
+        <item>Essayez de demander « Quel est le pointage des Red Wings? »</item>
+        <item>Essayez de demander « Quel est le pointage des Seahawks? »</item>
+        <item>Essayez de demander « Quelle est la météo à New York? »</item>
+        <item>Essayez de demander « Quelle est la météo à San Francisco? »</item>
+        <item>Essayez de demander « Quelle est la météo à Paris? »</item>
+        <item>Essayez de demander « Quelle est la météo à Cozumel? »</item>
+        <item>Essayez de demander « Combien mesure Brad Pitt? »</item>
+        <item>Essayez de demander « Quelle est la chaleur du soleil? »</item>
+        <item>Essayez de demander « Quand John Wayne est-il né? »</item>
+        <item>Essayez « Ouvre YouTube »</item>
+        <item>Essayez « Ouvre Google Play Films »</item>
+    </string-array>
+</resources>

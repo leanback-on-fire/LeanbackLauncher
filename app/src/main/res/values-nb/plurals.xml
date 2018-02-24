@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d kanaler</item>
+        <item quantity="one">%d kanal</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Du har %d systemvarsler</item>
+        <item quantity="one">Du har %d systemvarsel</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d fans</item>
+        <item quantity="one">%1$,d fan</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d følgere</item>
+        <item quantity="one">%1$,d følger</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d liker</item>
+        <item quantity="one">%1$,d liker</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d lyttinger</item>
+        <item quantity="one">%1$,d lytting</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d tomler opp</item>
+        <item quantity="one">%1$,d tommel opp</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d seere</item>
+        <item quantity="one">%1$,d seer</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d avspillinger</item>
+        <item quantity="one">%1$,d avspilling</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d episoder</item>
+        <item quantity="one">%1$,d episode</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d sesonger</item>
+        <item quantity="one">%1$,d sesong</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d spor</item>
+        <item quantity="one">%1$,d spor</item>
+    </plurals>
+</resources>

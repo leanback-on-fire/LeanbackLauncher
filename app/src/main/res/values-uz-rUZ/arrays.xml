@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Oila va bolalar</item>
+        <item>Sport</item>
+        <item>Savdo-sotiq</item>
+        <item>Filmlar</item>
+        <item>Komediya</item>
+        <item>Sayohat</item>
+        <item>Dramalar</item>
+        <item>Ta’lim</item>
+        <item>Tabiat va jonivorlar</item>
+        <item>Yangiliklar</item>
+        <item>O‘yinlar</item>
+        <item>San’at</item>
+        <item>Hordiq</item>
+        <item>Turmush tarzi</item>
+        <item>Musiqa</item>
+        <item>Premyera</item>
+        <item>Fan va texnika</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>“Alisher Uzoqov” deb qidiring</item>
+        <item>“Umid Iskandarov” deb qidiring</item>
+        <item>“Shahzoda Matchonova” deb qidiring</item>
+        <item>“Gulchehra Eshonqulova” deb qidiring</item>
+        <item>“Romantik komediyalar” deb qidiring</item>
+        <item>“Ilmiy fantastika” deb qidiring</item>
+        <item>“Superqahramonlar haqida filmlar” deb qidiring</item>
+        <item>“Jangovar filmlar” deb qidiring</item>
+        <item>“Star Trek” deb qidiring</item>
+        <item>“Sherlok” deb qidiring</item>
+        <item>“Comedy.uz” deb qidiring</item>
+        <item>“Star Trek” deb qidiring</item>
+        <item>“Opa-singillar” deb qidiring</item>
+        <item>“Dilnoza Kubayeva rasmlari” deb qidiring</item>
+        <item>“Toshkent rasmlari” deb qidiring</item>
+        <item>“Godzilla rasmlari” deb qidiring</item>
+        <item>“Paxtakor qanday hisobda o‘ynadi” deb so‘rang</item>
+        <item>“Lokomotiv qanday hisobda o‘ynadi” deb so‘rang</item>
+        <item>“Bunyodkor qanday hisobda o‘ynadi” deb so‘rang</item>
+        <item>“Dinamo qanday hisobda o‘ynadi” deb so‘rang</item>
+        <item>“Toshkentda ob-havo qanday?” deb so‘rang</item>
+        <item>“Samarqandda ob-havo qanday?” deb so‘rang</item>
+        <item>“Parijda ob-havo qanday?” deb so‘rang</item>
+        <item>“Andijonda ob-havo qanday?” deb so‘rang</item>
+        <item>“Farrux Soipovning bo‘yi qancha?” deb so‘rang</item>
+        <item>“Quyoshda harorat qancha?” deb so‘rang</item>
+        <item>“Alisher Uzoqov qachon tug‘ilgan?” deb so‘rang</item>
+        <item>“YouTube’ni och” deb ko‘ring</item>
+        <item>“Google Play Filmlarni och” deb ko‘ring</item>
+    </string-array>
+</resources>

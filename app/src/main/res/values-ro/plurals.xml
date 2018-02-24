@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d de canale</item>
+        <item quantity="one">%d canal</item>
+        <item quantity="few">%d canale</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">Există %d de notificări de sistem</item>
+        <item quantity="one">Există %d notificare de sistem</item>
+        <item quantity="few">Există %d notificări de sistem</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d de fani</item>
+        <item quantity="one">%1$,d fan</item>
+        <item quantity="few">%1$,d fani</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d de persoane interesate</item>
+        <item quantity="one">%1$,d persoană interesată</item>
+        <item quantity="few">%1$,d persoane interesate</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d de aprecieri</item>
+        <item quantity="one">%1$,d apreciere</item>
+        <item quantity="few">%1$,d aprecieri</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d de ascultări</item>
+        <item quantity="one">%1$,d ascultare</item>
+        <item quantity="few">%1$,d ascultări</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d de aprobări</item>
+        <item quantity="one">%1$,d aprobare</item>
+        <item quantity="few">%1$,d aprobări</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d de spectatori</item>
+        <item quantity="one">%1$,d spectator</item>
+        <item quantity="few">%1$,d spectatori</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d de vizualizări</item>
+        <item quantity="one">%1$,d vizualizare</item>
+        <item quantity="few">%1$,d vizualizări</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d de episoade</item>
+        <item quantity="one">%1$,d episod</item>
+        <item quantity="few">%1$,d episoade</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d de sezoane</item>
+        <item quantity="one">%1$,d sezon</item>
+        <item quantity="few">%1$,d sezoane</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d de melodii</item>
+        <item quantity="one">%1$,d melodie</item>
+        <item quantity="few">%1$,d melodii</item>
+    </plurals>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>Ģimenei/bērniem</item>
+        <item>Sports</item>
+        <item>Iepirkšanās</item>
+        <item>Filmas</item>
+        <item>Komēdijas</item>
+        <item>Ceļojumi</item>
+        <item>Drāmas</item>
+        <item>Izglītība</item>
+        <item>Dzīvnieki/daba</item>
+        <item>Ziņas</item>
+        <item>Spēles</item>
+        <item>Māksla</item>
+        <item>Izklaide</item>
+        <item>Dzīvesveids</item>
+        <item>Mūzika</item>
+        <item>Pirmizrādes</item>
+        <item>Tehnoloģijas/zinātne</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>Meklējiet vaicājumu “Vils Smits”</item>
+        <item>Meklējiet vaicājumu “Maikls Fasbenders”</item>
+        <item>Meklējiet vaicājumu “Dženifera Lorensa”</item>
+        <item>Meklējiet vaicājumu “Olīvija Vailda”</item>
+        <item>Meklējiet vaicājumu “romantiskas komēdijas”</item>
+        <item>Meklējiet vaicājumu “zinātniskās fantastikas filmas”</item>
+        <item>Meklējiet vaicājumu “supervaroņu filmas”</item>
+        <item>Meklējiet vaicājumu “asa sižeta filmas”</item>
+        <item>Meklējiet vaicājumu “Star Trek”</item>
+        <item>Meklējiet vaicājumu “Šerloks”</item>
+        <item>Meklējiet vaicājumu “Latvijas zelta talanti”</item>
+        <item>Meklējiet vaicājumu “Star Trek”</item>
+        <item>Meklējiet vaicājumu “Pils”</item>
+        <item>Meklējiet vaicājumu “Beyonce attēli”</item>
+        <item>Meklējiet vaicājumu “Londonas attēli”</item>
+        <item>Meklējiet vaicājumu “Godzillas attēli”</item>
+        <item>"Vaicājiet “What's the Giants score?” (“Kāds ir Giants rezultāts?”)"</item>
+        <item>"Vaicājiet “What's the Knicks score?” (“Kāds ir Knicks rezultāts?”)"</item>
+        <item>"Vaicājiet “What's the Red Wings score?” (“Kāds ir Red Wings rezultāts?”)"</item>
+        <item>"Vaicājiet “What's the Seahawks score?” (“Kāds ir Seahawks rezultāts?”)"</item>
+        <item>"Vaicājiet “What's the weather in New York?” (“Kādi ir laikapstākļi Ņujorkā?”)"</item>
+        <item>"Vaicājiet “What's the weather in San Francisco?” (“Kādi ir laikapstākļi Sanfrancisko?”)"</item>
+        <item>"Vaicājiet “What's the weather in Paris?” (“Kādi ir laikapstākļi Parīzē?”)"</item>
+        <item>"Vaicājiet “What's the weather in Cozumel?” (“Kādi ir laikapstākļi Kozumelā?”)"</item>
+        <item>Vaicājiet “How tall is Brad Pitt?” (“Cik garš ir Breds Pits?”)</item>
+        <item>Vaicājiet “How hot is the sun?” (“Cik karsta ir saule?”)</item>
+        <item>Vaicājiet “When was John Wayne born?” (“Kad ir dzimis Džons Veins?”)</item>
+        <item>Izrunājiet komandu “open YouTube” (“atvērt YouTube”)</item>
+        <item>Izrunājiet komandu “open Play Movies” (“atvērt Play filmas”)</item>
+    </string-array>
+</resources>

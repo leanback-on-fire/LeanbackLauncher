@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">නාලිකා %d</item>
+        <item quantity="one">නාලිකා %d</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">පද්ධති දැනුම්දීම් %dකි</item>
+        <item quantity="one">පද්ධති දැනුම්දීම් %dකි</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">රසිකයන් %1$,d</item>
+        <item quantity="one">රසිකයන් %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">අනුගාමිකයින් %1$,d</item>
+        <item quantity="one">අනුගාමිකයින් %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">කැමැත්ත දැක්වීම් %1$,d</item>
+        <item quantity="one">කැමැත්ත දැක්වීම් %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">සවන් දීම් %1$,d</item>
+        <item quantity="one">සවන් දීම් %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">මහපටැඟිල්ල එසවීම් %1$,d</item>
+        <item quantity="one">මහපටැඟිල්ල එසවීම් %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">නරඹන්නන් %1$,d</item>
+        <item quantity="one">නරඹන්නන් %1$,d</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">නැරඹීම් %1$,d</item>
+        <item quantity="one">නැරඹීම් %1$,d</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">කථාංග %1$,d</item>
+        <item quantity="one">කථාංග %1$,d</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">වාර %1$,d</item>
+        <item quantity="one">වාර %1$,d</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">ඛණ්ඩ %1$,d</item>
+        <item quantity="one">ඛණ්ඩ %1$,d</item>
+    </plurals>
+</resources>

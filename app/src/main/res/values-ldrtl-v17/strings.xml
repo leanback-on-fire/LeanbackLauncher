@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="program_metadata_item_separator">⁩ ‧ ⁧</string>
+    <string name="program_metadata_prefix">⁧</string>
+    <string name="program_metadata_suffix">⁩</string>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d kanal</item>
+        <item quantity="one">%d kanal</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">%d tane sistem bildirimi var</item>
+        <item quantity="one">%d tane sistem bildirimi var</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">%1$,d Hayran</item>
+        <item quantity="one">%1$,d Hayran</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">%1$,d Takipçi</item>
+        <item quantity="one">%1$,d Takipçi</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">%1$,d Beğenen sayısı</item>
+        <item quantity="one">%1$,d Beğenen sayısı</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">%1$,d Dinlenen</item>
+        <item quantity="one">%1$,d Dinlenen</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">%1$,d Beğenilen</item>
+        <item quantity="one">%1$,d Beğenilen</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">%1$,d İzleyici</item>
+        <item quantity="one">%1$,d İzleyici</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">%1$,d Görüntüleme</item>
+        <item quantity="one">%1$,d Görüntüleme</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d Bölüm</item>
+        <item quantity="one">%1$,d Bölüm</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d Sezon</item>
+        <item quantity="one">%1$,d Sezon</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d Parça</item>
+        <item quantity="one">%1$,d Parça</item>
+    </plurals>
+</resources>

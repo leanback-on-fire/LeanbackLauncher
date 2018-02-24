@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/playback_fragment_root" android:layout_width="fill_parent" android:layout_height="fill_parent" android:transitionGroup="false"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v17.leanback.widget.NonOverlappingFrameLayout android:id="@id/playback_fragment_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:transitionGroup="false" />
+    <android.support.v17.leanback.widget.NonOverlappingFrameLayout android:id="@id/playback_controls_dock" android:layout_width="fill_parent" android:layout_height="fill_parent" android:transitionGroup="true" />
+</FrameLayout>

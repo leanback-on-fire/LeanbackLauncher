@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_labels">
+        <item>કુટુંબ/બાળકો</item>
+        <item>ખેલ કૂદ</item>
+        <item>શોપિંગ</item>
+        <item>મૂવીઝ</item>
+        <item>કોમેડી</item>
+        <item>મુસાફરી</item>
+        <item>ડ્રામા</item>
+        <item>શિક્ષણ</item>
+        <item>પ્રાણી/વન્યજીવન</item>
+        <item>સમાચાર</item>
+        <item>ગેમિંગ</item>
+        <item>કલા</item>
+        <item>મનોરંજન</item>
+        <item>જીવનશૈલી</item>
+        <item>સંગીત</item>
+        <item>પ્રીમિયર</item>
+        <item>ટેક્નોલોજી/વિજ્ઞાન</item>
+    </string-array>
+    <string-array name="program_canonical_genre_labels_formats">
+        <item>%1$s</item>
+        <item>%1$s, %2$s</item>
+        <item>%1$s, %2$s, %3$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s</item>
+        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
+    </string-array>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"Michael Fassbender\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"જેનિફર લૉરેન્સ\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"Olivia Wilde\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"રોમેન્ટિક કૉમેડી\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"સાયન્સ ફિક્શન ફિલ્મો\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"સુપરહીરો ફિલ્મો\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"ઍક્શન ફિલ્મો\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"Star Trek\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"શૅરલોક\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"American Idol\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"Star Trek\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"Castle\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"Beyonceના ચિત્રો\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"Londonના ચિત્રો\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"Godzillaના ચિત્રો\" શોધવાનો પ્રયાસ કરો</item>
+        <item>\"જાયન્ટ્સનો સ્કોર શું છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"નિક્સનો સ્કોર શું છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"રેડ વિંગ્સનો સ્કોર શું છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"સીહૉક્સનો સ્કોર શું છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"ન્યૂ યોર્કમાં હવામાન કેવું છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"સાન ફ્રાન્સિસ્કોમાં હવામાન કેવું છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"પેરિસમાં હવામાન કેવું છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"કૉજ્યુમ્લમાં હવામાન કેવું છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"બ્રેડ પિટની ઊંચાઇ કેટલી છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"સૂર્ય કેટલો ગરમ છે?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"જહોન વેઇનનો જન્મ ક્યારે થયો હતો?\" પૂછવાનો પ્રયાસ કરો</item>
+        <item>\"YouTube ખોલો\" અજમાવી જુઓ</item>
+        <item>\"Play ફિલ્મો ખોલો\" અજમાવી જુઓ</item>
+    </string-array>
+</resources>

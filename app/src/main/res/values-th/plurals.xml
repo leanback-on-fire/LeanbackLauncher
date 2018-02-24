@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_channel_count">
+        <item quantity="other">%d ช่อง</item>
+        <item quantity="one">%d ช่อง</item>
+    </plurals>
+    <plurals name="notification_panel_icon_accessibility_description">
+        <item quantity="other">มีการแจ้งเตือนของระบบ %d รายการ</item>
+        <item quantity="one">มีการแจ้งเตือนของระบบ %d รายการ</item>
+    </plurals>
+    <plurals name="program_interactions_fans">
+        <item quantity="other">แฟน %1$,d คน</item>
+        <item quantity="one">แฟน %1$,d คน</item>
+    </plurals>
+    <plurals name="program_interactions_followers">
+        <item quantity="other">ผู้ติดตาม %1$,d คน</item>
+        <item quantity="one">ผู้ติดตาม %1$,d คน</item>
+    </plurals>
+    <plurals name="program_interactions_likes">
+        <item quantity="other">มีคนชอบ %1$,d คน</item>
+        <item quantity="one">มีคนชอบ %1$,d คน</item>
+    </plurals>
+    <plurals name="program_interactions_listens">
+        <item quantity="other">มีคนฟัง %1$,d ครั้ง</item>
+        <item quantity="one">มีคนฟัง %1$,d ครั้ง</item>
+    </plurals>
+    <plurals name="program_interactions_thumbs">
+        <item quantity="other">มีคนยกนิ้วให้ %1$,d คน</item>
+        <item quantity="one">มีคนยกนิ้วให้ %1$,d คน</item>
+    </plurals>
+    <plurals name="program_interactions_viewers">
+        <item quantity="other">มีคนดู %1$,d คน</item>
+        <item quantity="one">มีคนดู %1$,d คน</item>
+    </plurals>
+    <plurals name="program_interactions_views">
+        <item quantity="other">ดู %1$,d ครั้ง</item>
+        <item quantity="one">ดู %1$,d ครั้ง</item>
+    </plurals>
+    <plurals name="program_number_of_episodes">
+        <item quantity="other">%1$,d ตอน</item>
+        <item quantity="one">%1$,d ตอน</item>
+    </plurals>
+    <plurals name="program_number_of_seasons">
+        <item quantity="other">%1$,d ซีซัน</item>
+        <item quantity="one">%1$,d ซีซัน</item>
+    </plurals>
+    <plurals name="program_number_of_tracks">
+        <item quantity="other">%1$,d แทร็ก</item>
+        <item quantity="one">%1$,d แทร็ก</item>
+    </plurals>
+</resources>

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.tvlauncher.appsview.AppRowView android:orientation="horizontal" android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/app_row_view_margin_bottom"
+  xmlns:android="http://schemas.android.com/apk/res/android" />
