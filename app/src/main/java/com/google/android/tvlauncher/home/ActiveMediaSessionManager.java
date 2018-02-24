@@ -5,12 +5,14 @@ import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
 import android.media.session.MediaSessionManager.OnActiveSessionsChangedListener;
 import android.media.session.PlaybackState;
+
 import java.util.List;
 
 public class ActiveMediaSessionManager implements OnActiveSessionsChangedListener {
     private static ActiveMediaSessionManager sMediaSessionListener;
     private MediaController mActiveMediaController;
     private Context mContext;
+
 
     static ActiveMediaSessionManager getInstance(Context context) {
         if (sMediaSessionListener == null) {

@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+
 import com.google.android.tvlauncher.R;
 import com.google.android.tvlauncher.appsview.AppBannerView;
 import com.google.android.tvlauncher.appsview.LaunchItem;
@@ -26,9 +27,6 @@ public class FavoriteAppBannerView extends AppBannerView {
     private boolean mIsBeingMoved;
     private Drawable mMoveIconLeftRight;
 
-    public FavoriteAppBannerView(Context context) {
-        this(context, null);
-    }
 
     public FavoriteAppBannerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);

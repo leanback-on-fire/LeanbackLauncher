@@ -322,7 +322,9 @@ class AppItemsAdapter extends Adapter<AppItemsAdapter.BaseViewHolder> {
 
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            return new AppViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_home_app, parent, false));
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View v = inflater.inflate(R.layout.view_home_app, parent, false);
+            return new AppViewHolder(v);
         }
         if (viewType == 1) {
             return new AddMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_home_add_more_app, parent, false));

@@ -31,7 +31,7 @@ class BaseBannerView extends FrameLayout {
         @Edited(reason = Reason.VARIABLE_REUSAGE)
         Resources res = getResources();
         this.mFocusedZDelta = res.getDimension(R.dimen.banner_selected_item_z_delta);
-        this.mFocusedScale = res.getFraction(2131886081, 1, 1);
+        this.mFocusedScale = res.getFraction(R.fraction.banner_focused_scale, 1, 1); // 2131886081
         this.mAnimDuration = res.getInteger(R.integer.banner_scale_anim_duration);
         this.mCornerRadius = getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius);
     }
