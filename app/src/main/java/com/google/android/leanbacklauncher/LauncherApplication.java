@@ -4,20 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.os.RemoteException;
 import android.util.Log;
+
 import com.google.android.leanbacklauncher.capabilities.HighEndLauncherConfiguration;
 import com.google.android.leanbacklauncher.capabilities.LauncherConfiguration;
 import com.google.android.leanbacklauncher.recommendations.SwitchingRecommendationsClient;
-import com.google.android.libraries.performance.primes.Primes;
-import com.google.android.libraries.performance.primes.PrimesApiProvider;
-import com.google.android.libraries.performance.primes.PrimesConfigurations;
-import com.google.android.libraries.performance.primes.PrimesConfigurationsProvider;
-import com.google.android.libraries.performance.primes.PrimesCrashConfigurations;
-import com.google.android.libraries.performance.primes.PrimesMemoryConfigurations;
-import com.google.android.libraries.performance.primes.PrimesPackageConfigurations;
-import com.google.android.libraries.performance.primes.transmitter.MetricTransmitter;
-import com.google.android.libraries.performance.primes.transmitter.impl.ClearcutMetricTransmitter;
 import com.google.android.tvrecommendations.IRecommendationsService;
 import com.google.android.tvrecommendations.RecommendationsClient;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -102,8 +95,8 @@ public class LauncherApplication extends Application {
     }
 
     private void initPrimes() {
-        final PrimesSettings primesSettings = new PrimesSettings(this);
-        if (primesSettings.isPrimesEnabled()) {
+        //final PrimesSettings primesSettings = new PrimesSettings(this);
+        /*if (primesSettings.isPrimesEnabled()) {
             Primes primes = Primes.initialize(PrimesApiProvider.newInstance(this, new PrimesConfigurationsProvider() {
                 public PrimesConfigurations get() {
                     return PrimesConfigurations.newBuilder().setMetricTransmitter(LauncherApplication.this.getPrimesMetricTransmitter()).setPackageConfigurations(new PrimesPackageConfigurations(primesSettings.isPackageStatsMetricEnabled())).setMemoryConfigurations(new PrimesMemoryConfigurations(primesSettings.isMemoryMetricEnabled())).setCrashConfigurations(new PrimesCrashConfigurations(primesSettings.isCrashMetricEnabled())).build();
@@ -112,13 +105,13 @@ public class LauncherApplication extends Application {
             primes.startMemoryMonitor();
             primes.startCrashMonitor();
             return;
-        }
+        }*/
         Log.e("LauncherApplication", "PRIMES not enabled");
     }
 
-    private MetricTransmitter getPrimesMetricTransmitter() {
-        return new ClearcutMetricTransmitter(this, "LEANBACK_LAUNCHER_PRIMES");
-    }
+    // private MetricTransmitter getPrimesMetricTransmitter() {
+    //    return new ClearcutMetricTransmitter(this, "LEANBACK_LAUNCHER_PRIMES");
+    // }
 
     private void demigrate() {
         boolean z = false;

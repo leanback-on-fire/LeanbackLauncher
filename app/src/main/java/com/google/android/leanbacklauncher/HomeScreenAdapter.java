@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.google.android.leanbacklauncher.HomeScreenRow.RowChangeListener;
 import com.google.android.leanbacklauncher.HomeScrollManager.HomeScrollFractionListener;
 import com.google.android.leanbacklauncher.apps.AppsAdapter;
@@ -38,13 +39,14 @@ import com.google.android.leanbacklauncher.notifications.PartnerAdapter;
 import com.google.android.leanbacklauncher.util.Partner;
 import com.google.android.leanbacklauncher.util.Preconditions;
 import com.google.android.leanbacklauncher.widget.EditModeView;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class HomeScreenAdapter extends Adapter<HomeViewHolder> implements RowChangeListener, Listener, OnEditModeChangedListener {
+public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder> implements RowChangeListener, Listener, OnEditModeChangedListener {
     private int mActiveItemIndex = -1;
     private ArrayList<HomeScreenRow> mAllRowsList = new ArrayList(7);
     private final AppsManager mAppsManager;

@@ -6,7 +6,9 @@ import android.animation.Animator.AnimatorPauseListener;
 import android.animation.TimeInterpolator;
 import android.util.ArrayMap;
 import android.view.View;
+
 import com.google.android.leanbacklauncher.util.Preconditions;
+
 import java.util.ArrayList;
 
 public abstract class ForwardingAnimator<T extends Animator> extends Animator implements Joinable, Resettable {
@@ -59,7 +61,7 @@ public abstract class ForwardingAnimator<T extends Animator> extends Animator im
     }
 
     public ForwardingAnimator(T delegate) {
-        this.mDelegate = (Animator) Preconditions.checkNotNull(delegate);
+        this.mDelegate = Preconditions.checkNotNull(delegate);
     }
 
     public void reset() {

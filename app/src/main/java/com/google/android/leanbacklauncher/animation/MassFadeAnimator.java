@@ -3,11 +3,13 @@ package com.google.android.leanbacklauncher.animation;
 import android.support.v17.leanback.widget.HorizontalGridView;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.google.android.leanbacklauncher.util.Preconditions;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public final class MassFadeAnimator extends PropagatingAnimator<ViewHolder> implements Joinable {
+public final class MassFadeAnimator extends PropagatingAnimator<MassFadeAnimator.ViewHolder> implements Joinable {
     private final Direction mDirection;
     private final float mEndAlpha;
     private final ViewGroup mRoot;
@@ -42,7 +44,7 @@ public final class MassFadeAnimator extends PropagatingAnimator<ViewHolder> impl
         }
 
         public MassFadeAnimator build() {
-            return new MassFadeAnimator();
+            return new MassFadeAnimator(this);
         }
     }
 

@@ -1,14 +1,9 @@
 package com.google.android.leanbacklauncher.logging;
 
-import com.google.protobuf.nano.CodedInputByteBufferNano;
-import com.google.protobuf.nano.CodedOutputByteBufferNano;
-import com.google.protobuf.nano.ExtendableMessageNano;
-import com.google.protobuf.nano.InternalNano;
-import com.google.protobuf.nano.WireFormatNano;
 import java.io.IOException;
 
 public interface LeanbackProto {
-
+/*
     public static final class App extends ExtendableMessageNano<App> {
         private static volatile App[] _emptyArray;
         public String appTitle;
@@ -777,5 +772,5 @@ public interface LeanbackProto {
                 return this;
             }
         }
-    }
+    }*/
 }

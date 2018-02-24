@@ -22,11 +22,14 @@ import android.media.session.MediaSession;
 import android.media.session.MediaSessionManager;
 import android.media.session.MediaSessionManager.OnActiveSessionsChangedListener;
 import android.media.session.PlaybackState;
+import android.os.Parcel;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.util.Util;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -136,7 +139,10 @@ class NowPlayCardListener implements OnActiveSessionsChangedListener {
 
     private void updateMetadata(MediaMetadata metadata) {
         if (this.mNowPlayCardListener != null && metadata != null) {
-            NowPlayingCardData data = new NowPlayingCardData();
+            Parcel parcel = Parcel.obtain();
+            metadata.writeToParcel(parcel, 0);
+            // todo is this right?
+            NowPlayingCardData data = new NowPlayingCardData(parcel);
             setPendingIntentAndPackage(data, (MediaSessionManager) this.mContext.getApplicationContext().getSystemService("media_session"));
             data.title = getMetadataString(metadata, "android.media.metadata.TITLE", this.mContext.getString(R.string.unknown_title));
             String fallbackArtist = getApplicationLabel(data.playerPackage);

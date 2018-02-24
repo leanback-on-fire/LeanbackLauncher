@@ -61,7 +61,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
                 int entityScoreIndex = c.getColumnIndex("entity_score");
                 int lastOpenedIndex = c.getColumnIndex("last_opened");
                 while (c.moveToNext()) {
-                    long entityScore;
+                    long entityScore = 0L;
                     key = c.getString(keyIndex);
                     String component = c.getString(componentIndex);
                     if (entityScoreIndex == -1) {
@@ -155,7 +155,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
                 db.insert("entity", null, cv);
             }
             for (ContentValues componentValues : this.mComponents) {
-                int count;
+                int count = 0;
                 String component = componentValues.getAsString("component");
                 long timeStamp = componentValues.getAsLong("last_opened").longValue();
                 synchronized (AppsDbHelper.this.mLock) {

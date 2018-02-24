@@ -59,59 +59,37 @@ public class TvSearchIconLoader extends AsyncTaskLoader<Drawable> {
         cancelLoad();
     }
 
+    // todo this is a mess
     public Drawable loadInBackground() {
         Cursor data;
-        Throwable th;
-        Throwable th2;
         this.mTvSearchIcon = null;
-        try {
-            data = getContext().getContentResolver().query(SearchWidgetInfoContract.ICON_CONTENT_URI, null, null, null, null);
-            th = null;
-            if (data != null) {
-                try {
-                    if (data.moveToFirst()) {
-                        String iconResource = data.getString(0);
-                        if (!TextUtils.isEmpty(iconResource)) {
-                            try {
-                                Resources resources = getContext().getPackageManager().getResourcesForApplication("com.google.android.katniss");
-                                this.mTvSearchIcon = resources.getDrawable(resources.getIdentifier(iconResource, "drawable", "com.google.android.katniss"), null);
-                            } catch (NameNotFoundException e) {
-                            }
-                        }
-                    }
-                } catch (Throwable th22) {
-                    Throwable th3 = th22;
-                    th22 = th;
-                    th = th3;
-                }
-            }
-            if (data != null) {
-                if (null != null) {
-                    try {
-                        data.close();
-                    } catch (Throwable th222) {
-                        th.addSuppressed(th222);
-                    }
-                } else {
-                    data.close();
-                }
-            }
-        } catch (Exception e2) {
-            Log.e("TvSearchIconLdr", "Exception in loadInBackground()", e2);
-        }
-        return this.mTvSearchIcon;
+
+        data = getContext().getContentResolver().query(SearchWidgetInfoContract.ICON_CONTENT_URI, null, null, null, null);
+
+        Resources resources = null;
+
         if (data != null) {
-            if (th222 != null) {
-                try {
-                    data.close();
-                } catch (Throwable th4) {
-                    th222.addSuppressed(th4);
+            if (data.moveToFirst()) {
+                String iconResource = data.getString(0);
+                if (!TextUtils.isEmpty(iconResource)) {
+                    try {
+                        resources = getContext().getPackageManager().getResourcesForApplication("com.google.android.katniss");
+                        this.mTvSearchIcon = resources.getDrawable(resources.getIdentifier(iconResource, "drawable", "com.google.android.katniss"), null);
+                    } catch (NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } else {
-                data.close();
             }
         }
-        throw th;
-        throw th;
+
+        if (data != null) {
+            try {
+                data.close();
+            } catch (Throwable ignored) {
+            }
+        }
+
+        return this.mTvSearchIcon;
+
     }
 }

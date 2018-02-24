@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -74,7 +75,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 int entityScoreIndex = c.getColumnIndex("entity_score");
                 int lastOpenedIndex = c.getColumnIndex("last_opened");
                 while (c.moveToNext()) {
-                    long entityScore;
+                    long entityScore = 0L;
                     key = c.getString(keyIndex);
                     String component = c.getString(componentIndex);
                     if (entityScoreIndex == -1) {
@@ -266,7 +267,7 @@ public class DbHelper extends SQLiteOpenHelper {
             Iterator it = entity.getGroupIds().iterator();
             while (it.hasNext()) {
                 String groupId = (String) it.next();
-                cv = new ContentValues();
+                ContentValues cv = new ContentValues();
                 cv.put("key", this.mKey);
                 cv.put("group_id", groupId);
                 cv.put("last_updated", Long.valueOf(entity.getGroupTimeStamp(groupId)));
@@ -331,11 +332,12 @@ public class DbHelper extends SQLiteOpenHelper {
                 }
             }
             for (Entry<String, ContentValues> pair2 : this.mGroups.entrySet()) {
-                cv = (ContentValues) pair2.getValue();
+                ContentValues cv = (ContentValues) pair2.getValue();
                 if (db.update("buckets", cv, "key=? AND group_id=? ", new String[]{this.mKey, (String) pair2.getKey()}) == 0) {
                     db.insert("buckets", null, cv);
                 }
-                List<ContentValues> signals = (List) this.mActiveDayBuffers.get(groupId);
+                String groupId = pair2.getKey();
+                List<ContentValues> signals = this.mActiveDayBuffers.get(groupId);
                 if (signals != null) {
                     for (int i = 0; i < signals.size(); i++) {
                         ContentValues signalValues = (ContentValues) signals.get(i);
@@ -384,7 +386,7 @@ public class DbHelper extends SQLiteOpenHelper {
         boolean z = false;
         if (this.mMigrationEnabled) {
             try {
-                ContentResolver contentResolver;
+                ContentResolver contentResolver = null;
                 this.mContext.getPackageManager().getPackageInfo("com.google.android.leanbacklauncher", 0);
                 z = false;
                 InputStream stream = null;
@@ -408,7 +410,9 @@ public class DbHelper extends SQLiteOpenHelper {
                         }
                     }
                 }
-                contentResolver.update(DbMigrationContract.CONTENT_UPDATE_URI, new ContentValues(), null, null);
+                if (contentResolver != null) {
+                    contentResolver.update(DbMigrationContract.CONTENT_UPDATE_URI, new ContentValues(), null, null);
+                }
                 if (stream != null) {
                     try {
                         stream.close();
@@ -461,11 +465,11 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     void createAllTables(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS entity(key TEXT PRIMARY KEY, notif_bonus REAL, bonus_timestamp INTEGER, oob_order INTEGER, has_recs INTEGER)");
-        db.execSQL(" CREATE TABLE IF NOT EXISTS entity_scores(key TEXT NOT NULL , component TEXT, entity_score INTEGER NOT NULL, last_opened INTEGER,  PRIMARY KEY ( key, component),  FOREIGN KEY ( key) REFERENCES entity(key))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS rec_blacklist(key TEXT PRIMARY KEY) ");
-        db.execSQL("CREATE TABLE IF NOT EXISTS buckets(key TEXT NOT NULL, group_id TEXT NOT NULL, last_updated INTEGER NOT NULL,  PRIMARY KEY (key, group_id))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS buffer_scores(_id INTEGER NOT NULL, key TEXT NOT NULL, group_id TEXT NOT NULL, day INTEGER NOT NULL, mClicks INTEGER, mImpressions INTEGER,  PRIMARY KEY (_id, group_id, key))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS entity('key' TEXT PRIMARY KEY, notif_bonus REAL, bonus_timestamp INTEGER, oob_order INTEGER, has_recs INTEGER)");
+        db.execSQL(" CREATE TABLE IF NOT EXISTS entity_scores('key' TEXT NOT NULL , component TEXT, entity_score INTEGER NOT NULL, last_opened INTEGER,  PRIMARY KEY ( 'key', component),  FOREIGN KEY ( 'key' ) REFERENCES entity( 'key' ))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS rec_blacklist('key' TEXT PRIMARY KEY) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS buckets('key' TEXT NOT NULL, group_id TEXT NOT NULL, last_updated INTEGER NOT NULL,  PRIMARY KEY ('key', group_id))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS buffer_scores(_id INTEGER NOT NULL, 'key' TEXT NOT NULL, group_id TEXT NOT NULL, day INTEGER NOT NULL, mClicks INTEGER, mImpressions INTEGER,  PRIMARY KEY (_id, group_id, 'key'))");
     }
 
     void removeAllTables(SQLiteDatabase db) {

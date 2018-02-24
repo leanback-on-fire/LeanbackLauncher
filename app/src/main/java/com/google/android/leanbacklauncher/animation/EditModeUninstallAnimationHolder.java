@@ -5,13 +5,14 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
+
 import com.google.android.leanbacklauncher.EditableAppsRowView;
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.apps.BannerView;
 import com.google.android.leanbacklauncher.widget.EditModeView;
 
 public class EditModeUninstallAnimationHolder {
-    private long mAnimationDuration = ((long) this.mUninstallBanner.getResources().getInteger(R.integer.edit_mode_uninstall_anim_duration));
+    private long mAnimationDuration;
     private TranslateAnimation mBannerAnimation;
     private View mUninstallBanner;
     private View mUninstallCircle;
@@ -30,6 +31,7 @@ public class EditModeUninstallAnimationHolder {
         this.mUninstallIcon = editMode.getUninstallIcon();
         this.mUninstallText = editMode.getUninstallText();
         this.mUninstallIconCircle = editMode.getUninstallIconCircle();
+        this.mAnimationDuration = ((long) this.mUninstallBanner.getResources().getInteger(R.integer.edit_mode_uninstall_anim_duration));
     }
 
     private void addPositionDependantAnimations(EditModeUninstallState uninstallState, BannerView curBanner, EditableAppsRowView activeitems) {

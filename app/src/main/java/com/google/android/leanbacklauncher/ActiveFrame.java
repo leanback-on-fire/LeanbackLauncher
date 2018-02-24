@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.accessibility.AccessibilityManager;
@@ -16,6 +17,7 @@ import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.google.android.leanbacklauncher.HomeScrollManager.HomeScrollFractionListener;
 import com.google.android.leanbacklauncher.animation.FadeAnimator;
 import com.google.android.leanbacklauncher.animation.FadeAnimator.Direction;
@@ -159,7 +161,7 @@ public class ActiveFrame extends LinearLayout implements HomeScrollFractionListe
 
     public void onScrollPositionChanged(int position, float fractionFromTop) {
         if (this.mHeader != null) {
-            LayoutParams lp = this.mHeader.getLayoutParams();
+            ViewGroup.LayoutParams lp = this.mHeader.getLayoutParams();
             if (fractionFromTop > 0.99f) {
                 this.mHeaderFadeOutAnimation.cancel();
                 if (!this.mHeaderVisible) {
@@ -248,7 +250,7 @@ public class ActiveFrame extends LinearLayout implements HomeScrollFractionListe
                 f = 1.0f - this.mDownscaleFactor;
             }
             int rowLength = (int) (f2 / f);
-            LayoutParams p = this.mRow.getLayoutParams();
+            ViewGroup.LayoutParams p = this.mRow.getLayoutParams();
             if (rowLength <= 0 || p.width == rowLength) {
                 updateRow(this.mRow.getLeft(), this.mRow.getRight());
                 return;

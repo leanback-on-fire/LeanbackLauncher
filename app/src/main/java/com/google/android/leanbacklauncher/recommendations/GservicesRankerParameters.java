@@ -2,7 +2,7 @@ package com.google.android.leanbacklauncher.recommendations;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import com.google.android.gsf.Gservices;
+
 import com.google.android.tvrecommendations.service.RankerParameters;
 import com.google.android.tvrecommendations.service.RankerParametersFactory;
 
@@ -20,10 +20,10 @@ final class GservicesRankerParameters extends RankerParameters {
     }
 
     public Object getVersionToken() {
-        return Gservices.getVersionToken(this.mContentResolver);
+        return 0;
     }
 
     public float getFloat(String key, float defaultValue) {
-        return Gservices.getFloat(this.mContentResolver, key, defaultValue);
+        return defaultValue;
     }
 }

@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.util.Log;
+
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -17,8 +19,9 @@ public class OpaqueBitmapTransformation extends BitmapTransformation {
     private final byte[] mKeyBytes;
 
     public OpaqueBitmapTransformation(Context context, int color) {
-        byte[] idBytes;
         super(context);
+
+        byte[] idBytes;
         this.mBackgroundColor = color;
         try {
             idBytes = "com.google.android.leanbacklauncher.OpaqueBitmapTransformation".getBytes("UTF-8");

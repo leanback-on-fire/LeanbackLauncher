@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+
+import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.google.android.leanbacklauncher.PackageResourceCache;
 import com.google.android.tvrecommendations.TvRecommendation;
 
@@ -93,5 +96,10 @@ public class RecommendationCardView extends RecommendationView {
         layoutSourceName(width, isLayoutRtl);
         layoutBadgeIcon(width, height, isLayoutRtl);
         layoutExpandedInfoArea(width, isLayoutRtl);
+    }
+
+    @Override
+    public void removeCallback(@NonNull SizeReadyCallback cb) {
+
     }
 }

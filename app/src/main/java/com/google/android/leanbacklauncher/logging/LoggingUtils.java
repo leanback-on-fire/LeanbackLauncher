@@ -1,20 +1,9 @@
 package com.google.android.leanbacklauncher.logging;
 
-import android.content.Context;
-import android.util.Log;
-import com.google.android.leanbacklauncher.apps.AppsEntity;
-import com.google.android.leanbacklauncher.apps.LaunchPoint;
-import com.google.android.leanbacklauncher.logging.LeanbackProto.App;
-import com.google.android.leanbacklauncher.logging.LeanbackProto.AppRankAction;
-import com.google.android.leanbacklauncher.logging.LeanbackProto.LeanbackEvent;
-import com.google.android.leanbacklauncher.logging.LeanbackProto.RankerAction;
-import java.util.List;
-import java.util.Map;
-
 public final class LoggingUtils {
     private static final String TAG = LoggingUtils.class.getSimpleName();
 
-    public static LeanbackEvent logAppRankActionEvent(List<LaunchPoint> lps, Map<String, AppsEntity> entities, Context context) {
+    /*public static LeanbackEvent logAppRankActionEvent(List<LaunchPoint> lps, Map<String, AppsEntity> entities, Context context) {
         if (Log.isLoggable(TAG, 2)) {
             Log.v(TAG, "Log App Rank Leanback Event.");
         }
@@ -67,7 +56,7 @@ public final class LoggingUtils {
         if (logger != null) {
             logger.logEvent(TAG, leanbackEvent);
         }
-    }
+    }*/
 
     private LoggingUtils() {
     }

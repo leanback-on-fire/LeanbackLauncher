@@ -2,6 +2,7 @@ package com.google.android.leanbacklauncher.notifications;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Options;
@@ -57,5 +58,10 @@ public class RecommendationImageLoaderFactory implements ModelLoaderFactory<Reco
                 return new LoadData(recommendationImageKey, new RecommendationImageFetcher(RecommendationImageLoaderFactory.this.mLoader, recommendationImageKey));
             }
         };
+    }
+
+    @Override
+    public void teardown() {
+
     }
 }

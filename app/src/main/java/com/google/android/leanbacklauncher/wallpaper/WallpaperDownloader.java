@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -133,7 +134,13 @@ public class WallpaperDownloader {
             if (this.mRequestedImage.imageUri != null) {
                 this.mHandler.sendEmptyMessageDelayed(2, (long) this.mDownloadTimeout);
                 this.mRequestedImage.traceTag = AppTrace.beginAsyncSection("Background image load");
-                this.mRequestManager.asBitmap().load(this.mRequestedImage.imageUri).apply((RequestOptions) ((RequestOptions) ((RequestOptions) new RequestOptions().signature(new ObjectKey(this.mRequestedImage.signature))).diskCacheStrategy(DiskCacheStrategy.ALL)).transform(this.mContext, this.mBitmapTransform)).into(this.mTarget);
+                this.mRequestManager.asBitmap()
+                        .load(this.mRequestedImage.imageUri)
+                        .apply(new RequestOptions()
+                                .signature(new ObjectKey(this.mRequestedImage.signature))
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .transform(this.mBitmapTransform)) // removed context,
+                        .into(this.mTarget);
                 return;
             }
             this.mRequestManager.clear(this.mTarget);

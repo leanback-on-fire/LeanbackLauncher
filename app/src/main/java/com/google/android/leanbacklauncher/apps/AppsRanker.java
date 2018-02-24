@@ -7,12 +7,13 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.apps.AppsDbHelper.Listener;
 import com.google.android.leanbacklauncher.apps.AppsManager.SortingMode;
-import com.google.android.leanbacklauncher.logging.LoggingUtils;
 import com.google.android.leanbacklauncher.util.Partner;
 import com.google.android.leanbacklauncher.util.Util;
+
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -306,7 +307,7 @@ public class AppsRanker implements Listener {
                     this.mLastLaunchPointRankingLogDump.add(lp.getTitle() + " | R " + entity.getOrder(lp.getComponentName()) + " | LO " + getLastOpened(lp) + " | INST " + lp.getFirstInstallTime());
                 }
             }
-            LoggingUtils.logAppRankActionEvent(launchPoints, this.mEntities, this.mContext);
+            // LoggingUtils.logAppRankActionEvent(launchPoints, this.mEntities, this.mContext);
         }
         return true;
     }
@@ -327,7 +328,7 @@ public class AppsRanker implements Listener {
             launchPoints.add(newLp);
             return pos;
         }
-        pos = 0;
+        int pos = 0;
         Comparator<LaunchPoint> comp = getLaunchPointComparator();
         while (pos < launchPoints.size() && comp.compare(newLp, launchPoints.get(pos)) >= 0) {
             pos++;

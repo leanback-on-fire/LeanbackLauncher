@@ -26,10 +26,12 @@ import android.widget.FrameLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
+
 import com.google.android.leanbacklauncher.MainActivity.IdleListener;
 import com.google.android.leanbacklauncher.apps.AppsManager.SearchPackageChangeListener;
 import com.google.android.leanbacklauncher.util.Partner;
 import com.google.android.leanbacklauncher.util.Util;
+
 import java.util.Random;
 
 public class SearchOrbView extends FrameLayout implements IdleListener, SearchPackageChangeListener {
@@ -75,8 +77,8 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
     }
 
     public SearchOrbView(Context context, AttributeSet attrs) {
-        boolean z = false;
         super(context, attrs);
+        boolean z = false;
         this.mContext = context;
         Resources res = context.getResources();
         this.mDefaultTextToShow = res.getStringArray(R.array.search_orb_text_to_show);
@@ -453,6 +455,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
         if (!(am.isEnabled() && am.isTouchExplorationEnabled())) {
             isTouchExplorationEnabled = false;
         }
+        final boolean finalIsTouchExplorationEnabled = isTouchExplorationEnabled;
         OnClickListener listener = new OnClickListener() {
             public void onClick(View view) {
                 boolean iskeyboardSearch;
@@ -462,7 +465,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
                 } else {
                     iskeyboardSearch = true;
                 }
-                if (!isTouchExplorationEnabled) {
+                if (!finalIsTouchExplorationEnabled) {
                     success = Util.startSearchActivitySafely(SearchOrbView.this.mContext, SearchOrbView.this.mSearchIntent, SearchOrbView.this.mClickDeviceId, iskeyboardSearch) && SearchOrbView.this.mListener != null;
                 } else if (!Util.startSearchActivitySafely(SearchOrbView.this.mContext, SearchOrbView.this.mSearchIntent, iskeyboardSearch) || SearchOrbView.this.mListener == null) {
                     success = false;

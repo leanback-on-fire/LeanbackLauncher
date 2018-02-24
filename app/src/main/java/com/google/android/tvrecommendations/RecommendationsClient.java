@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ResolveInfo;
 import android.os.IBinder;
+
 import com.google.android.tvrecommendations.IRecommendationsService.Stub;
+
 import java.util.List;
 
 public abstract class RecommendationsClient {
@@ -40,7 +42,8 @@ public abstract class RecommendationsClient {
         this.mConnectedOrConnecting = true;
         Intent serviceIntent = getServiceIntent();
         if (serviceIntent == null) {
-            throw new RuntimeException("Recommendation service is unavailable");
+            return;
+            //  throw new RuntimeException("Recommendation service is unavailable");
         }
         this.mConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName className, IBinder service) {
@@ -83,7 +86,7 @@ public abstract class RecommendationsClient {
         if (resolveInfoList == null || resolveInfoList.size() != 1) {
             return null;
         }
-        ResolveInfo serviceInfo = (ResolveInfo) resolveInfoList.get(0);
+        ResolveInfo serviceInfo = resolveInfoList.get(0);
         return new ComponentName(serviceInfo.serviceInfo.packageName, serviceInfo.serviceInfo.name);
     }
 }

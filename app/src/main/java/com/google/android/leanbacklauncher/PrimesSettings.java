@@ -3,7 +3,6 @@ package com.google.android.leanbacklauncher;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.util.Log;
-import com.google.android.gsf.Gservices;
 
 class PrimesSettings {
     private final ContentResolver mContentResolver;
@@ -29,11 +28,6 @@ class PrimesSettings {
     }
 
     private boolean getGservicesBoolean(ContentResolver cr, String key, boolean defaultValue) {
-        try {
-            defaultValue = Gservices.getBoolean(cr, key, defaultValue);
-        } catch (SecurityException e) {
-            Log.w("PrimesSettings", "Gservices failed to get value", e);
-        }
-        return defaultValue;
+        return false;
     }
 }

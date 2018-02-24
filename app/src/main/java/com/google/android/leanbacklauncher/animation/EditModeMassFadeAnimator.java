@@ -2,15 +2,19 @@ package com.google.android.leanbacklauncher.animation;
 
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.google.android.leanbacklauncher.ActiveFrame;
 import com.google.android.leanbacklauncher.EditableAppsRowView;
 import com.google.android.leanbacklauncher.HomeScreenRow;
 import com.google.android.leanbacklauncher.MainActivity;
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.util.Preconditions;
+
 import java.util.Iterator;
 
-public final class EditModeMassFadeAnimator extends PropagatingAnimator<ViewHolder> implements Joinable {
+import static com.google.android.leanbacklauncher.animation.EditModeMassFadeAnimator.ViewHolder.*;
+
+public final class EditModeMassFadeAnimator extends PropagatingAnimator<EditModeMassFadeAnimator.ViewHolder> implements Joinable {
     private final EditMode mEditMode;
 
     public enum EditMode {

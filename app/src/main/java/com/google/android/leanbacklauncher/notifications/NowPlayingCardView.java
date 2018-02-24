@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
@@ -26,6 +27,8 @@ import android.view.ViewParent;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.widget.PlayingIndicatorView;
 
@@ -399,5 +402,10 @@ public class NowPlayingCardView extends RecommendationView {
         if (this.mLinearGradient != null) {
             this.mLinearGradient.draw(canvas);
         }
+    }
+
+    @Override
+    public void removeCallback(@NonNull SizeReadyCallback cb) {
+
     }
 }

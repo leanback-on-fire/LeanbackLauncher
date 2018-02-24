@@ -7,13 +7,13 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.ColorMatrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.hardware.hdmi.HdmiDeviceInfo;
 import android.media.tv.TvContract;
 import android.media.tv.TvContract.Channels;
 import android.media.tv.TvInputInfo;
 import android.media.tv.TvInputManager;
 import android.media.tv.TvInputManager.TvInputCallback;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Handler;
 import android.os.Message;
@@ -26,11 +26,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.leanbacklauncher.LauncherViewHolder;
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.apps.BannerView;
 import com.google.android.leanbacklauncher.util.Partner;
 import com.google.android.leanbacklauncher.widget.RowViewAdapter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,7 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
+public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder> {
     private static final String[] mPhysicalTunerBlackList = new String[]{"com.google.android.videos", "com.google.android.youtube.tv"};
     private final InputsComparator mComp = new InputsComparator();
     private final Configuration mConfig;
@@ -234,7 +236,7 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
     class TvInputEntry {
         public Drawable mBanner;
         public int mBannerState;
-        public final HdmiDeviceInfo mHdmiInfo;
+        public final Object mHdmiInfo; // edited
         public final TvInputInfo mInfo;
         public String mLabel;
         public int mNumChildren;
@@ -248,10 +250,10 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
 
         public TvInputEntry(String label, Drawable banner, int colorOption, int type) {
             this.mInfo = null;
-            this.mHdmiInfo = null;
             this.mLabel = label;
             this.mParentLabel = null;
             this.mBanner = banner;
+            this.mHdmiInfo = null;
             this.mTextColorOption = colorOption;
             this.mType = type;
             this.mPriority = InputsAdapter.this.getPriorityForType(type);
@@ -264,11 +266,9 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
         public TvInputEntry(TvInputInfo info, TvInputEntry parent, int state, Context ctx) {
             this.mInfo = info;
             this.mType = this.mInfo.getType();
-            if (this.mType == 1007) {
-                this.mHdmiInfo = this.mInfo.getHdmiDeviceInfo();
-            } else {
-                this.mHdmiInfo = null;
-            }
+
+            this.mHdmiInfo = null;
+
             CharSequence label = info.loadCustomLabel(ctx);
             if (TextUtils.isEmpty(label)) {
                 label = info.loadLabel(ctx);
@@ -281,29 +281,13 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
             this.mTextColorOption = this.mInfo.getServiceInfo().metaData.getInt("input_banner_label_color_option", 0);
             this.mSortKey = this.mInfo.getServiceInfo().metaData.getInt("input_sort_key", Integer.MAX_VALUE);
             this.mState = state;
-            if (info.getHdmiDeviceInfo() != null && info.getHdmiDeviceInfo().isCecDevice()) {
-                switch (info.getHdmiDeviceInfo().getDeviceType()) {
-                    case 1:
-                        this.mPriority = InputsAdapter.this.getPriorityForType(-4);
-                        break;
-                    case 4:
-                        this.mPriority = InputsAdapter.this.getPriorityForType(-5);
-                        break;
-                    default:
-                        this.mPriority = InputsAdapter.this.getPriorityForType(-2);
-                        break;
-                }
-            } else if (info.getHdmiDeviceInfo() == null || !info.getHdmiDeviceInfo().isMhlDevice()) {
-                this.mPriority = InputsAdapter.this.getPriorityForType(this.mType);
-            } else {
-                this.mPriority = InputsAdapter.this.getPriorityForType(-6);
-            }
+
+            this.mPriority = InputsAdapter.this.getPriorityForType(-6);
+
             this.mParentEntry = parent;
             if (this.mParentEntry != null) {
-                label = this.mParentEntry.mInfo.loadCustomLabel(ctx);
-                if (TextUtils.isEmpty(label)) {
-                    label = this.mParentEntry.mInfo.loadLabel(ctx);
-                }
+                label = this.mParentEntry.mInfo.loadLabel(ctx);
+
                 if (label != null) {
                     this.mParentLabel = label.toString();
                 } else {
@@ -317,7 +301,7 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
 
         private Drawable loadIcon() {
             if (InputsAdapter.this.mConfig.mGetStateIconFromTVInput && VERSION.SDK_INT >= 24) {
-                Drawable icon = this.mInfo.loadIcon(InputsAdapter.this.mContext, this.mState);
+                Drawable icon = null;//this.mInfo.loadIcon(InputsAdapter.this.mContext, this.mState);
                 if (icon != null) {
                     return icon;
                 }
@@ -445,30 +429,13 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
                         drawableId = R.drawable.ic_input_hdmi_disconnected;
                         break;
                     }
-                    switch (this.mHdmiInfo.getDeviceType()) {
-                        case 0:
-                            drawableId = R.drawable.ic_input_livetv;
-                            break;
-                        case 1:
-                            drawableId = R.drawable.ic_input_recording;
-                            break;
-                        case 3:
-                            drawableId = R.drawable.ic_input_tuner;
-                            break;
-                        case 4:
-                            drawableId = R.drawable.ic_input_playback;
-                            break;
-                        case 5:
-                            drawableId = R.drawable.ic_input_audio;
-                            break;
-                        default:
-                            if (!this.mHdmiInfo.isMhlDevice()) {
-                                drawableId = R.drawable.ic_input_tuner;
-                                break;
-                            }
-                            drawableId = R.drawable.ic_input_mhl;
-                            break;
-                    }
+
+
+                    drawableId = R.drawable.ic_input_tuner;
+
+                    // drawableId = R.drawable.ic_input_mhl;
+                    break;
+
                 case 1008:
                     if (this.mState != 2) {
                         if (this.mState != 1) {
@@ -498,9 +465,7 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
         }
 
         public String getLabel() {
-            if (this.mHdmiInfo != null && !TextUtils.isEmpty(this.mHdmiInfo.getDisplayName())) {
-                return this.mHdmiInfo.getDisplayName();
-            }
+
             if (!TextUtils.isEmpty(this.mLabel)) {
                 return this.mLabel;
             }
@@ -639,7 +604,7 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
             int state = this.mTvManager.getInputState(input.getId());
             TvInputEntry parentEntry = null;
             if (((TvInputEntry) this.mInputs.get(input.getId())) == null) {
-                if (!(input.getParentId() == null || input.isConnectedToHdmiSwitch())) {
+                if (!(input.getParentId() == null)) {
                     TvInputInfo parentInfo = this.mTvManager.getTvInputInfo(input.getParentId());
                     if (parentInfo != null) {
                         parentEntry = (TvInputEntry) this.mInputs.get(parentInfo.getId());
@@ -721,7 +686,7 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
     }
 
     private void inputEntryModified(TvInputInfo inputInfo) {
-        CharSequence customLabel = inputInfo.loadCustomLabel(this.mContext);
+        /*CharSequence customLabel = inputInfo.loadCustomLabel(this.mContext);
         if (customLabel != null) {
             String id = inputInfo.getId();
             TvInputEntry entry = (TvInputEntry) this.mInputs.get(id);
@@ -733,7 +698,7 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
                     notifyDataSetChanged();
                 }
             }
-        }
+        }*/
     }
 
     private void inputAdded(String id, boolean isRefresh) {
@@ -752,14 +717,16 @@ public class InputsAdapter extends RowViewAdapter<InputViewHolder> {
             this.mPhysicalTunerInputs.put(info.getId(), info);
             if (this.mConfig.mShowPhysicalTunersSeparately) {
                 addInputEntry(info, isRefresh);
-            } else if (!info.isHidden(this.mContext)) {
+            } else if (VERSION.SDK_INT < Build.VERSION_CODES.N || !info.isHidden(this.mContext)) {
                 showBundledTunerInput(isRefresh);
             }
         } else {
             this.mVirtualTunerInputs.put(info.getId(), info);
-            if (!info.isHidden(this.mContext)) {
+
+            if (VERSION.SDK_INT < Build.VERSION_CODES.N || !info.isHidden(this.mContext)) {
                 showBundledTunerInput(isRefresh);
             }
+
         }
     }
 

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.google.android.leanbacklauncher.EditableAppsRowView;
 import com.google.android.leanbacklauncher.LauncherViewHolder;
 import com.google.android.leanbacklauncher.R;
@@ -26,10 +27,11 @@ import com.google.android.leanbacklauncher.trace.AppTrace;
 import com.google.android.leanbacklauncher.util.Lists;
 import com.google.android.leanbacklauncher.util.Lists.Change;
 import com.google.android.leanbacklauncher.widget.RowViewAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements RankingListener, Listener {
+public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> implements RankingListener, Listener {
     private final ActionOpenLaunchPointListener mActionOpenLaunchPointListener;
     protected final int mAppType;
     protected AppsManager mAppsManager;
@@ -292,8 +294,7 @@ public class AppsAdapter extends RowViewAdapter<AppViewHolder> implements Rankin
             }
             AppTrace.beginSection(section);
             try {
-                ArrayList<LaunchPoint> access$500 = AppsAdapter.this.getRefreshedLaunchPointList();
-                return access$500;
+                return AppsAdapter.this.getRefreshedLaunchPointList();
             } finally {
                 AppTrace.endSection();
             }

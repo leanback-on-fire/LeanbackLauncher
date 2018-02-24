@@ -8,13 +8,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.apps.AppsAdapter.AppBannerViewHolder;
 import com.google.android.leanbacklauncher.core.LaunchException;
 import com.google.android.leanbacklauncher.util.Util;
 import com.google.android.tvrecommendations.TvRecommendation;
 
-public class PartnerAdapter extends NotificationsServiceAdapter<PartnerBannerViewHolder> {
+public class PartnerAdapter extends NotificationsServiceAdapter<PartnerAdapter.PartnerBannerViewHolder> {
     private final BlacklistListener mListener;
 
     static final class PartnerBannerViewHolder extends AppBannerViewHolder {

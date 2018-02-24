@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.animation.MassSlideAnimator.Direction;
 import com.google.android.leanbacklauncher.notifications.HomeScreenView;
@@ -31,7 +32,7 @@ public class LauncherReturnAnimator extends ForwardingAnimatorSet {
             }
         }
         for (View header : headers) {
-            anim = new FadeAnimator(header, FadeAnimator.Direction.FADE_IN);
+            FadeAnimator anim = new FadeAnimator(header, FadeAnimator.Direction.FADE_IN);
             anim.setDuration((long) fadeDuration);
             anim.setStartDelay((long) fadeDelay);
             builder.with(anim);

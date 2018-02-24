@@ -23,6 +23,7 @@ import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
@@ -120,7 +121,8 @@ public abstract class RecommendationView extends ViewGroup implements Target<Bit
         this.mInfoBackground = new ColorDrawable();
         this.mDimmer.addDimTarget(this.mInfoBackground);
         this.mPackageManager = getContext().getPackageManager();
-        TypedArray a = context.obtainStyledAttributes(R.style.LeanbackRecommendationCard, R.styleable.RecommendationCard);
+        TypedArray a = context.obtainStyledAttributes(R.style.LeanbackRecommendationCard, new int[]{2130771980, 2130772303, 2130772328, 2130772329, 2130772330, 2130772331, 2130772332, 2130772333, 2130772334, 2130772335, 2130772336, 2130772337, 2130772338, 2130772339, 2130772340, 2130772341, 2130772342, 2130772343, 2130772344, 2130772345, 2130772346});
+
         String font = a.getString(2);
         this.mBackground = a.getDrawable(0);
         this.mImageMinWidth = a.getDimensionPixelSize(3, 0);

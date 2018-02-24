@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
 import com.google.android.leanbacklauncher.MainActivity;
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.apps.LaunchPoint;
@@ -24,7 +25,7 @@ public class HomeScreenView extends ViewFlipper implements Listener {
     private boolean mHasNowPlayingCard;
     private HomeScreenMessaging mHomeScreenMessaging = new HomeScreenMessaging(this);
     private int mNotifRowViewIndex;
-    private final NowPlayCardListener mNowPlayCardListener;
+    // private final NowPlayCardListener mNowPlayCardListener;
     private NowPlayingCardView mNowPlayingCardView;
     OnClickListener mOnClickListener = new OnClickListener() {
         public void onClick(View v) {
@@ -50,7 +51,7 @@ public class HomeScreenView extends ViewFlipper implements Listener {
 
     public HomeScreenView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mNowPlayCardListener = new NowPlayCardListener(context);
+        // this.mNowPlayCardListener = new NowPlayCardListener(context);
     }
 
     protected void onFinishInflate() {
@@ -69,21 +70,21 @@ public class HomeScreenView extends ViewFlipper implements Listener {
 
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        try {
-            this.mNowPlayCardListener.setRemoteControlListener(this);
-            this.mNowPlayCardListener.forceUpdate();
+      /*  try {
+       //     this.mNowPlayCardListener.setRemoteControlListener(this);
+       //     this.mNowPlayCardListener.forceUpdate();
         } catch (RemoteException e) {
             Log.e("HomeScreenView", "Exception", e);
-        }
+        }*/
     }
 
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        try {
+       /* try {
             this.mNowPlayCardListener.setRemoteControlListener(null);
         } catch (RemoteException e) {
             Log.e("HomeScreenView", "Exception", e);
-        }
+        }*/
     }
 
     public HomeScreenMessaging getHomeScreenMessaging() {
@@ -103,7 +104,7 @@ public class HomeScreenView extends ViewFlipper implements Listener {
             this.mNowPlayingCardView.stopIconAnimation();
         }
         this.mNowPlayingCardView = this.mTimeoutCard;
-        this.mNowPlayCardListener.forceUpdate();
+        //this.mNowPlayCardListener.forceUpdate();
         setDisplayedChild(this.mTimeoutViewIndex);
     }
 
@@ -112,13 +113,13 @@ public class HomeScreenView extends ViewFlipper implements Listener {
             this.mNowPlayingCardView.stopIconAnimation();
         }
         this.mNowPlayingCardView = this.mPreparingCard;
-        this.mNowPlayCardListener.forceUpdate();
+       // this.mNowPlayCardListener.forceUpdate();
         setDisplayedChild(this.mPreparingViewIndex);
     }
 
     public void flipToNotifications() {
         if (this.mNowPlayingCardView != null) {
-            this.mNowPlayCardListener.forceUpdate();
+          //  this.mNowPlayCardListener.forceUpdate();
             this.mNowPlayingCardView.stopIconAnimation();
         }
         setDisplayedChild(this.mNotifRowViewIndex);

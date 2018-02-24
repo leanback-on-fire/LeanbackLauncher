@@ -38,7 +38,7 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
     private BannerView mLastFocusedBanner;
     private boolean mLeavingEditMode;
     private ArrayList<BannerSelectedChangedListener> mSelectedListeners;
-    private AppViewHolder mViewHolder;
+    private AppsAdapter.AppViewHolder mViewHolder;
 
     public BannerView(Context context) {
         this(context, null);
@@ -107,7 +107,7 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         return this.mDimmer;
     }
 
-    public void setViewHolder(AppViewHolder viewHolder) {
+    public void setViewHolder(AppsAdapter.AppViewHolder viewHolder) {
         this.mViewHolder = viewHolder;
     }
 

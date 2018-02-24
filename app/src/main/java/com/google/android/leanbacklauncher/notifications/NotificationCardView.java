@@ -20,11 +20,12 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.google.android.leanbacklauncher.DimmableItem;
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.animation.ParticipatesInLaunchAnimation;
@@ -199,7 +200,7 @@ public class NotificationCardView extends BaseCardView implements DimmableItem, 
     }
 
     private static void setViewWidth(View v, int width) {
-        LayoutParams p = v.getLayoutParams();
+        ViewGroup.LayoutParams p = v.getLayoutParams();
         if (p.width != width) {
             p.width = width;
             v.setLayoutParams(p);
@@ -207,7 +208,7 @@ public class NotificationCardView extends BaseCardView implements DimmableItem, 
     }
 
     private static void setViewHeight(View v, int height) {
-        LayoutParams p = v.getLayoutParams();
+        ViewGroup.LayoutParams p = v.getLayoutParams();
         if (p.height != height) {
             p.height = height;
             v.setLayoutParams(p);

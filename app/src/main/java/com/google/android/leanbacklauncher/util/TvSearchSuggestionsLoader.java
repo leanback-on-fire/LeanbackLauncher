@@ -57,12 +57,10 @@ public class TvSearchSuggestionsLoader extends AsyncTaskLoader<String[]> {
 
     public String[] loadInBackground() {
         Cursor data;
-        Throwable th;
-        Throwable th2;
         this.mSearchSuggestions = null;
         try {
             data = getContext().getContentResolver().query(SearchWidgetInfoContract.SUGGESTIONS_CONTENT_URI, null, null, null, null);
-            th = null;
+
             if (data != null) {
                 try {
                     if (data.moveToFirst()) {
@@ -73,39 +71,17 @@ public class TvSearchSuggestionsLoader extends AsyncTaskLoader<String[]> {
                             data.moveToNext();
                         }
                     }
-                } catch (Throwable th22) {
-                    Throwable th3 = th22;
-                    th22 = th;
-                    th = th3;
+                } catch (Throwable ignored) {
                 }
             }
+
             if (data != null) {
-                if (null != null) {
-                    try {
-                        data.close();
-                    } catch (Throwable th222) {
-                        th.addSuppressed(th222);
-                    }
-                } else {
-                    data.close();
-                }
+                data.close();
             }
         } catch (Exception e) {
             Log.e("TvSearchSuggestionsLdr", "Exception in loadInBackground()", e);
         }
+
         return this.mSearchSuggestions;
-        throw th;
-        if (data != null) {
-            if (th222 != null) {
-                try {
-                    data.close();
-                } catch (Throwable th4) {
-                    th222.addSuppressed(th4);
-                }
-            } else {
-                data.close();
-            }
-        }
-        throw th;
     }
 }

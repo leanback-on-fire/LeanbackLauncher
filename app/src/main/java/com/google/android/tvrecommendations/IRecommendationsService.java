@@ -130,6 +130,8 @@ public interface IRecommendationsService extends IInterface {
                     _reply.recycle();
                     _data.recycle();
                 }
+
+                return null;
             }
 
             public void onActionOpenLaunchPoint(String component, String group) throws RemoteException {

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -32,11 +33,12 @@ import com.google.android.leanbacklauncher.util.Preconditions;
 import com.google.android.leanbacklauncher.util.Util;
 import com.google.android.tvrecommendations.IRecommendationsService;
 import com.google.android.tvrecommendations.TvRecommendation;
+
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewHolder> implements IdleListener, ActionOpenLaunchPointListener, Listener {
+public class NotificationsAdapter extends NotificationsServiceAdapter<NotificationsAdapter.NotifViewHolder> implements IdleListener, ActionOpenLaunchPointListener, Listener {
     private final CardUpdateController mCardUpdateController = new CardUpdateController();
     private RequestOptions mGlideOptions;
     private RequestManager mGlideRequestManager;
@@ -46,7 +48,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
     private final LayoutInflater mInflater;
     private boolean mIsIdle;
     private final boolean mLegacyRecommendationLayoutSupported;
-    private final NowPlayCardListener mNowPlayCardListener;
+    // private final NowPlayCardListener mNowPlayCardListener;
     private NowPlayingCardData mNowPlayingData;
     private long mNowPlayingPosMs;
     private long mNowPlayingPosUpdateMs;
@@ -128,7 +130,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
         public void handleMessage(Message msg) {
             NotificationsAdapter adapter = (NotificationsAdapter) this.mAdapterRef.get();
             if (adapter != null && msg.what == 11 && !adapter.mIsIdle) {
-                NotifViewHolder holder = msg.obj;
+                NotifViewHolder holder = (NotifViewHolder) msg.obj;
                 PendingIntent intent = holder.getPendingIntent();
                 if (intent != null) {
                     adapter.onActionRecommendationImpression(intent, holder.getGroup());
@@ -143,7 +145,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
         TvRecommendation mRecommendation;
         RecommendationView mRecommendationView;
         boolean mUseGlide;
-        final /* synthetic */ NotificationsAdapter this$0;
+        final /* synthetic */ NotificationsAdapter adapter;
 
         private class FetchImageTask extends AsyncTask<String, Void, Bitmap> {
             private final TraceTag mTraceTag;
@@ -154,17 +156,17 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
 
             protected Bitmap doInBackground(String... params) {
                 String notifKey = params[0];
-                if (!NotifViewHolder.this.this$0.mCardUpdateController.queueImageFetchIfDisconnected(NotifViewHolder.this)) {
+                if (!NotifViewHolder.this.adapter.mCardUpdateController.queueImageFetchIfDisconnected(NotifViewHolder.this)) {
                     Bitmap img = null;
                     try {
-                        IRecommendationsService boundService = NotifViewHolder.this.this$0.mBoundService;
+                        IRecommendationsService boundService = NotifViewHolder.this.adapter.mBoundService;
                         if (boundService != null) {
                             img = boundService.getImageForRecommendation(notifKey);
                         }
                         if (img != null) {
                             return img;
                         }
-                        NotifViewHolder.this.this$0.mCardUpdateController.queueImageFetchIfDisconnected(NotifViewHolder.this);
+                        NotifViewHolder.this.adapter.mCardUpdateController.queueImageFetchIfDisconnected(NotifViewHolder.this);
                         return img;
                     } catch (RemoteException e) {
                         Log.e("NotificationsAdapter", "Exception while fetching card image", e);
@@ -176,7 +178,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
             protected void onPostExecute(Bitmap image) {
                 if (!isCancelled()) {
                     if (image != null) {
-                        NotifViewHolder.this.mRecommendationView.setMainImage(new BitmapDrawable(NotifViewHolder.this.this$0.mContext.getResources(), image));
+                        NotifViewHolder.this.mRecommendationView.setMainImage(new BitmapDrawable(NotifViewHolder.this.adapter.mContext.getResources(), image));
                     }
                     NotifViewHolder.this.mImageTask = null;
                     AppTrace.endAsyncSection(this.mTraceTag);
@@ -184,10 +186,11 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
             }
         }
 
-        public NotifViewHolder(NotificationsAdapter this$0, View v) {
-            boolean z = false;
-            this.this$0 = this$0;
+        public NotifViewHolder(NotificationsAdapter adapter, View v) {
             super(v);
+
+            boolean z = false;
+            this.adapter = adapter;
             if (v instanceof RecommendationView) {
                 this.mRecommendationView = (RecommendationView) v;
                 if (!(this.mRecommendationView instanceof CaptivePortalNotificationCardView)) {
@@ -211,15 +214,15 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
             if (this.mUseGlide) {
                 this.mRecommendationView.setUseBackground(false);
                 this.mRecommendationView.onStartImageFetch();
-                this.this$0.mGlideRequestManager.asBitmap().load(new RecommendationImageKey(this.mRecommendation)).apply(this.this$0.mGlideOptions).into(this.mRecommendationView);
+                this.adapter.mGlideRequestManager.asBitmap().load(new RecommendationImageKey(this.mRecommendation)).apply(this.adapter.mGlideOptions).into(this.mRecommendationView);
                 return;
             }
             this.mRecommendationView.setUseBackground(true);
             Bitmap contentImage = rec.getContentImage();
             if (contentImage != null) {
-                this.mRecommendationView.setMainImage(new BitmapDrawable(this.this$0.mContext.getResources(), contentImage));
+                this.mRecommendationView.setMainImage(new BitmapDrawable(this.adapter.mContext.getResources(), contentImage));
             }
-            if (!this.this$0.mCardUpdateController.queueImageFetchIfDisconnected(this)) {
+            if (!this.adapter.mCardUpdateController.queueImageFetchIfDisconnected(this)) {
                 executeImageTask();
             }
         }
@@ -247,7 +250,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
             PendingIntent intent = getPendingIntent();
             if (intent != null) {
                 try {
-                    Util.startActivity(this.this$0.mContext, intent);
+                    Util.startActivity(this.adapter.mContext, intent);
                     onLaunchSucceeded();
                     onNotificationClick(intent);
                 } catch (Throwable t) {
@@ -259,9 +262,9 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
         }
 
         protected void onNotificationClick(PendingIntent intent) {
-            this.this$0.onNotificationClick(intent, getGroup());
+            this.adapter.onNotificationClick(intent, getGroup());
             if (this.mRecommendation != null && this.mRecommendation.isAutoDismiss()) {
-                this.this$0.dismissNotification(this.mRecommendation);
+                this.adapter.dismissNotification(this.mRecommendation);
             }
         }
     }
@@ -345,13 +348,13 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
 
     public NotificationsAdapter(Context context) {
         super(context, 300000, 600000);
-        this.mNowPlayCardListener = new NowPlayCardListener(context);
+        // this.mNowPlayCardListener = new NowPlayCardListener(context);
         this.mImpressionDelay = context.getResources().getInteger(R.integer.impression_delay);
         this.mInflater = (LayoutInflater) this.mContext.getSystemService("layout_inflater");
         this.mRichRecommendationViewSupported = LauncherConfiguration.getInstance().isRichRecommendationViewEnabled();
         this.mLegacyRecommendationLayoutSupported = LauncherConfiguration.getInstance().isLegacyRecommendationLayoutEnabled();
         this.mGlideRequestManager = Glide.with(this.mContext);
-        this.mGlideOptions = (RequestOptions) ((RequestOptions) new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).transform(this.mContext, new OpaqueBitmapTransformation(this.mContext, ContextCompat.getColor(context, R.color.notif_background_color)));
+        this.mGlideOptions = ((RequestOptions) new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).transform(new OpaqueBitmapTransformation(this.mContext, ContextCompat.getColor(context, R.color.notif_background_color)));
     }
 
     public void onActionOpenLaunchPoint(String component, String group) {
@@ -387,11 +390,11 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
             this.mRecommendationsHandler.sendEmptyMessageDelayed(10, 1500);
         }
         super.onServiceConnected(service);
-        try {
+        /*try {
             this.mNowPlayCardListener.setRemoteControlListener(this);
         } catch (RemoteException e) {
             Log.e("NotificationsAdapter", "Exception", e);
-        }
+        }*/
     }
 
     protected void serviceStatusChanged(boolean isReady) {
@@ -410,12 +413,8 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<NotifViewH
 
     public void onStopUi() {
         this.mCardUpdateController.onDisconnected();
-        try {
-            super.onStopUi();
-            this.mNowPlayCardListener.setRemoteControlListener(null);
-        } catch (RemoteException e) {
-            Log.e("NotificationsAdapter", "Exception", e);
-        }
+        super.onStopUi();
+        //  this.mNowPlayCardListener.setRemoteControlListener(null);
         if (this.mHasNowPlayingCard) {
             notifyNonNotifItemChanged(0);
         }

@@ -14,10 +14,12 @@ import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+
 import com.google.android.tvrecommendations.IRecommendationsClient;
 import com.google.android.tvrecommendations.RecommendationsClient;
 import com.google.android.tvrecommendations.TvRecommendation;
 import com.google.android.tvrecommendations.service.Ranker.RankingListener;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -504,7 +506,7 @@ class RecommendationsManager implements RankingListener {
                 scoreMap.put(sbn, Double.valueOf(score));
             }
         }
-        LoggingUtils.logRecommendationRankEvent(notifications, rawScoreMap, scoreMap, this.mContext);
+        // LoggingUtils.logRecommendationRankEvent(notifications, rawScoreMap, scoreMap, this.mContext);
     }
 
     private void postRecommendationChangesToClients(RemoteCallbackList<IRecommendationsClient> clients, List<RecOperation> changed) {
@@ -655,7 +657,7 @@ class RecommendationsManager implements RankingListener {
                 wantPosition++;
             }
             if (haveAdjustedScore) {
-                LoggingUtils.logRecommendationInsertAction(sbn, this.mRanker.getBaseNotificationScore(sbn), adjustedScore, recPosition, this.mContext);
+                //  LoggingUtils.logRecommendationInsertAction(sbn, this.mRanker.getBaseNotificationScore(sbn), adjustedScore, recPosition, this.mContext);
             }
         }
     }
@@ -707,10 +709,14 @@ class RecommendationsManager implements RankingListener {
                     count = partnerClients.beginBroadcast();
                     for (i = 0; i < count; i++) {
                         recommendation = RecommendationsUtil.fromStatusBarNotification(sbn);
-                        if (found) {
-                            ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onUpdateRecommendation(recommendation);
-                        } else {
-                            ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onAddRecommendation(recommendation);
+                        try {
+                            if (found) {
+                                partnerClients.getBroadcastItem(i).onUpdateRecommendation(recommendation);
+                            } else {
+                                partnerClients.getBroadcastItem(i).onAddRecommendation(recommendation);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                     }
                     partnerClients.finishBroadcast();
@@ -725,10 +731,14 @@ class RecommendationsManager implements RankingListener {
             count = partnerClients.beginBroadcast();
             for (i = 0; i < count; i++) {
                 recommendation = RecommendationsUtil.fromStatusBarNotification(sbn);
-                if (found) {
-                    ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onAddRecommendation(recommendation);
-                } else {
-                    ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onUpdateRecommendation(recommendation);
+                try {
+                    if (found) {
+                        ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onAddRecommendation(recommendation);
+                    } else {
+                        ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onUpdateRecommendation(recommendation);
+                    }
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
             }
             partnerClients.finishBroadcast();

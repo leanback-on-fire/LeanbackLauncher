@@ -13,16 +13,15 @@ import android.os.RemoteException;
 import android.provider.Settings.Secure;
 import android.text.TextUtils;
 import android.util.Log;
-import com.google.android.gms.clearcut.ClearcutLogger;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.Builder;
+
 import com.google.android.tvrecommendations.IRecommendationsClient;
 import com.google.android.tvrecommendations.IRecommendationsService.Stub;
+
 import java.util.List;
 
 public abstract class BaseRecommendationsService extends Service {
     private LeanbackLauncherEventLogger mEventLogger;
-    private GoogleApiClient mGoogleApiClient;
+    // private GoogleApiClient mGoogleApiClient;
     private RecommendationsManager mManager;
     private final Class mNotificationsServiceClass;
     private final RankerParametersFactory mRankerParametersFactory;
@@ -118,21 +117,21 @@ public abstract class BaseRecommendationsService extends Service {
         super.onCreate();
         this.mManager = RecommendationsManager.getInstance(this, this.mUnbundled, this.mRankerParametersFactory);
         Context appContext = getApplicationContext();
-        this.mGoogleApiClient = new Builder(appContext).addApi(ClearcutLogger.API).build();
+        // this.mGoogleApiClient = new Builder(appContext).addApi(ClearcutLogger.API).build();
         this.mEventLogger = LeanbackLauncherEventLogger.getInstance(appContext);
-        this.mEventLogger.setGoogleApiClient(this.mGoogleApiClient);
-        if (this.mGoogleApiClient != null) {
-            this.mGoogleApiClient.connect();
-        }
+        // this.mEventLogger.setGoogleApiClient(this.mGoogleApiClient);
+        //if (this.mGoogleApiClient != null) {
+        //    this.mGoogleApiClient.connect();
+        //}
     }
 
     public void onDestroy() {
         super.onDestroy();
-        if (this.mGoogleApiClient != null) {
-            this.mEventLogger.flush();
-            this.mGoogleApiClient.disconnect();
-            this.mGoogleApiClient = null;
-        }
+        //if (this.mGoogleApiClient != null) {
+        this.mEventLogger.flush();
+        //    this.mGoogleApiClient.disconnect();
+        //    this.mGoogleApiClient = null;
+        //}
     }
 
     private boolean isSystemUid(int uid) {

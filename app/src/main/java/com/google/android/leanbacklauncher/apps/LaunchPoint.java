@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -107,7 +108,7 @@ public class LaunchPoint {
             if (useBanner) {
                 this.mBannerDrawable = actInfo.loadBanner(pm);
                 if (this.mBannerDrawable instanceof BitmapDrawable) {
-                    this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(this.mBannerDrawable.getBitmap(), maxWidth, maxHeight));
+                    this.mBannerDrawable = new BitmapDrawable(res, Util.getSizeCappedBitmap(((BitmapDrawable) this.mBannerDrawable).getBitmap(), maxWidth, maxHeight));
                 }
             }
             boolean z = (actInfo.applicationInfo.flags & 33554432) != 0 || (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false));

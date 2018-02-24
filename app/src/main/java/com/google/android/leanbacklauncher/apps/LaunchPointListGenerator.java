@@ -1,5 +1,6 @@
 package com.google.android.leanbacklauncher.apps;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +11,11 @@ import android.media.tv.TvContract;
 import android.os.AsyncTask;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.google.android.leanbacklauncher.trace.AppTrace;
+import com.google.android.leanbacklauncher.util.Util;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +29,545 @@ import java.util.Queue;
 import java.util.Set;
 
 public class LaunchPointListGenerator {
+    private static final String TAG = "LaunchPointList";
+
+    private HashMap<String, Integer> mNonUpdatableBlacklist;
+    private HashMap<String, Integer> mUpdatableBlacklist;
+
+    public interface Listener {
+        void onLaunchPointListGeneratorReady();
+
+        void onLaunchPointsAddedOrUpdated(ArrayList<LaunchPoint> arrayList);
+
+        void onLaunchPointsRemoved(ArrayList<LaunchPoint> arrayList);
+
+        void onSettingsChanged();
+    }
+
+    private class CachedAction {
+        int mAction;
+        LaunchPoint mLaunchPoint;
+        String mPkgName;
+        boolean mSuccess;
+        boolean mUpdatable;
+
+        CachedAction(int action, String pkgName) {
+            this.mSuccess = false;
+            this.mUpdatable = true;
+            this.mAction = action;
+            this.mPkgName = pkgName;
+        }
+
+        CachedAction(LaunchPointListGenerator this$0, int action, String pkgName, boolean updatable) {
+            this(action, pkgName);
+            this.mUpdatable = updatable;
+        }
+
+        CachedAction(int action, LaunchPoint launchPoint) {
+            this.mSuccess = false;
+            this.mUpdatable = true;
+            this.mAction = action;
+            this.mLaunchPoint = launchPoint;
+        }
+
+        CachedAction(LaunchPointListGenerator this$0, int action, LaunchPoint launchPoint, boolean success) {
+            this(action, launchPoint);
+            this.mSuccess = success;
+        }
+
+        @SuppressLint("PrivateResource")
+        public void apply() {
+            switch (this.mAction) {
+                case android.support.v7.preference.R.styleable.Preference_android_icon /*0*/:
+                    LaunchPointListGenerator.this.addOrUpdatePackage(this.mPkgName);
+                case android.support.v7.recyclerview.R.styleable.RecyclerView_android_descendantFocusability /*1*/:
+                    LaunchPointListGenerator.this.removePackage(this.mPkgName);
+                case android.support.v7.recyclerview.R.styleable.RecyclerView_layoutManager /*2*/:
+                    LaunchPointListGenerator.this.addToBlacklist(this.mPkgName, this.mUpdatable);
+                case android.support.v7.preference.R.styleable.Preference_android_layout /*3*/:
+                    LaunchPointListGenerator.this.removeFromBlacklist(this.mPkgName, this.mUpdatable);
+                case android.support.v7.preference.R.styleable.Preference_android_title /*4*/:
+                    LaunchPointListGenerator.this.addOrUpdateInstallingLaunchPoint(this.mLaunchPoint);
+                case android.support.v7.preference.R.styleable.Preference_android_selectable /*5*/:
+                    LaunchPointListGenerator.this.removeInstallingLaunchPoint(this.mLaunchPoint, this.mSuccess);
+                default:
+            }
+        }
+    }
+
+    private class CreateLaunchPointListTask extends AsyncTask<Void, Void, List<LaunchPoint>> {
+        private final boolean mFilterChannelsActivities;
+
+        public CreateLaunchPointListTask(boolean excludeChannelActivities) {
+            this.mFilterChannelsActivities = excludeChannelActivities;
+        }
+
+        protected List<LaunchPoint> doInBackground(Void... params) {
+            Intent mainIntent = new Intent("android.intent.action.MAIN");
+            mainIntent.addCategory("android.intent.category.LAUNCHER");
+
+            Intent tvIntent = new Intent("android.intent.action.MAIN");
+            tvIntent.addCategory("android.intent.category.LEANBACK_LAUNCHER");
+
+            List<LaunchPoint> launcherItems = new LinkedList<>();
+
+            PackageManager pkgMan = LaunchPointListGenerator.this.mContext.getPackageManager();
+            List<ResolveInfo> normLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129);
+            List<ResolveInfo> tvLaunchPoints = pkgMan.queryIntentActivities(tvIntent, 129);
+
+            Map<String, String> rawComponents = new HashMap<>();
+            List<ResolveInfo> allLaunchPoints = new ArrayList<>();
+
+            if (tvLaunchPoints != null && tvLaunchPoints.size() > 0) {
+                for (ResolveInfo itemTvLaunchPoint : tvLaunchPoints) {
+                    if (itemTvLaunchPoint.activityInfo != null && itemTvLaunchPoint.activityInfo.packageName != null && itemTvLaunchPoint.activityInfo.name != null) {
+                        rawComponents.put(itemTvLaunchPoint.activityInfo.packageName, itemTvLaunchPoint.activityInfo.name);
+                        allLaunchPoints.add(itemTvLaunchPoint);
+                    }
+                }
+            }
+
+            if (normLaunchPoints != null && normLaunchPoints.size() > 0) {
+                for (ResolveInfo itemRawLaunchPoint : normLaunchPoints) {
+                    if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
+                        // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
+                        if (!Util.isSystemApp(LaunchPointListGenerator.this.mContext, itemRawLaunchPoint.activityInfo.packageName) || itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.bueller")) { // todo optimize & don't hardcode
+                            if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName)) {
+                                allLaunchPoints.add(itemRawLaunchPoint);
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int x = 0, size = allLaunchPoints.size(); x < size; x++) {
+                ResolveInfo info = allLaunchPoints.get(x);
+
+                ActivityInfo activityInfo = info.activityInfo;
+
+                if (activityInfo != null) {
+                    launcherItems.add(new LaunchPoint(LaunchPointListGenerator.this.mContext, pkgMan, info));
+                }
+            }
+
+            return launcherItems;
+        }
+
+        public void onPostExecute(List<LaunchPoint> launcherItems) {
+            synchronized (LaunchPointListGenerator.this.mLock) {
+                LaunchPointListGenerator.this.mAllLaunchPoints.clear();
+                LaunchPointListGenerator.this.mAllLaunchPoints.addAll(launcherItems);
+            }
+            synchronized (LaunchPointListGenerator.this.mCachedActions) {
+                Log.i(TAG, "mCachedActions is empty:" + mCachedActions.isEmpty());
+                LaunchPointListGenerator.this.mIsReady = true;
+                LaunchPointListGenerator.this.mShouldNotify = true;
+                for (Listener onLaunchPointListGeneratorReady : LaunchPointListGenerator.this.mListeners) {
+                    Log.i(TAG, "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.getClass().getName());
+                    onLaunchPointListGeneratorReady.onLaunchPointListGeneratorReady();
+                }
+            }
+        }
+    }
+
+    public LaunchPointListGenerator(Context ctx) {
+        this.mContext = ctx;
+    }
+
+
+    public LaunchPointListGenerator(Context ctx) {
+        this.mIsReady = false;
+        this.mShouldNotify = false;
+        this.mCachedActions = new LinkedList<>();
+        this.mListeners = new LinkedList<>();
+        this.mAllLaunchPoints = new LinkedList<>();
+        this.mInstallingLaunchPoints = new LinkedList<>();
+        this.mUpdatableBlacklist = new HashMap<>();
+        this.mNonUpdatableBlacklist = new HashMap<>();
+        this.mLock = new Object();
+        this.mContext = ctx;
+    }
+
+    public void setExcludeChannelActivities(boolean excludeChannelActivities) {
+        if (this.mExcludeChannelActivities != excludeChannelActivities) {
+            this.mExcludeChannelActivities = excludeChannelActivities;
+            refreshLaunchPointList();
+        }
+    }
+
+
+    public boolean addToBlacklist(String pkgName) {
+        return addToBlacklist(pkgName, true);
+    }
+
+    public boolean addToBlacklist(String pkgName, boolean updatable) {
+        if (TextUtils.isEmpty(pkgName)) {
+            return false;
+        }
+        synchronized (this.mCachedActions) {
+            if (this.mIsReady) {
+                boolean added = false;
+                synchronized (this.mLock) {
+                    HashMap<String, Integer> blacklist = updatable ? this.mUpdatableBlacklist : this.mNonUpdatableBlacklist;
+                    Integer occurrences = blacklist.get(pkgName);
+                    Integer otherOccurrences = (updatable ? this.mNonUpdatableBlacklist : this.mUpdatableBlacklist).get(pkgName);
+                    if (occurrences == null || occurrences <= 0) {
+                        occurrences = 0;
+                        if (otherOccurrences == null || otherOccurrences <= 0) {
+                            added = true;
+                            ArrayList<LaunchPoint> blacklistedLaunchPoints = new ArrayList<>();
+                            getLaunchPointsByCategory(this.mInstallingLaunchPoints, blacklistedLaunchPoints, pkgName, false);
+                            getLaunchPointsByCategory(this.mAllLaunchPoints, blacklistedLaunchPoints, pkgName, false);
+                            if (!blacklistedLaunchPoints.isEmpty() && this.mShouldNotify) {
+                                for (Listener cl : this.mListeners) {
+                                    cl.onLaunchPointsRemoved(blacklistedLaunchPoints);
+                                }
+                            }
+                        }
+                    }
+                    int intValue = occurrences + 1;
+                    occurrences = intValue;
+                    blacklist.put(pkgName, intValue);
+                }
+                return added;
+            }
+            this.mCachedActions.add(new CachedAction(this, 2, pkgName, updatable));
+            return false;
+        }
+    }
+
+    public boolean removeFromBlacklist(String pkgName, boolean updatable) {
+        return removeFromBlacklist(pkgName, false, updatable);
+    }
+
+    private boolean removeFromBlacklist(String pkgName, boolean force, boolean updatable) {
+        if (TextUtils.isEmpty(pkgName)) {
+            return false;
+        }
+        synchronized (this.mCachedActions) {
+            if (this.mIsReady) {
+                boolean removed = false;
+                synchronized (this.mLock) {
+                    HashMap<String, Integer> blacklist = updatable ? this.mUpdatableBlacklist : this.mNonUpdatableBlacklist;
+                    Integer occurrences = blacklist.get(pkgName);
+                    Integer otherOccurrences = (updatable ? this.mNonUpdatableBlacklist : this.mUpdatableBlacklist).get(pkgName);
+                    if (occurrences != null) {
+                        occurrences = occurrences - 1;
+                        if (occurrences <= 0 || force) {
+                            blacklist.remove(pkgName);
+                            if (otherOccurrences == null) {
+                                removed = true;
+                                ArrayList<LaunchPoint> blacklistedLaunchPoints = new ArrayList<>();
+                                getLaunchPointsByCategory(this.mInstallingLaunchPoints, blacklistedLaunchPoints, pkgName, false);
+                                getLaunchPointsByCategory(this.mAllLaunchPoints, blacklistedLaunchPoints, pkgName, false);
+                                if (!blacklistedLaunchPoints.isEmpty() && this.mShouldNotify) {
+                                    for (Listener cl : this.mListeners) {
+                                        cl.onLaunchPointsAddedOrUpdated(blacklistedLaunchPoints);
+                                    }
+                                }
+                            }
+                        } else {
+                            blacklist.put(pkgName, occurrences);
+                        }
+                    }
+                }
+                return removed;
+            }
+            this.mCachedActions.add(new CachedAction(this, 3, pkgName, updatable));
+            return false;
+        }
+    }
+
+    public void addOrUpdateInstallingLaunchPoint(LaunchPoint launchPoint) {
+        if (launchPoint != null) {
+            synchronized (this.mCachedActions) {
+                if (this.mIsReady) {
+                    String pkgName = launchPoint.getPackageName();
+                    ArrayList<LaunchPoint> launchPoints = new ArrayList<>();
+                    synchronized (this.mLock) {
+                        getLaunchPointsByCategory(this.mInstallingLaunchPoints, launchPoints, pkgName, true);
+                        getLaunchPointsByCategory(this.mAllLaunchPoints, launchPoints, pkgName, true);
+                        for (int i = 0; i < launchPoints.size(); i++) {
+                            launchPoints.get(i).setInstallationState(launchPoint);
+                        }
+                        if (launchPoints.isEmpty()) {
+                            launchPoints.add(launchPoint);
+                        }
+                        this.mInstallingLaunchPoints.addAll(launchPoints);
+                        if (!isBlacklisted(pkgName) && this.mShouldNotify) {
+                            for (Listener cl : this.mListeners) {
+                                cl.onLaunchPointsAddedOrUpdated(launchPoints);
+                            }
+                        }
+                    }
+                    return;
+                }
+                this.mCachedActions.add(new CachedAction(4, launchPoint));
+            }
+        }
+    }
+
+    public void removeInstallingLaunchPoint(LaunchPoint launchPoint, boolean success) {
+        if (launchPoint != null) {
+            synchronized (this.mCachedActions) {
+                if (this.mIsReady) {
+                    if (!success) {
+                        addOrUpdatePackage(launchPoint.getPackageName());
+                    }
+                    return;
+                }
+                this.mCachedActions.add(new CachedAction(this, 5, launchPoint, success));
+            }
+        }
+    }
+
+    private ArrayList<LaunchPoint> getLaunchPointsByCategory(List<LaunchPoint> parentList, ArrayList<LaunchPoint> removeLaunchPoints, String pkgName, boolean remove) {
+        if (removeLaunchPoints == null) {
+            removeLaunchPoints = new ArrayList<>();
+        }
+        Iterator<LaunchPoint> itt = parentList.iterator();
+        while (itt.hasNext()) {
+            LaunchPoint lp = itt.next();
+            if (TextUtils.equals(pkgName, lp.getPackageName())) {
+                removeLaunchPoints.add(lp);
+                if (remove) {
+                    itt.remove();
+                }
+            }
+        }
+        return removeLaunchPoints;
+    }
+
+    public ArrayList<LaunchPoint> getLaunchPointsByType(AppCategory type) {
+        return getLaunchPointsByCategory(type);
+    }
+
+    public ArrayList<LaunchPoint> getAllLaunchPoints() {
+        ArrayList<LaunchPoint> allLaunchPoints = new ArrayList<>();
+        if (mAllLaunchPoints != null && mAllLaunchPoints.size() > 0) {
+            // allLaunchPoints.addAll(mAllLaunchPoints);
+
+            for (LaunchPoint lp : mAllLaunchPoints) {
+                if (!isBlacklisted(lp.getPackageName())) {
+                    allLaunchPoints.add(lp);
+                }
+            }
+        }
+
+        return allLaunchPoints;
+    }
+
+    private ArrayList<LaunchPoint> getLaunchPointsByCategory(AppCategory type) {
+        ArrayList<LaunchPoint> launchPoints = new ArrayList<>();
+        synchronized (this.mLock) {
+            getLaunchPointsLocked(this.mInstallingLaunchPoints, launchPoints, type);
+            getLaunchPointsLocked(this.mAllLaunchPoints, launchPoints, type);
+        }
+        return launchPoints;
+    }
+
+    // todo clean up the AppCategory mess
+    private void getLaunchPointsLocked(List<LaunchPoint> parentList, List<LaunchPoint> childList, AppCategory type) {
+        switch (type) {
+            case GAME:
+                for (LaunchPoint lp : parentList) {
+                    if (!isBlacklisted(lp.getPackageName()) && lp.isGame()) {
+                        childList.add(lp);
+                    }
+                }
+                break;
+            case MUSIC:
+                for (LaunchPoint lp : parentList) {
+                    if (!isBlacklisted(lp.getPackageName()) && lp.getAppCategory() == AppCategory.MUSIC) {
+                        childList.add(lp);
+                    }
+                }
+                break;
+            case SETTINGS:
+                childList.addAll(getSettingsLaunchPoints(false));
+                break;
+            case VIDEO:
+                for (LaunchPoint lp : parentList) {
+                    if (!isBlacklisted(lp.getPackageName()) && lp.getAppCategory() == AppCategory.VIDEO) {
+                        childList.add(lp);
+                    }
+                }
+                break;
+            case OTHER:
+                for (LaunchPoint lp : parentList) {
+                    if (!isBlacklisted(lp.getPackageName()) && lp.getAppCategory() == AppCategory.OTHER) {
+                        childList.add(lp);
+                    }
+                }
+                break;
+        }
+
+    }
+
+    public ArrayList<LaunchPoint> getSettingsLaunchPoints(boolean force) {
+        if (force || this.mSettingsLaunchPoints == null) {
+            this.mSettingsLaunchPoints = createSettingsList();
+        }
+        ArrayList<LaunchPoint> copied = new ArrayList<>();
+        copied.addAll(this.mSettingsLaunchPoints);
+        return copied;
+    }
+
+    public void refreshLaunchPointList() {
+        Log.i(TAG, "refreshLaunchPointList");
+        synchronized (this.mCachedActions) {
+            this.mIsReady = false;
+            this.mShouldNotify = false;
+        }
+        new CreateLaunchPointListTask(this.mExcludeChannelActivities).execute();
+    }
+
+    public boolean isReady() {
+        boolean z;
+        synchronized (this.mCachedActions) {
+            z = this.mIsReady;
+        }
+        return z;
+    }
+
+    private ArrayList<LaunchPoint> createLaunchPoints(String pkgName, ArrayList<LaunchPoint> reusable) {
+        Iterator<ResolveInfo> rawItt;
+
+        Intent mainIntent = new Intent("android.intent.action.MAIN");
+        mainIntent.setPackage(pkgName).addCategory("android.intent.category.LAUNCHER");
+        ArrayList<LaunchPoint> launchPoints = new ArrayList<>();
+        PackageManager pkgMan = this.mContext.getPackageManager();
+        List<ResolveInfo> rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129);
+
+        rawItt = rawLaunchPoints.iterator();
+
+        while (rawItt.hasNext()) {
+            launchPoints.add(new LaunchPoint(this.mContext, pkgMan, rawItt.next()));
+        }
+        return launchPoints;
+    }
+
+    private Set<ComponentName> getChannelActivities() {
+        HashSet<ComponentName> channelActivities = new HashSet<>();
+        for (ResolveInfo info : this.mContext.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", TvContract.buildChannelUri(0)), 513)) {
+            if (info.activityInfo != null) {
+                channelActivities.add(new ComponentName(info.activityInfo.packageName, info.activityInfo.name));
+            }
+        }
+        return channelActivities;
+    }
+
+    private ArrayList<LaunchPoint> createSettingsList() {
+        Intent mainIntent = new Intent("android.intent.action.MAIN");
+        mainIntent.addCategory("android.intent.category.LEANBACK_SETTINGS");
+
+        ArrayList<LaunchPoint> settingsItems = new ArrayList<>();
+        PackageManager pkgMan = this.mContext.getPackageManager();
+        List<ResolveInfo> rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129);
+        HashMap<ComponentName, Integer> specialEntries = new HashMap<>();
+        specialEntries.put(getComponentNameForSettingsActivity("android.settings.WIFI_SETTINGS"), SettingsUtil.Type.WIFI.getCode());
+
+        for (int ptr = 0, size = rawLaunchPoints.size(); ptr < size; ptr++) {
+            ResolveInfo info = rawLaunchPoints.get(ptr);
+            ComponentName comp = getComponentName(info);
+            int type = -1;
+
+            if (specialEntries.containsKey(comp)) {
+                type = specialEntries.get(comp);
+            }
+
+            if (info.activityInfo != null) {
+                LaunchPoint lp = new LaunchPoint(this.mContext, pkgMan, info, false, type);
+                lp.addLaunchIntentFlags(32768);
+                settingsItems.add(lp);
+            }
+        }
+
+        LaunchPoint lp = new LaunchPoint();
+        lp.setTitle(mContext.getString(R.string.launcher_settings));
+        lp.setIconDrawable(mContext.getDrawable(R.drawable.ic_settings_home));
+        lp.setSettingsType(SettingsUtil.Type.APP_CONFIGURE.getCode());
+        settingsItems.add(lp);
+
+        lp = new LaunchPoint(this.mContext, mContext.getString(R.string.notifications), mContext.getDrawable(R.drawable.ic_settings_notification), FireTVUtils.getNotificationCenterIntent(), 0);
+        lp.addLaunchIntentFlags(32768);
+        lp.setSettingsType(SettingsUtil.Type.NOTIFICATIONS.getCode());
+        settingsItems.add(lp);
+
+        lp = new LaunchPoint();
+        lp.setTitle(mContext.getString(R.string.edit_favorites));
+        lp.setIconDrawable(mContext.getDrawable(R.drawable.ic_star_white));
+        lp.setSettingsType(SettingsUtil.Type.EDIT_FAVORITES.getCode());
+        settingsItems.add(lp);
+
+        return settingsItems;
+    }
+
+    public boolean packageHasSettingsEntry(String packageName) {
+        if (this.mSettingsLaunchPoints != null) {
+            for (int i = 0; i < this.mSettingsLaunchPoints.size(); i++) {
+                if (TextUtils.equals(this.mSettingsLaunchPoints.get(i).getPackageName(), packageName)) {
+                    return true;
+                }
+            }
+        }
+        Intent mainIntent = new Intent("android.intent.action.MAIN");
+        mainIntent.addCategory("android.intent.category.PREFERENCE");
+        List<ResolveInfo> rawLaunchPoints = this.mContext.getPackageManager().queryIntentActivities(mainIntent, 129);
+        int size = rawLaunchPoints.size();
+        for (int ptr = 0; ptr < size; ptr++) {
+            ResolveInfo info = rawLaunchPoints.get(ptr);
+            if (info.activityInfo != null) {
+                //boolean system = (info.activityInfo.applicationInfo.flags & 1) != 0;
+                // Why discriminate against user-space settings app?
+                if (/*system &&*/ TextUtils.equals(info.activityInfo.applicationInfo.packageName, packageName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private ComponentName getComponentName(ResolveInfo info) {
+        if (info == null) {
+            return null;
+        }
+        return new ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name);
+    }
+
+    private ComponentName getComponentNameForSettingsActivity(String action) {
+        Intent mainIntent = new Intent(action);
+        // mainIntent.addCategory("android.intent.category.PREFERENCE");
+        List<ResolveInfo> launchPoints = this.mContext.getPackageManager().queryIntentActivities(mainIntent, 129);
+        if (launchPoints.size() > 0) {
+            int size = launchPoints.size();
+            for (int ptr = 0; ptr < size; ptr++) {
+                ResolveInfo info = launchPoints.get(ptr);
+
+                // todo fix this
+                if (info.activityInfo != null && info.activityInfo.packageName.contains("rockon999")) {
+                    return getComponentName(info);
+                }
+            }
+        }
+
+        if (launchPoints.size() > 0) {
+            int size = launchPoints.size();
+            for (int ptr = 0; ptr < size; ptr++) {
+                ResolveInfo info = launchPoints.get(ptr);
+
+                if (info.activityInfo != null) {
+                    return getComponentName(info);
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isBlacklisted(String pkgName) {
+        return this.mUpdatableBlacklist.containsKey(pkgName) || this.mNonUpdatableBlacklist.containsKey(pkgName);
+    }
+
     private static final String[] sSpecialSettingsActions = new String[]{"android.settings.WIFI_SETTINGS"};
     private final List<LaunchPoint> mAllLaunchPoints = new LinkedList();
     private Map<String, Integer> mBlacklist = new ArrayMap();
@@ -36,16 +580,6 @@ public class LaunchPointListGenerator {
     private final Object mLock = new Object();
     private ArrayList<LaunchPoint> mSettingsLaunchPoints = new ArrayList();
     private boolean mShouldNotify = false;
-
-    public interface Listener {
-        void onLaunchPointListGeneratorReady();
-
-        void onLaunchPointsAddedOrUpdated(ArrayList<LaunchPoint> arrayList);
-
-        void onLaunchPointsRemoved(ArrayList<LaunchPoint> arrayList);
-
-        void onSettingsChanged();
-    }
 
     private class CachedAction {
         private int mAction;
@@ -173,9 +707,6 @@ public class LaunchPointListGenerator {
         }
     }
 
-    public LaunchPointListGenerator(Context ctx) {
-        this.mContext = ctx;
-    }
 
     public void setExcludeChannelActivities(boolean excludeChannelActivities) {
         if (this.mExcludeChannelActivities != excludeChannelActivities) {
@@ -190,379 +721,75 @@ public class LaunchPointListGenerator {
         }
     }
 
-    /* JADX WARNING: inconsistent code. */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void addOrUpdatePackage(java.lang.String r8) {
-        /*
-        r7 = this;
-        r3 = android.text.TextUtils.isEmpty(r8);
-        if (r3 == 0) goto L_0x0007;
-    L_0x0006:
-        return;
-    L_0x0007:
-        r4 = r7.mCachedActions;
-        monitor-enter(r4);
-        r3 = r7.mIsReady;	 Catch:{ all -> 0x001b }
-        if (r3 != 0) goto L_0x001e;
-    L_0x000e:
-        r3 = r7.mCachedActions;	 Catch:{ all -> 0x001b }
-        r5 = new com.google.android.leanbacklauncher.apps.LaunchPointListGenerator$CachedAction;	 Catch:{ all -> 0x001b }
-        r6 = 0;
-        r5.<init>(r6, r8);	 Catch:{ all -> 0x001b }
-        r3.add(r5);	 Catch:{ all -> 0x001b }
-        monitor-exit(r4);	 Catch:{ all -> 0x001b }
-        goto L_0x0006;
-    L_0x001b:
-        r3 = move-exception;
-        monitor-exit(r4);	 Catch:{ all -> 0x001b }
-        throw r3;
-    L_0x001e:
-        monitor-exit(r4);	 Catch:{ all -> 0x001b }
-        r4 = r7.mLock;
-        monitor-enter(r4);
-        r2 = new java.util.ArrayList;	 Catch:{ all -> 0x0062 }
-        r2.<init>();	 Catch:{ all -> 0x0062 }
-        r3 = r7.mInstallingLaunchPoints;	 Catch:{ all -> 0x0062 }
-        r5 = 1;
-        r7.getLaunchPoints(r3, r2, r8, r5);	 Catch:{ all -> 0x0062 }
-        r3 = r7.mAllLaunchPoints;	 Catch:{ all -> 0x0062 }
-        r5 = 1;
-        r7.getLaunchPoints(r3, r2, r8, r5);	 Catch:{ all -> 0x0062 }
-        r1 = r7.createLaunchPoints(r8, r2);	 Catch:{ all -> 0x0062 }
-        r3 = r1.isEmpty();	 Catch:{ all -> 0x0062 }
-        if (r3 != 0) goto L_0x0065;
-    L_0x003d:
-        r3 = r7.mAllLaunchPoints;	 Catch:{ all -> 0x0062 }
-        r3.addAll(r1);	 Catch:{ all -> 0x0062 }
-        r3 = r7.isBlacklisted(r8);	 Catch:{ all -> 0x0062 }
-        if (r3 != 0) goto L_0x0065;
-    L_0x0048:
-        r3 = r7.mShouldNotify;	 Catch:{ all -> 0x0062 }
-        if (r3 == 0) goto L_0x0065;
-    L_0x004c:
-        r3 = r7.mListeners;	 Catch:{ all -> 0x0062 }
-        r3 = r3.iterator();	 Catch:{ all -> 0x0062 }
-    L_0x0052:
-        r5 = r3.hasNext();	 Catch:{ all -> 0x0062 }
-        if (r5 == 0) goto L_0x0065;
-    L_0x0058:
-        r0 = r3.next();	 Catch:{ all -> 0x0062 }
-        r0 = (com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener) r0;	 Catch:{ all -> 0x0062 }
-        r0.onLaunchPointsAddedOrUpdated(r1);	 Catch:{ all -> 0x0062 }
-        goto L_0x0052;
-    L_0x0062:
-        r3 = move-exception;
-        monitor-exit(r4);	 Catch:{ all -> 0x0062 }
-        throw r3;
-    L_0x0065:
-        r3 = r2.isEmpty();	 Catch:{ all -> 0x0062 }
-        if (r3 != 0) goto L_0x008b;
-    L_0x006b:
-        r3 = r7.isBlacklisted(r8);	 Catch:{ all -> 0x0062 }
-        if (r3 != 0) goto L_0x008b;
-    L_0x0071:
-        r3 = r7.mShouldNotify;	 Catch:{ all -> 0x0062 }
-        if (r3 == 0) goto L_0x008b;
-    L_0x0075:
-        r3 = r7.mListeners;	 Catch:{ all -> 0x0062 }
-        r3 = r3.iterator();	 Catch:{ all -> 0x0062 }
-    L_0x007b:
-        r5 = r3.hasNext();	 Catch:{ all -> 0x0062 }
-        if (r5 == 0) goto L_0x008b;
-    L_0x0081:
-        r0 = r3.next();	 Catch:{ all -> 0x0062 }
-        r0 = (com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener) r0;	 Catch:{ all -> 0x0062 }
-        r0.onLaunchPointsRemoved(r2);	 Catch:{ all -> 0x0062 }
-        goto L_0x007b;
-    L_0x008b:
-        r3 = r7.packageHasSettingsEntry(r8);	 Catch:{ all -> 0x0062 }
-        if (r3 == 0) goto L_0x00a7;
-    L_0x0091:
-        r3 = r7.mListeners;	 Catch:{ all -> 0x0062 }
-        r3 = r3.iterator();	 Catch:{ all -> 0x0062 }
-    L_0x0097:
-        r5 = r3.hasNext();	 Catch:{ all -> 0x0062 }
-        if (r5 == 0) goto L_0x00a7;
-    L_0x009d:
-        r0 = r3.next();	 Catch:{ all -> 0x0062 }
-        r0 = (com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener) r0;	 Catch:{ all -> 0x0062 }
-        r0.onSettingsChanged();	 Catch:{ all -> 0x0062 }
-        goto L_0x0097;
-    L_0x00a7:
-        monitor-exit(r4);	 Catch:{ all -> 0x0062 }
-        goto L_0x0006;
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.addOrUpdatePackage(java.lang.String):void");
-    }
-
-    /* JADX WARNING: inconsistent code. */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void removePackage(java.lang.String r7) {
-        /*
-        r6 = this;
-        r2 = android.text.TextUtils.isEmpty(r7);
-        if (r2 == 0) goto L_0x0007;
-    L_0x0006:
-        return;
-    L_0x0007:
-        r3 = r6.mCachedActions;
-        monitor-enter(r3);
-        r2 = r6.mIsReady;	 Catch:{ all -> 0x001b }
-        if (r2 != 0) goto L_0x001e;
-    L_0x000e:
-        r2 = r6.mCachedActions;	 Catch:{ all -> 0x001b }
-        r4 = new com.google.android.leanbacklauncher.apps.LaunchPointListGenerator$CachedAction;	 Catch:{ all -> 0x001b }
-        r5 = 1;
-        r4.<init>(r5, r7);	 Catch:{ all -> 0x001b }
-        r2.add(r4);	 Catch:{ all -> 0x001b }
-        monitor-exit(r3);	 Catch:{ all -> 0x001b }
-        goto L_0x0006;
-    L_0x001b:
-        r2 = move-exception;
-        monitor-exit(r3);	 Catch:{ all -> 0x001b }
-        throw r2;
-    L_0x001e:
-        monitor-exit(r3);	 Catch:{ all -> 0x001b }
-        r3 = r6.mLock;
-        monitor-enter(r3);
-        r1 = new java.util.ArrayList;	 Catch:{ all -> 0x0059 }
-        r1.<init>();	 Catch:{ all -> 0x0059 }
-        r2 = r6.mInstallingLaunchPoints;	 Catch:{ all -> 0x0059 }
-        r4 = 1;
-        r6.getLaunchPoints(r2, r1, r7, r4);	 Catch:{ all -> 0x0059 }
-        r2 = r6.mAllLaunchPoints;	 Catch:{ all -> 0x0059 }
-        r4 = 1;
-        r6.getLaunchPoints(r2, r1, r7, r4);	 Catch:{ all -> 0x0059 }
-        r2 = r1.isEmpty();	 Catch:{ all -> 0x0059 }
-        if (r2 != 0) goto L_0x005c;
-    L_0x0039:
-        r2 = r6.isBlacklisted(r7);	 Catch:{ all -> 0x0059 }
-        if (r2 != 0) goto L_0x005c;
-    L_0x003f:
-        r2 = r6.mShouldNotify;	 Catch:{ all -> 0x0059 }
-        if (r2 == 0) goto L_0x005c;
-    L_0x0043:
-        r2 = r6.mListeners;	 Catch:{ all -> 0x0059 }
-        r2 = r2.iterator();	 Catch:{ all -> 0x0059 }
-    L_0x0049:
-        r4 = r2.hasNext();	 Catch:{ all -> 0x0059 }
-        if (r4 == 0) goto L_0x005c;
-    L_0x004f:
-        r0 = r2.next();	 Catch:{ all -> 0x0059 }
-        r0 = (com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener) r0;	 Catch:{ all -> 0x0059 }
-        r0.onLaunchPointsRemoved(r1);	 Catch:{ all -> 0x0059 }
-        goto L_0x0049;
-    L_0x0059:
-        r2 = move-exception;
-        monitor-exit(r3);	 Catch:{ all -> 0x0059 }
-        throw r2;
-    L_0x005c:
-        r2 = r6.packageHasSettingsEntry(r7);	 Catch:{ all -> 0x0059 }
-        if (r2 == 0) goto L_0x0078;
-    L_0x0062:
-        r2 = r6.mListeners;	 Catch:{ all -> 0x0059 }
-        r2 = r2.iterator();	 Catch:{ all -> 0x0059 }
-    L_0x0068:
-        r4 = r2.hasNext();	 Catch:{ all -> 0x0059 }
-        if (r4 == 0) goto L_0x0078;
-    L_0x006e:
-        r0 = r2.next();	 Catch:{ all -> 0x0059 }
-        r0 = (com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener) r0;	 Catch:{ all -> 0x0059 }
-        r0.onSettingsChanged();	 Catch:{ all -> 0x0059 }
-        goto L_0x0068;
-    L_0x0078:
-        monitor-exit(r3);	 Catch:{ all -> 0x0059 }
-        goto L_0x0006;
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.removePackage(java.lang.String):void");
-    }
-
-    public boolean addToBlacklist(String pkgName) {
-        boolean z = false;
+    public void addOrUpdatePackage(String pkgName) {
         if (!TextUtils.isEmpty(pkgName)) {
             synchronized (this.mCachedActions) {
                 if (this.mIsReady) {
-                    z = false;
                     synchronized (this.mLock) {
-                        Integer occurrences = (Integer) this.mBlacklist.get(pkgName);
-                        if (occurrences == null || occurrences.intValue() <= 0) {
-                            occurrences = Integer.valueOf(0);
-                            z = true;
-                            ArrayList<LaunchPoint> blacklistedLaunchPoints = new ArrayList();
-                            getLaunchPoints(this.mInstallingLaunchPoints, blacklistedLaunchPoints, pkgName, false);
-                            getLaunchPoints(this.mAllLaunchPoints, blacklistedLaunchPoints, pkgName, false);
-                            if (!blacklistedLaunchPoints.isEmpty() && this.mShouldNotify) {
+                        ArrayList<LaunchPoint> removedLaunchPoints = new ArrayList<>();
+                        ArrayList<LaunchPoint> launchPoints = createLaunchPoints(pkgName, removedLaunchPoints);
+
+                        if (!launchPoints.isEmpty()) {
+
+                            this.mAllLaunchPoints.addAll(launchPoints);
+                            if (!isBlacklisted(pkgName) && this.mShouldNotify) {
                                 for (Listener cl : this.mListeners) {
-                                    cl.onLaunchPointsRemoved(blacklistedLaunchPoints);
+                                    cl.onLaunchPointsAddedOrUpdated(launchPoints);
                                 }
                             }
                         }
-                        this.mBlacklist.put(pkgName, Integer.valueOf(occurrences.intValue() + 1));
+                        if (!(removedLaunchPoints.isEmpty() || isBlacklisted(pkgName) || !this.mShouldNotify)) {
+                            for (Listener cl2 : this.mListeners) {
+                                cl2.onLaunchPointsRemoved(removedLaunchPoints);
+                            }
+                        }
+                        if (packageHasSettingsEntry(pkgName)) {
+                            for (Listener cl22 : this.mListeners) {
+                                cl22.onSettingsChanged();
+                            }
+                        }
                     }
-                } else {
-                    this.mCachedActions.add(new CachedAction(2, pkgName));
+                    return;
                 }
+                this.mCachedActions.add(new CachedAction(0, pkgName));
             }
         }
-        return z;
     }
+
+    public void removePackage(String pkgName) {
+        if (!TextUtils.isEmpty(pkgName)) {
+            synchronized (this.mCachedActions) {
+                if (this.mIsReady) {
+                    synchronized (this.mLock) {
+                        ArrayList<LaunchPoint> removedLaunchPoints = new ArrayList<>();
+
+                        getLaunchPoints(this.mInstallingLaunchPoints, removedLaunchPoints, pkgName, true);
+                        getLaunchPoints(this.mAllLaunchPoints, removedLaunchPoints, pkgName, true);
+                        if (!(removedLaunchPoints.isEmpty() || isBlacklisted(pkgName))) {
+                            if (this.mShouldNotify) {
+                                for (Listener cl : this.mListeners) {
+                                    cl.onLaunchPointsRemoved(removedLaunchPoints);
+                                }
+                            }
+                        }
+                        if (packageHasSettingsEntry(pkgName)) {
+                            for (Listener cl2 : this.mListeners) {
+                                cl2.onSettingsChanged();
+                            }
+                        }
+                    }
+                    return;
+                }
+                this.mCachedActions.add(new CachedAction(1, pkgName));
+            }
+        }
+    }
+
 
     public boolean removeFromBlacklist(String pkgName) {
         return removeFromBlacklist(pkgName, false);
     }
 
-    private boolean removeFromBlacklist(String pkgName, boolean force) {
-        boolean z = false;
-        if (!TextUtils.isEmpty(pkgName)) {
-            synchronized (this.mCachedActions) {
-                if (this.mIsReady) {
-                    z = false;
-                    synchronized (this.mLock) {
-                        Integer occurrences = (Integer) this.mBlacklist.get(pkgName);
-                        if (occurrences != null) {
-                            occurrences = Integer.valueOf(occurrences.intValue() - 1);
-                            if (occurrences.intValue() <= 0 || force) {
-                                this.mBlacklist.remove(pkgName);
-                                z = true;
-                                ArrayList<LaunchPoint> blacklistedLaunchPoints = new ArrayList();
-                                getLaunchPoints(this.mInstallingLaunchPoints, blacklistedLaunchPoints, pkgName, false);
-                                getLaunchPoints(this.mAllLaunchPoints, blacklistedLaunchPoints, pkgName, false);
-                                if (!blacklistedLaunchPoints.isEmpty() && this.mShouldNotify) {
-                                    for (Listener cl : this.mListeners) {
-                                        cl.onLaunchPointsAddedOrUpdated(blacklistedLaunchPoints);
-                                    }
-                                }
-                            } else {
-                                this.mBlacklist.put(pkgName, occurrences);
-                            }
-                        }
-                    }
-                } else {
-                    this.mCachedActions.add(new CachedAction(3, pkgName));
-                }
-            }
-        }
-        return z;
-    }
-
-    /* JADX WARNING: inconsistent code. */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void addOrUpdateInstallingLaunchPoint(com.google.android.leanbacklauncher.apps.LaunchPoint r9) {
-        /*
-        r8 = this;
-        if (r9 != 0) goto L_0x0003;
-    L_0x0002:
-        return;
-    L_0x0003:
-        r5 = r8.mCachedActions;
-        monitor-enter(r5);
-        r4 = r8.mIsReady;	 Catch:{ all -> 0x0017 }
-        if (r4 != 0) goto L_0x001a;
-    L_0x000a:
-        r4 = r8.mCachedActions;	 Catch:{ all -> 0x0017 }
-        r6 = new com.google.android.leanbacklauncher.apps.LaunchPointListGenerator$CachedAction;	 Catch:{ all -> 0x0017 }
-        r7 = 4;
-        r6.<init>(r7, r9);	 Catch:{ all -> 0x0017 }
-        r4.add(r6);	 Catch:{ all -> 0x0017 }
-        monitor-exit(r5);	 Catch:{ all -> 0x0017 }
-        goto L_0x0002;
-    L_0x0017:
-        r4 = move-exception;
-        monitor-exit(r5);	 Catch:{ all -> 0x0017 }
-        throw r4;
-    L_0x001a:
-        monitor-exit(r5);	 Catch:{ all -> 0x0017 }
-        r3 = r9.getPackageName();
-        r2 = new java.util.ArrayList;
-        r2.<init>();
-        r5 = r8.mLock;
-        monitor-enter(r5);
-        r4 = r8.mInstallingLaunchPoints;	 Catch:{ all -> 0x0074 }
-        r6 = 1;
-        r8.getLaunchPoints(r4, r2, r3, r6);	 Catch:{ all -> 0x0074 }
-        r4 = r8.mAllLaunchPoints;	 Catch:{ all -> 0x0074 }
-        r6 = 1;
-        r8.getLaunchPoints(r4, r2, r3, r6);	 Catch:{ all -> 0x0074 }
-        r1 = 0;
-    L_0x0034:
-        r4 = r2.size();	 Catch:{ all -> 0x0074 }
-        if (r1 >= r4) goto L_0x0046;
-    L_0x003a:
-        r4 = r2.get(r1);	 Catch:{ all -> 0x0074 }
-        r4 = (com.google.android.leanbacklauncher.apps.LaunchPoint) r4;	 Catch:{ all -> 0x0074 }
-        r4.setInstallationState(r9);	 Catch:{ all -> 0x0074 }
-        r1 = r1 + 1;
-        goto L_0x0034;
-    L_0x0046:
-        r4 = r2.isEmpty();	 Catch:{ all -> 0x0074 }
-        if (r4 == 0) goto L_0x004f;
-    L_0x004c:
-        r2.add(r9);	 Catch:{ all -> 0x0074 }
-    L_0x004f:
-        r4 = r8.mInstallingLaunchPoints;	 Catch:{ all -> 0x0074 }
-        r4.addAll(r2);	 Catch:{ all -> 0x0074 }
-        r4 = r8.isBlacklisted(r3);	 Catch:{ all -> 0x0074 }
-        if (r4 != 0) goto L_0x0077;
-    L_0x005a:
-        r4 = r8.mShouldNotify;	 Catch:{ all -> 0x0074 }
-        if (r4 == 0) goto L_0x0077;
-    L_0x005e:
-        r4 = r8.mListeners;	 Catch:{ all -> 0x0074 }
-        r4 = r4.iterator();	 Catch:{ all -> 0x0074 }
-    L_0x0064:
-        r6 = r4.hasNext();	 Catch:{ all -> 0x0074 }
-        if (r6 == 0) goto L_0x0077;
-    L_0x006a:
-        r0 = r4.next();	 Catch:{ all -> 0x0074 }
-        r0 = (com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.Listener) r0;	 Catch:{ all -> 0x0074 }
-        r0.onLaunchPointsAddedOrUpdated(r2);	 Catch:{ all -> 0x0074 }
-        goto L_0x0064;
-    L_0x0074:
-        r4 = move-exception;
-        monitor-exit(r5);	 Catch:{ all -> 0x0074 }
-        throw r4;
-    L_0x0077:
-        monitor-exit(r5);	 Catch:{ all -> 0x0074 }
-        goto L_0x0002;
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.addOrUpdateInstallingLaunchPoint(com.google.android.leanbacklauncher.apps.LaunchPoint):void");
-    }
-
-    /* JADX WARNING: inconsistent code. */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void removeInstallingLaunchPoint(com.google.android.leanbacklauncher.apps.LaunchPoint r5, boolean r6) {
-        /*
-        r4 = this;
-        if (r5 != 0) goto L_0x0003;
-    L_0x0002:
-        return;
-    L_0x0003:
-        r1 = r4.mCachedActions;
-        monitor-enter(r1);
-        r0 = r4.mIsReady;	 Catch:{ all -> 0x0017 }
-        if (r0 != 0) goto L_0x001a;
-    L_0x000a:
-        r0 = r4.mCachedActions;	 Catch:{ all -> 0x0017 }
-        r2 = new com.google.android.leanbacklauncher.apps.LaunchPointListGenerator$CachedAction;	 Catch:{ all -> 0x0017 }
-        r3 = 5;
-        r2.<init>(r4, r3, r5, r6);	 Catch:{ all -> 0x0017 }
-        r0.add(r2);	 Catch:{ all -> 0x0017 }
-        monitor-exit(r1);	 Catch:{ all -> 0x0017 }
-        goto L_0x0002;
-    L_0x0017:
-        r0 = move-exception;
-        monitor-exit(r1);	 Catch:{ all -> 0x0017 }
-        throw r0;
-    L_0x001a:
-        monitor-exit(r1);	 Catch:{ all -> 0x0017 }
-        if (r6 != 0) goto L_0x0002;
-    L_0x001d:
-        r0 = r5.getPackageName();
-        r4.addOrUpdatePackage(r0);
-        goto L_0x0002;
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.android.leanbacklauncher.apps.LaunchPointListGenerator.removeInstallingLaunchPoint(com.google.android.leanbacklauncher.apps.LaunchPoint, boolean):void");
-    }
 
     private ArrayList<LaunchPoint> getLaunchPoints(List<LaunchPoint> parentList, ArrayList<LaunchPoint> found, String pkgName, boolean remove) {
         if (found == null) {
@@ -626,13 +853,6 @@ public class LaunchPointListGenerator {
         new CreateLaunchPointListTask(this.mExcludeChannelActivities).execute(new Void[0]);
     }
 
-    public boolean isReady() {
-        boolean z;
-        synchronized (this.mCachedActions) {
-            z = this.mIsReady;
-        }
-        return z;
-    }
 
     private ArrayList<LaunchPoint> createLaunchPoints(String pkgName, ArrayList<LaunchPoint> reusable) {
         Iterator<ResolveInfo> rawItt;
@@ -728,39 +948,6 @@ public class LaunchPointListGenerator {
         }
     }
 
-    public boolean packageHasSettingsEntry(String packageName) {
-        if (this.mSettingsLaunchPoints != null) {
-            for (int i = 0; i < this.mSettingsLaunchPoints.size(); i++) {
-                if (TextUtils.equals(((LaunchPoint) this.mSettingsLaunchPoints.get(i)).getPackageName(), packageName)) {
-                    return true;
-                }
-            }
-        }
-        Intent mainIntent = new Intent("android.intent.action.MAIN");
-        mainIntent.addCategory("android.intent.category.LEANBACK_SETTINGS");
-        List<ResolveInfo> rawLaunchPoints = this.mContext.getPackageManager().queryIntentActivities(mainIntent, 129);
-        int size = rawLaunchPoints.size();
-        for (int ptr = 0; ptr < size; ptr++) {
-            ResolveInfo info = (ResolveInfo) rawLaunchPoints.get(ptr);
-            boolean system;
-            if (info.activityInfo == null || (info.activityInfo.applicationInfo.flags & 1) == 0) {
-                system = false;
-            } else {
-                system = true;
-            }
-            if (info.activityInfo != null && system && TextUtils.equals(info.activityInfo.applicationInfo.packageName, packageName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private ComponentName getComponentName(ResolveInfo info) {
-        if (info == null) {
-            return null;
-        }
-        return new ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name);
-    }
 
     private ComponentName getComponentNameForSettingsActivity(String action) {
         Intent mainIntent = new Intent(action);
@@ -777,10 +964,6 @@ public class LaunchPointListGenerator {
             }
         }
         return null;
-    }
-
-    private boolean isBlacklisted(String pkgName) {
-        return this.mBlacklist.containsKey(pkgName);
     }
 
     public void dump(String prefix, PrintWriter writer) {

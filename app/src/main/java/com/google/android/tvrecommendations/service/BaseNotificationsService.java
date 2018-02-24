@@ -9,15 +9,17 @@ import android.net.NetworkInfo;
 import android.os.Build.VERSION;
 import android.os.IBinder;
 import android.os.UserHandle;
+import android.os.UserManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.android.tvrecommendations.service.RecommendationsManager.NotificationResolver;
 
 public abstract class BaseNotificationsService extends NotificationListenerService implements NotificationResolver {
     private ConnectivityManager mConnectivityManager;
-    private int mCurrentUser;
+    private UserHandle mCurrentUser;
     private RecommendationsManager mManager;
     private final RankerParametersFactory mRankerParametersFactory;
     private BroadcastReceiver mReceiver;
@@ -32,9 +34,10 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
 
     public void onCreate() {
         super.onCreate();
-        this.mCurrentUser = UserHandle.myUserId();
+        UserManager manager = (UserManager) getApplicationContext().getSystemService(Context.USER_SERVICE);
+        this.mCurrentUser = manager.getUserProfiles().get(0); // todo hacky
         Context appContext = getApplicationContext();
-        this.mConnectivityManager = (ConnectivityManager) appContext.getSystemService("connectivity");
+        this.mConnectivityManager = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         this.mManager = RecommendationsManager.getInstance(this, this.mUnbundled, this.mRankerParametersFactory);
@@ -68,7 +71,7 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
         StatusBarNotification[] ret = null;
         if (this.mManager.isConnectedToNotificationService()) {
             try {
-                ret = getActiveNotifications(keySet, 0);
+                ret = getActiveNotifications(keySet); // , 0;
             } catch (SecurityException e) {
                 Log.d(this.mTag, "Exception fetching notification", e);
             }
@@ -83,7 +86,7 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
 
     public void fetchExistingNotifications() {
         try {
-            onFetchExistingNotifications(getActiveNotifications(1));
+            onFetchExistingNotifications(getActiveNotifications()); // 1
         } catch (SecurityException e) {
             Log.e(this.mTag, "Exception fetching existing notifications", e);
         }
@@ -92,7 +95,7 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
     protected void onFetchExistingNotifications(StatusBarNotification[] notifications) {
         this.mManager.resetNotifications();
         for (StatusBarNotification sbn : notifications) {
-            if (RecommendationsUtil.isRecommendation(sbn) && sbn.getUserId() == this.mCurrentUser) {
+            if (RecommendationsUtil.isRecommendation(sbn) && sbn.getUser().equals(this.mCurrentUser)) {
                 this.mManager.addNotification(sbn);
             } else if (RecommendationsUtil.isCaptivePortal(getApplicationContext(), sbn)) {
                 this.mManager.addCaptivePortalNotification(sbn);
@@ -106,7 +109,7 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
         } else if (VERSION.SDK_INT >= 21) {
             requestListenerHints(1);
         }
-        setOnNotificationPostedTrim(1);
+        // todo setOnNotificationPostedTrim(1);
         this.mManager.sendConnectionStatus(true);
     }
 
@@ -125,7 +128,7 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
     }
 
     public void onNotificationPosted(StatusBarNotification sbn) {
-        if (RecommendationsUtil.isRecommendation(sbn) && sbn.getUserId() == this.mCurrentUser) {
+        if (RecommendationsUtil.isRecommendation(sbn) && sbn.getUser().equals(this.mCurrentUser)) {
             this.mManager.addNotification(sbn);
         }
         if (RecommendationsUtil.isCaptivePortal(getApplicationContext(), sbn)) {
@@ -134,7 +137,7 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
     }
 
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        if (RecommendationsUtil.isRecommendation(sbn) && sbn.getUserId() == this.mCurrentUser) {
+        if (RecommendationsUtil.isRecommendation(sbn) && sbn.getUser().equals(this.mCurrentUser)) {
             this.mManager.removeNotification(sbn);
         }
     }

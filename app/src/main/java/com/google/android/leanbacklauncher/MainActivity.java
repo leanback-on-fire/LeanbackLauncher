@@ -38,9 +38,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import com.google.android.gms.clearcut.ClearcutLogger;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.Builder;
+
 import com.google.android.leanbacklauncher.SearchOrbView.SearchLaunchListener;
 import com.google.android.leanbacklauncher.animation.AnimatorLifecycle;
 import com.google.android.leanbacklauncher.animation.AnimatorLifecycle.OnAnimationFinishedListener;
@@ -74,6 +72,7 @@ import com.google.android.leanbacklauncher.wallpaper.LauncherWallpaper;
 import com.google.android.leanbacklauncher.wallpaper.WallpaperInstaller;
 import com.google.android.leanbacklauncher.widget.EditModeView;
 import com.google.android.leanbacklauncher.widget.EditModeView.OnEditModeUninstallPressedListener;
+
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -91,7 +90,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     private EditModeView mEditModeView;
     private LeanbackLauncherEventLogger mEventLogger;
     private boolean mFadeDismissAndSummonAnimations;
-    private GoogleApiClient mGoogleApiClient;
+    private Object mGoogleApiClient;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             boolean z = true;
@@ -354,9 +353,9 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             this.mFadeDismissAndSummonAnimations = getResources().getBoolean(R.bool.app_launch_animation_fade);
             this.mKeepUiReset = true;
             this.mHomeAdapter.onInitUi();
-            this.mGoogleApiClient = new Builder(appContext).addApi(ClearcutLogger.API).build();
+            // this.mGoogleApiClient = new Builder(appContext).addApi(ClearcutLogger.API).build();
             this.mEventLogger = LeanbackLauncherEventLogger.getInstance(appContext);
-            this.mEventLogger.setGoogleApiClient(this.mGoogleApiClient);
+            // this.mEventLogger.setGoogleApiClient(this.mGoogleApiClient);
             IntentFilter filter = new IntentFilter();
             filter.addAction("android.intent.action.PACKAGE_REPLACED");
             filter.addAction("android.intent.action.PACKAGE_ADDED");
@@ -456,9 +455,9 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             this.mShyMode = shy;
             changed = true;
             if (this.mShyMode) {
-                convertFromTranslucent();
+                // todo convertFromTranslucent();
             } else {
-                convertToTranslucent(null, null);
+                // convertToTranslucent(null, null);
             }
         }
         if (changeWallpaper && this.mWallpaper.getShynessMode() != shy) {
@@ -577,9 +576,9 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             if (this.mAppWidgetHost != null) {
                 this.mAppWidgetHost.startListening();
             }
-            if (isBackgroundVisibleBehind()) {
-                z = false;
-            }
+            //if (isBackgroundVisibleBehind()) {
+            //    z = false;
+            //}
             setShyMode(z, true);
             this.mWallpaper.resetBackground();
             this.mHomeAdapter.refreshAdapterData();
@@ -594,7 +593,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             }
             this.mStartingEditMode = false;
             if (this.mGoogleApiClient != null) {
-                this.mGoogleApiClient.connect();
+                //this.mGoogleApiClient.connect();
             }
             AppTrace.endSection();
         } catch (Throwable th) {
@@ -614,11 +613,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         try {
             boolean z;
             super.onResume();
-            if (isBackgroundVisibleBehind()) {
-                z = false;
-            } else {
-                z = true;
-            }
+            //if (isBackgroundVisibleBehind()) {
+            //    z = false;
+            //} else {
+            z = true;
+            //}
             boolean shyChanged = setShyMode(z, true);
             if (!AppsManager.getInstance(getApplicationContext()).checkIfResortingIsNeeded() || this.mAppEditMode) {
                 forceResort = false;
@@ -727,8 +726,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             this.mHomeAdapter.sortRowsIfNeeded(false);
             this.mLaunchAnimation.reset();
             if (this.mGoogleApiClient != null) {
-                boolean flushResult = this.mEventLogger.flush();
-                this.mGoogleApiClient.disconnect();
+                //boolean flushResult = this.mEventLogger.flush();
+                //this.mGoogleApiClient.disconnect();
             }
             AppTrace.endSection();
         } catch (Throwable th) {

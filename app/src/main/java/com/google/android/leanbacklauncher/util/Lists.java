@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.google.android.leanbacklauncher.util.Lists.Change.*;
+
 public final class Lists {
 
     public static final class Change {

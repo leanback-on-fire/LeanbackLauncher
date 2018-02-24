@@ -17,7 +17,7 @@ import com.google.android.leanbacklauncher.util.Preconditions;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public final class MassSlideAnimator extends PropagatingAnimator<ViewHolder> implements Joinable {
+public final class MassSlideAnimator extends PropagatingAnimator<MassSlideAnimator.ViewHolder> implements Joinable {
     private static final TimeInterpolator sSlideInInterpolator = new PathInterpolator(0.0f, 0.0f, 0.2f, 1.0f);
     private static final TimeInterpolator sSlideOutInterpolator = new PathInterpolator(0.4f, 0.0f, 1.0f, 1.0f);
     private final Direction mDirection;
@@ -69,7 +69,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<ViewHolder> imp
         }
 
         public MassSlideAnimator build() {
-            return new MassSlideAnimator();
+            return new MassSlideAnimator(this);
         }
     }
 
@@ -134,9 +134,10 @@ public final class MassSlideAnimator extends PropagatingAnimator<ViewHolder> imp
         final /* synthetic */ MassSlideAnimator this$0;
 
         private ViewHolder(MassSlideAnimator this$0, View view, ViewGroup root, Rect epicenter, Direction direction) {
+            super(view);
+
             int i = 1;
             this.this$0 = this$0;
-            super(view);
             this.mCenter = new int[2];
             this.mListener = new OnLayoutChangeListener() {
                 public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -275,7 +276,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<ViewHolder> imp
     }
 
     public void include(View target) {
-        addView(new ViewHolder(target, this.mRoot, this.mEpicenter, this.mDirection));
+        addView(new ViewHolder(this, target, this.mRoot, this.mEpicenter, this.mDirection));
     }
 
     public void exclude(View target) {
@@ -311,7 +312,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<ViewHolder> imp
         for (int i = 0; i < n; i++) {
             View child = localRoot.getChildAt(i);
             if (this.mTargetClass.isInstance(child) && !isExcluded(child)) {
-                addView(new ViewHolder(child, this.mRoot, this.mEpicenter, this.mDirection));
+                addView(new ViewHolder(this, child, this.mRoot, this.mEpicenter, this.mDirection));
             }
             if (child instanceof ViewGroup) {
                 addViews((ViewGroup) child);

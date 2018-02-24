@@ -1,17 +1,7 @@
 package com.google.android.tvrecommendations.service;
 
-import android.content.Context;
-import android.service.notification.StatusBarNotification;
-import android.util.Log;
-import com.google.android.leanbacklauncher.logging.LeanbackProto.LeanbackEvent;
-import com.google.android.leanbacklauncher.logging.LeanbackProto.Recommendation;
-import com.google.android.leanbacklauncher.logging.LeanbackProto.RecommendationInsertAction;
-import com.google.android.leanbacklauncher.logging.LeanbackProto.RecommendationRankAction;
-import java.util.List;
-import java.util.Map;
-
 public final class LoggingUtils {
-    private static final String TAG = LoggingUtils.class.getSimpleName();
+   /* private static final String TAG = LoggingUtils.class.getSimpleName();
 
     public static LeanbackEvent logRecommendationInsertAction(StatusBarNotification notification, double rawScore, double score, int position, Context context) {
         if (Log.isLoggable(TAG, 2)) {
@@ -68,5 +58,5 @@ public final class LoggingUtils {
     }
 
     private LoggingUtils() {
-    }
+    }*/
 }

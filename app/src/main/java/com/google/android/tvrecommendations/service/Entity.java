@@ -2,6 +2,7 @@ package com.google.android.tvrecommendations.service;
 
 import android.content.Context;
 import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -143,7 +144,7 @@ class Entity {
     }
 
     public synchronized Bucket addBucket(String group, long timeStamp) {
-        Object bucket;
+        Bucket bucket = null;
         group = safeGroupId(group);
         Bucket bucket2;
         if (this.mBucketList.containsKey(group)) {

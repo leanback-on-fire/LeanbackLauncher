@@ -12,8 +12,10 @@ import android.support.annotation.Keep;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.google.android.leanbacklauncher.R;
 import com.google.android.leanbacklauncher.widget.PlayingIndicatorView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -194,7 +196,7 @@ public class ViewDimmer {
                 this.mDimAnimation.cancel();
             }
             if (getDimLevel() != convertToDimLevel(dimState)) {
-                this.mDimAnimation.setFloatValues(new float[]{getDimLevel(), end});
+                this.mDimAnimation.setFloatValues(getDimLevel(), R.id.end);
                 this.mDimAnimation.start();
                 return;
             }

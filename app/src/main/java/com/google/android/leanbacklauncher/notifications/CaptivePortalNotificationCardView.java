@@ -7,6 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+
+import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.google.android.leanbacklauncher.R;
 import com.google.android.tvrecommendations.TvRecommendation;
 
@@ -57,7 +60,7 @@ public class CaptivePortalNotificationCardView extends RecommendationView {
 
     public String getSignature() {
         if (this.mSignature == null) {
-            this.mSignature = this.mRecommendation.getTitle() + this.mRecommendation.getText() + this.mRecommendation.getSourceName();
+            this.mSignature = this.mRecommendation.getTitle().toString() + this.mRecommendation.getText().toString() + this.mRecommendation.getSourceName().toString();
         }
         return this.mSignature;
     }
@@ -88,5 +91,10 @@ public class CaptivePortalNotificationCardView extends RecommendationView {
         networkIcon.setBounds(new Rect(0, 0, width, height));
         networkIcon.draw(canvas);
         return bmp;
+    }
+
+    @Override
+    public void removeCallback(@NonNull SizeReadyCallback cb) {
+
     }
 }

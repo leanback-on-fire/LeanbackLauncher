@@ -3,6 +3,8 @@ package com.google.android.leanbacklauncher;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Keep;
+import android.support.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
@@ -17,6 +19,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 import com.bumptech.glide.module.GlideModule;
 import com.google.android.leanbacklauncher.notifications.RecommendationImageKey;
 import com.google.android.leanbacklauncher.notifications.RecommendationImageLoaderFactory;
+
 import java.io.IOException;
 
 @Keep
@@ -47,5 +50,10 @@ public class LauncherGlideModule implements GlideModule {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
+        this.registerComponents(context, registry);
     }
 }

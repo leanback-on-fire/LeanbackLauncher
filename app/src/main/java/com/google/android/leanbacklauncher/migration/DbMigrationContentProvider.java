@@ -22,6 +22,8 @@ public class DbMigrationContentProvider extends ContentProvider {
         this.mDbHelper = dbHelper;
     }
 
+    DbMigrationContentProvider() {}
+
     public boolean onCreate() {
         return true;
     }

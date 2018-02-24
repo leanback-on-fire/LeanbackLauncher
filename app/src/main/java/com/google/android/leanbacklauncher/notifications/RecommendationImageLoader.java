@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.ConditionVariable;
 import android.os.RemoteException;
 import android.util.Log;
+
 import com.google.android.leanbacklauncher.recommendations.SwitchingRecommendationsClient;
 import com.google.android.tvrecommendations.IRecommendationsService;
 
@@ -61,6 +62,8 @@ public class RecommendationImageLoader {
             Log.e("RecImageLoader", "Cannot obtain recommendation image - service not connected");
             return null;
         }
+
+        return null;
     }
 
     private void onServiceConnected(IRecommendationsService service) {

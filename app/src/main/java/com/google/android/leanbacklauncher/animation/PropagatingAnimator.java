@@ -7,12 +7,14 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.util.Log;
 import android.view.View;
+
 import com.google.android.leanbacklauncher.util.Preconditions;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
-public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAnimator implements Resettable {
+public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHolder> extends ValueAnimator implements Resettable {
     private static final Propagation<?> sDefaultPropagation = new NoPropagation();
     private final PropagatingAnimatorListener mListener;
     private long mMaxStartDelay;
@@ -62,7 +64,7 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
             long totalPlayTime = PropagatingAnimator.this.getCurrentPlayTime();
             int n = PropagatingAnimator.this.mViews.size();
             for (int i = 0; i < n; i++) {
-                ViewHolder holder = (ViewHolder) PropagatingAnimator.this.mViews.get(i);
+                VH holder = PropagatingAnimator.this.mViews.get(i);
                 float fraction = ((float) (totalPlayTime - holder.normalizedStartDelay)) / ((float) duration);
                 if (fraction >= 0.0f) {
                     if (fraction > 1.0f) {
@@ -93,7 +95,7 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
     protected PropagatingAnimator() {
         this.mViews = new ArrayList();
         this.mListener = new PropagatingAnimatorListener();
-        this.mPropagation = sDefaultPropagation;
+        this.mPropagation = (Propagation<VH>) sDefaultPropagation;
         this.mState = (byte) 1;
         setFloatValues(new float[]{0.0f, 1.0f});
         addListener();
@@ -131,7 +133,7 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
     }
 
     public VH removeView(int index) {
-        ViewHolder holder = (ViewHolder) this.mViews.remove(index);
+        VH holder = this.mViews.remove(index);
         long startDelay = holder.normalizedStartDelay;
         if (startDelay == 0 || startDelay == this.mMaxStartDelay) {
             this.mNormalized = false;
@@ -140,9 +142,9 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
             if (!this.mNormalized) {
                 normalizeStartDelays();
             }
-            onResetView(holder);
+            onResetView((VH) holder);
         } else if (this.mState == (byte) 2 || this.mState == (byte) 16) {
-            onResetView(holder);
+            onResetView((VH) holder);
         }
         return holder;
     }
@@ -156,7 +158,7 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
     }
 
     public VH getView(int index) {
-        return (ViewHolder) this.mViews.get(index);
+        return this.mViews.get(index);
     }
 
     public int size() {
@@ -183,7 +185,7 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
         }
         int n = this.mViews.size();
         for (int i = 0; i < n; i++) {
-            onResetView((ViewHolder) this.mViews.get(i));
+            onResetView(this.mViews.get(i));
         }
         this.mState = (byte) 32;
     }
@@ -195,7 +197,7 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
         super.setDuration(duration);
         int n = this.mViews.size();
         for (int i = 0; i < n; i++) {
-            invalidateView((ViewHolder) this.mViews.get(i));
+            invalidateView(this.mViews.get(i));
         }
         this.mNormalized = false;
         return this;
@@ -214,7 +216,7 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
         if (this.mState != (byte) 2) {
             int n = this.mViews.size();
             for (int i = 0; i < n; i++) {
-                onSetupStartValues((ViewHolder) this.mViews.get(i));
+                onSetupStartValues(this.mViews.get(i));
             }
             this.mState = (byte) 2;
         }
@@ -234,11 +236,11 @@ public abstract class PropagatingAnimator<VH extends ViewHolder> extends ValueAn
         int n = this.mViews.size();
         long minRawDelay = Long.MAX_VALUE;
         for (i = 0; i < n; i++) {
-            minRawDelay = Math.min(minRawDelay, ((ViewHolder) this.mViews.get(i)).rawStartDelay);
+            minRawDelay = Math.min(minRawDelay, (this.mViews.get(i)).rawStartDelay);
         }
         this.mMaxStartDelay = n == 0 ? 0 : Long.MIN_VALUE;
         for (i = 0; i < n; i++) {
-            ViewHolder holder = (ViewHolder) this.mViews.get(i);
+            ViewHolder holder = this.mViews.get(i);
             long normalizedDelay = holder.rawStartDelay - minRawDelay;
             this.mMaxStartDelay = Math.max(this.mMaxStartDelay, normalizedDelay);
             holder.normalizedStartDelay = normalizedDelay;
