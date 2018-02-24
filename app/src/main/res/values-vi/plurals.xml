@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d kênh</item>
-        <item quantity="one">%d kênh</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Có %d thông báo hệ thống</item>
-        <item quantity="one">Có %d thông báo hệ thống</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d Người hâm mộ</item>
-        <item quantity="one">%1$,d Người hâm mộ</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d Người theo dõi</item>
-        <item quantity="one">%1$,d Người theo dõi</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d lượt Thích</item>
-        <item quantity="one">%1$,d lượt Thích</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d lượt Nghe</item>
-        <item quantity="one">%1$,d lượt Nghe</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d lượt Đánh dấu thích</item>
-        <item quantity="one">%1$,d lượt Đánh dấu thích</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d Người xem</item>
-        <item quantity="one">%1$,d Người xem</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d Lượt xem</item>
-        <item quantity="one">%1$,d Lượt xem</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d Tập</item>
-        <item quantity="one">%1$,d Tập</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d Phần</item>
-        <item quantity="one">%1$,d Phần</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d Bản nhạc</item>
-        <item quantity="one">%1$,d Bản nhạc</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d nguồn bị ẩn</item>
+        <item quantity="one">%d nguồn bị ẩn</item>
     </plurals>
 </resources>

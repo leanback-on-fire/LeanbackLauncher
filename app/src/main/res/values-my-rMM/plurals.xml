@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d ချန်နယ်များ</item>
-        <item quantity="one">%1$d ချန်နယ်</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">စနစ်အသိပေးချက် %d ခု ရှိပါသည်</item>
-        <item quantity="one">စနစ်အသိပေးချက် %d ခု ရှိပါသည်</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">ပရိသတ် %1$,d</item>
-        <item quantity="one">ပရိသတ် %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">နောက်လိုက် %1$,d</item>
-        <item quantity="one">နောက်လိုက် %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">နှစ်သက်မှု %1$,d</item>
-        <item quantity="one">နှစ်သက်မှု %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">နားထောင်မှု %1$,d</item>
-        <item quantity="one">နားထောင်မှု %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">လက်မထောင်မှု %1$,d</item>
-        <item quantity="one">လက်မထောင်မှု %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">ကြည့်ရှုသူ %1$,d</item>
-        <item quantity="one">ကြည့်ရှုသူ %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">ကြည့်ရှုမှု %1$,d</item>
-        <item quantity="one">ကြည့်ရှုမှု %1$,d</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">အပိုင်း %1$,d</item>
-        <item quantity="one">အပိုင်း %1$,d</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">အတွဲ %1$,d</item>
-        <item quantity="one">အတွဲ %1$,d</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">အပုဒ်ရေ %1$,d</item>
-        <item quantity="one">အပုဒ်ရေ %1$,d</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">အရင်းအမြစ် %d ခုကို ဖျောက်ထားသည်</item>
+        <item quantity="one">အရင်းအမြစ် %d ခုကို ဖျောက်ထားသည်</item>
     </plurals>
 </resources>

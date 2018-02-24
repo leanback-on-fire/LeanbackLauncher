@@ -1,48 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="genre_labels">
-        <item>משפחה/ילדים</item>
-        <item>ספורט</item>
-        <item>קניות</item>
-        <item>סרטים</item>
-        <item>קומדיה</item>
-        <item>נסיעות</item>
-        <item>דרמה</item>
-        <item>חינוכי</item>
-        <item>בעלי חיים/חיות בר</item>
-        <item>חדשות</item>
-        <item>משחקים</item>
-        <item>אמנות</item>
-        <item>בידור</item>
-        <item>החיים הטובים</item>
-        <item>מוזיקה</item>
-        <item>עילית</item>
-        <item>טכנולוגיה/מדע</item>
-    </string-array>
-    <string-array name="program_canonical_genre_labels_formats">
-        <item>%1$s</item>
-        <item>%1$s‏, %2$s</item>
-        <item>%1$s‏, %2$s‏, %3$s</item>
-        <item>%1$s, ‏%2$s, ‏%3$s, ‏%4$s</item>
-        <item>%1$s‏, %2$s‏, %3$s‏, %4$s‏, %5$s</item>
-    </string-array>
     <string-array name="search_orb_text_to_show">
-        <item>"נסה לחפש \"וויל סמית'\""</item>
-        <item>נסה לחפש \"מייקל פסבנדר\"</item>
-        <item>"נסה לחפש \"ג'ניפר לורנס\""</item>
-        <item>נסה לחפש \"אוליביה וויילד\"</item>
-        <item>נסה לחפש \"קומדיות רומנטיות\"</item>
-        <item>נסה לחפש \"סרטי מד\"ב\"</item>
-        <item>נסה לחפש \"סרטי גיבורי-על\"</item>
-        <item>נסה לחפש \"סרטי פעולה\"</item>
-        <item>נסה לחפש \"מסע בין כוכבים\"</item>
-        <item>נסה לחפש \"שרלוק\"</item>
-        <item>נסה לחפש \"כוכב נולד\"</item>
-        <item>נסה לחפש \"מסע בין כוכבים\"</item>
-        <item>נסה לחפש \"קאסל\"</item>
-        <item>נסה לחפש \"תמונות של ביונסה\"</item>
-        <item>נסה לחפש \"תמונות של לונדון\"</item>
-        <item>נסה לחפש \"תמונות של גודזילה\"</item>
+        <item>נסה לבצע את החיפוש \"וויל סמית\"</item>
+        <item>נסה לבצע את החיפוש \"מייקל פסבנדר\"</item>
+        <item>"נסה לבצע את החיפוש \"ג'ניפר לורנס\""</item>
+        <item>נסה לבצע את החיפוש \"אוליביה וויילד\"</item>
+        <item>נסה לבצע את החיפוש \"קומדיות רומנטיות\"</item>
+        <item>נסה לבצע את החיפוש \"סרטי מד\"ב\"</item>
+        <item>נסה לבצע את החיפוש \"סרטי גיבורי-על\"</item>
+        <item>נסה לבצע את החיפוש \"סרטי פעולה\"</item>
+        <item>נסה לבצע את החיפוש \"מסע בין כוכבים\"</item>
+        <item>נסה לבצע את החיפוש \"שרלוק\"</item>
+        <item>נסה לבצע את החיפוש \"כוכב נולד\"</item>
+        <item>נסה לבצע את החיפוש \"מסע בין כוכבים\"</item>
+        <item>נסה לבצע את החיפוש \"קאסל\"</item>
+        <item>נסה לבצע את החיפוש \"תמונות של ביונסה\"</item>
+        <item>נסה לבצע את החיפוש \"תמונות של לונדון\"</item>
+        <item>נסה לבצע את החיפוש \"תמונות של גודזילה\"</item>
         <item>נסה לשאול, \"מה התוצאה של מכבי?‎\"</item>
         <item>נסה לשאול, \"מה התוצאה של הפועל?‎\"</item>
         <item>נסה לשאול, \"מה התוצאה של בית\"ר?‎\"</item>
@@ -54,7 +28,7 @@
         <item>נסה לשאול, \"מה הגובה של בראד פיט?‎\"</item>
         <item>נסה לשאול, \"מה החום של השמש?‎\"</item>
         <item>"נסה לשאול, \"מתי נולד ג'ון וויין?‎\""</item>
-        <item>נסה לומר, \"Open YouTube\"</item>
-        <item>נסה לומר, \"Open Play Movies\"</item>
+        <item>נסה לומר, \"פתח את YouTube\"</item>
+        <item>נסה לומר, \"פתח את Play סרטים\"</item>
     </string-array>
 </resources>

@@ -1,27 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="genre_labels">
-        <item>കുടുംബാംഗങ്ങൾ/കുട്ടികൾ</item>
-        <item>കായികം</item>
-        <item>ഷോപ്പിംഗ്</item>
-        <item>സിനിമകൾ</item>
-        <item>ഹാസ്യം</item>
-        <item>യാത്ര</item>
-        <item>നാടകം</item>
-        <item>വിദ്യാഭ്യാസം</item>
-        <item>മൃഗങ്ങൾ/വൈൽഡ്‌‌ലൈഫ്</item>
-        <item>വാർത്ത</item>
-        <item>ഗെയിമിംഗ്</item>
-        <item>കലകള്‍</item>
-        <item>വിനോദം</item>
-        <item>ജീവിതശൈലി</item>
-        <item>സംഗീതം</item>
-        <item>പ്രീമിയർ</item>
-        <item>സാങ്കേതികം/ശാസ്‌ത്രം</item>
-    </string-array>
     <string-array name="search_orb_text_to_show">
         <item>\"വിൽ സ്‌മിത്ത്\" എന്നത് തിരയുന്നത് പരീക്ഷിക്കുക</item>
-        <item>\"മൈക്കൽ ഫാസ്ബെൻഡർ\" എന്നത് തിരയുന്നത് പരീക്ഷിക്കുക</item>
+        <item>\"മൈക്കിൾ ഫാസ്ബെൻഡർ\" എന്നത് തിരയുന്നത് പരീക്ഷിക്കുക</item>
         <item>\"ജെന്നിഫർ ലോറൻസ്\" എന്നത് തിരയുന്നത് പരീക്ഷിക്കുക</item>
         <item>\"ഒലീവിയ വിൽഡെ\" എന്നത് തിരയുന്നത് പരീക്ഷിക്കുക</item>
         <item>\"റൊമാന്റിക്ക് കോമഡികൾ\" തിരയുന്നത് പരീക്ഷിക്കുക</item>

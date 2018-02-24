@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d canales</item>
-        <item quantity="one">%d canal</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Hay %d notificaciones del sistema</item>
-        <item quantity="one">Hay %d notificación del sistema</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d fans</item>
-        <item quantity="one">%1$,d fan</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d seguidores</item>
-        <item quantity="one">%1$,d seguidor</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d me gusta</item>
-        <item quantity="one">%1$,d me gusta</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">Se ha escuchado %1$,d veces</item>
-        <item quantity="one">Se ha escuchado %1$,d vez</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d me gusta</item>
-        <item quantity="one">%1$,d me gusta</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d espectadores</item>
-        <item quantity="one">%1$,d espectador</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d visualizaciones</item>
-        <item quantity="one">%1$,d visualización</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d episodios</item>
-        <item quantity="one">%1$,d episodio</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d temporadas</item>
-        <item quantity="one">%1$,d temporada</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d canciones</item>
-        <item quantity="one">%1$,d canción</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d fuentes ocultas</item>
+        <item quantity="one">%d fuente oculta</item>
     </plurals>
 </resources>

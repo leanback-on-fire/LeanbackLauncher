@@ -2,7 +2,6 @@
 <RelativeLayout android:id="@id/onboarding_fragment_root" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
   xmlns:android="http://schemas.android.com/apk/res/android">
     <FrameLayout android:id="@id/background_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
-    <ImageView android:id="@id/main_icon" style="?attr/onboardingMainIconStyle" />
     <LinearLayout android:id="@id/page_container" android:visibility="gone" style="?attr/onboardingHeaderStyle">
         <TextView android:id="@id/title" style="?attr/onboardingTitleStyle" />
         <TextView android:id="@id/description" style="?attr/onboardingDescriptionStyle" />

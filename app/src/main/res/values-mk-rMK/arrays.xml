@@ -1,31 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="genre_labels">
-        <item>Семејни/Детски</item>
-        <item>Спорт</item>
-        <item>Пазарење</item>
-        <item>Филмови</item>
-        <item>Комедија</item>
-        <item>Патување</item>
-        <item>Драма</item>
-        <item>Образование</item>
-        <item>Животински свет</item>
-        <item>Вести</item>
-        <item>Игри</item>
-        <item>Уметност</item>
-        <item>Забава</item>
-        <item>Стил на живеење</item>
-        <item>Музика</item>
-        <item>Премиера</item>
-        <item>Технологија/Наука</item>
-    </string-array>
-    <string-array name="program_canonical_genre_labels_formats">
-        <item>%1$s</item>
-        <item>%1$s, %2$s</item>
-        <item>%1$s, %2$s, %3$s</item>
-        <item>%1$s, %2$s, %3$s, %4$s</item>
-        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
-    </string-array>
     <string-array name="search_orb_text_to_show">
         <item>Побарајте го „Вил Смит“</item>
         <item>Побарајте го „Мајкл Фасбендер“</item>

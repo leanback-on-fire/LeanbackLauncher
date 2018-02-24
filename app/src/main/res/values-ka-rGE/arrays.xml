@@ -1,60 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="genre_labels">
-        <item>საოჯახო/საბავშვო</item>
-        <item>სპორტი</item>
-        <item>საყიდლები</item>
-        <item>ფილმები</item>
-        <item>კომედია</item>
-        <item>მოგზაურობა</item>
-        <item>დრამა</item>
-        <item>განათლება</item>
-        <item>ცხოველთა სამყარო/ველური ბუნება</item>
-        <item>ახალი ამბები</item>
-        <item>თამაშები</item>
-        <item>ხელოვნება</item>
-        <item>გართობა</item>
-        <item>ცხოვრების სტილი</item>
-        <item>მუსიკა</item>
-        <item>პრემიერა</item>
-        <item>ტექნოლოგია/მეცნიერება</item>
-    </string-array>
-    <string-array name="program_canonical_genre_labels_formats">
-        <item>%1$s</item>
-        <item>%1$s, %2$s</item>
-        <item>%1$s, %2$s, %3$s</item>
-        <item>%1$s, %2$s, %3$s, %4$s</item>
-        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
-    </string-array>
     <string-array name="search_orb_text_to_show">
-        <item>ცადეთ, მოიძიოთ „უილ სმითი“</item>
-        <item>ცადეთ, მოიძიოთ „მაიკლ ფასბენდერი“</item>
-        <item>ცადეთ, მოიძიოთ „ჯენიფერ ლოურენსი“</item>
-        <item>ცადეთ, მოიძიოთ „ოლივია უაილდი“</item>
-        <item>ცადეთ, მოიძიოთ „რომანტიკული კომედიები“</item>
-        <item>ცადეთ, მოიძიოთ „სამეცნიერო ფანტასტიკური ფილმები“</item>
-        <item>ცადეთ, მოიძიოთ „ფილმები სუპერგმირებზე“</item>
-        <item>ცადეთ, მოიძიოთ „მძაფრსიუჟეტიანი ფილმები“</item>
-        <item>ცადეთ, მოიძიოთ „ვარსკვლავური გზა“</item>
-        <item>ცადეთ, მოიძიოთ „შერლოკი“</item>
-        <item>ცადეთ, მოიძიოთ „American Idol“</item>
-        <item>ცადეთ, მოიძიოთ „ვარსკვლავური გზა“</item>
-        <item>ცადეთ, მოიძიოთ „ქესლი“</item>
-        <item>ცადეთ, მოიძიოთ „ბიონსეს სურათები“</item>
-        <item>ცადეთ, მოიძიოთ „ლონდონის სურათები“</item>
-        <item>ცადეთ, მოიძიოთ „გოდზილას სურათები“</item>
-        <item>ცადეთ, იკითხოთ: „როგორ ითამაშა „დინამომ“?“</item>
-        <item>ცადეთ, იკითხოთ: „როგორ ითამაშა „რეალმა“?“</item>
-        <item>ცადეთ, იკითხოთ: „როგორ ითამაშა „ბარსამ“?“</item>
-        <item>ცადეთ, იკითხოთ: „როგორ ითამაშეს „ბორჯღალოსნებმა“?“</item>
-        <item>ცადეთ, იკითხოთ: „რა ამინდია თბილისში?“</item>
-        <item>ცადეთ, იკითხოთ: „რა ამინდია ბათუმში?“</item>
-        <item>ცადეთ, იკითხოთ: „რა ამინდია ბერლინში?“</item>
-        <item>ცადეთ, იკითხოთ: „რა ამინდია ლარნაკაში?“</item>
-        <item>ცადეთ, იკითხოთ: „რა არის ბრედ პიტის სიმაღლე?“</item>
-        <item>ცადეთ, იკითხოთ: „რა არის მზის ზედაპირის ტემპერატურა?“</item>
-        <item>ცადეთ, იკითხოთ: „როდის დაიბადა ჯონ უეინი?“</item>
-        <item>ცადეთ თქვათ: „YouTube-ის გახსნა“</item>
-        <item>ცადეთ თქვათ: „Play Movies-ის გახსნა“</item>
+        <item>სცადეთ, მოძებნოთ „Will Smith“</item>
+        <item>სცადეთ, მოძებნოთ „Michael Fassbender“</item>
+        <item>სცადეთ, მოძებნოთ „Jennifer Lawrence“</item>
+        <item>სცადეთ, მოძებნოთ „Olivia Wilde“</item>
+        <item>სცადეთ, მოძებნოთ „romantic comedies“</item>
+        <item>სცადეთ, მოძებნოთ „sci-fi movies“</item>
+        <item>სცადეთ, მოძებნოთ „superhero movies“</item>
+        <item>სცადეთ, მოძებნოთ „action movies“</item>
+        <item>სცადეთ, მოძებნოთ „Star Trek“</item>
+        <item>სცადეთ, მოძებნოთ „Sherlock“</item>
+        <item>სცადეთ, მოძებნოთ „American Idol“</item>
+        <item>სცადეთ, მოძებნოთ „Star Trek“</item>
+        <item>სცადეთ, მოძებნოთ „Castle“</item>
+        <item>სცადეთ, მოძებნოთ „pictures of Beyonce“</item>
+        <item>სცადეთ, მოძებნოთ „pictures of London“</item>
+        <item>სცადეთ, მოძებნოთ „pictures of Godzilla“</item>
+        <item>"სცადეთ, იკითხოთ: „what's the Giants score?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the Knicks score?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the Red Wings score?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the Seahawks score?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the weather in New York?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the weather in San Francisco?“"</item>
+        <item>"სცადეთ, იკითხოთ: „what's the weather in Paris?“"</item>
+        <item>"სცადეთ, იკითხოთ:, „what's the weather in Cozumel?“"</item>
+        <item>სცადეთ, იკითხოთ: „How tall is Brad Pitt?“</item>
+        <item>სცადეთ, იკითხოთ: „How hot is the sun?“</item>
+        <item>სცადეთ, იკითხოთ: „When was John Wayne born?“</item>
+        <item>სცადეთ „open YouTube“</item>
+        <item>სცადეთ „open Play Movies“</item>
     </string-array>
 </resources>

@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d არხი</item>
-        <item quantity="one">%d არხი</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">მიღებულია სისტემის %d შეტყობინება</item>
-        <item quantity="one">მიღებულია სისტემის %d შეტყობინება</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d ფანი</item>
-        <item quantity="one">%1$,d ფანი</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d მიმდევარი</item>
-        <item quantity="one">%1$,d მიმდევარი</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d მოწონება</item>
-        <item quantity="one">%1$,d მოწონება</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d მოსმენა</item>
-        <item quantity="one">%1$,d მოსმენა</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d მოწონება</item>
-        <item quantity="one">%1$,d მოწონება</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d მნახველი</item>
-        <item quantity="one">%1$,d მნახველი</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d ნახვა</item>
-        <item quantity="one">%1$,d ნახვა</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d ეპიზოდი</item>
-        <item quantity="one">%1$,d ეპიზოდი</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d სეზონი</item>
-        <item quantity="one">%1$,d სეზონი</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d ჩანაწერი</item>
-        <item quantity="one">%1$,d ჩანაწერი</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d წყარო დამალულია</item>
+        <item quantity="one">%d წყარო დამალულია</item>
     </plurals>
 </resources>

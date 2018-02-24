@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.leanbacklauncher.ActiveFrame android:gravity="start" android:orientation="vertical" android:paddingBottom="@dimen/group_vertical_spacing" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v17.leanback.widget.NonOverlappingLinearLayout android:orientation="horizontal" android:id="@id/header" android:paddingBottom="@dimen/header_text_margin" android:clipChildren="true" android:layout_width="wrap_content" android:layout_height="@dimen/header_height" android:paddingStart="@dimen/row_padding">
+        <ImageView android:layout_gravity="start|center" android:id="@id/icon" android:visibility="gone" android:layout_width="@dimen/header_height" android:layout_height="fill_parent" android:scaleType="fitStart" />
+        <TextView android:textSize="@dimen/header_text_size" android:textColor="@color/row_label_text_color" android:gravity="start|center" android:layout_gravity="start|center" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/category_label_apps" android:includeFontPadding="false" android:fontFamily="@string/font" />
+    </android.support.v17.leanback.widget.NonOverlappingLinearLayout>
+    <com.google.android.leanbacklauncher.ActiveItemsRowView android:gravity="top" android:id="@id/list" android:focusable="true" android:clipChildren="false" android:clipToPadding="false" android:descendantFocusability="beforeDescendants" android:layout_width="fill_parent" android:layout_height="@dimen/temp_max_row_height" android:paddingStart="@dimen/row_padding" android:paddingEnd="@dimen/row_padding" />
+</com.google.android.leanbacklauncher.ActiveFrame>

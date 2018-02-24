@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView android:textSize="@dimen/text_size_h4" android:textColor="@color/apps_view_text_color" android:layout_gravity="center_horizontal" android:id="@id/row_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/title_row_view_top_margin" android:layout_marginBottom="@dimen/title_row_view_bottom_margin"
-  xmlns:android="http://schemas.android.com/apk/res/android" />

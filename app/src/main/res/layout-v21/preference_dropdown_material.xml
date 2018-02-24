@@ -7,7 +7,7 @@
     </LinearLayout>
     <RelativeLayout android:paddingTop="16.0dip" android:paddingBottom="16.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0">
         <TextView android:textAppearance="@style/Preference_TextAppearanceMaterialSubhead" android:ellipsize="marquee" android:id="@android:id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
-        <TextView android:textAppearance="?android:textAppearanceSmall" android:textColor="?android:textColorSecondary" android:id="@android:id/summary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="10" android:layout_below="@android:id/title" android:layout_alignStart="@android:id/title" />
+        <TextView android:textAppearance="?android:textAppearanceSmall" android:textColor="?android:textColorSecondary" android:id="@android:id/summary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="10" android:layout_below="@android:id/title" android:layout_alignLeft="@android:id/title" />
     </RelativeLayout>
     <LinearLayout android:gravity="end|center" android:orientation="vertical" android:id="@android:id/widget_frame" android:paddingLeft="16.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" />
 </LinearLayout>

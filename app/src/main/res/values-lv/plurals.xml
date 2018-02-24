@@ -1,63 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d kanāli</item>
-        <item quantity="zero">%d kanālu</item>
-        <item quantity="one">%d kanāls</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">%d sistēmas paziņojumi</item>
-        <item quantity="zero">%d sistēmas paziņojumi</item>
-        <item quantity="one">%d sistēmas paziņojums</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d cienītāji</item>
-        <item quantity="zero">%1$,d cienītāju</item>
-        <item quantity="one">%1$,d cienītājs</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d sekotāji</item>
-        <item quantity="zero">%1$,d sekotāju</item>
-        <item quantity="one">%1$,d sekotājs</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d atzīmes “Patīk”</item>
-        <item quantity="zero">%1$,d atzīmju “Patīk”</item>
-        <item quantity="one">%1$,d atzīme “Patīk”</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d klausīšanās reizes</item>
-        <item quantity="zero">%1$,d klausīšanās reižu</item>
-        <item quantity="one">%1$,d klausīšanās reize</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d atzīmes “Patīk”</item>
-        <item quantity="zero">%1$,d atzīmju “Patīk”</item>
-        <item quantity="one">%1$,d atzīme “Patīk”</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d skatītāji</item>
-        <item quantity="zero">%1$,d skatītāju</item>
-        <item quantity="one">%1$,d skatītājs</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d skatījumi</item>
-        <item quantity="zero">%1$,d skatījumu</item>
-        <item quantity="one">%1$,d skatījums</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d sērijas</item>
-        <item quantity="zero">%1$,d sēriju</item>
-        <item quantity="one">%1$,d sērija</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d sezonas</item>
-        <item quantity="zero">%1$,d sezonu</item>
-        <item quantity="one">%1$,d sezona</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d ieraksti</item>
-        <item quantity="zero">%1$,d ierakstu</item>
-        <item quantity="one">%1$,d ieraksts</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d avoti ir paslēpti</item>
+        <item quantity="zero">%d avoti ir paslēpti</item>
+        <item quantity="one">%d avots ir paslēpts</item>
     </plurals>
 </resources>

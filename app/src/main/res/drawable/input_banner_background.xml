@@ -2,5 +2,5 @@
 <shape android:shape="rectangle"
   xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/input_banner_background" />
-    <corners android:radius="@dimen/card_rounded_corner_radius" />
+    <corners android:radius="@dimen/banner_corner_radius" />
 </shape>

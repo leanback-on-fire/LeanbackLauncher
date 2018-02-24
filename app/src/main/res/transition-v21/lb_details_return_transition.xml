@@ -7,7 +7,6 @@
             <target android:excludeId="@id/title_text" />
             <target android:excludeId="@id/title_orb" />
             <target android:excludeId="@id/details_background_view" />
-            <target android:excludeId="@id/video_surface" />
         </targets>
     </transition>
     <transition android:duration="350" class="android.support.v17.leanback.transition.ParallaxTransition">
@@ -15,9 +14,5 @@
             <target android:targetId="@id/details_frame" />
         </targets>
     </transition>
-    <fade android:duration="350">
-        <targets>
-            <target android:excludeId="@id/video_surface" />
-        </targets>
-    </fade>
+    <fade android:duration="350" />
 </transitionSet>

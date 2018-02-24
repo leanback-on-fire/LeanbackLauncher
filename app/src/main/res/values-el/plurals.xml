@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d κανάλια</item>
-        <item quantity="one">%d κανάλι</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Υπάρχουν %d ειδοποιήσεις συστήματος</item>
-        <item quantity="one">Υπάρχει %d ειδοποίηση συστήματος</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d θαυμαστές</item>
-        <item quantity="one">%1$,d θαυμαστής</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d ακόλουθοι</item>
-        <item quantity="one">%1$,d ακόλουθος</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d επισημάνσεις \"μου αρέσει\"</item>
-        <item quantity="one">%1$,d επισήμανση \"μου αρέσει\"</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d ακροάσεις</item>
-        <item quantity="one">%1$,d ακρόαση</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d επιδοκιμασίες</item>
-        <item quantity="one">%1$,d επιδοκιμασία</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d θεατές</item>
-        <item quantity="one">%1$,d θεατής</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d προβολές</item>
-        <item quantity="one">%1$,d προβολή</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d επεισόδια</item>
-        <item quantity="one">%1$,d επεισόδιο</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d σεζόν</item>
-        <item quantity="one">%1$,d σεζόν</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d κομμάτια</item>
-        <item quantity="one">%1$,d κομμάτι</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d πηγές είναι κρυφές</item>
+        <item quantity="one">%d πηγή είναι κρυφή</item>
     </plurals>
 </resources>

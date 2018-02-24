@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">채널 %d개</item>
-        <item quantity="one">채널 %d개</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">시스템 알림 %d개가 있습니다.</item>
-        <item quantity="one">시스템 알림 %d개가 있습니다.</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">팬 %1$,d명</item>
-        <item quantity="one">팬 %1$,d명</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">팔로어 %1$,d명</item>
-        <item quantity="one">팔로어 %1$,d명</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">좋아요 %1$,d회</item>
-        <item quantity="one">좋아요 %1$,d회</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">감상 %1$,d회</item>
-        <item quantity="one">감상 %1$,d회</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">추천 %1$,d회</item>
-        <item quantity="one">추천 %1$,d회</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">시청자 %1$,d명</item>
-        <item quantity="one">시청자 %1$,d명</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">시청 %1$,d회</item>
-        <item quantity="one">시청 %1$,d회</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">에피소드 %1$,d개</item>
-        <item quantity="one">에피소드 %1$,d개</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">시즌 %1$,d개</item>
-        <item quantity="one">시즌 %1$,d개</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">트랙 %1$,d개</item>
-        <item quantity="one">트랙 %1$,d개</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">소스 %d개가 숨겨져 있습니다.</item>
+        <item quantity="one">소스 %d개가 숨겨져 있습니다.</item>
     </plurals>
 </resources>

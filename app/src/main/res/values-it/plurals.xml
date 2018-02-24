@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d canali</item>
-        <item quantity="one">%d canale</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Sono presenti %d notifiche di sistema</item>
-        <item quantity="one">È presente %d notifica di sistema</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d Fan</item>
-        <item quantity="one">%1$,d Fan</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d Follower</item>
-        <item quantity="one">%1$,d Follower</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d mi piace</item>
-        <item quantity="one">%1$,d mi piace</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d ascolti</item>
-        <item quantity="one">%1$,d ascolto</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d pollici in su</item>
-        <item quantity="one">%1$,d pollice in su</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d spettatori</item>
-        <item quantity="one">%1$,d spettatore</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d visualizzazioni</item>
-        <item quantity="one">%1$,d visualizzazione</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d puntate</item>
-        <item quantity="one">%1$,d puntata</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d stagioni</item>
-        <item quantity="one">%1$,d stagione</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d tracce</item>
-        <item quantity="one">%1$,d traccia</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d fonti nascoste</item>
+        <item quantity="one">%d fonte nascosta</item>
     </plurals>
 </resources>

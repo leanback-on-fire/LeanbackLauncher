@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="horizontal" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/store_row_view_margin_bottom"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <include android:id="@id/app_store" android:layout_width="@dimen/store_button_width" android:layout_height="@dimen/store_button_height" android:layout_marginEnd="@dimen/store_button_margin_end" layout="@layout/store_button_view" />
-    <include android:id="@id/game_store" layout="@layout/store_button_view" />
-</LinearLayout>

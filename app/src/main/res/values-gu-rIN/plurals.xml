@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d ચેનલ</item>
-        <item quantity="one">%d ચેનલ</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">%d સિસ્ટમ સૂચનાઓ છે</item>
-        <item quantity="one">%d સિસ્ટમ સૂચનાઓ છે</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d પ્રશંસક</item>
-        <item quantity="one">%1$,d પ્રશંસક</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d અનુયાયી</item>
-        <item quantity="one">%1$,d અનુયાયી</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d પસંદ</item>
-        <item quantity="one">%1$,d પસંદ</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d વાર સાંભળ્યું</item>
-        <item quantity="one">%1$,d વાર સાંભળ્યું</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d થમ્બ્સ અપ</item>
-        <item quantity="one">%1$,d થમ્બ્સ અપ</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d દર્શક</item>
-        <item quantity="one">%1$,d દર્શક</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d વાર જોવાઈ</item>
-        <item quantity="one">%1$,d વાર જોવાઈ</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d એપિસોડ</item>
-        <item quantity="one">%1$,d એપિસોડ</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d સીઝન</item>
-        <item quantity="one">%1$,d સીઝન</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d ટ્રૅક</item>
-        <item quantity="one">%1$,d ટ્રૅક</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d સ્રોત છુપાવેલ છે</item>
+        <item quantity="one">%d સ્રોત છુપાવેલ છે</item>
     </plurals>
 </resources>

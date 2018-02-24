@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d канал</item>
-        <item quantity="one">%d канал</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Тутумдун %d эскертмеси бар</item>
-        <item quantity="one">Тутумдун %d эскертмеси бар</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d сүйүүчү</item>
-        <item quantity="one">%1$,d сүйүүчү</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d мүчө</item>
-        <item quantity="one">%1$,d мүчө</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d жактыруу</item>
-        <item quantity="one">%1$,d жактыруу</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d жолу угулган</item>
-        <item quantity="one">%1$,d жолу угулган</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d жолу жактырылган</item>
-        <item quantity="one">%1$,d жолу жактырылган</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d көрүүчү</item>
-        <item quantity="one">%1$,d көрүүчү</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d жолу көрүлгөн</item>
-        <item quantity="one">%1$,d жолу көрүлгөн</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d серия</item>
-        <item quantity="one">%1$,d серия</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d мезгил</item>
-        <item quantity="one">%1$,d мезгил</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d композиция</item>
-        <item quantity="one">%1$,d композиция</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d булак жашырылган</item>
+        <item quantity="one">%d булак жашырылган</item>
     </plurals>
 </resources>

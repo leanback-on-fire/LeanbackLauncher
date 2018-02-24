@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ImageView android:id="@id/program_root" android:background="@drawable/watch_next_intro" android:focusable="true" android:layout_width="@dimen/program_default_width" android:layout_height="@dimen/program_default_height" android:layout_marginTop="@dimen/program_default_margin_top" android:layout_marginBottom="@dimen/program_default_margin_bottom" android:contentDescription="@string/watch_next_channel_title" android:layout_marginEnd="@dimen/program_default_margin_horizontal" android:outlineProvider="bounds"
-  xmlns:android="http://schemas.android.com/apk/res/android" />

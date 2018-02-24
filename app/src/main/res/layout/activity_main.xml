@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@id/home_view_container" android:layout_width="fill_parent" android:layout_height="fill_parent"
-  xmlns:android="http://schemas.android.com/apk/res/android" />
+<FrameLayout android:focusable="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/edit_mode_background" />
+    <include layout="@layout/wallpaper" />
+    <ImageView android:id="@id/click_circle_layer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="@null" />
+    <android.support.v17.leanback.widget.VerticalGridView android:id="@id/main_list_view" android:focusable="true" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include layout="@layout/edit_mode_layer" />
+</FrameLayout>

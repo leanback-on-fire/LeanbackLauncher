@@ -5,5 +5,5 @@
         <TextView android:textSize="@dimen/lb_preference_decor_title_text_size" android:textColor="?android:textColorPrimary" android:gravity="center_vertical" android:id="@id/decor_title" android:layout_width="fill_parent" android:layout_height="@dimen/lb_preference_decor_title_text_height" android:layout_marginTop="@dimen/lb_preference_decor_title_margin_top" android:singleLine="true" android:fontFamily="sans-serif-condensed" android:layout_marginStart="@dimen/lb_preference_decor_title_margin_start" android:layout_marginEnd="@dimen/lb_preference_decor_title_margin_end" />
     </FrameLayout>
     <TextView android:id="@android:id/message" android:paddingTop="14.0dip" android:paddingBottom="14.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:fontFamily="sans-serif-condensed" android:paddingStart="24.0dip" android:paddingEnd="56.0dip" />
-    <android.support.v17.leanback.widget.VerticalGridView android:id="@android:id/list" android:layout_width="fill_parent" android:layout_height="fill_parent" android:transitionGroup="true" />
+    <android.support.v17.leanback.widget.VerticalGridView android:id="@android:id/list" android:layout_width="fill_parent" android:layout_height="fill_parent" />
 </LinearLayout>

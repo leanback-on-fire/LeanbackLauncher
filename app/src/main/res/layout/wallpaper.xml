@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.leanbacklauncher.wallpaper.LauncherWallpaper android:id="@id/background_container" android:background="@null" android:focusable="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.google.android.leanbacklauncher.wallpaper.WallpaperImage android:id="@id/wallpaper" android:focusable="false" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="matrix" android:contentDescription="@null" />
+    <com.google.android.leanbacklauncher.wallpaper.WallpaperImage android:id="@id/launcher_background" android:focusable="false" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="matrix" android:contentDescription="@null" />
+    <com.google.android.leanbacklauncher.wallpaper.AnimatedLayer android:id="@id/animation_layer" android:focusable="false" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="matrix" android:contentDescription="@null" />
+    <com.google.android.leanbacklauncher.wallpaper.AnimatedLayer android:id="@id/fade_mask_extension" android:focusable="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@color/launcher_background_color" android:contentDescription="@null" />
+    <com.google.android.leanbacklauncher.wallpaper.FadeMaskView android:id="@id/video_fade_mask" android:focusable="false" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="@null" />
+    <ImageView android:id="@id/video_fade_mask_extension" android:focusable="false" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@color/launcher_background_color" android:contentDescription="@null" />
+</com.google.android.leanbacklauncher.wallpaper.LauncherWallpaper>

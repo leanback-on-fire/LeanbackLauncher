@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d ប៉ុស្តិ៍</item>
-        <item quantity="one">%d ប៉ុស្តិ៍</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">មានការជូនដំណឹងប្រព័ន្ធចំនួន %d</item>
-        <item quantity="one">មានការជូនដំណឹងប្រព័ន្ធចំនួន %d</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">អ្នកគាំទ្រ %1$,d នាក់</item>
-        <item quantity="one">អ្នកគាំទ្រ %1$,d នាក់</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">អ្នកតាម %1$,d នាក់</item>
-        <item quantity="one">អ្នកតាម %1$,d នាក់</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">ការចូលចិត្ត %1$,d</item>
-        <item quantity="one">ការចូលចិត្ត %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">ស្តាប់ %1$,d ដង</item>
-        <item quantity="one">ស្តាប់ %1$,d ដង</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">ការឱ្យមេដៃ​ %1$,d</item>
-        <item quantity="one">ការឱ្យមេដៃ​ %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">អ្នកមើល %1$,d នាក់</item>
-        <item quantity="one">អ្នកមើល %1$,d នាក់</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">មើល %1$,d ដង</item>
-        <item quantity="one">មើល %1$,d ដង</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d ភាគ</item>
-        <item quantity="one">%1$,d ភាគ</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d រដូវកាល</item>
-        <item quantity="one">%1$,d រដូវកាល</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d បទ</item>
-        <item quantity="one">%1$,d បទ</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">ប្រភព %d ត្រូវបានលាក់</item>
+        <item quantity="one">ប្រភព %d ត្រូវបានលាក់</item>
     </plurals>
 </resources>

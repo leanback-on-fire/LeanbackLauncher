@@ -1,75 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d канала</item>
-        <item quantity="one">%d канал</item>
-        <item quantity="few">%d канала</item>
-        <item quantity="many">%d каналов</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">У вас %d системного уведомления</item>
-        <item quantity="one">У вас %d системное уведомление</item>
-        <item quantity="few">У вас %d системных уведомления</item>
-        <item quantity="many">У вас %d системных уведомлений</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d поклонника</item>
-        <item quantity="one">%1$,d поклонник</item>
-        <item quantity="few">%1$,d поклонника</item>
-        <item quantity="many">%1$,d поклонников</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d подписчика</item>
-        <item quantity="one">%1$,d подписчик</item>
-        <item quantity="few">%1$,d подписчика</item>
-        <item quantity="many">%1$,d подписчиков</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d лайка</item>
-        <item quantity="one">%1$,d лайк</item>
-        <item quantity="few">%1$,d лайка</item>
-        <item quantity="many">%1$,d лайков</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d прослушивания</item>
-        <item quantity="one">%1$,d прослушивание</item>
-        <item quantity="few">%1$,d прослушивания</item>
-        <item quantity="many">%1$,d прослушиваний</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d отметки \"Нравится\"</item>
-        <item quantity="one">%1$,d отметка \"Нравится\"</item>
-        <item quantity="few">%1$,d отметки \"Нравится\"</item>
-        <item quantity="many">%1$,d отметок \"Нравится\"</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d зрителя</item>
-        <item quantity="one">%1$,d зритель</item>
-        <item quantity="few">%1$,d зрителя</item>
-        <item quantity="many">%1$,d зрителей</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d просмотра</item>
-        <item quantity="one">%1$,d просмотр</item>
-        <item quantity="few">%1$,d просмотра</item>
-        <item quantity="many">%1$,d просмотров</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d серии</item>
-        <item quantity="one">%1$,d серия</item>
-        <item quantity="few">%1$,d серии</item>
-        <item quantity="many">%1$,d серий</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d сезона</item>
-        <item quantity="one">%1$,d сезон</item>
-        <item quantity="few">%1$,d сезона</item>
-        <item quantity="many">%1$,d сезонов</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d дорожки</item>
-        <item quantity="one">%1$,d дорожка</item>
-        <item quantity="few">%1$,d дорожки</item>
-        <item quantity="many">%1$,d дорожек</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">Рекомендации от %d приложений скрыты</item>
+        <item quantity="one">Рекомендации от %d приложения скрыты</item>
+        <item quantity="few">Рекомендации от %d приложений скрыты</item>
+        <item quantity="many">Рекомендации от %d приложений скрыты</item>
     </plurals>
 </resources>

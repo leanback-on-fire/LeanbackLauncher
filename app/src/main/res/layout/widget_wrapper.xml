@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="end|center|top" android:layout_gravity="end|center|top" android:orientation="horizontal" android:id="@id/widget_wrapper" android:focusable="false" android:layout_width="@dimen/widget_width" android:layout_height="@dimen/widget_height" android:layout_marginTop="@dimen/vertical_safety_spacing" android:layout_marginEnd="@dimen/widget_end_spacing"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -61,11 +61,6 @@
     </style>
     <style name="Base.Widget.AppCompat.ProgressBar" parent="@android:style/Widget.Holo.ProgressBar" />
     <style name="Base.Widget.AppCompat.ProgressBar.Horizontal" parent="@android:style/Widget.Holo.ProgressBar.Horizontal" />
-    <style name="ExoMediaButton">
-        <item name="android:background">?android:selectableItemBackground</item>
-        <item name="android:layout_width">@dimen/exo_media_button_width</item>
-        <item name="android:layout_height">@dimen/exo_media_button_height</item>
-    </style>
     <style name="Platform.AppCompat" parent="@style/Platform.V11.AppCompat" />
     <style name="Platform.AppCompat.Light" parent="@style/Platform.V11.AppCompat.Light" />
     <style name="Platform.Widget.AppCompat.Spinner" parent="@android:style/Widget.Holo.Spinner" />
@@ -122,7 +117,6 @@
         <item name="android:actionModeCutDrawable">?actionModeCutDrawable</item>
         <item name="android:actionModeCopyDrawable">?actionModeCopyDrawable</item>
         <item name="android:actionModePasteDrawable">?actionModePasteDrawable</item>
-        <item name="android:borderlessButtonStyle">?borderlessButtonStyle</item>
         <item name="android:buttonBarStyle">?buttonBarStyle</item>
         <item name="android:buttonBarButtonStyle">?buttonBarButtonStyle</item>
         <item name="android:textColorHighlightInverse">@color/highlighted_text_material_light</item>
@@ -167,7 +161,6 @@
         <item name="android:actionModeCutDrawable">?actionModeCutDrawable</item>
         <item name="android:actionModeCopyDrawable">?actionModeCopyDrawable</item>
         <item name="android:actionModePasteDrawable">?actionModePasteDrawable</item>
-        <item name="android:borderlessButtonStyle">?borderlessButtonStyle</item>
         <item name="android:buttonBarStyle">?buttonBarStyle</item>
         <item name="android:buttonBarButtonStyle">?buttonBarButtonStyle</item>
         <item name="android:textColorHighlightInverse">@color/highlighted_text_material_dark</item>

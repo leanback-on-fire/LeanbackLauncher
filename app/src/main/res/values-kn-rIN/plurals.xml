@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d ಚಾನಲ್‌ಗಳು</item>
-        <item quantity="one">%d ಚಾನಲ್‌ಗಳು</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">%d ಸಿಸ್ಟಂ ಅಧಿಸೂಚನೆಗಳು ಇವೆ</item>
-        <item quantity="one">%d ಸಿಸ್ಟಂ ಅಧಿಸೂಚನೆಗಳು ಇವೆ</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d ಅಭಿಮಾನಿಗಳು</item>
-        <item quantity="one">%1$,d ಅಭಿಮಾನಿಗಳು</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d ಅನುಸರಿಸುವವರು</item>
-        <item quantity="one">%1$,d ಅನುಸರಿಸುವವರು</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d ಇಷ್ಟಗಳು</item>
-        <item quantity="one">%1$,d ಇಷ್ಟಗಳು</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d ಕೇಳುತ್ತಾರೆ</item>
-        <item quantity="one">%1$,d ಕೇಳುತ್ತಾರೆ</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d ಥಂಬ್ಸ್ ಅಪ್</item>
-        <item quantity="one">%1$,d ಥಂಬ್ಸ್ ಅಪ್</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d ವೀಕ್ಷಕರು</item>
-        <item quantity="one">%1$,d ವೀಕ್ಷಕರು</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d ವೀಕ್ಷಣೆಗಳು</item>
-        <item quantity="one">%1$,d ವೀಕ್ಷಣೆಗಳು</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d ಸಂಚಿಕೆಗಳು</item>
-        <item quantity="one">%1$,d ಸಂಚಿಕೆಗಳು</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d ಸೀಸನ್‌ಗಳು</item>
-        <item quantity="one">%1$,d ಸೀಸನ್‌ಗಳು</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d ಟ್ರ್ಯಾಕ್‌ಗಳು</item>
-        <item quantity="one">%1$,d ಟ್ರ್ಯಾಕ್‌ಗಳು</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d ಮೂಲಗಳನ್ನು ಮರೆಮಾಡಲಾಗಿದೆ</item>
+        <item quantity="one">%d ಮೂಲಗಳನ್ನು ಮರೆಮಾಡಲಾಗಿದೆ</item>
     </plurals>
 </resources>

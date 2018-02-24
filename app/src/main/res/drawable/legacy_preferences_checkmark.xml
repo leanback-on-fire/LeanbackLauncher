@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <shape android:shape="oval">
+            <size android:height="8.0dip" android:width="8.0dip" />
+            <solid android:color="@color/lb_tv_white" />
+        </shape>
+    </item>
+</selector>

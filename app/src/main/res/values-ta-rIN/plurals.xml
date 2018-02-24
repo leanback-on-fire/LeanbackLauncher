@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d சேனல்கள்</item>
-        <item quantity="one">%d சேனல்</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">%d சிஸ்டம் அறிவிப்புகள் உள்ளன</item>
-        <item quantity="one">%d சிஸ்டம் அறிவிப்பு உள்ளது</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">ரசிகர்கள்: %1$,d</item>
-        <item quantity="one">ரசிகர்: %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">பின்தொடர்பவர்கள்: %1$,d</item>
-        <item quantity="one">பின்தொடர்பவர்: %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">விருப்பங்கள்: %1$,d</item>
-        <item quantity="one">விருப்பம்: %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">கேட்டவர்கள்: %1$,d</item>
-        <item quantity="one">கேட்டவர்: %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">அருமை: %1$,d</item>
-        <item quantity="one">அருமை: %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">பார்வையாளர்கள்: %1$,d</item>
-        <item quantity="one">பார்வையாளர்: %1$,d</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">பார்வைகள்: %1$,d</item>
-        <item quantity="one">பார்வை: %1$,d</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">எபிசோடுகள்: %1$,d</item>
-        <item quantity="one">எபிசோடு: %1$,d</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">சீசன்கள்: %1$,d</item>
-        <item quantity="one">சீசன்: %1$,d</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">ட்ராக்குகள்: %1$,d</item>
-        <item quantity="one">ட்ராக்: %1$,d</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d மூலங்கள் மறைக்கப்பட்டுள்ளன</item>
+        <item quantity="one">%d மூலம் மறைக்கப்பட்டுள்ளது</item>
     </plurals>
 </resources>

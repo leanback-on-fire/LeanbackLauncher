@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/leanback_now_playing_bar_color" />
+    <size android:height="@dimen/leanback_card_now_playing_bar_height" android:width="@dimen/leanback_card_now_playing_bar_width" />
+</shape>

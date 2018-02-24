@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:width="@dimen/edit_frame_stroke" android:color="@color/edit_selection_indicator_color" />
+    <corners android:radius="@dimen/banner_corner_radius" />
+    <size android:height="@dimen/edit_frame_height" android:width="@dimen/edit_frame_width" />
+</shape>

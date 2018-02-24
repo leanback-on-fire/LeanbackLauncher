@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d kanal</item>
-        <item quantity="one">%d kanal</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">%d sistem bildirişi var</item>
-        <item quantity="one">%d sistem bildirişi var</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d Azarkeş</item>
-        <item quantity="one">%1$,d Azarkeş</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d İzləyici</item>
-        <item quantity="one">%1$,d İzləyici</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d Bəyənmə</item>
-        <item quantity="one">%1$,d Bəyənmə</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d Dinləmə</item>
-        <item quantity="one">%1$,d Dinləmə</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d Bəyənmə</item>
-        <item quantity="one">%1$,d Bəyənmə</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d İzləyici</item>
-        <item quantity="one">%1$,d İzləyici</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d Baxış</item>
-        <item quantity="one">%1$,d Baxış</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d Epizod</item>
-        <item quantity="one">%1$,d Epizod</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d Mövsüm</item>
-        <item quantity="one">%1$,d Mövsüm</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d Trek</item>
-        <item quantity="one">%1$,d Trek</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d mənbə gizlidir</item>
+        <item quantity="one">%d mənbə gizlidir</item>
     </plurals>
 </resources>

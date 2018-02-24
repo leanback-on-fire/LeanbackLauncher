@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/container" android:background="?android:selectableItemBackground" android:focusable="true" android:clickable="true" android:descendantFocusability="blocksDescendants" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="@dimen/lb_preference_item_padding_start" android:paddingEnd="@dimen/lb_preference_item_padding_end"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:layout_gravity="center_vertical" android:layout_width="@dimen/preference_item_banner_width" android:layout_height="@dimen/preference_item_banner_height" android:layout_marginEnd="@dimen/lb_preference_item_icon_margin_end">
+        <FrameLayout android:id="@id/icon_frame" android:background="@color/preference_item_banner_background" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <ImageView android:layout_gravity="center" android:id="@android:id/icon" android:layout_width="@dimen/preference_item_icon_size" android:layout_height="@dimen/preference_item_icon_size" />
+        </FrameLayout>
+        <ImageView android:id="@id/banner" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <Space android:layout_width="0.0dip" android:layout_height="@dimen/lb_preference_item_text_space_top" />
+        <TextView android:textSize="@dimen/lb_preference_item_primary_text_size" android:textColor="@color/lb_preference_item_primary_text_color" android:id="@android:id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/lb_preference_item_primary_text_margin_bottom" android:fontFamily="sans-serif-condensed" />
+        <TextView android:textSize="@dimen/lb_preference_item_secondary_text_size" android:textColor="@color/lb_preference_item_secondary_text_color" android:id="@android:id/summary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="4" android:fontFamily="sans-serif-condensed" />
+        <Space android:layout_width="0.0dip" android:layout_height="@dimen/lb_preference_item_text_space_bottom" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@android:id/widget_frame" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+</LinearLayout>

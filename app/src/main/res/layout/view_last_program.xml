@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@id/program_root" android:background="@color/channel_last_item_unfocused_background" android:focusable="true" android:layout_width="@dimen/program_default_width" android:layout_height="@dimen/program_default_height" android:layout_marginTop="@dimen/program_default_margin_top" android:layout_marginBottom="@dimen/program_default_margin_bottom" android:layout_marginEnd="@dimen/program_default_margin_horizontal" android:outlineProvider="bounds"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <TextView android:id="@id/text" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_margin="@dimen/channel_last_item_text_margin" android:text="@string/channel_last_item_message" android:maxLines="2" style="@style/LastProgramMessage" />
-</FrameLayout>

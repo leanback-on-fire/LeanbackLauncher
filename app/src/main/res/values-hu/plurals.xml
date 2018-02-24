@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d csatorna</item>
-        <item quantity="one">%d csatorna</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">%d rendszerértesítés érkezett</item>
-        <item quantity="one">%d rendszerértesítés érkezett</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d-rajongó</item>
-        <item quantity="one">%1$,d-rajongó</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d-követő</item>
-        <item quantity="one">%1$,d-követő</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d-kedvelés</item>
-        <item quantity="one">%1$,d-kedvelés</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d-meghallgatás</item>
-        <item quantity="one">%1$,d-meghallgatás</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d „Tetszik” értékelés</item>
-        <item quantity="one">%1$,d „Tetszik” értékelés</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d-megtekintő</item>
-        <item quantity="one">%1$,d-megtekintő</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d-megtekintés</item>
-        <item quantity="one">%1$,d-megtekintés</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d-epizód</item>
-        <item quantity="one">%1$,d-epizód</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d-évad</item>
-        <item quantity="one">%1$,d-évad</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d-dal</item>
-        <item quantity="one">%1$,d-dal</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d forrás elrejtve</item>
+        <item quantity="one">%d forrás elrejtve</item>
     </plurals>
 </resources>

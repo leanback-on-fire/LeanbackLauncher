@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d ఛానెల్‌లు</item>
-        <item quantity="one">%d ఛానెల్</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">%d సిస్టమ్ నోటిఫికేషన్‌లు ఉన్నాయి</item>
-        <item quantity="one">%d సిస్టమ్ నోటిఫికేషన్ ఉంది</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d మంది అభిమానులు</item>
-        <item quantity="one">%1$,d అభిమాని</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d మంది అనుచరులు</item>
-        <item quantity="one">%1$,d అనుచరుడు</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d ఇష్టాలు</item>
-        <item quantity="one">%1$,d ఇష్టం</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d మంది విన్నారు</item>
-        <item quantity="one">%1$,d వ్యక్తి విన్నారు</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d మంది మెచ్చుకున్నారు</item>
-        <item quantity="one">%1$,d వ్యక్తి మెచ్చుకున్నారు</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d మంది వీక్షకులు</item>
-        <item quantity="one">%1$,d వీక్షకుడు</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d వీక్షణలు</item>
-        <item quantity="one">%1$,d వీక్షణ</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d ఎపిసోడ్‌లు</item>
-        <item quantity="one">%1$,d ఎపిసోడ్</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d సీజన్‌లు</item>
-        <item quantity="one">%1$,d సీజన్</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d ట్రాక్‌లు</item>
-        <item quantity="one">%1$,d ట్రాక్</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d మూలాధారాలు దాచబడ్డాయి</item>
+        <item quantity="one">%d మూలాధారం దాచబడింది</item>
     </plurals>
 </resources>

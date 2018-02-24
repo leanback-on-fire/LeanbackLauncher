@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d kanalen</item>
-        <item quantity="one">%d kanaal</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Er zijn %d systeemmeldingen</item>
-        <item quantity="one">Er is %d systeemmelding</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d fans</item>
-        <item quantity="one">%1$,d fan</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d volgers</item>
-        <item quantity="one">%1$,d volger</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d vind-ik-leuks</item>
-        <item quantity="one">%1$,d vind-ik-leuk</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d keer beluisterd</item>
-        <item quantity="one">%1$,d keer beluisterd</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d duimen omhoog</item>
-        <item quantity="one">%1$,d duim omhoog</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d kijkers</item>
-        <item quantity="one">%1$,d kijker</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d weergaven</item>
-        <item quantity="one">%1$,d weergave</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d afleveringen</item>
-        <item quantity="one">%1$,d aflevering</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d seizoenen</item>
-        <item quantity="one">%1$,d seizoen</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d nummers</item>
-        <item quantity="one">%1$,d nummer</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d bronnen zijn verborgen</item>
+        <item quantity="one">%d bron is verborgen</item>
     </plurals>
 </resources>

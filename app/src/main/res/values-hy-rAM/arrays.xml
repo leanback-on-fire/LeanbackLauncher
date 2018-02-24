@@ -1,31 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="genre_labels">
-        <item>Ընտանեկան/Երեխաներ</item>
-        <item>Սպորտ</item>
-        <item>Գնումներ</item>
-        <item>Ֆիլմեր</item>
-        <item>Կատակերգություն</item>
-        <item>Ճամփորդություն</item>
-        <item>Դրամա</item>
-        <item>Կրթություն</item>
-        <item>Կենդանիներ/Վայրի բնություն</item>
-        <item>Նորություններ</item>
-        <item>Համակարգչային խաղեր</item>
-        <item>Արվեստ</item>
-        <item>Ժամանց</item>
-        <item>Ապրելակերպ</item>
-        <item>Երաժշտություն</item>
-        <item>Պրեմիերա</item>
-        <item>Տեխնիկա/Գիտություն</item>
-    </string-array>
-    <string-array name="program_canonical_genre_labels_formats">
-        <item>%1$s</item>
-        <item>%1$s, %2$s</item>
-        <item>%1$s, %2$s, %3$s</item>
-        <item>%1$s, %2$s, %3$s, %4$s</item>
-        <item>%1$s, %2$s, %3$s, %4$s, %5$s</item>
-    </string-array>
     <string-array name="search_orb_text_to_show">
         <item>Փորձեք որոնել «Մհեր Մկրտչյան»</item>
         <item>Փորձեք որոնել «Ռուբեն Գևորգյան»</item>
@@ -37,10 +11,10 @@
         <item>Փորձեք որոնել «մարտաֆիլմեր»</item>
         <item>Փորձեք որոնել «Աստղային ուղի»</item>
         <item>Փորձեք որոնել «Շերլոկ»</item>
-        <item>Փորձեք որոնել «Հայ սուպերսթար»</item>
+        <item>Փորձեք որոնել «Հայ Սուպերսթար»</item>
         <item>Փորձեք որոնել «Աստղային ուղի»</item>
-        <item>Փորձեք որոնել «Ամրոց»</item>
-        <item>Փորձեք որոնել «Բեյոնսեյի նկարներ»</item>
+        <item>Փորձեք որոնել «Դղյակ»</item>
+        <item>Փորձեք որոնել «Սիրուշոյի նկարներ»</item>
         <item>Փորձեք որոնել «Լոնդոնի նկարներ»</item>
         <item>Փորձեք որոնել «Գոդզիլայի նկարներ»</item>
         <item>Փորձեք հարցնել, թե «որքա՞ն միավոր է հավաքել Փյունիկը»</item>

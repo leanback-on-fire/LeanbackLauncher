@@ -1,75 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d kanału</item>
-        <item quantity="one">%d kanał</item>
-        <item quantity="few">%d kanały</item>
-        <item quantity="many">%d kanałów</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Jest %d powiadomienia systemowego</item>
-        <item quantity="one">Liczba powiadomień systemowych: %d</item>
-        <item quantity="few">Są %d powiadomienia systemowe</item>
-        <item quantity="many">Jest %d powiadomień systemowych</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d fana</item>
-        <item quantity="one">%1$,d fan</item>
-        <item quantity="few">%1$,d fanów</item>
-        <item quantity="many">%1$,d fanów</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d obserwatora</item>
-        <item quantity="one">%1$,d obserwator</item>
-        <item quantity="few">%1$,d obserwatorów</item>
-        <item quantity="many">%1$,d obserwatorów</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d polubienia</item>
-        <item quantity="one">%1$,d polubienie</item>
-        <item quantity="few">%1$,d polubienia</item>
-        <item quantity="many">%1$,d polubień</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d odsłuchanego utworu</item>
-        <item quantity="one">%1$,d odsłuchany utwór</item>
-        <item quantity="few">%1$,d odsłuchane utwory</item>
-        <item quantity="many">%1$,d odsłuchanych utworów</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d polubienia</item>
-        <item quantity="one">%1$,d polubienie</item>
-        <item quantity="few">%1$,d polubienia</item>
-        <item quantity="many">%1$,d polubień</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d widza</item>
-        <item quantity="one">%1$,d widz</item>
-        <item quantity="few">%1$,d widzów</item>
-        <item quantity="many">%1$,d widzów</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d wyświetlenia</item>
-        <item quantity="one">%1$,d wyświetlenie</item>
-        <item quantity="few">%1$,d wyświetlenia</item>
-        <item quantity="many">%1$,d wyświetleń</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d odcinka</item>
-        <item quantity="one">%1$,d odcinek</item>
-        <item quantity="few">%1$,d odcinki</item>
-        <item quantity="many">%1$,d odcinków</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d sezonu</item>
-        <item quantity="one">%1$,d sezon</item>
-        <item quantity="few">%1$,d sezony</item>
-        <item quantity="many">%1$,d sezonów</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d ścieżki</item>
-        <item quantity="one">%1$,d ścieżka</item>
-        <item quantity="few">%1$,d ścieżki</item>
-        <item quantity="many">%1$,d ścieżek</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d źródła jest ukryte</item>
+        <item quantity="one">%d źródło jest ukryte</item>
+        <item quantity="few">%d źródła są ukryte</item>
+        <item quantity="many">%d źródeł jest ukrytych</item>
     </plurals>
 </resources>

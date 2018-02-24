@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@id/favorite_add_app_banner" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="@dimen/home_app_banner_width" android:layout_height="wrap_content" android:layout_marginTop="@dimen/home_app_banner_default_margin_top" android:layout_marginBottom="@dimen/home_app_banner_default_margin_bottom" android:contentDescription="@string/favorite_more_apps" android:layout_marginEnd="@dimen/home_app_banner_default_margin_horizontal"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
-        <ImageView android:layout_gravity="top" android:id="@id/app_banner_image" android:background="@color/app_banner_background_color" android:layout_width="fill_parent" android:layout_height="@dimen/home_app_banner_image_height" android:scaleType="fitCenter" android:cropToPadding="false" />
-        <TextView android:textSize="@dimen/banner_app_title_text_size" android:ellipsize="marquee" android:gravity="center" android:id="@id/app_title" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="@dimen/banner_app_title_height" android:text="@string/favorite_more_apps" android:scrollHorizontally="true" android:singleLine="true" android:marqueeRepeatLimit="1" android:alpha="0.0" />
-    </LinearLayout>
-</FrameLayout>

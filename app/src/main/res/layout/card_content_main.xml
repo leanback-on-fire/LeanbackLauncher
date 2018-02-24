@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" custom:layout_viewType="main"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/art_work" android:layout_width="@dimen/notif_card_img_min_width" android:layout_height="@dimen/notif_card_img_height" android:scaleType="centerCrop" android:contentDescription="@null" />
+    <ProgressBar android:id="@id/progress_bar" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/progress_bar_height" android:indeterminate="false" android:progressDrawable="@drawable/card_progress_drawable" android:layout_alignParentBottom="true" android:layout_alignStart="@id/art_work" android:layout_alignEnd="@id/art_work" android:mirrorForRtl="false" style="@android:style/Widget.ProgressBar.Horizontal" />
+</RelativeLayout>

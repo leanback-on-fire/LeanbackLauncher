@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d kanal</item>
-        <item quantity="one">%d kanal</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Sistemaren %d jakinarazpen daude</item>
-        <item quantity="one">Sistemaren %d jakinarazpen dago</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d zale</item>
-        <item quantity="one">%1$,d zale</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d jarraitzaile</item>
-        <item quantity="one">%1$,d jarraitzaile</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">Gustatu izanaren %1$,d adierazpen</item>
-        <item quantity="one">Gustatu izanaren %1$,d adierazpen</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d entzunaldi</item>
-        <item quantity="one">%1$,d entzunaldi</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d erpuru gora</item>
-        <item quantity="one">%1$,d erpuru gora</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d ikusle</item>
-        <item quantity="one">%1$,d ikusle</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d ikustaldi</item>
-        <item quantity="one">%1$,d ikustaldi</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d atal</item>
-        <item quantity="one">%1$,d atal</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d denboraldi</item>
-        <item quantity="one">%1$,d denboraldi</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d pista</item>
-        <item quantity="one">%1$,d pista</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d iturburu ezkutatuta daude</item>
+        <item quantity="one">%d iturburu ezkutatuta dago</item>
     </plurals>
 </resources>

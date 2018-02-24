@@ -1,43 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">‎%d سسٹم اطلاعات ہے</item>
-        <item quantity="one">‏‎%d سسٹم اطلاع ہے</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">‎%1$,d پرستار</item>
-        <item quantity="one">‎%1$,d پرستار</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">‎%1$,d پیروکاران</item>
-        <item quantity="one">‎%1$,d پیروکار</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">‎%1$,d پسندیدگیاں</item>
-        <item quantity="one">‎%1$,d پسندیدگی</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">‎%1$,d سماعتیں</item>
-        <item quantity="one">‎%1$,d سماعت</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">‎%1$,d اظہار پسندیدگیاں</item>
-        <item quantity="one">‏‎%1$,d‎‏ اظہار پسندیدگی</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">‎%1$,d ناظرین</item>
-        <item quantity="one">‎%1$,d ناظر</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">‎%1$,d ایپی سوڈز</item>
-        <item quantity="one">‎%1$,d ایپی سوڈ</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">‎%1$,d سیزنز</item>
-        <item quantity="one">‎%1$,d سیزن</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">‎%1$,d ٹریکس</item>
-        <item quantity="one">‎%1$,d ٹریک</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">‎%d مآخذ مخفی ہیں</item>
+        <item quantity="one">‎%d ماخذ مخفی ہے</item>
     </plurals>
 </resources>

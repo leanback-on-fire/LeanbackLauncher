@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <fraction name="banner_app_title_alpha">79.99999%</fraction>
-    <fraction name="banner_focused_scale">114.99939%</fraction>
-    <fraction name="channel_action_button_focused_scale">125.0%</fraction>
-    <fraction name="channel_logo_focused_scale">166.66565%</fraction>
-    <fraction name="home_app_banner_focused_scale">137.99744%</fraction>
-    <fraction name="home_configure_channels_button_focused_scale">119.99817%</fraction>
+    <fraction name="badge_icon_alpha">50.0%</fraction>
+    <fraction name="inactive_banner_scale_down_amount">10.000002%</fraction>
+    <fraction name="launcher_active_dim_level">0.0%</fraction>
+    <fraction name="launcher_edit_mode_dim_level">50.0%</fraction>
+    <fraction name="launcher_inactive_dim_level">39.999996%</fraction>
     <fraction name="lb_browse_header_unselect_alpha">50.0%</fraction>
     <fraction name="lb_browse_rows_scale">79.99999%</fraction>
     <fraction name="lb_focus_zoom_factor_large">117.99927%</fraction>
@@ -16,16 +15,16 @@
     <fraction name="lb_search_orb_focused_zoom">119.99817%</fraction>
     <fraction name="lb_view_active_level">0.0%</fraction>
     <fraction name="lb_view_dimmed_level">60.000004%</fraction>
-    <fraction name="program_focused_scale">117.49878%</fraction>
-    <fraction name="program_logo_dimmer_center_x">29.999996%</fraction>
-    <fraction name="store_button_focused_scale">109.99756%</fraction>
-    <fraction name="top_row_item_focused_zoom">119.99817%</fraction>
-    <fraction name="context_menu_item_unfocused_alpha">0.5</fraction>
-    <fraction name="context_menu_overlay_alpha">0.8</fraction>
-    <fraction name="input_banner_connected_image_alpha">1.0</fraction>
-    <fraction name="input_banner_connected_text_alpha">1.0</fraction>
-    <fraction name="input_banner_disconnected_image_alpha">0.3</fraction>
-    <fraction name="input_banner_disconnected_text_alpha">0.3</fraction>
-    <fraction name="input_banner_standby_image_alpha">0.3</fraction>
-    <fraction name="input_banner_standby_text_alpha">0.3</fraction>
+    <fraction name="now_playing_icon_color_darkening">60.000004%</fraction>
+    <fraction name="unselected_scale">100.0%</fraction>
+    <fraction name="wallpaper_scroll_darkening_amount">60.000004%</fraction>
+    <fraction name="wallpaper_to_launcher_scroll_scale">400.0%</fraction>
+    <fraction name="wallpaper_zoom_amount">4.999995%</fraction>
+    <fraction name="wallpaper_zoom_to_darkening_scale">200.0%</fraction>
+
+    <fraction name="open_bonus_launchpoint">0.0</fraction>
+    <fraction name="open_bonus_notification">1.0</fraction>
+    <fraction name="slide_animator_propagation_speed">5.8</fraction>
+    <fraction name="wallpaper_fade_in_final_scale">1.0</fraction>
+    <fraction name="wallpaper_fade_in_initial_scale">1.02</fraction>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.leanbacklauncher.ActiveFrame android:layout_gravity="start|center|top" android:id="@id/notification_view" android:focusable="false" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="@dimen/notif_row_height"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.google.android.leanbacklauncher.notifications.HomeScreenView android:layout_gravity="start|center|top" android:id="@id/home_screen_messaging" android:focusable="true" android:clipChildren="false" android:clipToPadding="false" android:descendantFocusability="afterDescendants" android:layout_width="fill_parent" android:layout_height="fill_parent" android:inAnimation="@anim/empty_state_flip_fade_in" android:outAnimation="@anim/empty_state_flip_fade_out">
+        <com.google.android.leanbacklauncher.notifications.NotificationRowView android:gravity="top" android:id="@id/list" android:paddingTop="@dimen/notif_row_top_spacing" android:focusable="true" android:clipChildren="false" android:clipToPadding="false" android:descendantFocusability="beforeDescendants" android:layout_width="fill_parent" android:layout_height="@dimen/notif_row_max_height" android:paddingStart="@dimen/row_padding" android:paddingEnd="@dimen/row_padding" />
+        <include android:id="@id/notification_preparing" layout="@layout/notification_row_preparing" />
+        <include android:id="@id/notification_timeout" layout="@layout/notification_row_timeout_empty" />
+    </com.google.android.leanbacklauncher.notifications.HomeScreenView>
+</com.google.android.leanbacklauncher.ActiveFrame>

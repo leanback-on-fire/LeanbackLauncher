@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:focusable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/program_default_margin_top" android:layout_marginBottom="@dimen/program_default_margin_bottom" android:layout_marginEnd="@dimen/program_default_margin_horizontal" android:outlineProvider="bounds"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <View android:layout_gravity="end" android:id="@id/bottom_layer" android:layout_width="@dimen/empty_channel_program_bottom_layer_double_width" android:layout_height="fill_parent" android:layout_marginTop="@dimen/empty_channel_program_bottom_layer_vertical_margin" android:layout_marginBottom="@dimen/empty_channel_program_bottom_layer_vertical_margin" />
-    <View android:layout_gravity="end" android:id="@id/middle_layer" android:layout_width="@dimen/empty_channel_program_middle_layer_double_width" android:layout_height="fill_parent" android:layout_marginTop="@dimen/empty_channel_program_middle_layer_vertical_margin" android:layout_marginBottom="@dimen/empty_channel_program_middle_layer_vertical_margin" android:layout_marginEnd="@dimen/empty_channel_program_middle_layer_margin_end" />
-    <ImageView android:layout_gravity="start" android:id="@id/top_layer" android:layout_width="@dimen/program_default_width" android:layout_height="@dimen/program_default_height" android:layout_marginEnd="@dimen/empty_channel_program_top_layer_margin_end" />
-</FrameLayout>

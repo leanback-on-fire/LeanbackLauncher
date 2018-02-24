@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator android:interpolator="@android:anim/decelerate_interpolator" android:duration="@integer/wallpaper_fade_out_duration" android:valueFrom="255" android:valueTo="0" android:valueType="intType" android:propertyName="imageAlpha"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

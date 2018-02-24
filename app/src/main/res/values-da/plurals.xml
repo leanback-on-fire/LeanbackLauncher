@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d kanaler</item>
-        <item quantity="one">%d kanal</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">Der er %d systemunderretninger</item>
-        <item quantity="one">Der er %d systemunderretning</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d fans</item>
-        <item quantity="one">%1$,d fans</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d tilhængere</item>
-        <item quantity="one">%1$,d tilhængere</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d likes</item>
-        <item quantity="one">%1$,d likes</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d afspilninger</item>
-        <item quantity="one">%1$,d afspilninger</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d synes om</item>
-        <item quantity="one">%1$,d synes om</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d seere</item>
-        <item quantity="one">%1$,d seere</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d visninger</item>
-        <item quantity="one">%1$,d visninger</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d afsnit</item>
-        <item quantity="one">%1$,d afsnit</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d sæsoner</item>
-        <item quantity="one">%1$,d sæsoner</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d numre</item>
-        <item quantity="one">%1$,d numre</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d kilder er skjult</item>
+        <item quantity="one">%d kilde er skjult</item>
     </plurals>
 </resources>

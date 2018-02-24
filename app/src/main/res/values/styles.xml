@@ -71,11 +71,6 @@
         <item name="android:minHeight">@dimen/abc_action_bar_progress_bar_size</item>
     </style>
     <style name="Base.Widget.AppCompat.ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal" />
-    <style name="ExoMediaButton">
-        <item name="android:background">@null</item>
-        <item name="android:layout_width">@dimen/exo_media_button_width</item>
-        <item name="android:layout_height">@dimen/exo_media_button_height</item>
-    </style>
     <style name="Platform.AppCompat" parent="@android:style/Theme">
         <item name="android:colorForeground">@color/foreground_material_dark</item>
         <item name="android:colorBackground">@color/background_material_dark</item>
@@ -166,7 +161,6 @@
     <style name="TextAppearance.StatusBar.EventContent.Line2" parent="" />
     <style name="TextAppearance.StatusBar.EventContent.Time" parent="" />
     <style name="TextAppearance.StatusBar.EventContent.Title" parent="" />
-    <style name="TextAppearance.AppCompat.Tooltip" parent="@style/Base.TextAppearance.AppCompat.Tooltip" />
     <style name="PreferenceFragment">
         <item name="android:paddingLeft">0.0dip</item>
         <item name="android:paddingRight">0.0dip</item>
@@ -548,21 +542,10 @@
     <style name="Base.TextAppearance.AppCompat.Widget.Button.Colored" parent="@style/Base.TextAppearance.AppCompat.Widget.Button">
         <item name="android:textColor">@color/abc_btn_colored_text_material</item>
     </style>
-    <style name="Base.Widget.AppCompat.Toolbar" parent="@style/Base.V7.Widget.AppCompat.Toolbar" />
     <style name="AlertDialog.AppCompat" parent="@style/Base.AlertDialog.AppCompat" />
     <style name="AlertDialog.AppCompat.Light" parent="@style/Base.AlertDialog.AppCompat.Light" />
     <style name="Animation.AppCompat.Dialog" parent="@style/Base.Animation.AppCompat.Dialog" />
     <style name="Animation.AppCompat.DropDownUp" parent="@style/Base.Animation.AppCompat.DropDownUp" />
-    <style name="Animation.AppCompat.Tooltip" parent="@style/Base.Animation.AppCompat.Tooltip" />
-    <style name="AppTheme" parent="@style/Theme.Leanback">
-        <item name="android:windowBackground">@color/window_background_color</item>
-        <item name="android:windowShowWallpaper">true</item>
-    </style>
-    <style name="BannerViewInstallUpdateProgressBar" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
-        <item name="android:maxHeight">@dimen/install_progress_bar_height</item>
-        <item name="android:indeterminateOnly">false</item>
-        <item name="android:minHeight">@dimen/install_progress_bar_height</item>
-    </style>
     <style name="Base.AlertDialog.AppCompat" parent="@android:style/Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>
         <item name="listLayout">@layout/abc_select_dialog_material</item>
@@ -579,10 +562,6 @@
         <item name="android:windowEnterAnimation">@anim/abc_grow_fade_in_from_bottom</item>
         <item name="android:windowExitAnimation">@anim/abc_shrink_fade_out_from_bottom</item>
     </style>
-    <style name="Base.Animation.AppCompat.Tooltip" parent="@android:style/Animation">
-        <item name="android:windowEnterAnimation">@anim/tooltip_enter</item>
-        <item name="android:windowExitAnimation">@anim/tooltip_exit</item>
-    </style>
     <style name="Base.DialogWindowTitle.AppCompat" parent="@android:style/Widget">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
         <item name="android:maxLines">1</item>
@@ -598,9 +577,6 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:textColorHint">?android:textColorHint</item>
-    </style>
-    <style name="Base.TextAppearance.AppCompat.Tooltip" parent="@style/Base.TextAppearance.AppCompat">
-        <item name="android:textSize">14.0sp</item>
     </style>
     <style name="Base.TextAppearance.AppCompat.Widget.DropDownItem" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">?android:textColorPrimaryDisableOnly</item>
@@ -767,7 +743,6 @@
         <item name="dropDownListViewStyle">?android:dropDownListViewStyle</item>
         <item name="listPopupWindowStyle">@style/Widget.AppCompat.ListPopupWindow</item>
         <item name="textAppearanceListItem">@style/TextAppearance.AppCompat.Subhead</item>
-        <item name="textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
         <item name="textAppearanceListItemSmall">@style/TextAppearance.AppCompat.Subhead</item>
         <item name="panelBackground">@drawable/abc_menu_hardkey_panel_mtrl_mult</item>
         <item name="panelMenuListWidth">@dimen/abc_panel_menu_list_width</item>
@@ -803,9 +778,6 @@
         <item name="spinnerStyle">@style/Widget.AppCompat.Spinner</item>
         <item name="switchStyle">@style/Widget.AppCompat.CompoundButton.Switch</item>
         <item name="listMenuViewStyle">@style/Widget.AppCompat.ListMenuView</item>
-        <item name="tooltipFrameBackground">@drawable/tooltip_frame_light</item>
-        <item name="tooltipForegroundColor">@color/foreground_material_light</item>
-        <item name="colorError">@color/error_color_material</item>
     </style>
     <style name="Base.V7.Theme.AppCompat.Dialog" parent="@style/Base.Theme.AppCompat">
         <item name="android:colorBackground">?colorBackgroundFloating</item>
@@ -903,7 +875,6 @@
         <item name="dropDownListViewStyle">?android:dropDownListViewStyle</item>
         <item name="listPopupWindowStyle">@style/Widget.AppCompat.ListPopupWindow</item>
         <item name="textAppearanceListItem">@style/TextAppearance.AppCompat.Subhead</item>
-        <item name="textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
         <item name="textAppearanceListItemSmall">@style/TextAppearance.AppCompat.Subhead</item>
         <item name="panelBackground">@drawable/abc_menu_hardkey_panel_mtrl_mult</item>
         <item name="panelMenuListWidth">@dimen/abc_panel_menu_list_width</item>
@@ -939,9 +910,6 @@
         <item name="spinnerStyle">@style/Widget.AppCompat.Spinner</item>
         <item name="switchStyle">@style/Widget.AppCompat.CompoundButton.Switch</item>
         <item name="listMenuViewStyle">@style/Widget.AppCompat.ListMenuView</item>
-        <item name="tooltipFrameBackground">@drawable/tooltip_frame_dark</item>
-        <item name="tooltipForegroundColor">@color/foreground_material_dark</item>
-        <item name="colorError">@color/error_color_material</item>
     </style>
     <style name="Base.V7.Theme.AppCompat.Light.Dialog" parent="@style/Base.Theme.AppCompat.Light">
         <item name="android:colorBackground">?colorBackgroundFloating</item>
@@ -994,20 +962,6 @@
         <item name="android:textAppearance">?android:textAppearanceMediumInverse</item>
         <item name="android:textColor">?editTextColor</item>
         <item name="android:background">?editTextBackground</item>
-    </style>
-    <style name="Base.V7.Widget.AppCompat.Toolbar" parent="@android:style/Widget">
-        <item name="android:paddingLeft">@dimen/abc_action_bar_default_padding_start_material</item>
-        <item name="android:paddingRight">@dimen/abc_action_bar_default_padding_end_material</item>
-        <item name="android:minHeight">?actionBarSize</item>
-        <item name="contentInsetStart">16.0dip</item>
-        <item name="contentInsetStartWithNavigation">@dimen/abc_action_bar_content_inset_with_nav</item>
-        <item name="titleTextAppearance">@style/TextAppearance.Widget.AppCompat.Toolbar.Title</item>
-        <item name="subtitleTextAppearance">@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle</item>
-        <item name="titleMargin">4.0dip</item>
-        <item name="maxButtonHeight">@dimen/abc_action_bar_default_height_material</item>
-        <item name="buttonGravity">top</item>
-        <item name="collapseIcon">?homeAsUpIndicator</item>
-        <item name="collapseContentDescription">@string/abc_toolbar_collapse_description</item>
     </style>
     <style name="Base.Widget.AppCompat.ActionBar" parent="">
         <item name="android:gravity">center_vertical</item>
@@ -1109,92 +1063,37 @@
     <style name="Base.Widget.AppCompat.SeekBar.Discrete" parent="@style/Base.Widget.AppCompat.SeekBar">
         <item name="tickMark">@drawable/abc_seekbar_tick_mark_material</item>
     </style>
-    <style name="Channel.Title" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/text_size_h4</item>
-        <item name="android:textColor">@color/white_60</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:textAlignment">center</item>
+    <style name="Base.Widget.AppCompat.Toolbar" parent="@android:style/Widget">
+        <item name="android:paddingLeft">@dimen/abc_action_bar_default_padding_start_material</item>
+        <item name="android:paddingRight">@dimen/abc_action_bar_default_padding_end_material</item>
+        <item name="android:minHeight">?actionBarSize</item>
+        <item name="contentInsetStart">16.0dip</item>
+        <item name="contentInsetStartWithNavigation">@dimen/abc_action_bar_content_inset_with_nav</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.AppCompat.Toolbar.Title</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle</item>
+        <item name="titleMargin">4.0dip</item>
+        <item name="maxButtonHeight">@dimen/abc_action_bar_default_height_material</item>
+        <item name="buttonGravity">top</item>
+        <item name="collapseIcon">?homeAsUpIndicator</item>
+        <item name="collapseContentDescription">@string/abc_toolbar_collapse_description</item>
     </style>
-    <style name="ChannelActionButton">
-        <item name="android:background">#ffffffff</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:scaleType">center</item>
-        <item name="android:tint">@color/channel_action_button_icon_tint_csl</item>
-        <item name="android:backgroundTint">@color/action_button_background_tint_csl</item>
+    <style name="LeanbackLauncherAnim">
+        <item name="android:taskOpenEnterAnimation">@anim/home_fade_in_top</item>
+        <item name="android:taskOpenExitAnimation">@anim/home_fade_in_bottom</item>
+        <item name="android:taskCloseEnterAnimation">@anim/home_fade_out_bottom</item>
+        <item name="android:taskCloseExitAnimation">@anim/home_fade_out_top</item>
+        <item name="android:taskToFrontEnterAnimation">@anim/home_fade_in_top</item>
+        <item name="android:taskToFrontExitAnimation">@anim/home_fade_in_bottom</item>
+        <item name="android:taskToBackEnterAnimation">@anim/home_fade_out_bottom</item>
+        <item name="android:taskToBackExitAnimation">@anim/home_fade_out_top</item>
     </style>
-    <style name="ChannelItemMetadata.ContentRating" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/text_size_h6</item>
-        <item name="android:textColor">@color/white_50</item>
-        <item name="android:background">@drawable/program_rating_background</item>
-        <item name="android:minWidth">@dimen/program_meta_content_rating_min_width</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:paddingStart">2.5dip</item>
-        <item name="android:paddingEnd">2.5dip</item>
-        <item name="android:layout_marginEnd">@dimen/program_meta_component_spacing_medium</item>
-    </style>
-    <style name="ChannelItemMetadata.First" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/text_size_h2</item>
-        <item name="android:textColor">@color/white_80</item>
-    </style>
-    <style name="ChannelItemMetadata.OldPrice" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/text_size_h5</item>
-        <item name="android:textColor">@color/grey_60</item>
-        <item name="android:layout_marginEnd">@dimen/program_meta_component_spacing_small</item>
-    </style>
-    <style name="ChannelItemMetadata.Price" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/text_size_h5</item>
-        <item name="android:textColor">#ffff504d</item>
-    </style>
-    <style name="ChannelItemMetadata.Second" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/text_size_h5</item>
-        <item name="android:textColor">@color/white_60</item>
-        <item name="android:layout_marginEnd">@dimen/program_meta_component_spacing_large</item>
-    </style>
-    <style name="ChannelItemMetadata.Third" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/text_size_b1</item>
-        <item name="android:textColor">@color/white_60</item>
-        <item name="android:layout_marginTop">3.5dip</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:lineSpacingExtra">1.0dip</item>
-    </style>
-    <style name="DefaultTextStyle" parent="@android:style/TextAppearance.Material">
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:includeFontPadding">false</item>
-        <item name="android:textAlignment">viewStart</item>
-    </style>
-    <style name="ExoMediaButton.FastForward" parent="@style/ExoMediaButton">
-        <item name="android:src">@drawable/exo_controls_fastforward</item>
-        <item name="android:contentDescription">@string/exo_controls_fastforward_description</item>
-    </style>
-    <style name="ExoMediaButton.Next" parent="@style/ExoMediaButton">
-        <item name="android:src">@drawable/exo_controls_next</item>
-        <item name="android:contentDescription">@string/exo_controls_next_description</item>
-    </style>
-    <style name="ExoMediaButton.Pause" parent="@style/ExoMediaButton">
-        <item name="android:src">@drawable/exo_controls_pause</item>
-        <item name="android:contentDescription">@string/exo_controls_pause_description</item>
-    </style>
-    <style name="ExoMediaButton.Play" parent="@style/ExoMediaButton">
-        <item name="android:src">@drawable/exo_controls_play</item>
-        <item name="android:contentDescription">@string/exo_controls_play_description</item>
-    </style>
-    <style name="ExoMediaButton.Previous" parent="@style/ExoMediaButton">
-        <item name="android:src">@drawable/exo_controls_previous</item>
-        <item name="android:contentDescription">@string/exo_controls_previous_description</item>
-    </style>
-    <style name="ExoMediaButton.Rewind" parent="@style/ExoMediaButton">
-        <item name="android:src">@drawable/exo_controls_rewind</item>
-        <item name="android:contentDescription">@string/exo_controls_rewind_description</item>
-    </style>
-    <style name="LastProgramMessage" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/channel_last_item_default_text_size</item>
-        <item name="android:textColor">@color/white_80</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textAlignment">center</item>
+    <style name="LeanbackLauncherTheme" parent="@android:style/Theme.Material.NoActionBar.Overscan">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/LeanbackLauncherAnim</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:fontFamily">@string/font</item>
     </style>
     <style name="LeanbackPreference">
         <item name="android:layout">@layout/leanback_preference</item>
@@ -1234,6 +1133,29 @@
         <item name="android:widgetLayout">@layout/preference_widget_switch_compat</item>
         <item name="android:switchTextOn">@string/v7_preference_on</item>
         <item name="android:switchTextOff">@string/v7_preference_off</item>
+    </style>
+    <style name="LeanbackRecommendationCard">
+        <item name="background">@drawable/rec_card_background</item>
+        <item name="maxWidth">@dimen/notif_card_img_max_width</item>
+        <item name="font">@string/font</item>
+        <item name="minWidth">@dimen/notif_card_img_min_width</item>
+        <item name="imageHeight">@dimen/notif_card_img_height</item>
+        <item name="progressBarHeight">@dimen/progress_bar_height</item>
+        <item name="infoAreaPaddingStart">@dimen/notif_card_info_start_margin</item>
+        <item name="infoAreaPaddingTop">@dimen/notif_card_info_margin_top</item>
+        <item name="infoAreaPaddingEnd">@dimen/notif_card_info_badge_end_margin</item>
+        <item name="infoAreaPaddingBottom">@dimen/notif_card_info_margin_bottom</item>
+        <item name="infoAreaCollapsedHeight">@dimen/notif_card_info_height</item>
+        <item name="infoAreaDefaultColor">@color/notif_background_color</item>
+        <item name="sourceNameTextSize">@dimen/notif_card_source_text_size</item>
+        <item name="sourceNameTextColor">@color/notif_source_text_color</item>
+        <item name="gapBetweenSourceNameAndBadge">@dimen/notif_card_info_badge_start_margin</item>
+        <item name="badgeSize">@dimen/notif_card_extra_badge_size</item>
+        <item name="badgeMarginBottom">@dimen/notif_card_info_badge_bottom_margin</item>
+        <item name="titleTextSize">@dimen/notif_card_title_text_size</item>
+        <item name="titleTextColor">@color/notif_title_text_color</item>
+        <item name="contentTextSize">@dimen/notif_card_content_text_size</item>
+        <item name="contentTextColor">@color/notif_content_text_color</item>
     </style>
     <style name="Preference">
         <item name="android:layout">@layout/preference</item>
@@ -1290,11 +1212,6 @@
     </style>
     <style name="Preference.SeekBarPreference" parent="@style/Preference">
         <item name="android:layout">@layout/preference_widget_seekbar</item>
-        <item name="adjustable">true</item>
-        <item name="showSeekBarValue">true</item>
-    </style>
-    <style name="Preference.SeekBarPreference.Material" parent="@style/Preference.SeekBarPreference">
-        <item name="android:layout">@layout/preference_widget_seekbar_material</item>
         <item name="adjustable">true</item>
         <item name="showSeekBarValue">true</item>
     </style>
@@ -1373,7 +1290,6 @@
         <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Material</item>
         <item name="switchPreferenceStyle">@style/Preference.SwitchPreference.Material</item>
         <item name="switchPreferenceCompatStyle">@style/Preference.SwitchPreferenceCompat.Material</item>
-        <item name="seekBarPreferenceStyle">@style/Preference.SeekBarPreference.Material</item>
     </style>
     <style name="Preference_TextAppearanceMaterialBody2">
         <item name="android:textSize">14.0sp</item>
@@ -1386,12 +1302,6 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:fontFamily">sans-serif</item>
-    </style>
-    <style name="ProgramBadge" parent="@style/DefaultTextStyle">
-        <item name="android:textSize">@dimen/text_size_h5</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingStart">@dimen/program_badge_padding_horizontal</item>
-        <item name="android:paddingEnd">@dimen/program_badge_padding_horizontal</item>
     </style>
     <style name="TextAppearance.AppCompat" parent="@style/Base.TextAppearance.AppCompat" />
     <style name="TextAppearance.AppCompat.Body1" parent="@style/Base.TextAppearance.AppCompat.Body1" />
@@ -1694,11 +1604,25 @@
         <item name="onboardingPageIndicatorStyle">@style/Widget.Leanback.OnboardingPageIndicatorStyle</item>
         <item name="onboardingStartButtonStyle">@style/Widget.Leanback.OnboardingStartButtonStyle</item>
         <item name="onboardingLogoStyle">@style/Widget.Leanback.OnboardingLogoStyle</item>
-        <item name="onboardingMainIconStyle">@style/Widget.Leanback.OnboardingMainIconStyle</item>
     </style>
     <style name="Theme.Leanback.VerticalGrid" parent="@style/Theme.Leanback">
         <item name="android:windowEnterTransition">@transition/lb_vertical_grid_enter_transition</item>
         <item name="android:windowReturnTransition">@transition/lb_vertical_grid_return_transition</item>
+    </style>
+    <style name="Theme.Settings.Fullscreen" parent="@style/Theme.Leanback">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
+    </style>
+    <style name="Theme.Settings.Legacy" parent="@style/Theme.Leanback.GuidedStep">
+        <item name="android:listChoiceIndicatorSingle">@drawable/legacy_preferences_checkmark</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/legacy_preferences_checkmark</item>
+        <item name="guidedStepKeyline">50.0</item>
+        <item name="guidedStepBackground">@color/settings_dialog_bg_protection</item>
+        <item name="guidanceContainerStyle">@style/Widget.Leanback.GuidanceContainerStyle.Legacy</item>
+        <item name="guidanceTitleStyle">@style/Widget.Leanback.GuidanceTitleStyle.Legacy</item>
+        <item name="guidanceDescriptionStyle">@style/Widget.Leanback.GuidanceDescriptionStyle.Legacy</item>
+        <item name="guidanceBreadcrumbStyle">@style/Widget.Leanback.GuidanceBreadcrumbStyle.Legacy</item>
+        <item name="guidanceIconStyle">@style/Widget.Leanback.GuidanceIconStyle.Legacy</item>
+        <item name="guidedActionItemIconStyle">@style/Widget.Leanback.GuidedActionItemIconStyle.Legacy</item>
     </style>
     <style name="Theme.Settings.SidePanel" parent="@style/Theme.Leanback">
         <item name="android:backgroundDimAmount">0.8</item>
@@ -1714,20 +1638,10 @@
     <style name="ThemeOverlay.AppCompat.Dialog" parent="@style/Base.ThemeOverlay.AppCompat.Dialog" />
     <style name="ThemeOverlay.AppCompat.Dialog.Alert" parent="@style/Base.ThemeOverlay.AppCompat.Dialog.Alert" />
     <style name="ThemeOverlay.AppCompat.Light" parent="@style/Base.ThemeOverlay.AppCompat.Light" />
-    <style name="TitleTextStyle" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">11.0sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/secondary_text_color</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textAlignment">center</item>
-    </style>
-    <style name="TopRowButton">
-        <item name="android:background">#ffffffff</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:scaleType">center</item>
-        <item name="android:tint">@color/top_row_button_icon_tint_csl</item>
-        <item name="android:backgroundTint">@color/action_button_background_tint_csl</item>
+    <style name="UpdateProgressBar" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
+        <item name="android:maxHeight">@dimen/install_progress_bar_height</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:minHeight">@dimen/install_progress_bar_height</item>
     </style>
     <style name="Widget.AppCompat.ActionBar" parent="@style/Base.Widget.AppCompat.ActionBar" />
     <style name="Widget.AppCompat.ActionBar.Solid" parent="@style/Base.Widget.AppCompat.ActionBar.Solid" />
@@ -1875,12 +1789,21 @@
         <item name="android:textAlignment">viewStart</item>
         <item name="android:layout_toEndOf">@id/guidance_icon</item>
     </style>
+    <style name="Widget.Leanback.GuidanceBreadcrumbStyle.Legacy" parent="@style/Widget.Leanback.GuidanceBreadcrumbStyle">
+        <item name="android:textAlignment">viewEnd</item>
+        <item name="android:layout_toStartOf">@id/guidance_icon</item>
+        <item name="android:layout_toEndOf">@null</item>
+    </style>
     <style name="Widget.Leanback.GuidanceContainerStyle" parent="@style/Widget.Leanback">
         <item name="android:clipToPadding">false</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:paddingStart">56.0dip</item>
         <item name="android:paddingEnd">32.0dip</item>
+    </style>
+    <style name="Widget.Leanback.GuidanceContainerStyle.Legacy" parent="@style/Widget.Leanback.GuidanceContainerStyle">
+        <item name="android:paddingStart">32.0dip</item>
+        <item name="android:paddingEnd">0.0dip</item>
     </style>
     <style name="Widget.Leanback.GuidanceDescriptionStyle" parent="@style/Widget.Leanback">
         <item name="android:textSize">14.0sp</item>
@@ -1898,6 +1821,11 @@
         <item name="android:textAlignment">viewStart</item>
         <item name="android:layout_toEndOf">@id/guidance_icon</item>
     </style>
+    <style name="Widget.Leanback.GuidanceDescriptionStyle.Legacy" parent="@style/Widget.Leanback.GuidanceDescriptionStyle">
+        <item name="android:textAlignment">viewEnd</item>
+        <item name="android:layout_toStartOf">@id/guidance_icon</item>
+        <item name="android:layout_toEndOf">@null</item>
+    </style>
     <style name="Widget.Leanback.GuidanceIconStyle" parent="@style/Widget.Leanback">
         <item name="android:layout_width">140.0dip</item>
         <item name="android:layout_height">wrap_content</item>
@@ -1905,6 +1833,15 @@
         <item name="android:maxHeight">280.0dip</item>
         <item name="android:layout_marginEnd">24.0dip</item>
         <item name="android:layout_alignParentStart">true</item>
+    </style>
+    <style name="Widget.Leanback.GuidanceIconStyle.Legacy" parent="@style/Widget.Leanback.GuidanceIconStyle">
+        <item name="android:background">@color/settings_icon_background</item>
+        <item name="android:layout_width">140.0dip</item>
+        <item name="android:layout_height">140.0dip</item>
+        <item name="android:layout_marginStart">@dimen/lb_preference_item_icon_margin_end</item>
+        <item name="android:layout_marginEnd">@dimen/lb_preference_item_icon_margin_end</item>
+        <item name="android:layout_alignParentStart">false</item>
+        <item name="android:layout_alignParentEnd">true</item>
     </style>
     <style name="Widget.Leanback.GuidanceTitleStyle" parent="@style/Widget.Leanback">
         <item name="android:textSize">36.0sp</item>
@@ -1922,6 +1859,11 @@
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textAlignment">viewStart</item>
         <item name="android:layout_toEndOf">@id/guidance_icon</item>
+    </style>
+    <style name="Widget.Leanback.GuidanceTitleStyle.Legacy" parent="@style/Widget.Leanback.GuidanceTitleStyle">
+        <item name="android:textAlignment">viewEnd</item>
+        <item name="android:layout_toStartOf">@id/guidance_icon</item>
+        <item name="android:layout_toEndOf">@null</item>
     </style>
     <style name="Widget.Leanback.GuidedActionItemCheckmarkStyle" parent="@style/Widget.Leanback">
         <item name="android:layout_gravity">center</item>
@@ -1978,6 +1920,11 @@
         <item name="android:layout_height">@dimen/lb_guidedactions_item_icon_height</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:layout_marginEnd">@dimen/lb_guidedactions_item_delimiter_padding</item>
+    </style>
+    <style name="Widget.Leanback.GuidedActionItemIconStyle.Legacy" parent="@style/Widget.Leanback.GuidedActionItemIconStyle">
+        <item name="android:layout_width">@dimen/preference_item_banner_width</item>
+        <item name="android:layout_height">@dimen/preference_item_banner_height</item>
+        <item name="android:layout_marginEnd">@dimen/lb_preference_item_icon_margin_end</item>
     </style>
     <style name="Widget.Leanback.GuidedActionItemTitleStyle" parent="@style/Widget.Leanback">
         <item name="android:textSize">@dimen/lb_guidedactions_item_title_font_size</item>
@@ -2118,15 +2065,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerInParent">true</item>
-        <item name="android:contentDescription">@null</item>
-    </style>
-    <style name="Widget.Leanback.OnboardingMainIconStyle" parent="@style/Widget.Leanback">
-        <item name="android:visibility">gone</item>
-        <item name="android:layout_width">64.0dip</item>
-        <item name="android:layout_height">64.0dip</item>
-        <item name="android:layout_marginBottom">16.0dip</item>
-        <item name="android:layout_above">@id/page_container</item>
-        <item name="android:layout_centerHorizontal">true</item>
         <item name="android:contentDescription">@null</item>
     </style>
     <style name="Widget.Leanback.OnboardingNavigatorContainerStyle" parent="@style/Widget.Leanback">

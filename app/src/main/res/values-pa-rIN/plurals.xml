@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="app_channel_count">
-        <item quantity="other">%d ਚੈਨਲ</item>
-        <item quantity="one">%d ਚੈਨਲ</item>
-    </plurals>
-    <plurals name="notification_panel_icon_accessibility_description">
-        <item quantity="other">%d ਸਿਸਟਮ ਸੂਚਨਾਵਾਂ ਉਪਲਬਧ ਹਨ</item>
-        <item quantity="one">%d ਸਿਸਟਮ ਸੂਚਨਾ ਉਪਲਬਧ ਹੈ</item>
-    </plurals>
-    <plurals name="program_interactions_fans">
-        <item quantity="other">%1$,d ਪ੍ਰਸੰਸਕ</item>
-        <item quantity="one">%1$,d ਪ੍ਰਸੰਸਕ</item>
-    </plurals>
-    <plurals name="program_interactions_followers">
-        <item quantity="other">%1$,d ਅਨੁਸਰਣਕਾਰ</item>
-        <item quantity="one">%1$,d ਅਨੁਸਰਣਕਾਰ</item>
-    </plurals>
-    <plurals name="program_interactions_likes">
-        <item quantity="other">%1$,d ਵਾਰ ਪਸੰਦ ਕੀਤਾ ਗਿਆ</item>
-        <item quantity="one">%1$,d ਵਾਰ ਪਸੰਦ ਕੀਤਾ ਗਿਆ</item>
-    </plurals>
-    <plurals name="program_interactions_listens">
-        <item quantity="other">%1$,d ਵਾਰ ਸੁਣਿਆ ਗਿਆ</item>
-        <item quantity="one">%1$,d ਵਾਰ ਸੁਣਿਆ ਗਿਆ</item>
-    </plurals>
-    <plurals name="program_interactions_thumbs">
-        <item quantity="other">%1$,d ਵਾਰ ਸਲਾਹਿਆ ਗਿਆ</item>
-        <item quantity="one">%1$,d ਵਾਰ ਸਲਾਹਿਆ ਗਿਆ</item>
-    </plurals>
-    <plurals name="program_interactions_viewers">
-        <item quantity="other">%1$,d ਦਰਸ਼ਕ</item>
-        <item quantity="one">%1$,d ਦਰਸ਼ਕ</item>
-    </plurals>
-    <plurals name="program_interactions_views">
-        <item quantity="other">%1$,d ਝਾਕੇ</item>
-        <item quantity="one">%1$,d ਝਾਕਾ</item>
-    </plurals>
-    <plurals name="program_number_of_episodes">
-        <item quantity="other">%1$,d ਐਪੀਸੋਡ</item>
-        <item quantity="one">%1$,d ਐਪੀਸੋਡ</item>
-    </plurals>
-    <plurals name="program_number_of_seasons">
-        <item quantity="other">%1$,d ਸੀਜ਼ਨ</item>
-        <item quantity="one">%1$,d ਸੀਜ਼ਨ</item>
-    </plurals>
-    <plurals name="program_number_of_tracks">
-        <item quantity="other">%1$,d ਟਰੈਕ</item>
-        <item quantity="one">%1$,d ਟਰੈਕ</item>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">%d ਸਰੋਤ ਲੁਕੇ ਹੋਏ ਹਨ</item>
+        <item quantity="one">%d ਸਰੋਤ ਲੁਕਿਆ ਹੋਇਆ ਹੈ</item>
     </plurals>
 </resources>
