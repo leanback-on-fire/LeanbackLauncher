@@ -6,6 +6,7 @@ import android.support.v17.leanback.widget.VerticalGridView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.google.android.exoplayer2.extractor.ts.TsExtractor;
 import com.google.android.tvlauncher.R;
 import com.google.android.tvlauncher.util.AccessibilityContextMenu;
 import com.google.android.tvlauncher.util.ContextMenu;
@@ -37,45 +38,35 @@ public class EditModeGridView extends VerticalGridView {
         ((EditModeGridAdapter) getAdapter()).moveLaunchItems(paramInt1, paramInt2);
     }
 
-    private View swapItemsIfNeeded(View paramView, int paramInt) {
-        int j = getChildAdapterPosition(paramView);
-        //if (getItemAnimator().isRunning()) {
-        // todo fix this hot mess
-        moveLaunchPoint(j, j + 4);
-        return paramView;
-        /*} else if (!(j % 4 >= 3) || (j >= getAdapter().getItemCount() - 1)) {
-            int i = paramInt;
-            if (getLayoutDirection() == 1) {
-                if (paramInt != 17) {
-                    i = paramInt;
-                    if (paramInt != 66) {
-                    }
-                } else {
-                    if (paramInt != 17) {
-
-                    }
-                }
+    private View swapItemsIfNeeded(View focused, int direction) {
+        int position = getChildAdapterPosition(focused);
+        if (!getItemAnimator().isRunning()) {
+            if (getLayoutDirection() == LAYOUT_DIRECTION_RTL && (direction == 17 || direction == 66)) {
+                direction = direction == 17 ? 66 : 17;
             }
-            i = getLayoutDirection() == 1 ? 17 : 66 ; // todo something ; i = 17) {
-
-            switch (i) {
+            switch (direction) {
                 case 17:
-                    if (j % 4 <= 0) {
-
+                    if (position % 4 > 0) {
+                        moveLaunchPoint(position, position - 1);
+                        break;
                     }
-                    moveLaunchPoint(j, j - 1);
-                    return paramView;
+                    break;
+                case 33:
+                    moveLaunchPoint(position, position - 4);
+                    break;
+                case 66:
+                    if (position % 4 < 3 && position < getAdapter().getItemCount() - 1) {
+                        moveLaunchPoint(position, position + 1);
+                        break;
+                    }
+                case TsExtractor.TS_STREAM_TYPE_HDMV_DTS /*130*/:
+                    moveLaunchPoint(position, position + 4);
+                    break;
                 default:
-                    return paramView;
+                    break;
             }
-
-
-            moveLaunchPoint(j, j - 4);
-            return paramView;
-        } else {
-            moveLaunchPoint(j, j + 1);
-            return paramView;
-        }*/
+        }
+        return focused;
     }
 
     public View focusSearch(View paramView, int paramInt) {

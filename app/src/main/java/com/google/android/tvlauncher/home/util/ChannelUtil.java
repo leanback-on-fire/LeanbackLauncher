@@ -9,81 +9,73 @@ import android.util.SparseArray;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-public class ChannelUtil
-{
-  public static void configureItemsListAlignment(HorizontalGridView paramHorizontalGridView)
-  {
-    paramHorizontalGridView.setWindowAlignment(1);
-    paramHorizontalGridView.setWindowAlignmentOffsetPercent(0.0F);
-    paramHorizontalGridView.setWindowAlignmentOffset(paramHorizontalGridView.getContext().getResources().getDimensionPixelSize(R.dimen.channel_items_list_padding_start));
-    paramHorizontalGridView.setItemAlignmentOffsetPercent(0.0F);
-  }
-  
-  public static SparseArray<ChannelStateSettings> getAppsRowStateSettings(Context paramContext)
-  {
-    SparseArray localSparseArray = new SparseArray();
-    paramContext = paramContext.getResources();
-    localSparseArray.put(0, new ChannelStateSettings.Builder().setItemHeight(getSize(paramContext, 2131558593)).setItemMarginTop(getSize(paramContext, 2131558596)).setItemMarginBottom(getSize(paramContext, 2131558595)).setChannelLogoAlignmentOriginMargin(getSize(paramContext, 2131558603)).build());
-    ChannelStateSettings localChannelStateSettings = new ChannelStateSettings.Builder().setItemHeight(getSize(paramContext, 2131558594)).setItemMarginTop(getSize(paramContext, 2131558591)).setItemMarginBottom(getSize(paramContext, 2131558589)).setChannelLogoAlignmentOriginMargin(getSize(paramContext, 2131558601)).build();
-    localSparseArray.put(1, localChannelStateSettings);
-    localSparseArray.put(3, localChannelStateSettings);
-    localChannelStateSettings = new ChannelStateSettings(localChannelStateSettings);
-    localChannelStateSettings.setChannelLogoAlignmentOriginMargin(getSize(paramContext, 2131558527));
-    localChannelStateSettings.setItemMarginBottom(getSize(paramContext, 2131558588));
-    localSparseArray.put(2, localChannelStateSettings);
-    paramContext = new ChannelStateSettings.Builder().setItemHeight(getSize(paramContext, 2131558594)).setItemMarginTop(getSize(paramContext, 2131558599)).setItemMarginBottom(getSize(paramContext, 2131558599)).setMarginTop(getSize(paramContext, 2131558600)).setMarginBottom(getSize(paramContext, 2131558546)).build();
-    localSparseArray.put(4, paramContext);
-    localSparseArray.put(5, paramContext);
-    localSparseArray.put(6, paramContext);
-    localSparseArray.put(7, paramContext);
-    localSparseArray.put(8, paramContext);
-    localSparseArray.put(9, paramContext);
-    return localSparseArray;
-  }
-  
-  public static SparseArray<ChannelStateSettings> getDefaultChannelStateSettings(Context paramContext)
-  {
-    SparseArray localSparseArray = new SparseArray();
-    paramContext = paramContext.getResources();
-    localSparseArray.put(0, new ChannelStateSettings.Builder().setItemHeight(getSize(paramContext, 2131558998)).setItemMarginTop(getSize(paramContext, 2131558999)).setItemMarginBottom(getSize(paramContext, 2131558999)).setMarginTop(getSize(paramContext, 2131558541)).setMarginBottom(getSize(paramContext, 2131558540)).setChannelLogoAlignmentOriginMargin(getSize(paramContext, 2131558531)).build());
-    ChannelStateSettings localChannelStateSettings = new ChannelStateSettings.Builder().setItemHeight(getSize(paramContext, 2131558971)).setItemMarginTop(getSize(paramContext, 2131558974)).setItemMarginBottom(getSize(paramContext, 2131558972)).setChannelLogoAlignmentOriginMargin(getSize(paramContext, 2131558528)).build();
-    localSparseArray.put(1, localChannelStateSettings);
-    localChannelStateSettings = new ChannelStateSettings(localChannelStateSettings);
-    localChannelStateSettings.setChannelLogoAlignmentOriginMargin(getSize(paramContext, 2131558527));
-    localSparseArray.put(2, localChannelStateSettings);
-    localChannelStateSettings = new ChannelStateSettings(localChannelStateSettings);
-    localChannelStateSettings.setChannelLogoAlignmentOriginMargin(getSize(paramContext, 2131558529));
-    localSparseArray.put(3, localChannelStateSettings);
-    paramContext = new ChannelStateSettings.Builder().setItemHeight(getSize(paramContext, 2131559000)).setItemMarginTop(getSize(paramContext, 2131559002)).setItemMarginBottom(getSize(paramContext, 2131559002)).setMarginBottom(getSize(paramContext, 2131558546)).build();
-    localSparseArray.put(4, paramContext);
-    localSparseArray.put(5, paramContext);
-    localSparseArray.put(6, paramContext);
-    localSparseArray.put(7, paramContext);
-    localSparseArray.put(8, paramContext);
-    localSparseArray.put(9, paramContext);
-    return localSparseArray;
-  }
-  
-  private static int getSize(Resources paramResources, @DimenRes int paramInt)
-  {
-    return paramResources.getDimensionPixelSize(paramInt);
-  }
-  
-  public static void setWatchNextLogo(ImageView paramImageView)
-  {
-    Context localContext = paramImageView.getContext();
-    paramImageView.setContentDescription(localContext.getString(R.string.watch_next_channel_title));
-    paramImageView.setBackgroundColor(localContext.getColor(R.color.watch_next_logo_background));
-    paramImageView.setImageDrawable(localContext.getDrawable(R.drawable.ic_watch_next_icon));
-    paramImageView.setImageTintList(ContextCompat.getColorStateList(localContext, 2131820746));
-    paramImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-    int i = localContext.getResources().getDimensionPixelOffset(R.dimen.watch_next_logo_icon_padding);
-    paramImageView.setPadding(i, i, i, i);
-  }
+import com.google.android.tvlauncher.R;
+
+import static com.google.android.tvlauncher.home.util.ChannelStateSettings.*;
+
+public class ChannelUtil {
+    public static SparseArray<ChannelStateSettings> getDefaultChannelStateSettings(Context context) {
+        SparseArray<ChannelStateSettings> settingsMap = new SparseArray();
+        Resources r = context.getResources();
+        settingsMap.put(0, new Builder().setItemHeight(getSize(r, R.dimen.program_selected_height)).setItemMarginTop(getSize(r, R.dimen.program_selected_margin_vertical)).setItemMarginBottom(getSize(r, R.dimen.program_selected_margin_vertical)).setMarginTop(getSize(r, R.dimen.channel_selected_margin_top)).setMarginBottom(getSize(r, R.dimen.channel_selected_margin_bottom)).setChannelLogoAlignmentOriginMargin(getSize(r, R.dimen.channel_logo_selected_alignment_origin_margin)).build());
+        ChannelStateSettings settings = new Builder().setItemHeight(getSize(r, R.dimen.program_default_height)).setItemMarginTop(getSize(r, R.dimen.program_default_margin_top)).setItemMarginBottom(getSize(r, R.dimen.program_default_margin_bottom)).setChannelLogoAlignmentOriginMargin(getSize(r, R.dimen.channel_logo_alignment_origin_margin)).build();
+        settingsMap.put(1, settings);
+        ChannelStateSettings settings2 = new ChannelStateSettings(settings);
+        settings2.setChannelLogoAlignmentOriginMargin(getSize(r, R.dimen.channel_logo_above_selected_alignment_origin_margin));
+        settingsMap.put(2, settings2);
+        settings = new ChannelStateSettings(settings2);
+        settings.setChannelLogoAlignmentOriginMargin(getSize(r, R.dimen.channel_logo_below_selected_alignment_origin_margin));
+        settingsMap.put(3, settings);
+        settings = new Builder().setItemHeight(getSize(r, R.dimen.program_zoomed_out_height)).setItemMarginTop(getSize(r, R.dimen.program_zoomed_out_margin_vertical)).setItemMarginBottom(getSize(r, R.dimen.program_zoomed_out_margin_vertical)).setMarginBottom(getSize(r, R.dimen.channel_zoomed_out_margin_bottom)).build();
+        settingsMap.put(4, settings);
+        settingsMap.put(5, settings);
+        settingsMap.put(6, settings);
+        settingsMap.put(7, settings);
+        settingsMap.put(8, settings);
+        settingsMap.put(9, settings);
+        return settingsMap;
+    }
+
+    public static SparseArray<ChannelStateSettings> getAppsRowStateSettings(Context context) {
+        SparseArray<ChannelStateSettings> settingsMap = new SparseArray();
+        Resources r = context.getResources();
+        settingsMap.put(0, new Builder().setItemHeight(getSize(r, R.dimen.home_app_banner_height)).setItemMarginTop(getSize(r, R.dimen.home_app_banner_selected_margin_top)).setItemMarginBottom(getSize(r, R.dimen.home_app_banner_selected_margin_bottom)).setChannelLogoAlignmentOriginMargin(getSize(r, R.dimen.home_app_channel_logo_selected_alignment_origin_margin)).build());
+        ChannelStateSettings defaultSettings = new Builder().setItemHeight(getSize(r, R.dimen.home_app_banner_image_height)).setItemMarginTop(getSize(r, R.dimen.home_app_banner_default_margin_top)).setItemMarginBottom(getSize(r, R.dimen.home_app_banner_default_margin_bottom)).setChannelLogoAlignmentOriginMargin(getSize(r, R.dimen.home_app_channel_logo_default_alignment_origin_margin)).build();
+        settingsMap.put(1, defaultSettings);
+        settingsMap.put(3, defaultSettings);
+        ChannelStateSettings settings = new ChannelStateSettings(defaultSettings);
+        settings.setChannelLogoAlignmentOriginMargin(getSize(r, R.dimen.channel_logo_above_selected_alignment_origin_margin));
+        settings.setItemMarginBottom(getSize(r, R.dimen.home_app_banner_default_above_selected_margin_bottom));
+        settingsMap.put(2, settings);
+        settings = new Builder().setItemHeight(getSize(r, R.dimen.home_app_banner_image_height)).setItemMarginTop(getSize(r, R.dimen.home_app_banner_zoomed_out_margin_vertical)).setItemMarginBottom(getSize(r, R.dimen.home_app_banner_zoomed_out_margin_vertical)).setMarginTop(getSize(r, R.dimen.home_app_banner_zoomed_out_row_margin_top)).setMarginBottom(getSize(r, R.dimen.channel_zoomed_out_margin_bottom)).build();
+        settingsMap.put(4, settings);
+        settingsMap.put(5, settings);
+        settingsMap.put(6, settings);
+        settingsMap.put(7, settings);
+        settingsMap.put(8, settings);
+        settingsMap.put(9, settings);
+        return settingsMap;
+    }
+
+    private static int getSize(Resources resources, @DimenRes int dimension) {
+        return resources.getDimensionPixelSize(dimension);
+    }
+
+    public static void configureItemsListAlignment(HorizontalGridView itemsList) {
+        itemsList.setWindowAlignment(1);
+        itemsList.setWindowAlignmentOffsetPercent(0.0f);
+        itemsList.setWindowAlignmentOffset(itemsList.getContext().getResources().getDimensionPixelSize(R.dimen.channel_items_list_padding_start));
+        itemsList.setItemAlignmentOffsetPercent(0.0f);
+    }
+
+    public static void setWatchNextLogo(ImageView logoView) {
+        Context context = logoView.getContext();
+        logoView.setContentDescription(context.getString(R.string.watch_next_channel_title));
+        logoView.setBackgroundColor(ContextCompat.getColor(context, R.color.watch_next_logo_background));
+        logoView.setImageDrawable(context.getDrawable(R.drawable.ic_watch_next_icon));
+        logoView.setImageTintList(ContextCompat.getColorStateList(context, R.color.watch_next_logo_icon_tint));
+        logoView.setScaleType(ScaleType.FIT_CENTER);
+        int padding = context.getResources().getDimensionPixelOffset(R.dimen.watch_next_logo_icon_padding);
+        logoView.setPadding(padding, padding, padding, padding);
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/util/ChannelUtil.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

@@ -4,9 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -17,7 +15,6 @@ import android.support.v17.leanback.widget.ItemAlignmentFacet;
 import android.support.v17.leanback.widget.ItemAlignmentFacet.ItemAlignmentDef;
 import android.support.v17.leanback.widget.VerticalGridView;
 import android.support.v7.widget.RecyclerView.Adapter;
-import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,15 +23,19 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityManager.AccessibilityStateChangeListener;
 import android.widget.Toast;
+
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.exoplayer2.source.chunk.ChunkedTrackBlacklistUtil;
 import com.google.android.tvlauncher.BackHomeControllerListeners.OnBackNotHandledListener;
 import com.google.android.tvlauncher.BackHomeControllerListeners.OnBackPressedListener;
 import com.google.android.tvlauncher.BackHomeControllerListeners.OnHomeNotHandledListener;
 import com.google.android.tvlauncher.BackHomeControllerListeners.OnHomePressedListener;
+import com.google.android.tvlauncher.R;
 import com.google.android.tvlauncher.analytics.EventLogger;
 import com.google.android.tvlauncher.analytics.LogEventParameters;
+import com.google.android.tvlauncher.analytics.LogEvents;
 import com.google.android.tvlauncher.analytics.UserActionEvent;
 import com.google.android.tvlauncher.data.HomeChannelsObserver;
 import com.google.android.tvlauncher.data.TvDataManager;
@@ -47,960 +48,754 @@ import com.google.android.tvlauncher.util.Util;
 import com.google.android.tvlauncher.util.palette.PaletteUtil;
 import com.google.android.tvlauncher.view.HomeTopRowView;
 import com.google.android.tvlauncher.view.HomeTopRowView.OnActionListener;
-import java.lang.annotation.Annotation;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-class HomeController
-  extends RecyclerView.Adapter<HomeRowViewHolder>
-  implements HomeTopRowView.OnActionListener, FacetProviderAdapter, BackHomeControllerListeners.OnBackPressedListener, BackHomeControllerListeners.OnBackNotHandledListener, BackHomeControllerListeners.OnHomePressedListener, BackHomeControllerListeners.OnHomeNotHandledListener, AccessibilityManager.AccessibilityStateChangeListener
-{
-  private static final int ACCESSIBILITY_APP_SELECT_DELAY_MILLIS = 50;
-  private static final int BACKGROUND_UPDATE_DELAY_MILLIS = 2000;
-  private static final boolean DEBUG = false;
-  private static final String INPUTS_PANEL_INTENT_ACTION = "com.google.android.tvlauncher.INPUTS";
-  private static final int MAX_SMOOTH_SCROLL_DISTANCE = 6;
-  private static final int NUMBER_OF_ROWS_ABOVE_CHANNELS_WITHOUT_WATCH_NEXT = 2;
-  private static final int NUMBER_OF_ROWS_ABOVE_CHANNELS_WITH_WATCH_NEXT = 3;
-  private static final int NUMBER_OF_ROWS_BELOW_CHANNELS = 1;
-  private static final String PAYLOAD_CHANNEL_ITEM_METADATA = "PAYLOAD_CHANNEL_ITEM_METADATA";
-  private static final String PAYLOAD_CHANNEL_MOVE_ACTION = "PAYLOAD_CHANNEL_MOVE_ACTION";
-  private static final String PAYLOAD_STATE = "PAYLOAD_STATE";
-  private static final int REFRESH_WATCH_NEXT_OFFSET_INTERVAL_MILLIS = 60000;
-  private static final int ROW_TYPE_APPS = 1;
-  private static final int ROW_TYPE_APPS_POSITION = 1;
-  private static final int ROW_TYPE_CHANNEL = 3;
-  private static final int ROW_TYPE_CONFIGURE_CHANNELS = 4;
-  private static final int ROW_TYPE_TOP = 0;
-  private static final int ROW_TYPE_TOP_POSITION = 0;
-  private static final int ROW_TYPE_WATCH_NEXT = 2;
-  private static final int ROW_TYPE_WATCH_NEXT_POSITION = 2;
-  static final int STATE_CHANNEL_ACTIONS = 2;
-  static final int STATE_DEFAULT = 0;
-  static final int STATE_MOVE_CHANNEL = 3;
-  static final int STATE_ZOOMED_OUT = 1;
-  private static final String TAG = "HomeController";
-  private static final int THRESHOLD_HOME_PRESS_PAUSE_INTERVAL_MILLIS = 200;
-  private Set<ChannelRowController> mActiveChannelRowControllers = new HashSet();
-  private Set<WatchNextRowController> mActiveWatchNextRowControllers = new HashSet();
-  private Set<String> mAddToWatchNextPackagesBlacklist;
-  private HomeBackgroundController mBackgroundController;
-  private RequestManager mChannelLogoRequestManager;
-  private final HomeChannelsObserver mChannelsObserver = new HomeChannelsObserver()
-  {
-    public void onChannelMove(int paramAnonymousInt1, int paramAnonymousInt2)
-    {
-      int i = HomeController.this.getAdapterPositionForChannelIndex(paramAnonymousInt1);
-      int j = HomeController.this.getAdapterPositionForChannelIndex(paramAnonymousInt2);
-      if (HomeController.this.mSelectedPosition == i) {
-        HomeController.access$602(HomeController.this, j);
-      }
-      int k = HomeController.this.getChannelCount();
-      if ((paramAnonymousInt1 == 0) || (paramAnonymousInt2 == 0) || (paramAnonymousInt1 == k - 1) || (paramAnonymousInt2 == k - 1))
-      {
-        HomeController.this.notifyItemChanged(i, "PAYLOAD_CHANNEL_MOVE_ACTION");
-        HomeController.this.notifyItemChanged(j, "PAYLOAD_CHANNEL_MOVE_ACTION");
-      }
-      HomeController.this.notifyItemMoved(i, j);
-    }
-    
-    public void onChannelsChange()
-    {
-      int i = HomeController.this.mDataManager.getHomeChannelCount();
-      if (i >= 0) {
-        HomeController.this.mEventLogger.log(new LogEventParameters("open_home").putParameter("shown_channel_count", i));
-      }
-      HomeController.this.notifyDataSetChanged();
-    }
-  };
-  private FacetProvider mConfigureChannelsRowAlignmentFacetProvider;
-  private final Context mContext;
-  private final TvDataManager mDataManager;
-  private int mDefaultChannelKeyline;
-  private final EventLogger mEventLogger;
-  private Handler mHandler = new Handler();
-  private long mLastPausedTime;
-  private ProgramController mLastSelectedProgramController;
-  private VerticalGridView mList;
-  private Cursor mNotifCountCursor = null;
-  private Cursor mNotifTrayCursor = null;
-  private Set<NotificationsPanelController> mNotificationsPanelControllers = new HashSet();
-  private Set<NotificationsTrayAdapter> mNotificationsTrayAdapters = new HashSet();
-  private final Runnable mNotifyChannelItemMetadataChangedRunnable = new Runnable()
-  {
-    public void run()
-    {
-      HomeController.this.notifyItemChanged(HomeController.this.mSelectedPosition, "PAYLOAD_CHANNEL_ITEM_METADATA");
-    }
-  };
-  private final Runnable mNotifySelectionChangedRunnable = new Runnable()
-  {
-    public void run()
-    {
-      Object localObject = new HashSet(HomeController.this.mPrevSelectedPositions.size() + 5);
-      if ((HomeController.this.mState == 0) || (HomeController.this.mState == 1))
-      {
-        ((Set)localObject).addAll(HomeController.this.mPrevSelectedPositions);
-        HomeController.this.mPrevSelectedPositions.clear();
-        ((Set)localObject).add(Integer.valueOf(HomeController.this.mSelectedPosition));
-        ((Set)localObject).add(Integer.valueOf(HomeController.this.mSelectedPosition - 1));
-        ((Set)localObject).add(Integer.valueOf(HomeController.this.mSelectedPosition + 1));
-      }
-      if (HomeController.this.mState == 0)
-      {
-        if ((HomeController.this.mSelectedPosition == 0) || (HomeController.this.mSelectedPosition == 1)) {
-          ((Set)localObject).add(Integer.valueOf(HomeController.this.mSelectedPosition + 2));
+class HomeController extends Adapter<HomeController.HomeRowViewHolder> implements OnActionListener, FacetProviderAdapter, OnBackPressedListener, OnBackNotHandledListener, OnHomePressedListener, OnHomeNotHandledListener, AccessibilityStateChangeListener {
+    private static final int ACCESSIBILITY_APP_SELECT_DELAY_MILLIS = 50;
+    private static final int BACKGROUND_UPDATE_DELAY_MILLIS = 2000;
+    private static final boolean DEBUG = false;
+    private static final String INPUTS_PANEL_INTENT_ACTION = "com.google.android.tvlauncher.INPUTS";
+    private static final int MAX_SMOOTH_SCROLL_DISTANCE = 6;
+    private static final int NUMBER_OF_ROWS_ABOVE_CHANNELS_WITHOUT_WATCH_NEXT = 2;
+    private static final int NUMBER_OF_ROWS_ABOVE_CHANNELS_WITH_WATCH_NEXT = 3;
+    private static final int NUMBER_OF_ROWS_BELOW_CHANNELS = 1;
+    private static final String PAYLOAD_CHANNEL_ITEM_METADATA = "PAYLOAD_CHANNEL_ITEM_METADATA";
+    private static final String PAYLOAD_CHANNEL_MOVE_ACTION = "PAYLOAD_CHANNEL_MOVE_ACTION";
+    private static final String PAYLOAD_STATE = "PAYLOAD_STATE";
+    private static final int REFRESH_WATCH_NEXT_OFFSET_INTERVAL_MILLIS = 60000;
+    private static final int ROW_TYPE_APPS = 1;
+    private static final int ROW_TYPE_APPS_POSITION = 1;
+    private static final int ROW_TYPE_CHANNEL = 3;
+    private static final int ROW_TYPE_CONFIGURE_CHANNELS = 4;
+    private static final int ROW_TYPE_TOP = 0;
+    private static final int ROW_TYPE_TOP_POSITION = 0;
+    private static final int ROW_TYPE_WATCH_NEXT = 2;
+    private static final int ROW_TYPE_WATCH_NEXT_POSITION = 2;
+    static final int STATE_CHANNEL_ACTIONS = 2;
+    static final int STATE_DEFAULT = 0;
+    static final int STATE_MOVE_CHANNEL = 3;
+    static final int STATE_ZOOMED_OUT = 1;
+    private static final String TAG = "HomeController";
+    private static final int THRESHOLD_HOME_PRESS_PAUSE_INTERVAL_MILLIS = 200;
+    private Set<ChannelRowController> mActiveChannelRowControllers = new HashSet();
+    private Set<WatchNextRowController> mActiveWatchNextRowControllers = new HashSet();
+    private Set<String> mAddToWatchNextPackagesBlacklist;
+    private HomeBackgroundController mBackgroundController;
+    private RequestManager mChannelLogoRequestManager;
+    private final HomeChannelsObserver mChannelsObserver = new HomeChannelsObserver() {
+        public void onChannelsChange() {
+            int count = HomeController.this.mDataManager.getHomeChannelCount();
+            if (count >= 0) {
+                HomeController.this.mEventLogger.log(new LogEventParameters(LogEvents.OPEN_HOME).putParameter(LogEvents.PARAMETER_SHOWN_CHANNEL_COUNT, count));
+            }
+            HomeController.this.notifyDataSetChanged();
         }
-        if (HomeController.this.mSelectedPosition == 0) {
-          ((Set)localObject).add(Integer.valueOf(HomeController.this.mSelectedPosition + 3));
+
+        public void onChannelMove(int fromIndex, int toIndex) {
+            int fromPosition = HomeController.this.getAdapterPositionForChannelIndex(fromIndex);
+            int toPosition = HomeController.this.getAdapterPositionForChannelIndex(toIndex);
+            if (HomeController.this.mSelectedPosition == fromPosition) {
+                HomeController.this.mSelectedPosition = toPosition;
+            }
+            int numChannels = HomeController.this.getChannelCount();
+            if (fromIndex == 0 || toIndex == 0 || fromIndex == numChannels - 1 || toIndex == numChannels - 1) {
+                HomeController.this.notifyItemChanged(fromPosition, HomeController.PAYLOAD_CHANNEL_MOVE_ACTION);
+                HomeController.this.notifyItemChanged(toPosition, HomeController.PAYLOAD_CHANNEL_MOVE_ACTION);
+            }
+            HomeController.this.notifyItemMoved(fromPosition, toPosition);
         }
-      }
-      int i = HomeController.this.getItemCount();
-      localObject = ((Set)localObject).iterator();
-      while (((Iterator)localObject).hasNext())
-      {
-        Integer localInteger = (Integer)((Iterator)localObject).next();
-        if ((localInteger.intValue() >= 0) && (localInteger.intValue() < i)) {
-          HomeController.this.notifyItemChanged(localInteger.intValue(), "PAYLOAD_STATE");
-        }
-      }
-    }
-  };
-  private BackHomeControllerListeners.OnBackNotHandledListener mOnBackNotHandledListener;
-  private OnProgramSelectedListener mOnProgramSelectedListener = new OnProgramSelectedListener()
-  {
-    public void onProgramSelected(Program paramAnonymousProgram, ProgramController paramAnonymousProgramController)
-    {
-      HomeController.access$1102(HomeController.this, paramAnonymousProgramController);
-      if (HomeController.this.mBackgroundController != null)
-      {
-        HomeController.this.mHandler.removeCallbacks(HomeController.this.mUpdateBackgroundForProgramAfterDelayRunnable);
-        HomeController.this.mHandler.postDelayed(HomeController.this.mUpdateBackgroundForProgramAfterDelayRunnable, 2000L);
-      }
-      HomeController.this.mHandler.removeCallbacks(HomeController.this.mNotifyChannelItemMetadataChangedRunnable);
-      HomeController.this.mHandler.post(HomeController.this.mNotifyChannelItemMetadataChangedRunnable);
-    }
-  };
-  private HashSet<Integer> mPrevSelectedPositions = new HashSet();
-  private Runnable mRefreshWatchNextOffset = new Runnable()
-  {
-    public void run()
-    {
-      HomeController.this.mDataManager.refreshWatchNextOffset();
-      HomeController.this.mWatchNextHandler.postDelayed(HomeController.this.mRefreshWatchNextOffset, 60000L);
-    }
-  };
-  private Set<String> mRemoveProgramPackagesBlacklist;
-  private Runnable mRequeryWatchNext = new Runnable()
-  {
-    public void run()
-    {
-      HomeController.this.mDataManager.loadWatchNextProgramData();
-      HomeController.this.mWatchNextHandler.postDelayed(HomeController.this.mRequeryWatchNext, 600000L);
-    }
-  };
-  private Runnable mSelectFirstAppRunnable = new Runnable()
-  {
-    public void run()
-    {
-      if ((HomeController.this.mSelectFirstAppWhenRowSelected) && (HomeController.this.mSelectedPosition == 1))
-      {
-        HomeRow localHomeRow = HomeController.this.getHomeRow(1);
-        if ((localHomeRow instanceof AppRowController)) {
-          ((AppRowController)localHomeRow).setSelectedItemPosition(0);
-        }
-      }
-      HomeController.access$1202(HomeController.this, false);
-    }
-  };
-  private boolean mSelectFirstAppWhenRowSelected;
-  private int mSelectedPosition = 1;
-  private boolean mStarted;
-  private int mState = 0;
-  private final Runnable mUpdateBackgroundForProgramAfterDelayRunnable = new Runnable()
-  {
-    public void run()
-    {
-      if ((HomeController.this.mBackgroundController != null) && (HomeController.this.mLastSelectedProgramController != null) && (HomeController.this.mLastSelectedProgramController.isViewFocused()) && (HomeController.this.mLastSelectedProgramController.getPreviewImagePalette() != null)) {
-        HomeController.this.mBackgroundController.updateBackground(HomeController.this.mLastSelectedProgramController.getPreviewImagePalette());
-      }
-    }
-  };
-  private final Runnable mUpdateBackgroundForTopRowsAfterDelayRunnable = new Runnable()
-  {
-    public void run()
-    {
-      if ((HomeController.this.mBackgroundController != null) && (HomeController.this.mSelectedPosition <= 1)) {
-        HomeController.this.mBackgroundController.enterDarkMode();
-      }
-    }
-  };
-  private Handler mWatchNextHandler = new Handler();
-  private SharedPreferences.OnSharedPreferenceChangeListener mWatchNextPrefListener = new SharedPreferences.OnSharedPreferenceChangeListener()
-  {
-    public void onSharedPreferenceChanged(SharedPreferences paramAnonymousSharedPreferences, String paramAnonymousString)
-    {
-      if ("show_watch_next_row_key".equals(paramAnonymousString))
-      {
-        boolean bool = paramAnonymousSharedPreferences.getBoolean("show_watch_next_row_key", true);
-        if (HomeController.this.mWatchNextVisible != bool)
-        {
-          HomeController.access$1402(HomeController.this, bool);
-          if (!HomeController.this.mWatchNextVisible) {
-            break label58;
-          }
-          HomeController.this.notifyItemInserted(2);
-        }
-      }
-      return;
-      label58:
-      HomeController.this.notifyItemRemoved(2);
-    }
-  };
-  private boolean mWatchNextVisible;
-  private int mZoomedOutChannelKeyline;
-  
-  HomeController(Context paramContext, EventLogger paramEventLogger)
-  {
-    this.mContext = paramContext;
-    this.mEventLogger = paramEventLogger;
-    this.mDataManager = TvDataManager.getInstance(this.mContext);
-    this.mDataManager.registerHomeChannelsObserver(this.mChannelsObserver);
-    paramEventLogger = new ItemAlignmentFacet.ItemAlignmentDef();
-    paramEventLogger.setItemAlignmentViewId(2131951826);
-    final ItemAlignmentFacet localItemAlignmentFacet = new ItemAlignmentFacet();
-    localItemAlignmentFacet.setAlignmentDefs(new ItemAlignmentFacet.ItemAlignmentDef[] { paramEventLogger });
-    this.mConfigureChannelsRowAlignmentFacetProvider = new FacetProvider()
-    {
-      public Object getFacet(Class<?> paramAnonymousClass)
-      {
-        return localItemAlignmentFacet;
-      }
     };
-    this.mDefaultChannelKeyline = this.mContext.getResources().getDimensionPixelSize(R.dimen.channel_items_list_default_keyline);
-    this.mZoomedOutChannelKeyline = this.mContext.getResources().getDimensionPixelSize(R.dimen.channel_items_list_zoomed_out_keyline);
-    setHasStableIds(true);
-    registerChannelsObserverAndLoadDataIfNeeded();
-    this.mStarted = true;
-    paramContext = paramContext.getSharedPreferences("com.google.android.tvlauncher.data.TvDataManager.WATCH_NEXT_PREF_FILE_NAME", 0);
-    this.mWatchNextVisible = paramContext.getBoolean("show_watch_next_row_key", true);
-    paramContext.registerOnSharedPreferenceChangeListener(this.mWatchNextPrefListener);
-    PaletteUtil.registerGlidePaletteTranscoder(this.mContext);
-    this.mAddToWatchNextPackagesBlacklist = GservicesUtils.retrievePackagesBlacklistedForWatchNext(this.mContext.getContentResolver());
-    this.mRemoveProgramPackagesBlacklist = GservicesUtils.retrievePackagesBlacklistedForProgramRemoval(this.mContext.getContentResolver());
-  }
-  
-  private int getAdapterPositionForChannelIndex(int paramInt)
-  {
-    return getNumberOfRowsAboveChannels() + paramInt;
-  }
-  
-  private int getChannelCount()
-  {
-    if (this.mDataManager.isHomeChannelDataLoaded()) {
-      return this.mDataManager.getHomeChannelCount();
-    }
-    return 0;
-  }
-  
-  private int getChannelIndexForAdapterPosition(int paramInt)
-  {
-    return paramInt - getNumberOfRowsAboveChannels();
-  }
-  
-  private int getChannelState(int paramInt)
-  {
-    if (this.mSelectedPosition == paramInt) {}
-    for (int i = 1;; i = 0) {
-      switch (this.mState)
-      {
-      default: 
-        return 1;
-      }
-    }
-    if (i != 0) {
-      return 4;
-    }
-    return 5;
-    if (i != 0) {
-      return 6;
-    }
-    return 7;
-    if (i != 0) {
-      return 8;
-    }
-    return 9;
-    if (i != 0) {
-      return 0;
-    }
-    if (paramInt == this.mSelectedPosition - 1) {
-      return 2;
-    }
-    if ((paramInt == this.mSelectedPosition + 1) && (paramInt > 2)) {
-      return 3;
-    }
-    return 1;
-  }
-  
-  @Nullable
-  private HomeRow getHomeRow(int paramInt)
-  {
-    HomeRowViewHolder localHomeRowViewHolder = (HomeRowViewHolder)this.mList.findViewHolderForAdapterPosition(paramInt);
-    if (localHomeRowViewHolder != null) {
-      return localHomeRowViewHolder.homeRow;
-    }
-    return null;
-  }
-  
-  private int getNumberOfRowsAboveChannels()
-  {
-    if (this.mWatchNextVisible) {
-      return 3;
-    }
-    return 2;
-  }
-  
-  @Nullable
-  private HomeRow getSelectedHomeRow()
-  {
-    return getHomeRow(this.mSelectedPosition);
-  }
-  
-  private void onBindChannel(ChannelRowController paramChannelRowController, int paramInt1, int paramInt2)
-  {
-    boolean bool2 = true;
-    HomeChannel localHomeChannel = this.mDataManager.getHomeChannel(paramInt1);
-    paramInt1 = getChannelState(paramInt2);
-    boolean bool1;
-    if (!this.mAddToWatchNextPackagesBlacklist.contains(localHomeChannel.getPackageName()))
-    {
-      bool1 = true;
-      if (this.mRemoveProgramPackagesBlacklist.contains(localHomeChannel.getPackageName())) {
-        break label85;
-      }
-    }
-    for (;;)
-    {
-      paramChannelRowController.bindChannel(localHomeChannel, paramInt1, bool1, bool2);
-      this.mActiveChannelRowControllers.add(paramChannelRowController);
-      return;
-      bool1 = false;
-      break;
-      label85:
-      bool2 = false;
-    }
-  }
-  
-  private void onItemRemoved(int paramInt)
-  {
-    if ((this.mWatchNextVisible) && (paramInt == 2))
-    {
-      this.mWatchNextVisible = false;
-      this.mContext.getSharedPreferences("com.google.android.tvlauncher.data.TvDataManager.WATCH_NEXT_PREF_FILE_NAME", 0).edit().putBoolean("show_watch_next_row_key", false).apply();
-    }
-    if (paramInt == getItemCount() - 1) {
-      this.mSelectedPosition = (paramInt - 1);
-    }
-    if (!Util.isAccessibilityEnabled(this.mContext)) {
-      this.mState = 1;
-    }
-    notifyDataSetChanged();
-  }
-  
-  private void registerChannelsObserverAndLoadDataIfNeeded()
-  {
-    this.mDataManager.registerHomeChannelsObserver(this.mChannelsObserver);
-    if ((!this.mDataManager.isHomeChannelDataLoaded()) || (this.mDataManager.isHomeChannelDataStale())) {
-      this.mDataManager.loadHomeChannelData();
-    }
-  }
-  
-  private void scrollToAppsRow()
-  {
-    this.mSelectFirstAppWhenRowSelected = true;
-    if (this.mList.getSelectedPosition() > 6)
-    {
-      this.mList.setSelectedPosition(1);
-      return;
-    }
-    this.mList.setSelectedPositionSmooth(1);
-  }
-  
-  private void setSelectedPosition(int paramInt)
-  {
-    if (this.mSelectedPosition != paramInt)
-    {
-      if ((this.mState == 0) || (this.mState == 1))
-      {
-        this.mPrevSelectedPositions.add(Integer.valueOf(this.mSelectedPosition));
-        this.mHandler.post(this.mNotifySelectionChangedRunnable);
-      }
-      this.mSelectedPosition = paramInt;
-      if ((this.mSelectedPosition > 1) || (this.mBackgroundController == null)) {
-        break label123;
-      }
-      this.mHandler.postDelayed(this.mUpdateBackgroundForTopRowsAfterDelayRunnable, 2000L);
-    }
-    for (;;)
-    {
-      if ((this.mSelectFirstAppWhenRowSelected) && (paramInt == 1))
-      {
-        if (!Util.isAccessibilityEnabled(this.mContext)) {
-          break;
+    private FacetProvider mConfigureChannelsRowAlignmentFacetProvider;
+    private final Context mContext;
+    private final TvDataManager mDataManager;
+    private int mDefaultChannelKeyline;
+    private final EventLogger mEventLogger;
+    private Handler mHandler = new Handler();
+    private long mLastPausedTime;
+    private ProgramController mLastSelectedProgramController;
+    private VerticalGridView mList;
+    private Cursor mNotifCountCursor = null;
+    private Cursor mNotifTrayCursor = null;
+    private Set<NotificationsPanelController> mNotificationsPanelControllers = new HashSet();
+    private Set<NotificationsTrayAdapter> mNotificationsTrayAdapters = new HashSet();
+    private final Runnable mNotifyChannelItemMetadataChangedRunnable = new Runnable() {
+        public void run() {
+            HomeController.this.notifyItemChanged(HomeController.this.mSelectedPosition, HomeController.PAYLOAD_CHANNEL_ITEM_METADATA);
         }
-        this.mHandler.postDelayed(this.mSelectFirstAppRunnable, 50L);
-      }
-      return;
-      label123:
-      this.mHandler.removeCallbacks(this.mUpdateBackgroundForTopRowsAfterDelayRunnable);
-    }
-    this.mSelectFirstAppRunnable.run();
-  }
-  
-  private void setState(int paramInt)
-  {
-    int i = paramInt;
-    if (Util.isAccessibilityEnabled(this.mContext)) {}
-    switch (paramInt)
-    {
-    default: 
-      i = paramInt;
-      if (this.mState != i) {
-        switch (this.mState)
-        {
-        case 0: 
-        default: 
-          label84:
-          this.mState = i;
-          switch (this.mState)
-          {
-          }
-          break;
+    };
+    private final Runnable mNotifySelectionChangedRunnable = new Runnable() {
+        public void run() {
+            Set<Integer> positionsToUpdate = new HashSet(HomeController.this.mPrevSelectedPositions.size() + 5);
+            if (HomeController.this.mState == 0 || HomeController.this.mState == 1) {
+                positionsToUpdate.addAll(HomeController.this.mPrevSelectedPositions);
+                HomeController.this.mPrevSelectedPositions.clear();
+                positionsToUpdate.add(Integer.valueOf(HomeController.this.mSelectedPosition));
+                positionsToUpdate.add(Integer.valueOf(HomeController.this.mSelectedPosition - 1));
+                positionsToUpdate.add(Integer.valueOf(HomeController.this.mSelectedPosition + 1));
+            }
+            if (HomeController.this.mState == 0) {
+                if (HomeController.this.mSelectedPosition == 0 || HomeController.this.mSelectedPosition == 1) {
+                    positionsToUpdate.add(Integer.valueOf(HomeController.this.mSelectedPosition + 2));
+                }
+                if (HomeController.this.mSelectedPosition == 0) {
+                    positionsToUpdate.add(Integer.valueOf(HomeController.this.mSelectedPosition + 3));
+                }
+            }
+            int itemCount = HomeController.this.getItemCount();
+            for (Integer position : positionsToUpdate) {
+                if (position.intValue() >= 0 && position.intValue() < itemCount) {
+                    HomeController.this.notifyItemChanged(position.intValue(), HomeController.PAYLOAD_STATE);
+                }
+            }
         }
-      }
-      break;
+    };
+    private OnBackNotHandledListener mOnBackNotHandledListener;
+    private OnProgramSelectedListener mOnProgramSelectedListener = new OnProgramSelectedListener() {
+        public void onProgramSelected(Program program, ProgramController programController) {
+            HomeController.this.mLastSelectedProgramController = programController;
+            if (HomeController.this.mBackgroundController != null) {
+                HomeController.this.mHandler.removeCallbacks(HomeController.this.mUpdateBackgroundForProgramAfterDelayRunnable);
+                HomeController.this.mHandler.postDelayed(HomeController.this.mUpdateBackgroundForProgramAfterDelayRunnable, 2000);
+            }
+            HomeController.this.mHandler.removeCallbacks(HomeController.this.mNotifyChannelItemMetadataChangedRunnable);
+            HomeController.this.mHandler.post(HomeController.this.mNotifyChannelItemMetadataChangedRunnable);
+        }
+    };
+    private HashSet<Integer> mPrevSelectedPositions = new HashSet();
+    private Runnable mRefreshWatchNextOffset = new Runnable() {
+        public void run() {
+            HomeController.this.mDataManager.refreshWatchNextOffset();
+            HomeController.this.mWatchNextHandler.postDelayed(HomeController.this.mRefreshWatchNextOffset, ChunkedTrackBlacklistUtil.DEFAULT_TRACK_BLACKLIST_MS);
+        }
+    };
+    private Set<String> mRemoveProgramPackagesBlacklist;
+    private Runnable mRequeryWatchNext = new Runnable() {
+        public void run() {
+            HomeController.this.mDataManager.loadWatchNextProgramData();
+            HomeController.this.mWatchNextHandler.postDelayed(HomeController.this.mRequeryWatchNext, 600000);
+        }
+    };
+    private Runnable mSelectFirstAppRunnable = new Runnable() {
+        public void run() {
+            if (HomeController.this.mSelectFirstAppWhenRowSelected && HomeController.this.mSelectedPosition == 1) {
+                HomeRow appsRow = HomeController.this.getHomeRow(1);
+                if (appsRow instanceof AppRowController) {
+                    ((AppRowController) appsRow).setSelectedItemPosition(0);
+                }
+            }
+            HomeController.this.mSelectFirstAppWhenRowSelected = false;
+        }
+    };
+    private boolean mSelectFirstAppWhenRowSelected;
+    private int mSelectedPosition = 1;
+    private boolean mStarted;
+    private int mState = 0;
+    private final Runnable mUpdateBackgroundForProgramAfterDelayRunnable = new Runnable() {
+        public void run() {
+            if (HomeController.this.mBackgroundController != null && HomeController.this.mLastSelectedProgramController != null && HomeController.this.mLastSelectedProgramController.isViewFocused() && HomeController.this.mLastSelectedProgramController.getPreviewImagePalette() != null) {
+                HomeController.this.mBackgroundController.updateBackground(HomeController.this.mLastSelectedProgramController.getPreviewImagePalette());
+            }
+        }
+    };
+    private final Runnable mUpdateBackgroundForTopRowsAfterDelayRunnable = new Runnable() {
+        public void run() {
+            if (HomeController.this.mBackgroundController != null && HomeController.this.mSelectedPosition <= 1) {
+                HomeController.this.mBackgroundController.enterDarkMode();
+            }
+        }
+    };
+    private Handler mWatchNextHandler = new Handler();
+    private OnSharedPreferenceChangeListener mWatchNextPrefListener = new OnSharedPreferenceChangeListener() {
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (TvDataManager.SHOW_WATCH_NEXT_ROW_KEY.equals(key)) {
+                boolean watchNextVisible = sharedPreferences.getBoolean(TvDataManager.SHOW_WATCH_NEXT_ROW_KEY, true);
+                if (HomeController.this.mWatchNextVisible != watchNextVisible) {
+                    HomeController.this.mWatchNextVisible = watchNextVisible;
+                    if (HomeController.this.mWatchNextVisible) {
+                        HomeController.this.notifyItemInserted(2);
+                    } else {
+                        HomeController.this.notifyItemRemoved(2);
+                    }
+                }
+            }
+        }
+    };
+    private boolean mWatchNextVisible;
+    private int mZoomedOutChannelKeyline;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @interface RowType {
     }
-    for (;;)
-    {
-      notifyItemRangeChanged(0, getItemCount(), "PAYLOAD_STATE");
-      return;
-      i = 0;
-      break;
-      this.mEventLogger.log(new UserActionEvent("exit_zoomed_out_mode"));
-      break label84;
-      this.mEventLogger.log(new UserActionEvent("exit_channel_actions_mode"));
-      break label84;
-      this.mEventLogger.log(new UserActionEvent("exit_move_channel_mode"));
-      break label84;
-      this.mList.setWindowAlignmentOffset(this.mDefaultChannelKeyline);
-      continue;
-      this.mList.setWindowAlignmentOffset(this.mZoomedOutChannelKeyline);
-      this.mEventLogger.log(new UserActionEvent("enter_zoomed_out_mode"));
-      continue;
-      this.mList.setWindowAlignmentOffset(this.mZoomedOutChannelKeyline);
-      this.mEventLogger.log(new UserActionEvent("enter_channel_actions_mode"));
-      continue;
-      this.mList.setWindowAlignmentOffset(this.mZoomedOutChannelKeyline);
-      this.mEventLogger.log(new UserActionEvent("enter_move_channel_mode"));
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface State {
     }
-  }
-  
-  private static String stateToString(int paramInt)
-  {
-    String str;
-    switch (paramInt)
-    {
-    default: 
-      str = "STATE_UNKNOWN";
+
+    class HomeRowViewHolder extends ViewHolder implements OnHomeStateChangeListener, OnHomeRowSelectedListener, OnHomeRowRemovedListener {
+        HomeRow homeRow;
+
+        HomeRowViewHolder(HomeRow homeRow) {
+            super(homeRow.getView());
+            this.homeRow = homeRow;
+            homeRow.setOnHomeStateChangeListener(this);
+            homeRow.setOnHomeRowSelectedListener(this);
+            homeRow.setOnHomeRowRemovedListener(this);
+        }
+
+        public void onHomeStateChange(int state) {
+            HomeController.this.setState(state);
+        }
+
+        public void onHomeRowSelected(HomeRow homeRow) {
+            HomeController.this.setSelectedPosition(getAdapterPosition());
+        }
+
+        public void onHomeRowRemoved(HomeRow homeRow) {
+            HomeController.this.onItemRemoved(getAdapterPosition());
+        }
     }
-    for (;;)
-    {
-      return str + " (" + paramInt + ")";
-      str = "STATE_DEFAULT";
-      continue;
-      str = "STATE_ZOOMED_OUT";
-      continue;
-      str = "STATE_CHANNEL_ACTIONS";
-      continue;
-      str = "STATE_MOVE_CHANNEL";
+
+    private static String stateToString(int state) {
+        String stateString;
+        switch (state) {
+            case 0:
+                stateString = "STATE_DEFAULT";
+                break;
+            case 1:
+                stateString = "STATE_ZOOMED_OUT";
+                break;
+            case 2:
+                stateString = "STATE_CHANNEL_ACTIONS";
+                break;
+            case 3:
+                stateString = "STATE_MOVE_CHANNEL";
+                break;
+            default:
+                stateString = "STATE_UNKNOWN";
+                break;
+        }
+        return stateString + " (" + state + ")";
     }
-  }
-  
-  public FacetProvider getFacetProvider(int paramInt)
-  {
-    if (paramInt == 4) {
-      return this.mConfigureChannelsRowAlignmentFacetProvider;
+
+    HomeController(Context context, EventLogger eventLogger) {
+        this.mContext = context;
+        this.mEventLogger = eventLogger;
+        this.mDataManager = TvDataManager.getInstance(this.mContext);
+        this.mDataManager.registerHomeChannelsObserver(this.mChannelsObserver);
+        ItemAlignmentDef def = new ItemAlignmentDef();
+        def.setItemAlignmentViewId(R.id.button);
+        final ItemAlignmentFacet facet = new ItemAlignmentFacet();
+        facet.setAlignmentDefs(new ItemAlignmentDef[]{def});
+        this.mConfigureChannelsRowAlignmentFacetProvider = new FacetProvider() {
+            public Object getFacet(Class<?> cls) {
+                return facet;
+            }
+        };
+        this.mDefaultChannelKeyline = this.mContext.getResources().getDimensionPixelSize(R.dimen.channel_items_list_default_keyline);
+        this.mZoomedOutChannelKeyline = this.mContext.getResources().getDimensionPixelSize(R.dimen.channel_items_list_zoomed_out_keyline);
+        setHasStableIds(true);
+        registerChannelsObserverAndLoadDataIfNeeded();
+        this.mStarted = true;
+        SharedPreferences preferences = context.getSharedPreferences(TvDataManager.WATCH_NEXT_PREF_FILE_NAME, 0);
+        this.mWatchNextVisible = preferences.getBoolean(TvDataManager.SHOW_WATCH_NEXT_ROW_KEY, true);
+        preferences.registerOnSharedPreferenceChangeListener(this.mWatchNextPrefListener);
+        PaletteUtil.registerGlidePaletteTranscoder(this.mContext);
+        this.mAddToWatchNextPackagesBlacklist = GservicesUtils.retrievePackagesBlacklistedForWatchNext(this.mContext.getContentResolver());
+        this.mRemoveProgramPackagesBlacklist = GservicesUtils.retrievePackagesBlacklistedForProgramRemoval(this.mContext.getContentResolver());
     }
-    return null;
-  }
-  
-  public int getItemCount()
-  {
-    return getChannelCount() + getNumberOfRowsAboveChannels() + 1;
-  }
-  
-  public long getItemId(int paramInt)
-  {
-    switch (getItemViewType(paramInt))
-    {
-    default: 
-      return super.getItemId(paramInt);
-    case 0: 
-      return -2L;
-    case 1: 
-      return -3L;
-    case 2: 
-      return -4L;
-    case 4: 
-      return -5L;
+
+    public void setList(VerticalGridView list) {
+        this.mList = list;
+        this.mList.getLayoutManager().setItemPrefetchEnabled(false);
+        this.mList.setItemAlignmentViewId(R.id.items_list);
+        this.mList.setWindowAlignment(1);
+        this.mList.setWindowAlignmentOffsetPercent(0.0f);
+        this.mList.setWindowAlignmentOffset(this.mDefaultChannelKeyline);
+        this.mList.setSelectedPosition(this.mSelectedPosition);
+        this.mList.setItemAnimator(null);
     }
-    paramInt = getChannelIndexForAdapterPosition(paramInt);
-    return this.mDataManager.getHomeChannel(paramInt).getId();
-  }
-  
-  public int getItemViewType(int paramInt)
-  {
-    int i = 1;
-    if (paramInt == getItemCount() - 1) {
-      i = 4;
+
+    void setBackgroundController(HomeBackgroundController backgroundController) {
+        this.mBackgroundController = backgroundController;
     }
-    do
-    {
-      return i;
-      if (paramInt == 0) {
+
+    void setOnBackNotHandledListener(OnBackNotHandledListener onBackNotHandledListener) {
+        this.mOnBackNotHandledListener = onBackNotHandledListener;
+    }
+
+    private void registerChannelsObserverAndLoadDataIfNeeded() {
+        this.mDataManager.registerHomeChannelsObserver(this.mChannelsObserver);
+        if (!this.mDataManager.isHomeChannelDataLoaded() || this.mDataManager.isHomeChannelDataStale()) {
+            this.mDataManager.loadHomeChannelData();
+        }
+    }
+
+    private int getChannelCount() {
+        if (this.mDataManager.isHomeChannelDataLoaded()) {
+            return this.mDataManager.getHomeChannelCount();
+        }
         return 0;
-      }
-    } while (paramInt == 1);
-    if ((paramInt == 2) && (this.mWatchNextVisible)) {
-      return 2;
     }
-    return 3;
-  }
-  
-  public void onAccessibilityStateChanged(boolean paramBoolean)
-  {
-    notifyItemChanged(0);
-  }
-  
-  public void onBackNotHandled(Context paramContext)
-  {
-    if ((this.mList.getSelectedPosition() != 1) && ((this.mState == 0) || (this.mState == 1))) {
-      scrollToAppsRow();
-    }
-    while (this.mOnBackNotHandledListener == null) {
-      return;
-    }
-    this.mOnBackNotHandledListener.onBackNotHandled(paramContext);
-  }
-  
-  public void onBackPressed(Context paramContext)
-  {
-    HomeRow localHomeRow = getSelectedHomeRow();
-    if ((localHomeRow instanceof BackHomeControllerListeners.OnBackPressedListener))
-    {
-      ((BackHomeControllerListeners.OnBackPressedListener)localHomeRow).onBackPressed(paramContext);
-      return;
-    }
-    onBackNotHandled(paramContext);
-  }
-  
-  public void onBindViewHolder(HomeRowViewHolder paramHomeRowViewHolder, int paramInt)
-  {
-    boolean bool2 = true;
-    int i = getItemViewType(paramInt);
-    if (i == 2)
-    {
-      paramHomeRowViewHolder = (WatchNextRowController)paramHomeRowViewHolder.homeRow;
-      paramHomeRowViewHolder.bind(getChannelState(paramInt));
-      this.mActiveWatchNextRowControllers.add(paramHomeRowViewHolder);
-    }
-    do
-    {
-      return;
-      if (i == 1)
-      {
-        ((AppRowController)paramHomeRowViewHolder.homeRow).bind(getChannelState(paramInt));
-        return;
-      }
-      if (i == 4)
-      {
-        ((ConfigureChannelsRowController)paramHomeRowViewHolder.homeRow).bind(this.mState);
-        return;
-      }
-      if (i == 3)
-      {
-        onBindChannel((ChannelRowController)paramHomeRowViewHolder.homeRow, getChannelIndexForAdapterPosition(paramInt), paramInt);
-        return;
-      }
-    } while (i != 0);
-    paramHomeRowViewHolder = (HomeTopRowView)paramHomeRowViewHolder.homeRow.getView();
-    this.mNotificationsTrayAdapters.add(paramHomeRowViewHolder.getNotificationsTrayAdapter());
-    this.mNotificationsPanelControllers.add(paramHomeRowViewHolder.getNotificationsPanelController());
-    paramHomeRowViewHolder.getNotificationsTrayAdapter().changeCursor(this.mNotifTrayCursor);
-    paramHomeRowViewHolder.getNotificationsPanelController().updateNotificationsCount(this.mNotifCountCursor);
-    paramHomeRowViewHolder.updateNotificationsTrayVisibility();
-    boolean bool1;
-    if (this.mState == 1)
-    {
-      bool1 = true;
-      if (this.mSelectedPosition != paramInt) {
-        break label212;
-      }
-    }
-    for (;;)
-    {
-      paramHomeRowViewHolder.setState(bool1, bool2);
-      return;
-      bool1 = false;
-      break;
-      label212:
-      bool2 = false;
-    }
-  }
-  
-  public void onBindViewHolder(HomeRowViewHolder paramHomeRowViewHolder, int paramInt, List<Object> paramList)
-  {
-    boolean bool2 = true;
-    if (paramList.isEmpty()) {
-      onBindViewHolder(paramHomeRowViewHolder, paramInt);
-    }
-    label148:
-    label218:
-    label244:
-    label257:
-    for (;;)
-    {
-      return;
-      int i = getItemViewType(paramInt);
-      Object localObject;
-      if (paramList.contains("PAYLOAD_CHANNEL_ITEM_METADATA"))
-      {
-        if (i == 3) {
-          ((ChannelRowController)paramHomeRowViewHolder.homeRow).bindItemMetadata();
+
+    void onStart() {
+        // ActiveMediaSessionManager.getInstance(this.mContext).start();
+        for (WatchNextRowController controller : this.mActiveWatchNextRowControllers) {
+            controller.onStart();
         }
-      }
-      else if (paramList.contains("PAYLOAD_STATE"))
-      {
-        if (i != 2) {
-          break label148;
+        for (ChannelRowController controller2 : this.mActiveChannelRowControllers) {
+            controller2.onStart();
         }
-        localObject = (WatchNextRowController)paramHomeRowViewHolder.homeRow;
-        ((WatchNextRowController)localObject).setState(getChannelState(paramInt));
-        this.mActiveWatchNextRowControllers.add(localObject);
-      }
-      for (;;)
-      {
-        if ((!paramList.contains("PAYLOAD_CHANNEL_MOVE_ACTION")) || (i != 3)) {
-          break label257;
+        AccessibilityManager manager = (AccessibilityManager) this.mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
+        if (manager != null) {
+            manager.addAccessibilityStateChangeListener(this);
         }
-        ((ChannelRowController)paramHomeRowViewHolder.homeRow).bindChannelMoveAction();
-        return;
-        if (i != 2) {
-          break;
+        if (!this.mStarted) {
+            registerChannelsObserverAndLoadDataIfNeeded();
+            this.mStarted = true;
         }
-        ((WatchNextRowController)paramHomeRowViewHolder.homeRow).bindItemMetadata();
-        break;
-        if (i == 3)
-        {
-          localObject = (ChannelRowController)paramHomeRowViewHolder.homeRow;
-          ((ChannelRowController)localObject).setState(getChannelState(paramInt));
-          this.mActiveChannelRowControllers.add(localObject);
+    }
+
+    void onStop() {
+        // ActiveMediaSessionManager.getInstance(this.mContext).stop();
+        this.mDataManager.unregisterHomeChannelsObserver(this.mChannelsObserver);
+        this.mDataManager.pruneChannelProgramsCache();
+        for (WatchNextRowController controller : this.mActiveWatchNextRowControllers) {
+            controller.onStop();
         }
-        else
-        {
-          if (i == 0)
-          {
-            localObject = (HomeTopRowView)paramHomeRowViewHolder.homeRow.getView();
-            boolean bool1;
-            if (this.mState == 1)
-            {
-              bool1 = true;
-              if (this.mSelectedPosition != paramInt) {
-                break label244;
-              }
+        for (ChannelRowController controller2 : this.mActiveChannelRowControllers) {
+            controller2.onStop();
+        }
+        AccessibilityManager manager = (AccessibilityManager) this.mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
+        if (manager != null) {
+            manager.removeAccessibilityStateChangeListener(this);
+        }
+        this.mStarted = false;
+    }
+
+    void onResume() {
+        this.mWatchNextHandler.postDelayed(this.mRefreshWatchNextOffset, ChunkedTrackBlacklistUtil.DEFAULT_TRACK_BLACKLIST_MS);
+        this.mWatchNextHandler.postDelayed(this.mRequeryWatchNext, 600000);
+        if (this.mDataManager.isHomeChannelDataLoaded()) {
+            this.mEventLogger.log(new LogEventParameters(LogEvents.OPEN_HOME).putParameter(LogEvents.PARAMETER_SHOWN_CHANNEL_COUNT, this.mDataManager.getHomeChannelCount()));
+        }
+    }
+
+    void onPause() {
+        if (this.mLastSelectedProgramController != null) {
+            this.mLastSelectedProgramController.stopPreviewVideo(true);
+        }
+        this.mWatchNextHandler.removeCallbacks(this.mRefreshWatchNextOffset);
+        this.mWatchNextHandler.removeCallbacks(this.mRequeryWatchNext);
+        this.mLastPausedTime = SystemClock.elapsedRealtime();
+    }
+
+    @Nullable
+    private HomeRow getHomeRow(int position) {
+        HomeRowViewHolder holder = (HomeRowViewHolder) this.mList.findViewHolderForAdapterPosition(position);
+        return holder != null ? holder.homeRow : null;
+    }
+
+    @Nullable
+    private HomeRow getSelectedHomeRow() {
+        return getHomeRow(this.mSelectedPosition);
+    }
+
+    private void scrollToAppsRow() {
+        this.mSelectFirstAppWhenRowSelected = true;
+        if (this.mList.getSelectedPosition() > 6) {
+            this.mList.setSelectedPosition(1);
+        } else {
+            this.mList.setSelectedPositionSmooth(1);
+        }
+    }
+
+    public void onAccessibilityStateChanged(boolean enabled) {
+        notifyItemChanged(0);
+    }
+
+    public void onBackPressed(Context c) {
+        HomeRow homeRow = getSelectedHomeRow();
+        if (homeRow instanceof OnBackPressedListener) {
+            ((OnBackPressedListener) homeRow).onBackPressed(c);
+        } else {
+            onBackNotHandled(c);
+        }
+    }
+
+    public void onBackNotHandled(Context c) {
+        if (this.mList.getSelectedPosition() != 1 && (this.mState == 0 || this.mState == 1)) {
+            scrollToAppsRow();
+        } else if (this.mOnBackNotHandledListener != null) {
+            this.mOnBackNotHandledListener.onBackNotHandled(c);
+        }
+    }
+
+    public void onHomePressed(Context c) {
+        if (SystemClock.elapsedRealtime() - this.mLastPausedTime <= 200) {
+            HomeRow homeRow = getSelectedHomeRow();
+            if (homeRow instanceof OnHomePressedListener) {
+                ((OnHomePressedListener) homeRow).onHomePressed(c);
+            } else {
+                onHomeNotHandled(c);
             }
-            for (;;)
-            {
-              ((HomeTopRowView)localObject).setState(bool1, bool2);
-              break;
-              bool1 = false;
-              break label218;
-              bool2 = false;
-            }
-          }
-          onBindViewHolder(paramHomeRowViewHolder, paramInt);
         }
-      }
     }
-  }
-  
-  public HomeRowViewHolder onCreateViewHolder(ViewGroup paramViewGroup, int paramInt)
-  {
-    Object localObject = LayoutInflater.from(paramViewGroup.getContext());
-    if (paramInt == 0)
-    {
-      localObject = (HomeTopRowView)((LayoutInflater)localObject).inflate(2130968624, paramViewGroup, false);
-      ((HomeTopRowView)localObject).setOnActionListener(this);
-      NotificationsPanelController localNotificationsPanelController = new NotificationsPanelController(paramViewGroup.getContext(), this.mEventLogger);
-      ((HomeTopRowView)localObject).setNotificationsTrayAdapter(new NotificationsTrayAdapter(paramViewGroup.getContext(), this.mEventLogger, this.mNotifTrayCursor));
-      ((HomeTopRowView)localObject).setNotificationsPanelController(localNotificationsPanelController);
-      return new HomeRowViewHolder((HomeRow)localObject);
+
+    public void onHomeNotHandled(Context c) {
+        if (this.mList.getSelectedPosition() == 1) {
+            return;
+        }
+        if (this.mState == 0 || this.mState == 1) {
+            scrollToAppsRow();
+        }
     }
-    if (paramInt == 1)
-    {
-      paramViewGroup = ((LayoutInflater)localObject).inflate(2130968621, paramViewGroup, false);
-      paramViewGroup.setId(2131951620);
-      paramViewGroup = new AppRowController((ChannelView)paramViewGroup, this.mEventLogger);
-      paramViewGroup.setOnBackNotHandledListener(this);
-      paramViewGroup.setOnHomeNotHandledListener(this);
-      return new HomeRowViewHolder(paramViewGroup);
+
+    void updateNotifications(Cursor cursor) {
+        this.mNotifTrayCursor = cursor;
+        for (NotificationsTrayAdapter adapter : this.mNotificationsTrayAdapters) {
+            adapter.changeCursor(cursor);
+        }
+        notifyItemChanged(0);
     }
-    if (paramInt == 2)
-    {
-      paramViewGroup = new WatchNextRowController((ChannelView)((LayoutInflater)localObject).inflate(2130968621, paramViewGroup, false), this.mEventLogger);
-      paramViewGroup.setOnProgramSelectedListener(this.mOnProgramSelectedListener);
-      paramViewGroup.setOnBackNotHandledListener(this);
-      paramViewGroup.setOnHomeNotHandledListener(this);
-      return new HomeRowViewHolder(paramViewGroup);
+
+    void updatePanelNotifsCount(Cursor cursor) {
+        this.mNotifCountCursor = cursor;
+        notifyItemChanged(0);
     }
-    if (paramInt == 4) {
-      return new HomeRowViewHolder(new ConfigureChannelsRowController(((LayoutInflater)localObject).inflate(2130968622, paramViewGroup, false)));
+
+    void setChannelLogoRequestManager(RequestManager requestManager) {
+        this.mChannelLogoRequestManager = requestManager;
+        this.mChannelLogoRequestManager.setDefaultRequestOptions((RequestOptions) new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
     }
-    paramViewGroup = new ChannelRowController((ChannelView)((LayoutInflater)localObject).inflate(2130968621, paramViewGroup, false), this.mChannelLogoRequestManager, this.mEventLogger);
-    paramViewGroup.setOnProgramSelectedListener(this.mOnProgramSelectedListener);
-    paramViewGroup.setOnBackNotHandledListener(this);
-    paramViewGroup.setOnHomeNotHandledListener(this);
-    return new HomeRowViewHolder(paramViewGroup);
-  }
-  
-  public void onHomeNotHandled(Context paramContext)
-  {
-    if ((this.mList.getSelectedPosition() != 1) && ((this.mState == 0) || (this.mState == 1))) {
-      scrollToAppsRow();
+
+    private int getNumberOfRowsAboveChannels() {
+        return this.mWatchNextVisible ? 3 : 2;
     }
-  }
-  
-  public void onHomePressed(Context paramContext)
-  {
-    if (SystemClock.elapsedRealtime() - this.mLastPausedTime > 200L) {
-      return;
+
+    private void setState(int state) {
+        if (Util.isAccessibilityEnabled(this.mContext)) {
+            switch (state) {
+                case 1:
+                case 2:
+                case 3:
+                    state = 0;
+                    break;
+            }
+        }
+        if (this.mState != state) {
+            switch (this.mState) {
+                case 1:
+                    this.mEventLogger.log(new UserActionEvent(LogEvents.EXIT_ZOOMED_OUT_MODE));
+                    break;
+                case 2:
+                    this.mEventLogger.log(new UserActionEvent(LogEvents.EXIT_CHANNEL_ACTIONS_MODE));
+                    break;
+                case 3:
+                    this.mEventLogger.log(new UserActionEvent(LogEvents.EXIT_MOVE_CHANNEL_MODE));
+                    break;
+            }
+            this.mState = state;
+            switch (this.mState) {
+                case 0:
+                    this.mList.setWindowAlignmentOffset(this.mDefaultChannelKeyline);
+                    break;
+                case 1:
+                    this.mList.setWindowAlignmentOffset(this.mZoomedOutChannelKeyline);
+                    this.mEventLogger.log(new UserActionEvent(LogEvents.ENTER_ZOOMED_OUT_MODE));
+                    break;
+                case 2:
+                    this.mList.setWindowAlignmentOffset(this.mZoomedOutChannelKeyline);
+                    this.mEventLogger.log(new UserActionEvent(LogEvents.ENTER_CHANNEL_ACTIONS_MODE));
+                    break;
+                case 3:
+                    this.mList.setWindowAlignmentOffset(this.mZoomedOutChannelKeyline);
+                    this.mEventLogger.log(new UserActionEvent(LogEvents.ENTER_MOVE_CHANNEL_MODE));
+                    break;
+            }
+            notifyItemRangeChanged(0, getItemCount(), PAYLOAD_STATE);
+        }
     }
-    HomeRow localHomeRow = getSelectedHomeRow();
-    if ((localHomeRow instanceof BackHomeControllerListeners.OnHomePressedListener))
-    {
-      ((BackHomeControllerListeners.OnHomePressedListener)localHomeRow).onHomePressed(paramContext);
-      return;
+
+    private void setSelectedPosition(int selectedPosition) {
+        if (this.mSelectedPosition != selectedPosition) {
+            if (this.mState == 0 || this.mState == 1) {
+                this.mPrevSelectedPositions.add(Integer.valueOf(this.mSelectedPosition));
+                this.mHandler.post(this.mNotifySelectionChangedRunnable);
+            }
+            this.mSelectedPosition = selectedPosition;
+            if (this.mSelectedPosition > 1 || this.mBackgroundController == null) {
+                this.mHandler.removeCallbacks(this.mUpdateBackgroundForTopRowsAfterDelayRunnable);
+            } else {
+                this.mHandler.postDelayed(this.mUpdateBackgroundForTopRowsAfterDelayRunnable, 2000);
+            }
+        }
+        if (!this.mSelectFirstAppWhenRowSelected || selectedPosition != 1) {
+            return;
+        }
+        if (Util.isAccessibilityEnabled(this.mContext)) {
+            this.mHandler.postDelayed(this.mSelectFirstAppRunnable, 50);
+        } else {
+            this.mSelectFirstAppRunnable.run();
+        }
     }
-    onHomeNotHandled(paramContext);
-  }
-  
-  void onPause()
-  {
-    if (this.mLastSelectedProgramController != null) {
-      this.mLastSelectedProgramController.stopPreviewVideo(true);
+
+    private void onItemRemoved(int position) {
+        if (this.mWatchNextVisible && position == 2) {
+            this.mWatchNextVisible = false;
+            this.mContext.getSharedPreferences(TvDataManager.WATCH_NEXT_PREF_FILE_NAME, 0).edit().putBoolean(TvDataManager.SHOW_WATCH_NEXT_ROW_KEY, false).apply();
+        }
+        if (position == getItemCount() - 1) {
+            this.mSelectedPosition = position - 1;
+        }
+        if (!Util.isAccessibilityEnabled(this.mContext)) {
+            this.mState = 1;
+        }
+        notifyDataSetChanged();
     }
-    this.mWatchNextHandler.removeCallbacks(this.mRefreshWatchNextOffset);
-    this.mWatchNextHandler.removeCallbacks(this.mRequeryWatchNext);
-    this.mLastPausedTime = SystemClock.elapsedRealtime();
-  }
-  
-  void onResume()
-  {
-    this.mWatchNextHandler.postDelayed(this.mRefreshWatchNextOffset, 60000L);
-    this.mWatchNextHandler.postDelayed(this.mRequeryWatchNext, 600000L);
-    if (this.mDataManager.isHomeChannelDataLoaded()) {
-      this.mEventLogger.log(new LogEventParameters("open_home").putParameter("shown_channel_count", this.mDataManager.getHomeChannelCount()));
+
+    private int getAdapterPositionForChannelIndex(int channelIndex) {
+        return getNumberOfRowsAboveChannels() + channelIndex;
     }
-  }
-  
-  public void onShowInputs()
-  {
-    try
-    {
-      Intent localIntent = new Intent("com.google.android.tvlauncher.INPUTS");
-      this.mContext.startActivity(localIntent);
-      return;
+
+    private int getChannelIndexForAdapterPosition(int position) {
+        return position - getNumberOfRowsAboveChannels();
     }
-    catch (ActivityNotFoundException localActivityNotFoundException)
-    {
-      Log.e("HomeController", "InputsPanelActivity not found :  " + localActivityNotFoundException);
+
+    public int getItemCount() {
+        return (getChannelCount() + getNumberOfRowsAboveChannels()) + 1;
     }
-  }
-  
-  void onStart()
-  {
-    ActiveMediaSessionManager.getInstance(this.mContext).start();
-    Object localObject = this.mActiveWatchNextRowControllers.iterator();
-    while (((Iterator)localObject).hasNext()) {
-      ((WatchNextRowController)((Iterator)localObject).next()).onStart();
+
+    public long getItemId(int position) {
+        switch (getItemViewType(position)) {
+            case 0:
+                return -2;
+            case 1:
+                return -3;
+            case 2:
+                return -4;
+            case 3:
+                return this.mDataManager.getHomeChannel(getChannelIndexForAdapterPosition(position)).getId();
+            case 4:
+                return -5;
+            default:
+                return super.getItemId(position);
+        }
     }
-    localObject = this.mActiveChannelRowControllers.iterator();
-    while (((Iterator)localObject).hasNext()) {
-      ((ChannelRowController)((Iterator)localObject).next()).onStart();
+
+    public int getItemViewType(int position) {
+        if (position == getItemCount() - 1) {
+            return 4;
+        }
+        if (position == 0) {
+            return 0;
+        }
+        if (position == 1) {
+            return 1;
+        }
+        if (position == 2 && this.mWatchNextVisible) {
+            return 2;
+        }
+        return 3;
     }
-    localObject = (AccessibilityManager)this.mContext.getSystemService("accessibility");
-    if (localObject != null) {
-      ((AccessibilityManager)localObject).addAccessibilityStateChangeListener(this);
+
+    public HomeRowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == 0) {
+            HomeTopRowView v = (HomeTopRowView) inflater.inflate(R.layout.home_top_row, parent, false);
+            v.setOnActionListener(this);
+            NotificationsPanelController controller = new NotificationsPanelController(parent.getContext(), this.mEventLogger);
+            v.setNotificationsTrayAdapter(new NotificationsTrayAdapter(parent.getContext(), this.mEventLogger, this.mNotifTrayCursor));
+            v.setNotificationsPanelController(controller);
+            return new HomeRowViewHolder(v);
+        } else if (viewType == 1) {
+            View v2 = inflater.inflate(R.layout.home_channel_row, parent, false);
+            v2.setId(R.id.apps_row);
+            AppRowController controller2 = new AppRowController((ChannelView) v2, this.mEventLogger);
+            controller2.setOnBackNotHandledListener(this);
+            controller2.setOnHomeNotHandledListener(this);
+            return new HomeRowViewHolder(controller2);
+        } else if (viewType == 2) {
+            WatchNextRowController controller3 = new WatchNextRowController((ChannelView) inflater.inflate(R.layout.home_channel_row, parent, false), this.mEventLogger);
+            controller3.setOnProgramSelectedListener(this.mOnProgramSelectedListener);
+            controller3.setOnBackNotHandledListener(this);
+            controller3.setOnHomeNotHandledListener(this);
+            return new HomeRowViewHolder(controller3);
+        } else if (viewType == 4) {
+            return new HomeRowViewHolder(new ConfigureChannelsRowController(inflater.inflate(R.layout.home_configure_channels_row, parent, false)));
+        } else {
+            ChannelRowController controller4 = new ChannelRowController((ChannelView) inflater.inflate(R.layout.home_channel_row, parent, false), this.mChannelLogoRequestManager, this.mEventLogger);
+            controller4.setOnProgramSelectedListener(this.mOnProgramSelectedListener);
+            controller4.setOnBackNotHandledListener(this);
+            controller4.setOnHomeNotHandledListener(this);
+            return new HomeRowViewHolder(controller4);
+        }
     }
-    if (!this.mStarted)
-    {
-      registerChannelsObserverAndLoadDataIfNeeded();
-      this.mStarted = true;
+
+    public void onBindViewHolder(HomeRowViewHolder holder, int position, List<Object> payloads) {
+        boolean z = true;
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+            return;
+        }
+        int rowType = getItemViewType(position);
+
+
+        if (payloads.contains(PAYLOAD_STATE)) {
+            if (rowType == 2 && holder.homeRow instanceof WatchNextRowController) {
+                WatchNextRowController controller = (WatchNextRowController) holder.homeRow;
+
+                if (payloads.contains(PAYLOAD_CHANNEL_ITEM_METADATA)) {
+                    controller.bindItemMetadata();
+                }
+                controller.setState(getChannelState(position));
+                this.mActiveWatchNextRowControllers.add(controller);
+
+            } else if (rowType == 3 && holder.homeRow instanceof ChannelRowController) {
+                ChannelRowController controller = (ChannelRowController) holder.homeRow;
+
+                if (payloads.contains(PAYLOAD_CHANNEL_ITEM_METADATA)) {
+                    controller.bindItemMetadata();
+                }
+
+                controller.setState(getChannelState(position));
+                this.mActiveChannelRowControllers.add(controller);
+            } else if (rowType == 0) {
+                HomeTopRowView v = (HomeTopRowView) holder.homeRow.getView();
+                boolean z2 = this.mState == 1;
+                if (this.mSelectedPosition != position) {
+                    z = false;
+                }
+                v.setState(z2, z);
+            } else {
+                onBindViewHolder(holder, position);
+            }
+        }
+        if (payloads.contains(PAYLOAD_CHANNEL_MOVE_ACTION) && rowType == 3 && holder.homeRow instanceof ChannelRowController) {
+            ChannelRowController controller = (ChannelRowController) holder.homeRow;
+
+            controller.bindChannelMoveAction();
+        }
     }
-  }
-  
-  public void onStartSettings()
-  {
-    this.mEventLogger.log(new UserActionEvent("start_settings"));
-    try
-    {
-      this.mContext.startActivity(new Intent("android.settings.SETTINGS"));
-      return;
+
+    public void onBindViewHolder(HomeRowViewHolder viewHolder, int position) {
+        boolean z = true;
+        int rowType = getItemViewType(position);
+        if (rowType == ROW_TYPE_WATCH_NEXT_POSITION && viewHolder.homeRow instanceof WatchNextRowController) {
+            WatchNextRowController controller = (WatchNextRowController) viewHolder.homeRow;
+            controller.bind(getChannelState(position));
+            this.mActiveWatchNextRowControllers.add(controller);
+        } else if (rowType == ROW_TYPE_APPS && viewHolder.homeRow instanceof AppRowController) {
+            AppRowController controller = (AppRowController) viewHolder.homeRow;
+            controller.bind(getChannelState(position));
+        } else if (rowType == ROW_TYPE_CONFIGURE_CHANNELS && viewHolder.homeRow instanceof ConfigureChannelsRowController) {
+            ConfigureChannelsRowController controller = (ConfigureChannelsRowController) viewHolder.homeRow;
+            controller.bind(this.mState);
+        } else if (rowType == ROW_TYPE_CHANNEL && viewHolder.homeRow instanceof ChannelRowController) {
+            onBindChannel((ChannelRowController) viewHolder.homeRow, getChannelIndexForAdapterPosition(position), position);
+        } else if (rowType == 0) {
+            HomeTopRowView v = (HomeTopRowView) viewHolder.homeRow.getView();
+            this.mNotificationsTrayAdapters.add(v.getNotificationsTrayAdapter());
+            this.mNotificationsPanelControllers.add(v.getNotificationsPanelController());
+            v.getNotificationsTrayAdapter().changeCursor(this.mNotifTrayCursor);
+            v.getNotificationsPanelController().updateNotificationsCount(this.mNotifCountCursor);
+            v.updateNotificationsTrayVisibility();
+            boolean z2 = this.mState == 1;
+            if (this.mSelectedPosition != position) {
+                z = false;
+            }
+            v.setState(z2, z);
+        }
     }
-    catch (ActivityNotFoundException localActivityNotFoundException)
-    {
-      Log.e("HomeController", "Exception starting settings", localActivityNotFoundException);
-      Toast.makeText(this.mContext, this.mContext.getString(R.string.app_unavailable), 0).show();
+
+    private void onBindChannel(ChannelRowController controller, int channelIndex, int position) {
+        boolean z;
+        boolean z2 = true;
+        HomeChannel channel = this.mDataManager.getHomeChannel(channelIndex);
+        int channelState = getChannelState(position);
+        if (this.mAddToWatchNextPackagesBlacklist.contains(channel.getPackageName())) {
+            z = false;
+        } else {
+            z = true;
+        }
+        if (this.mRemoveProgramPackagesBlacklist.contains(channel.getPackageName())) {
+            z2 = false;
+        }
+        controller.bindChannel(channel, channelState, z, z2);
+        this.mActiveChannelRowControllers.add(controller);
     }
-  }
-  
-  void onStop()
-  {
-    ActiveMediaSessionManager.getInstance(this.mContext).stop();
-    this.mDataManager.unregisterHomeChannelsObserver(this.mChannelsObserver);
-    this.mDataManager.pruneChannelProgramsCache();
-    Object localObject = this.mActiveWatchNextRowControllers.iterator();
-    while (((Iterator)localObject).hasNext()) {
-      ((WatchNextRowController)((Iterator)localObject).next()).onStop();
+
+    private int getChannelState(int position) {
+        boolean rowSelected = this.mSelectedPosition == position;
+        switch (this.mState) {
+            case 0:
+                if (rowSelected) {
+                    return 0;
+                }
+                if (position == this.mSelectedPosition - 1) {
+                    return 2;
+                }
+                if (position != this.mSelectedPosition + 1 || position <= 2) {
+                    return 1;
+                }
+                return 3;
+            case 1:
+                return rowSelected ? 4 : 5;
+            case 2:
+                return rowSelected ? 6 : 7;
+            case 3:
+                return rowSelected ? 8 : 9;
+            default:
+                return 1;
+        }
     }
-    localObject = this.mActiveChannelRowControllers.iterator();
-    while (((Iterator)localObject).hasNext()) {
-      ((ChannelRowController)((Iterator)localObject).next()).onStop();
+
+    public void onViewRecycled(HomeRowViewHolder holder) {
+        super.onViewRecycled(holder);
+        if (holder.homeRow instanceof ChannelRowController) {
+            ChannelRowController channelRowController = (ChannelRowController) holder.homeRow;
+            channelRowController.recycle();
+            this.mActiveChannelRowControllers.remove(channelRowController);
+        } else if (holder.homeRow instanceof WatchNextRowController) {
+            WatchNextRowController watchNextRowController = (WatchNextRowController) holder.homeRow;
+            watchNextRowController.recycle();
+            this.mActiveWatchNextRowControllers.remove(watchNextRowController);
+        } else if (holder.homeRow instanceof HomeTopRowView) {
+            HomeTopRowView homeTopRowView = (HomeTopRowView) holder.homeRow;
+            NotificationsPanelController controller = homeTopRowView.getNotificationsPanelController();
+            NotificationsTrayAdapter adapter = homeTopRowView.getNotificationsTrayAdapter();
+            adapter.changeCursor(null);
+            this.mNotificationsPanelControllers.remove(controller);
+            this.mNotificationsTrayAdapters.remove(adapter);
+        }
     }
-    localObject = (AccessibilityManager)this.mContext.getSystemService("accessibility");
-    if (localObject != null) {
-      ((AccessibilityManager)localObject).removeAccessibilityStateChangeListener(this);
+
+    public FacetProvider getFacetProvider(int type) {
+        if (type == 4) {
+            return this.mConfigureChannelsRowAlignmentFacetProvider;
+        }
+        return null;
     }
-    this.mStarted = false;
-  }
-  
-  public void onViewRecycled(HomeRowViewHolder paramHomeRowViewHolder)
-  {
-    super.onViewRecycled(paramHomeRowViewHolder);
-    if ((paramHomeRowViewHolder.homeRow instanceof ChannelRowController))
-    {
-      paramHomeRowViewHolder = (ChannelRowController)paramHomeRowViewHolder.homeRow;
-      paramHomeRowViewHolder.recycle();
-      this.mActiveChannelRowControllers.remove(paramHomeRowViewHolder);
+
+    public void onShowInputs() {
+        try {
+            this.mContext.startActivity(new Intent(INPUTS_PANEL_INTENT_ACTION));
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, "InputsPanelActivity not found :  " + e);
+        }
     }
-    do
-    {
-      return;
-      if ((paramHomeRowViewHolder.homeRow instanceof WatchNextRowController))
-      {
-        paramHomeRowViewHolder = (WatchNextRowController)paramHomeRowViewHolder.homeRow;
-        paramHomeRowViewHolder.recycle();
-        this.mActiveWatchNextRowControllers.remove(paramHomeRowViewHolder);
-        return;
-      }
-    } while (!(paramHomeRowViewHolder.homeRow instanceof HomeTopRowView));
-    Object localObject = (HomeTopRowView)paramHomeRowViewHolder.homeRow;
-    paramHomeRowViewHolder = ((HomeTopRowView)localObject).getNotificationsPanelController();
-    localObject = ((HomeTopRowView)localObject).getNotificationsTrayAdapter();
-    ((NotificationsTrayAdapter)localObject).changeCursor(null);
-    this.mNotificationsPanelControllers.remove(paramHomeRowViewHolder);
-    this.mNotificationsTrayAdapters.remove(localObject);
-  }
-  
-  void setBackgroundController(HomeBackgroundController paramHomeBackgroundController)
-  {
-    this.mBackgroundController = paramHomeBackgroundController;
-  }
-  
-  void setChannelLogoRequestManager(RequestManager paramRequestManager)
-  {
-    this.mChannelLogoRequestManager = paramRequestManager;
-    this.mChannelLogoRequestManager.setDefaultRequestOptions((RequestOptions)new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
-  }
-  
-  public void setList(VerticalGridView paramVerticalGridView)
-  {
-    this.mList = paramVerticalGridView;
-    this.mList.getLayoutManager().setItemPrefetchEnabled(false);
-    this.mList.setItemAlignmentViewId(2131951810);
-    this.mList.setWindowAlignment(1);
-    this.mList.setWindowAlignmentOffsetPercent(0.0F);
-    this.mList.setWindowAlignmentOffset(this.mDefaultChannelKeyline);
-    this.mList.setSelectedPosition(this.mSelectedPosition);
-    this.mList.setItemAnimator(null);
-  }
-  
-  void setOnBackNotHandledListener(BackHomeControllerListeners.OnBackNotHandledListener paramOnBackNotHandledListener)
-  {
-    this.mOnBackNotHandledListener = paramOnBackNotHandledListener;
-  }
-  
-  void updateNotifications(Cursor paramCursor)
-  {
-    this.mNotifTrayCursor = paramCursor;
-    Iterator localIterator = this.mNotificationsTrayAdapters.iterator();
-    while (localIterator.hasNext()) {
-      ((NotificationsTrayAdapter)localIterator.next()).changeCursor(paramCursor);
+
+    public void onStartSettings() {
+        this.mEventLogger.log(new UserActionEvent(LogEvents.START_SETTINGS));
+        try {
+            this.mContext.startActivity(new Intent("android.settings.SETTINGS"));
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, "Exception starting settings", e);
+            Toast.makeText(this.mContext, this.mContext.getString(R.string.app_unavailable), Toast.LENGTH_SHORT).show();
+        }
     }
-    notifyItemChanged(0);
-  }
-  
-  void updatePanelNotifsCount(Cursor paramCursor)
-  {
-    this.mNotifCountCursor = paramCursor;
-    notifyItemChanged(0);
-  }
-  
-  class HomeRowViewHolder
-    extends RecyclerView.ViewHolder
-    implements OnHomeStateChangeListener, OnHomeRowSelectedListener, OnHomeRowRemovedListener
-  {
-    HomeRow homeRow;
-    
-    HomeRowViewHolder(HomeRow paramHomeRow)
-    {
-      super();
-      this.homeRow = paramHomeRow;
-      paramHomeRow.setOnHomeStateChangeListener(this);
-      paramHomeRow.setOnHomeRowSelectedListener(this);
-      paramHomeRow.setOnHomeRowRemovedListener(this);
-    }
-    
-    public void onHomeRowRemoved(HomeRow paramHomeRow)
-    {
-      HomeController.this.onItemRemoved(getAdapterPosition());
-    }
-    
-    public void onHomeRowSelected(HomeRow paramHomeRow)
-    {
-      int i = getAdapterPosition();
-      HomeController.this.setSelectedPosition(i);
-    }
-    
-    public void onHomeStateChange(int paramInt)
-    {
-      HomeController.this.setState(paramInt);
-    }
-  }
-  
-  @Retention(RetentionPolicy.SOURCE)
-  static @interface RowType {}
-  
-  @Retention(RetentionPolicy.SOURCE)
-  public static @interface State {}
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/HomeController.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

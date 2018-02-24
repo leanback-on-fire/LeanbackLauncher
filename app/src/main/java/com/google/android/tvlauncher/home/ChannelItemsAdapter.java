@@ -1,12 +1,12 @@
 package com.google.android.tvlauncher.home;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Outline;
 import android.support.v17.leanback.widget.FacetProvider;
 import android.support.v17.leanback.widget.ItemAlignmentFacet;
 import android.support.v17.leanback.widget.ItemAlignmentFacet.ItemAlignmentDef;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -18,8 +18,11 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.tvlauncher.R;
 import com.google.android.tvlauncher.analytics.EventLogger;
 import com.google.android.tvlauncher.analytics.LogEvent;
+import com.google.android.tvlauncher.analytics.LogEvents;
 import com.google.android.tvlauncher.data.ChannelProgramsObserver;
 import com.google.android.tvlauncher.data.TvDataManager;
 import com.google.android.tvlauncher.home.util.ProgramSettings;
@@ -27,511 +30,418 @@ import com.google.android.tvlauncher.home.util.ProgramUtil;
 import com.google.android.tvlauncher.model.Program;
 import com.google.android.tvlauncher.util.ColorUtils;
 import com.google.android.tvlauncher.util.ScaleFocusHandler;
+
 import java.util.List;
 
-class ChannelItemsAdapter
-  extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-{
-  private static final boolean DEBUG = false;
-  private static final int EMPTY_CHANNEL_PROGRAM_ID = -3;
-  private static final float LAST_PROGRAM_FOCUSED_COLOR_DARKEN_FACTOR = 0.8F;
-  private static final int LAST_PROGRAM_ID = -2;
-  private static final int NO_CHANNEL_ID = -1;
-  private static final String PAYLOAD_STATE = "PAYLOAD_STATE";
-  private static final String TAG = "ChannelItemsAdapter";
-  private static final int TYPE_EMPTY_CHANNEL_PROGRAM = 2;
-  private static final int TYPE_LAST_PROGRAM = 1;
-  private static final int TYPE_PROGRAM = 0;
-  private boolean mCanAddToWatchNext;
-  private boolean mCanRemoveProgram;
-  private long mChannelId = -1L;
-  private Bitmap mChannelLogo;
-  private final TvDataManager mDataManager;
-  private final EventLogger mEventLogger;
-  private boolean mIsLegacy;
-  private int mLastProgramFocusedColor;
-  private OnPerformLastProgramActionListener mOnPerformLastProgramActionListener;
-  private OnProgramSelectedListener mOnProgramSelectedListener;
-  private String mPackageName;
-  private int mPrimaryColor;
-  private int mProgramState = 0;
-  private final ChannelProgramsObserver mProgramsObserver = new ChannelProgramsObserver()
-  {
-    public void onProgramsChange(long paramAnonymousLong)
-    {
-      ChannelItemsAdapter.this.notifyDataSetChanged();
+class ChannelItemsAdapter extends Adapter<ViewHolder> {
+    private static final boolean DEBUG = false;
+    private static final int EMPTY_CHANNEL_PROGRAM_ID = -3;
+    private static final float LAST_PROGRAM_FOCUSED_COLOR_DARKEN_FACTOR = 0.8f;
+    private static final int LAST_PROGRAM_ID = -2;
+    private static final int NO_CHANNEL_ID = -1;
+    private static final String PAYLOAD_STATE = "PAYLOAD_STATE";
+    private static final String TAG = "ChannelItemsAdapter";
+    private static final int TYPE_EMPTY_CHANNEL_PROGRAM = 2;
+    private static final int TYPE_LAST_PROGRAM = 1;
+    private static final int TYPE_PROGRAM = 0;
+    private boolean mCanAddToWatchNext;
+    private boolean mCanRemoveProgram;
+    private long mChannelId = -1;
+    private Bitmap mChannelLogo;
+    private final TvDataManager mDataManager;
+    private final EventLogger mEventLogger;
+    private boolean mIsLegacy;
+    private int mLastProgramFocusedColor;
+    private OnPerformLastProgramActionListener mOnPerformLastProgramActionListener;
+    private OnProgramSelectedListener mOnProgramSelectedListener;
+    private String mPackageName;
+    private int mPrimaryColor;
+    private int mProgramState = 0;
+    private final ChannelProgramsObserver mProgramsObserver = new ChannelProgramsObserver() {
+        public void onProgramsChange(long channelId) {
+            ChannelItemsAdapter.this.notifyDataSetChanged();
+        }
+    };
+    private boolean mStarted;
+
+    private class BaseSpecialProgramViewHolder extends ViewHolder {
+        final ProgramSettings mProgramSettings;
+
+        private final ScaleFocusHandler mFocusHandler;
+
+        protected void handleFocusChange(View v, boolean hasFocus) {
+            if (ChannelItemsAdapter.this.mOnProgramSelectedListener != null && hasFocus && getAdapterPosition() != -1) {
+                ChannelItemsAdapter.this.mOnProgramSelectedListener.onProgramSelected(null, null);
+            }
+        }
+
+        BaseSpecialProgramViewHolder(View v) {
+            super(v);
+            this.mProgramSettings = ProgramUtil.getProgramSettings(v.getContext());
+            this.mFocusHandler = new ScaleFocusHandler(this.mProgramSettings.focusedAnimationDuration, this.mProgramSettings.focusedScale, this.mProgramSettings.focusedElevation, 1);
+            this.mFocusHandler.setView(v);
+            this.mFocusHandler.setOnFocusChangeListener(new OnFocusChangeListener() {
+                public void onFocusChange(View v, boolean hasFocus) {
+                    BaseSpecialProgramViewHolder.this.handleFocusChange(v, hasFocus);
+                }
+            });
+            v.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    if (ChannelItemsAdapter.this.mOnPerformLastProgramActionListener != null) {
+                        ChannelItemsAdapter.this.mOnPerformLastProgramActionListener.onPerformLastProgramAction();
+                    }
+                }
+            });
+        }
+
+        void bind() {
+            bindState();
+            this.mFocusHandler.resetFocusedState();
+        }
+
+        void bindState() {
+            ProgramUtil.updateSize(this.itemView, ChannelItemsAdapter.this.mProgramState, ProgramUtil.ASPECT_RATIO_16_9, this.mProgramSettings);
+        }
+
+        void setRoundedCornerClipOutline(View v) {
+            v.setOutlineProvider(new ViewOutlineProvider() {
+                public void getOutline(View view, Outline outline) {
+                    outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), (float) view.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
+                }
+            });
+            v.setClipToOutline(true);
+        }
     }
-  };
-  private boolean mStarted;
-  
-  ChannelItemsAdapter(Context paramContext, EventLogger paramEventLogger)
-  {
-    this.mDataManager = TvDataManager.getInstance(paramContext);
-    this.mEventLogger = paramEventLogger;
-    setHasStableIds(true);
-  }
-  
-  private boolean registerObserverAndUpdateDataIfNeeded()
-  {
-    this.mDataManager.registerChannelProgramsObserver(this.mChannelId, this.mProgramsObserver);
-    if ((this.mDataManager.isProgramDataLoaded(this.mChannelId)) && (!this.mDataManager.isProgramDataStale(this.mChannelId))) {
-      return false;
+
+    private class ProgramViewHolder extends ViewHolder implements OnProgramViewFocusedListener, EventLogger {
+        private final EventLogger mEventLogger;
+        final ProgramController mProgramController;
+
+        ProgramViewHolder(View v, EventLogger eventLogger) {
+            super(v);
+            this.mEventLogger = eventLogger;
+            this.mProgramController = new ProgramController(v, this);
+            this.mProgramController.setOnProgramViewFocusedListener(this);
+            this.mProgramController.setIsWatchNextProgram(false);
+        }
+
+        public void onProgramViewFocused() {
+            if (ChannelItemsAdapter.this.mOnProgramSelectedListener != null) {
+                int position = getAdapterPosition();
+                if (position != -1) {
+                    ChannelItemsAdapter.this.mOnProgramSelectedListener.onProgramSelected(ChannelItemsAdapter.this.mDataManager.getProgram(ChannelItemsAdapter.this.mChannelId, position), this.mProgramController);
+                }
+            }
+        }
+
+        public void log(LogEvent event) {
+            event.putParameter(LogEvents.PARAMETER_INDEX, getAdapterPosition()).putParameter("count", ChannelItemsAdapter.this.getItemCount());
+            this.mEventLogger.log(event);
+        }
+
+        ProgramController getProgramController() {
+            return this.mProgramController;
+        }
+
+        void bind(Program program) {
+            this.mProgramController.bind(program, ChannelItemsAdapter.this.mPackageName, ChannelItemsAdapter.this.mProgramState, ChannelItemsAdapter.this.mCanAddToWatchNext, ChannelItemsAdapter.this.mCanRemoveProgram, ChannelItemsAdapter.this.mIsLegacy);
+            if (ChannelItemsAdapter.this.mOnProgramSelectedListener != null && this.mProgramController.isViewFocused()) {
+                ChannelItemsAdapter.this.mOnProgramSelectedListener.onProgramSelected(program, this.mProgramController);
+            }
+        }
     }
-    this.mDataManager.loadProgramData(this.mChannelId);
-    return true;
-  }
-  
-  void bind(long paramLong, String paramString, int paramInt, boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3)
-  {
-    this.mPackageName = paramString;
-    this.mCanAddToWatchNext = paramBoolean1;
-    this.mCanRemoveProgram = paramBoolean2;
-    this.mIsLegacy = paramBoolean3;
-    int i = this.mProgramState;
-    this.mProgramState = paramInt;
-    if (paramLong != this.mChannelId)
-    {
-      if (this.mChannelId != -1L) {
-        this.mDataManager.unregisterChannelProgramsObserver(this.mChannelId, this.mProgramsObserver);
-      }
-      this.mChannelId = paramLong;
-      if (this.mChannelId != -1L)
-      {
-        if (!registerObserverAndUpdateDataIfNeeded()) {
-          notifyDataSetChanged();
+
+    private class EmptyChannelProgramViewHolder extends BaseSpecialProgramViewHolder {
+        private static final float DARKEN_FACTOR_BOTTOM_LAYER = 0.269f;
+        private static final float DARKEN_FACTOR_MIDDLE_LAYER = 0.376f;
+        private final View mBottomLayer;
+        private final int mIconSize;
+        private final View mMiddleLayer;
+        private final ImageView mTopLayer;
+        private final int mTopLayerMarginEnd;
+
+        EmptyChannelProgramViewHolder(View v) {
+            super(v);
+            this.mIconSize = v.getResources().getDimensionPixelSize(R.dimen.empty_channel_program_channel_logo_size);
+            this.mTopLayerMarginEnd = v.getResources().getDimensionPixelSize(R.dimen.empty_channel_program_top_layer_margin_end);
+            this.mBottomLayer = v.findViewById(R.id.bottom_layer);
+            this.mMiddleLayer = v.findViewById(R.id.middle_layer);
+            this.mTopLayer = (ImageView) v.findViewById(R.id.top_layer);
+            setRoundedCornerClipOutline(this.mBottomLayer);
+            setRoundedCornerClipOutline(this.mMiddleLayer);
+            setRoundedCornerClipOutline(this.mTopLayer);
+            v.setOutlineProvider(new ViewOutlineProvider() {
+                public void getOutline(View view, Outline outline) {
+                    // todo check
+                    if (view.getLayoutDirection() == View.LAYOUT_DIRECTION_LTR) {
+                        outline.setRoundRect(0, 0, view.getWidth() - EmptyChannelProgramViewHolder.this.mTopLayerMarginEnd, view.getHeight(), (float) view.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
+                        return;
+                    }
+                    outline.setRoundRect(EmptyChannelProgramViewHolder.this.mTopLayerMarginEnd, 0, view.getWidth(), view.getHeight(), (float) view.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
+                }
+            });
+        }
+
+        void bind() {
+            updateLogoAndColor();
+            super.bind();
+        }
+
+        void bindState() {
+            MarginLayoutParams topLayerLayoutParams = (MarginLayoutParams) this.mTopLayer.getLayoutParams();
+            MarginLayoutParams containerLayoutParams = (MarginLayoutParams) this.itemView.getLayoutParams();
+            switch (ChannelItemsAdapter.this.mProgramState) {
+                case 0:
+                    topLayerLayoutParams.height = this.mProgramSettings.defaultHeight;
+                    containerLayoutParams.setMargins(0, this.mProgramSettings.defaultTopMargin, 0, this.mProgramSettings.defaultBottomMargin);
+                    containerLayoutParams.setMarginEnd(this.mProgramSettings.defaultHorizontalMargin);
+                    break;
+                case 1:
+                    topLayerLayoutParams.height = this.mProgramSettings.selectedHeight;
+                    containerLayoutParams.setMargins(0, this.mProgramSettings.selectedVerticalMargin, 0, this.mProgramSettings.selectedVerticalMargin);
+                    containerLayoutParams.setMarginEnd(this.mProgramSettings.defaultHorizontalMargin);
+                    break;
+                case 2:
+                    topLayerLayoutParams.height = this.mProgramSettings.zoomedOutHeight;
+                    containerLayoutParams.setMargins(0, this.mProgramSettings.zoomedOutVerticalMargin, 0, this.mProgramSettings.zoomedOutVerticalMargin);
+                    containerLayoutParams.setMarginEnd(this.mProgramSettings.zoomedOutHorizontalMargin);
+                    break;
+            }
+            topLayerLayoutParams.width = (int) Math.round(((double) topLayerLayoutParams.height) * ProgramUtil.ASPECT_RATIO_16_9);
+            this.mTopLayer.setLayoutParams(topLayerLayoutParams);
+            int verticalPadding = (topLayerLayoutParams.height - this.mIconSize) / 2;
+            int horizontalPadding = (topLayerLayoutParams.width - this.mIconSize) / 2;
+            this.mTopLayer.setPadding(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+        }
+
+        void updateLogoAndColor() {
+            this.mTopLayer.setImageBitmap(ChannelItemsAdapter.this.mChannelLogo);
+            this.mTopLayer.setBackgroundColor(ChannelItemsAdapter.this.mPrimaryColor);
+            this.mMiddleLayer.setBackgroundColor(ColorUtils.darkenColor(ChannelItemsAdapter.this.mPrimaryColor, DARKEN_FACTOR_MIDDLE_LAYER));
+            this.mBottomLayer.setBackgroundColor(ColorUtils.darkenColor(ChannelItemsAdapter.this.mPrimaryColor, DARKEN_FACTOR_BOTTOM_LAYER));
+        }
+    }
+
+    private class LastProgramViewHolder extends BaseSpecialProgramViewHolder implements FacetProvider {
+        private final int mDefaultTextSize;
+        private ItemAlignmentFacet mFacet;
+        private ItemAlignmentDef mItemAlignmentDef = new ItemAlignmentDef();
+        private final TextView mText;
+        private final int mUnfocusedBackgroundColor;
+        private final int mZoomedOutTextSize;
+
+        LastProgramViewHolder(View v) {
+            super(v);
+            this.mText = (TextView) v.findViewById(R.id.text);
+            setRoundedCornerClipOutline(v);
+            this.mUnfocusedBackgroundColor = ContextCompat.getColor(v.getContext(), R.color.channel_last_item_unfocused_background);
+            this.mDefaultTextSize = v.getContext().getResources().getDimensionPixelSize(R.dimen.channel_last_item_default_text_size);
+            this.mZoomedOutTextSize = v.getContext().getResources().getDimensionPixelSize(R.dimen.channel_last_item_zoomed_out_text_size);
+            this.mItemAlignmentDef.setItemAlignmentOffsetPercent(-1.0f);
+            this.mFacet = new ItemAlignmentFacet();
+            this.mFacet.setAlignmentDefs(new ItemAlignmentDef[]{this.mItemAlignmentDef});
+        }
+
+        protected void handleFocusChange(View v, boolean hasFocus) {
+            super.handleFocusChange(v, hasFocus);
+            v.setBackgroundColor(hasFocus ? ChannelItemsAdapter.this.mLastProgramFocusedColor : this.mUnfocusedBackgroundColor);
+        }
+
+        void bindState() {
+            super.bindState();
+            switch (ChannelItemsAdapter.this.mProgramState) {
+                case 0:
+                case 1:
+                    this.mText.setTextSize(0, (float) this.mDefaultTextSize);
+                    return;
+                case 2:
+                    this.mText.setTextSize(0, (float) this.mZoomedOutTextSize);
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        public Object getFacet(Class<?> cls) {
+            int position = getAdapterPosition();
+            if (position == -1 || position == 0) {
+                return null;
+            }
+            int previousCardEndMargin;
+            double ratio = ProgramUtil.getAspectRatio(ChannelItemsAdapter.this.mDataManager.getProgram(ChannelItemsAdapter.this.mChannelId, position - 1).getPreviewImageAspectRatio());
+            int cardHeight = 0;
+            switch (ChannelItemsAdapter.this.mProgramState) {
+                case 0:
+                    cardHeight = this.mProgramSettings.defaultHeight;
+                    break;
+                case 1:
+                    cardHeight = this.mProgramSettings.selectedHeight;
+                    break;
+                case 2:
+                    cardHeight = this.mProgramSettings.zoomedOutHeight;
+                    break;
+            }
+            int previousCardWidth = (int) (((double) cardHeight) * ratio);
+            if (ChannelItemsAdapter.this.mProgramState == 2) {
+                previousCardEndMargin = this.mProgramSettings.zoomedOutHorizontalMargin;
+            } else {
+                previousCardEndMargin = this.mProgramSettings.defaultHorizontalMargin;
+            }
+            this.mItemAlignmentDef.setItemAlignmentOffset(-(previousCardWidth + previousCardEndMargin));
+            return this.mFacet;
+        }
+    }
+
+    ChannelItemsAdapter(Context context, EventLogger eventLogger) {
+        this.mDataManager = TvDataManager.getInstance(context);
+        this.mEventLogger = eventLogger;
+        setHasStableIds(true);
+    }
+
+    void setOnPerformLastProgramActionListener(OnPerformLastProgramActionListener listener) {
+        this.mOnPerformLastProgramActionListener = listener;
+    }
+
+    void setOnProgramSelectedListener(OnProgramSelectedListener listener) {
+        this.mOnProgramSelectedListener = listener;
+    }
+
+    void setChannelLogoAndPrimaryColor(Bitmap channelLogo, int primaryColor) {
+        this.mChannelLogo = channelLogo;
+        this.mPrimaryColor = primaryColor;
+        this.mLastProgramFocusedColor = ColorUtils.darkenColor(this.mPrimaryColor, LAST_PROGRAM_FOCUSED_COLOR_DARKEN_FACTOR);
+        int itemCount = getItemCount();
+        if (itemCount > 0) {
+            notifyItemChanged(itemCount - 1);
+        }
+    }
+
+    void bind(long channelId, String packageName, int programState, boolean canAddToWatchNext, boolean canRemoveProgram, boolean isLegacy) {
+        this.mPackageName = packageName;
+        this.mCanAddToWatchNext = canAddToWatchNext;
+        this.mCanRemoveProgram = canRemoveProgram;
+        this.mIsLegacy = isLegacy;
+        int oldProgramState = this.mProgramState;
+        this.mProgramState = programState;
+        if (channelId != this.mChannelId) {
+            if (this.mChannelId != -1) {
+                this.mDataManager.unregisterChannelProgramsObserver(this.mChannelId, this.mProgramsObserver);
+            }
+            this.mChannelId = channelId;
+            if (this.mChannelId != -1) {
+                if (!registerObserverAndUpdateDataIfNeeded()) {
+                    notifyDataSetChanged();
+                }
+                this.mStarted = true;
+                return;
+            }
+            this.mStarted = false;
+        } else if (oldProgramState != programState) {
+            notifyItemRangeChanged(0, getItemCount(), PAYLOAD_STATE);
+        }
+    }
+
+    int getProgramState() {
+        return this.mProgramState;
+    }
+
+    void setProgramState(int programState) {
+        if (this.mProgramState != programState) {
+            this.mProgramState = programState;
+            notifyItemRangeChanged(0, getItemCount(), PAYLOAD_STATE);
+        }
+    }
+
+    private boolean registerObserverAndUpdateDataIfNeeded() {
+        this.mDataManager.registerChannelProgramsObserver(this.mChannelId, this.mProgramsObserver);
+        if (this.mDataManager.isProgramDataLoaded(this.mChannelId) && !this.mDataManager.isProgramDataStale(this.mChannelId)) {
+            return false;
+        }
+        this.mDataManager.loadProgramData(this.mChannelId);
+        return true;
+    }
+
+    public void onStart() {
+        if (!(this.mStarted || this.mChannelId == -1)) {
+            registerObserverAndUpdateDataIfNeeded();
         }
         this.mStarted = true;
-      }
     }
-    while (i == paramInt)
-    {
-      return;
-      this.mStarted = false;
-      return;
-    }
-    notifyItemRangeChanged(0, getItemCount(), "PAYLOAD_STATE");
-  }
-  
-  public int getItemCount()
-  {
-    if (this.mDataManager.isProgramDataLoaded(this.mChannelId)) {
-      return this.mDataManager.getProgramCount(this.mChannelId) + 1;
-    }
-    return 1;
-  }
-  
-  public long getItemId(int paramInt)
-  {
-    int i = getItemViewType(paramInt);
-    if (i == 1) {
-      return -2L;
-    }
-    if (i == 2) {
-      return -3L;
-    }
-    return this.mDataManager.getProgram(this.mChannelId, paramInt).getId();
-  }
-  
-  public int getItemViewType(int paramInt)
-  {
-    int i = 1;
-    int j = getItemCount();
-    if (j == 1) {
-      i = 2;
-    }
-    while (paramInt == j - 1) {
-      return i;
-    }
-    return 0;
-  }
-  
-  int getProgramState()
-  {
-    return this.mProgramState;
-  }
-  
-  public void onBindViewHolder(RecyclerView.ViewHolder paramViewHolder, int paramInt)
-  {
-    if ((paramViewHolder instanceof ProgramViewHolder)) {
-      ((ProgramViewHolder)paramViewHolder).bind(this.mDataManager.getProgram(this.mChannelId, paramInt));
-    }
-    do
-    {
-      return;
-      if ((paramViewHolder instanceof LastProgramViewHolder))
-      {
-        ((LastProgramViewHolder)paramViewHolder).bind();
-        return;
-      }
-    } while (!(paramViewHolder instanceof EmptyChannelProgramViewHolder));
-    ((EmptyChannelProgramViewHolder)paramViewHolder).bind();
-  }
-  
-  public void onBindViewHolder(RecyclerView.ViewHolder paramViewHolder, int paramInt, List<Object> paramList)
-  {
-    if (paramList.isEmpty()) {
-      onBindViewHolder(paramViewHolder, paramInt);
-    }
-    do
-    {
-      return;
-      if ((paramViewHolder instanceof ProgramViewHolder))
-      {
-        ((ProgramViewHolder)paramViewHolder).getProgramController().bindState(this.mProgramState);
-        return;
-      }
-      if ((paramViewHolder instanceof LastProgramViewHolder))
-      {
-        ((LastProgramViewHolder)paramViewHolder).bindState();
-        return;
-      }
-    } while (!(paramViewHolder instanceof EmptyChannelProgramViewHolder));
-    ((EmptyChannelProgramViewHolder)paramViewHolder).bindState();
-  }
-  
-  public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup paramViewGroup, int paramInt)
-  {
-    if (paramInt == 0) {
-      return new ProgramViewHolder(LayoutInflater.from(paramViewGroup.getContext()).inflate(2130968745, paramViewGroup, false), this.mEventLogger);
-    }
-    if (paramInt == 1) {
-      return new LastProgramViewHolder(LayoutInflater.from(paramViewGroup.getContext()).inflate(2130968744, paramViewGroup, false));
-    }
-    if (paramInt == 2) {
-      return new EmptyChannelProgramViewHolder(LayoutInflater.from(paramViewGroup.getContext()).inflate(2130968741, paramViewGroup, false));
-    }
-    return null;
-  }
-  
-  public void onStart()
-  {
-    if ((!this.mStarted) && (this.mChannelId != -1L)) {
-      registerObserverAndUpdateDataIfNeeded();
-    }
-    this.mStarted = true;
-  }
-  
-  public void onStop()
-  {
-    if ((this.mStarted) && (this.mChannelId != -1L)) {
-      this.mDataManager.unregisterChannelProgramsObserver(this.mChannelId, this.mProgramsObserver);
-    }
-    this.mStarted = false;
-  }
-  
-  void recycle()
-  {
-    bind(-1L, null, this.mProgramState, false, false, false);
-    this.mStarted = false;
-    notifyDataSetChanged();
-  }
-  
-  void setChannelLogoAndPrimaryColor(Bitmap paramBitmap, int paramInt)
-  {
-    this.mChannelLogo = paramBitmap;
-    this.mPrimaryColor = paramInt;
-    this.mLastProgramFocusedColor = ColorUtils.darkenColor(this.mPrimaryColor, 0.8F);
-    paramInt = getItemCount();
-    if (paramInt > 0) {
-      notifyItemChanged(paramInt - 1);
-    }
-  }
-  
-  void setOnPerformLastProgramActionListener(OnPerformLastProgramActionListener paramOnPerformLastProgramActionListener)
-  {
-    this.mOnPerformLastProgramActionListener = paramOnPerformLastProgramActionListener;
-  }
-  
-  void setOnProgramSelectedListener(OnProgramSelectedListener paramOnProgramSelectedListener)
-  {
-    this.mOnProgramSelectedListener = paramOnProgramSelectedListener;
-  }
-  
-  void setProgramState(int paramInt)
-  {
-    if (this.mProgramState != paramInt)
-    {
-      this.mProgramState = paramInt;
-      notifyItemRangeChanged(0, getItemCount(), "PAYLOAD_STATE");
-    }
-  }
-  
-  private class BaseSpecialProgramViewHolder
-    extends RecyclerView.ViewHolder
-  {
-    private final ScaleFocusHandler mFocusHandler;
-    final ProgramSettings mProgramSettings;
-    
-    BaseSpecialProgramViewHolder(View paramView)
-    {
-      super();
-      this.mProgramSettings = ProgramUtil.getProgramSettings(paramView.getContext());
-      this.mFocusHandler = new ScaleFocusHandler(this.mProgramSettings.focusedAnimationDuration, this.mProgramSettings.focusedScale, this.mProgramSettings.focusedElevation, 1);
-      this.mFocusHandler.setView(paramView);
-      this.mFocusHandler.setOnFocusChangeListener(new View.OnFocusChangeListener()
-      {
-        public void onFocusChange(View paramAnonymousView, boolean paramAnonymousBoolean)
-        {
-          ChannelItemsAdapter.BaseSpecialProgramViewHolder.this.handleFocusChange(paramAnonymousView, paramAnonymousBoolean);
+
+    public void onStop() {
+        if (this.mStarted && this.mChannelId != -1) {
+            this.mDataManager.unregisterChannelProgramsObserver(this.mChannelId, this.mProgramsObserver);
         }
-      });
-      paramView.setOnClickListener(new View.OnClickListener()
-      {
-        public void onClick(View paramAnonymousView)
-        {
-          if (ChannelItemsAdapter.this.mOnPerformLastProgramActionListener != null) {
-            ChannelItemsAdapter.this.mOnPerformLastProgramActionListener.onPerformLastProgramAction();
-          }
+        this.mStarted = false;
+    }
+
+    void recycle() {
+        bind(-1, null, this.mProgramState, false, false, false);
+        this.mStarted = false;
+        notifyDataSetChanged();
+    }
+
+    public int getItemCount() {
+        if (this.mDataManager.isProgramDataLoaded(this.mChannelId)) {
+            return this.mDataManager.getProgramCount(this.mChannelId) + 1;
         }
-      });
+        return 1;
     }
-    
-    void bind()
-    {
-      bindState();
-      this.mFocusHandler.resetFocusedState();
-    }
-    
-    void bindState()
-    {
-      ProgramUtil.updateSize(this.itemView, ChannelItemsAdapter.this.mProgramState, 1.7777777777777777D, this.mProgramSettings);
-    }
-    
-    protected void handleFocusChange(View paramView, boolean paramBoolean)
-    {
-      if ((ChannelItemsAdapter.this.mOnProgramSelectedListener != null) && (paramBoolean) && (getAdapterPosition() != -1)) {
-        ChannelItemsAdapter.this.mOnProgramSelectedListener.onProgramSelected(null, null);
-      }
-    }
-    
-    void setRoundedCornerClipOutline(View paramView)
-    {
-      paramView.setOutlineProvider(new ViewOutlineProvider()
-      {
-        public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
-        {
-          paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
+
+    public int getItemViewType(int position) {
+        int itemCount = getItemCount();
+        if (itemCount == 1) {
+            return 2;
         }
-      });
-      paramView.setClipToOutline(true);
-    }
-  }
-  
-  private class EmptyChannelProgramViewHolder
-    extends ChannelItemsAdapter.BaseSpecialProgramViewHolder
-  {
-    private static final float DARKEN_FACTOR_BOTTOM_LAYER = 0.269F;
-    private static final float DARKEN_FACTOR_MIDDLE_LAYER = 0.376F;
-    private final View mBottomLayer;
-    private final int mIconSize;
-    private final View mMiddleLayer;
-    private final ImageView mTopLayer;
-    private final int mTopLayerMarginEnd;
-    
-    EmptyChannelProgramViewHolder(View paramView)
-    {
-      super(paramView);
-      this.mIconSize = paramView.getResources().getDimensionPixelSize(R.dimen.empty_channel_program_channel_logo_size);
-      this.mTopLayerMarginEnd = paramView.getResources().getDimensionPixelSize(R.dimen.empty_channel_program_top_layer_margin_end);
-      this.mBottomLayer = paramView.findViewById(R.id.bottom_layer);
-      this.mMiddleLayer = paramView.findViewById(R.id.middle_layer);
-      this.mTopLayer = ((ImageView)paramView.findViewById(R.id.top_layer));
-      setRoundedCornerClipOutline(this.mBottomLayer);
-      setRoundedCornerClipOutline(this.mMiddleLayer);
-      setRoundedCornerClipOutline(this.mTopLayer);
-      paramView.setOutlineProvider(new ViewOutlineProvider()
-      {
-        public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
-        {
-          if (paramAnonymousView.getLayoutDirection() == 0)
-          {
-            paramAnonymousOutline.setRoundRect(0, 0, paramAnonymousView.getWidth() - ChannelItemsAdapter.EmptyChannelProgramViewHolder.this.mTopLayerMarginEnd, paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
-            return;
-          }
-          paramAnonymousOutline.setRoundRect(ChannelItemsAdapter.EmptyChannelProgramViewHolder.this.mTopLayerMarginEnd, 0, paramAnonymousView.getWidth(), paramAnonymousView.getHeight(), paramAnonymousView.getResources().getDimensionPixelSize(R.dimen.card_rounded_corner_radius));
+        if (position != itemCount - 1) {
+            return 0;
         }
-      });
+        return 1;
     }
-    
-    void bind()
-    {
-      updateLogoAndColor();
-      super.bind();
+
+    public long getItemId(int position) {
+        int itemViewType = getItemViewType(position);
+        if (itemViewType == 1) {
+            return -2;
+        }
+        if (itemViewType == 2) {
+            return -3;
+        }
+        return this.mDataManager.getProgram(this.mChannelId, position).getId();
     }
-    
-    void bindState()
-    {
-      ViewGroup.MarginLayoutParams localMarginLayoutParams1 = (ViewGroup.MarginLayoutParams)this.mTopLayer.getLayoutParams();
-      ViewGroup.MarginLayoutParams localMarginLayoutParams2 = (ViewGroup.MarginLayoutParams)this.itemView.getLayoutParams();
-      switch (ChannelItemsAdapter.this.mProgramState)
-      {
-      }
-      for (;;)
-      {
-        localMarginLayoutParams1.width = ((int)Math.round(localMarginLayoutParams1.height * 1.7777777777777777D));
-        this.mTopLayer.setLayoutParams(localMarginLayoutParams1);
-        int i = (localMarginLayoutParams1.height - this.mIconSize) / 2;
-        int j = (localMarginLayoutParams1.width - this.mIconSize) / 2;
-        this.mTopLayer.setPadding(j, i, j, i);
-        return;
-        localMarginLayoutParams1.height = this.mProgramSettings.defaultHeight;
-        localMarginLayoutParams2.setMargins(0, this.mProgramSettings.defaultTopMargin, 0, this.mProgramSettings.defaultBottomMargin);
-        localMarginLayoutParams2.setMarginEnd(this.mProgramSettings.defaultHorizontalMargin);
-        continue;
-        localMarginLayoutParams1.height = this.mProgramSettings.selectedHeight;
-        localMarginLayoutParams2.setMargins(0, this.mProgramSettings.selectedVerticalMargin, 0, this.mProgramSettings.selectedVerticalMargin);
-        localMarginLayoutParams2.setMarginEnd(this.mProgramSettings.defaultHorizontalMargin);
-        continue;
-        localMarginLayoutParams1.height = this.mProgramSettings.zoomedOutHeight;
-        localMarginLayoutParams2.setMargins(0, this.mProgramSettings.zoomedOutVerticalMargin, 0, this.mProgramSettings.zoomedOutVerticalMargin);
-        localMarginLayoutParams2.setMarginEnd(this.mProgramSettings.zoomedOutHorizontalMargin);
-      }
-    }
-    
-    void updateLogoAndColor()
-    {
-      this.mTopLayer.setImageBitmap(ChannelItemsAdapter.this.mChannelLogo);
-      this.mTopLayer.setBackgroundColor(ChannelItemsAdapter.this.mPrimaryColor);
-      this.mMiddleLayer.setBackgroundColor(ColorUtils.darkenColor(ChannelItemsAdapter.this.mPrimaryColor, 0.376F));
-      this.mBottomLayer.setBackgroundColor(ColorUtils.darkenColor(ChannelItemsAdapter.this.mPrimaryColor, 0.269F));
-    }
-  }
-  
-  private class LastProgramViewHolder
-    extends ChannelItemsAdapter.BaseSpecialProgramViewHolder
-    implements FacetProvider
-  {
-    private final int mDefaultTextSize;
-    private ItemAlignmentFacet mFacet;
-    private ItemAlignmentFacet.ItemAlignmentDef mItemAlignmentDef;
-    private final TextView mText;
-    private final int mUnfocusedBackgroundColor;
-    private final int mZoomedOutTextSize;
-    
-    LastProgramViewHolder(View paramView)
-    {
-      super(paramView);
-      this.mText = ((TextView)paramView.findViewById(R.id.text));
-      setRoundedCornerClipOutline(paramView);
-      this.mUnfocusedBackgroundColor = paramView.getContext().getColor(R.color.channel_last_item_unfocused_background);
-      this.mDefaultTextSize = paramView.getContext().getResources().getDimensionPixelSize(R.dimen.channel_last_item_default_text_size);
-      this.mZoomedOutTextSize = paramView.getContext().getResources().getDimensionPixelSize(R.dimen.channel_last_item_zoomed_out_text_size);
-      this.mItemAlignmentDef = new ItemAlignmentFacet.ItemAlignmentDef();
-      this.mItemAlignmentDef.setItemAlignmentOffsetPercent(-1.0F);
-      this.mFacet = new ItemAlignmentFacet();
-      this.mFacet.setAlignmentDefs(new ItemAlignmentFacet.ItemAlignmentDef[] { this.mItemAlignmentDef });
-    }
-    
-    void bindState()
-    {
-      super.bindState();
-      switch (ChannelItemsAdapter.this.mProgramState)
-      {
-      default: 
-        return;
-      case 0: 
-      case 1: 
-        this.mText.setTextSize(0, this.mDefaultTextSize);
-        return;
-      }
-      this.mText.setTextSize(0, this.mZoomedOutTextSize);
-    }
-    
-    public Object getFacet(Class<?> paramClass)
-    {
-      int i = getAdapterPosition();
-      if ((i == -1) || (i == 0)) {
+
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == 0) {
+            return new ProgramViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_program, parent, false), this.mEventLogger);
+        }
+        if (viewType == 1) {
+            return new LastProgramViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_last_program, parent, false));
+        }
+        if (viewType == 2) {
+            return new EmptyChannelProgramViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_empty_channel_program, parent, false));
+        }
         return null;
-      }
-      double d = ProgramUtil.getAspectRatio(ChannelItemsAdapter.this.mDataManager.getProgram(ChannelItemsAdapter.this.mChannelId, i - 1).getPreviewImageAspectRatio());
-      i = 0;
-      int j;
-      switch (ChannelItemsAdapter.this.mProgramState)
-      {
-      default: 
-        j = (int)(i * d);
-        if (ChannelItemsAdapter.this.mProgramState != 2) {
-          break;
+    }
+
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        if (holder instanceof ProgramViewHolder) {
+            ((ProgramViewHolder) holder).bind(this.mDataManager.getProgram(this.mChannelId, position));
+        } else if (holder instanceof LastProgramViewHolder) {
+            ((LastProgramViewHolder) holder).bind();
+        } else if (holder instanceof EmptyChannelProgramViewHolder) {
+            ((EmptyChannelProgramViewHolder) holder).bind();
         }
-      }
-      for (i = this.mProgramSettings.zoomedOutHorizontalMargin;; i = this.mProgramSettings.defaultHorizontalMargin)
-      {
-        i = -(j + i);
-        this.mItemAlignmentDef.setItemAlignmentOffset(i);
-        return this.mFacet;
-        i = this.mProgramSettings.defaultHeight;
-        break;
-        i = this.mProgramSettings.selectedHeight;
-        break;
-        i = this.mProgramSettings.zoomedOutHeight;
-        break;
-      }
     }
-    
-    protected void handleFocusChange(View paramView, boolean paramBoolean)
-    {
-      super.handleFocusChange(paramView, paramBoolean);
-      if (paramBoolean) {}
-      for (int i = ChannelItemsAdapter.this.mLastProgramFocusedColor;; i = this.mUnfocusedBackgroundColor)
-      {
-        paramView.setBackgroundColor(i);
-        return;
-      }
-    }
-  }
-  
-  private class ProgramViewHolder
-    extends RecyclerView.ViewHolder
-    implements OnProgramViewFocusedListener, EventLogger
-  {
-    private final EventLogger mEventLogger;
-    final ProgramController mProgramController;
-    
-    ProgramViewHolder(View paramView, EventLogger paramEventLogger)
-    {
-      super();
-      this.mEventLogger = paramEventLogger;
-      this.mProgramController = new ProgramController(paramView, this);
-      this.mProgramController.setOnProgramViewFocusedListener(this);
-      this.mProgramController.setIsWatchNextProgram(false);
-    }
-    
-    void bind(Program paramProgram)
-    {
-      this.mProgramController.bind(paramProgram, ChannelItemsAdapter.this.mPackageName, ChannelItemsAdapter.this.mProgramState, ChannelItemsAdapter.this.mCanAddToWatchNext, ChannelItemsAdapter.this.mCanRemoveProgram, ChannelItemsAdapter.this.mIsLegacy);
-      if ((ChannelItemsAdapter.this.mOnProgramSelectedListener != null) && (this.mProgramController.isViewFocused())) {
-        ChannelItemsAdapter.this.mOnProgramSelectedListener.onProgramSelected(paramProgram, this.mProgramController);
-      }
-    }
-    
-    ProgramController getProgramController()
-    {
-      return this.mProgramController;
-    }
-    
-    public void log(LogEvent paramLogEvent)
-    {
-      paramLogEvent.putParameter("index", getAdapterPosition()).putParameter("count", ChannelItemsAdapter.this.getItemCount());
-      this.mEventLogger.log(paramLogEvent);
-    }
-    
-    public void onProgramViewFocused()
-    {
-      if (ChannelItemsAdapter.this.mOnProgramSelectedListener != null)
-      {
-        int i = getAdapterPosition();
-        if (i != -1)
-        {
-          Program localProgram = ChannelItemsAdapter.this.mDataManager.getProgram(ChannelItemsAdapter.this.mChannelId, i);
-          ChannelItemsAdapter.this.mOnProgramSelectedListener.onProgramSelected(localProgram, this.mProgramController);
+
+    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else if (holder instanceof ProgramViewHolder) {
+            ((ProgramViewHolder) holder).getProgramController().bindState(this.mProgramState);
+        } else if (holder instanceof LastProgramViewHolder) {
+            ((LastProgramViewHolder) holder).bindState();
+        } else if (holder instanceof EmptyChannelProgramViewHolder) {
+            ((EmptyChannelProgramViewHolder) holder).bindState();
         }
-      }
     }
-  }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/ChannelItemsAdapter.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

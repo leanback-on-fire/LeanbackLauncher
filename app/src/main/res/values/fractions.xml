@@ -20,4 +20,12 @@
     <fraction name="program_logo_dimmer_center_x">29.999996%</fraction>
     <fraction name="store_button_focused_scale">109.99756%</fraction>
     <fraction name="top_row_item_focused_zoom">119.99817%</fraction>
+    <fraction name="context_menu_item_unfocused_alpha">0.5</fraction>
+    <fraction name="context_menu_overlay_alpha">0.8</fraction>
+    <fraction name="input_banner_connected_image_alpha">1.0</fraction>
+    <fraction name="input_banner_connected_text_alpha">1.0</fraction>
+    <fraction name="input_banner_disconnected_image_alpha">0.3</fraction>
+    <fraction name="input_banner_disconnected_text_alpha">0.3</fraction>
+    <fraction name="input_banner_standby_image_alpha">0.3</fraction>
+    <fraction name="input_banner_standby_text_alpha">0.3</fraction>
 </resources>

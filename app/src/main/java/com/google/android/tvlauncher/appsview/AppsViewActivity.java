@@ -67,7 +67,7 @@ public class AppsViewActivity extends LoggingActivity {
             Scene localScene = new Scene((ViewGroup) findViewById(16908290));
             localScene.setEnterAction(new Runnable() {
                 public void run() {
-                    AppsViewActivity.this.getFragmentManager().beginTransaction().remove(fragment).commitNow();
+                    AppsViewActivity.this.getFragmentManager().beginTransaction().remove(fragment).commit();//Now();
                 }
             });
             Slide slide = new Slide(8388613);

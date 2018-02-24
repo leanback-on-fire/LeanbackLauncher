@@ -1,18 +1,14 @@
 package com.google.android.tvlauncher;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.google.android.tvlauncher.analytics.LoggingActivity;
 import com.google.android.tvlauncher.home.HomeFragment;
-import com.google.android.tvlauncher.home.contentrating.ContentRatingsManager;
 import com.google.android.tvlauncher.notifications.NotificationsUtils;
 import com.google.android.tvlauncher.trace.AppTrace;
 
-import java.util.List;
 import java.util.Set;
 
 public class MainActivity
@@ -41,7 +37,7 @@ public class MainActivity
             AppTrace.endSection();
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    ContentRatingsManager.getInstance(MainActivity.this).preload();
+                    //ContentRatingsManager.getInstance(MainActivity.this).preload();
                 }
             }, 2000L);
             return;

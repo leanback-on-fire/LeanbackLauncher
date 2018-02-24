@@ -4,95 +4,72 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.support.v4.content.IntentCompat;
 import android.util.Log;
 import android.widget.Toast;
+import com.google.android.tvlauncher.R;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public class IntentLauncher
-{
-  private static final boolean DEBUG = false;
-  private static final String TAG = "IntentLauncher";
-  
-  private static boolean launchIntent(Context paramContext, Intent paramIntent)
-  {
-    if (paramIntent == null) {
-      return false;
+public class IntentLauncher {
+    private static final boolean DEBUG = false;
+    private static final String TAG = "IntentLauncher";
+
+    public static void launchMediaIntentFromUri(Context context, String uri) {
+        launchIntentFromUri(context, uri, true);
     }
-    Object localObject = paramContext.getPackageManager();
-    List localList = ((PackageManager)localObject).queryIntentActivities(paramIntent, 0);
-    if ((localList != null) && (localList.size() > 0)) {
-      try
-      {
-        paramContext.startActivity(paramIntent);
-        return true;
-      }
-      catch (ActivityNotFoundException paramContext)
-      {
-        Log.e("IntentLauncher", "Failed to launch " + paramIntent, paramContext);
-        return false;
-      }
+
+    public static void launchIntentFromUri(Context context, String uri) {
+        launchIntentFromUri(context, uri, false);
     }
-    paramIntent.setPackage("com.google.android.tvrecommendations");
-    localObject = ((PackageManager)localObject).queryBroadcastReceivers(paramIntent, 0);
-    if ((localObject != null) && (((List)localObject).size() > 0))
-    {
-      paramContext.sendBroadcast(paramIntent);
-      return true;
-    }
-    Log.e("IntentLauncher", "Activity not found for intent: " + paramIntent);
-    return false;
-  }
-  
-  public static void launchIntentFromUri(Context paramContext, String paramString)
-  {
-    launchIntentFromUri(paramContext, paramString, false);
-  }
-  
-  private static void launchIntentFromUri(Context paramContext, String paramString, boolean paramBoolean)
-  {
-    if (!launchIntent(paramContext, parseUri(paramString, paramBoolean))) {
-      Toast.makeText(paramContext, 2131492990, 0).show();
-    }
-  }
-  
-  public static void launchMediaIntentFromUri(Context paramContext, String paramString)
-  {
-    launchIntentFromUri(paramContext, paramString, true);
-  }
-  
-  private static Intent parseUri(String paramString, boolean paramBoolean)
-  {
-    Object localObject;
-    if (paramString == null)
-    {
-      Log.e("IntentLauncher", "No URI provided");
-      localObject = null;
-    }
-    for (;;)
-    {
-      return (Intent)localObject;
-      try
-      {
-        Intent localIntent = Intent.parseUri(paramString, 1);
-        localObject = localIntent;
-        if (paramBoolean)
-        {
-          localIntent.putExtra("android.intent.extra.START_PLAYBACK", true);
-          return localIntent;
+
+    private static void launchIntentFromUri(Context context, String uri, boolean launchMedia) {
+        if (!launchIntent(context, parseUri(uri, launchMedia))) {
+            Toast.makeText(context, R.string.failed_launch, 0).show();
         }
-      }
-      catch (URISyntaxException localURISyntaxException)
-      {
-        Log.e("IntentLauncher", "Bad URI syntax: " + paramString);
-      }
     }
-    return null;
-  }
+
+    private static Intent parseUri(String uri, boolean launchMedia) {
+        if (uri == null) {
+            Log.e(TAG, "No URI provided");
+            return null;
+        }
+        try {
+            Intent intent = Intent.parseUri(uri, 1);
+            if (!launchMedia) {
+                return intent;
+            }
+            intent.putExtra(IntentCompat.EXTRA_START_PLAYBACK, true);
+            return intent;
+        } catch (URISyntaxException e) {
+            Log.e(TAG, "Bad URI syntax: " + uri);
+            return null;
+        }
+    }
+
+    private static boolean launchIntent(Context context, Intent intent) {
+        if (intent == null) {
+            return false;
+        }
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+        if (activities == null || activities.size() <= 0) {
+            intent.setPackage(LauncherSharedConstants.TVRECOMMENDATIONS_PACKAGE_NAME);
+            List<ResolveInfo> receivers = pm.queryBroadcastReceivers(intent, 0);
+            if (receivers == null || receivers.size() <= 0) {
+                Log.e(TAG, "Activity not found for intent: " + intent);
+                return false;
+            }
+            context.sendBroadcast(intent);
+            return true;
+        }
+        try {
+            context.startActivity(intent);
+            return true;
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, "Failed to launch " + intent, e);
+            return false;
+        }
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/util/IntentLauncher.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

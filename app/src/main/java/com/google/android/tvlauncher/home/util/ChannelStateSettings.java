@@ -1,128 +1,106 @@
 package com.google.android.tvlauncher.home.util;
 
-public class ChannelStateSettings
-{
-  private int mChannelLogoAlignmentOriginMargin;
-  private int mItemHeight;
-  private int mItemMarginBottom;
-  private int mItemMarginTop;
-  private int mMarginBottom;
-  private int mMarginTop;
-  
-  private ChannelStateSettings(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6)
-  {
-    this.mItemHeight = paramInt1;
-    this.mItemMarginTop = paramInt2;
-    this.mItemMarginBottom = paramInt3;
-    this.mMarginTop = paramInt4;
-    this.mMarginBottom = paramInt5;
-    this.mChannelLogoAlignmentOriginMargin = paramInt6;
-  }
-  
-  ChannelStateSettings(ChannelStateSettings paramChannelStateSettings)
-  {
-    this.mItemHeight = paramChannelStateSettings.getItemHeight();
-    this.mItemMarginTop = paramChannelStateSettings.getItemMarginTop();
-    this.mItemMarginBottom = paramChannelStateSettings.getItemMarginBottom();
-    this.mMarginTop = paramChannelStateSettings.getMarginTop();
-    this.mMarginBottom = paramChannelStateSettings.getMarginBottom();
-    this.mChannelLogoAlignmentOriginMargin = paramChannelStateSettings.getChannelLogoAlignmentOriginMargin();
-  }
-  
-  public int getChannelLogoAlignmentOriginMargin()
-  {
-    return this.mChannelLogoAlignmentOriginMargin;
-  }
-  
-  public int getItemHeight()
-  {
-    return this.mItemHeight;
-  }
-  
-  public int getItemMarginBottom()
-  {
-    return this.mItemMarginBottom;
-  }
-  
-  public int getItemMarginTop()
-  {
-    return this.mItemMarginTop;
-  }
-  
-  public int getMarginBottom()
-  {
-    return this.mMarginBottom;
-  }
-  
-  public int getMarginTop()
-  {
-    return this.mMarginTop;
-  }
-  
-  void setChannelLogoAlignmentOriginMargin(int paramInt)
-  {
-    this.mChannelLogoAlignmentOriginMargin = paramInt;
-  }
-  
-  void setItemMarginBottom(int paramInt)
-  {
-    this.mItemMarginBottom = paramInt;
-  }
-  
-  static class Builder
-  {
+public class ChannelStateSettings {
     private int mChannelLogoAlignmentOriginMargin;
     private int mItemHeight;
     private int mItemMarginBottom;
     private int mItemMarginTop;
     private int mMarginBottom;
     private int mMarginTop;
-    
-    ChannelStateSettings build()
-    {
-      return new ChannelStateSettings(this.mItemHeight, this.mItemMarginTop, this.mItemMarginBottom, this.mMarginTop, this.mMarginBottom, this.mChannelLogoAlignmentOriginMargin, null);
+
+    static class Builder {
+        private int mChannelLogoAlignmentOriginMargin;
+        private int mItemHeight;
+        private int mItemMarginBottom;
+        private int mItemMarginTop;
+        private int mMarginBottom;
+        private int mMarginTop;
+
+        Builder() {
+        }
+
+        Builder setItemHeight(int itemHeight) {
+            this.mItemHeight = itemHeight;
+            return this;
+        }
+
+        Builder setItemMarginTop(int itemMarginTop) {
+            this.mItemMarginTop = itemMarginTop;
+            return this;
+        }
+
+        Builder setItemMarginBottom(int itemMarginBottom) {
+            this.mItemMarginBottom = itemMarginBottom;
+            return this;
+        }
+
+        Builder setMarginTop(int marginTop) {
+            this.mMarginTop = marginTop;
+            return this;
+        }
+
+        Builder setMarginBottom(int marginBottom) {
+            this.mMarginBottom = marginBottom;
+            return this;
+        }
+
+        Builder setChannelLogoAlignmentOriginMargin(int channelLogoAlignmentOriginMargin) {
+            this.mChannelLogoAlignmentOriginMargin = channelLogoAlignmentOriginMargin;
+            return this;
+        }
+
+        ChannelStateSettings build() {
+            return new ChannelStateSettings(this.mItemHeight, this.mItemMarginTop, this.mItemMarginBottom, this.mMarginTop, this.mMarginBottom, this.mChannelLogoAlignmentOriginMargin);
+        }
     }
-    
-    Builder setChannelLogoAlignmentOriginMargin(int paramInt)
-    {
-      this.mChannelLogoAlignmentOriginMargin = paramInt;
-      return this;
+
+    private ChannelStateSettings(int itemHeight, int itemMarginTop, int itemMarginBottom, int marginTop, int marginBottom, int channelLogoAlignmentOriginMargin) {
+        this.mItemHeight = itemHeight;
+        this.mItemMarginTop = itemMarginTop;
+        this.mItemMarginBottom = itemMarginBottom;
+        this.mMarginTop = marginTop;
+        this.mMarginBottom = marginBottom;
+        this.mChannelLogoAlignmentOriginMargin = channelLogoAlignmentOriginMargin;
     }
-    
-    Builder setItemHeight(int paramInt)
-    {
-      this.mItemHeight = paramInt;
-      return this;
+
+    ChannelStateSettings(ChannelStateSettings copy) {
+        this.mItemHeight = copy.getItemHeight();
+        this.mItemMarginTop = copy.getItemMarginTop();
+        this.mItemMarginBottom = copy.getItemMarginBottom();
+        this.mMarginTop = copy.getMarginTop();
+        this.mMarginBottom = copy.getMarginBottom();
+        this.mChannelLogoAlignmentOriginMargin = copy.getChannelLogoAlignmentOriginMargin();
     }
-    
-    Builder setItemMarginBottom(int paramInt)
-    {
-      this.mItemMarginBottom = paramInt;
-      return this;
+
+    public int getItemHeight() {
+        return this.mItemHeight;
     }
-    
-    Builder setItemMarginTop(int paramInt)
-    {
-      this.mItemMarginTop = paramInt;
-      return this;
+
+    public int getItemMarginTop() {
+        return this.mItemMarginTop;
     }
-    
-    Builder setMarginBottom(int paramInt)
-    {
-      this.mMarginBottom = paramInt;
-      return this;
+
+    public int getItemMarginBottom() {
+        return this.mItemMarginBottom;
     }
-    
-    Builder setMarginTop(int paramInt)
-    {
-      this.mMarginTop = paramInt;
-      return this;
+
+    public int getMarginTop() {
+        return this.mMarginTop;
     }
-  }
+
+    public int getMarginBottom() {
+        return this.mMarginBottom;
+    }
+
+    public int getChannelLogoAlignmentOriginMargin() {
+        return this.mChannelLogoAlignmentOriginMargin;
+    }
+
+    void setItemMarginBottom(int itemMarginBottom) {
+        this.mItemMarginBottom = itemMarginBottom;
+    }
+
+    void setChannelLogoAlignmentOriginMargin(int channelLogoAlignmentOriginMargin) {
+        this.mChannelLogoAlignmentOriginMargin = channelLogoAlignmentOriginMargin;
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/home/util/ChannelStateSettings.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

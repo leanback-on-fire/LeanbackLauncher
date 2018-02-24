@@ -96,7 +96,7 @@ final class DataLoadingBackgroundTask
 
     @WorkerThread
     private void performQuery() {
-        this.mResult = this.mContentResolver.query(this.mUri, this.mProjection, this.mSelection, this.mSelectionArgs, this.mSortOrder);
+        // this.mResult = this.mContentResolver.query(this.mUri, this.mProjection, this.mSelection, this.mSelectionArgs, this.mSortOrder);
         if (this.mResult != null) {
             this.mResult.getCount();
         }

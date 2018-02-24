@@ -3,112 +3,89 @@ package com.google.android.tvlauncher.instantvideo.preload;
 import android.net.Uri;
 import com.google.android.tvlauncher.instantvideo.media.MediaPlayer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-class PreloaderManagerImpl
-  extends PreloaderManager
-{
-  private List<PreloaderManager> mPreloaderManagers = new ArrayList();
-  
-  private PreloaderManager choosePreloaderManager(Uri paramUri)
-  {
-    int i = 0;
-    Object localObject = null;
-    Iterator localIterator = this.mPreloaderManagers.iterator();
-    while (localIterator.hasNext())
-    {
-      PreloaderManager localPreloaderManager = (PreloaderManager)localIterator.next();
-      int j = localPreloaderManager.canPlayVideo(paramUri);
-      if (i < j)
-      {
-        i = j;
-        localObject = localPreloaderManager;
-      }
+class PreloaderManagerImpl extends PreloaderManager {
+    private List<PreloaderManager> mPreloaderManagers = new ArrayList();
+
+    PreloaderManagerImpl() {
     }
-    return (PreloaderManager)localObject;
-  }
-  
-  public void bringPreloadedVideoToTopPriority(Uri paramUri)
-  {
-    PreloaderManager localPreloaderManager = choosePreloaderManager(paramUri);
-    if (localPreloaderManager != null) {
-      localPreloaderManager.bringPreloadedVideoToTopPriority(paramUri);
+
+    public boolean isPreloaded(Uri videoUri) {
+        PreloaderManager preloaderManager = choosePreloaderManager(videoUri);
+        return preloaderManager != null && preloaderManager.isPreloaded(videoUri);
     }
-  }
-  
-  public int canPlayVideo(Uri paramUri)
-  {
-    int i = 0;
-    Iterator localIterator = this.mPreloaderManagers.iterator();
-    while (localIterator.hasNext())
-    {
-      int j = ((PreloaderManager)localIterator.next()).canPlayVideo(paramUri);
-      if (i < j) {
-        i = j;
-      }
+
+    public Preloader createPreloader(Uri videoUri) {
+        PreloaderManager preloaderManager = choosePreloaderManager(videoUri);
+        if (preloaderManager != null) {
+            return preloaderManager.createPreloader(videoUri);
+        }
+        return null;
     }
-    return i;
-  }
-  
-  public void clearPreloadedData(Uri paramUri)
-  {
-    PreloaderManager localPreloaderManager = choosePreloaderManager(paramUri);
-    if (localPreloaderManager != null) {
-      localPreloaderManager.clearPreloadedData(paramUri);
+
+    public void clearPreloadedData(Uri videoUri) {
+        PreloaderManager preloaderManager = choosePreloaderManager(videoUri);
+        if (preloaderManager != null) {
+            preloaderManager.clearPreloadedData(videoUri);
+        }
     }
-  }
-  
-  public Preloader createPreloader(Uri paramUri)
-  {
-    PreloaderManager localPreloaderManager = choosePreloaderManager(paramUri);
-    if (localPreloaderManager != null) {
-      return localPreloaderManager.createPreloader(paramUri);
+
+    public void bringPreloadedVideoToTopPriority(Uri videoUri) {
+        PreloaderManager preloaderManager = choosePreloaderManager(videoUri);
+        if (preloaderManager != null) {
+            preloaderManager.bringPreloadedVideoToTopPriority(videoUri);
+        }
     }
-    return null;
-  }
-  
-  public MediaPlayer getOrCreatePlayer(Uri paramUri)
-  {
-    PreloaderManager localPreloaderManager = choosePreloaderManager(paramUri);
-    if (localPreloaderManager != null) {
-      return localPreloaderManager.getOrCreatePlayer(paramUri);
+
+    public MediaPlayer getOrCreatePlayer(Uri videoUri) {
+        PreloaderManager preloaderManager = choosePreloaderManager(videoUri);
+        if (preloaderManager != null) {
+            return preloaderManager.getOrCreatePlayer(videoUri);
+        }
+        return null;
     }
-    return null;
-  }
-  
-  public boolean isPreloaded(Uri paramUri)
-  {
-    PreloaderManager localPreloaderManager = choosePreloaderManager(paramUri);
-    return (localPreloaderManager != null) && (localPreloaderManager.isPreloaded(paramUri));
-  }
-  
-  public void recycleMediaPlayer(MediaPlayer paramMediaPlayer)
-  {
-    PreloaderManager localPreloaderManager = choosePreloaderManager(paramMediaPlayer.getVideoUri());
-    if (localPreloaderManager != null) {
-      localPreloaderManager.recycleMediaPlayer(paramMediaPlayer);
+
+    public void recycleMediaPlayer(MediaPlayer mediaPlayer) {
+        PreloaderManager preloaderManager = choosePreloaderManager(mediaPlayer.getVideoUri());
+        if (preloaderManager != null) {
+            preloaderManager.recycleMediaPlayer(mediaPlayer);
+        }
     }
-  }
-  
-  void registerPreloaderManager(PreloaderManager paramPreloaderManager)
-  {
-    this.mPreloaderManagers.add(paramPreloaderManager);
-  }
-  
-  void unregisterPreloaderManager(PreloaderManager paramPreloaderManager)
-  {
-    if (paramPreloaderManager == null)
-    {
-      this.mPreloaderManagers.clear();
-      return;
+
+    public int canPlayVideo(Uri videoUri) {
+        int maxScore = 0;
+        for (PreloaderManager preloaderManager : this.mPreloaderManagers) {
+            int score = preloaderManager.canPlayVideo(videoUri);
+            if (maxScore < score) {
+                maxScore = score;
+            }
+        }
+        return maxScore;
     }
-    this.mPreloaderManagers.remove(paramPreloaderManager);
-  }
+
+    void registerPreloaderManager(PreloaderManager preloaderManager) {
+        this.mPreloaderManagers.add(preloaderManager);
+    }
+
+    void unregisterPreloaderManager(PreloaderManager preloaderManager) {
+        if (preloaderManager == null) {
+            this.mPreloaderManagers.clear();
+        } else {
+            this.mPreloaderManagers.remove(preloaderManager);
+        }
+    }
+
+    private PreloaderManager choosePreloaderManager(Uri videoUri) {
+        int maxScore = 0;
+        PreloaderManager retPreloaderManager = null;
+        for (PreloaderManager preloaderManager : this.mPreloaderManagers) {
+            int score = preloaderManager.canPlayVideo(videoUri);
+            if (maxScore < score) {
+                maxScore = score;
+                retPreloaderManager = preloaderManager;
+            }
+        }
+        return retPreloaderManager;
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/instantvideo/preload/PreloaderManagerImpl.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

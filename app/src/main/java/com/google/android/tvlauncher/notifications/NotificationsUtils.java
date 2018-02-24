@@ -2,43 +2,33 @@ package com.google.android.tvlauncher.notifications;
 
 import android.content.Context;
 import android.content.Intent;
+import com.google.android.tvlauncher.util.LauncherSharedConstants;
 
-public class NotificationsUtils
-{
-  static void dismissNotification(Context paramContext, String paramString)
-  {
-    Intent localIntent = new Intent("android.intent.action.DELETE");
-    localIntent.setPackage("com.google.android.tvrecommendations");
-    localIntent.putExtra("sbn_key", paramString);
-    paramContext.sendBroadcast(localIntent);
-  }
-  
-  static void hideNotification(Context paramContext, String paramString)
-  {
-    Intent localIntent = new Intent("android.tvservice.action.NOTIFICATION_HIDE");
-    localIntent.setPackage("com.google.android.tvrecommendations");
-    localIntent.putExtra("sbn_key", paramString);
-    paramContext.sendBroadcast(localIntent);
-  }
-  
-  static void openNotification(Context paramContext, String paramString)
-  {
-    Intent localIntent = new Intent("android.intent.action.VIEW");
-    localIntent.setPackage("com.google.android.tvrecommendations");
-    localIntent.putExtra("sbn_key", paramString);
-    paramContext.sendBroadcast(localIntent);
-  }
-  
-  public static void showUnshownNotifications(Context paramContext)
-  {
-    Intent localIntent = new Intent("android.tvservice.action.SHOW_UNSHOWN_NOTIFICATIONS");
-    localIntent.setPackage("com.google.android.tvrecommendations");
-    paramContext.sendBroadcast(localIntent);
-  }
+public class NotificationsUtils {
+    static void dismissNotification(Context context, String key) {
+        Intent dismiss = new Intent("android.intent.action.DELETE");
+        dismiss.setPackage(LauncherSharedConstants.TVRECOMMENDATIONS_PACKAGE_NAME);
+        dismiss.putExtra("sbn_key", key);
+        context.sendBroadcast(dismiss);
+    }
+
+    static void openNotification(Context context, String key) {
+        Intent open = new Intent("android.intent.action.VIEW");
+        open.setPackage(LauncherSharedConstants.TVRECOMMENDATIONS_PACKAGE_NAME);
+        open.putExtra("sbn_key", key);
+        context.sendBroadcast(open);
+    }
+
+    static void hideNotification(Context context, String key) {
+        Intent mark = new Intent(NotificationsContract.ACTION_NOTIFICATION_HIDE);
+        mark.setPackage(LauncherSharedConstants.TVRECOMMENDATIONS_PACKAGE_NAME);
+        mark.putExtra("sbn_key", key);
+        context.sendBroadcast(mark);
+    }
+
+    public static void showUnshownNotifications(Context context) {
+        Intent show = new Intent(NotificationsContract.ACTION_SHOW_UNSHOWN_NOTIFICATIONS);
+        show.setPackage(LauncherSharedConstants.TVRECOMMENDATIONS_PACKAGE_NAME);
+        context.sendBroadcast(show);
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsUtils.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

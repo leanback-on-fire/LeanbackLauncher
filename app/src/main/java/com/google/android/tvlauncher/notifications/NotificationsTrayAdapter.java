@@ -7,77 +7,57 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.tvlauncher.R;
 import com.google.android.tvlauncher.analytics.EventLogger;
 import com.google.android.tvlauncher.analytics.LogEventParameters;
+import com.google.android.tvlauncher.analytics.LogEvents;
 
-public class NotificationsTrayAdapter<VH extends RecyclerView.ViewHolder>
-  extends RecyclerView.Adapter<NotificationsTrayViewHolder>
-{
-  private static final boolean DEBUG = false;
-  public static final String TAG = "NotifsTrayAdapter";
-  private final Context mContext;
-  private Cursor mCursor;
-  private final EventLogger mEventLogger;
-  
-  public NotificationsTrayAdapter(Context paramContext, EventLogger paramEventLogger, Cursor paramCursor)
-  {
-    this.mContext = paramContext;
-    this.mCursor = paramCursor;
-    this.mEventLogger = paramEventLogger;
-  }
-  
-  public void changeCursor(Cursor paramCursor)
-  {
-    this.mCursor = paramCursor;
-    notifyDataSetChanged();
-    paramCursor = this.mEventLogger;
-    LogEventParameters localLogEventParameters = new LogEventParameters("open_home");
-    if (this.mCursor != null) {}
-    for (int i = this.mCursor.getCount();; i = 0)
-    {
-      paramCursor.log(localLogEventParameters.putParameter("tray_notification_count", i));
-      return;
+public class NotificationsTrayAdapter<VH extends ViewHolder> extends Adapter<NotificationsTrayAdapter.NotificationsTrayViewHolder> {
+    private static final boolean DEBUG = false;
+    public static final String TAG = "NotifsTrayAdapter";
+    private final Context mContext;
+    private Cursor mCursor;
+    private final EventLogger mEventLogger;
+
+    public static class NotificationsTrayViewHolder extends ViewHolder {
+        public NotificationsTrayViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        public void setNotification(TvNotification notification, EventLogger eventLogger) {
+            ((NotificationsTrayItemView) this.itemView).setNotification(notification, eventLogger);
+        }
     }
-  }
-  
-  public int getItemCount()
-  {
-    if (this.mCursor != null) {
-      return this.mCursor.getCount();
+
+    public NotificationsTrayAdapter(Context context, EventLogger eventLogger, Cursor cursor) {
+        this.mContext = context;
+        this.mCursor = cursor;
+        this.mEventLogger = eventLogger;
     }
-    return 0;
-  }
-  
-  public void onBindViewHolder(NotificationsTrayViewHolder paramNotificationsTrayViewHolder, int paramInt)
-  {
-    if (!this.mCursor.moveToPosition(paramInt)) {
-      throw new IllegalStateException("Index out of bounds for cursor: " + paramInt);
+
+    public NotificationsTrayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new NotificationsTrayViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_tray_item, parent, false));
     }
-    paramNotificationsTrayViewHolder.setNotification(TvNotification.fromCursor(this.mCursor), this.mEventLogger);
-  }
-  
-  public NotificationsTrayViewHolder onCreateViewHolder(ViewGroup paramViewGroup, int paramInt)
-  {
-    return new NotificationsTrayViewHolder(LayoutInflater.from(paramViewGroup.getContext()).inflate(2130968714, paramViewGroup, false));
-  }
-  
-  public static class NotificationsTrayViewHolder
-    extends RecyclerView.ViewHolder
-  {
-    public NotificationsTrayViewHolder(View paramView)
-    {
-      super();
+
+    public void onBindViewHolder(NotificationsTrayViewHolder holder, int position) {
+        if (this.mCursor.moveToPosition(position)) {
+            holder.setNotification(TvNotification.fromCursor(this.mCursor), this.mEventLogger);
+            return;
+        }
+        throw new IllegalStateException("Index out of bounds for cursor: " + position);
     }
-    
-    public void setNotification(TvNotification paramTvNotification, EventLogger paramEventLogger)
-    {
-      ((NotificationsTrayItemView)this.itemView).setNotification(paramTvNotification, paramEventLogger);
+
+    public int getItemCount() {
+        if (this.mCursor != null) {
+            return this.mCursor.getCount();
+        }
+        return 0;
     }
-  }
+
+    public void changeCursor(Cursor newCursor) {
+        this.mCursor = newCursor;
+        notifyDataSetChanged();
+        this.mEventLogger.log(new LogEventParameters(LogEvents.OPEN_HOME).putParameter(LogEvents.PARAMETER_TRAY_NOTIFICATION_COUNT, this.mCursor != null ? this.mCursor.getCount() : 0));
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/notifications/NotificationsTrayAdapter.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

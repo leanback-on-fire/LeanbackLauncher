@@ -2,6 +2,7 @@ package com.google.android.tvlauncher.appsview;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -52,9 +53,9 @@ public class EditModeFragment
         paramBundle = getArguments();
         this.mEditType = paramBundle.getInt("key_edit_mode_type");
         this.mFocusPosition = paramBundle.getInt("key_edit_mode_focused_position");
-        this.mEditAdapter = new EditModeGridAdapter(getContext());
-        AppsManager.getInstance(getContext()).refreshLaunchItems();
-        AppsManager.getInstance(getContext()).registerAppsViewChangeListener(this.mEditAdapter);
+        this.mEditAdapter = new EditModeGridAdapter(getActivity().getApplicationContext()); //getContext()
+        AppsManager.getInstance(getActivity().getApplicationContext()).refreshLaunchItems(); //getContext()
+        AppsManager.getInstance(getActivity().getApplicationContext()).registerAppsViewChangeListener(this.mEditAdapter); //getContext()
         this.mEditAdapter.setTopKeyline(paramBundle.getInt("key_top_keyline"));
         this.mEditAdapter.setBottomKeyline(paramBundle.getInt("key_bottom_keyline"));
         this.mOnShowAccessibilityMenuListener = new OnShowAccessibilityMenuListener() {
@@ -85,7 +86,7 @@ public class EditModeFragment
         @SuppressLint("RestrictedApi")
         int i = this.mGridView.getSelectedPosition();
         ArrayList localArrayList = this.mEditAdapter.getLaunchItems();
-        Object localObject = AppsManager.getInstance(getContext());
+        Object localObject = AppsManager.getInstance(getActivity().getApplicationContext()); //getContext()
         UserActionEvent localUserActionEvent;
 
         if (this.mEditType == 1) { // todo
@@ -126,10 +127,14 @@ public class EditModeFragment
     @SuppressLint("RestrictedApi")
     public void onViewCreated(View paramView, @Nullable Bundle paramBundle) {
         this.mGridView = ((EditModeGridView) this.mEditModeView.findViewById(R.id.edit_mode_grid));
+        //getContext()
+
+        Context ctx = getActivity().getApplicationContext();
+
         if (this.mEditType == 0) {
-            this.mEditAdapter.setLaunchItems(AppsManager.getInstance(getContext()).getAppLaunchItems());
+            this.mEditAdapter.setLaunchItems(AppsManager.getInstance(ctx).getAppLaunchItems());
         } else {
-            this.mEditAdapter.setLaunchItems(AppsManager.getInstance(getContext()).getGameLaunchItems());
+            this.mEditAdapter.setLaunchItems(AppsManager.getInstance(ctx).getGameLaunchItems());
 
         }
 

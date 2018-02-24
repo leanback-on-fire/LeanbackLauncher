@@ -81,14 +81,11 @@ public class AppsManager
                 }
 
                 if ((AppsManager.this.mCurrentLocales == null) || (!AppsManager.this.mCurrentLocales.equals(locales))) {
-                    // AppsManager.access$102(AppsManager.this, false); // todo
-
+                    AppsManager.this.mItemsLoaded = false;
                     AppsManager.this.mItemsLoaded = false;
                     AppsManager.this.mOemItems.clear();
                     AppsManager.this.mAllLaunchItems.clear();
-                    AppsManager.this.mCurrentLocales = locales; // todo
-
-                    // todo AppsManager.access$002(AppsManager.this, locales);
+                    AppsManager.this.mCurrentLocales = locales;
                 }
             }
 
@@ -609,23 +606,18 @@ public class AppsManager
             return localLinkedList;
         }
 
-        protected void onPostExecute(List<LaunchItem> paramList) {
+        protected void onPostExecute(List<LaunchItem> launchItems) {
             AppsManager.this.mAllLaunchItems.clear();
             AppsManager.this.mOemItems.clear();
-
-            for (LaunchItem localLaunchItem : paramList) {
-                AppsManager.this.addItemToAppropriateArea(localLaunchItem);
+            for (LaunchItem item : launchItems) {
+                AppsManager.this.addItemToAppropriateArea(item);
             }
-
             AppsManager.this.mAppsOrderManager.orderGivenItems(AppsManager.this.mAllLaunchItems);
-            // todo AppsManager.access$102(AppsManager.this, true);
-            AppsManager.this.mItemsLoaded = true; // todo I think?
-
-            for (AppsViewChangeListener mAppsViewListener : AppsManager.this.mAppsViewListeners) {
-                mAppsViewListener.onLaunchItemsLoaded();
+            AppsManager.this.mItemsLoaded = true;
+            for (AppsViewChangeListener cl : AppsManager.this.mAppsViewListeners) {
+                cl.onLaunchItemsLoaded();
             }
-
-            // todo AppsManager.access$902(AppsManager.this, null);
+            AppsManager.this.mRefreshTask = null;
         }
     }
 

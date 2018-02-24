@@ -94,9 +94,10 @@ public class AppsViewFragment
 
     public void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
-        this.mAppsManager = AppsManager.getInstance(getContext());
+        // getContext()
+        this.mAppsManager = AppsManager.getInstance(getActivity());
         this.mAppsManager.refreshLaunchItems();
-        this.mRowListAdapter = new RowListAdapter(getContext(), this.mEventLogger);
+        this.mRowListAdapter = new RowListAdapter(getActivity(), this.mEventLogger);
         this.mAppsManager.registerAppsViewChangeListener(this.mRowListAdapter);
         this.mOnAppsViewActionListener = createOnShowAppsViewListener();
     }
@@ -153,9 +154,9 @@ public class AppsViewFragment
     @SuppressLint("RestrictedApi")
     public void onViewCreated(View paramView, @Nullable Bundle paramBundle) {
         this.mGridView = ((VerticalGridView) this.mAppsView.findViewById(R.id.row_list_view));
-        this.mRowListAdapter.setAppLaunchItems(AppsManager.getInstance(getContext()).getAppLaunchItems());
-        this.mRowListAdapter.setGameLaunchItems(AppsManager.getInstance(getContext()).getGameLaunchItems());
-        this.mRowListAdapter.setOemLaunchItems(AppsManager.getInstance(getContext()).getOemLaunchItems());
+        this.mRowListAdapter.setAppLaunchItems(AppsManager.getInstance(getActivity()).getAppLaunchItems()); // getContext()
+        this.mRowListAdapter.setGameLaunchItems(AppsManager.getInstance(getActivity()).getGameLaunchItems());
+        this.mRowListAdapter.setOemLaunchItems(AppsManager.getInstance(getActivity()).getOemLaunchItems());
         this.mRowListAdapter.setOnAppsViewActionListener(this.mOnAppsViewActionListener);
         this.mRowListAdapter.setOnEditModeOrderChangeCallback(this.mOnEditModeOrderChangeCallback);
         this.mRowListAdapter.initRows();

@@ -7,278 +7,188 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.view.ViewGroup.LayoutParams;
-import java.lang.annotation.Annotation;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public class ScaleFocusHandler
-  implements View.OnFocusChangeListener
-{
-  public static final int FOCUS_DELAY_MILLIS = 60;
-  public static final int PIVOT_CENTER = 0;
-  public static final int PIVOT_START = 1;
-  private final int mAnimationDuration;
-  private AnimatorSet mAnimator;
-  private Animator.AnimatorListener mAnimatorListener;
-  private Runnable mDelayedFocusRunnable = new Runnable()
-  {
-    public void run()
-    {
-      if (ScaleFocusHandler.this.mView.isFocused()) {
-        ScaleFocusHandler.this.animateFocusedState(true);
-      }
+public class ScaleFocusHandler implements OnFocusChangeListener {
+    public static final int FOCUS_DELAY_MILLIS = 60;
+    public static final int PIVOT_CENTER = 0;
+    public static final int PIVOT_START = 1;
+    private final int mAnimationDuration;
+    private AnimatorSet mAnimator;
+    private AnimatorListener mAnimatorListener;
+    private Runnable mDelayedFocusRunnable;
+    private Runnable mDelayedUnfocusRunnable;
+    private final float mFocusedElevation;
+    private float mFocusedScale;
+    private OnFocusChangeListener mOnFocusChangeListener;
+    private int mPivot;
+    private PivotProvider mPivotProvider;
+    private int mPivotVerticalShift;
+    View mView;
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Pivot {
     }
-  };
-  private Runnable mDelayedUnfocusRunnable = new Runnable()
-  {
-    public void run()
-    {
-      if (!ScaleFocusHandler.this.mView.isFocused()) {
-        ScaleFocusHandler.this.animateFocusedState(false);
-      }
+
+    public interface PivotProvider {
+        int getPivot();
+
+        boolean shouldAnimate();
     }
-  };
-  private final float mFocusedElevation;
-  private float mFocusedScale;
-  private View.OnFocusChangeListener mOnFocusChangeListener;
-  private int mPivot = 0;
-  private PivotProvider mPivotProvider;
-  private int mPivotVerticalShift;
-  View mView;
-  
-  public ScaleFocusHandler(int paramInt, float paramFloat1, float paramFloat2)
-  {
-    this(paramInt, paramFloat1, paramFloat2, 0);
-  }
-  
-  public ScaleFocusHandler(int paramInt1, float paramFloat1, float paramFloat2, int paramInt2)
-  {
-    this.mAnimationDuration = paramInt1;
-    this.mFocusedScale = paramFloat1;
-    this.mFocusedElevation = paramFloat2;
-    this.mPivot = paramInt2;
-  }
-  
-  public ScaleFocusHandler(ScaleFocusHandler paramScaleFocusHandler)
-  {
-    this(paramScaleFocusHandler.mAnimationDuration, paramScaleFocusHandler.mFocusedScale, paramScaleFocusHandler.mFocusedElevation, paramScaleFocusHandler.mPivot);
-  }
-  
-  private void applyPivot()
-  {
-    int j = this.mView.getLayoutParams().width;
-    int m = this.mView.getLayoutParams().height;
-    int i = 0;
-    int k;
-    if (j > 0)
-    {
-      k = m;
-      if (m > 0) {}
+
+    public ScaleFocusHandler(int animationDuration, float scale, float elevation) {
+        this(animationDuration, scale, elevation, 0);
     }
-    else
-    {
-      j = this.mView.getWidth();
-      m = this.mView.getHeight();
-      if (j > 0)
-      {
-        k = m;
-        if (m > 0) {}
-      }
-      else
-      {
-        return;
-      }
+
+    public ScaleFocusHandler(int animationDuration, float scale, float elevation, int pivot) {
+        this.mPivot = 0;
+        this.mDelayedFocusRunnable = new Runnable() {
+            public void run() {
+                if (ScaleFocusHandler.this.mView.isFocused()) {
+                    ScaleFocusHandler.this.animateFocusedState(true);
+                }
+            }
+        };
+        this.mDelayedUnfocusRunnable = new Runnable() {
+            public void run() {
+                if (!ScaleFocusHandler.this.mView.isFocused()) {
+                    ScaleFocusHandler.this.animateFocusedState(false);
+                }
+            }
+        };
+        this.mAnimationDuration = animationDuration;
+        this.mFocusedScale = scale;
+        this.mFocusedElevation = elevation;
+        this.mPivot = pivot;
     }
-    if (this.mPivotProvider != null) {
-      this.mPivot = this.mPivotProvider.getPivot();
+
+    public ScaleFocusHandler(ScaleFocusHandler handler) {
+        this(handler.mAnimationDuration, handler.mFocusedScale, handler.mFocusedElevation, handler.mPivot);
     }
-    if (this.mPivot == 0) {
-      i = j / 2;
+
+    public void setView(View view) {
+        this.mView = view;
+        this.mView.setOnFocusChangeListener(this);
     }
-    for (;;)
-    {
-      this.mView.setPivotX(i);
-      this.mView.setPivotY(k / 2 + this.mPivotVerticalShift);
-      return;
-      if (this.mPivot == 1) {
-        if (this.mView.getLayoutDirection() == 1) {
-          i = j;
+
+    public void setFocusedScale(float focusedScale) {
+        this.mFocusedScale = focusedScale;
+    }
+
+    public void setPivot(int pivot) {
+        this.mPivot = pivot;
+    }
+
+    public void setPivotVerticalShift(int pivotVerticalShift) {
+        this.mPivotVerticalShift = pivotVerticalShift;
+    }
+
+    public void setOnFocusChangeListener(OnFocusChangeListener onFocusChangeListener) {
+        this.mOnFocusChangeListener = onFocusChangeListener;
+    }
+
+    public void setPivotProvider(PivotProvider pivotProvider) {
+        this.mPivotProvider = pivotProvider;
+    }
+
+    public void resetFocusedState() {
+        releaseAnimator();
+        float scale = this.mView.isFocused() ? this.mFocusedScale : 1.0f;
+        float elevation = this.mView.isFocused() ? this.mFocusedElevation : 0.0f;
+        applyPivot();
+        this.mView.setScaleX(scale);
+        this.mView.setScaleY(scale);
+        this.mView.setTranslationZ(elevation);
+    }
+
+    public int getAnimationDuration() {
+        return this.mAnimationDuration;
+    }
+
+    private void cancelAnimation() {
+        if (this.mAnimator != null) {
+            this.mAnimator.cancel();
+            releaseAnimator();
+        }
+    }
+
+    private void releaseAnimator() {
+        if (this.mAnimator != null) {
+            if (this.mAnimatorListener != null) {
+                this.mAnimator.removeListener(this.mAnimatorListener);
+            }
+            this.mAnimator = null;
+        }
+        this.mAnimatorListener = null;
+    }
+
+    public void onFocusChange(View v, boolean hasFocus) {
+        v.removeCallbacks(this.mDelayedFocusRunnable);
+        v.removeCallbacks(this.mDelayedUnfocusRunnable);
+        v.postDelayed(hasFocus ? this.mDelayedFocusRunnable : this.mDelayedUnfocusRunnable, 60);
+        if (this.mOnFocusChangeListener != null) {
+            this.mOnFocusChangeListener.onFocusChange(v, hasFocus);
+        }
+    }
+
+    protected void animateFocusedState(boolean hasFocus) {
+        cancelAnimation();
+        float beforePivotX = this.mView.getPivotX();
+        applyPivot();
+        boolean animatePivot = false;
+        if (this.mPivotProvider != null) {
+            animatePivot = this.mPivotProvider.shouldAnimate();
+        }
+        ObjectAnimator pivotAnimator = null;
+        if (animatePivot) {
+            pivotAnimator = ObjectAnimator.ofFloat(this.mView, "pivotX", new float[]{beforePivotX, this.mView.getPivotX()});
+        }
+        float scale = hasFocus ? this.mFocusedScale : 1.0f;
+        float elevation = hasFocus ? this.mFocusedElevation : 0.0f;
+        ObjectAnimator elevationAnimator = ObjectAnimator.ofFloat(this.mView, View.TRANSLATION_Z, new float[]{elevation}).setDuration((long) this.mAnimationDuration);
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(this.mView, View.SCALE_X, new float[]{scale}).setDuration((long) this.mAnimationDuration);
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(this.mView, View.SCALE_Y, new float[]{scale}).setDuration((long) this.mAnimationDuration);
+        this.mAnimator = new AnimatorSet();
+        if (pivotAnimator != null) {
+            this.mAnimator.playTogether(elevationAnimator, scaleXAnimator, scaleYAnimator, pivotAnimator);
         } else {
-          i = 0;
+            this.mAnimator.playTogether(elevationAnimator, scaleXAnimator, scaleYAnimator);
         }
-      }
+        this.mAnimatorListener = new AnimatorListenerAdapter() {
+            public void onAnimationEnd(Animator animation) {
+                ScaleFocusHandler.this.releaseAnimator();
+            }
+        };
+        this.mAnimator.addListener(this.mAnimatorListener);
+        this.mAnimator.start();
     }
-  }
-  
-  private void cancelAnimation()
-  {
-    if (this.mAnimator != null)
-    {
-      this.mAnimator.cancel();
-      releaseAnimator();
-    }
-  }
-  
-  private void releaseAnimator()
-  {
-    if (this.mAnimator != null)
-    {
-      if (this.mAnimatorListener != null) {
-        this.mAnimator.removeListener(this.mAnimatorListener);
-      }
-      this.mAnimator = null;
-    }
-    this.mAnimatorListener = null;
-  }
-  
-  protected void animateFocusedState(boolean paramBoolean)
-  {
-    cancelAnimation();
-    float f1 = this.mView.getPivotX();
-    applyPivot();
-    boolean bool = false;
-    if (this.mPivotProvider != null) {
-      bool = this.mPivotProvider.shouldAnimate();
-    }
-    ObjectAnimator localObjectAnimator1 = null;
-    if (bool) {
-      localObjectAnimator1 = ObjectAnimator.ofFloat(this.mView, "pivotX", new float[] { f1, this.mView.getPivotX() });
-    }
-    float f2;
-    label91:
-    ObjectAnimator localObjectAnimator2;
-    ObjectAnimator localObjectAnimator3;
-    ObjectAnimator localObjectAnimator4;
-    if (paramBoolean)
-    {
-      f1 = this.mFocusedScale;
-      if (!paramBoolean) {
-        break label264;
-      }
-      f2 = this.mFocusedElevation;
-      localObjectAnimator2 = ObjectAnimator.ofFloat(this.mView, View.TRANSLATION_Z, new float[] { f2 });
-      localObjectAnimator2.setDuration(this.mAnimationDuration);
-      localObjectAnimator3 = ObjectAnimator.ofFloat(this.mView, View.SCALE_X, new float[] { f1 });
-      localObjectAnimator3.setDuration(this.mAnimationDuration);
-      localObjectAnimator4 = ObjectAnimator.ofFloat(this.mView, View.SCALE_Y, new float[] { f1 });
-      localObjectAnimator4.setDuration(this.mAnimationDuration);
-      this.mAnimator = new AnimatorSet();
-      if (localObjectAnimator1 == null) {
-        break label269;
-      }
-      this.mAnimator.playTogether(new Animator[] { localObjectAnimator2, localObjectAnimator3, localObjectAnimator4, localObjectAnimator1 });
-    }
-    for (;;)
-    {
-      this.mAnimatorListener = new AnimatorListenerAdapter()
-      {
-        public void onAnimationEnd(Animator paramAnonymousAnimator)
-        {
-          ScaleFocusHandler.this.releaseAnimator();
+
+    private void applyPivot() {
+        int width = this.mView.getLayoutParams().width;
+        int height = this.mView.getLayoutParams().height;
+        int pivotX = 0;
+        if (width <= 0 || height <= 0) {
+            width = this.mView.getWidth();
+            height = this.mView.getHeight();
+            if (width <= 0 || height <= 0) {
+                return;
+            }
         }
-      };
-      this.mAnimator.addListener(this.mAnimatorListener);
-      this.mAnimator.start();
-      return;
-      f1 = 1.0F;
-      break;
-      label264:
-      f2 = 0.0F;
-      break label91;
-      label269:
-      this.mAnimator.playTogether(new Animator[] { localObjectAnimator2, localObjectAnimator3, localObjectAnimator4 });
+        if (this.mPivotProvider != null) {
+            this.mPivot = this.mPivotProvider.getPivot();
+        }
+        if (this.mPivot == 0) {
+            pivotX = width / 2;
+        } else if (this.mPivot == 1) {
+            if (this.mView.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                pivotX = width;
+            } else {
+                pivotX = 0;
+            }
+        }
+        this.mView.setPivotX((float) pivotX);
+        this.mView.setPivotY((float) ((height / 2) + this.mPivotVerticalShift));
     }
-  }
-  
-  public int getAnimationDuration()
-  {
-    return this.mAnimationDuration;
-  }
-  
-  public void onFocusChange(View paramView, boolean paramBoolean)
-  {
-    paramView.removeCallbacks(this.mDelayedFocusRunnable);
-    paramView.removeCallbacks(this.mDelayedUnfocusRunnable);
-    if (paramBoolean) {}
-    for (Runnable localRunnable = this.mDelayedFocusRunnable;; localRunnable = this.mDelayedUnfocusRunnable)
-    {
-      paramView.postDelayed(localRunnable, 60L);
-      if (this.mOnFocusChangeListener != null) {
-        this.mOnFocusChangeListener.onFocusChange(paramView, paramBoolean);
-      }
-      return;
-    }
-  }
-  
-  public void resetFocusedState()
-  {
-    releaseAnimator();
-    float f1;
-    if (this.mView.isFocused())
-    {
-      f1 = this.mFocusedScale;
-      if (!this.mView.isFocused()) {
-        break label68;
-      }
-    }
-    label68:
-    for (float f2 = this.mFocusedElevation;; f2 = 0.0F)
-    {
-      applyPivot();
-      this.mView.setScaleX(f1);
-      this.mView.setScaleY(f1);
-      this.mView.setTranslationZ(f2);
-      return;
-      f1 = 1.0F;
-      break;
-    }
-  }
-  
-  public void setFocusedScale(float paramFloat)
-  {
-    this.mFocusedScale = paramFloat;
-  }
-  
-  public void setOnFocusChangeListener(View.OnFocusChangeListener paramOnFocusChangeListener)
-  {
-    this.mOnFocusChangeListener = paramOnFocusChangeListener;
-  }
-  
-  public void setPivot(int paramInt)
-  {
-    this.mPivot = paramInt;
-  }
-  
-  public void setPivotProvider(PivotProvider paramPivotProvider)
-  {
-    this.mPivotProvider = paramPivotProvider;
-  }
-  
-  public void setPivotVerticalShift(int paramInt)
-  {
-    this.mPivotVerticalShift = paramInt;
-  }
-  
-  public void setView(View paramView)
-  {
-    this.mView = paramView;
-    this.mView.setOnFocusChangeListener(this);
-  }
-  
-  @Retention(RetentionPolicy.SOURCE)
-  public static @interface Pivot {}
-  
-  public static abstract interface PivotProvider
-  {
-    public abstract int getPivot();
-    
-    public abstract boolean shouldAnimate();
-  }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/util/ScaleFocusHandler.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

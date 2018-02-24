@@ -5,101 +5,84 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.google.android.tvlauncher.util.LauncherSharedConstants;
+
 @TargetApi(26)
-public class Channel
-  implements Comparable<Channel>
-{
-  public static final String[] PROJECTION = { "_id", "display_name", "browsable", "package_name", "internal_provider_data" };
-  private boolean mBrowsable;
-  private String mDisplayName;
-  private long mId;
-  private String mPackageName;
-  
-  public static Channel fromCursor(Cursor paramCursor)
-  {
-    boolean bool = true;
-    Channel localChannel = new Channel();
-    int j = 0 + 1;
-    localChannel.mId = paramCursor.getLong(0);
-    int i = j + 1;
-    localChannel.mDisplayName = paramCursor.getString(j);
-    j = i + 1;
-    if (paramCursor.getInt(i) == 1) {}
-    for (;;)
-    {
-      localChannel.mBrowsable = bool;
-      i = j + 1;
-      localChannel.mPackageName = paramCursor.getString(j);
-      if ("com.google.android.tvrecommendations".equals(localChannel.mPackageName))
-      {
-        paramCursor = paramCursor.getBlob(i);
-        localChannel.mPackageName = new String(paramCursor, 0, paramCursor.length - 1);
-      }
-      return localChannel;
-      bool = false;
+public class Channel implements Comparable<Channel> {
+    public static final String[] PROJECTION = new String[]{"_id", "display_name", "browsable", "package_name", LauncherSharedConstants.LEGACY_PACKAGE_NAME_COLUMN};
+    private boolean mBrowsable;
+    private String mDisplayName;
+    private long mId;
+    private String mPackageName;
+
+    public static Channel fromCursor(Cursor cursor) {
+        boolean z = true;
+        Channel channel = new Channel();
+        int index = 1;
+        channel.mId = cursor.getLong(0);
+        int index2 = index + 1;
+        channel.mDisplayName = cursor.getString(index);
+        index = index2 + 1;
+        if (cursor.getInt(index2) != 1) {
+            z = false;
+        }
+        channel.mBrowsable = z;
+        index2 = index + 1;
+        channel.mPackageName = cursor.getString(index);
+        if (LauncherSharedConstants.TVRECOMMENDATIONS_PACKAGE_NAME.equals(channel.mPackageName)) {
+            index = index2 + 1;
+            byte[] packageNameBlob = cursor.getBlob(index2);
+            channel.mPackageName = new String(packageNameBlob, 0, packageNameBlob.length - 1);
+            index2 = index;
+        }
+        return channel;
     }
-  }
-  
-  public int compareTo(@NonNull Channel paramChannel)
-  {
-    if ((this.mDisplayName == null) && (paramChannel.getDisplayName() == null)) {
-      return 0;
+
+    public long getId() {
+        return this.mId;
     }
-    if (this.mDisplayName == null) {
-      return 1;
+
+    @VisibleForTesting(otherwise = 2)
+    public void setId(long id) {
+        this.mId = id;
     }
-    if (paramChannel.getDisplayName() == null) {
-      return -1;
+
+    public String getDisplayName() {
+        return this.mDisplayName;
     }
-    return this.mDisplayName.compareToIgnoreCase(paramChannel.getDisplayName());
-  }
-  
-  public String getDisplayName()
-  {
-    return this.mDisplayName;
-  }
-  
-  public long getId()
-  {
-    return this.mId;
-  }
-  
-  public String getPackageName()
-  {
-    return this.mPackageName;
-  }
-  
-  public boolean isBrowsable()
-  {
-    return this.mBrowsable;
-  }
-  
-  @VisibleForTesting(otherwise=2)
-  void setDisplayName(String paramString)
-  {
-    this.mDisplayName = paramString;
-  }
-  
-  @VisibleForTesting(otherwise=2)
-  public void setId(long paramLong)
-  {
-    this.mId = paramLong;
-  }
-  
-  @VisibleForTesting(otherwise=2)
-  public void setPackageName(String paramString)
-  {
-    this.mPackageName = paramString;
-  }
-  
-  public String toString()
-  {
-    return "Channel{mId=" + this.mId + ", mDisplayName='" + this.mDisplayName + '\'' + ", mBrowsable=" + this.mBrowsable + ", mPackageName='" + this.mPackageName + '\'' + '}';
-  }
+
+    @VisibleForTesting(otherwise = 2)
+    void setDisplayName(String displayName) {
+        this.mDisplayName = displayName;
+    }
+
+    public boolean isBrowsable() {
+        return this.mBrowsable;
+    }
+
+    public String getPackageName() {
+        return this.mPackageName;
+    }
+
+    @VisibleForTesting(otherwise = 2)
+    public void setPackageName(String packageName) {
+        this.mPackageName = packageName;
+    }
+
+    public String toString() {
+        return "Channel{mId=" + this.mId + ", mDisplayName='" + this.mDisplayName + '\'' + ", mBrowsable=" + this.mBrowsable + ", mPackageName='" + this.mPackageName + '\'' + '}';
+    }
+
+    public int compareTo(@NonNull Channel o) {
+        if (this.mDisplayName == null && o.getDisplayName() == null) {
+            return 0;
+        }
+        if (this.mDisplayName == null) {
+            return 1;
+        }
+        if (o.getDisplayName() == null) {
+            return -1;
+        }
+        return this.mDisplayName.compareToIgnoreCase(o.getDisplayName());
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/model/Channel.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

@@ -12,10 +12,10 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewOutlineProvider;
-import android.view.ViewPropertyAnimator;
-import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
 import android.widget.LinearLayout;
+
+import com.google.android.tvlauncher.R;
 import com.google.android.tvlauncher.appsview.AppsManager;
 import com.google.android.tvlauncher.home.HomeRow;
 import com.google.android.tvlauncher.home.OnHomeRowRemovedListener;
@@ -26,278 +26,206 @@ import com.google.android.tvlauncher.notifications.NotificationsPanelButtonView;
 import com.google.android.tvlauncher.notifications.NotificationsPanelController;
 import com.google.android.tvlauncher.notifications.NotificationsTrayAdapter;
 import com.google.android.tvlauncher.notifications.NotificationsTrayView;
-import java.util.List;
 
-public class HomeTopRowView
-  extends LinearLayout
-  implements View.OnFocusChangeListener, HomeRow
-{
-  private Context mContext;
-  private int mDefaultItemsContainerHeight;
-  private int mDefaultItemsContainerTopMargin;
-  private int mDuration;
-  private float mFocusedElevation;
-  private float mFocusedZoom;
-  private final ViewTreeObserver.OnGlobalFocusChangeListener mGlobalFocusChangeListener = new ViewTreeObserver.OnGlobalFocusChangeListener()
-  {
-    public void onGlobalFocusChanged(View paramAnonymousView1, View paramAnonymousView2)
-    {
-      if (HomeTopRowView.this.findFocus() == paramAnonymousView2) {
-        HomeTopRowView.this.mOnHomeRowSelectedListener.onHomeRowSelected(HomeTopRowView.this);
-      }
-      if (HomeTopRowView.this.mItemsContainer.findFocus() == paramAnonymousView2) {}
-      for (boolean bool = true;; bool = false)
-      {
-        HomeTopRowView.this.mSearch.animateKeyboardOrb(bool);
-        return;
-      }
-    }
-  };
-  private View mInputs;
-  private InputsCallback mInputsCallback;
-  private Handler mInputsHandler;
-  private View mItemsContainer;
-  private boolean mItemsSelected = false;
-  private NotificationsTrayView mNotificationsTray;
-  private OnActionListener mOnActionListener;
-  private OnHomeRowSelectedListener mOnHomeRowSelectedListener;
-  private NotificationsPanelController mPanelController = null;
-  private SearchOrbView mSearch;
-  private int mSelectedItemsContainerHeight;
-  private int mSelectedItemsContainerTopMargin;
-  private TvInputManager mTvInputManager;
-  private float mUnfocusedElevation;
-  
-  public HomeTopRowView(Context paramContext)
-  {
-    super(paramContext);
-    init(paramContext);
-  }
-  
-  public HomeTopRowView(Context paramContext, AttributeSet paramAttributeSet)
-  {
-    super(paramContext, paramAttributeSet);
-    init(paramContext);
-  }
-  
-  public HomeTopRowView(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
-  {
-    super(paramContext, paramAttributeSet, paramInt);
-    init(paramContext);
-  }
-  
-  private void init(Context paramContext)
-  {
-    this.mContext = paramContext;
-    paramContext = paramContext.getResources();
-    this.mFocusedElevation = paramContext.getDimension(R.dimen.top_row_item_focused_z);
-    this.mUnfocusedElevation = paramContext.getDimension(R.dimen.top_row_item_unfocused_z);
-    this.mFocusedZoom = paramContext.getFraction(2131886099, 1, 1);
-    this.mDuration = paramContext.getInteger(R.integer.top_row_scale_duration_ms);
-    this.mDefaultItemsContainerHeight = paramContext.getDimensionPixelSize(R.dimen.top_row_items_container_height);
-    this.mDefaultItemsContainerTopMargin = paramContext.getDimensionPixelSize(R.dimen.top_row_items_container_margin_top);
-    this.mSelectedItemsContainerHeight = paramContext.getDimensionPixelSize(R.dimen.top_row_selected_items_container_height);
-    this.mSelectedItemsContainerTopMargin = paramContext.getDimensionPixelSize(R.dimen.top_row_selected_items_container_margin_top);
-  }
-  
-  private void updateItemsSelectedState(boolean paramBoolean)
-  {
-    ViewGroup.MarginLayoutParams localMarginLayoutParams;
-    if (this.mItemsSelected != paramBoolean)
-    {
-      this.mItemsSelected = paramBoolean;
-      localMarginLayoutParams = (ViewGroup.MarginLayoutParams)this.mItemsContainer.getLayoutParams();
-      if (!this.mItemsSelected) {
-        break label56;
-      }
-      localMarginLayoutParams.height = this.mSelectedItemsContainerHeight;
-    }
-    for (localMarginLayoutParams.topMargin = this.mSelectedItemsContainerTopMargin;; localMarginLayoutParams.topMargin = this.mDefaultItemsContainerTopMargin)
-    {
-      this.mItemsContainer.setLayoutParams(localMarginLayoutParams);
-      return;
-      label56:
-      localMarginLayoutParams.height = this.mDefaultItemsContainerHeight;
-    }
-  }
-  
-  public NotificationsPanelController getNotificationsPanelController()
-  {
-    return this.mPanelController;
-  }
-  
-  public NotificationsTrayAdapter getNotificationsTrayAdapter()
-  {
-    return this.mNotificationsTray.getTrayAdapter();
-  }
-  
-  public View getView()
-  {
-    return this;
-  }
-  
-  protected void onAttachedToWindow()
-  {
-    super.onAttachedToWindow();
-    this.mTvInputManager.registerCallback(this.mInputsCallback, this.mInputsHandler);
-    getViewTreeObserver().addOnGlobalFocusChangeListener(this.mGlobalFocusChangeListener);
-  }
-  
-  protected void onDetachedFromWindow()
-  {
-    super.onDetachedFromWindow();
-    this.mTvInputManager.unregisterCallback(this.mInputsCallback);
-    getViewTreeObserver().removeOnGlobalFocusChangeListener(this.mGlobalFocusChangeListener);
-  }
-  
-  protected void onFinishInflate()
-  {
-    super.onFinishInflate();
-    ViewOutlineProvider local2 = new ViewOutlineProvider()
-    {
-      public void getOutline(View paramAnonymousView, Outline paramAnonymousOutline)
-      {
-        paramAnonymousOutline.setOval(0, 0, paramAnonymousView.getMeasuredWidth(), paramAnonymousView.getMeasuredHeight());
-      }
+public class HomeTopRowView extends LinearLayout implements OnFocusChangeListener, HomeRow {
+    private Context mContext;
+    private int mDefaultItemsContainerHeight;
+    private int mDefaultItemsContainerTopMargin;
+    private int mDuration;
+    private float mFocusedElevation;
+    private float mFocusedZoom;
+    private final OnGlobalFocusChangeListener mGlobalFocusChangeListener = new OnGlobalFocusChangeListener() {
+        public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+            if (HomeTopRowView.this.findFocus() == newFocus) {
+                HomeTopRowView.this.mOnHomeRowSelectedListener.onHomeRowSelected(HomeTopRowView.this);
+            }
+            HomeTopRowView.this.mSearch.animateKeyboardOrb(HomeTopRowView.this.mItemsContainer.findFocus() == newFocus);
+        }
     };
-    this.mItemsContainer = findViewById(R.id.items_container);
-    this.mSearch = ((SearchOrbView)findViewById(R.id.search_view));
-    this.mSearch.setOutlineProvider(local2);
-    AppsManager.getInstance(getContext()).setSearchPackageChangeListener(this.mSearch, this.mSearch.getSearchPackageName());
-    this.mInputs = findViewById(R.id.inputs);
-    this.mInputs.setOnClickListener(new View.OnClickListener()
-    {
-      public void onClick(View paramAnonymousView)
-      {
-        if (HomeTopRowView.this.mOnActionListener != null) {
-          HomeTopRowView.this.mOnActionListener.onShowInputs();
+    private View mInputs;
+    private InputsCallback mInputsCallback;
+    private Handler mInputsHandler;
+    private View mItemsContainer;
+    private boolean mItemsSelected = false;
+    private NotificationsTrayView mNotificationsTray;
+    private OnActionListener mOnActionListener;
+    private OnHomeRowSelectedListener mOnHomeRowSelectedListener;
+    private NotificationsPanelController mPanelController = null;
+    private SearchOrbView mSearch;
+    private int mSelectedItemsContainerHeight;
+    private int mSelectedItemsContainerTopMargin;
+    private TvInputManager mTvInputManager;
+    private float mUnfocusedElevation;
+
+    private class InputsCallback extends TvInputCallback {
+        private InputsCallback() {
         }
-      }
-    });
-    this.mInputs.setOutlineProvider(local2);
-    this.mInputs.setClipToOutline(true);
-    this.mTvInputManager = ((TvInputManager)getContext().getSystemService("tv_input"));
-    if (!InputsManager.hasInputs(this.mContext)) {
-      this.mInputs.setVisibility(8);
-    }
-    for (;;)
-    {
-      this.mInputsCallback = new InputsCallback(null);
-      this.mInputsHandler = new Handler();
-      View localView = findViewById(R.id.settings);
-      localView.setOnClickListener(new View.OnClickListener()
-      {
-        public void onClick(View paramAnonymousView)
-        {
-          if (HomeTopRowView.this.mOnActionListener != null) {
-            HomeTopRowView.this.mOnActionListener.onStartSettings();
-          }
+
+        public void onInputAdded(String inputId) {
+            super.onInputAdded(inputId);
+            HomeTopRowView.this.mInputs.setVisibility(View.VISIBLE);
         }
-      });
-      localView.setOutlineProvider(local2);
-      localView.setClipToOutline(true);
-      this.mNotificationsTray = ((NotificationsTrayView)findViewById(R.id.notifications_tray));
-      updateNotificationsTrayVisibility();
-      return;
-      this.mInputs.setVisibility(0);
+
+        public void onInputRemoved(String inputId) {
+            super.onInputRemoved(inputId);
+            if (HomeTopRowView.this.mTvInputManager != null && HomeTopRowView.this.mTvInputManager.getTvInputList().isEmpty() && !InputsManager.hasInputs(HomeTopRowView.this.mContext)) {
+                HomeTopRowView.this.mInputs.setVisibility(View.GONE);
+            }
+        }
     }
-  }
-  
-  public void onFocusChange(View paramView, boolean paramBoolean)
-  {
-    float f1;
-    if (paramBoolean)
-    {
-      f1 = this.mFocusedZoom;
-      if (!paramBoolean) {
-        break label51;
-      }
+
+    public interface OnActionListener {
+        void onShowInputs();
+
+        void onStartSettings();
     }
-    label51:
-    for (float f2 = this.mFocusedElevation;; f2 = this.mUnfocusedElevation)
-    {
-      paramView.animate().z(f2).scaleX(f1).scaleY(f1).setDuration(this.mDuration);
-      return;
-      f1 = 1.0F;
-      break;
+
+    public HomeTopRowView(Context context) {
+        super(context);
+        init(context);
     }
-  }
-  
-  public void setNotificationsPanelController(NotificationsPanelController paramNotificationsPanelController)
-  {
-    this.mPanelController = paramNotificationsPanelController;
-    paramNotificationsPanelController = (NotificationsPanelButtonView)findViewById(R.id.notification_panel_button);
-    this.mPanelController.setView(paramNotificationsPanelController);
-  }
-  
-  public void setNotificationsTrayAdapter(NotificationsTrayAdapter paramNotificationsTrayAdapter)
-  {
-    this.mNotificationsTray.setTrayAdapter(paramNotificationsTrayAdapter);
-  }
-  
-  public void setOnActionListener(OnActionListener paramOnActionListener)
-  {
-    this.mOnActionListener = paramOnActionListener;
-  }
-  
-  public void setOnHomeRowRemovedListener(OnHomeRowRemovedListener paramOnHomeRowRemovedListener) {}
-  
-  public void setOnHomeRowSelectedListener(OnHomeRowSelectedListener paramOnHomeRowSelectedListener)
-  {
-    this.mOnHomeRowSelectedListener = paramOnHomeRowSelectedListener;
-  }
-  
-  public void setOnHomeStateChangeListener(OnHomeStateChangeListener paramOnHomeStateChangeListener) {}
-  
-  public void setState(boolean paramBoolean1, boolean paramBoolean2)
-  {
-    ViewGroup.MarginLayoutParams localMarginLayoutParams = (ViewGroup.MarginLayoutParams)this.mSearch.getLayoutParams();
-    Resources localResources = getResources();
-    if (paramBoolean1) {}
-    for (int i = 2131559014;; i = 2131559012)
-    {
-      localMarginLayoutParams.setMarginStart(localResources.getDimensionPixelOffset(i));
-      this.mSearch.setLayoutParams(localMarginLayoutParams);
-      updateItemsSelectedState(paramBoolean2);
-      return;
+
+    public HomeTopRowView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
     }
-  }
-  
-  public void updateNotificationsTrayVisibility()
-  {
-    this.mNotificationsTray.updateVisibility();
-  }
-  
-  private class InputsCallback
-    extends TvInputManager.TvInputCallback
-  {
-    private InputsCallback() {}
-    
-    public void onInputAdded(String paramString)
-    {
-      super.onInputAdded(paramString);
-      HomeTopRowView.this.mInputs.setVisibility(0);
+
+    public HomeTopRowView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context);
     }
-    
-    public void onInputRemoved(String paramString)
-    {
-      super.onInputRemoved(paramString);
-      if ((HomeTopRowView.this.mTvInputManager != null) && (HomeTopRowView.this.mTvInputManager.getTvInputList().isEmpty()) && (!InputsManager.hasInputs(HomeTopRowView.this.mContext))) {
-        HomeTopRowView.this.mInputs.setVisibility(8);
-      }
+
+    private void init(Context context) {
+        this.mContext = context;
+        Resources resources = context.getResources();
+        this.mFocusedElevation = resources.getDimension(R.dimen.top_row_item_focused_z);
+        this.mUnfocusedElevation = resources.getDimension(R.dimen.top_row_item_unfocused_z);
+        this.mFocusedZoom = resources.getFraction(R.fraction.top_row_item_focused_zoom, 1, 1);
+        this.mDuration = resources.getInteger(R.integer.top_row_scale_duration_ms);
+        this.mDefaultItemsContainerHeight = resources.getDimensionPixelSize(R.dimen.top_row_items_container_height);
+        this.mDefaultItemsContainerTopMargin = resources.getDimensionPixelSize(R.dimen.top_row_items_container_margin_top);
+        this.mSelectedItemsContainerHeight = resources.getDimensionPixelSize(R.dimen.top_row_selected_items_container_height);
+        this.mSelectedItemsContainerTopMargin = resources.getDimensionPixelSize(R.dimen.top_row_selected_items_container_margin_top);
     }
-  }
-  
-  public static abstract interface OnActionListener
-  {
-    public abstract void onShowInputs();
-    
-    public abstract void onStartSettings();
-  }
+
+    public void setOnActionListener(OnActionListener listener) {
+        this.mOnActionListener = listener;
+    }
+
+    public void setNotificationsTrayAdapter(NotificationsTrayAdapter adapter) {
+        this.mNotificationsTray.setTrayAdapter(adapter);
+    }
+
+    public void updateNotificationsTrayVisibility() {
+        this.mNotificationsTray.updateVisibility();
+    }
+
+    public void setNotificationsPanelController(NotificationsPanelController controller) {
+        this.mPanelController = controller;
+        this.mPanelController.setView((NotificationsPanelButtonView) findViewById(R.id.notification_panel_button));
+    }
+
+    public NotificationsTrayAdapter getNotificationsTrayAdapter() {
+        return this.mNotificationsTray.getTrayAdapter();
+    }
+
+    public NotificationsPanelController getNotificationsPanelController() {
+        return this.mPanelController;
+    }
+
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        ViewOutlineProvider outlineProvider = new ViewOutlineProvider() {
+            public void getOutline(View view, Outline outline) {
+                outline.setOval(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+            }
+        };
+        this.mItemsContainer = findViewById(R.id.items_container);
+        this.mSearch = (SearchOrbView) findViewById(R.id.search_view);
+        this.mSearch.setOutlineProvider(outlineProvider);
+        AppsManager.getInstance(getContext()).setSearchPackageChangeListener(this.mSearch, this.mSearch.getSearchPackageName());
+        this.mInputs = findViewById(R.id.inputs);
+        this.mInputs.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                if (HomeTopRowView.this.mOnActionListener != null) {
+                    HomeTopRowView.this.mOnActionListener.onShowInputs();
+                }
+            }
+        });
+        this.mInputs.setOutlineProvider(outlineProvider);
+        this.mInputs.setClipToOutline(true);
+        this.mTvInputManager = (TvInputManager) getContext().getSystemService(Context.TV_INPUT_SERVICE);
+        if (InputsManager.hasInputs(this.mContext)) {
+            this.mInputs.setVisibility(View.VISIBLE);
+        } else {
+            this.mInputs.setVisibility(View.GONE);
+        }
+        this.mInputsCallback = new InputsCallback();
+        this.mInputsHandler = new Handler();
+        View settings = findViewById(R.id.settings);
+        settings.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                if (HomeTopRowView.this.mOnActionListener != null) {
+                    HomeTopRowView.this.mOnActionListener.onStartSettings();
+                }
+            }
+        });
+        settings.setOutlineProvider(outlineProvider);
+        settings.setClipToOutline(true);
+        this.mNotificationsTray = (NotificationsTrayView) findViewById(R.id.notifications_tray);
+        updateNotificationsTrayVisibility();
+    }
+
+    public void onFocusChange(View v, boolean hasFocus) {
+        float scale = hasFocus ? this.mFocusedZoom : 1.0f;
+        v.animate().z(hasFocus ? this.mFocusedElevation : this.mUnfocusedElevation).scaleX(scale).scaleY(scale).setDuration((long) this.mDuration);
+    }
+
+    public void setState(boolean zoomedOut, boolean selected) {
+        MarginLayoutParams lp = (MarginLayoutParams) this.mSearch.getLayoutParams();
+        lp.setMarginStart(getResources().getDimensionPixelOffset(zoomedOut ? R.dimen.search_orb_zoomed_out_margin_start : R.dimen.search_orb_margin_start));
+        this.mSearch.setLayoutParams(lp);
+        updateItemsSelectedState(selected);
+    }
+
+    private void updateItemsSelectedState(boolean newItemsSelected) {
+        if (this.mItemsSelected != newItemsSelected) {
+            this.mItemsSelected = newItemsSelected;
+            MarginLayoutParams lp = (MarginLayoutParams) this.mItemsContainer.getLayoutParams();
+            if (this.mItemsSelected) {
+                lp.height = this.mSelectedItemsContainerHeight;
+                lp.topMargin = this.mSelectedItemsContainerTopMargin;
+            } else {
+                lp.height = this.mDefaultItemsContainerHeight;
+                lp.topMargin = this.mDefaultItemsContainerTopMargin;
+            }
+            this.mItemsContainer.setLayoutParams(lp);
+        }
+    }
+
+    public void setOnHomeStateChangeListener(OnHomeStateChangeListener listener) {
+    }
+
+    public void setOnHomeRowSelectedListener(OnHomeRowSelectedListener listener) {
+        this.mOnHomeRowSelectedListener = listener;
+    }
+
+    public void setOnHomeRowRemovedListener(OnHomeRowRemovedListener listener) {
+    }
+
+    public View getView() {
+        return this;
+    }
+
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        this.mTvInputManager.unregisterCallback(this.mInputsCallback);
+        getViewTreeObserver().removeOnGlobalFocusChangeListener(this.mGlobalFocusChangeListener);
+    }
+
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.mTvInputManager.registerCallback(this.mInputsCallback, this.mInputsHandler);
+        getViewTreeObserver().addOnGlobalFocusChangeListener(this.mGlobalFocusChangeListener);
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/view/HomeTopRowView.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

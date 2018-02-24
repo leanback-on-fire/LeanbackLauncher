@@ -3,131 +3,106 @@ package com.google.android.tvlauncher.settings;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v17.preference.LeanbackPreferenceFragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.Preference.OnPreferenceChangeListener;
 import android.support.v7.preference.PreferenceCategory;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
+import com.google.android.tvlauncher.R;
 import com.google.android.tvlauncher.appsview.AppsViewActivity;
+import com.google.android.tvlauncher.data.TvDataManager;
 import com.google.android.tvlauncher.util.BuildType;
 
-public class HomeScreenPreferenceFragment
-  extends LeanbackPreferenceFragment
-  implements Preference.OnPreferenceChangeListener
-{
-  private static final String REORDER_APPS_KEY = "reorderapps";
-  private static final String REORDER_GAMES_KEY = "reordergames";
-  
-  private void createAppsViewPreference(PreferenceScreen paramPreferenceScreen, Context paramContext)
-  {
-    Object localObject = new PreferenceCategory(paramContext);
-    ((PreferenceCategory)localObject).setTitle(2131492897);
-    paramPreferenceScreen.addPreference((Preference)localObject);
-    localObject = new Preference(paramContext);
-    ((Preference)localObject).setKey("reorderapps");
-    ((Preference)localObject).setTitle(2131492931);
-    paramPreferenceScreen.addPreference((Preference)localObject);
-    paramContext = new Preference(paramContext);
-    paramContext.setKey("reordergames");
-    paramContext.setTitle(2131492932);
-    paramPreferenceScreen.addPreference(paramContext);
-    setPreferenceScreen(paramPreferenceScreen);
-  }
-  
-  private void createGuideViewPreference(PreferenceScreen paramPreferenceScreen, Context paramContext)
-  {
-    Object localObject = new PreferenceCategory(paramContext);
-    ((PreferenceCategory)localObject).setTitle(2131492996);
-    paramPreferenceScreen.addPreference((Preference)localObject);
-    localObject = new Preference(getPreferenceManager().getContext());
-    ((Preference)localObject).setTitle(2131492893);
-    ((Preference)localObject).setFragment(AppChannelSelectAppFragment.class.getName());
-    ((Preference)localObject).setPersistent(false);
-    paramPreferenceScreen.addPreference((Preference)localObject);
-    SwitchPreference localSwitchPreference = new SwitchPreference(paramContext);
-    localSwitchPreference.setKey("show_preview_video_key");
-    localSwitchPreference.setTitle(2131492999);
-    localObject = getContext().getSharedPreferences("com.google.android.tvlauncher.data.TvDataManager.PREVIEW_VIDEO_PREF_FILE_NAME", 0);
-    localSwitchPreference.setChecked(((SharedPreferences)localObject).getBoolean("show_preview_video_key", true));
-    localSwitchPreference.setPersistent(false);
-    localSwitchPreference.setOnPreferenceChangeListener(this);
-    paramPreferenceScreen.addPreference(localSwitchPreference);
-    paramContext = new SwitchPreference(paramContext);
-    paramContext.setKey("enable_preview_audio_key");
-    paramContext.setTitle(2131492998);
-    paramContext.setChecked(((SharedPreferences)localObject).getBoolean("enable_preview_audio_key", true));
-    paramContext.setPersistent(false);
-    paramContext.setOnPreferenceChangeListener(this);
-    paramPreferenceScreen.addPreference(paramContext);
-  }
-  
-  public static Fragment newInstance()
-  {
-    return new HomeScreenPreferenceFragment();
-  }
-  
-  public void onCreatePreferences(Bundle paramBundle, String paramString)
-  {
-    paramBundle = getPreferenceManager().getContext();
-    paramString = getPreferenceManager().createPreferenceScreen(paramBundle);
-    paramString.setTitle(2131493075);
-    createGuideViewPreference(paramString, paramBundle);
-    createAppsViewPreference(paramString, paramBundle);
-    if (BuildType.DOGFOOD.booleanValue()) {
-      paramString.addPreference((Preference)BuildType.newInstance(Preference.class, "com.google.android.tvlauncher.settings.DogfoodPreference", new Object[] { paramBundle }));
+public class HomeScreenPreferenceFragment extends LeanbackPreferenceFragment implements OnPreferenceChangeListener {
+    private static final String REORDER_APPS_KEY = "reorderapps";
+    private static final String REORDER_GAMES_KEY = "reordergames";
+
+    public static Fragment newInstance() {
+        return new HomeScreenPreferenceFragment();
     }
-    for (;;)
-    {
-      setPreferenceScreen(paramString);
-      return;
-      if (BuildType.DEBUG.booleanValue()) {
-        paramString.addPreference((Preference)BuildType.newInstance(Preference.class, "com.google.android.tvlauncher.settings.DebugPreference", new Object[] { paramBundle }));
-      }
+
+    public void onCreatePreferences(Bundle bundle, String s) {
+        Context preferenceContext = getPreferenceManager().getContext();
+        PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(preferenceContext);
+        screen.setTitle((int) R.string.settings_dialog_title);
+        createGuideViewPreference(screen, preferenceContext);
+        createAppsViewPreference(screen, preferenceContext);
+        if (BuildType.DOGFOOD.booleanValue()) {
+            screen.addPreference((Preference) BuildType.newInstance(Preference.class, "com.google.android.tvlauncher.settings.DogfoodPreference", preferenceContext));
+        } else if (BuildType.DEBUG.booleanValue()) {
+            screen.addPreference((Preference) BuildType.newInstance(Preference.class, "com.google.android.tvlauncher.settings.DebugPreference", preferenceContext));
+        }
+        setPreferenceScreen(screen);
     }
-  }
-  
-  public boolean onPreferenceChange(Preference paramPreference, Object paramObject)
-  {
-    SharedPreferences localSharedPreferences = getContext().getSharedPreferences("com.google.android.tvlauncher.data.TvDataManager.PREVIEW_VIDEO_PREF_FILE_NAME", 0);
-    if ("show_preview_video_key".equals(paramPreference.getKey()))
-    {
-      paramObject = (Boolean)paramObject;
-      localSharedPreferences.edit().putBoolean(paramPreference.getKey(), ((Boolean)paramObject).booleanValue()).apply();
-      ((SwitchPreference)getPreferenceScreen().findPreference("enable_preview_audio_key")).setEnabled(((Boolean)paramObject).booleanValue());
-      return true;
+
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        SharedPreferences prefs = getContext().getSharedPreferences(TvDataManager.PREVIEW_VIDEO_PREF_FILE_NAME, 0);
+        if (TvDataManager.SHOW_PREVIEW_VIDEO_KEY.equals(preference.getKey())) {
+            Boolean showPreviewVideo = (Boolean) newValue;
+            prefs.edit().putBoolean(preference.getKey(), showPreviewVideo.booleanValue()).apply();
+            ((SwitchPreference) getPreferenceScreen().findPreference(TvDataManager.ENABLE_PREVIEW_AUDIO_KEY)).setEnabled(showPreviewVideo.booleanValue());
+            return true;
+        } else if (!TvDataManager.ENABLE_PREVIEW_AUDIO_KEY.equals(preference.getKey())) {
+            return false;
+        } else {
+            prefs.edit().putBoolean(preference.getKey(), ((Boolean) newValue).booleanValue()).apply();
+            return true;
+        }
     }
-    if ("enable_preview_audio_key".equals(paramPreference.getKey()))
-    {
-      paramObject = (Boolean)paramObject;
-      localSharedPreferences.edit().putBoolean(paramPreference.getKey(), ((Boolean)paramObject).booleanValue()).apply();
-      return true;
+
+    public boolean onPreferenceTreeClick(Preference preference) {
+        String key = preference.getKey();
+        if (REORDER_APPS_KEY.equals(key)) {
+            AppsViewActivity.startAppsViewActivity(Integer.valueOf(0), getContext());
+            return true;
+        } else if (!REORDER_GAMES_KEY.equals(key)) {
+            return super.onPreferenceTreeClick(preference);
+        } else {
+            AppsViewActivity.startAppsViewActivity(Integer.valueOf(1), getContext());
+            return true;
+        }
     }
-    return false;
-  }
-  
-  public boolean onPreferenceTreeClick(Preference paramPreference)
-  {
-    String str = paramPreference.getKey();
-    if ("reorderapps".equals(str))
-    {
-      AppsViewActivity.startAppsViewActivity(Integer.valueOf(0), getContext());
-      return true;
+
+    private void createAppsViewPreference(PreferenceScreen screen, Context preferenceContext) {
+        PreferenceCategory appsCategory = new PreferenceCategory(preferenceContext);
+        appsCategory.setTitle((int) R.string.apps_view_title);
+        screen.addPreference(appsCategory);
+        Preference reorderAppsPref = new Preference(preferenceContext);
+        reorderAppsPref.setKey(REORDER_APPS_KEY);
+        reorderAppsPref.setTitle((int) R.string.customize_app_order_action_title);
+        screen.addPreference(reorderAppsPref);
+        Preference reorderGamesPref = new Preference(preferenceContext);
+        reorderGamesPref.setKey(REORDER_GAMES_KEY);
+        reorderGamesPref.setTitle((int) R.string.customize_game_order_action_title);
+        screen.addPreference(reorderGamesPref);
+        setPreferenceScreen(screen);
     }
-    if ("reordergames".equals(str))
-    {
-      AppsViewActivity.startAppsViewActivity(Integer.valueOf(1), getContext());
-      return true;
+
+    private void createGuideViewPreference(PreferenceScreen screen, Context preferenceContext) {
+        PreferenceCategory guideCategory = new PreferenceCategory(preferenceContext);
+        guideCategory.setTitle((int) R.string.guide_view_title);
+        screen.addPreference(guideCategory);
+        Preference channelsPreference = new Preference(getPreferenceManager().getContext());
+        channelsPreference.setTitle((int) R.string.add_channels_title);
+        channelsPreference.setFragment(AppChannelSelectAppFragment.class.getName());
+        channelsPreference.setPersistent(false);
+        screen.addPreference(channelsPreference);
+        SwitchPreference previewVideoEnablePref = new SwitchPreference(preferenceContext);
+        previewVideoEnablePref.setKey(TvDataManager.SHOW_PREVIEW_VIDEO_KEY);
+        previewVideoEnablePref.setTitle((int) R.string.home_screen_preview_video_enable);
+        SharedPreferences preferences = getContext().getSharedPreferences(TvDataManager.PREVIEW_VIDEO_PREF_FILE_NAME, 0);
+        previewVideoEnablePref.setChecked(preferences.getBoolean(TvDataManager.SHOW_PREVIEW_VIDEO_KEY, true));
+        previewVideoEnablePref.setPersistent(false);
+        previewVideoEnablePref.setOnPreferenceChangeListener(this);
+        screen.addPreference(previewVideoEnablePref);
+        SwitchPreference previewAudioEnablePref = new SwitchPreference(preferenceContext);
+        previewAudioEnablePref.setKey(TvDataManager.ENABLE_PREVIEW_AUDIO_KEY);
+        previewAudioEnablePref.setTitle((int) R.string.home_screen_preview_audio_enable);
+        previewAudioEnablePref.setChecked(preferences.getBoolean(TvDataManager.ENABLE_PREVIEW_AUDIO_KEY, true));
+        previewAudioEnablePref.setPersistent(false);
+        previewAudioEnablePref.setOnPreferenceChangeListener(this);
+        screen.addPreference(previewAudioEnablePref);
     }
-    return super.onPreferenceTreeClick(paramPreference);
-  }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/settings/HomeScreenPreferenceFragment.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

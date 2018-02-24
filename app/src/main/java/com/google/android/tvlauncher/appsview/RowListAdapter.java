@@ -278,112 +278,6 @@ class RowListAdapter extends RecyclerView.Adapter<RowListAdapter.BaseViewHolder>
         }
     }
 
-    @Edited(reason = Reason.HOT_MESS)
-    public void onLaunchItemsAddedOrUpdated(final ArrayList<LaunchItem> paramArrayList) {
-        this.mChangeHandler.post(new Runnable() {
-            private boolean checkItemHolders(LaunchItemsHolder paramAnonymousLaunchItemsHolder, LaunchItem paramAnonymousLaunchItem, int rowType) {
-                Pair<Integer, Integer> localPair = paramAnonymousLaunchItemsHolder.findIndex(paramAnonymousLaunchItem);
-
-                boolean isGame = paramAnonymousLaunchItem.isGame();
-
-                if (rowType == ROW_TYPE_GAMES) {
-
-                    if (isGame && localPair != null) {
-
-                    }
-                    int i = paramAnonymousLaunchItemsHolder.getNumRows();
-                    if (paramAnonymousLaunchItemsHolder.removeItem(paramAnonymousLaunchItem) == null) {
-                        // todo removed?
-                    }
-
-                    int j = RowListAdapter.this.mRows.indexOf((rowType)) + ((Integer) localPair.first).intValue();
-                    rowType = RowListAdapter.this.mRows.lastIndexOf((rowType));
-                    if (paramAnonymousLaunchItemsHolder.getNumRows() >= i) {
-                        RowListAdapter.this.notifyItemRangeChanged(j, rowType - j + 1);
-                    }
-                    RowListAdapter.this.notifyItemRangeChanged(j, rowType - j);
-                    RowListAdapter.this.mRows.remove(rowType);
-                    RowListAdapter.this.notifyItemRemoved(rowType);
-                }
-
-                paramAnonymousLaunchItemsHolder.set(localPair, paramAnonymousLaunchItem);
-
-                rowType = RowListAdapter.this.mRows.indexOf((rowType));
-                RowListAdapter.this.notifyItemChanged(localPair.first + rowType);
-
-                int i = paramAnonymousLaunchItemsHolder.addItemAtIndexElseEnd(RowListAdapter.this.mAppsManager.getOrderedPosition(paramAnonymousLaunchItem), paramAnonymousLaunchItem).first;
-                int j = RowListAdapter.this.mRows.indexOf((rowType));
-                int k = RowListAdapter.this.mRows.lastIndexOf((rowType));
-                int m = i + j;
-
-                if (j == -1) {
-                    i = j;
-
-                    RowListAdapter.this.mRows.add(i, rowType);
-                    RowListAdapter.this.notifyItemInserted(i - 1);
-                    return true;
-                } else {
-                    RowListAdapter.this.mRows.add(1, 6);
-                    RowListAdapter.this.notifyItemInserted(1);
-                }
-
-                i = 2;
-
-                if (RowListAdapter.this.mRows.indexOf((2)) == -1) {
-                    RowListAdapter.this.mRows.add((6));
-                    RowListAdapter.this.notifyItemInserted(RowListAdapter.this.mRows.size() - 1);
-                    i = RowListAdapter.this.mRows.size();
-                } else {
-                    i = RowListAdapter.this.mRows.indexOf((2)) - 1;
-                    RowListAdapter.this.mRows.add(i, (6));
-                    RowListAdapter.this.notifyItemInserted(i);
-                    i += 1;
-
-                    RowListAdapter.this.mRows.add((6));
-                    RowListAdapter.this.notifyItemInserted(RowListAdapter.this.mRows.size() - 2);
-                    i = RowListAdapter.this.mRows.size();
-                }
-
-
-                i = k;
-                if (k - j + 1 < paramAnonymousLaunchItemsHolder.getNumRows()) {
-                    RowListAdapter.this.mRows.add(k + 1, (rowType));
-                    i = k + 1;
-                }
-
-                if (m != i) {
-                    RowListAdapter.this.notifyItemRangeChanged(m, i - m + 1);
-                } else {
-                    RowListAdapter.this.notifyItemChanged(i);
-                }
-
-                return true; // hm
-            }
-
-            @Edited(reason = Reason.IF_ELSE_DECOMPILE_ERROR)
-            public void run() {
-                int i = 0;
-                Iterator localIterator = paramArrayList.iterator();
-                if (localIterator.hasNext()) {
-                    LaunchItem localLaunchItem = (LaunchItem) localIterator.next();
-                    if (checkItemHolders(RowListAdapter.this.mAppLaunchItems, localLaunchItem, 1) ||
-                            checkItemHolders(RowListAdapter.this.mGameLaunchItems, localLaunchItem, 2)) {
-                        i = 1;
-                    } else {
-                        i = 0; //todo?
-                    }
-                }
-
-                if ((i != 0) && (paramArrayList.size() > 0)) {
-                    if (paramArrayList.get(0).isGame()) {
-                        RowListAdapter.this.mAppsManager.saveOrderSnapshot(RowListAdapter.this.mGameLaunchItems.getData());
-                    } else {
-                        RowListAdapter.this.mAppsManager.saveOrderSnapshot(RowListAdapter.this.mAppLaunchItems.getData());
-                    }
-                }
-            }
-        });
-    }
 
     public void onLaunchItemsLoaded() {
         this.mAppLaunchItems.setData(this.mAppsManager.getAppLaunchItems());
@@ -398,42 +292,144 @@ class RowListAdapter extends RecyclerView.Adapter<RowListAdapter.BaseViewHolder>
         this.mEventLogger.log(new LogEventParameters("open_apps_view").putParameter("app_count", this.mAppLaunchItems.size()).putParameter("game_count", this.mGameLaunchItems.size()));
     }
 
-    public void onLaunchItemsRemoved(final ArrayList<LaunchItem> paramArrayList) {
+    public void onLaunchItemsAddedOrUpdated(final ArrayList<LaunchItem> addedOrUpdatedItems) {
         this.mChangeHandler.post(new Runnable() {
-            private void removeItemFromHolder(LaunchItemsHolder paramAnonymousLaunchItemsHolder, LaunchItem paramAnonymousLaunchItem, int paramAnonymousInt) {
-                int j = paramAnonymousLaunchItemsHolder.getNumRows();
-                @Edited(reason = Reason.VARIABLE_REUSAGE)
-                Pair<Integer, Integer> pair = paramAnonymousLaunchItemsHolder.removeItem(paramAnonymousLaunchItem);
-
-                if (pair != null) {
-                    int i = RowListAdapter.this.mRows.indexOf((paramAnonymousInt)) + ((Integer) pair.first).intValue();
-                    paramAnonymousInt = RowListAdapter.this.mRows.lastIndexOf((paramAnonymousInt));
-                    if (j > paramAnonymousLaunchItemsHolder.getNumRows()) {
-                        RowListAdapter.this.mRows.remove(paramAnonymousInt);
-                        RowListAdapter.this.notifyItemRemoved(paramAnonymousInt);
-                        j = RowListAdapter.this.mRows.size() - 1;
-                        if (RowListAdapter.this.mRows.get(j) == 6) {
-                            RowListAdapter.this.mRows.remove(j);
-                            RowListAdapter.this.notifyItemRemoved(j);
-                        }
-                        RowListAdapter.this.notifyItemRangeChanged(i, paramAnonymousInt - i);
-                        return;
+            public void run() {
+                boolean saveOrder = false;
+                Iterator it = addedOrUpdatedItems.iterator();
+                while (it.hasNext()) {
+                    LaunchItem newItem = (LaunchItem) it.next();
+                    if (saveOrder || checkItemHolders(RowListAdapter.this.mAppLaunchItems, newItem, 1) || checkItemHolders(RowListAdapter.this.mGameLaunchItems, newItem, 2)) {
+                        saveOrder = true;
+                    } else {
+                        saveOrder = false;
                     }
-                    RowListAdapter.this.notifyItemRangeChanged(i, paramAnonymousInt - i + 1);
+                }
+                if (saveOrder && addedOrUpdatedItems.size() > 0) {
+                    if (((LaunchItem) addedOrUpdatedItems.get(0)).isGame()) {
+                        RowListAdapter.this.mAppsManager.saveOrderSnapshot(RowListAdapter.this.mGameLaunchItems.getData());
+                    } else {
+                        RowListAdapter.this.mAppsManager.saveOrderSnapshot(RowListAdapter.this.mAppLaunchItems.getData());
+                    }
                 }
             }
 
-            public void run() {
-                for (LaunchItem localLaunchItem : paramArrayList) {
-                    if (localLaunchItem.isGame()) {
-                        removeItemFromHolder(RowListAdapter.this.mGameLaunchItems, localLaunchItem, 2);
+            private boolean checkItemHolders(LaunchItemsHolder holder, LaunchItem newItem, int rowType) {
+                boolean rowTypeMatch;
+                Pair<Integer, Integer> index = holder.findIndex(newItem);
+                boolean bannerAddedOrRemoved = false;
+                if (newItem.isGame() == (rowType == 2)) {
+                    rowTypeMatch = true;
+                } else {
+                    rowTypeMatch = false;
+                }
+                int startRow;
+                int endRow;
+                if (index != null) {
+                    if (rowTypeMatch) {
+                        holder.set(index, newItem);
+                        RowListAdapter.this.notifyItemChanged(((Integer) index.first).intValue() + RowListAdapter.this.mRows.indexOf(Integer.valueOf(rowType)));
                     } else {
-                        removeItemFromHolder(RowListAdapter.this.mAppLaunchItems, localLaunchItem, 1);
+                        int numberOfRowsBefore = holder.getNumRows();
+                        bannerAddedOrRemoved = holder.removeItem(newItem) != null;
+                        startRow = RowListAdapter.this.mRows.indexOf(Integer.valueOf(rowType)) + ((Integer) index.first).intValue();
+                        endRow = RowListAdapter.this.mRows.lastIndexOf(Integer.valueOf(rowType));
+                        if (holder.getNumRows() < numberOfRowsBefore) {
+                            RowListAdapter.this.notifyItemRangeChanged(startRow, endRow - startRow);
+                            RowListAdapter.this.mRows.remove(endRow);
+                            RowListAdapter.this.notifyItemRemoved(endRow);
+                        } else {
+                            RowListAdapter.this.notifyItemRangeChanged(startRow, (endRow - startRow) + 1);
+                        }
                     }
+                } else if (rowTypeMatch) {
+                    int insertedAtRow = ((Integer) holder.addItemAtIndexElseEnd(RowListAdapter.this.mAppsManager.getOrderedPosition(newItem), newItem).first).intValue();
+                    bannerAddedOrRemoved = true;
+                    startRow = RowListAdapter.this.mRows.indexOf(Integer.valueOf(rowType));
+                    endRow = RowListAdapter.this.mRows.lastIndexOf(Integer.valueOf(rowType));
+                    insertedAtRow += startRow;
+                    if (startRow == -1) {
+                        switch (rowType) {
+                            case 1:
+                                if (RowListAdapter.this.mRows.indexOf(Integer.valueOf(2)) != -1) {
+                                    int insertPosition = RowListAdapter.this.mRows.indexOf(Integer.valueOf(2)) - 1;
+                                    RowListAdapter.this.mRows.add(insertPosition, Integer.valueOf(6));
+                                    RowListAdapter.this.notifyItemInserted(insertPosition);
+                                    startRow = insertPosition + 1;
+                                    break;
+                                }
+                                RowListAdapter.this.mRows.add(Integer.valueOf(6));
+                                RowListAdapter.this.notifyItemInserted(RowListAdapter.this.mRows.size() - 1);
+                                startRow = RowListAdapter.this.mRows.size();
+                                break;
+                            case 2:
+                                RowListAdapter.this.mRows.add(Integer.valueOf(6));
+                                RowListAdapter.this.notifyItemInserted(RowListAdapter.this.mRows.size() - 2);
+                                startRow = RowListAdapter.this.mRows.size();
+                                break;
+                            case 3:
+                                RowListAdapter.this.mRows.add(1, Integer.valueOf(6));
+                                RowListAdapter.this.notifyItemInserted(1);
+                                startRow = 2;
+                                break;
+
+                        }
+
+                        RowListAdapter.this.mRows.add(startRow, Integer.valueOf(rowType));
+                        RowListAdapter.this.notifyItemInserted(startRow - 1);
+                    }
+                    if ((endRow - startRow) + 1 < holder.getNumRows()) {
+                        RowListAdapter.this.mRows.add(endRow + 1, Integer.valueOf(rowType));
+                        endRow++;
+                    }
+                    if (insertedAtRow != endRow) {
+                        RowListAdapter.this.notifyItemRangeChanged(insertedAtRow, (endRow - insertedAtRow) + 1);
+                    } else {
+                        RowListAdapter.this.notifyItemChanged(endRow);
+                    }
+                }
+                return bannerAddedOrRemoved;
+            }
+        });
+    }
+
+    public void onLaunchItemsRemoved(final ArrayList<LaunchItem> removedItems) {
+        this.mChangeHandler.post(new Runnable() {
+            public void run() {
+                Iterator it = removedItems.iterator();
+                while (it.hasNext()) {
+                    LaunchItem removedItem = (LaunchItem) it.next();
+                    if (removedItem.isGame()) {
+                        removeItemFromHolder(RowListAdapter.this.mGameLaunchItems, removedItem, 2);
+                    } else {
+                        removeItemFromHolder(RowListAdapter.this.mAppLaunchItems, removedItem, 1);
+                    }
+                }
+            }
+
+            private void removeItemFromHolder(LaunchItemsHolder holder, LaunchItem item, int rowType) {
+                int numberOfRowsBefore = holder.getNumRows();
+                Pair<Integer, Integer> removedIndex = holder.removeItem(item);
+                if (removedIndex != null) {
+                    int startRow = RowListAdapter.this.mRows.indexOf(Integer.valueOf(rowType)) + ((Integer) removedIndex.first).intValue();
+                    int endRow = RowListAdapter.this.mRows.lastIndexOf(Integer.valueOf(rowType));
+                    if (numberOfRowsBefore > holder.getNumRows()) {
+                        RowListAdapter.this.mRows.remove(endRow);
+                        RowListAdapter.this.notifyItemRemoved(endRow);
+                        int lastPosition = RowListAdapter.this.mRows.size() - 1;
+                        if (((Integer) RowListAdapter.this.mRows.get(lastPosition)).intValue() == 6) {
+                            RowListAdapter.this.mRows.remove(lastPosition);
+                            RowListAdapter.this.notifyItemRemoved(lastPosition);
+                        }
+                        RowListAdapter.this.notifyItemRangeChanged(startRow, endRow - startRow);
+                        return;
+                    }
+                    RowListAdapter.this.notifyItemRangeChanged(startRow, (endRow - startRow) + 1);
                 }
             }
         });
     }
+
 
     public void onStart() {
         this.mDataManager.registerPromoChannelObserver(this.mPromoChannelObserver);

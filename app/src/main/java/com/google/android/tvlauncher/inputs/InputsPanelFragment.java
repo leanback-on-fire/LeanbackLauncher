@@ -4,84 +4,67 @@ import android.os.Bundle;
 import android.support.v17.preference.LeanbackPreferenceFragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.Preference.OnPreferenceClickListener;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
+
+import com.google.android.tvlauncher.R;
 import com.google.android.tvlauncher.analytics.FragmentEventLogger;
+import com.google.android.tvlauncher.analytics.LogEvents;
 import com.google.android.tvlauncher.analytics.UserActionEvent;
+import com.google.android.tvlauncher.inputs.InputsManager.Configuration;
 import com.google.android.tvlauncher.util.Partner;
 
-public class InputsPanelFragment
-  extends LeanbackPreferenceFragment
-  implements InputsManager.OnChangedListener, Preference.OnPreferenceClickListener
-{
-  private FragmentEventLogger mEventLogger;
-  private InputsManager mInputsManager;
-  
-  public static InputsPanelFragment newInstance()
-  {
-    return new InputsPanelFragment();
-  }
-  
-  private void setPreferences(PreferenceScreen paramPreferenceScreen)
-  {
-    paramPreferenceScreen.removeAll();
-    Object localObject = Partner.get(getContext());
-    localObject = new InputsManager.Configuration(((Partner)localObject).showPhysicalTunersSeparately(), ((Partner)localObject).disableDisconnectedInputs(), ((Partner)localObject).getStateIconFromTVInput());
-    this.mInputsManager = new InputsManager(getContext(), (InputsManager.Configuration)localObject);
-    int i = 0;
-    while (i < this.mInputsManager.getItemCount())
-    {
-      localObject = new InputPreference(getPreferenceManager().getContext(), this.mInputsManager.getInputState(i));
-      ((InputPreference)localObject).setIcon(this.mInputsManager.getItemDrawable(i));
-      ((InputPreference)localObject).setTitle(this.mInputsManager.getLabel(i));
-      ((InputPreference)localObject).setKey(Integer.toString(i));
-      ((InputPreference)localObject).setOnPreferenceClickListener(this);
-      paramPreferenceScreen.addPreference((Preference)localObject);
-      i += 1;
+public class InputsPanelFragment extends LeanbackPreferenceFragment implements InputsManager.OnChangedListener, OnPreferenceClickListener {
+    private FragmentEventLogger mEventLogger;
+    private InputsManager mInputsManager;
+
+    public static InputsPanelFragment newInstance() {
+        return new InputsPanelFragment();
     }
-  }
-  
-  public void onCreatePreferences(Bundle paramBundle, String paramString)
-  {
-    paramBundle = getPreferenceManager().getContext();
-    paramBundle = getPreferenceManager().createPreferenceScreen(paramBundle);
-    paramBundle.setTitle(2131493000);
-    setPreferences(paramBundle);
-    setPreferenceScreen(paramBundle);
-    this.mInputsManager.setOnChangedListener(this);
-    this.mEventLogger = new FragmentEventLogger(this);
-  }
-  
-  public void onDestroy()
-  {
-    super.onDestroy();
-    this.mInputsManager.setOnChangedListener(null);
-  }
-  
-  public void onInputsChanged()
-  {
-    setPreferenceScreen(getPreferenceScreen());
-  }
-  
-  public boolean onPreferenceClick(Preference paramPreference)
-  {
-    String str = paramPreference.getKey();
-    if (str != null)
-    {
-      int i = Integer.valueOf(str).intValue();
-      this.mInputsManager.launchInputActivity(i);
-      i = this.mInputsManager.getInputType(i);
-      if (i != -1) {
-        this.mEventLogger.log(new UserActionEvent("select_input").putParameter("input_type", i));
-      }
-      return true;
+
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(getPreferenceManager().getContext());
+        screen.setTitle((int) R.string.input_panel_title);
+        setPreferences(screen);
+        setPreferenceScreen(screen);
+        this.mInputsManager.setOnChangedListener(this);
+        this.mEventLogger = new FragmentEventLogger(this);
     }
-    return super.onPreferenceTreeClick(paramPreference);
-  }
+
+    private void setPreferences(PreferenceScreen screen) {
+        screen.removeAll();
+        Partner partner = Partner.get(getActivity().getApplicationContext()); // getContext()
+        // getContext()
+        this.mInputsManager = new InputsManager(getActivity().getApplicationContext(), new Configuration(partner.showPhysicalTunersSeparately(), partner.disableDisconnectedInputs(), partner.getStateIconFromTVInput()));
+        for (int i = 0; i < this.mInputsManager.getItemCount(); i++) {
+            InputPreference preference = new InputPreference(getPreferenceManager().getContext(), this.mInputsManager.getInputState(i));
+            preference.setIcon(this.mInputsManager.getItemDrawable(i));
+            preference.setTitle(this.mInputsManager.getLabel(i));
+            preference.setKey(Integer.toString(i));
+            preference.setOnPreferenceClickListener(this);
+            screen.addPreference(preference);
+        }
+    }
+
+    public boolean onPreferenceClick(Preference preference) {
+        String key = preference.getKey();
+        if (key == null) {
+            return super.onPreferenceTreeClick(preference);
+        }
+        int position = Integer.valueOf(key).intValue();
+        this.mInputsManager.launchInputActivity(position);
+        int inputType = this.mInputsManager.getInputType(position);
+        if (inputType != -1) {
+            this.mEventLogger.log(new UserActionEvent(LogEvents.SELECT_INPUT).putParameter(LogEvents.PARAMETER_INPUT_TYPE, inputType));
+        }
+        return true;
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        this.mInputsManager.setOnChangedListener(null);
+    }
+
+    public void onInputsChanged() {
+        setPreferenceScreen(getPreferenceScreen());
+    }
 }
-
-
-/* Location:              ~/Downloads/fugu-opr2.170623.027-factory-d4be396e/fugu-opr2.170623.027/image-fugu-opr2.170623.027/TVLauncher/TVLauncher/TVLauncher-dex2jar.jar!/com/google/android/tvlauncher/inputs/InputsPanelFragment.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */
