@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_dialog_title">
+    <PreferenceCategory android:title="@string/sorting_title">
+        <ListPreference
+            android:defaultValue="true"
+            android:entries="@array/sorting_mode_keys"
+            android:entryValues="@array/sorting_mode_values"
+            android:key="@string/pref_app_ranker_sorting_mode"
+            android:title="@string/select_app_order_content_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/music_row_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_enable_music_row"
+            android:title="@string/enable_music_row_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="2"
+            android:inputType="number"
+            android:key="@string/pref_max_music_rows"
+            android:maxLength="1"
+            android:title="@string/max_rows_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="@string/pref_min_music_rows"
+            android:maxLength="1"
+            android:title="@string/min_rows_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/videos_row_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_enable_videos_row"
+            android:title="@string/enable_videos_row_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="2"
+            android:inputType="number"
+            android:key="@string/pref_max_videos_rows"
+            android:maxLength="1"
+            android:title="@string/max_rows_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="@string/pref_min_videos_rows"
+            android:maxLength="1"
+            android:title="@string/min_rows_title" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/games_row_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_enable_games_row"
+            android:title="@string/enable_games_row_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="2"
+            android:inputType="number"
+            android:key="@string/pref_max_games_rows"
+            android:maxLength="1"
+            android:title="@string/max_rows_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="@string/pref_min_games_rows"
+            android:maxLength="1"
+            android:title="@string/min_rows_title" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/favortes_row_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_enable_favorites_row"
+            android:title="@string/enable_favorites_row_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="2"
+            android:inputType="number"
+            android:key="@string/pref_max_favorites_rows"
+            android:maxLength="1"
+            android:title="@string/max_rows_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="@string/pref_min_favorites_rows"
+            android:maxLength="1"
+            android:title="@string/min_rows_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/apps_row_title">
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="2"
+            android:inputType="number"
+            android:key="@string/pref_max_apps_rows"
+            android:maxLength="1"
+            android:title="@string/max_rows_title" />
+        <com.rockon999.android.leanbacklauncher.settings.NumberEditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="@string/pref_min_apps_rows"
+            android:maxLength="1"
+            android:title="@string/min_rows_title" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Base.Widget.AppCompat.DrawerArrowToggle" parent="@style/Base.Widget.AppCompat.DrawerArrowToggle.Common">
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Widget.AppCompat.DrawerArrowToggle" parent="@style/Base.Widget.AppCompat.DrawerArrowToggle.Common" tools:ignore="ResourceCycle">
         <item name="drawableSize">24.0dip</item>
         <item name="gapBetweenBars">3.0dip</item>
         <item name="barLength">18.0dip</item>
@@ -1137,7 +1137,7 @@
     <style name="LeanbackRecommendationCard">
         <item name="background">@drawable/rec_card_background</item>
         <item name="maxWidth">@dimen/notif_card_img_max_width</item>
-        <item name="font">@string/font</item>
+        <item name="cardFont">@string/font</item>
         <item name="minWidth">@dimen/notif_card_img_min_width</item>
         <item name="imageHeight">@dimen/notif_card_img_height</item>
         <item name="progressBarHeight">@dimen/progress_bar_height</item>

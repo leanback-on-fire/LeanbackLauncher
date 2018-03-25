@@ -10,3 +10,8 @@
 all_files.txt
 fix.py
 fix.java
+app/.settings/org.eclipse.buildship.core.prefs
+app/.project
+.settings/org.eclipse.buildship.core.prefs
+.project
+app/.classpath

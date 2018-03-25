@@ -360,7 +360,7 @@
     <public type="attr" name="switchPreferenceStyle" id="0x7f010165" />
     <public type="attr" name="switchPreferenceCompatStyle" id="0x7f010166" />
     <public type="attr" name="seekBarPreferenceStyle" id="0x7f010167" />
-    <public type="attr" name="font" id="0x7f010168" />
+    <public type="attr" name="cardfont" id="0x7f010168" />
     <public type="attr" name="minWidth" id="0x7f010169" />
     <public type="attr" name="imageHeight" id="0x7f01016a" />
     <public type="attr" name="progressBarHeight" id="0x7f01016b" />
@@ -999,11 +999,11 @@
     <public type="raw" name="lb_voice_no_input" id="0x7f070001" />
     <public type="raw" name="lb_voice_open" id="0x7f070002" />
     <public type="raw" name="lb_voice_success" id="0x7f070003" />
-    <public type="raw" name="open_bonus_launchpoint" id="0x7f070004" />
-    <public type="raw" name="open_bonus_notification" id="0x7f070005" />
-    <public type="raw" name="slide_animator_propagation_speed" id="0x7f070006" />
-    <public type="raw" name="wallpaper_fade_in_final_scale" id="0x7f070007" />
-    <public type="raw" name="wallpaper_fade_in_initial_scale" id="0x7f070008" />
+    <public type="fraction" name="open_bonus_launchpoint" id="0x7f090010" />
+    <public type="fraction" name="open_bonus_notification" id="0x7f090011" />
+    <public type="fraction" name="slide_animator_propagation_speed" id="0x7f090012" />
+    <public type="fraction" name="wallpaper_fade_in_final_scale" id="0x7f090014" />
+    <public type="fraction" name="wallpaper_fade_in_initial_scale" id="0x7f090015" />
     <public type="array" name="search_orb_text_to_show" id="0x7f080000" />
     <public type="array" name="out_of_box_order" id="0x7f080001" />
     <public type="plurals" name="recommendation_blacklist_action_description" id="0x7f090000" />

@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="LeanbackRecommendationCard">
+        <attr name="background" />
+        <attr name="maxWidth" />
+        <attr name="cardFont" />
+        <attr name="minWidth" />
+        <attr name="imageHeight" />
+        <attr name="progressBarHeight" />
+        <attr name="infoAreaPaddingStart" />
+        <attr name="infoAreaPaddingTop" />
+        <attr name="infoAreaPaddingEnd" />
+        <attr name="infoAreaPaddingBottom" />
+        <attr name="infoAreaCollapsedHeight" />
+        <attr name="infoAreaDefaultColor" />
+        <attr name="sourceNameTextSize" />
+        <attr name="sourceNameTextColor" />
+        <attr name="gapBetweenSourceNameAndBadge" />
+        <attr name="badgeSize" />
+        <attr name="badgeMarginBottom" />
+        <attr name="titleTextSize" />
+        <attr name="titleTextColor" />
+        <attr name="contentTextSize" />
+        <attr name="contentTextColor" />
+    </declare-styleable>
+
     <attr name="drawerArrowStyle" format="reference" />
     <attr name="height" format="dimension" />
     <attr name="isLightTheme" format="boolean" />
@@ -402,7 +426,7 @@
     <attr name="switchPreferenceStyle" format="reference" />
     <attr name="switchPreferenceCompatStyle" format="reference" />
     <attr name="seekBarPreferenceStyle" format="reference" />
-    <!--<attr name="font" format="string" />-->
+    <attr name="cardFont" format="string" />
     <attr name="minWidth" format="dimension" />
     <attr name="imageHeight" format="dimension" />
     <attr name="progressBarHeight" format="dimension" />

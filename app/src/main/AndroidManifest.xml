@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.android.leanbacklauncher">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.rockon999.android.leanbacklauncher">
 
     <uses-feature
         android:name="android.software.leanback"
@@ -9,6 +10,7 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
+    <uses-permission android:name="com.amazon.device.permission.ACCESS_SALE_PROVIDER" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -19,9 +21,15 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA" />
-    <uses-permission android:name="android.permission.BIND_APPWIDGET" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission
+        android:name="android.permission.BIND_APPWIDGET"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
     <uses-permission android:name="com.google.android.leanbacklauncher.recommendations.permission.RECOMMENDATIONS" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -31,7 +39,7 @@
         android:name="com.google.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA"
         android:protectionLevel="signature" />
     <application
-        android:name="com.google.android.leanbacklauncher.LauncherApplication"
+        android:name="com.rockon999.android.leanbacklauncher.LauncherApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -42,11 +50,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
-            android:name="com.google.android.leanbacklauncher.LauncherGlideModule"
+            android:name="com.rockon999.android.leanbacklauncher.LauncherGlideModule"
             android:value="GlideModule" />
 
         <activity
-            android:name="com.google.android.leanbacklauncher.MainActivity"
+            android:name="com.rockon999.android.leanbacklauncher.MainActivity"
             android:clearTaskOnLaunch="true"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation"
             android:excludeFromRecents="true"
@@ -63,7 +71,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.google.android.leanbacklauncher.settings.HomeScreenSettingsActivity"
+            android:name="com.rockon999.android.leanbacklauncher.settings.HomeScreenSettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:enabled="@bool/side_panel_settings_enabled"
             android:excludeFromRecents="true"
@@ -75,7 +83,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.google.android.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity"
+            android:name="com.rockon999.android.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:enabled="@bool/full_screen_settings_enabled"
             android:excludeFromRecents="true"
@@ -87,7 +95,7 @@
         </activity>
 
         <service
-            android:name="com.google.android.leanbacklauncher.recommendations.NotificationsService"
+            android:name="com.rockon999.android.leanbacklauncher.recommendations.NotificationsServiceV4"
             android:label="@string/notif_service_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -95,16 +103,19 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.google.android.leanbacklauncher.recommendations.RecommendationsService"
+            android:name="com.rockon999.android.leanbacklauncher.recommendations.RecommendationsService"
             android:label="@string/recm_service_name" />
 
-        <receiver android:name="com.google.android.leanbacklauncher.MediaButtonBroadcastReceiver">
+        <service android:name="com.rockon999.android.firetv.tvrecommendations.NotificationListenerMonitor" />
+
+        <receiver android:name="com.rockon999.android.leanbacklauncher.MediaButtonBroadcastReceiver">
             <intent-filter android:priority="2">
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
         <activity
-            android:name="com.google.android.leanbacklauncher.DummyActivity"
+            android:name="com.rockon999.android.leanbacklauncher.DummyActivity"
             android:enabled="false"
             android:label="@string/app_label"
             android:stateNotNeeded="true">
@@ -113,12 +124,17 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.rockon999.android.firetv.leanbacklauncher.apps.AppInfoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Leanback.GuidedStep" />
+
         <provider
-            android:name="com.google.android.leanbacklauncher.migration.DbMigrationContentProvider"
+            android:name="com.rockon999.android.leanbacklauncher.migration.DbMigrationContentProvider"
             android:authorities="com.android.google.tvrecommendations.migration"
             android:exported="true"
             android:permission="com.google.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
-        <receiver android:name="com.google.android.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
+        <receiver android:name="com.rockon999.android.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.WALLPAPER_CHANGED" />
             </intent-filter>

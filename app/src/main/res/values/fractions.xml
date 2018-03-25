@@ -21,7 +21,6 @@
     <fraction name="wallpaper_to_launcher_scroll_scale">400.0%</fraction>
     <fraction name="wallpaper_zoom_amount">4.999995%</fraction>
     <fraction name="wallpaper_zoom_to_darkening_scale">200.0%</fraction>
-
     <fraction name="open_bonus_launchpoint">0.0</fraction>
     <fraction name="open_bonus_notification">1.0</fraction>
     <fraction name="slide_animator_propagation_speed">5.8</fraction>

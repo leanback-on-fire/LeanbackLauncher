@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
     <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
@@ -25,7 +25,7 @@
     <string name="category_label_apps">Apps</string>
     <string name="category_label_games">Games</string>
     <string name="category_label_inputs">Inputs</string>
-    <string name="category_label_settings" />
+    <string name="category_label_settings">Settings</string>
     <string name="common_google_play_services_enable_button">Enable</string>
     <string name="common_google_play_services_enable_text">"%1$s won't work unless you enable Google Play services."</string>
     <string name="common_google_play_services_enable_title">Enable Google Play services</string>
@@ -153,22 +153,63 @@ To enable, go to Settings"</string>
     <string name="abc_font_family_subhead_material">sans-serif</string>
     <string name="abc_font_family_title_material">sans-serif-medium</string>
     <string name="font">sans-serif-condensed</string>
-    <item type="string" name="lb_guidedactions_item_disabled_chevron_alpha">0.5</item>
-    <item type="string" name="lb_guidedactions_item_disabled_description_text_alpha">0.25</item>
-    <item type="string" name="lb_guidedactions_item_disabled_text_alpha">0.25</item>
-    <item type="string" name="lb_guidedactions_item_enabled_chevron_alpha">1.0</item>
-    <item type="string" name="lb_guidedactions_item_unselected_description_text_alpha">0.5</item>
-    <item type="string" name="lb_guidedactions_item_unselected_text_alpha">1.0</item>
-    <item type="string" name="lb_guidedactions_width_weight">0.71428573</item>
-    <item type="string" name="lb_guidedactions_width_weight_two_panels">1.1917808</item>
-    <item type="string" name="lb_guidedbuttonactions_width_weight">0.45</item>
-    <item type="string" name="lb_guidedstep_height_weight">2.0</item>
-    <item type="string" name="lb_guidedstep_height_weight_translucent">1.0</item>
-    <item type="string" name="lb_guidedstep_keyline">40.0</item>
+    <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string">0.5</item>
+    <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string">0.25</item>
+    <item name="lb_guidedactions_item_disabled_text_alpha" type="string">0.25</item>
+    <item name="lb_guidedactions_item_enabled_chevron_alpha" type="string">1.0</item>
+    <item name="lb_guidedactions_item_unselected_description_text_alpha" type="string">0.5</item>
+    <item name="lb_guidedactions_item_unselected_text_alpha" type="string">1.0</item>
+    <item name="lb_guidedactions_width_weight" type="string">0.71428573</item>
+    <item name="lb_guidedactions_width_weight_two_panels" type="string">1.1917808</item>
+    <item name="lb_guidedbuttonactions_width_weight" type="string">0.45</item>
+    <item name="lb_guidedstep_height_weight" type="string">2.0</item>
+    <item name="lb_guidedstep_height_weight_translucent" type="string">1.0</item>
+    <item name="lb_guidedstep_keyline" type="string">40.0</item>
     <string name="light_font">sans-serif-light</string>
     <string name="primes_marker">PrImEs</string>
     <string name="primes_version">174122153</string>
     <string name="regular_font">sans-serif</string>
     <string name="v7_preference_off">OFF</string>
     <string name="v7_preference_on">ON</string>
+    <string name="category_label_videos" tools:ignore="MissingTranslation">Video</string>
+    <string name="category_label_music" tools:ignore="MissingTranslation">Music</string>
+    <string name="category_label_favorites" tools:ignore="MissingTranslation">Favorites</string>
+    <string name="loading" tools:ignore="MissingTranslation">Loading&#8230;</string>
+    <string name="app_info_in_store" tools:ignore="MissingTranslation">View in Store</string>
+    <string name="app_info_settings" tools:ignore="MissingTranslation">App Settings</string>
+    <string name="app_info_notification_settings" tools:ignore="MissingTranslation">Notification Settings</string>
+    <string name="edit_favorites" tools:ignore="MissingTranslation">Edit Favorites</string>
+    <string name="notifications" tools:ignore="MissingTranslation">Notifications</string>
+    <string name="launcher_settings" tools:ignore="MissingTranslation">Launcher Settings</string>
+    <string name="enable_music_row_title" tools:ignore="MissingTranslation">Enable Music Row</string>
+    <string name="enable_videos_row_title" tools:ignore="MissingTranslation">Enable Videos Row</string>
+    <string name="enable_games_row_title" tools:ignore="MissingTranslation">Enable Games Row</string>
+    <string name="enable_favorites_row_title" tools:ignore="MissingTranslation">Enable Favorites Row</string>
+    <string name="max_rows_title" tools:ignore="MissingTranslation">Max Rows</string>
+    <string name="min_rows_title" tools:ignore="MissingTranslation">Min Rows</string>
+    <string name="pref_app_ranker_sorting_mode" tools:ignore="MissingTranslation">apps_ranker_sorting_mode</string>
+    <string name="pref_enable_music_row" tools:ignore="MissingTranslation">enable_music_row</string>
+    <string name="pref_max_music_rows" tools:ignore="MissingTranslation">max_music_rows</string>
+    <string name="pref_min_music_rows" tools:ignore="MissingTranslation">min_music_rows</string>
+    <string name="pref_enable_videos_row" tools:ignore="MissingTranslation">enable_videos_row</string>
+    <string name="pref_max_videos_rows" tools:ignore="MissingTranslation">max_videos_rows</string>
+    <string name="pref_min_videos_rows" tools:ignore="MissingTranslation">min_videos_rows</string>
+    <string name="pref_enable_games_row" tools:ignore="MissingTranslation">enable_games_row</string>
+    <string name="pref_max_games_rows" tools:ignore="MissingTranslation">max_games_rows</string>
+    <string name="pref_min_games_rows" tools:ignore="MissingTranslation">min_games_rows</string>
+    <string name="pref_enable_favorites_row" tools:ignore="MissingTranslation">enable_favorites_row</string>
+    <string name="pref_max_favorites_rows" tools:ignore="MissingTranslation">max_favorites_rows</string>
+    <string name="pref_min_favorites_rows" tools:ignore="MissingTranslation">min_favorites_rows</string>
+    <string name="pref_max_apps_rows" tools:ignore="MissingTranslation">max_apps_rows</string>
+    <string name="pref_min_apps_rows" tools:ignore="MissingTranslation">min_apps_rows</string>
+    <string name="apps_row_title" tools:ignore="MissingTranslation">Apps Row</string>
+    <string name="favortes_row_title" tools:ignore="MissingTranslation">Favorites Row</string>
+    <string name="games_row_title" tools:ignore="MissingTranslation">Games Row</string>
+    <string name="videos_row_title" tools:ignore="MissingTranslation">Videos Row</string>
+    <string name="music_row_title" tools:ignore="MissingTranslation">Music Row</string>
+    <string name="sorting_title" tools:ignore="MissingTranslation">Sorting</string>
+    <string name="number_picker_text" tools:ignore="MissingTranslation">%d</string>
+    <string name="app_info_add_favorites" tools:ignore="MissingTranslation">Add to Favorites</string>
+    <string name="app_info_hide_app" tools:ignore="MissingTranslation">Hide Launcher</string>
+
 </resources>
