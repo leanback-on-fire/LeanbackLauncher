@@ -31,13 +31,11 @@
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
-    <uses-permission android:name="com.google.android.leanbacklauncher.recommendations.permission.RECOMMENDATIONS" />
+    <uses-permission android:name="com.rockon999.android.leanbacklauncher.recommendations.permission.RECOMMENDATIONS" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
 
-    <permission
-        android:name="com.google.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA"
-        android:protectionLevel="signature" />
+    <permission android:name="com.rockon999.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
     <application
         android:name="com.rockon999.android.leanbacklauncher.LauncherApplication"
         android:allowBackup="true"
@@ -71,25 +69,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.rockon999.android.leanbacklauncher.settings.HomeScreenSettingsActivity"
-            android:configChanges="keyboard|keyboardHidden|navigation"
-            android:enabled="@bool/side_panel_settings_enabled"
-            android:excludeFromRecents="true"
-            android:label="@string/settings_dialog_title"
-            android:theme="@style/Theme.Settings.SidePanel">
-            <intent-filter>
-                <action android:name="com.google.android.leanbacklauncher.SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="com.rockon999.android.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:enabled="@bool/full_screen_settings_enabled"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.Settings.Legacy">
             <intent-filter>
-                <action android:name="com.google.android.leanbacklauncher.SETTINGS" />
+                <action android:name="com.rockon999.android.leanbacklauncher.SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -133,7 +119,7 @@
             android:name="com.rockon999.android.leanbacklauncher.migration.DbMigrationContentProvider"
             android:authorities="com.android.google.tvrecommendations.migration"
             android:exported="true"
-            android:permission="com.google.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
+            android:permission="com.rockon999.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
         <receiver android:name="com.rockon999.android.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.WALLPAPER_CHANGED" />

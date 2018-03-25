@@ -1,4 +1,4 @@
-package com.google.android.leanbacklauncher;
+package com.rockon999.android.leanbacklauncher;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

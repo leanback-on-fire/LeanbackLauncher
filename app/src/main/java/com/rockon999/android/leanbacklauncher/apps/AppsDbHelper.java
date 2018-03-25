@@ -45,7 +45,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
         }
 
         protected HashMap<String, AppsEntity> doInBackground(Void... params) {
-            HashMap<String, AppsEntity> entities = new HashMap();
+            HashMap<String, AppsEntity> entities = new HashMap<>();
             SQLiteDatabase db = AppsDbHelper.this.getWritableDatabase();
             Cursor c = db.query("entity", null, null, null, null, null, null);
             try {
@@ -77,12 +77,12 @@ public class AppsDbHelper extends SQLiteOpenHelper {
                     }
                     long lastOpened = lastOpenedIndex == -1 ? 0 : c.getLong(lastOpenedIndex);
                     synchronized (AppsDbHelper.this.mLock) {
-                        if (AppsDbHelper.this.mMostRecentTimeStamp.longValue() < lastOpened) {
-                            AppsDbHelper.this.mMostRecentTimeStamp = Long.valueOf(lastOpened);
+                        if (AppsDbHelper.this.mMostRecentTimeStamp < lastOpened) {
+                            AppsDbHelper.this.mMostRecentTimeStamp = lastOpened;
                         }
                     }
                     if (!TextUtils.isEmpty(key)) {
-                        AppsEntity entity = (AppsEntity) entities.get(key);
+                        AppsEntity entity = entities.get(key);
                         if (entity != null) {
                             entity.setOrder(component, entityScore);
                             entity.setLastOpenedTimeStamp(component, lastOpened);
@@ -133,7 +133,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
     }
 
     private class SaveEntityTask extends AsyncTask<Void, Void, Void> {
-        private final List<ContentValues> mComponents = new ArrayList();
+        private final List<ContentValues> mComponents = new ArrayList<>();
         private final String mKey;
 
         public SaveEntityTask(AppsEntity entity) {
@@ -142,8 +142,8 @@ public class AppsDbHelper extends SQLiteOpenHelper {
                 ContentValues cv = new ContentValues();
                 cv.put("key", this.mKey);
                 cv.put("component", component);
-                cv.put("entity_score", Long.valueOf(entity.getOrder(component)));
-                cv.put("last_opened", Long.valueOf(entity.getLastOpenedTimeStamp(component)));
+                cv.put("entity_score", entity.getOrder(component));
+                cv.put("last_opened", entity.getLastOpenedTimeStamp(component));
                 this.mComponents.add(cv);
             }
         }
@@ -159,10 +159,10 @@ public class AppsDbHelper extends SQLiteOpenHelper {
             for (ContentValues componentValues : this.mComponents) {
                 int count = 0;
                 String component = componentValues.getAsString("component");
-                long timeStamp = componentValues.getAsLong("last_opened").longValue();
+                long timeStamp = componentValues.getAsLong("last_opened");
                 synchronized (AppsDbHelper.this.mLock) {
-                    if (AppsDbHelper.this.mMostRecentTimeStamp.longValue() < timeStamp) {
-                        AppsDbHelper.this.mMostRecentTimeStamp = Long.valueOf(timeStamp);
+                    if (AppsDbHelper.this.mMostRecentTimeStamp < timeStamp) {
+                        AppsDbHelper.this.mMostRecentTimeStamp = timeStamp;
                     }
                 }
                 if (component == null) {
@@ -193,7 +193,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
 
     public AppsDbHelper(Context context, String databaseName) {
         super(context, databaseName, null, 11);
-        this.mMostRecentTimeStamp = Long.valueOf(0);
+        this.mMostRecentTimeStamp = 0L;
         this.mLock = new Object();
         this.mContext = context;
     }
@@ -218,7 +218,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(android.database.sqlite.SQLiteDatabase r19, int r20, int r21) {
-        // TODO fix this
+        recreate(r19); // TODO FIX
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -257,7 +257,7 @@ public class AppsDbHelper extends SQLiteOpenHelper {
     public long getMostRecentTimeStamp() {
         long longValue;
         synchronized (this.mLock) {
-            longValue = this.mMostRecentTimeStamp.longValue();
+            longValue = this.mMostRecentTimeStamp;
         }
         return longValue;
     }

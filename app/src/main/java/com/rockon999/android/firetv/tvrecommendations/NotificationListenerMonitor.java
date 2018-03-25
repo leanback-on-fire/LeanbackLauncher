@@ -25,6 +25,9 @@ import java.util.TimerTask;
 
 public class NotificationListenerMonitor extends Service {
     private static final String TAG = "NotifyListenerMonitor";
+    private static final int MAXIMUM_RECONNECT_ATTEMPTS = 15;
+
+    private int mReconnectAttempts = 0;
 
     @Override
     public void onCreate() {
@@ -40,10 +43,12 @@ public class NotificationListenerMonitor extends Service {
             timer[0].schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (!listenerIsRunning()) {
+                    if (!listenerIsRunning() && mReconnectAttempts < MAXIMUM_RECONNECT_ATTEMPTS) {
                         ensureNotificationPermissions(getApplicationContext());
 
                         toggleNotificationListenerService();
+
+                        mReconnectAttempts++;
                     } else {
                         timer[0].cancel();
                     }

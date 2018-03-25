@@ -884,7 +884,7 @@ class RecommendationsManager implements Ranker.RankingListener {
                 installedPackages.add(appInfo.packageName);
             }
         }
-        List<String> installedRecommendationPackages = new ArrayList(this.mDbHelper.loadRecommendationsPackages());
+        List<String> installedRecommendationPackages = new ArrayList<>(this.mDbHelper.loadRecommendationsPackages());
         installedRecommendationPackages.retainAll(installedPackages);
         return installedRecommendationPackages;
     }

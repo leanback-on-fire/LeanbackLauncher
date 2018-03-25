@@ -3,6 +3,8 @@ package com.rockon999.android.firetv.leanbacklauncher.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Set;
+
 /**
  * Created by rockon999 on 3/7/18.
  */
@@ -16,7 +18,6 @@ public class SharedPreferencesUtil {
     public static SharedPreferencesUtil instance(Context context) {
         if (instance == null) instance = new SharedPreferencesUtil();
         instance.hiddenPref = context.getSharedPreferences("hidden-apps", Context.MODE_PRIVATE);
-        instance.favPref = context.getSharedPreferences("favorite-apps", Context.MODE_PRIVATE);
         instance.favPref = context.getSharedPreferences("favorite-apps", Context.MODE_PRIVATE);
 
         return instance;
@@ -36,6 +37,10 @@ public class SharedPreferencesUtil {
 
     public void unfavorite(String component) {
         favPref.edit().putBoolean(component, false).apply();
+    }
+
+    public Set<String> hidden() {
+        return hiddenPref.getAll().keySet();
     }
 
     public boolean isHidden(String component) {

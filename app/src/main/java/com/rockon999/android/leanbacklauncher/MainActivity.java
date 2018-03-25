@@ -183,7 +183,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     BroadcastReceiver mPackageReplacedReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             Uri packageName = intent != null ? intent.getData() : null;
-            if (packageName != null && packageName.toString().contains("com.google.android.leanbacklauncher.recommendations")) {
+            if (packageName != null && packageName.toString().contains("com.rockon999.android.leanbacklauncher.recommendations")) {
                 Log.d("LeanbackLauncher", "Recommendations Service updated, reconnecting");
                 if (MainActivity.this.mHomeAdapter != null) {
                     MainActivity.this.mHomeAdapter.onReconnectToRecommendationsService();

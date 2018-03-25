@@ -12,13 +12,12 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.firetv.leanbacklauncher.apps.AppCategory;
 import com.rockon999.android.firetv.leanbacklauncher.util.FireTVUtils;
-import com.rockon999.android.leanbacklauncher.settings.HomeScreenSettingsActivity;
-import com.rockon999.android.leanbacklauncher.util.Util;
 import com.rockon999.android.firetv.leanbacklauncher.util.SettingsUtil;
 import com.rockon999.android.firetv.leanbacklauncher.util.SharedPreferencesUtil;
+import com.rockon999.android.leanbacklauncher.R;
+import com.rockon999.android.leanbacklauncher.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -557,7 +556,8 @@ public class LaunchPointListGenerator {
             }
         }
 
-        Intent intent = new Intent(mContext.getApplicationContext(), HomeScreenSettingsActivity.class);
+        Intent intent = new Intent();
+        intent.setComponent(ComponentName.unflattenFromString("com.rockon999.android.leanbacklauncher/.settings.LegacyHomeScreenSettingsActivity"));
         LaunchPoint lp = new LaunchPoint(this.mContext, mContext.getString(R.string.launcher_settings), mContext.getDrawable(R.drawable.ic_settings_home), intent, 0);
         lp.addLaunchIntentFlags(32768);
         lp.setSettingsType(SettingsUtil.SettingsType.APP_CONFIGURE.getCode());
@@ -567,12 +567,6 @@ public class LaunchPointListGenerator {
         //lp = new LaunchPoint(this.mContext, mContext.getString(R.string.notifications), FireTVUtils.getNotificationCenterIntent());
         lp.addLaunchIntentFlags(32768);
         lp.setSettingsType(SettingsUtil.SettingsType.NOTIFICATIONS.getCode());
-        settingsItems.add(lp);
-
-        lp = new LaunchPoint();
-        lp.setTitle(mContext.getString(R.string.edit_favorites));
-        // todo port resource lp.setIconDrawable(mContext.getDrawable(R.drawable.ic_star_white));
-        lp.setSettingsType(SettingsUtil.SettingsType.EDIT_FAVORITES.getCode());
         settingsItems.add(lp);
 
         return settingsItems;

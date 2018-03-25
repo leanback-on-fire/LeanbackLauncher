@@ -32,7 +32,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static String TAG = "DbHelper";
     private static DbHelper sDbHelper = null;
     private Context mContext;
-    private Object mLock;
+    private final Object mLock;
     private boolean mMigrationEnabled;
     private Long mMostRecentTimeStamp;
 
@@ -389,7 +389,7 @@ public class DbHelper extends SQLiteOpenHelper {
         if (this.mMigrationEnabled) {
             try {
                 ContentResolver contentResolver = null;
-                this.mContext.getPackageManager().getPackageInfo("com.google.android.leanbacklauncher", 0);
+                this.mContext.getPackageManager().getPackageInfo("com.rockon999.android.leanbacklauncher", 0);
                 z = false;
                 InputStream stream = null;
                 try {
@@ -505,33 +505,31 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void getEntities(Listener listener) {
-        new GetEntitiesTask(listener).execute(new Void[0]);
+        new GetEntitiesTask(listener).execute();
     }
 
     public List<String> loadRecommendationsPackages() {
         if (DEBUG) {
             Log.d(TAG, "loadRecommendationsPackages");
         }
-        ArrayList<String> packageNames = new ArrayList();
-        Cursor c = getReadableDatabase().query("entity", new String[]{"key"}, "key IS NOT NULL AND has_recs=1", null, null, null, "key");
-        while (c.moveToNext()) {
-            try {
+        ArrayList<String> packageNames = new ArrayList<>();
+
+        try (Cursor c = getReadableDatabase().query("entity", new String[]{"key"}, "key IS NOT NULL AND has_recs=1", null, null, null, "key")) {
+            while (c.moveToNext()) {
                 packageNames.add(c.getString(0));
-            } finally {
-                c.close();
             }
         }
+
         if (DEBUG) {
-            Iterator it = packageNames.iterator();
-            while (it.hasNext()) {
-                Log.d(TAG, "\t" + ((String) it.next()));
+            for (Object packageName : packageNames) {
+                Log.d(TAG, "\t" + (packageName));
             }
         }
         return packageNames;
     }
 
     public List<String> loadBlacklistedPackages() {
-        ArrayList<String> packageNames = new ArrayList();
+        ArrayList<String> packageNames = new ArrayList<>();
         Cursor c = getReadableDatabase().query("rec_blacklist", new String[]{"key"}, "key IS NOT NULL", null, null, null, null);
         while (c.moveToNext()) {
             try {
@@ -562,7 +560,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public long getMostRecentTimeStamp() {
         long longValue;
         synchronized (this.mLock) {
-            longValue = this.mMostRecentTimeStamp.longValue();
+            longValue = this.mMostRecentTimeStamp;
         }
         return longValue;
     }
@@ -598,7 +596,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     case 'b':
                         values.put("key", in.readUTF());
                         values.put("group_id", in.readUTF());
-                        values.put("last_updated", Long.valueOf(in.readLong()));
+                        values.put("last_updated", in.readLong());
                         db.insert("buckets", null, values);
                         break;
                     case 'c':
@@ -609,15 +607,15 @@ public class DbHelper extends SQLiteOpenHelper {
                             component = null;
                         }
                         values.put(str, component);
-                        values.put("entity_score", Integer.valueOf(in.readInt()));
-                        values.put("last_opened", Long.valueOf(in.readLong()));
+                        values.put("entity_score", in.readInt());
+                        values.put("last_opened", in.readLong());
                         db.insert("entity_scores", null, values);
                         break;
                     case 'e':
                         values.put("key", in.readUTF());
-                        values.put("notif_bonus", Float.valueOf(in.readFloat()));
-                        values.put("bonus_timestamp", Long.valueOf(in.readLong()));
-                        values.put("has_recs", Integer.valueOf(in.readBoolean() ? 1 : 0));
+                        values.put("notif_bonus", in.readFloat());
+                        values.put("bonus_timestamp", in.readLong());
+                        values.put("has_recs", in.readBoolean() ? 1 : 0);
                         if (DEBUG) {
                             Log.d(TAG, "loadFromSavedStateInTransaction: inserting into entity\nvalues=" + values);
                         }
