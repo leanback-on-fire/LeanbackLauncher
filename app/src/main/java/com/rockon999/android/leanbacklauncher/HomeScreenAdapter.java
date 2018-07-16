@@ -20,6 +20,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rockon999.android.firetv.leanbacklauncher.apps.RowPreferences;
 import com.rockon999.android.leanbacklauncher.HomeScreenRow.RowChangeListener;
 import com.rockon999.android.leanbacklauncher.HomeScrollManager.HomeScrollFractionListener;
 import com.rockon999.android.leanbacklauncher.apps.AppsAdapter;
@@ -45,6 +46,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder> implements RowChangeListener, ConnectivityListener.Listener, OnEditModeChangedListener {
     private int mActiveItemIndex = -1;
@@ -171,13 +174,37 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
         int position = 0;
 
+        Set<AppCategory> enabledCategories = RowPreferences.getEnabledCategories(mMainActivity);
+
         buildRow(RowType.SEARCH, position++, null, null, null, R.dimen.home_scroll_size_search, false);
-        buildRow(RowType.NOTIFICATIONS, position++, null, null, null, R.dimen.home_scroll_size_notifications, false);
-        buildRow(RowType.FAVORITES, position++, res.getString(R.string.category_label_favorites), null, null, R.dimen.home_scroll_size_apps, true);
+
+        if (RowPreferences.areRecommendationsEnabled(mMainActivity)) {
+            buildRow(RowType.NOTIFICATIONS, position++, null, null, null, R.dimen.home_scroll_size_notifications, false);
+        }
+
+        if (RowPreferences.areFavoritesEnabled(mMainActivity)) {
+            buildRow(RowType.FAVORITES, position++, res.getString(R.string.category_label_favorites), null, null, R.dimen.home_scroll_size_apps, true);
+        }
+
         buildRow(RowType.APPS, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, true);
-        buildRow(RowType.GAMES, position++, res.getString(R.string.category_label_games), null, null, R.dimen.home_scroll_size_games, true);
-        buildRow(RowType.INPUTS, position++, res.getString(R.string.category_label_inputs), null, null, R.dimen.home_scroll_size_inputs, true);
-        buildRow(RowType.SETTINGS, position++, res.getString(R.string.category_label_settings), null, null, R.dimen.home_scroll_size_settings, false);
+
+        if (enabledCategories.contains(AppCategory.VIDEO)) {
+            buildRow(RowType.VIDEO, position++, res.getString(R.string.category_label_videos), null, null, R.dimen.home_scroll_size_games, true);
+        }
+
+        if (enabledCategories.contains(AppCategory.GAME)) {
+            buildRow(RowType.GAMES, position++, res.getString(R.string.category_label_games), null, null, R.dimen.home_scroll_size_games, true);
+        }
+
+        if (enabledCategories.contains(AppCategory.MUSIC)) {
+            buildRow(RowType.MUSIC, position++, res.getString(R.string.category_label_music), null, null, R.dimen.home_scroll_size_games, true);
+        }
+
+        if (RowPreferences.areInputsEnabled(mMainActivity)) {
+            buildRow(RowType.INPUTS, position++, res.getString(R.string.category_label_inputs), null, null, R.dimen.home_scroll_size_inputs, true);
+        }
+
+        buildRow(RowType.SETTINGS, position, res.getString(R.string.category_label_settings), null, null, R.dimen.home_scroll_size_settings, false);
         // TODO Notifications view... buildRow(RowType.ACTUAL_NOTIFICATIONS, position++, null, null, null, R.dimen.home_scroll_size_notifications, false);
 
         ListComparator comp = new ListComparator();
@@ -196,7 +223,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     private void addRowEntry(HomeScreenRow row) {
         this.mAllRowsList.add(row);
         row.setChangeListener(this);
-        if (row.getType() == RowType.APPS || row.getType() == RowType.GAMES || row.getType() == RowType.SETTINGS) {
+        if (row.getType() != RowType.NOTIFICATIONS && row.getType() != RowType.ACTUAL_NOTIFICATIONS && row.getType() != RowType.SEARCH) {
             this.mAppsManager.addAppRow(row);
         }
         if (row.isVisible()) {
@@ -526,7 +553,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     public int getScrollOffset(int index) {
         if (index >= 0 || index < this.mVisRowsList.size()) {
-            return ((HomeScreenRow) this.mVisRowsList.get(index)).getRowScrollOffset();
+            return this.mVisRowsList.get(index).getRowScrollOffset();
         }
         return 0;
     }

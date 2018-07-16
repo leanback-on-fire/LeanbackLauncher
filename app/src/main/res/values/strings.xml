@@ -54,7 +54,7 @@
     <string name="focused_search_hint_text">Click to search</string>
     <string name="focused_search_keyboard_hint_text">Click to type</string>
     <string name="focused_search_mic_hint_text">Click to speak</string>
-    <string name="home_screen_order_action_title">Apps and games rows</string>
+    <string name="home_screen_order_action_title">Edit App Rows</string>
     <string name="home_screen_order_content_description">Reorder apps and games by holding down the select button.</string>
     <string name="home_screen_order_content_title">Apps and games rows</string>
     <string name="input_source_disconnected">Disconnected</string>
@@ -203,7 +203,7 @@ To enable, go to Settings"</string>
     <string name="pref_max_apps_rows" tools:ignore="MissingTranslation">max_apps_rows</string>
     <string name="pref_min_apps_rows" tools:ignore="MissingTranslation">min_apps_rows</string>
     <string name="apps_row_title" tools:ignore="MissingTranslation">Apps Row</string>
-    <string name="favortes_row_title" tools:ignore="MissingTranslation">Favorites Row</string>
+    <string name="favorites_row_title" tools:ignore="MissingTranslation">Favorites Row</string>
     <string name="games_row_title" tools:ignore="MissingTranslation">Games Row</string>
     <string name="videos_row_title" tools:ignore="MissingTranslation">Videos Row</string>
     <string name="music_row_title" tools:ignore="MissingTranslation">Music Row</string>
@@ -211,5 +211,9 @@ To enable, go to Settings"</string>
     <string name="number_picker_text" tools:ignore="MissingTranslation">%d</string>
     <string name="app_info_add_favorites" tools:ignore="MissingTranslation">Add to Favorites</string>
     <string name="app_info_hide_app" tools:ignore="MissingTranslation">Hide Launcher</string>
+    <string name="edit_row">Edit Rows</string>
+    <string name="hidden_applications_title">Hidden applications</string>
+    <string name="pref_enable_inputs_row">enable_inputs_row</string>
+    <string name="pref_enable_recommendations_row">enable_recommendations_row</string>
 
 </resources>

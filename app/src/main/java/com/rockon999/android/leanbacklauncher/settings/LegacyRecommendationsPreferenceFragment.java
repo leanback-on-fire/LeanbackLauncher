@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v17.leanback.app.GuidedStepFragment;
+import android.support.v17.leanback.app.GuidedStepSupportFragment;
 import android.support.v17.leanback.widget.GuidanceStylist.Guidance;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.support.v17.leanback.widget.GuidedAction.Builder;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LegacyRecommendationsPreferenceFragment extends GuidedStepFragment implements RecommendationsPreferenceManager.LoadRecommendationPackagesCallback {
+public class LegacyRecommendationsPreferenceFragment extends GuidedStepSupportFragment implements RecommendationsPreferenceManager.LoadRecommendationPackagesCallback {
     private HashMap<Long, String> mActionToPackageMap;
     private RecommendationsPreferenceManager mPreferenceManager;
 

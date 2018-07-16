@@ -3,7 +3,9 @@ package com.rockon999.android.leanbacklauncher.settings;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
+import android.support.v17.leanback.app.GuidedStepSupportFragment;
 import android.support.v17.leanback.widget.GuidanceStylist.Guidance;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.support.v17.leanback.widget.GuidedAction.Builder;
@@ -15,7 +17,8 @@ import com.rockon999.android.leanbacklauncher.apps.AppsManager.SortingMode;
 
 import java.util.ArrayList;
 
-public class LegacyAppsAndGamesPreferenceFragment extends GuidedStepFragment {
+public class LegacyAppsAndGamesPreferenceFragment extends GuidedStepSupportFragment {
+    @NonNull
     public Guidance onCreateGuidance(Bundle savedInstanceState) {
         return new Guidance(getString(R.string.home_screen_order_content_title), getString(R.string.home_screen_order_content_description), getString(R.string.settings_dialog_title), ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null));
     }
@@ -25,10 +28,15 @@ public class LegacyAppsAndGamesPreferenceFragment extends GuidedStepFragment {
         ArrayList<GuidedAction> actions = new ArrayList<>();
         SortingMode sortingMode = AppsManager.getSavedSortingMode(getActivity());
         actions.add(new Builder(getActivity()).id(1).title((int) R.string.home_screen_order_content_title).description(sortingMode == SortingMode.FIXED ? R.string.select_app_order_action_description_fixed : R.string.select_app_order_action_description_recency).build());
-        if (sortingMode == SortingMode.FIXED) {
-            actions.add(new Builder(getActivity()).id(2).title((int) R.string.customize_app_order_action_title).build());
-            actions.add(new Builder(getActivity()).id(3).title((int) R.string.customize_game_order_action_title).build());
-        }
+
+        // BROKEN
+        //if (sortingMode == SortingMode.FIXED) {
+        //    actions.add(new Builder(getActivity()).id(2).title((int) R.string.customize_app_order_action_title).build());
+        //    actions.add(new Builder(getActivity()).id(3).title((int) R.string.customize_game_order_action_title).build());
+        //}
+
+        actions.add(new Builder(getActivity()).id(2).title(R.string.edit_row).build());
+
         setActions(actions);
     }
 
@@ -36,21 +44,10 @@ public class LegacyAppsAndGamesPreferenceFragment extends GuidedStepFragment {
         Intent startMain;
         switch ((int) action.getId()) {
             case 1:
-                GuidedStepFragment.add(getFragmentManager(), new LegacyAppOrderPreferenceFragment());
+                GuidedStepSupportFragment.add(getFragmentManager(), new LegacyAppOrderPreferenceFragment());
                 return;
             case 2:
-                startMain = new Intent("android.intent.action.MAIN");
-                // startMain.addCategory("android.intent.category.HOME");
-                startMain.setComponent(ComponentName.unflattenFromString("com.rockon999.android.leanbacklauncher/.MainActivity"));
-                startMain.putExtra("extra_start_customize_apps", true);
-                startActivity(startMain);
-                return;
-            case 3:
-                startMain = new Intent("android.intent.action.MAIN");
-                // startMain.addCategory("android.intent.category.HOME");
-                startMain.setComponent(ComponentName.unflattenFromString("com.rockon999.android.leanbacklauncher/.MainActivity"));
-                startMain.putExtra("extra_start_customize_games", true);
-                startActivity(startMain);
+                GuidedStepSupportFragment.add(getFragmentManager(), new LegacyAppRowPreferenceFragment());
                 return;
             default:
                 return;

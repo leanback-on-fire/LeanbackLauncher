@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
+import android.support.v17.leanback.app.GuidedStepSupportFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.support.v4.content.res.ResourcesCompat;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class LegacyHiddenPreferenceFragment extends GuidedStepFragment {
+public class LegacyHiddenPreferenceFragment extends GuidedStepSupportFragment {
 
     private HashMap<Long, String> mActionToPackageMap;
 

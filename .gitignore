@@ -15,3 +15,5 @@ app/.project
 .settings/org.eclipse.buildship.core.prefs
 .project
 app/.classpath
+.idea/*
+.idea/misc.xml

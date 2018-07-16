@@ -32,7 +32,7 @@ import java.util.Set;
 
 public class LaunchPointListGenerator {
     private static final String TAG = "LaunchPointList";
-    private final List<LaunchPoint> mAllLaunchPoints;
+    private List<LaunchPoint> mAllLaunchPoints;
     private final Queue<CachedAction> mCachedActions;
     private final Context mContext;
     private boolean mExcludeChannelActivities;
@@ -166,7 +166,7 @@ public class LaunchPointListGenerator {
 
         public void onPostExecute(List<LaunchPoint> launcherItems) {
             synchronized (LaunchPointListGenerator.this.mLock) {
-                LaunchPointListGenerator.this.mAllLaunchPoints.clear();
+                LaunchPointListGenerator.this.mAllLaunchPoints = new ArrayList<>();
                 LaunchPointListGenerator.this.mAllLaunchPoints.addAll(launcherItems);
             }
             synchronized (LaunchPointListGenerator.this.mCachedActions) {
@@ -217,7 +217,17 @@ public class LaunchPointListGenerator {
                         ArrayList<LaunchPoint> launchPoints = createLaunchPoints(pkgName);
 
                         if (!launchPoints.isEmpty()) {
-                            this.mAllLaunchPoints.removeAll(launchPoints);
+
+                            // remove every launcher with this package
+
+                            for (int x = 0; x < this.mAllLaunchPoints.size(); x++) {
+                                LaunchPoint lp = this.mAllLaunchPoints.get(x);
+
+                                if (lp != null && pkgName.equalsIgnoreCase(lp.getPackageName())) {
+                                    this.mAllLaunchPoints.remove(x);
+                                }
+                            }
+
                             this.mAllLaunchPoints.addAll(launchPoints);
 
                             if (!isBlacklisted(pkgName) && this.mShouldNotify) {
@@ -480,9 +490,7 @@ public class LaunchPointListGenerator {
         if (force || this.mSettingsLaunchPoints == null) {
             this.mSettingsLaunchPoints = createSettingsList();
         }
-        ArrayList<LaunchPoint> copied = new ArrayList<>();
-        copied.addAll(this.mSettingsLaunchPoints);
-        return copied;
+        return new ArrayList<>(this.mSettingsLaunchPoints);
     }
 
     public void refreshLaunchPointList() {
