@@ -531,13 +531,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public List<String> loadBlacklistedPackages() {
         ArrayList<String> packageNames = new ArrayList<>();
         Cursor c = getReadableDatabase().query("rec_blacklist", new String[]{"key"}, "key IS NOT NULL", null, null, null, null);
-        while (c.moveToNext()) {
-            try {
-                packageNames.add(c.getString(0));
-            } finally {
-                c.close();
-            }
-        }
+        while (c.moveToNext())
+            packageNames.add(c.getString(0));
+        c.close();
         return packageNames;
     }
 
