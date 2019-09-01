@@ -145,9 +145,9 @@
     <string name="category_label_videos">Видео</string>
     <string name="category_label_music">Музыка</string>
     <string name="category_label_favorites">Избранное</string>
-    <string name="loading">Loading&#8230;</string>
+    <string name="loading">Загрузка…</string>
     <string name="app_info_in_store">Показать в Amazon Store</string>
-    <string name="app_info_settings">Управление приложением</string>
+    <string name="app_info_settings">Панель управления</string>
     <string name="app_info_notification_settings">Настройки уведомлений</string>
     <string name="edit_favorites">Изменить Избранное</string>
     <string name="notifications">Уведомления</string>
@@ -171,6 +171,4 @@
     <string name="hidden_applications_title">Скрытые приложения</string>
     <string name="hidden_applications_desc">Выбранные приложения не показываются на главном экране</string>
     <string name="system_settings">Настройки системы</string>
-    <!--string name="pref_enable_inputs_row">enable_inputs_row</string>
-    <string name="pref_enable_recommendations_row">enable_recommendations_row</string-->
 </resources>
