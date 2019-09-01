@@ -33,7 +33,7 @@ public class LegacyHiddenPreferenceFragment extends GuidedStepSupportFragment {
 
     @NonNull
     public GuidanceStylist.Guidance onCreateGuidance(Bundle savedInstanceState) {
-        return new GuidanceStylist.Guidance("Hidden apps", "Selected apps are hidden from the home screen.", getString(R.string.settings_dialog_title), ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null));
+        return new GuidanceStylist.Guidance(getString(R.string.hidden_applications_title), getString(R.string.hidden_applications_desc), getString(R.string.settings_dialog_title), ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null));
     }
 
     public void onResume() {
