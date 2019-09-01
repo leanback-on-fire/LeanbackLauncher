@@ -74,7 +74,7 @@ public class RowPreferences {
 
     public static boolean areInputsEnabled(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        return pref.getBoolean(context.getString(R.string.pref_enable_inputs_row), true);
+        return pref.getBoolean(context.getString(R.string.pref_enable_inputs_row), false);
     }
 
     public static Set<AppCategory> getEnabledCategories(Context context) {

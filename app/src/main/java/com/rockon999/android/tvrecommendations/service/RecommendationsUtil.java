@@ -111,17 +111,16 @@ public class RecommendationsUtil {
         int color = notification.color;
         Bitmap localBitmap = notification.largeIcon;
 
-        if (localBitmap == null) {
-            try {
-                Method m = Notification.Builder.class.getMethod("rebuild", Context.class, Notification.class);
-
-                Notification rebuilt = (Notification) m.invoke(null, context, notification);
-
-                localBitmap = rebuilt.largeIcon;
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
+// FIXME
+//        if (localBitmap == null) {
+//            try {
+//                Method m = Notification.Builder.class.getMethod("rebuild", Context.class, Notification.class);
+//                Notification rebuilt = (Notification) m.invoke(null, context, notification);
+//                localBitmap = rebuilt.largeIcon;
+//            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         if (localBitmap == null && notification.extras != null) {
             localBitmap = notification.extras.getParcelable(Notification.EXTRA_LARGE_ICON);

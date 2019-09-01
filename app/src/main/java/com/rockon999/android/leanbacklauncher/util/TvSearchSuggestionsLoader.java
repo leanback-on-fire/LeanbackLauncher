@@ -58,29 +58,30 @@ public class TvSearchSuggestionsLoader extends AsyncTaskLoader<String[]> {
     public String[] loadInBackground() {
         Cursor data;
         this.mSearchSuggestions = null;
-        try {
-            data = getContext().getContentResolver().query(SearchWidgetInfoContract.SUGGESTIONS_CONTENT_URI, null, null, null, null);
-
-            if (data != null) {
-                try {
-                    if (data.moveToFirst()) {
-                        int size = data.getCount();
-                        this.mSearchSuggestions = new String[size];
-                        for (int i = 0; i < size; i++) {
-                            this.mSearchSuggestions[i] = data.getString(0);
-                            data.moveToNext();
-                        }
-                    }
-                } catch (Throwable ignored) {
-                }
-            }
-
-            if (data != null) {
-                data.close();
-            }
-        } catch (Exception e) {
-            Log.e("TvSearchSuggestionsLdr", "Exception in loadInBackground()", e);
-        }
+// FIXME
+//        try {
+//            data = getContext().getContentResolver().query(SearchWidgetInfoContract.SUGGESTIONS_CONTENT_URI, null, null, null, null);
+//
+//            if (data != null) {
+//                try {
+//                    if (data.moveToFirst()) {
+//                        int size = data.getCount();
+//                        this.mSearchSuggestions = new String[size];
+//                        for (int i = 0; i < size; i++) {
+//                            this.mSearchSuggestions[i] = data.getString(0);
+//                            data.moveToNext();
+//                        }
+//                    }
+//                } catch (Throwable ignored) {
+//                }
+//            }
+//
+//            if (data != null) {
+//                data.close();
+//            }
+//        } catch (Exception e) {
+//            Log.e("TvSearchSuggestionsLdr", "Exception in loadInBackground()", e);
+//        }
 
         return this.mSearchSuggestions;
     }

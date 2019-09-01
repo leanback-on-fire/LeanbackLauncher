@@ -64,32 +64,32 @@ public class TvSearchIconLoader extends AsyncTaskLoader<Drawable> {
         Cursor data;
         this.mTvSearchIcon = null;
 
-        data = getContext().getContentResolver().query(SearchWidgetInfoContract.ICON_CONTENT_URI, null, null, null, null);
-
-        Resources resources = null;
-
-        if (data != null) {
-            if (data.moveToFirst()) {
-                String iconResource = data.getString(0);
-                if (!TextUtils.isEmpty(iconResource)) {
-                    try {
-                        resources = getContext().getPackageManager().getResourcesForApplication("com.google.android.katniss");
-                        this.mTvSearchIcon = resources.getDrawable(resources.getIdentifier(iconResource, "drawable", "com.google.android.katniss"), null);
-                    } catch (NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        if (data != null) {
-            try {
-                data.close();
-            } catch (Throwable ignored) {
-            }
-        }
-
+// FIXME
+//        try {
+//            data = getContext().getContentResolver().query(SearchWidgetInfoContract.ICON_CONTENT_URI, null, null, null, null);
+//
+//            Resources resources = null;
+//
+//            if (data != null) {
+//                if (data.moveToFirst()) {
+//                    String iconResource = data.getString(0);
+//                    if (!TextUtils.isEmpty(iconResource)) {
+//                        try {
+//                            resources = getContext().getPackageManager().getResourcesForApplication("com.google.android.katniss");
+//                            this.mTvSearchIcon = resources.getDrawable(resources.getIdentifier(iconResource, "drawable", "com.google.android.katniss"), null);
+//                        } catch (NameNotFoundException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            }
+//            if (data != null) {
+//                data.close();
+//            }
+//
+//        } catch (Exception e) {
+//            Log.e("TvSearchIconLoader", "Exception in loadInBackground()", e);
+//        }
         return this.mTvSearchIcon;
-
     }
 }

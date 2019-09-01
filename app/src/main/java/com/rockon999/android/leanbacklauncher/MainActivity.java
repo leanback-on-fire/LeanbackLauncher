@@ -729,7 +729,6 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             if (this.mAppEditMode) {
                 setEditMode(false, false);
             }
-            super.onStop();
             setShyMode(false, false);
             this.mHomeAdapter.sortRowsIfNeeded(false);
             this.mLaunchAnimation.reset();
@@ -738,6 +737,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         } catch (Throwable th) {
             AppTrace.endSection();
         }
+        super.onStop();
     }
 
     public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {

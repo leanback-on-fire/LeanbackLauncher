@@ -58,12 +58,13 @@ public class WallpaperInstaller {
     public void installWallpaperIfNeeded() {
         if (!this.mWallpaperInstalled && !this.mInstallationPending) {
             this.mInstallationPending = true;
-            new AsyncTask<Void, Void, Void>() {
-                protected Void doInBackground(Void... params) {
-                    WallpaperInstaller.this.installWallpaper();
-                    return null;
-                }
-            }.execute();
+// FIXME
+//            new AsyncTask<Void, Void, Void>() {
+//                protected Void doInBackground(Void... params) {
+//                    WallpaperInstaller.this.installWallpaper();
+//                    return null;
+//                }
+//            }.execute();
         }
     }
 
