@@ -80,8 +80,10 @@
     <dimen name="abc_text_size_subhead_material">16.0sp</dimen>
     <dimen name="abc_text_size_title_material">20.0sp</dimen>
     <dimen name="banner_corner_radius">2.0dip</dimen>
-    <dimen name="banner_width">188.0dip</dimen>
-    <dimen name="banner_height">106.0dip</dimen>
+    <!--dimen name="banner_width">188.0dip</dimen>
+    <dimen name="banner_height">106.0dip</dimen-->
+    <dimen name="banner_width">142.0dip</dimen>
+    <dimen name="banner_height">80.0dip</dimen>
     <dimen name="banner_icon_size">44.0dip</dimen>
     <dimen name="banner_icon_to_text_spacing">10.0dip</dimen>
     <dimen name="banner_label_text_size">18.0sp</dimen>
