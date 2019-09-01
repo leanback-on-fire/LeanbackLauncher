@@ -52,7 +52,7 @@ public class SharedPreferencesUtil {
     }
 
     public void unhide(String component) {
-        hiddenPref.edit().putBoolean(component, true).apply();
+        hiddenPref.edit().putBoolean(component, false).apply();
     }
 
     // todo unregister too
