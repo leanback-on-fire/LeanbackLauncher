@@ -9,7 +9,9 @@ public class SettingsUtil {
     public enum SettingsType {
         UNKNOWN(-1),
         WIFI(0),
-        NOTIFICATIONS(1), APP_CONFIGURE(5), EDIT_FAVORITES(10);
+        NOTIFICATIONS(1),
+        APP_CONFIGURE(5),
+        EDIT_FAVORITES(10);
 
         private final int code;
 

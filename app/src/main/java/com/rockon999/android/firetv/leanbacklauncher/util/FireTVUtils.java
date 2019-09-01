@@ -89,6 +89,14 @@ public class FireTVUtils {
         return intent;
     }
 
+    public static Intent getSystemSettingsIntent() {
+
+        Intent intent = new Intent(Settings.ACTION_SETTINGS);
+        intent.setFlags(32768);
+
+        return intent;
+    }
+
     private static class AmazonStoreSpoofer {
 
         static final String SPOOFED_WIDGET = "CONTEXT_MENU";
