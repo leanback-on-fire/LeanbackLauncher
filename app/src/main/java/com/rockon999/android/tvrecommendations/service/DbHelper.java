@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static boolean DEBUG = false;
+    private static boolean DEBUG = true;
     private static String TAG = "DbHelper";
     private static DbHelper sDbHelper = null;
     private Context mContext;
