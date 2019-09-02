@@ -86,7 +86,7 @@
     <dimen name="banner_label_text_size">18.0sp</dimen>
     <dimen name="banner_side_padding">12.0dip</dimen>
     <dimen name="card_spacing">8.0dip</dimen>
-    <dimen name="clock_text_size">32.0sp</dimen>
+    <dimen name="clock_text_size">40.0sp</dimen>
     <item type="dimen" name="disabled_alpha_material_dark">0.3</item>
     <item type="dimen" name="disabled_alpha_material_light">0.26</item>
     <dimen name="edit_app_banner_z">6.0dip</dimen>
@@ -370,7 +370,7 @@
     <dimen name="lb_search_bar_text_size">18.0sp</dimen>
     <dimen name="lb_search_bar_unfocused_text_size">18.0sp</dimen>
     <dimen name="lb_search_browse_row_padding_start">56.0dip</dimen>
-    <dimen name="lb_search_browse_rows_align_top">147.0dip</dimen>
+    <dimen name="lb_search_browse_rows_align_top">122.0dip</dimen><!-- as search_area_fixed_height -->
     <dimen name="lb_search_orb_focused_z">8.0dip</dimen>
     <dimen name="lb_search_orb_margin_bottom">4.0dip</dimen>
     <dimen name="lb_search_orb_margin_end">4.0dip</dimen>
@@ -451,9 +451,9 @@
     <dimen name="progress_bar_height">2.0dip</dimen>
     <dimen name="progress_bar_radius">5.0dip</dimen>
     <dimen name="row_padding">56.0dip</dimen>
-    <dimen name="search_area_fixed_height">135.0dip</dimen>
+    <dimen name="search_area_fixed_height">122.0dip</dimen>
     <dimen name="search_orb_hint_text">18.0sp</dimen>
-    <dimen name="search_orb_margin_bottom">52.0dip</dimen>
+    <dimen name="search_orb_margin_bottom">31.0dip</dimen>
     <dimen name="search_orb_margin_start">56.0dip</dimen>
     <dimen name="search_orb_margin_top">31.0dip</dimen>
     <dimen name="search_orbs_spacing">28.0dip</dimen>
@@ -466,7 +466,7 @@
     <dimen name="settings_row_height">146.0dip</dimen>
     <dimen name="settings_text_padding">8.0dip</dimen>
     <dimen name="temp_max_row_height">126.0dip</dimen>
-    <dimen name="unselected_item_z">0.0dip</dimen>
+    <dimen name="unselected_item_z">6.0dip</dimen>
     <dimen name="vertical_safety_spacing">27.0dip</dimen>
     <dimen name="widget_clock_height">60.0dip</dimen>
     <dimen name="widget_end_spacing">56.0dip</dimen>
