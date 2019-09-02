@@ -55,7 +55,7 @@
     <string name="focused_search_keyboard_hint_text">Нажмите, чтобы ввести текст</string>
     <string name="focused_search_mic_hint_text">Нажмите кнопку и говорите</string>
     <string name="home_screen_order_action_title">Строки игр и приложений</string>
-    <string name="home_screen_order_content_description">Чтобы изменить порядок приложений и игр, нажмите и не отпускайте кнопку выбора.</string>
+    <string name="home_screen_order_content_description">Чтобы изменить порядок приложений и игр, нажмите и удерживайте кнопку «OK» на главном экране</string>
     <string name="home_screen_order_content_title">Строки игр и приложений</string>
     <string name="input_source_disconnected">Отключено</string>
     <string name="input_source_unknown">Неизвестное устройство</string>
@@ -128,6 +128,7 @@
     <string name="select_app_order_action_description_fixed">Упорядочить вручную</string>
     <string name="select_app_order_action_description_recency">Упорядочить по дате</string>
     <string name="select_app_order_action_title">Упорядочить приложения и игры</string>
+    <string name="select_app_customize_rows_title">Настройка разделов главного экрана</string>
     <string name="select_app_order_content_title">Упорядочивание приложений и игр</string>
     <string name="settings_dialog_title">Главный экран</string>
     <string name="settings_network">Настройки сети</string>
@@ -147,7 +148,7 @@
     <string name="category_label_favorites">Избранное</string>
     <string name="loading">Загрузка…</string>
     <string name="app_info_in_store">Показать в Amazon Store</string>
-    <string name="app_info_settings">Панель управления</string>
+    <string name="app_info_settings">Открыть панель управления</string>
     <string name="app_info_notification_settings">Настройки уведомлений</string>
     <string name="edit_favorites">Изменить Избранное</string>
     <string name="notifications">Уведомления</string>
@@ -156,9 +157,11 @@
     <string name="enable_videos_row_title">ВКЛ.</string>
     <string name="enable_games_row_title">ВКЛ.</string>
     <string name="enable_favorites_row_title">ВКЛ.</string>
+    <string name="enable_inputs_row_title">ВКЛ.</string>
+    <string name="enable_recs_row_title">ВКЛ.</string>
     <string name="max_rows_title">Макс. строк</string>
     <string name="min_rows_title">Мин. строк</string>
-    <string name="apps_row_title">Раздел приложений</string>
+    <string name="apps_row_title">Раздел «Приложения»</string>
     <string name="favorites_row_title">Раздел «Избранное»</string>
     <string name="games_row_title">Раздел «Игры»</string>
     <string name="videos_row_title">Раздел «Видео»</string>
@@ -167,8 +170,10 @@
     <string name="number_picker_text">%d</string>
     <string name="app_info_add_favorites">Добавить в Избранное</string>
     <string name="app_info_hide_app">Скрыть с главного экрана</string>
-    <string name="edit_row">Изменить</string>
+    <string name="edit_row">Настроить разделы</string>
     <string name="hidden_applications_title">Скрытые приложения</string>
     <string name="hidden_applications_desc">Выбранные приложения не показываются на главном экране</string>
     <string name="system_settings">Настройки системы</string>
+    <string name="inputs_row_title">Раздел «Входы»</string>
+    <string name="recs_row_title">Раздел «Рекомендации»</string>
 </resources>
