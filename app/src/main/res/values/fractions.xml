@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <fraction name="badge_icon_alpha">50.0%</fraction>
-    <fraction name="inactive_banner_scale_down_amount">10.000002%</fraction>
+    <fraction name="inactive_banner_scale_down_amount">0.0%</fraction><!-- no scale -->
     <fraction name="launcher_active_dim_level">0.0%</fraction>
     <fraction name="launcher_edit_mode_dim_level">50.0%</fraction>
     <fraction name="launcher_inactive_dim_level">39.999996%</fraction>
