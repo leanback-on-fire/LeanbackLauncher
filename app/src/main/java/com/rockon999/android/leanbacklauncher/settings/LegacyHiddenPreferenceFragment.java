@@ -73,7 +73,6 @@ public class LegacyHiddenPreferenceFragment extends GuidedStepSupportFragment {
             ArrayList<GuidedAction> actions = new ArrayList<>();
             long actionId = 0;
 
-
             PackageManager pm = getActivity().getPackageManager();
 
             for (String pkg : packages) {
@@ -91,8 +90,8 @@ public class LegacyHiddenPreferenceFragment extends GuidedStepSupportFragment {
                     }
 
                     hidden = util.isHidden(pkg);
-
-                    actions.add(new GuidedAction.Builder(getActivity()).id(actionId).title(pm.getApplicationLabel(packageInfo.applicationInfo)).icon(banner).checkSetId(-1).checked(hidden).build());
+                    if (hidden) // show only hidden apps
+                        actions.add(new GuidedAction.Builder(getActivity()).id(actionId).title(pm.getApplicationLabel(packageInfo.applicationInfo)).icon(banner).checkSetId(-1).checked(hidden).build());
                     this.mActionToPackageMap.put(actionId, packageInfo.packageName);
                     actionId++;
                 } catch (PackageManager.NameNotFoundException e) {
