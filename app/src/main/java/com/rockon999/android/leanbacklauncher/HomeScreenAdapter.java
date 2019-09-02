@@ -450,19 +450,13 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             int numMinRows = res.getInteger(R.integer.min_num_banner_rows);
             int numMaxRows = res.getInteger(R.integer.max_num_banner_rows);
             int rowHeight = (int) res.getDimension(R.dimen.banner_height);
-            int[] constraints = {1, 2}; // default
+            int[] constraints;
             
             group.setScaledWhenUnfocused(true);
 
             switch (row.getType()) {
                 case INPUTS:
                 case PARTNER:
-                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
-                        numMaxRows = res.getInteger(R.integer.max_num_banner_rows);
-                    else
-                        numMaxRows = res.getInteger(R.integer.min_num_banner_rows);
-                    list.setIsNumRowsAdjustable(true);
-                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
                     break;
                 case FAVORITES:
                     constraints = RowPreferences.getFavoriteRowConstraints(mMainActivity);
@@ -470,9 +464,6 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];                    
-                    list.setIsNumRowsAdjustable(true);
-                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
-                    break;
                 case GAMES:
                     constraints = RowPreferences.getRowConstraints(AppCategory.GAME, mMainActivity);
                     if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
@@ -491,16 +482,13 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];                    
-
-                    list.setIsNumRowsAdjustable(true);
-                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
-                    break;
                 case APPS:
                     constraints = RowPreferences.getAllAppsConstraints(mMainActivity);
                     if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];                    
+                    // APPLY
                     list.setIsNumRowsAdjustable(true);
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
                     break;
