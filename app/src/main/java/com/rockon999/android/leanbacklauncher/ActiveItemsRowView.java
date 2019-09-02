@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v17.leanback.widget.HorizontalGridView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.OnHierarchyChangeListener;
@@ -108,6 +109,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
     }
 
     public void adjustNumRows(int numRows, int cardSpacing, int rowHeight) {
+        // Log.w("+++ adjustNumRows INIT", "" + numRows + " " + cardSpacing + " " + rowHeight);
         if (this.mIsAdjustable && this.mNumRows != numRows) {
             this.mNumRows = numRows;
             this.mCardSpacing = cardSpacing;
@@ -115,8 +117,11 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
             post(new Runnable() {
                 public void run() {
                     ActiveItemsRowView.this.getLayoutParams().height = ((ActiveItemsRowView.this.mNumRows * ActiveItemsRowView.this.mRowHeight) + ((ActiveItemsRowView.this.mNumRows - 1) * ActiveItemsRowView.this.mCardSpacing)) + (ActiveItemsRowView.this.getPaddingTop() + ActiveItemsRowView.this.getPaddingBottom());
+                    // Log.w("+++ adjustNumRows height", "" + ActiveItemsRowView.this.getLayoutParams().height);
                     ActiveItemsRowView.this.setNumRows(ActiveItemsRowView.this.mNumRows);
+                    // Log.w("+++ adjustNumRows setNumRows", "" + ActiveItemsRowView.this.mNumRows);
                     ActiveItemsRowView.this.setRowHeight(ActiveItemsRowView.this.mRowHeight);
+                    // Log.w("+++ adjustNumRows setRowHeight", "" + ActiveItemsRowView.this.mRowHeight);
                 }
             });
         }
@@ -124,11 +129,15 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
 
     private void adjustNumRows() {
         int integer;
-        Resources res = getResources();
-        if (getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off)) {
-            integer = res.getInteger(R.integer.max_num_banner_rows);
-        } else {
-            integer = res.getInteger(R.integer.min_num_banner_rows);
+        if (this.mNumRows > 0)
+            integer = this.mNumRows;
+        else {
+            Resources res = getResources();
+            if (getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off)) {
+                integer = res.getInteger(R.integer.max_num_banner_rows);
+            } else {
+                integer = res.getInteger(R.integer.min_num_banner_rows);
+            }
         }
         adjustNumRows(integer, this.mCardSpacing, this.mRowHeight);
     }

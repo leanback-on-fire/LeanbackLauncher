@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rockon999.android.firetv.leanbacklauncher.apps.AppCategory;
 import com.rockon999.android.firetv.leanbacklauncher.apps.RowPreferences;
 import com.rockon999.android.leanbacklauncher.HomeScreenRow.RowChangeListener;
 import com.rockon999.android.leanbacklauncher.HomeScrollManager.HomeScrollFractionListener;
@@ -445,19 +447,62 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             LayoutParams lp = list.getLayoutParams();
 
             int cardSpacing = res.getDimensionPixelOffset(R.dimen.inter_card_spacing);
+            int numMinRows = res.getInteger(R.integer.min_num_banner_rows);
+            int numMaxRows = res.getInteger(R.integer.max_num_banner_rows);
+            int rowHeight = (int) res.getDimension(R.dimen.banner_height);
+            int[] constraints = {1, 2}; // default
+            
             group.setScaledWhenUnfocused(true);
 
             switch (row.getType()) {
-                case PARTNER:
-                case APPS:
-                case GAMES:
                 case INPUTS:
-                case FAVORITES:
-                case MUSIC:
-                case VIDEO:
-                    int rowHeight = (int) res.getDimension(R.dimen.banner_height);
+                case PARTNER:
+                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                        numMaxRows = res.getInteger(R.integer.max_num_banner_rows);
+                    else
+                        numMaxRows = res.getInteger(R.integer.min_num_banner_rows);
                     list.setIsNumRowsAdjustable(true);
-                    list.adjustNumRows(res.getInteger(R.integer.max_num_banner_rows), cardSpacing, rowHeight);
+                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
+                    break;
+                case FAVORITES:
+                    constraints = RowPreferences.getFavoriteRowConstraints(mMainActivity);
+                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                        numMaxRows = constraints[1];
+                    else
+                        numMaxRows = constraints[0];                    
+                    list.setIsNumRowsAdjustable(true);
+                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
+                    break;
+                case GAMES:
+                    constraints = RowPreferences.getRowConstraints(AppCategory.GAME, mMainActivity);
+                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                        numMaxRows = constraints[1];
+                    else
+                        numMaxRows = constraints[0];                    
+                case MUSIC:
+                    constraints = RowPreferences.getRowConstraints(AppCategory.MUSIC, mMainActivity);
+                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                        numMaxRows = constraints[1];
+                    else
+                        numMaxRows = constraints[0];                    
+                case VIDEO:                   
+                    constraints = RowPreferences.getRowConstraints(AppCategory.VIDEO, mMainActivity);
+                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                        numMaxRows = constraints[1];
+                    else
+                        numMaxRows = constraints[0];                    
+
+                    list.setIsNumRowsAdjustable(true);
+                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
+                    break;
+                case APPS:
+                    constraints = RowPreferences.getAllAppsConstraints(mMainActivity);
+                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                        numMaxRows = constraints[1];
+                    else
+                        numMaxRows = constraints[0];                    
+                    list.setIsNumRowsAdjustable(true);
+                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
                     break;
                 case SETTINGS:
                     lp.height = (int) res.getDimension(R.dimen.settings_row_height);
