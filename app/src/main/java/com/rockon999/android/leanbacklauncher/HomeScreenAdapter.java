@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder> implements RowChangeListener, ConnectivityListener.Listener, OnEditModeChangedListener {
@@ -538,6 +539,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     }
 
     private Adapter<?> initAdapter(RowType type) {
+        Set<AppCategory> enabledCategories = RowPreferences.getEnabledCategories(mMainActivity);
         switch (type) {
             case NOTIFICATIONS:
                 return this.mRecommendationsAdapter;
@@ -546,11 +548,23 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             case PARTNER:
                 return this.mPartnerAdapter;
             case APPS:
-                return new AppsAdapter(this.mMainActivity, this.mRecommendationsAdapter, AppCategory.OTHER, AppCategory.MUSIC, AppCategory.VIDEO);
+                Set<AppCategory> categories = new HashSet<>();
+                categories.add(AppCategory.OTHER);
+                if (!enabledCategories.contains(AppCategory.VIDEO))
+                    categories.add(AppCategory.VIDEO);
+                if (!enabledCategories.contains(AppCategory.GAME))
+                    categories.add(AppCategory.GAME);
+                if (!enabledCategories.contains(AppCategory.MUSIC))
+                    categories.add(AppCategory.MUSIC);
+                return new AppsAdapter(this.mMainActivity, this.mRecommendationsAdapter, categories.toArray(new AppCategory[categories.size()]));
             case FAVORITES:
                 return new FavoritesAdapter(this.mMainActivity, this.mRecommendationsAdapter);
+            case VIDEO:
+                return new AppsAdapter(this.mMainActivity, null, AppCategory.VIDEO);
             case GAMES:
                 return new AppsAdapter(this.mMainActivity, null, AppCategory.GAME);
+            case MUSIC:
+                return new AppsAdapter(this.mMainActivity, null, AppCategory.MUSIC);
             case SETTINGS:
                 return this.mSettingsAdapter;
             case INPUTS:

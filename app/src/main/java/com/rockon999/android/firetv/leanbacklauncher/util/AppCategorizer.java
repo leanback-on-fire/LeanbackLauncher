@@ -46,12 +46,22 @@ public class AppCategorizer {
             "showtime",
             "dramafever",
             "cbs",
-            "hulu"
+            "hulu",
+            "cn.tv",
+            "tvplayer",
+            "niklabs.pp",
+            "lazycatsoftware.lmd",
+            "kinotrend"
     };
 
     public static final String[] MUSIC_FILTER = new String[]{
             "music",
             "spotify",
-            "pandora"
+            "pandora",
+            "deezer",
+            "tunein",
+            "somafm",
+            "ituner",
+            "fmplay"
     };
 }

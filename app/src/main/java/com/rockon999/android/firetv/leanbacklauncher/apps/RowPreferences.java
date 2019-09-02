@@ -104,11 +104,11 @@ public class RowPreferences {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         Set<AppCategory> categories = new HashSet<>();
 
-        if (pref.getBoolean(context.getString(R.string.pref_enable_games_row), false))
+        if (pref.getBoolean(context.getString(R.string.pref_enable_games_row), true))
             categories.add(AppCategory.GAME);
-        if (pref.getBoolean(context.getString(R.string.pref_enable_music_row), false))
+        if (pref.getBoolean(context.getString(R.string.pref_enable_music_row), true))
             categories.add(AppCategory.MUSIC);
-        if (pref.getBoolean(context.getString(R.string.pref_enable_videos_row), false))
+        if (pref.getBoolean(context.getString(R.string.pref_enable_videos_row), true))
             categories.add(AppCategory.VIDEO);
 
         return categories;
