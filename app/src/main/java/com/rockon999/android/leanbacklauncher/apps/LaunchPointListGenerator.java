@@ -142,10 +142,16 @@ public class LaunchPointListGenerator {
                 for (ResolveInfo itemRawLaunchPoint : normLaunchPoints) {
                     if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
                         // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
-                        if (!Util.isSystemApp(LaunchPointListGenerator.this.mContext, itemRawLaunchPoint.activityInfo.packageName) || itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.bueller")) { // todo optimize & don't hardcode
-                            if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName)) {
+                        if (!Util.isSystemApp(LaunchPointListGenerator.this.mContext, itemRawLaunchPoint.activityInfo.packageName) ||
+                            itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.bueller") ||
+                            itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.venezia")
+                            ) {
+                            if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName) &&
+                                !itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.ftv.screensaver") &&
+                                !itemRawLaunchPoint.activityInfo.packageName.startsWith("com.rockon999")
+                            ) {
                                 allLaunchPoints.add(itemRawLaunchPoint);
-                            }
+                            } // todo optimize & don't hardcode
                         }
                     }
                 }
