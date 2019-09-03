@@ -71,7 +71,7 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
         StatusBarNotification[] ret = null;
         if (this.mManager.isConnectedToNotificationService()) {
             try {
-                ret = getActiveNotifications(keySet); // , 0;
+                ret = getActiveNotifications(keySet); // 0
             } catch (SecurityException e) {
                 Log.d(this.mTag, "Exception fetching notification", e);
             }
@@ -91,21 +91,28 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
 
         for (StatusBarNotification sbn : snotifications) {
             Notification notification = sbn.getNotification();
+            Log.d(this.mTag, "fetchExistingNotifications: get " + notification);
 
-            if (notification.largeIcon == null) {
-                cancelNotification(sbn.getKey());
-            }
+        // FIXME
+        //    if (notification.largeIcon == null) {
+        //        cancelNotification(sbn.getKey());
+        //        Log.d(this.mTag, "fetchExistingNotifications: cancel " + notification);
+        //    }
         }
 
         onFetchExistingNotifications(getActiveNotifications()); // 1
     }
 
     protected void onFetchExistingNotifications(StatusBarNotification[] notifications) {
+        Log.d(this.mTag, " onFetchExistingNotifications +++ resetNotifications +++");
         this.mManager.resetNotifications();
+        int i = 0;
         for (StatusBarNotification sbn : notifications) {
             // && sbn.getUser().equals(this.mCurrentUser)
             if (RecommendationsUtil.isRecommendation(sbn)) {
+                i++;
                 this.mManager.addNotification(sbn);
+                Log.d(this.mTag, " onFetchExistingNotifications +++ isRecommendation: ADD +++ " + i);
             } else if (RecommendationsUtil.isCaptivePortal(getApplicationContext(), sbn)) {
                 this.mManager.addCaptivePortalNotification(sbn);
             }

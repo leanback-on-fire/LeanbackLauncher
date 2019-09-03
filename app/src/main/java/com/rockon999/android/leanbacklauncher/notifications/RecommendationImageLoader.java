@@ -49,12 +49,13 @@ public class RecommendationImageLoader {
         IRecommendationsService service = getService();
         if (service != null) {
             try {
+                Log.w("RecImageLoader", "Obtain bitmap for key: " + key);
                 Bitmap bitmap = service.getImageForRecommendation(key);
                 if (bitmap != null) {
                     return bitmap;
                 }
                 Log.e("RecImageLoader", "Recommendations service returned a null image");
-                return bitmap;
+                return bitmap; // todo: default image
             } catch (RemoteException e) {
                 Log.e("RecImageLoader", "Cannot obtain recommendation image", e);
             }
@@ -62,7 +63,6 @@ public class RecommendationImageLoader {
             Log.e("RecImageLoader", "Cannot obtain recommendation image - service not connected");
             return null;
         }
-
         return null;
     }
 
