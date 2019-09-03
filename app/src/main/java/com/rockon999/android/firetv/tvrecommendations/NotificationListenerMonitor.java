@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.os.Process;
 import android.provider.Settings;
@@ -144,7 +145,8 @@ public class NotificationListenerMonitor extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "LeanbackOnFire")
-                .setSmallIcon(R.drawable.ic_app_default)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.ic_notification))
                 .setContentTitle("LeanbackOnFire")
                 .setContentText("Keeping Launcher In Memory");
 
