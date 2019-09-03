@@ -289,24 +289,24 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
             String trace;
 
             if (!mAppTypes.isEmpty()) {
-                StringBuilder section = new StringBuilder("Refresh[");
+                StringBuilder section = new StringBuilder("Refresh [");
 
                 for (AppCategory category : mAppTypes) {
                     switch (category) {
                         case OTHER:
-                            section.append("Other");
+                            section.append("OTHER");
                             break;
                         case GAME:
-                            section.append("Game");
+                            section.append("GAME");
                             break;
                         case VIDEO:
-                            section.append("Video");
+                            section.append("VIDEO");
                             break;
                         case MUSIC:
-                            section.append("Music");
+                            section.append("MUSIC");
                             break;
                         case SETTINGS:
-                            section = new StringBuilder("Settings");
+                            section.append("SETTINGS");
                             break;
                         default:
                             throw new IllegalStateException();
@@ -316,13 +316,13 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
                     section.append(',');
                 }
 
-                section.append("]Row");
+                section.append("] Row");
 
                 int lastIndex = section.lastIndexOf(",");
 
                 trace = section.substring(0, lastIndex) + section.substring(lastIndex + 1);
             } else {
-                trace = "RefreshUnknownRow";
+                trace = "Refresh [UNKNOWN] Row";
             }
 
             AppTrace.beginSection(trace);
