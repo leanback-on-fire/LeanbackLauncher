@@ -83,8 +83,8 @@
     <dimen name="banner_height">80.0dip</dimen>
     <dimen name="banner_icon_size">44.0dip</dimen>
     <dimen name="banner_icon_to_text_spacing">10.0dip</dimen>
-    <dimen name="banner_label_text_size">18.0sp</dimen>
-    <dimen name="banner_side_padding">12.0dip</dimen>
+    <dimen name="banner_label_text_size">13.0sp</dimen>
+    <dimen name="banner_side_padding">10.0dip</dimen>
     <dimen name="card_spacing">8.0dip</dimen>
     <dimen name="clock_text_size">40.0sp</dimen>
     <item type="dimen" name="disabled_alpha_material_dark">0.3</item>
