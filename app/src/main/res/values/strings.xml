@@ -222,4 +222,5 @@ To enable, go to Settings"</string>
     <string name="system_settings">System Settings</string>
     <string name="inputs_row_title" tools:ignore="MissingTranslation">Inputs Row</string>
     <string name="recs_row_title" tools:ignore="MissingTranslation">Recommendations Row</string>
+    <string name="notification_text" tools:ignore="MissingTranslation">Keeping Launcher In Memory</string>
 </resources>

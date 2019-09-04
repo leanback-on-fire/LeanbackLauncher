@@ -148,7 +148,7 @@ public class NotificationListenerMonitor extends Service {
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.ic_notification))
                 .setContentTitle("LeanbackOnFire")
-                .setContentText("Keeping Launcher In Memory");
+                .setContentText(getResources().getString(R.string.notification_text));
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
