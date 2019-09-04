@@ -22,7 +22,6 @@ public class AppInfoActivity extends Activity {
             pkg = getIntent().getExtras().getString("pkg");
 
             try {
-
                 ApplicationInfo info = getPackageManager().getApplicationInfo(pkg, 0);
                 title = getPackageManager().getApplicationLabel(info).toString(); // todo flag/tostr
                 icon = getPackageManager().getApplicationIcon(info);

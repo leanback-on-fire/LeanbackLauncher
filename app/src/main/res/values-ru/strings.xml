@@ -169,7 +169,9 @@
     <string name="sorting_title">Сортировка</string>
     <string name="number_picker_text">%d</string>
     <string name="app_info_add_favorites">Добавить в Избранное</string>
+    <string name="app_info_rem_favorites">Удалить из Избранного</string>
     <string name="app_info_hide_app">Скрыть с главного экрана</string>
+    <string name="app_info_unhide_app">Показать на главном экране</string>
     <string name="edit_row">Настроить разделы</string>
     <string name="hidden_applications_title">Скрытые приложения</string>
     <string name="hidden_applications_desc">Выбранные приложения не показываются на главном экране</string>

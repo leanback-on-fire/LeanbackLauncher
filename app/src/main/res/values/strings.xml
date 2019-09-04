@@ -213,7 +213,9 @@ To enable, go to Settings"</string>
     <string name="sorting_title" tools:ignore="MissingTranslation">Sorting</string>
     <string name="number_picker_text" tools:ignore="MissingTranslation">%d</string>
     <string name="app_info_add_favorites" tools:ignore="MissingTranslation">Add to Favorites</string>
-    <string name="app_info_hide_app" tools:ignore="MissingTranslation">Hide Launcher</string>
+    <string name="app_info_rem_favorites" tools:ignore="MissingTranslation">Remove from Favorites</string>
+    <string name="app_info_hide_app" tools:ignore="MissingTranslation">Hide in Launcher</string>
+    <string name="app_info_unhide_app" tools:ignore="MissingTranslation">Unhide in Launcher</string>
     <string name="edit_row">Edit Rows</string>
     <string name="hidden_applications_title">Hidden applications</string>
     <string name="hidden_applications_desc">Selected apps are hidden from the home screen</string>

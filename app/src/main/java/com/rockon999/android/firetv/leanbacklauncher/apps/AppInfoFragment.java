@@ -12,6 +12,7 @@ import com.rockon999.android.leanbacklauncher.R;
 import com.rockon999.android.firetv.leanbacklauncher.util.FireTVUtils;
 import com.rockon999.android.firetv.leanbacklauncher.util.SharedPreferencesUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +38,10 @@ public class AppInfoFragment extends GuidedStepFragment {
     private Drawable icon;
     private String title, pkg;
 
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @NonNull
     @Override
     public Guidance onCreateGuidance(Bundle savedInstanceState) {
@@ -46,36 +51,14 @@ public class AppInfoFragment extends GuidedStepFragment {
                 icon);
     }
 
-    @Override
-    public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {
-        Context context = getActivity().getApplicationContext();
-
-        SharedPreferencesUtil util = SharedPreferencesUtil.instance(context);
-
-        GuidedAction action = new GuidedAction.Builder(context)
-                .id(ACTION_ID_IN_STORE)
-                .title(getString(R.string.app_info_in_store)).build();
-        actions.add(action);
-        action = new GuidedAction.Builder(context)
-                .id(ACTION_ID_SETTINGS)
-                .title(getString(R.string.app_info_settings)).build();
-        actions.add(action);
-        action = new GuidedAction.Builder(context)
-                .id(ACTION_ID_FAVORITE)
-                .checkSetId(GuidedAction.CHECKBOX_CHECK_SET_ID)
-                .checked(util.isFavorite(pkg)) // TODO use full component?
-                .title(getString(R.string.app_info_add_favorites)).build();
-        actions.add(action);
-        action = new GuidedAction.Builder(context)
-                .id(ACTION_ID_HIDE)
-                .checkSetId(GuidedAction.CHECKBOX_CHECK_SET_ID)
-                .checked(util.isHidden(pkg))
-                .title(getString(R.string.app_info_hide_app)).build();
-        actions.add(action);
+    public void onResume() {
+        super.onResume();
+        this.updateActions();
     }
 
     @Override
     public void onGuidedActionClicked(GuidedAction action) {
+
         if (action.getId() == ACTION_ID_IN_STORE) {
             FireTVUtils.openAppInAmazonStore(getActivity(), pkg);
 
@@ -91,8 +74,6 @@ public class AppInfoFragment extends GuidedStepFragment {
             if (action.getId() == ACTION_ID_FAVORITE) {
                 boolean favorited = !util.isFavorite(pkg);
 
-                action.setChecked(favorited);
-
                 if (favorited) {
                     util.favorite(pkg);
                 } else {
@@ -100,8 +81,6 @@ public class AppInfoFragment extends GuidedStepFragment {
                 }
             } else if (action.getId() == ACTION_ID_HIDE) {
                 boolean hidden = !util.isHidden(pkg);
-
-                action.setChecked(hidden);
 
                 if (hidden) {
                     util.hide(pkg);
@@ -111,6 +90,36 @@ public class AppInfoFragment extends GuidedStepFragment {
             }
         }
 
+        updateActions();
+    }
+    
+    private void updateActions() {
+        Context context = getActivity().getApplicationContext();
 
+        SharedPreferencesUtil util = SharedPreferencesUtil.instance(context);
+        
+        ArrayList<GuidedAction> actions = new ArrayList<>();
+        
+        String favlabel = (!util.isFavorite(pkg)) ? getString(R.string.app_info_add_favorites) : getString(R.string.app_info_rem_favorites);
+        String hidelabel = (!util.isHidden(pkg)) ? getString(R.string.app_info_hide_app) : getString(R.string.app_info_unhide_app);
+
+        GuidedAction action = new GuidedAction.Builder(context)
+                .id(ACTION_ID_IN_STORE)
+                .title(getString(R.string.app_info_in_store)).build();
+        actions.add(action);
+        action = new GuidedAction.Builder(context)
+                .id(ACTION_ID_SETTINGS)
+                .title(getString(R.string.app_info_settings)).build();
+        actions.add(action);
+        action = new GuidedAction.Builder(context)
+                .id(ACTION_ID_FAVORITE)
+                .title(favlabel).build();
+        actions.add(action);
+        action = new GuidedAction.Builder(context)
+                .id(ACTION_ID_HIDE)
+                .title(hidelabel).build();
+        actions.add(action);
+        
+        setActions(actions); // APPLY
     }
 }
