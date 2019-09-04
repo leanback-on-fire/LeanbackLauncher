@@ -2830,4 +2830,5 @@
     <public type="id" name="widget_wrapper" id="0x7f110164" />
     <public type="id" name="background_imageout" id="0x7f110165" />
     <public type="id" name="background_imagein" id="0x7f110166" />
+    <public type="id" name="banner_focused_frame" id="0x7f110167" />
 </resources>

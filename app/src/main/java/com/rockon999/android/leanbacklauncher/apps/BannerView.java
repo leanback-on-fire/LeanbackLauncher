@@ -31,6 +31,7 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
     private View mAppBanner;
     private ViewDimmer mDimmer;
     private ImageView mEditFocusFrame;
+    private ImageView mFocusFrame;
     private OnEditModeChangedListener mEditListener;
     private boolean mEditMode;
     private EditModeManager mEditModeManager;
@@ -101,6 +102,11 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         View view = findViewById(R.id.edit_focused_frame);
         if (view instanceof ImageView) {
             this.mEditFocusFrame = (ImageView) view;
+        }
+        // focus outline
+        view = findViewById(R.id.banner_focused_frame);
+        if (view instanceof ImageView) {
+            this.mFocusFrame = (ImageView) view;
         }
     }
 
@@ -196,6 +202,13 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             sendAccessibilityEvent(8);
         }
         setFocusedFrameState();
+        // focus outline
+        if (this.mFocusFrame != null) { // null for inputs
+            if (hasFocus())
+                this.mFocusFrame.setVisibility(0);
+            else
+                this.mFocusFrame.setVisibility(8);
+        }
     }
 
     public boolean requestFocus(int direction, Rect previous) {

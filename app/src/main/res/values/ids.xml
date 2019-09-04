@@ -306,4 +306,5 @@
     <item type="id" name="widget_wrapper">false</item>
     <item type="id" name="background_imageout">false</item>
     <item type="id" name="background_imagein">false</item>
+    <item type="id" name="banner_focused_frame">false</item>
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:width="@dimen/banner_frame_stroke" android:color="@color/banner_focus_frame_color" />
+    <!--corners android:radius="@dimen/banner_corner_radius" /-->
+    <size android:height="@dimen/banner_frame_height" android:width="@dimen/banner_frame_width" />
+</shape>
