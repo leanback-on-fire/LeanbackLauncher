@@ -182,12 +182,6 @@ To enable, go to Settings"</string>
     <string name="edit_favorites" tools:ignore="MissingTranslation">Edit Favorites</string>
     <string name="notifications" tools:ignore="MissingTranslation">Notifications</string>
     <string name="launcher_settings" tools:ignore="MissingTranslation">Launcher Settings</string>
-    <string name="enable_music_row_title" tools:ignore="MissingTranslation">Enable Music Row</string>
-    <string name="enable_videos_row_title" tools:ignore="MissingTranslation">Enable Videos Row</string>
-    <string name="enable_games_row_title" tools:ignore="MissingTranslation">Enable Games Row</string>
-    <string name="enable_favorites_row_title" tools:ignore="MissingTranslation">Enable Favorites Row</string>
-    <string name="enable_inputs_row_title" tools:ignore="MissingTranslation">Enable Inputs Row</string>
-    <string name="enable_recs_row_title" tools:ignore="MissingTranslation">Enable Recommendations Row</string>
     <string name="max_rows_title" tools:ignore="MissingTranslation">Max Rows</string>
     <string name="min_rows_title" tools:ignore="MissingTranslation">Min Rows</string>
     <string name="pref_app_ranker_sorting_mode" tools:ignore="MissingTranslation">apps_ranker_sorting_mode</string>

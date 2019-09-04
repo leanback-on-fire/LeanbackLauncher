@@ -153,12 +153,6 @@
     <string name="edit_favorites">Изменить Избранное</string>
     <string name="notifications">Уведомления</string>
     <string name="launcher_settings">Настройки</string>
-    <string name="enable_music_row_title">ВКЛ.</string>
-    <string name="enable_videos_row_title">ВКЛ.</string>
-    <string name="enable_games_row_title">ВКЛ.</string>
-    <string name="enable_favorites_row_title">ВКЛ.</string>
-    <string name="enable_inputs_row_title">ВКЛ.</string>
-    <string name="enable_recs_row_title">ВКЛ.</string>
     <string name="max_rows_title">Макс. строк</string>
     <string name="min_rows_title">Мин. строк</string>
     <string name="apps_row_title">Раздел «Приложения»</string>
