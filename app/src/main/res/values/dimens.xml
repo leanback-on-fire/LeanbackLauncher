@@ -81,9 +81,9 @@
     <dimen name="banner_corner_radius">1.0dip</dimen><!--2.0dip-->
     <dimen name="banner_width">142.0dip</dimen>
     <dimen name="banner_height">80.0dip</dimen>
-    <dimen name="banner_frame_width">152.0dip</dimen>
-    <dimen name="banner_frame_height">90.0dip</dimen>
-    <dimen name="banner_frame_stroke">6.0dip</dimen>
+    <dimen name="banner_frame_width">150.0dip</dimen>
+    <dimen name="banner_frame_height">88.0dip</dimen>
+    <dimen name="banner_frame_stroke">5.0dip</dimen>
     <dimen name="banner_icon_size">44.0dip</dimen>
     <dimen name="banner_icon_to_text_spacing">10.0dip</dimen>
     <dimen name="banner_label_text_size">13.0sp</dimen>
