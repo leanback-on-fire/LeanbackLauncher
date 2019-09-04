@@ -2,6 +2,7 @@ package com.rockon999.android.leanbacklauncher.apps;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rockon999.android.firetv.leanbacklauncher.apps.AppCategory;
+import com.rockon999.android.firetv.leanbacklauncher.util.SharedPreferencesUtil;
 import com.rockon999.android.leanbacklauncher.EditableAppsRowView;
 import com.rockon999.android.leanbacklauncher.LauncherViewHolder;
 import com.rockon999.android.leanbacklauncher.R;
@@ -32,7 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> implements AppsRanker.RankingListener, LaunchPointListGenerator.Listener {
+public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> implements AppsRanker.RankingListener, LaunchPointListGenerator.Listener, SharedPreferences.OnSharedPreferenceChangeListener {
     private final ActionOpenLaunchPointListener mActionOpenLaunchPointListener;
     protected final Set<AppCategory> mAppTypes;
     protected AppFilter mFilter;
@@ -43,8 +45,16 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
     protected ArrayList<LaunchPoint> mLaunchPoints;
     private Handler mNotifyHandler = new Handler();
 
+    private SharedPreferencesUtil prefUtil;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener = this;
+
     public interface ActionOpenLaunchPointListener {
         void onActionOpenLaunchPoint(String str, String str2);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        refreshDataSetAsync();
     }
 
     public static abstract class AppFilter {
@@ -402,6 +412,9 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mLaunchPoints = new ArrayList<>();
         this.mAppsManager = AppsManager.getInstance(context);
+        this.prefUtil = SharedPreferencesUtil.instance(context);
+
+        this.prefUtil.addHiddenListener(listener);
 
         this.mFilter = new AppFilter() {
             @Override
@@ -704,6 +717,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
     }
 
     public void onSettingsChanged() {
+        // todo
     }
 
     public void onRankerReady() {
