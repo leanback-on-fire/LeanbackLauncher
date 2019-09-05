@@ -41,7 +41,7 @@ public class AppInfoActivity extends Activity {
             getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#21272A")));
 
 
-            AppInfoFragment fragment = AppInfoFragment.newInstance(title, desc, icon);
+            AppInfoFragment fragment = AppInfoFragment.newInstance(title, pkg, icon);
             GuidedStepFragment.addAsRoot(this, fragment, android.R.id.content);
         }
     }
