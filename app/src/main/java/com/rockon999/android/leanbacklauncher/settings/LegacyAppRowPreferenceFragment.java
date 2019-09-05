@@ -27,8 +27,11 @@ import java.util.Set;
 
 public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
 
-    private static final int ACTION_ID_RECOMENDATIONS = 101;
-    private static final int ACTION_ID_INPUTS = 201;
+    private static final int ACTION_ID_APPS = 50;
+    private static final int ACTION_ID_APPS_MIN = 51;
+    private static final int ACTION_ID_APPS_MAX = 52;
+    private static final int ACTION_ID_RECOMENDATIONS = 100;
+    private static final int ACTION_ID_INPUTS = 200;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,136 +47,114 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
         this.updateActions();
     }
 
-    private int musicIndex, gameIndex, videoIndex, favIndex, allIndex;
+    private int musicIndex, gameIndex, videoIndex, favIndex;
 
     public void onGuidedActionClicked(GuidedAction action) {
 
         long id = action.getId();
-        long modId = (id - 1) / 4;
-        int subId = (int) ((id - 1) % 4);
+        long modId = (id - 1) / 2;
+        int subId = (int) ((id - 1) % 2);
         int val = 1;
         boolean enabled = false;
         
         Activity activity = getActivity();
         Set<AppCategory> categories = RowPreferences.getEnabledCategories(activity);
 
-        Log.w("+++ action", action.toString());
+        // Log.w("+++ action", action.toString());
         // Log.w("+++ action.id", ""+id);
-        // Log.w("+++ categories", categories.toString());
         // Log.w("+++ modId", " "+modId);
         // Log.w("+++ subId", " "+subId);
 
         if (modId == favIndex) {
             switch (subId) {
                 case 0:
-                    break;
-                case 1:
                     enabled = RowPreferences.areFavoritesEnabled(activity);
                     // Log.w("+++ favorites.enabled", ""+enabled);
                     RowPreferences.setFavoritesEnabled(activity, !enabled);
                     break;
+                case 1:
+                    try {
+                        val = Integer.parseInt(action.getDescription().toString());
+                    } catch (NumberFormatException nfe) {
+                        val = 1;
+                    }
+                    // Log.w("+++ set fav.max ", ""+val);
+                	RowPreferences.setFavoriteRowMax(activity, val);
+                	break;
                 case 2:
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
                     } catch (NumberFormatException nfe) {
                         val = 1;
                     }
-                	RowPreferences.setFavoriteRowMax(activity, val);
-                	break;
-                case 3:
-                    try {
-                        val = Integer.parseInt(action.getDescription().toString());
-                    } catch (NumberFormatException nfe) {
-                        val = 1;
-                    }
+                    // Log.w("+++ set fav.min ", ""+val);
                 	RowPreferences.setFavoriteRowMin(activity, val);
             }
         } else if (modId == musicIndex) {
             switch (subId) {
                 case 0:
-                    break;
-                case 1:
                     enabled = categories.contains(AppCategory.MUSIC);
                     // Log.w("+++ music.enabled", ""+enabled);
                     RowPreferences.setMusicEnabled(activity, !enabled);
                     break;
+                case 1:
+                    try {
+                        val = Integer.parseInt(action.getDescription().toString());
+                    } catch (NumberFormatException nfe) {
+                        val = 1;
+                    }
+                    // Log.w("+++ set mucic.max ", ""+val);
+                	RowPreferences.setRowMax(AppCategory.MUSIC, activity, val);
+                	break;
                 case 2:
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
                     } catch (NumberFormatException nfe) {
                         val = 1;
                     }
-                	RowPreferences.setRowMax(AppCategory.MUSIC, activity, val);
-                	break;
-                case 3:
-                    try {
-                        val = Integer.parseInt(action.getDescription().toString());
-                    } catch (NumberFormatException nfe) {
-                        val = 1;
-                    }
+                    // Log.w("+++ set music.min ", ""+val);
                 	RowPreferences.setRowMin(AppCategory.MUSIC, activity, val);
             }
         } else if (modId == videoIndex) {
             switch (subId) {
                 case 0:
-                    break;
-                case 1:
                     enabled = categories.contains(AppCategory.VIDEO);
                     // Log.w("+++ videos.enabled", ""+enabled);
                     RowPreferences.setVideosEnabled(activity, !enabled);
                     break;
+                case 1:
+                    try {
+                        val = Integer.parseInt(action.getDescription().toString());
+                    } catch (NumberFormatException nfe) {
+                        val = 1;
+                    }
+                    // Log.w("+++ set video.max ", ""+val);
+                	RowPreferences.setRowMax(AppCategory.VIDEO, activity, val);
+                	break;
                 case 2:
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
                     } catch (NumberFormatException nfe) {
                         val = 1;
                     }
-                	RowPreferences.setRowMax(AppCategory.VIDEO, activity, val);
-                	break;
-                case 3:
-                    try {
-                        val = Integer.parseInt(action.getDescription().toString());
-                    } catch (NumberFormatException nfe) {
-                        val = 1;
-                    }
+                    // Log.w("+++ set video.min ", ""+val);
                 	RowPreferences.setRowMin(AppCategory.VIDEO, activity, val);
             }
         } else if (modId == gameIndex) {
             switch (subId) {
                 case 0:
-                    break;
-                case 1:
                     enabled = categories.contains(AppCategory.GAME);
                     // Log.w("+++ games.enabled", ""+enabled);
                     RowPreferences.setGamesEnabled(activity, !enabled);
                     break;
-                case 2:
-                    try {
-                        val = Integer.parseInt(action.getDescription().toString());
-                    } catch (NumberFormatException nfe) {
-                        val = 1;
-                    }
-                	RowPreferences.setRowMax(AppCategory.GAME, activity, val);
-                	break;
-                case 3:
-                    try {
-                        val = Integer.parseInt(action.getDescription().toString());
-                    } catch (NumberFormatException nfe) {
-                        val = 1;
-                    }
-                	RowPreferences.setRowMin(AppCategory.GAME, activity, val);
-            }
-        } else if (modId == allIndex) {
-            switch (subId) {
-                case 0:
-                    break;
                 case 1:
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
                     } catch (NumberFormatException nfe) {
                         val = 1;
                     }
-                	RowPreferences.setAllAppsMax(activity, val);
+                    // Log.w("+++ set game.max ", ""+val);
+                	RowPreferences.setRowMax(AppCategory.GAME, activity, val);
                 	break;
                 case 2:
                     try {
@@ -181,9 +162,26 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                     } catch (NumberFormatException nfe) {
                         val = 1;
                     }
-                	RowPreferences.setAllAppsMin(activity, val);
+                    // Log.w("+++ set game.min ", ""+val);
+                	RowPreferences.setRowMin(AppCategory.GAME, activity, val);
             }
-        } else if (id == 101) { // RECOMENDATIONS
+        } else if (id == ACTION_ID_APPS_MAX) {
+                    try {
+                        val = Integer.parseInt(action.getDescription().toString());
+                    } catch (NumberFormatException nfe) {
+                        val = 1;
+                    }
+                    // Log.w("+++ set all.max ", ""+val);
+                	RowPreferences.setAllAppsMax(activity, val);
+        } else if (id == ACTION_ID_APPS_MIN) {
+                    try {
+                        val = Integer.parseInt(action.getDescription().toString());
+                    } catch (NumberFormatException nfe) {
+                        val = 1;
+                    }
+                    // Log.w("+++ set all.min ", ""+val);
+                	RowPreferences.setAllAppsMin(activity, val);
+        } else if (id == ACTION_ID_RECOMENDATIONS) { // RECOMENDATIONS
             enabled = RowPreferences.areRecommendationsEnabled(activity);
             // Log.w("+++ recommendations.enabled", ""+enabled);
             RowPreferences.setRecommendationsEnabled(activity, !enabled);
@@ -197,86 +195,82 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
 
     private void updateActions() {
 
-        Log.w("+++ updateActions()", "+++");
-    
+        // Log.w("+++ updateActions()", "+++");
         ArrayList<GuidedAction> actions = new ArrayList<>();
         Activity activity = getActivity();
         Set<AppCategory> categories = RowPreferences.getEnabledCategories(activity);
+        String statelabel;
         int i = 0;
 
         // RECOMENDATIONS
         boolean state = RowPreferences.areRecommendationsEnabled(activity);
-        String statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
-        actions.add(new GuidedAction.Builder(activity).id(100).title(R.string.recs_row_title).build());
-        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).checkSetId(ACTION_ID_RECOMENDATIONS).checked(state).title(statelabel).description("").build());
+        statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
+        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).title(R.string.recs_row_title).description(statelabel).build());
+        // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).checkSetId(ACTION_ID_RECOMENDATIONS).checked(state).title(statelabel).description("").build());
         
         // FAV
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.favorites_row_title).build());
         state = RowPreferences.areFavoritesEnabled(activity);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
-        actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.favorites_row_title).description(statelabel).build());
+        // actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
 
         int[] constraints = RowPreferences.getFavoriteRowConstraints(activity);
 
         actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
-        favIndex = ((i - 1) / 4);
+        favIndex = ((i - 1) / 2);
 
         // MUSIC
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.music_row_title).build());
         state = categories.contains(AppCategory.MUSIC);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
-        actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.music_row_title).description(statelabel).build());
+        // actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
 
         constraints = RowPreferences.getRowConstraints(AppCategory.MUSIC, activity);
 
         actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
-        musicIndex = ((i - 1) / 4);
+        musicIndex = ((i - 1) / 2);
 
         // VIDEO
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.videos_row_title).build());
         state = categories.contains(AppCategory.VIDEO);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
-        actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.videos_row_title).description(statelabel).build());
+        // actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
 
         constraints = RowPreferences.getRowConstraints(AppCategory.VIDEO, activity);
 
         actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
-        videoIndex = ((i - 1) / 4);
+        videoIndex = ((i - 1) / 2);
 
         // GAME
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.games_row_title).build());
         state = categories.contains(AppCategory.GAME);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
-        actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.games_row_title).description(statelabel).build());
+        // actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
 
         constraints = RowPreferences.getRowConstraints(AppCategory.GAME, activity);
 
         actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
-        gameIndex = ((i - 1) / 4);
+        gameIndex = ((i - 1) / 2);
 
         // ALL
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.apps_row_title).build());
-
+        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS).title(R.string.apps_row_title).build());
         constraints = RowPreferences.getAllAppsConstraints(activity);
-
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-
-        allIndex = (i / 4);
+        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_MAX).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_MIN).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
         
         // INPUTS
-        actions.add(new GuidedAction.Builder(activity).id(200).title(R.string.inputs_row_title).build());
         state = RowPreferences.areInputsEnabled(activity);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
-        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).checkSetId(ACTION_ID_INPUTS).checked(state).title(statelabel).description("").build());
+        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).title(R.string.inputs_row_title).description(statelabel).build());
+        // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).checkSetId(ACTION_ID_INPUTS).checked(state).title(statelabel).description("").build());
         
         setActions(actions); // APPLY
     }
