@@ -551,8 +551,9 @@ public class LaunchPointListGenerator {
         PackageManager pkgMan = this.mContext.getPackageManager();
         List<ResolveInfo> rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129);
         HashMap<ComponentName, Integer> specialEntries = new HashMap<>();
+        // WI-FI
         specialEntries.put(getComponentNameForSettingsActivity("android.settings.WIFI_SETTINGS"), SettingsUtil.SettingsType.WIFI.getCode());
-
+        // LEANBACK_SETTINGS
         for (int ptr = 0, size = rawLaunchPoints.size(); ptr < size; ptr++) {
             ResolveInfo info = rawLaunchPoints.get(ptr);
             ComponentName comp = getComponentName(info);
@@ -564,25 +565,25 @@ public class LaunchPointListGenerator {
 
             if (info.activityInfo != null) {
                 LaunchPoint lp = new LaunchPoint(this.mContext, pkgMan, info, false, type);
-                lp.addLaunchIntentFlags(32768);
+                lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // 32768 (0x8000)
                 settingsItems.add(lp);
             }
         }
-        // APP SETTINGS
+        // LAUNCHER SETTINGS
         Intent intent = new Intent();
         intent.setComponent(ComponentName.unflattenFromString("com.rockon999.android.leanbacklauncher/.settings.LegacyHomeScreenSettingsActivity"));
         LaunchPoint lp = new LaunchPoint(this.mContext, mContext.getString(R.string.launcher_settings), mContext.getDrawable(R.drawable.ic_settings_home), intent, 0);
-        lp.addLaunchIntentFlags(32768);
+        lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         lp.setSettingsType(SettingsUtil.SettingsType.APP_CONFIGURE.getCode());
         settingsItems.add(lp);
         // NOTIFICATIONS
         lp = new LaunchPoint(this.mContext, mContext.getString(R.string.notifications), mContext.getDrawable(R.drawable.ic_settings_notification), FireTVUtils.getNotificationCenterIntent(), 0);
-        lp.addLaunchIntentFlags(32768);
+        lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         lp.setSettingsType(SettingsUtil.SettingsType.NOTIFICATIONS.getCode());
         settingsItems.add(lp);
         // SYS SETTINGS
         lp = new LaunchPoint(this.mContext, mContext.getString(R.string.system_settings), mContext.getDrawable(R.drawable.ic_settings_settings), FireTVUtils.getSystemSettingsIntent(), 0);
-        lp.addLaunchIntentFlags(32768);
+        lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         lp.setSettingsType(SettingsUtil.SettingsType.UNKNOWN.getCode());
         settingsItems.add(lp);
 

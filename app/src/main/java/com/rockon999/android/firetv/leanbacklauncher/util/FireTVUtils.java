@@ -54,7 +54,7 @@ public class FireTVUtils {
             localIntent.putExtra("asin", "");
             localIntent.putExtra("packageName", packageName);
             localIntent.putExtra("clickStreamReftag", AmazonStoreSpoofer.buildRefTag());
-            localIntent.setFlags(32768);
+            localIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // 32768(0x8000)
 
             context.startActivity(localIntent);
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class FireTVUtils {
         Intent intent = new Intent();
         intent.setPackage("com.amazon.tv.notificationcenter");
         intent.setComponent(ComponentName.unflattenFromString(settingsAct));
-        intent.setFlags(32768);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         // KNOWN KEY: com.amazon.device.settings..PACKAGE_NAME
         // intent.putExtra("com.amazon.device.settings..PACKAGE_NAME", packageName);
 
@@ -84,7 +84,7 @@ public class FireTVUtils {
         Intent intent = new Intent();
         intent.setPackage("com.amazon.tv.notificationcenter");
         intent.setComponent(ComponentName.unflattenFromString(settingsAct));
-        intent.setFlags(32768);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         return intent;
     }
@@ -92,7 +92,7 @@ public class FireTVUtils {
     public static Intent getSystemSettingsIntent() {
 
         Intent intent = new Intent(Settings.ACTION_SETTINGS);
-        intent.setFlags(32768);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         return intent;
     }
