@@ -9,7 +9,7 @@
     </LinearLayout>
     <FrameLayout android:layout_gravity="end|bottom|center" android:id="@id/status_indicator" android:paddingBottom="@dimen/leanback_card_now_playing_padding_bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="@dimen/leanback_card_now_playing_padding_end" custom:layout_viewType="main">
         <ImageView android:id="@id/pause_icon" android:visibility="gone" android:layout_width="@dimen/leanback_card_now_playing_status_width" android:layout_height="@dimen/leanback_card_now_playing_status_height" />
-        <com.rockon999.android.leanbacklauncher.widget.PlayingIndicatorView
+        <com.amazon.tv.leanbacklauncher.widget.PlayingIndicatorView
             android:id="@id/play_animation" android:layout_width="@dimen/leanback_card_now_playing_status_width" android:layout_height="@dimen/leanback_card_now_playing_status_height" />
     </FrameLayout>
     <ProgressBar android:layout_gravity="bottom|center" android:id="@id/progress_bar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/progress_bar_height" android:indeterminate="false" android:progressDrawable="@drawable/card_progress_drawable" android:mirrorForRtl="false" style="@android:style/Widget.ProgressBar.Horizontal" />

@@ -173,4 +173,6 @@
     <string name="inputs_row_title">Раздел «Входы»</string>
     <string name="recs_row_title">Раздел «Рекомендации»</string>
     <string name="notification_text">Сервис рекомендаций</string>
+    <string name="recs_warning">"Требуется разрешение:
+android.permission.WRITE_SECURE_SETTINGS"</string>
 </resources>

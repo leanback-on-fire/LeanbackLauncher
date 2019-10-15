@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.rockon999.android.leanbacklauncher">
+    package="com.amazon.tv.leanbacklauncher">
 
     <uses-feature
         android:name="android.software.leanback"
@@ -10,7 +10,6 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
-    <uses-permission android:name="com.amazon.device.permission.ACCESS_SALE_PROVIDER" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -25,19 +24,23 @@
         android:name="android.permission.BIND_APPWIDGET"
         tools:ignore="ProtectedPermissions" />
     <uses-permission
+        android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
         android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
-    <uses-permission android:name="com.rockon999.android.leanbacklauncher.recommendations.permission.RECOMMENDATIONS" />
+    <uses-permission android:name="com.amazon.tv.leanbacklauncher.recommendations.permission.RECOMMENDATIONS" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
 
-    <permission android:name="com.rockon999.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
+    <permission android:name="com.amazon.tv.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
+    
     <application
-        android:name="com.rockon999.android.leanbacklauncher.LauncherApplication"
+        android:name="com.amazon.tv.leanbacklauncher.LauncherApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -48,11 +51,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
-            android:name="com.rockon999.android.leanbacklauncher.LauncherGlideModule"
+            android:name="com.amazon.tv.leanbacklauncher.LauncherGlideModule"
             android:value="GlideModule" />
 
         <activity
-            android:name="com.rockon999.android.leanbacklauncher.MainActivity"
+            android:name="com.amazon.tv.leanbacklauncher.MainActivity"
             android:clearTaskOnLaunch="true"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation"
             android:excludeFromRecents="true"
@@ -61,27 +64,28 @@
             android:screenOrientation="landscape"
             android:stateNotNeeded="true"
             android:supportsRtl="true">
-            <intent-filter android:priority="2">
+            <intent-filter android:priority="999">
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="fireos.intent.category.MAIN_HOME" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.rockon999.android.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity"
+            android:name="com.amazon.tv.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:enabled="@bool/full_screen_settings_enabled"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.Settings.Legacy">
             <intent-filter>
-                <action android:name="com.rockon999.android.leanbacklauncher.SETTINGS" />
+                <action android:name="com.amazon.tv.leanbacklauncher.SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <service
-            android:name="com.rockon999.android.leanbacklauncher.recommendations.NotificationsServiceV4"
+            android:name="com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4"
             android:label="@string/notif_service_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -89,19 +93,19 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.rockon999.android.leanbacklauncher.recommendations.RecommendationsService"
+            android:name="com.amazon.tv.leanbacklauncher.recommendations.RecommendationsService"
             android:label="@string/recm_service_name" />
 
-        <service android:name="com.rockon999.android.firetv.tvrecommendations.NotificationListenerMonitor" />
+        <service android:name="com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor" />
 
-        <receiver android:name="com.rockon999.android.leanbacklauncher.MediaButtonBroadcastReceiver">
+        <receiver android:name="com.amazon.tv.leanbacklauncher.MediaButtonBroadcastReceiver">
             <intent-filter android:priority="2">
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.rockon999.android.leanbacklauncher.DummyActivity"
+            android:name="com.amazon.tv.leanbacklauncher.DummyActivity"
             android:enabled="false"
             android:label="@string/app_label"
             android:stateNotNeeded="true">
@@ -111,16 +115,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.rockon999.android.firetv.leanbacklauncher.apps.AppInfoActivity"
+            android:name="com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity"
             android:exported="false"
             android:theme="@style/Theme.Leanback.GuidedStep" />
 
         <provider
-            android:name="com.rockon999.android.leanbacklauncher.migration.DbMigrationContentProvider"
+            android:name="com.amazon.tv.leanbacklauncher.migration.DbMigrationContentProvider"
             android:authorities="com.android.google.tvrecommendations.migration"
             android:exported="true"
-            android:permission="com.rockon999.android.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
-        <receiver android:name="com.rockon999.android.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
+            android:permission="com.amazon.tv.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
+        <receiver android:name="com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.WALLPAPER_CHANGED" />
             </intent-filter>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.rockon999.android.leanbacklauncher.SearchOrbView android:id="@id/search_view" android:focusable="false" android:clickable="true" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="@dimen/search_area_fixed_height" android:contentDescription="@string/search_hint_text"
+<com.amazon.tv.leanbacklauncher.SearchOrbView android:id="@id/search_view" android:focusable="false" android:clickable="true" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="@dimen/search_area_fixed_height" android:contentDescription="@string/search_hint_text"
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:lb="http://schemas.android.com/apk/res-auto">
     <LinearLayout android:gravity="start|center" android:layout_gravity="start|center|top" android:orientation="horizontal" android:id="@id/search_orb" android:focusable="false" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/search_orb_margin_top" android:layout_marginBottom="@dimen/search_orb_margin_bottom" android:layout_marginStart="@dimen/search_orb_margin_start">
         <RelativeLayout android:id="@id/orbs_container" android:focusable="false" android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="wrap_content">
@@ -11,4 +11,4 @@
         <TextSwitcher android:id="@id/text_switcher" android:focusable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="@dimen/search_text_margin_start" />
     </LinearLayout>
     <include layout="@layout/widget_wrapper" />
-</com.rockon999.android.leanbacklauncher.SearchOrbView>
+</com.amazon.tv.leanbacklauncher.SearchOrbView>

@@ -1,4 +1,4 @@
-package com.rockon999.android.leanbacklauncher;
+package com.amazon.tv.leanbacklauncher;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
