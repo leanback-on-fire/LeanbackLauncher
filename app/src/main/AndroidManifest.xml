@@ -38,7 +38,7 @@
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
 
     <permission android:name="com.amazon.tv.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
-    
+
     <application
         android:name="com.amazon.tv.leanbacklauncher.LauncherApplication"
         android:allowBackup="true"
@@ -60,11 +60,11 @@
             android:configChanges="keyboard|keyboardHidden|navigation|orientation"
             android:excludeFromRecents="true"
             android:label="@string/app_label"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:screenOrientation="landscape"
             android:stateNotNeeded="true"
             android:supportsRtl="true">
-            <intent-filter android:priority="999">
+            <intent-filter android:priority="2">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
