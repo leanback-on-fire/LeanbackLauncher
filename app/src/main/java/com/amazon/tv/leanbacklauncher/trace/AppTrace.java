@@ -11,11 +11,11 @@ public final class AppTrace {
     }
 
     public static void beginSection(String section) {
-        if (BuildConfig.DEBUG) Log.d(TAG, section);
+        // if (BuildConfig.DEBUG) Log.d(TAG, section);
     }
 
     public static void endSection() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "endSection");
+        // if (BuildConfig.DEBUG) Log.d(TAG, "endSection");
     }
 
     public static TraceTag beginAsyncSection(String section) {
