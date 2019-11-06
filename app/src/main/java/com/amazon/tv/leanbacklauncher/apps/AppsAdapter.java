@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil;
+import com.amazon.tv.leanbacklauncher.BuildConfig;
 import com.amazon.tv.leanbacklauncher.EditableAppsRowView;
 import com.amazon.tv.leanbacklauncher.LauncherViewHolder;
 import com.amazon.tv.leanbacklauncher.R;
@@ -44,6 +45,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
     private boolean mItemsHaveBeenSorted;
     protected ArrayList<LaunchPoint> mLaunchPoints;
     private Handler mNotifyHandler = new Handler();
+    private static String TAG = "AppsAdapter";
 
     private SharedPreferencesUtil prefUtil;
     private SharedPreferences.OnSharedPreferenceChangeListener listener = this;
@@ -630,15 +632,25 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
     public void onLaunchPointsAddedOrUpdated(final ArrayList<LaunchPoint> launchPoints) {
         this.mNotifyHandler.post(new Runnable() {
             public void run() {
+                if (BuildConfig.DEBUG) Log.d(TAG, "run: onLaunchPointsAddedOrUpdated");
                 boolean saveAppOrderChanges = false;
-
+                // if (BuildConfig.DEBUG) Log.d(TAG, "size: " + AppsAdapter.this.mLaunchPoints.size());
                 for (int j = AppsAdapter.this.mLaunchPoints.size() - 1; j >= 0; j--) {
                     LaunchPoint lp = AppsAdapter.this.mLaunchPoints.get(j);
-
-
+                    // if (BuildConfig.DEBUG) Log.d(TAG, "check for " + lp + " in " + launchPoints);
                     if (launchPoints.contains(lp)) {
+                        if (BuildConfig.DEBUG) Log.d(TAG, "array contains " + lp + ", remove and notify");
                         AppsAdapter.this.mLaunchPoints.remove(j);
                         AppsAdapter.this.notifyItemRemoved(j);
+                    }
+                    // avoid duplicates (launchPoints.contains(lp) doesn't work)
+                    for (int i = launchPoints.size() - 1; i >= 0; i--) {
+                        if (lp.getPackageName().equals(launchPoints.get(i).getPackageName())) {
+                            if (BuildConfig.DEBUG) Log.d(TAG, "pkg " + lp.getPackageName() + " exist, remove and notify");
+                            AppsAdapter.this.mLaunchPoints.remove(j);
+                            if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemRemoved");
+                            AppsAdapter.this.notifyItemRemoved(j);
+                        }
                     }
                 }
 
@@ -653,6 +665,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
                         continue;
                     }
 
+                    if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted");
                     AppsAdapter.this.notifyItemInserted(AppsAdapter.this.mAppsManager.insertLaunchPoint(AppsAdapter.this.mLaunchPoints, lp));
                     saveAppOrderChanges = true;
                 }
