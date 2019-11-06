@@ -155,6 +155,14 @@ public class Util {
         }
     }
 
+    public static boolean isPackageEnabled(Context context, String packageName) {
+        try {
+                return context.getPackageManager().getApplicationInfo(packageName, 0).enabled;
+        } catch (NameNotFoundException e) {
+            return false;
+        }
+    }
+
     public static void playErrorSound(Context context) {
         ((AudioManager) context.getSystemService("audio")).playSoundEffect(9);
     }
