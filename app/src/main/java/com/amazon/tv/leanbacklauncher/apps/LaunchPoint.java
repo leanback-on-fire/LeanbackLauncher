@@ -59,7 +59,6 @@ public class LaunchPoint {
         return mAppCategory;
     }
 
-
     public LaunchPoint() {
 
     }

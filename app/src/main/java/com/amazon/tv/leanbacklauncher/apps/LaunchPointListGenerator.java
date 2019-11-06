@@ -217,7 +217,6 @@ public class LaunchPointListGenerator {
 
     public void addOrUpdatePackage(String pkgName) {
         if (!TextUtils.isEmpty(pkgName)) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "+++ addOrUpdatePackage: " + pkgName + " mIsReady:" + this.mIsReady);
             synchronized (this.mCachedActions) {
                 if (this.mIsReady) {
                     synchronized (this.mLock) {
@@ -233,16 +232,12 @@ public class LaunchPointListGenerator {
 
                                 if (lp != null && pkgName.equalsIgnoreCase(lp.getPackageName())) {
                                     this.mAllLaunchPoints.remove(x);
-                                    if (BuildConfig.DEBUG) Log.d(TAG, "+++ addOrUpdatePackage REMOVED: " + pkgName);
-                                    // removePackage(pkgName);
                                 }
                             }
-                            if (BuildConfig.DEBUG) Log.d(TAG, "+++ addOrUpdatePackage ADDED: " + launchPoints);
                             this.mAllLaunchPoints.addAll(launchPoints);
 
                             if (!isBlacklisted(pkgName) && this.mShouldNotify) {
                                 for (Listener cl : this.mListeners) {
-                                    if (BuildConfig.DEBUG) Log.d(TAG, "+++ onLaunchPointsAddedOrUpdated: " + launchPoints);
                                     cl.onLaunchPointsAddedOrUpdated(launchPoints);
                                 }
                             }
@@ -256,7 +251,6 @@ public class LaunchPointListGenerator {
                     }
                     return;
                 }
-                if (BuildConfig.DEBUG) Log.d(TAG, "+++ mCachedActions.add: " + pkgName);
                 this.mCachedActions.add(new CachedAction(0, pkgName));
             }
         }
@@ -377,7 +371,6 @@ public class LaunchPointListGenerator {
     }
 
     public void addOrUpdateInstallingLaunchPoint(LaunchPoint launchPoint) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "+++ addOrUpdateInstallingLaunchPoint: " + launchPoint);
         if (launchPoint != null) {
             synchronized (this.mCachedActions) {
                 if (this.mIsReady) {
@@ -407,7 +400,6 @@ public class LaunchPointListGenerator {
     }
 
     public void removeInstallingLaunchPoint(LaunchPoint launchPoint, boolean success) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "+++ removeInstallingLaunchPoint: " + launchPoint + " success: " + success);
         if (launchPoint != null) {
             synchronized (this.mCachedActions) {
                 if (this.mIsReady) {
