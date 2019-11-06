@@ -55,6 +55,7 @@ import com.amazon.tv.leanbacklauncher.apps.AppsAdapter;
 import com.amazon.tv.leanbacklauncher.apps.AppsManager;
 import com.amazon.tv.leanbacklauncher.apps.BannerView;
 import com.amazon.tv.leanbacklauncher.apps.OnEditModeChangedListener;
+import com.amazon.tv.leanbacklauncher.BuildConfig;
 import com.amazon.tv.leanbacklauncher.logging.LeanbackLauncherEventLogger;
 import com.amazon.tv.leanbacklauncher.notifications.HomeScreenMessaging;
 import com.amazon.tv.leanbacklauncher.notifications.HomeScreenMessaging.ChangeListener;
@@ -93,6 +94,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     private LeanbackLauncherEventLogger mEventLogger;
     private boolean mFadeDismissAndSummonAnimations;
     private Handler mHandler = new MainActivityMessageHandler(this);
+
+    private static String TAG = "LeanbackLauncher";
 
     private static class MainActivityMessageHandler extends Handler {
         private MainActivity activity;
@@ -183,12 +186,19 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     BroadcastReceiver mPackageReplacedReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             Uri packageName = intent != null ? intent.getData() : null;
-            // todo: remove hardcoded package id
-            if (packageName != null && packageName.toString().contains("com.amazon.tv.leanbacklauncher.recommendations")) {
-                Log.d("LeanbackLauncher", "Recommendations Service updated, reconnecting");
+            if (packageName != null && packageName.toString().contains(context.getPackageName() + ".recommendations")) {
+                Log.d(TAG, "Recommendations Service updated, reconnecting");
                 if (MainActivity.this.mHomeAdapter != null) {
                     MainActivity.this.mHomeAdapter.onReconnectToRecommendationsService();
                 }
+            }
+        }
+    };
+    BroadcastReceiver mHomeRefreshReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+        	if (intent.getBooleanExtra("RefreshHome", false)) {
+                if (BuildConfig.DEBUG) Log.d(TAG, "KILL HOME");
+                MainActivity.this.finish();
             }
         }
     };
@@ -369,6 +379,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             filter.addAction("android.intent.action.PACKAGE_ADDED");
             filter.addDataScheme("package");
             registerReceiver(this.mPackageReplacedReceiver, filter);
+			// RefreshHome BC
+            // IntentFilter filterHome = new IntentFilter("com.amazon.tv.leanbacklauncher.MainActivity");
+            IntentFilter filterHome = new IntentFilter(this.getClass().getName()); // ACTION
+            registerReceiver(this.mHomeRefreshReceiver, filterHome);
             getLoaderManager().initLoader(0, null, this.mSearchIconCallbacks);
             getLoaderManager().initLoader(1, null, this.mSearchSuggestionsCallbacks);
         } finally {
@@ -388,6 +402,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         }
         AppsManager.getInstance(getApplicationContext()).onDestroy();
         unregisterReceiver(this.mPackageReplacedReceiver);
+        unregisterReceiver(this.mHomeRefreshReceiver);
     }
 
     public void onUserInteraction() {

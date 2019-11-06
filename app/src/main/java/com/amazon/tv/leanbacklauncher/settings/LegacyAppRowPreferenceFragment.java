@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher.settings;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepSupportFragment;
@@ -13,13 +14,14 @@ import android.util.Log;
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil;
+import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
-import com.amazon.tv.leanbacklauncher.apps.AppsManager;
 
 import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 
 /**
  * Created by rockon999 on 3/25/18.
@@ -32,6 +34,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
     private static final int ACTION_ID_APPS_MAX = 52;
     private static final int ACTION_ID_RECOMENDATIONS = 100;
     private static final int ACTION_ID_INPUTS = 200;
+    private static int startup = 0;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +44,16 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
     public GuidanceStylist.Guidance onCreateGuidance(Bundle savedInstanceState) {
         return new GuidanceStylist.Guidance(getString(R.string.select_app_customize_rows_title), null, getString(R.string.home_screen_order_content_title), ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null));
     }
-    
+
     public void onResume() {
-        super.onResume();
+    	super.onResume();
         this.updateActions();
+        startup++;
+    }
+
+    public void onPause() {
+    	super.onPause();
+        startup = 0;
     }
 
     private int musicIndex, gameIndex, videoIndex, favIndex;
@@ -56,7 +65,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
         int subId = (int) ((id - 1) % 2);
         int val = 1;
         boolean enabled = false;
-        
+
         Activity activity = getActivity();
         Set<AppCategory> categories = RowPreferences.getEnabledCategories(activity);
 
@@ -207,7 +216,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).title(R.string.recs_row_title).description(statelabel).build());
         // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).checkSetId(ACTION_ID_RECOMENDATIONS).checked(state).title(statelabel).description("").build());
-        
+
         // FAV
         state = RowPreferences.areFavoritesEnabled(activity);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
@@ -265,14 +274,22 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
         constraints = RowPreferences.getAllAppsConstraints(activity);
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_MAX).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_MIN).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-        
+
         // INPUTS
         state = RowPreferences.areInputsEnabled(activity);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).title(R.string.inputs_row_title).description(statelabel).build());
         // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).checkSetId(ACTION_ID_INPUTS).checked(state).title(statelabel).description("").build());
-        
-        setActions(actions); // APPLY
-    }
 
+        setActions(actions); // APPLY
+
+        // REFRESH HOME BC
+        if (startup > 0) {
+        	// Log.d("### CN", MainActivity.class.getName());
+        	// Intent Broadcast = new Intent("com.amazon.tv.leanbacklauncher.MainActivity");
+        	Intent Broadcast = new Intent(MainActivity.class.getName()); // ACTION
+        	Broadcast.putExtra("RefreshHome", true);
+        	activity.sendBroadcast(Broadcast);
+        }
+    }
 }
