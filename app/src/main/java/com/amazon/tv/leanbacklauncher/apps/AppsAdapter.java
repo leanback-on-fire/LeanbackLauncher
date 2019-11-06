@@ -635,20 +635,17 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
                 if (BuildConfig.DEBUG) Log.d(TAG, "run: onLaunchPointsAddedOrUpdated");
                 boolean saveAppOrderChanges = false;
                 // if (BuildConfig.DEBUG) Log.d(TAG, "size: " + AppsAdapter.this.mLaunchPoints.size());
-                for (int j = AppsAdapter.this.mLaunchPoints.size() - 1; j >= 0; j--) {
-                    LaunchPoint lp = AppsAdapter.this.mLaunchPoints.get(j);
-                    // if (BuildConfig.DEBUG) Log.d(TAG, "check for " + lp + " in " + launchPoints);
-                    if (launchPoints.contains(lp)) {
-                        if (BuildConfig.DEBUG) Log.d(TAG, "array contains " + lp + ", remove and notify");
-                        AppsAdapter.this.mLaunchPoints.remove(j);
-                        AppsAdapter.this.notifyItemRemoved(j);
-                    }
-                    // avoid duplicates (launchPoints.contains(lp) doesn't work)
-                    for (int i = launchPoints.size() - 1; i >= 0; i--) {
-                        if (lp.getPackageName().equals(launchPoints.get(i).getPackageName())) {
-                            if (BuildConfig.DEBUG) Log.d(TAG, "pkg " + lp.getPackageName() + " exist, remove and notify");
+
+                if (BuildConfig.DEBUG) Log.d(TAG, "Apps: " + AppsAdapter.this.mLaunchPoints);
+                for (int i = 0; i < launchPoints.size(); i++) {
+                    LaunchPoint lp = launchPoints.get(i);
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Check: " + lp);
+
+                    for (int j = 0; j < AppsAdapter.this.mLaunchPoints.size(); j++) {
+                        LaunchPoint alp = AppsAdapter.this.mLaunchPoints.get(j);
+                        if (lp.getPackageName().equals(alp.getPackageName())) {
+                            if (BuildConfig.DEBUG) Log.d(TAG, "Found: " + alp + " Position: " + j);
                             AppsAdapter.this.mLaunchPoints.remove(j);
-                            if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemRemoved");
                             AppsAdapter.this.notifyItemRemoved(j);
                         }
                     }
