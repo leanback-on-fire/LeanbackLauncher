@@ -10,9 +10,11 @@ import android.support.v17.leanback.widget.GuidedAction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.InputType;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
+import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils;
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil;
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
@@ -194,6 +196,9 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
             enabled = RowPreferences.areRecommendationsEnabled(activity);
             // Log.w("+++ recommendations.enabled", ""+enabled);
             RowPreferences.setRecommendationsEnabled(activity, !enabled);
+            if (!enabled && FireTVUtils.isLocalNotificationsEnabled(activity)) {
+            	Toast.makeText(activity, activity.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG).show();
+            }
         } else if (id == ACTION_ID_INPUTS) { // INPUTS
             enabled = RowPreferences.areInputsEnabled(activity);
             // Log.w("+++ inputs.enabled", ""+enabled);

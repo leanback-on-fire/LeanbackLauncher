@@ -173,6 +173,10 @@
     <string name="inputs_row_title">Раздел «Входы»</string>
     <string name="recs_row_title">Раздел «Рекомендации»</string>
     <string name="notification_text">Сервис рекомендаций</string>
-    <string name="recs_warning">"Требуется разрешение:
+    <string name="recs_warning">"Требуется разрешение для приложения:
 android.permission.WRITE_SECURE_SETTINGS"</string>
+    <string name="recs_warning_sale">"ВАЖНО!
+Необходимо отключить пакет:
+com.amazon.device.sale.service
+для корректной работы рекомендаций."</string>
 </resources>

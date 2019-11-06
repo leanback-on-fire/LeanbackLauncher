@@ -221,4 +221,8 @@ To enable, go to Settings"</string>
     <string name="notification_text" tools:ignore="MissingTranslation">Keeping Launcher In Memory</string>
     <string name="recs_warning">"Requires permission:
 android.permission.WRITE_SECURE_SETTINGS"</string>
+    <string name="recs_warning_sale">"WARNING!
+You need to disable package:
+com.amazon.device.sale.service
+or recommendations will not work properly."</string>
 </resources>
