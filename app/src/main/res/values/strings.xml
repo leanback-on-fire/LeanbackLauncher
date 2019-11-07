@@ -181,7 +181,7 @@ To enable, go to Settings"</string>
     <string name="app_info_notification_settings" tools:ignore="MissingTranslation">Notification Settings</string>
     <string name="edit_favorites" tools:ignore="MissingTranslation">Edit Favorites</string>
     <string name="notifications" tools:ignore="MissingTranslation">Notifications</string>
-    <string name="launcher_settings" tools:ignore="MissingTranslation">Launcher Settings</string>
+    <string name="launcher_settings" tools:ignore="MissingTranslation">Settings</string>
     <string name="max_rows_title" tools:ignore="MissingTranslation">Max Rows</string>
     <string name="min_rows_title" tools:ignore="MissingTranslation">Min Rows</string>
     <string name="pref_app_ranker_sorting_mode" tools:ignore="MissingTranslation">apps_ranker_sorting_mode</string>
@@ -215,7 +215,7 @@ To enable, go to Settings"</string>
     <string name="hidden_applications_desc">Selected apps are hidden from the home screen</string>
     <string name="pref_enable_inputs_row">enable_inputs_row</string>
     <string name="pref_enable_recommendations_row">enable_recommendations_row</string>
-    <string name="system_settings">System Settings</string>
+    <string name="system_settings">System</string>
     <string name="inputs_row_title" tools:ignore="MissingTranslation">Inputs Row</string>
     <string name="recs_row_title" tools:ignore="MissingTranslation">Recommendations Row</string>
     <string name="notification_text" tools:ignore="MissingTranslation">Keeping Launcher In Memory</string>
