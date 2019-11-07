@@ -80,7 +80,6 @@ public class SettingsAdapter extends AppsAdapter {
     }
 
     private int updateNetwork() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateNetwork");
         for (int i = 0; i < this.mLaunchPoints.size(); i++) {
             LaunchPoint launchPoint = (LaunchPoint) this.mLaunchPoints.get(i);
             if (launchPoint.getSettingsType() == 0) {
@@ -93,8 +92,7 @@ public class SettingsAdapter extends AppsAdapter {
 
     private LaunchPoint setNetwork(Resources res, LaunchPoint launchPoint) {
         String str = null;
-        // if (!this.mNetResourcesSet) {
-        if (!this.mNetResourcesSet && !launchPoint.getPackageName().equals("com.amazon.tv.settings.v2")) {
+        if (!this.mNetResourcesSet) {
             setNetworkResources(launchPoint);
         }
         ConnectivityListener.ConnectivityStatus connectivityStatus = this.mConnectivityListener.getConnectivityStatus();
@@ -102,7 +100,6 @@ public class SettingsAdapter extends AppsAdapter {
         String title = null;
         boolean hasNetworkName = false;
         launchPoint.setIconDrawable(null);
-        if (BuildConfig.DEBUG) Log.d(TAG, "setNetwork, mNetworkType: " + connectivityStatus.mNetworkType + " launchPoint: " + launchPoint);
         switch (connectivityStatus.mNetworkType) {
             case 1:
                 titleId = R.string.settings_network;
@@ -112,8 +109,6 @@ public class SettingsAdapter extends AppsAdapter {
             case 5:
                 title = connectivityStatus.mWifiSsid;
                 hasNetworkName = true;
-                if (BuildConfig.DEBUG) Log.d(TAG, "setNetwork, SSID: " + connectivityStatus.mWifiSsid);
-                if (BuildConfig.DEBUG) Log.d(TAG, "setNetwork, LEVEL: " + connectivityStatus.mWifiSignalStrength);
                 switch (connectivityStatus.mWifiSignalStrength) {
                     case 0:
                         launchPoint.setIconDrawable(getNetResourceDrawable(launchPoint, "network_state_wifi_0"));

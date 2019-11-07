@@ -552,7 +552,7 @@ public class LaunchPointListGenerator {
         HashMap<ComponentName, Integer> specialEntries = new HashMap<>();
         // WI-FI
         specialEntries.put(getComponentNameForSettingsActivity("android.settings.WIFI_SETTINGS"), SettingsUtil.SettingsType.WIFI.getCode());
-        // LEANBACK_SETTINGS // 5+
+        // LEANBACK_SETTINGS
         for (int ptr = 0, size = rawLaunchPoints.size(); ptr < size; ptr++) {
             ResolveInfo info = rawLaunchPoints.get(ptr);
             ComponentName comp = getComponentName(info);
