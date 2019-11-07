@@ -181,7 +181,7 @@ To enable, go to Settings"</string>
     <string name="app_info_notification_settings" tools:ignore="MissingTranslation">Notification Settings</string>
     <string name="edit_favorites" tools:ignore="MissingTranslation">Edit Favorites</string>
     <string name="notifications" tools:ignore="MissingTranslation">Notifications</string>
-    <string name="launcher_settings" tools:ignore="MissingTranslation">Settings</string>
+    <string name="launcher_settings" tools:ignore="MissingTranslation">Launcher</string>
     <string name="max_rows_title" tools:ignore="MissingTranslation">Max Rows</string>
     <string name="min_rows_title" tools:ignore="MissingTranslation">Min Rows</string>
     <string name="pref_app_ranker_sorting_mode" tools:ignore="MissingTranslation">apps_ranker_sorting_mode</string>
@@ -199,11 +199,11 @@ To enable, go to Settings"</string>
     <string name="pref_min_favorites_rows" tools:ignore="MissingTranslation">min_favorites_rows</string>
     <string name="pref_max_apps_rows" tools:ignore="MissingTranslation">max_apps_rows</string>
     <string name="pref_min_apps_rows" tools:ignore="MissingTranslation">min_apps_rows</string>
-    <string name="apps_row_title" tools:ignore="MissingTranslation">Apps Row</string>
-    <string name="favorites_row_title" tools:ignore="MissingTranslation">Favorites Row</string>
-    <string name="games_row_title" tools:ignore="MissingTranslation">Games Row</string>
-    <string name="videos_row_title" tools:ignore="MissingTranslation">Videos Row</string>
-    <string name="music_row_title" tools:ignore="MissingTranslation">Music Row</string>
+    <string name="apps_row_title" tools:ignore="MissingTranslation">Show Apps Row</string>
+    <string name="favorites_row_title" tools:ignore="MissingTranslation">Show Favorites Row</string>
+    <string name="games_row_title" tools:ignore="MissingTranslation">Show Games Row</string>
+    <string name="videos_row_title" tools:ignore="MissingTranslation">Show Videos Row</string>
+    <string name="music_row_title" tools:ignore="MissingTranslation">Show Music Row</string>
     <string name="sorting_title" tools:ignore="MissingTranslation">Sorting</string>
     <string name="number_picker_text" tools:ignore="MissingTranslation">%d</string>
     <string name="app_info_add_favorites" tools:ignore="MissingTranslation">Add to Favorites</string>
