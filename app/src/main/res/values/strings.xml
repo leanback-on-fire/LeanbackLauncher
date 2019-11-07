@@ -131,7 +131,7 @@ To enable, go to Settings"</string>
     <string name="select_app_customize_rows_title">Customize apps rows</string>
     <string name="select_app_order_content_title">Organize apps and games</string>
     <string name="settings_dialog_title">Home screen</string>
-    <string name="settings_network">Network Settings</string>
+    <string name="settings_network">Network</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_app_edit_mode">Reorder apps mode</string>
     <string name="title_game_edit_mode">Reorder games mode</string>

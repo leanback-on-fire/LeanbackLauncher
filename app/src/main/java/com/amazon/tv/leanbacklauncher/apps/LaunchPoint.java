@@ -356,6 +356,10 @@ public class LaunchPoint {
         return this.mPriority;
     }
 
+    public void setPriority(int priority) {
+        this.mPriority = priority;
+    }
+
     public int getSettingsType() {
         return this.mSettingsType;
     }

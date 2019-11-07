@@ -546,14 +546,13 @@ public class LaunchPointListGenerator {
     private ArrayList<LaunchPoint> createSettingsList() {
         Intent mainIntent = new Intent("android.intent.action.MAIN");
         mainIntent.addCategory("android.intent.category.LEANBACK_SETTINGS");
-
         ArrayList<LaunchPoint> settingsItems = new ArrayList<>();
         PackageManager pkgMan = this.mContext.getPackageManager();
         List<ResolveInfo> rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129);
         HashMap<ComponentName, Integer> specialEntries = new HashMap<>();
         // WI-FI
         specialEntries.put(getComponentNameForSettingsActivity("android.settings.WIFI_SETTINGS"), SettingsUtil.SettingsType.WIFI.getCode());
-        // LEANBACK_SETTINGS
+        // LEANBACK_SETTINGS // 5+
         for (int ptr = 0, size = rawLaunchPoints.size(); ptr < size; ptr++) {
             ResolveInfo info = rawLaunchPoints.get(ptr);
             ComponentName comp = getComponentName(info);
@@ -566,30 +565,45 @@ public class LaunchPointListGenerator {
             if (info.activityInfo != null) {
                 LaunchPoint lp = new LaunchPoint(this.mContext, pkgMan, info, false, type);
                 lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // 32768 (0x8000)
+                // lp.setPriority(0);
                 settingsItems.add(lp);
             }
         }
-        // LAUNCHER SETTINGS
+        // LAUNCHER SETTINGS // 4
         Intent intent = new Intent();
         intent.setComponent(ComponentName.unflattenFromString(this.mContext.getPackageName() + "/.settings.LegacyHomeScreenSettingsActivity"));
-        LaunchPoint lp = new LaunchPoint(this.mContext, mContext.getString(R.string.launcher_settings), mContext.getDrawable(R.drawable.ic_settings_home), intent, 0);
+        LaunchPoint lp = new LaunchPoint(this.mContext, mContext.getString(R.string.launcher_settings), mContext.getDrawable(R.drawable.ic_settings_launcher), intent, 0);
         lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         lp.setSettingsType(SettingsUtil.SettingsType.APP_CONFIGURE.getCode());
+        lp.setPriority(-4);
         settingsItems.add(lp);
-        // NOTIFICATIONS
+        // NOTIFICATIONS // 3
         if (FireTVUtils.isLocalNotificationsEnabled(this.mContext)) {
             lp = new LaunchPoint(this.mContext, mContext.getString(R.string.notifications), mContext.getDrawable(R.drawable.ic_settings_notification), FireTVUtils.getNotificationCenterIntent(), 0);
             lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             lp.setSettingsType(SettingsUtil.SettingsType.NOTIFICATIONS.getCode());
+            lp.setPriority(-3);
             settingsItems.add(lp);
         }
-        // SYS SETTINGS
+        // SYS SETTINGS // 1
         if (FireTVUtils.isLauncherSettingsEnabled(this.mContext)) {
             lp = new LaunchPoint(this.mContext, mContext.getString(R.string.system_settings), mContext.getDrawable(R.drawable.ic_settings_settings), FireTVUtils.getSystemSettingsIntent(), 0);
             lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             lp.setSettingsType(SettingsUtil.SettingsType.UNKNOWN.getCode());
+            lp.setPriority(-1);
             settingsItems.add(lp);
         }
+        // NETWORK (AMAZON) // 2
+        if (Util.isPackageEnabled(this.mContext, "com.amazon.tv.settings.v2")) {
+            Intent wintent = new Intent();
+            wintent.setComponent(ComponentName.unflattenFromString("com.amazon.tv.settings.v2/.tv.network.NetworkActivity"));
+            LaunchPoint wlp = new LaunchPoint(this.mContext, mContext.getString(R.string.settings_network), mContext.getDrawable(R.drawable.network_state_disconnected), wintent, 0);
+            wlp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            wlp.setSettingsType(SettingsUtil.SettingsType.WIFI.getCode());
+            wlp.setPriority(-2);
+            settingsItems.add(wlp);
+        }
+
         return settingsItems;
     }
 
@@ -626,30 +640,33 @@ public class LaunchPointListGenerator {
     }
 
     private ComponentName getComponentNameForSettingsActivity(String action) {
+        // ComponentName.unflattenFromString("com.amazon.tv.settings.v2/.tv.network.NetworkActivity")
         Intent mainIntent = new Intent(action);
         // mainIntent.addCategory("android.intent.category.PREFERENCE");
         List<ResolveInfo> launchPoints = this.mContext.getPackageManager().queryIntentActivities(mainIntent, 129);
+        if (BuildConfig.DEBUG) Log.d(TAG, "getComponentNameForSettingsActivity(" + action + ") got " + launchPoints.toString());
+        // com.amazon.tv.settings.v2/.tv.network.NetworkActivity
         if (launchPoints.size() > 0) {
             int size = launchPoints.size();
             for (int ptr = 0; ptr < size; ptr++) {
                 ResolveInfo info = launchPoints.get(ptr);
                 // todo fix this
-                if (info.activityInfo != null && info.activityInfo.packageName.contains("com.amazon.tv.leanbacklauncher")) {
-                    return getComponentName(info);
-                }
-            }
-        }
-
-        if (launchPoints.size() > 0) {
-            int size = launchPoints.size();
-            for (int ptr = 0; ptr < size; ptr++) {
-                ResolveInfo info = launchPoints.get(ptr);
-
+                // if (info.activityInfo != null && info.activityInfo.packageName.contains("com.amazon.tv.leanbacklauncher")) {
                 if (info.activityInfo != null) {
                     return getComponentName(info);
                 }
             }
         }
+//      if (launchPoints.size() > 0) {
+//          int size = launchPoints.size();
+//          for (int ptr = 0; ptr < size; ptr++) {
+//              ResolveInfo info = launchPoints.get(ptr);
+//
+//              if (info.activityInfo != null) {
+//                  return getComponentName(info);
+//              }
+//          }
+//      }
         return null;
     }
 

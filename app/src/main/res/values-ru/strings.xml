@@ -131,7 +131,7 @@
     <string name="select_app_customize_rows_title">Настройка разделов главного экрана</string>
     <string name="select_app_order_content_title">Упорядочивание приложений и игр</string>
     <string name="settings_dialog_title">Главный экран</string>
-    <string name="settings_network">Настройки сети</string>
+    <string name="settings_network">Cеть</string>
     <string name="status_bar_notification_info_overflow">>999</string>
     <string name="title_app_edit_mode">Режим упорядочивания приложений</string>
     <string name="title_game_edit_mode">Режим упорядочивания игр</string>

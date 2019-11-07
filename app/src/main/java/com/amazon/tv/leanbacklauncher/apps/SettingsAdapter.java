@@ -6,10 +6,10 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-
+import android.util.Log;
+import com.amazon.tv.leanbacklauncher.BuildConfig;
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +20,7 @@ public class SettingsAdapter extends AppsAdapter {
     private final Handler mHandler = new NetworkUpdateHandler(this);
     private Resources mNetResources;
     private boolean mNetResourcesSet = false;
+    private static String TAG = "SettingsAdapter";
 
     private static class NetworkUpdateHandler extends Handler {
         private final WeakReference<SettingsAdapter> mAdapterRef;
@@ -79,6 +80,7 @@ public class SettingsAdapter extends AppsAdapter {
     }
 
     private int updateNetwork() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "updateNetwork");
         for (int i = 0; i < this.mLaunchPoints.size(); i++) {
             LaunchPoint launchPoint = (LaunchPoint) this.mLaunchPoints.get(i);
             if (launchPoint.getSettingsType() == 0) {
@@ -91,7 +93,8 @@ public class SettingsAdapter extends AppsAdapter {
 
     private LaunchPoint setNetwork(Resources res, LaunchPoint launchPoint) {
         String str = null;
-        if (!this.mNetResourcesSet) {
+        // if (!this.mNetResourcesSet) {
+        if (!this.mNetResourcesSet && !launchPoint.getPackageName().equals("com.amazon.tv.settings.v2")) {
             setNetworkResources(launchPoint);
         }
         ConnectivityListener.ConnectivityStatus connectivityStatus = this.mConnectivityListener.getConnectivityStatus();
@@ -99,6 +102,7 @@ public class SettingsAdapter extends AppsAdapter {
         String title = null;
         boolean hasNetworkName = false;
         launchPoint.setIconDrawable(null);
+        if (BuildConfig.DEBUG) Log.d(TAG, "setNetwork, mNetworkType: " + connectivityStatus.mNetworkType + " launchPoint: " + launchPoint);
         switch (connectivityStatus.mNetworkType) {
             case 1:
                 titleId = R.string.settings_network;
@@ -108,6 +112,8 @@ public class SettingsAdapter extends AppsAdapter {
             case 5:
                 title = connectivityStatus.mWifiSsid;
                 hasNetworkName = true;
+                if (BuildConfig.DEBUG) Log.d(TAG, "setNetwork, SSID: " + connectivityStatus.mWifiSsid);
+                if (BuildConfig.DEBUG) Log.d(TAG, "setNetwork, LEVEL: " + connectivityStatus.mWifiSignalStrength);
                 switch (connectivityStatus.mWifiSignalStrength) {
                     case 0:
                         launchPoint.setIconDrawable(getNetResourceDrawable(launchPoint, "network_state_wifi_0"));
@@ -127,6 +133,7 @@ public class SettingsAdapter extends AppsAdapter {
                     default:
                         break;
                 }
+                break;
             case 7:
                 launchPoint.setIconDrawable(getNetResourceDrawable(launchPoint, "network_state_ethernet"));
                 titleId = R.string.settings_network;
@@ -162,6 +169,7 @@ public class SettingsAdapter extends AppsAdapter {
                     default:
                         break;
                 }
+                break;
             case 15:
                 title = connectivityStatus.mMobileNetworkName;
                 hasNetworkName = true;
@@ -197,8 +205,8 @@ public class SettingsAdapter extends AppsAdapter {
         launchPoint.setTitle(title);
         if (hasNetworkName) {
             str = res.getString(R.string.settings_network);
+            launchPoint.setContentDescription(str);
         }
-        launchPoint.setContentDescription(str);
         return launchPoint;
     }
 
