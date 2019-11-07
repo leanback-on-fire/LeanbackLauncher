@@ -14,7 +14,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
-
+import com.amazon.tv.leanbacklauncher.BuildConfig;
 import com.amazon.tv.tvrecommendations.service.RecommendationsManager.NotificationResolver;
 
 public abstract class BaseNotificationsService extends NotificationListenerService implements NotificationResolver {
@@ -91,20 +91,20 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
 
         for (StatusBarNotification sbn : snotifications) {
             Notification notification = sbn.getNotification();
-            // Log.d(this.mTag, "fetchExistingNotifications: get " + notification);
+            // if (BuildConfig.DEBUG) Log.d(this.mTag, "fetchExistingNotifications: get " + notification);
 
-        // FIXME
-        //    if (notification.largeIcon == null) {
-        //        cancelNotification(sbn.getKey());
-        //        Log.d(this.mTag, "fetchExistingNotifications: cancel " + notification);
-        //    }
+            // FIXME (issue with com.amazon.device.sale.service)
+            if (notification.largeIcon == null) {
+                cancelNotification(sbn.getKey());
+                // if (BuildConfig.DEBUG) Log.d(this.mTag, "fetchExistingNotifications: cancel " + notification);
+            }
         }
 
         onFetchExistingNotifications(getActiveNotifications()); // 1
     }
 
     protected void onFetchExistingNotifications(StatusBarNotification[] notifications) {
-        // Log.d(this.mTag, " onFetchExistingNotifications +++ resetNotifications +++");
+        // if (BuildConfig.DEBUG) Log.d(this.mTag, " onFetchExistingNotifications +++ resetNotifications +++");
         this.mManager.resetNotifications();
         int i = 0;
         for (StatusBarNotification sbn : notifications) {
@@ -112,7 +112,7 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
             if (RecommendationsUtil.isRecommendation(sbn)) {
                 i++;
                 this.mManager.addNotification(sbn);
-                // Log.d(this.mTag, " onFetchExistingNotifications +++ isRecommendation: ADD +++ " + i);
+                // if (BuildConfig.DEBUG) Log.d(this.mTag, " onFetchExistingNotifications +++ isRecommendation: ADD +++ " + i);
             } else if (RecommendationsUtil.isCaptivePortal(getApplicationContext(), sbn)) {
                 this.mManager.addCaptivePortalNotification(sbn);
             }
