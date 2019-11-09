@@ -54,6 +54,7 @@ public class AppCategorizer {
             "kinotrend",
             "megogo.tv",
             "khd.app",
+            "tubitv",
             "serials"
     };
 
