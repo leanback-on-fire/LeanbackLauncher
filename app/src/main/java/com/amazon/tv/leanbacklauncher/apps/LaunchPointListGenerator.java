@@ -148,7 +148,6 @@ public class LaunchPointListGenerator {
                             itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.venezia")
                             ) {
                             if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName) &&
-                                !itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.ftv.screensaver") &&
                                 !itemRawLaunchPoint.activityInfo.packageName.equals(LaunchPointListGenerator.this.mContext.getPackageName())
                             ) {
                                 allLaunchPoints.add(itemRawLaunchPoint);
