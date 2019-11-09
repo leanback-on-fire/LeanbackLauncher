@@ -52,6 +52,8 @@ public class AppCategorizer {
             "niklabs.pp",
             "lazycatsoftware.lmd",
             "kinotrend",
+            "megogo.tv",
+            "khd.app",
             "serials"
     };
 
@@ -64,6 +66,7 @@ public class AppCategorizer {
             "somafm",
             "ituner",
             "fmplay",
+            "tidal",
             "radio"
     };
 }
