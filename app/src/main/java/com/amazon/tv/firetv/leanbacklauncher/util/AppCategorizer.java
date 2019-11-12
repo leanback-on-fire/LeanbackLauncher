@@ -39,6 +39,7 @@ public class AppCategorizer {
             "foxnow",
             "fxnow",
             "hbo",
+            "hedwig",
             "hulu",
             "khd.app",
             "kinotrend",
