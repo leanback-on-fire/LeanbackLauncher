@@ -30,6 +30,7 @@ public class AppCategorizer {
     }
 
     public static final String[] VIDEO_FILTER = new String[]{
+            "appletv",
             "cbs",
             "cn.tv",
             "disney",
@@ -46,11 +47,13 @@ public class AppCategorizer {
             "lazycatsoftware.lmd",
             "megogo.tv",
             "mtv",
+            "mubi",
             "netflix",
             "niklabs.pp",
             "serials",
             "showtime",
             "starz",
+            "tricoloronline",
             "tubitv",
             "tvplayer",
             "twitch",
