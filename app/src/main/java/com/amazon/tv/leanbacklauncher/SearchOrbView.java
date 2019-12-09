@@ -109,6 +109,11 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
             if (resId != 0) {
                 return searchResources.getBoolean(resId);
             }
+            // FIXME: versionCode deprecated in API28, only Katniss 3.13+
+            int vc = this.mContext.getPackageManager().getPackageInfo("com.google.android.katniss", 0).versionCode; // 11000272
+            if (vc > 11000000) {
+            	return true;
+            }
         } catch (NameNotFoundException e) {
         }
         return false;
