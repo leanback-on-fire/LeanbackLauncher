@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v17.leanback.app.GuidedStepFragment;
+//import android.util.Log;
 
 import java.lang.String;
 
@@ -45,4 +46,14 @@ public class AppInfoActivity extends Activity {
             GuidedStepFragment.addAsRoot(this, fragment, android.R.id.content);
         }
     }
+
+	// close on Home press
+	@Override
+	protected void onUserLeaveHint()
+	{
+		//Log.d("onUserLeaveHint", "Home button pressed");
+		super.onUserLeaveHint();
+		this.finish();
+	}
+
 }
