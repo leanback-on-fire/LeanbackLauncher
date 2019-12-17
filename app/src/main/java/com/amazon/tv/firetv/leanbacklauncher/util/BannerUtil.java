@@ -15,6 +15,7 @@ public class BannerUtil {
         BANNER_OVERRIDES.put("bueller.photos", R.drawable.banner_amazon_photo);
         BANNER_OVERRIDES.put("com.amazon.avod", R.drawable.banner_amazon_prime);
         BANNER_OVERRIDES.put("com.amazon.hedwig", R.drawable.banner_hedwig);
+        BANNER_OVERRIDES.put("com.amazon.cloud9", R.drawable.banner_silk);
         BANNER_OVERRIDES.put("com.niklabs.pp", R.drawable.banner_pp);
         BANNER_OVERRIDES.put("de.radio.android", R.drawable.banner_radio_net);
         BANNER_OVERRIDES.put("hulu", R.drawable.banner_hulu);
