@@ -121,7 +121,7 @@
 
         <provider
             android:name="com.amazon.tv.leanbacklauncher.migration.DbMigrationContentProvider"
-            android:authorities="com.android.google.tvrecommendations.migration"
+            android:authorities="com.amazon.tv.tvrecommendations.migration"
             android:exported="true"
             android:permission="com.amazon.tv.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
         <receiver android:name="com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
