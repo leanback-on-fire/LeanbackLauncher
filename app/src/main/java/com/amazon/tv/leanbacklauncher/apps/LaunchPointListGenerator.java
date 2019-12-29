@@ -544,6 +544,7 @@ public class LaunchPointListGenerator {
     }
 
     private ArrayList<LaunchPoint> createSettingsList() {
+        // LEANBACK_SETTINGS
         Intent mainIntent = new Intent("android.intent.action.MAIN");
         mainIntent.addCategory("android.intent.category.LEANBACK_SETTINGS");
         ArrayList<LaunchPoint> settingsItems = new ArrayList<>();
@@ -552,7 +553,9 @@ public class LaunchPointListGenerator {
         HashMap<ComponentName, Integer> specialEntries = new HashMap<>();
         // WI-FI
         specialEntries.put(getComponentNameForSettingsActivity("android.settings.WIFI_SETTINGS"), SettingsUtil.SettingsType.WIFI.getCode());
-        // LEANBACK_SETTINGS
+        if (Util.isPackageEnabled(this.mContext, "com.android.tv.settings")) {
+        	specialEntries.put(ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity"), SettingsUtil.SettingsType.WIFI.getCode());
+        }
         for (int ptr = 0, size = rawLaunchPoints.size(); ptr < size; ptr++) {
             ResolveInfo info = rawLaunchPoints.get(ptr);
             ComponentName comp = getComponentName(info);
@@ -586,7 +589,7 @@ public class LaunchPointListGenerator {
             settingsItems.add(lp);
         }
         // SYS SETTINGS // 1
-        if (FireTVUtils.isLauncherSettingsEnabled(this.mContext)) {
+        if (FireTVUtils.isLauncherSettingsEnabled(this.mContext) & !Util.isPackageEnabled(this.mContext, "com.android.tv.settings")) {
             lp = new LaunchPoint(this.mContext, mContext.getString(R.string.system_settings), mContext.getDrawable(R.drawable.ic_settings_settings), FireTVUtils.getSystemSettingsIntent(), 0);
             lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             lp.setSettingsType(SettingsUtil.SettingsType.UNKNOWN.getCode());
@@ -594,7 +597,7 @@ public class LaunchPointListGenerator {
             settingsItems.add(lp);
         }
         // NETWORK (AMAZON) // 2
-        if (Util.isPackageEnabled(this.mContext, "com.amazon.tv.settings.v2")) {
+        if (Util.isPackageEnabled(this.mContext, "com.amazon.tv.settings.v2") & !Util.isPackageEnabled(this.mContext, "com.android.tv.settings")) {
             Intent wintent = new Intent();
             wintent.setComponent(ComponentName.unflattenFromString("com.amazon.tv.settings.v2/.tv.network.NetworkActivity"));
             LaunchPoint wlp = new LaunchPoint(this.mContext, mContext.getString(R.string.settings_network), mContext.getDrawable(R.drawable.network_state_disconnected), wintent, 0);
@@ -603,7 +606,6 @@ public class LaunchPointListGenerator {
             wlp.setPriority(-2);
             settingsItems.add(wlp);
         }
-
         return settingsItems;
     }
 
