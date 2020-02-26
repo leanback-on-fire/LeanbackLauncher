@@ -2,6 +2,7 @@ package com.amazon.tv.firetv.tvrecommendations;
 
 import android.app.ActivityManager;
 import android.app.NotificationManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
@@ -9,13 +10,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.IBinder;
+import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+import android.app.NotificationChannel;
 
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
@@ -28,6 +32,7 @@ import java.util.TimerTask;
 public class NotificationListenerMonitor extends Service {
     private static final String TAG = "NotifyListenerMonitor";
     private static final int MAXIMUM_RECONNECT_ATTEMPTS = 15;
+    private static final int NOTIFICATION_ID = 1111;
 
     private int mReconnectAttempts = 0;
 
@@ -148,10 +153,25 @@ public class NotificationListenerMonitor extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "LeanbackOnFire")
+
+		String CHANNEL_ID = "com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4";
+		String CHANNEL_NAME = "LeanbackOnFire";
+		NotificationChannel notificationChannel = null;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+			notificationChannel = new NotificationChannel(CHANNEL_ID,
+					CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+			notificationChannel.enableLights(true);
+			notificationChannel.setLightColor(Color.RED);
+			notificationChannel.setShowBadge(true);
+			notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+			NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			manager.createNotificationChannel(notificationChannel);
+		}
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.ic_notification))
-                .setContentTitle("LeanbackOnFire")
+                .setContentTitle(CHANNEL_NAME)
                 .setContentText(getResources().getString(R.string.notification_text));
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -159,8 +179,9 @@ public class NotificationListenerMonitor extends Service {
         builder.setContentIntent(contentIntent);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(1111, builder.build());
-        startForeground(1111, builder.build());
+        manager.notify(NOTIFICATION_ID, builder.build());
+        startForeground(NOTIFICATION_ID, builder.build());
+
         return START_STICKY;
     }
 }
