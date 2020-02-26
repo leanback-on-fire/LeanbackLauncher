@@ -76,7 +76,7 @@ public class LaunchPoint {
         this.mPackageName = pkgName;
         this.mPackageInstallTime = Util.getInstallTimeForPackage(context, this.mPackageName);
         if (launchIntent != null) {
-            this.mLaunchIntent = launchIntent.addFlags(270532608);
+            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             if (this.mLaunchIntent.getComponent() != null) {
                 this.mComponentName = this.mLaunchIntent.getComponent().flattenToString();
             }
@@ -91,7 +91,7 @@ public class LaunchPoint {
 
         this.mLaunchColor = launchColor;
         if (launchIntent != null) {
-            this.mLaunchIntent = launchIntent.addFlags(270532608);
+            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             if (this.mLaunchIntent.getComponent() != null) {
                 this.mComponentName = this.mLaunchIntent.getComponent().flattenToString();
                 this.mPackageName = this.mLaunchIntent.getComponent().getPackageName();
@@ -126,7 +126,7 @@ public class LaunchPoint {
         this.mIconDrawable = iconDrawable;
         this.mLaunchColor = launchColor;
         if (launchIntent != null) {
-            this.mLaunchIntent = launchIntent.addFlags(270532608);
+            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             if (this.mLaunchIntent.getComponent() != null) {
                 this.mComponentName = this.mLaunchIntent.getComponent().flattenToString();
                 this.mPackageName = this.mLaunchIntent.getComponent().getPackageName();
@@ -248,7 +248,7 @@ public class LaunchPoint {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.LAUNCHER");
         intent.setComponent(componentName);
-        intent.addFlags(270532608);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         return intent;
     }
 
