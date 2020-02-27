@@ -92,21 +92,22 @@ public class AppInfoFragment extends GuidedStepFragment {
 
         updateActions();
     }
-    
+
     private void updateActions() {
         Context context = getActivity().getApplicationContext();
 
         SharedPreferencesUtil util = SharedPreferencesUtil.instance(context);
-        
+
         ArrayList<GuidedAction> actions = new ArrayList<>();
-        
+
         String favlabel = (!util.isFavorite(pkg)) ? getString(R.string.app_info_add_favorites) : getString(R.string.app_info_rem_favorites);
         String hidelabel = (!util.isHidden(pkg)) ? getString(R.string.app_info_hide_app) : getString(R.string.app_info_unhide_app);
 
         GuidedAction action = new GuidedAction.Builder(context)
                 .id(ACTION_ID_IN_STORE)
                 .title(getString(R.string.app_info_in_store)).build();
-        actions.add(action);
+        if (FireTVUtils.isAmazonStoreInstalled(context))
+            actions.add(action);
         action = new GuidedAction.Builder(context)
                 .id(ACTION_ID_SETTINGS)
                 .title(getString(R.string.app_info_settings)).build();
@@ -119,7 +120,7 @@ public class AppInfoFragment extends GuidedStepFragment {
                 .id(ACTION_ID_HIDE)
                 .title(hidelabel).build();
         actions.add(action);
-        
+
         setActions(actions); // APPLY
     }
 }
