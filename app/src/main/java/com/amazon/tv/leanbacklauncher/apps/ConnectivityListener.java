@@ -161,6 +161,7 @@ public class ConnectivityListener {
     }
 
     private void updateConnectivityStatus() {
+    	// deprecated in API29
         NetworkInfo networkInfo = this.mConnectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
             setNoConnection();
@@ -207,7 +208,7 @@ public class ConnectivityListener {
                     }
                 }
                 if (ssid != null) {
-                    this.mConnectivityStatus.mWifiSsid = ssid;
+                    this.mConnectivityStatus.mWifiSsid = ssid.equals("<unknown ssid>") ? "" : ssid;
                 } else {
                     this.mConnectivityStatus.mWifiSsid = "";
                 }
