@@ -32,7 +32,6 @@ import java.util.TimerTask;
 public class NotificationListenerMonitor extends Service {
     private static final String TAG = "NotifyListenerMonitor";
     private static final int MAXIMUM_RECONNECT_ATTEMPTS = 15;
-    private static final int NOTIFICATION_ID = 1111;
 
     private int mReconnectAttempts = 0;
 
@@ -113,10 +112,7 @@ public class NotificationListenerMonitor extends Service {
         if (context.getPackageManager().checkPermission("android.permission.WRITE_SECURE_SETTINGS", context.getPackageName()) != PackageManager.PERMISSION_DENIED) {
             Log.d(TAG, "Perms granted");
 
-
             String listeners = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
-
-            // Settings.Secure.putString(context.getContentResolver(), "enabled_notification_listeners", "");
 
             String component = new ComponentName(context, NotificationsServiceV4.class).flattenToShortString();
             String[] list = listeners == null ? new String[0] : listeners.split("\\s*:\\s*");
@@ -137,7 +133,7 @@ public class NotificationListenerMonitor extends Service {
             } else {
                 Log.d(TAG, "Perms: (already) enabled");
             }
-
+            // register notification listener
             Settings.Secure.putString(context.getContentResolver(), "enabled_notification_listeners", listeners);
         } else {
             // Must be on UI thread
@@ -154,19 +150,21 @@ public class NotificationListenerMonitor extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-		String CHANNEL_ID = "com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4";
-		String CHANNEL_NAME = "LeanbackOnFire";
-		NotificationChannel notificationChannel = null;
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-			notificationChannel = new NotificationChannel(CHANNEL_ID,
-					CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-			notificationChannel.enableLights(true);
-			notificationChannel.setLightColor(Color.RED);
-			notificationChannel.setShowBadge(true);
-			notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-			NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			manager.createNotificationChannel(notificationChannel);
-		}
+        String CHANNEL_ID = "com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4";
+        String CHANNEL_NAME = "LeanbackOnFire";
+        int NOTIFICATION_ID = 1111;
+
+        NotificationChannel notificationChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel(CHANNEL_ID,
+                    CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setShowBadge(true);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(notificationChannel);
+        }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher)

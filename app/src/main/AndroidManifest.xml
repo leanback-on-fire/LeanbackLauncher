@@ -74,6 +74,7 @@
                 <category android:name="fireos.intent.category.MAIN_HOME" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.amazon.tv.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
@@ -94,6 +95,7 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
         <service
             android:name="com.amazon.tv.leanbacklauncher.recommendations.RecommendationsService"
             android:label="@string/recm_service_name" />
@@ -116,6 +118,7 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity"
             android:exported="false"
@@ -126,6 +129,7 @@
             android:authorities="com.amazon.tv.tvrecommendations.migration"
             android:exported="true"
             android:permission="com.amazon.tv.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
+
         <receiver android:name="com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.WALLPAPER_CHANGED" />
