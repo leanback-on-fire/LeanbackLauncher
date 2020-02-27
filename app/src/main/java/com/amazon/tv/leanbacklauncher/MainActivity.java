@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.media.tv.TvContract;
@@ -25,6 +26,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v17.leanback.widget.OnChildViewHolderSelectedListener;
 import android.support.v17.leanback.widget.VerticalGridView;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -388,9 +390,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         } finally {
             AppTrace.endSection();
         }
-
-        // added
-        startService(new Intent(this, NotificationListenerMonitor.class));
+        // start notification listener
+        Context appContext = getApplicationContext();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(appContext);
+        if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), true))
+        	startService(new Intent(this, NotificationListenerMonitor.class));
     }
 
     public void onDestroy() {

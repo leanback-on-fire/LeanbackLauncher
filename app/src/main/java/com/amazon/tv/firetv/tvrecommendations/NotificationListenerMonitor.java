@@ -110,7 +110,7 @@ public class NotificationListenerMonitor extends Service {
     private void ensureNotificationPermissions(Context context) {
         Log.d(TAG, "Checking notify perms...");
         if (context.getPackageManager().checkPermission("android.permission.WRITE_SECURE_SETTINGS", context.getPackageName()) != PackageManager.PERMISSION_DENIED) {
-            Log.d(TAG, "Perms granted");
+            Log.d(TAG, "Perms: granted");
 
             String listeners = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
 
@@ -138,7 +138,7 @@ public class NotificationListenerMonitor extends Service {
         } else {
             // Must be on UI thread
             // Toast.makeText(context, "Need android.permission.WRITE_SECURE_SETTINGS to bind notifications listener!", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Perms denied");
+            Log.d(TAG, "Perms: denied");
         }
     }
 
