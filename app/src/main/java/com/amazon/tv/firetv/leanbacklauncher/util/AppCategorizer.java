@@ -77,6 +77,7 @@ public class AppCategorizer {
             "ru.tv1",
             "serials",
             "showtime",
+            "simon.kaelae",
             "smotreshka",
             "spb.tv",
             "spbtv",
@@ -95,6 +96,8 @@ public class AppCategorizer {
             "ua.youtv",
             "ufc.android",
             "video",
+            "viu.tv",
+            "viutv",
             "youtube"
     };
 
