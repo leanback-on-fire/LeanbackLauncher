@@ -26,11 +26,11 @@ public class LegacyHomeScreenSettingsActivity extends FragmentActivity {
         int count = getSupportFragmentManager().getBackStackEntryCount();
 
         if (count == 0) {
-            // super.onBackPressed();
+            super.onBackPressed();
             // back to Launcher
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            // Intent intent = new Intent(this, MainActivity.class);
+            // startActivity(intent);
+            // finish();
         } else {
             getSupportFragmentManager().popBackStack();
         }
