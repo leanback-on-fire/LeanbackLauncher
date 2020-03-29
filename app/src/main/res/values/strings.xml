@@ -225,4 +225,9 @@ android.permission.WRITE_SECURE_SETTINGS"</string>
 You need to disable package:
 com.amazon.device.sale.service
 or recommendations will not work properly."</string>
+    <string name="wallpaper_title">Default Wallpaper</string>
+    <string name="select_wallpaper_action_title">Choose Wallpaper</string>
+    <string name="select_wallpaper_action_desc">Select desired background image</string>
+    <string name="reset_wallpaper_action_title">Reset Wallpaper</string>
+    <string name="reset_wallpaper_action_desc">Use default image</string>
 </resources>

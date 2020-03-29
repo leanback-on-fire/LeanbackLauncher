@@ -4,15 +4,16 @@ import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.Shader.TileMode;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -70,7 +71,21 @@ public class WallpaperInstaller {
 
     public Bitmap getWallpaperBitmap() {
         Resources resources = this.mContext.getResources();
-        Drawable systemBg = resources.getDrawable(R.drawable.bg_default, null);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.mContext);
+        Drawable systemBg = null;
+		// user background
+		if (!prefs.getString("wallpaper_image", "").equals("")) {
+			Log.d("getWallpaperBitmap", "path " + prefs.getString("wallpaper_image", ""));
+        	systemBg = Drawable.createFromPath(prefs.getString("wallpaper_image", ""));
+        }
+        // custom background
+        if (systemBg == null) {
+			Log.d("getWallpaperBitmap", "path " + this.mContext.getFilesDir().getPath() + "/background.jpg");
+        	systemBg = Drawable.createFromPath(this.mContext.getFilesDir().getPath() + "/background.jpg");
+        }
+        // default background
+        if (systemBg == null)
+        	systemBg = resources.getDrawable(R.drawable.bg_default, null);
         int intrinsicWidth = systemBg.getIntrinsicWidth();
         int intrinsicHeight = systemBg.getIntrinsicHeight();
         int wallpaperWidth = Util.getDisplayMetrics(this.mContext).widthPixels;

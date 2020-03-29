@@ -179,4 +179,9 @@ android.permission.WRITE_SECURE_SETTINGS"</string>
 Необходимо отключить пакет:
 com.amazon.device.sale.service
 для корректной работы рекомендаций."</string>
+    <string name="wallpaper_title">Фон по умолчанию</string>
+    <string name="select_wallpaper_action_title">Установка фона</string>
+    <string name="select_wallpaper_action_desc">Выберите изображение по умолчанию</string>
+    <string name="reset_wallpaper_action_title">Сброс</string>
+    <string name="reset_wallpaper_action_desc">Использовать стандартный фон</string>
 </resources>
