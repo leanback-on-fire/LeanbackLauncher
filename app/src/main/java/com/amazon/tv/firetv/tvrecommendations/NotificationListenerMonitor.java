@@ -154,8 +154,8 @@ public class NotificationListenerMonitor extends Service {
         String CHANNEL_NAME = "LeanbackOnFire";
         int NOTIFICATION_ID = 1111;
 
-        NotificationChannel notificationChannel = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        	NotificationChannel notificationChannel = null;
             notificationChannel = new NotificationChannel(CHANNEL_ID,
                     CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
