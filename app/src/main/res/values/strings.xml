@@ -20,7 +20,7 @@
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="app_label">Home Screen</string>
-    <string name="app_name">Leanback Launcher</string>
+    <string name="app_name">LeanbackOnFire</string>
     <string name="apps_order_pref_label">Sort automatically by recent usage</string>
     <string name="category_label_apps">Apps</string>
     <string name="category_label_games">Games</string>
@@ -230,4 +230,6 @@ or recommendations will not work properly."</string>
     <string name="select_wallpaper_action_desc">Select desired background image</string>
     <string name="reset_wallpaper_action_title">Reset Wallpaper</string>
     <string name="reset_wallpaper_action_desc">Use default image</string>
+    <string name="select">Select /sdcard/background.jpg</string>
+    <string name="goback">Back</string>
 </resources>

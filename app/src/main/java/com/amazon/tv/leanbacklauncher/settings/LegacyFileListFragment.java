@@ -4,16 +4,22 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Environment;
+import android.Manifest.permission;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepSupportFragment;
 import android.support.v17.leanback.widget.GuidanceStylist.Guidance;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.support.v17.leanback.widget.GuidedAction.Builder;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
 
@@ -21,18 +27,20 @@ import java.io.File;
 import java.lang.Exception;
 import java.util.List;
 
-public class LegacyWallpaperFragment extends GuidedStepSupportFragment {
+public class LegacyFileListFragment extends GuidedStepSupportFragment {
 
+	private static String TAG = "LegacyFileListFragment";
 	/* Action ID definition */
-	private static final int ACTION_CONTINUE = 0;
-	private static final int ACTION_RESET = 1;
+	private static final int ACTION_SELECT = 1;
+	private static final int ACTION_BACK = 2;
+
 
 	@NonNull
 	public Guidance onCreateGuidance(Bundle savedInstanceState) {
 		Activity activity = getActivity();
 		String desc = getWallpaper(activity);
 		return new Guidance(
-			getString(R.string.wallpaper_title), // title
+			getString(R.string.select_wallpaper_action_title), // title
 			desc, // description
 			getString(R.string.settings_dialog_title), // breadcrumb (parent)
 			ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null) // icon
@@ -40,18 +48,19 @@ public class LegacyWallpaperFragment extends GuidedStepSupportFragment {
 	}
 
 	public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {
+
 		actions.add(new Builder(
 			getActivity())
-			.id(ACTION_CONTINUE)
-			.title((int) R.string.select_wallpaper_action_title)
-			.description((int) R.string.select_wallpaper_action_desc)
+			.id(ACTION_SELECT)
+			.title(R.string.select)
+			.description(null)
 			.build()
 		);
 		actions.add(new Builder(
 			getActivity())
-			.id(ACTION_RESET)
-			.title((int) R.string.reset_wallpaper_action_title)
-			.description((int) R.string.reset_wallpaper_action_desc)
+			.id(ACTION_BACK)
+			.title(R.string.goback)
+			.description(null)
 			.build()
 		);
 	}
@@ -61,11 +70,19 @@ public class LegacyWallpaperFragment extends GuidedStepSupportFragment {
 		Activity activity = getActivity();
 
 		switch ((int) action.getId()) {
-			case ACTION_CONTINUE:
-                GuidedStepSupportFragment.add(getFragmentManager(), new LegacyFileListFragment());
+			case ACTION_SELECT:
+				if (ContextCompat.checkSelfPermission(activity, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+    				Log.v(TAG,"READ_EXTERNAL_STORAGE permission is granted");
+					File file = new File(Environment.getExternalStorageDirectory(), "background.jpg");
+					// if (file.canRead())
+						setWallpaper(activity, Environment.getExternalStorageDirectory() + "/background.jpg");
+					getFragmentManager().popBackStack();
+				} else {
+    				Log.v(TAG,"READ_EXTERNAL_STORAGE permission not granted");
+					makeRequest();
+				}
 				break;
-			case ACTION_RESET:
-				resetWallpaper(activity);
+			case ACTION_BACK:
 				getFragmentManager().popBackStack();
 				break;
 			default:
@@ -73,17 +90,17 @@ public class LegacyWallpaperFragment extends GuidedStepSupportFragment {
 		}
 	}
 
-	public boolean resetWallpaper(Context context) {
+    protected void makeRequest() {
+    	Activity activity = getActivity();
+        ActivityCompat.requestPermissions(activity,
+            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+            500);
+    }
+
+	public boolean setWallpaper(Context context, String image) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-		pref.edit().remove("wallpaper_image").apply();
-		File file = new File(context.getFilesDir(),"background.jpg");
-		if (file.exists()) {
-			try {
-				file.delete();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		if (image != "")
+			pref.edit().putString("wallpaper_image", image).apply();
 		// refresh home
 		Activity activity = getActivity();
 		Intent Broadcast = new Intent(MainActivity.class.getName()); // ACTION

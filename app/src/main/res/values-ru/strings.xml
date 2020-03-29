@@ -20,7 +20,7 @@
     <string name="abc_shareactionprovider_share_with_application">Открыть доступ пользователю %s</string>
     <string name="abc_toolbar_collapse_description">Свернуть</string>
     <string name="app_label">Главный экран</string>
-    <string name="app_name">Запуск Leanback</string>
+    <string name="app_name">LeanbackOnFire</string>
     <string name="apps_order_pref_label">Автоматически сортировать по времени последнего использования</string>
     <string name="category_label_apps">Приложения</string>
     <string name="category_label_games">Игры</string>
@@ -184,4 +184,6 @@ com.amazon.device.sale.service
     <string name="select_wallpaper_action_desc">Выберите изображение по умолчанию</string>
     <string name="reset_wallpaper_action_title">Сброс</string>
     <string name="reset_wallpaper_action_desc">Использовать стандартный фон</string>
+    <string name="select">Выбор /sdcard/background.jpg</string>
+    <string name="goback">Назад</string>
 </resources>
