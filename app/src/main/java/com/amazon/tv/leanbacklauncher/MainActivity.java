@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.app.PendingIntent;
@@ -21,6 +22,8 @@ import android.graphics.drawable.Drawable;
 import android.media.tv.TvContract;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -81,6 +84,8 @@ import com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.Class;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity implements OnEditModeChangedListener, OnEditModeUninstallPressedListener {
@@ -485,9 +490,12 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             this.mShyMode = shy;
             changed = true;
             if (this.mShyMode) {
-                // todo convertFromTranslucent();
+            	 if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertFromTranslucent");
+                convertFromTranslucent();
             } else {
+                 if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertToTranslucent");
                 // convertToTranslucent(null, null);
+                convertToTranslucent();
             }
         }
         if (changeWallpaper && this.mWallpaper.getShynessMode() != shy) {
@@ -498,6 +506,32 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         }
         return changed;
     }
+
+	private void convertFromTranslucent() {
+		if (MainActivity.this.isTaskRoot()) return;
+		try {
+			Method convertFromTranslucent = Activity.class.getDeclaredMethod("convertFromTranslucent");
+			convertFromTranslucent.setAccessible(true);
+			convertFromTranslucent.invoke(MainActivity.this);
+		} catch (Throwable ignored) {
+		}
+	}
+
+	private void convertToTranslucent() {
+		try {
+			Class<?> translucentConversionListenerClazz = null;
+			for (Class<?> clazz : Activity.class.getDeclaredClasses()) {
+				if (clazz.getSimpleName().contains("TranslucentConversionListener")) {
+					translucentConversionListenerClazz = clazz;
+				}
+			}
+			Method convertToTranslucent = Activity.class.getDeclaredMethod("convertToTranslucent", new
+					Class[]{translucentConversionListenerClazz, ActivityOptions.class});
+			convertToTranslucent.setAccessible(true);
+			convertToTranslucent.invoke(MainActivity.this, new Object[]{null, null});
+		} catch (Throwable ignored) {
+		}
+	}
 
     private boolean dismissLauncher() {
         if (this.mShyMode) {
@@ -597,6 +631,20 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         this.mLaunchAnimation.cancel();
     }
 
+	private boolean isBackgroundVisibleBehind() {
+		try {
+			Method isBackgroundVisibleBehind = Activity.class.getDeclaredMethod("isBackgroundVisibleBehind");
+			isBackgroundVisibleBehind.setAccessible(true);
+			//Object result = isBackgroundVisibleBehind.invoke(MainActivity.this);
+			//if (Boolean.TRUE.equals(result))
+			//	return true;
+			Boolean result = (Boolean)isBackgroundVisibleBehind.invoke(MainActivity.this);
+			return result.booleanValue();
+		} catch (Throwable ignored) {
+		}
+		return false;
+	}
+
     protected void onStart() {
         boolean z = true;
         AppTrace.beginSection("onStart");
@@ -606,9 +654,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             if (this.mAppWidgetHost != null) {
                 this.mAppWidgetHost.startListening();
             }
-            //if (isBackgroundVisibleBehind()) {
-            //    z = false;
-            //}
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+				if (isBackgroundVisibleBehind()) {
+					z = false;
+				}
+            }
             setShyMode(z, true);
             this.mWallpaper.resetBackground();
             this.mHomeAdapter.refreshAdapterData();
@@ -639,13 +689,15 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         boolean forceResort = true;
         AppTrace.beginSection("onResume");
         try {
-            boolean z;
+            boolean z = true;
             super.onResume();
-            //if (isBackgroundVisibleBehind()) {
-            //    z = false;
-            //} else {
-            z = true;
-            //}
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+				if (isBackgroundVisibleBehind()) {
+				    z = false;
+				} else {
+					z = true;
+				}
+            }
             boolean shyChanged = setShyMode(z, true);
             if (!AppsManager.getInstance(getApplicationContext()).checkIfResortingIsNeeded() || this.mAppEditMode) {
                 forceResort = false;
