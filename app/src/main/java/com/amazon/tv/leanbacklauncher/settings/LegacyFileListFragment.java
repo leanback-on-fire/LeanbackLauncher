@@ -99,7 +99,7 @@ public class LegacyFileListFragment extends GuidedStepSupportFragment {
 
 	public boolean setWallpaper(Context context, String image) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-		if (image != "")
+		if (!image.isEmpty())
 			pref.edit().putString("wallpaper_image", image).apply();
 		// refresh home
 		Activity activity = getActivity();
