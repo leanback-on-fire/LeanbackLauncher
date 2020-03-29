@@ -10,7 +10,6 @@ import android.support.v4.content.res.ResourcesCompat;
 
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
-import com.amazon.tv.leanbacklauncher.R;
 
 public class LegacyHomeScreenSettingsActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
@@ -20,7 +19,7 @@ public class LegacyHomeScreenSettingsActivity extends FragmentActivity {
         if (savedInstanceState == null) {
             GuidedStepSupportFragment.addAsRoot(this, new LegacyHomeScreenPreferenceFragment(), 16908290);
         }
-    }   
+    }
     @Override
     public void onBackPressed() {
 
