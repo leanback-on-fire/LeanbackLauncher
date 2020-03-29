@@ -18,6 +18,8 @@ import android.support.v4.content.res.ResourcesCompat;
 
 import com.amazon.tv.leanbacklauncher.R;
 
+import java.io.File;
+import java.lang.Exception;
 import java.util.List;
 
 public class LegacyWallpaperFragment extends GuidedStepSupportFragment {
@@ -65,13 +67,14 @@ public class LegacyWallpaperFragment extends GuidedStepSupportFragment {
 
 	public void onGuidedActionClicked(GuidedAction action) {
 
-	    Activity activity = getActivity();
+		Activity activity = getActivity();
 
 		switch ((int) action.getId()) {
 			case ACTION_CONTINUE:
 				break;
 			case ACTION_RESET:
 				setWallpaper(activity, "");
+				getFragmentManager().popBackStack();
 				break;
 			case ACTION_BACK:
 				getFragmentManager().popBackStack();
@@ -82,18 +85,35 @@ public class LegacyWallpaperFragment extends GuidedStepSupportFragment {
 		}
 	}
 
-    public boolean setWallpaper(Context context, String image) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        if (image != "")
-        	pref.edit().putString("wallpaper_image", image).apply();
-        else
-        	pref.edit().remove("wallpaper_image").apply();
-        return true;
-    }
+	public boolean setWallpaper(Context context, String image) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		if (image != "")
+			pref.edit().putString("wallpaper_image", image).apply();
+		else {
+			pref.edit().remove("wallpaper_image").apply();
+			File file = new File(context.getFilesDir(),"background.jpg");
+			if (file.exists()) {
+				try {
+					file.delete();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
 
-    private String getWallpaper(Context context) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        String ret = pref.getString("wallpaper_image", "");
-        return ret;
-    }
+	private String getWallpaper(Context context) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		String ret = pref.getString("wallpaper_image", "");
+		if ( ret != "" ) {
+			return ret;
+		} else {
+			File file = new File(context.getFilesDir(),"background.jpg");
+			if (file.canRead()) {
+				return "background.jpg";
+			}
+			return null;
+		}
+	}
 }

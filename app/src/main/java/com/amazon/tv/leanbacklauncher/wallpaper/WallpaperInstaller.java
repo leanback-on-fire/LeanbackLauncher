@@ -22,6 +22,7 @@ import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.util.Util;
 
 import java.io.IOException;
+import java.io.File;
 
 public class WallpaperInstaller {
     private static WallpaperInstaller sInstance;
@@ -80,8 +81,11 @@ public class WallpaperInstaller {
         }
         // custom background
         if (systemBg == null) {
-			Log.d("getWallpaperBitmap", "path " + this.mContext.getFilesDir().getPath() + "/background.jpg");
-        	systemBg = Drawable.createFromPath(this.mContext.getFilesDir().getPath() + "/background.jpg");
+        	File file = new File(this.mContext.getFilesDir(),"background.jpg");
+        	if (file.canRead()) {
+				Log.d("getWallpaperBitmap", "path " + this.mContext.getFilesDir().getPath() + "/background.jpg");
+        		systemBg = Drawable.createFromPath(this.mContext.getFilesDir().getPath() + "/background.jpg");
+        	}
         }
         // default background
         if (systemBg == null)
