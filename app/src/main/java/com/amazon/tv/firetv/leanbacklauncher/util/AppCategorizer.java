@@ -30,6 +30,7 @@ public class AppCategorizer {
     }
 
     public static final String[] VIDEO_FILTER = new String[]{
+            "air.com.vudu",
             "android.rbtv",
             "appletv",
             "beeline.ott",
@@ -38,6 +39,7 @@ public class AppCategorizer {
             "cn.tv",
             "com.ctcmediagroup.ctc",
             "com.nhl.gc1112",
+            "com.ottplay",
             "com.tviztv.tviz2x45",
             "com.vgtrk.androidtv",
             "disney",
