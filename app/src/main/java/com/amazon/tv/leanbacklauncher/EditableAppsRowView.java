@@ -2,14 +2,16 @@ package com.amazon.tv.leanbacklauncher;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.OnChildViewHolderSelectedListener;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.accessibility.AccessibilityManager;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -436,7 +438,14 @@ public class EditableAppsRowView extends ActiveItemsRowView implements OnGlobalF
         AppsAdapter appsAdapter = (AppsAdapter) adapter;
         int position = lastFocusedViewHolder.getAdapterPosition();
         if (position != -1) {
-            return appsAdapter.getDrawableFromLaunchPoint(position);
+            Drawable d = appsAdapter.getDrawableFromLaunchPoint(position);
+            if (d == null) {
+                lastFocusedViewHolder.itemView.setDrawingCacheEnabled(true);
+                Bitmap tmpBitmap = Bitmap.createBitmap(lastFocusedViewHolder.itemView.getDrawingCache());
+                lastFocusedViewHolder.itemView.setDrawingCacheEnabled(false);
+                d = new BitmapDrawable(getResources(), tmpBitmap);
+            }
+            return d;
         }
         return null;
     }
