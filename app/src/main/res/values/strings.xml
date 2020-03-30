@@ -230,6 +230,7 @@ or recommendations will not work properly."</string>
     <string name="select_wallpaper_action_desc">Select desired background image</string>
     <string name="reset_wallpaper_action_title">Reset Wallpaper</string>
     <string name="reset_wallpaper_action_desc">Use default image</string>
-    <string name="select">Select /sdcard/background.jpg</string>
+    <string name="select">Select background.jpg on %s</string>
     <string name="goback">Back</string>
+    <string name="file_no_access">File not accessible!</string>
 </resources>

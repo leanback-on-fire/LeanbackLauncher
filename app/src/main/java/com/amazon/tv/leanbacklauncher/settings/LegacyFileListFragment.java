@@ -20,6 +20,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
 
@@ -48,11 +50,17 @@ public class LegacyFileListFragment extends GuidedStepSupportFragment {
 	}
 
 	public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {
-
+		Activity activity = getActivity();
+		if (ContextCompat.checkSelfPermission(activity, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+			Log.v(TAG,"READ_EXTERNAL_STORAGE permission is granted");
+		} else {
+			Log.v(TAG,"READ_EXTERNAL_STORAGE permission not granted");
+			makeRequest();
+		}
 		actions.add(new Builder(
 			getActivity())
 			.id(ACTION_SELECT)
-			.title(R.string.select)
+			.title(String.format(getString(R.string.select), Environment.getExternalStorageDirectory()))
 			.description(null)
 			.build()
 		);
@@ -65,22 +73,23 @@ public class LegacyFileListFragment extends GuidedStepSupportFragment {
 		);
 	}
 
-	public void onGuidedActionClicked(GuidedAction action) {
-
+	protected void makeRequest() {
 		Activity activity = getActivity();
+		ActivityCompat.requestPermissions(activity,
+			new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+			500);
+	}
 
+	public void onGuidedActionClicked(GuidedAction action) {
+		Activity activity = getActivity();
 		switch ((int) action.getId()) {
 			case ACTION_SELECT:
-				if (ContextCompat.checkSelfPermission(activity, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-    				Log.v(TAG,"READ_EXTERNAL_STORAGE permission is granted");
 					File file = new File(Environment.getExternalStorageDirectory(), "background.jpg");
-					// if (file.canRead())
+					if (file.canRead())
 						setWallpaper(activity, Environment.getExternalStorageDirectory() + "/background.jpg");
+					else
+						Toast.makeText(activity, activity.getString(R.string.file_no_access), Toast.LENGTH_LONG).show();
 					getFragmentManager().popBackStack();
-				} else {
-    				Log.v(TAG,"READ_EXTERNAL_STORAGE permission not granted");
-					makeRequest();
-				}
 				break;
 			case ACTION_BACK:
 				getFragmentManager().popBackStack();
@@ -89,13 +98,6 @@ public class LegacyFileListFragment extends GuidedStepSupportFragment {
 				break;
 		}
 	}
-
-    protected void makeRequest() {
-    	Activity activity = getActivity();
-        ActivityCompat.requestPermissions(activity,
-            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-            500);
-    }
 
 	public boolean setWallpaper(Context context, String image) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -111,13 +113,13 @@ public class LegacyFileListFragment extends GuidedStepSupportFragment {
 
 	private String getWallpaper(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-		String ret = pref.getString("wallpaper_image", "");
-		if ( ret != "" ) {
-			return ret;
+		String image = pref.getString("wallpaper_image", "");
+		if (!image.isEmpty()) {
+			return image;
 		} else {
 			File file = new File(context.getFilesDir(),"background.jpg");
 			if (file.canRead()) {
-				return "background.jpg";
+				return file.toString();
 			}
 			return null;
 		}

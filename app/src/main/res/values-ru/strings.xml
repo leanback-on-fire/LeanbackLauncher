@@ -184,6 +184,7 @@ com.amazon.device.sale.service
     <string name="select_wallpaper_action_desc">Выберите изображение по умолчанию</string>
     <string name="reset_wallpaper_action_title">Сброс</string>
     <string name="reset_wallpaper_action_desc">Использовать стандартный фон</string>
-    <string name="select">Выбор /sdcard/background.jpg</string>
+    <string name="select">Выбор background.jpg в %s</string>
     <string name="goback">Назад</string>
+    <string name="file_no_access">Не удалось прочитать файл!</string>
 </resources>

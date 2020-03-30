@@ -94,13 +94,13 @@ public class LegacyWallpaperFragment extends GuidedStepSupportFragment {
 
 	private String getWallpaper(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-		String ret = pref.getString("wallpaper_image", "");
-		if ( ret != "" ) {
-			return ret;
+		String image = pref.getString("wallpaper_image", "");
+		if (!image.isEmpty()) {
+			return image;
 		} else {
 			File file = new File(context.getFilesDir(),"background.jpg");
 			if (file.canRead()) {
-				return "background.jpg";
+				return file.toString();
 			}
 			return null;
 		}
