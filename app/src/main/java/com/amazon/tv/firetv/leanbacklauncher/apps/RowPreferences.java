@@ -23,7 +23,6 @@ public class RowPreferences {
 
     public static int[] getFavoriteRowConstraints(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-
         Resources res = context.getResources();
 
         return new int[]{
@@ -34,7 +33,6 @@ public class RowPreferences {
 
     public static int[] getAllAppsConstraints(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-
         Resources res = context.getResources();
 
         return new int[]{
@@ -45,7 +43,6 @@ public class RowPreferences {
 
     public static int[] getRowConstraints(AppCategory cat, Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-
         Resources res = context.getResources();
 
         switch (cat) {
@@ -136,12 +133,12 @@ public class RowPreferences {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         pref.edit().putBoolean(context.getString(R.string.pref_enable_videos_row), value).apply();
         return true;
-    }    
+    }
 
     public static boolean setFavoriteRowConstraints(Context context, int min, int max) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         Resources res = context.getResources();
-        
+
         pref.edit().putInt(context.getString(R.string.pref_min_favorites_rows), min).apply();
         pref.edit().putInt(context.getString(R.string.pref_max_favorites_rows), max).apply();
         return true;
@@ -149,14 +146,14 @@ public class RowPreferences {
 
     public static boolean setFavoriteRowMin(Context context, int min) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        Resources res = context.getResources();        
+        Resources res = context.getResources();
         pref.edit().putInt(context.getString(R.string.pref_min_favorites_rows), min).apply();
         return true;
     }
 
     public static boolean setFavoriteRowMax(Context context, int max) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        Resources res = context.getResources();        
+        Resources res = context.getResources();
         pref.edit().putInt(context.getString(R.string.pref_max_favorites_rows), max).apply();
         return true;
     }
@@ -172,14 +169,14 @@ public class RowPreferences {
 
     public static boolean setAllAppsMin(Context context, int min) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        Resources res = context.getResources();        
+        Resources res = context.getResources();
         pref.edit().putInt(context.getString(R.string.pref_min_apps_rows), min).apply();
         return true;
     }
 
     public static boolean setAllAppsMax(Context context, int max) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        Resources res = context.getResources();        
+        Resources res = context.getResources();
         pref.edit().putInt(context.getString(R.string.pref_max_apps_rows), max).apply();
         return true;
     }

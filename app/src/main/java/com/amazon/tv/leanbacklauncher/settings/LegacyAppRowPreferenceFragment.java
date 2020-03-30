@@ -48,13 +48,13 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
     }
 
     public void onResume() {
-    	super.onResume();
+        super.onResume();
         this.updateActions();
         startup++;
     }
 
     public void onPause() {
-    	super.onPause();
+        super.onPause();
         startup = 0;
     }
 
@@ -90,8 +90,8 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set fav.max ", ""+val);
-                	RowPreferences.setFavoriteRowMax(activity, val);
-                	break;
+                    RowPreferences.setFavoriteRowMax(activity, val);
+                    break;
                 case 2:
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
@@ -99,7 +99,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set fav.min ", ""+val);
-                	RowPreferences.setFavoriteRowMin(activity, val);
+                    RowPreferences.setFavoriteRowMin(activity, val);
             }
         } else if (modId == musicIndex) {
             switch (subId) {
@@ -115,8 +115,8 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set mucic.max ", ""+val);
-                	RowPreferences.setRowMax(AppCategory.MUSIC, activity, val);
-                	break;
+                    RowPreferences.setRowMax(AppCategory.MUSIC, activity, val);
+                    break;
                 case 2:
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
@@ -124,7 +124,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set music.min ", ""+val);
-                	RowPreferences.setRowMin(AppCategory.MUSIC, activity, val);
+                    RowPreferences.setRowMin(AppCategory.MUSIC, activity, val);
             }
         } else if (modId == videoIndex) {
             switch (subId) {
@@ -140,8 +140,8 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set video.max ", ""+val);
-                	RowPreferences.setRowMax(AppCategory.VIDEO, activity, val);
-                	break;
+                    RowPreferences.setRowMax(AppCategory.VIDEO, activity, val);
+                    break;
                 case 2:
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
@@ -149,7 +149,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set video.min ", ""+val);
-                	RowPreferences.setRowMin(AppCategory.VIDEO, activity, val);
+                    RowPreferences.setRowMin(AppCategory.VIDEO, activity, val);
             }
         } else if (modId == gameIndex) {
             switch (subId) {
@@ -165,8 +165,8 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set game.max ", ""+val);
-                	RowPreferences.setRowMax(AppCategory.GAME, activity, val);
-                	break;
+                    RowPreferences.setRowMax(AppCategory.GAME, activity, val);
+                    break;
                 case 2:
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
@@ -174,7 +174,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set game.min ", ""+val);
-                	RowPreferences.setRowMin(AppCategory.GAME, activity, val);
+                    RowPreferences.setRowMin(AppCategory.GAME, activity, val);
             }
         } else if (id == ACTION_ID_APPS_MAX) {
                     try {
@@ -183,7 +183,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set all.max ", ""+val);
-                	RowPreferences.setAllAppsMax(activity, val);
+                    RowPreferences.setAllAppsMax(activity, val);
         } else if (id == ACTION_ID_APPS_MIN) {
                     try {
                         val = Integer.parseInt(action.getDescription().toString());
@@ -191,13 +191,13 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                         val = 1;
                     }
                     // Log.w("+++ set all.min ", ""+val);
-                	RowPreferences.setAllAppsMin(activity, val);
+                    RowPreferences.setAllAppsMin(activity, val);
         } else if (id == ACTION_ID_RECOMENDATIONS) { // RECOMENDATIONS
             enabled = RowPreferences.areRecommendationsEnabled(activity);
             // Log.w("+++ recommendations.enabled", ""+enabled);
             RowPreferences.setRecommendationsEnabled(activity, !enabled);
             if (!enabled && FireTVUtils.isLocalNotificationsEnabled(activity)) {
-            	Toast.makeText(activity, activity.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG).show();
             }
         } else if (id == ACTION_ID_INPUTS) { // INPUTS
             enabled = RowPreferences.areInputsEnabled(activity);
@@ -222,6 +222,12 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).title(R.string.recs_row_title).description(statelabel).build());
         // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).checkSetId(ACTION_ID_RECOMENDATIONS).checked(state).title(statelabel).description("").build());
 
+        // INPUTS
+        state = RowPreferences.areInputsEnabled(activity);
+        statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
+        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).title(R.string.inputs_row_title).description(statelabel).build());
+        // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).checkSetId(ACTION_ID_INPUTS).checked(state).title(statelabel).description("").build());
+
         // FAV
         state = RowPreferences.areFavoritesEnabled(activity);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
@@ -230,7 +236,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
 
         int[] constraints = RowPreferences.getFavoriteRowConstraints(activity);
 
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_favorites_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
         // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
         favIndex = ((i - 1) / 2);
@@ -243,7 +249,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
 
         constraints = RowPreferences.getRowConstraints(AppCategory.MUSIC, activity);
 
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_music_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
         // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
         musicIndex = ((i - 1) / 2);
@@ -256,7 +262,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
 
         constraints = RowPreferences.getRowConstraints(AppCategory.VIDEO, activity);
 
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_videos_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
         // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
         videoIndex = ((i - 1) / 2);
@@ -269,32 +275,24 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
 
         constraints = RowPreferences.getRowConstraints(AppCategory.GAME, activity);
 
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_games_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
         // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
         gameIndex = ((i - 1) / 2);
 
         // ALL
-        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS).title(R.string.apps_row_title).build());
+        // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS).title(R.string.apps_row_title).build());
         constraints = RowPreferences.getAllAppsConstraints(activity);
-        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_MAX).title(R.string.max_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_MAX).title(R.string.max_apps_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_MIN).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-
-        // INPUTS
-        state = RowPreferences.areInputsEnabled(activity);
-        statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
-        actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).title(R.string.inputs_row_title).description(statelabel).build());
-        // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).checkSetId(ACTION_ID_INPUTS).checked(state).title(statelabel).description("").build());
 
         setActions(actions); // APPLY
 
         // REFRESH HOME BC
         if (startup > 0) {
-        	// Log.d("### CN", MainActivity.class.getName());
-        	// Intent Broadcast = new Intent("com.amazon.tv.leanbacklauncher.MainActivity");
-        	Intent Broadcast = new Intent(MainActivity.class.getName()); // ACTION
-        	Broadcast.putExtra("RefreshHome", true);
-        	activity.sendBroadcast(Broadcast);
+            Intent Broadcast = new Intent(MainActivity.class.getName()); // ACTION
+            Broadcast.putExtra("RefreshHome", true);
+            activity.sendBroadcast(Broadcast);
         }
     }
 }

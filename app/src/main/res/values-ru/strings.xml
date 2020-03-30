@@ -153,8 +153,13 @@
     <string name="edit_favorites">Изменить Избранное</string>
     <string name="notifications">Уведомления</string>
     <string name="launcher_settings">Настройки</string>
+    <string name="max_favorites_rows_title">Макс. строк в «Избранное»</string>
+    <string name="max_music_rows_title">Макс. строк в «Музыка»</string>
+    <string name="max_videos_rows_title">Макс. строк в «Видео»</string>
+    <string name="max_games_rows_title">Макс. строк в «Игры»</string>
+    <string name="max_apps_rows_title">Макс. строк в «Приложения»</string>
     <string name="max_rows_title">Макс. строк</string>
-    <string name="min_rows_title">Мин. строк</string>
+    <string name="min_rows_title">Мин. строк (все разделы)</string>
     <string name="apps_row_title">Раздел «Приложения»</string>
     <string name="favorites_row_title">Раздел «Избранное»</string>
     <string name="games_row_title">Раздел «Игры»</string>

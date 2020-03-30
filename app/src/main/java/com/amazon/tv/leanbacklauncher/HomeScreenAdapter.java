@@ -465,24 +465,40 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];
+                    // APPLY
+                    list.setIsNumRowsAdjustable(true);
+                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
+                    break;
                 case GAMES:
                     constraints = RowPreferences.getRowConstraints(AppCategory.GAME, mMainActivity);
                     if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];
+                    // APPLY
+                    list.setIsNumRowsAdjustable(true);
+                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
+                    break;
                 case MUSIC:
                     constraints = RowPreferences.getRowConstraints(AppCategory.MUSIC, mMainActivity);
                     if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];
+                    // APPLY
+                    list.setIsNumRowsAdjustable(true);
+                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
+                    break;
                 case VIDEO:
                     constraints = RowPreferences.getRowConstraints(AppCategory.VIDEO, mMainActivity);
                     if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];
+                    // APPLY
+                    list.setIsNumRowsAdjustable(true);
+                    list.adjustNumRows(numMaxRows, cardSpacing, rowHeight);
+                    break;
                 case APPS:
                     constraints = RowPreferences.getAllAppsConstraints(mMainActivity);
                     if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
