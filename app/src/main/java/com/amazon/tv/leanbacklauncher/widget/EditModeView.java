@@ -131,7 +131,7 @@ public final class EditModeView extends RelativeLayout implements OnClickListene
         if (!selected) {
             i2 = 0;
         }
-        button.setVisibility(i2);
+        // button.setVisibility(i2); // useless DONE
     }
 
     public void clearUninstallAndFinishLayers() {
