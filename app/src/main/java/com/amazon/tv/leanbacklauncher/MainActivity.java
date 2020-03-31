@@ -398,7 +398,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         // start notification listener
         Context appContext = getApplicationContext();
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(appContext);
-        if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), true))
+        if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), false))
         	startService(new Intent(this, NotificationListenerMonitor.class));
     }
 
