@@ -188,7 +188,7 @@ To enable, go to Settings"</string>
     <string name="max_games_rows_title" tools:ignore="MissingTranslation">Max Games Rows</string>
     <string name="max_apps_rows_title" tools:ignore="MissingTranslation">Max Apps Rows</string>
     <string name="max_rows_title" tools:ignore="MissingTranslation">Max Rows</string>
-    <string name="min_rows_title" tools:ignore="MissingTranslation">Min Rows (all sections)</string>
+    <string name="min_rows_title" tools:ignore="MissingTranslation">Min Rows</string>
     <string name="pref_app_ranker_sorting_mode" tools:ignore="MissingTranslation">apps_ranker_sorting_mode</string>
     <string name="pref_enable_music_row" tools:ignore="MissingTranslation">enable_music_row</string>
     <string name="pref_max_music_rows" tools:ignore="MissingTranslation">max_music_rows</string>
