@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -156,11 +158,12 @@ public class Util {
     }
 
     public static boolean isUninstallAllowed(Context context) {
-		if (context.getPackageManager().checkPermission("android.permission.DELETE_PACKAGES", context.getPackageName()) != PackageManager.PERMISSION_DENIED ||
-			context.getPackageManager().checkPermission("android.permission.REQUEST_DELETE_PACKAGES", context.getPackageName()) != PackageManager.PERMISSION_DENIED) {
-			return true;
+    	if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.O) {
+			if (context.getPackageManager().checkPermission("android.permission.REQUEST_DELETE_PACKAGES", context.getPackageName()) != PackageManager.PERMISSION_GRANTED) {
+			return false;
+			}
 		}
-		return false;
+		return true;
     }
 
     public static boolean isPackageEnabled(Context context, String packageName) {
