@@ -882,8 +882,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (this.mLaunchAnimation.isPrimed() || this.mLaunchAnimation.isRunning() || this.mEditModeAnimation.isPrimed() || this.mEditModeAnimation.isRunning()) {
             switch (keyCode) {
-                case 3:
-                case 4:
+                case 3: // KEYCODE_HOME
+                case 4: // KEYCODE_BACK
                     return super.onKeyDown(keyCode, event);
                 default:
                     return true;
@@ -896,7 +896,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
+        if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_INFO) {
             View selectItem = mList.getFocusedChild();
 
             if (selectItem instanceof ActiveFrame) {
@@ -929,10 +929,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             return super.onKeyUp(keyCode, event);
         }
         switch (keyCode) {
-            case 79:
-            case 85:
-            case 86:
-            case 127:
+            case 79:  // KEYCODE_HEADSETHOOK
+            case 85:  // KEYCODE_MEDIA_PLAY_PAUSE
+            case 86:  // KEYCODE_MEDIA_STOP
+            case 127: // KEYCODE_MEDIA_PAUSE
                 setShyMode(true, true);
                 return true;
             default:
