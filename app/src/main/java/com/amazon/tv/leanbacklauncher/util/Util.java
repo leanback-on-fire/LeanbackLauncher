@@ -155,6 +155,14 @@ public class Util {
         }
     }
 
+    public static boolean isUninstallAllowed(Context context) {
+		if (context.getPackageManager().checkPermission("android.permission.DELETE_PACKAGES", context.getPackageName()) != PackageManager.PERMISSION_DENIED ||
+			context.getPackageManager().checkPermission("android.permission.REQUEST_DELETE_PACKAGES", context.getPackageName()) != PackageManager.PERMISSION_DENIED) {
+			return true;
+		}
+		return false;
+    }
+
     public static boolean isPackageEnabled(Context context, String packageName) {
         try {
                 return context.getPackageManager().getApplicationInfo(packageName, 0).enabled;

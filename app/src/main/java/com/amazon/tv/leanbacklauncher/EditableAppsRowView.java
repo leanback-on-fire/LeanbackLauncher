@@ -191,7 +191,7 @@ public class EditableAppsRowView extends ActiveItemsRowView implements OnGlobalF
             return true;
         }
         LaunchPoint lp = getViewLaunchPoint(v);
-        if (lp == null || Util.isSystemApp(getContext(), getViewPackageName(v)) || lp.isInstalling()) {
+        if (lp == null || Util.isSystemApp(getContext(), getViewPackageName(v)) || !Util.isUninstallAllowed(getContext()) || lp.isInstalling()) {
             return true;
         }
         return false;
