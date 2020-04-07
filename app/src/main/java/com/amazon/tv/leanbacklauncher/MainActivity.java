@@ -654,11 +654,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             if (this.mAppWidgetHost != null) {
                 this.mAppWidgetHost.startListening();
             }
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
-				if (isBackgroundVisibleBehind()) {
-					z = false;
-				}
-            }
+			if (isBackgroundVisibleBehind()) {
+				if (BuildConfig.DEBUG) Log.d(TAG, "onStart: BackgroundVisibleBehind");
+				z = false;
+			}
             setShyMode(z, true);
             this.mWallpaper.resetBackground();
             this.mHomeAdapter.refreshAdapterData();
@@ -691,13 +690,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         try {
             boolean z = true;
             super.onResume();
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
-				if (isBackgroundVisibleBehind()) {
-				    z = false;
-				} else {
-					z = true;
-				}
-            }
+			if (isBackgroundVisibleBehind()) {
+				if (BuildConfig.DEBUG) Log.d(TAG, "onResume: BackgroundVisibleBehind");
+				z = false;
+			}
             boolean shyChanged = setShyMode(z, true);
             if (!AppsManager.getInstance(getApplicationContext()).checkIfResortingIsNeeded() || this.mAppEditMode) {
                 forceResort = false;
