@@ -452,6 +452,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             int numMaxRows = res.getInteger(R.integer.max_num_banner_rows);
             int rowHeight = (int) res.getDimension(R.dimen.banner_height);
             int[] constraints;
+            int maxApps = RowPreferences.getAppsMax(mMainActivity);
 
             group.setScaledWhenUnfocused(true);
 
@@ -461,7 +462,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     break;
                 case FAVORITES:
                     constraints = RowPreferences.getFavoriteRowConstraints(mMainActivity);
-                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                    if (row.getAdapter().getItemCount() > maxApps)
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];
@@ -471,7 +472,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     break;
                 case GAMES:
                     constraints = RowPreferences.getRowConstraints(AppCategory.GAME, mMainActivity);
-                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                    if (row.getAdapter().getItemCount() > maxApps)
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];
@@ -481,7 +482,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     break;
                 case MUSIC:
                     constraints = RowPreferences.getRowConstraints(AppCategory.MUSIC, mMainActivity);
-                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                    if (row.getAdapter().getItemCount() > maxApps)
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];
@@ -491,7 +492,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     break;
                 case VIDEO:
                     constraints = RowPreferences.getRowConstraints(AppCategory.VIDEO, mMainActivity);
-                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                    if (row.getAdapter().getItemCount() > maxApps)
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];
@@ -501,7 +502,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     break;
                 case APPS:
                     constraints = RowPreferences.getAllAppsConstraints(mMainActivity);
-                    if (row.getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off))
+                    if (row.getAdapter().getItemCount() > maxApps)
                         numMaxRows = constraints[1];
                     else
                         numMaxRows = constraints[0];

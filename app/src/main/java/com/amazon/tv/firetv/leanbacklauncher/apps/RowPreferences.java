@@ -226,5 +226,15 @@ public class RowPreferences {
         }
         return true;
     }
-
+    public static int getAppsMax(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        Resources res = context.getResources();
+        return pref.getInt(context.getString(R.string.pref_max_apps), res.getInteger(R.integer.two_row_cut_off));
+    }
+    public static boolean setAppsMax(Context context, int max) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        Resources res = context.getResources();
+        pref.edit().putInt(context.getString(R.string.pref_max_apps), max).apply();
+        return true;
+    }
 }

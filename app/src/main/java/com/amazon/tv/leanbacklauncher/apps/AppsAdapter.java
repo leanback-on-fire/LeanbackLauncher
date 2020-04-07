@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil;
 import com.amazon.tv.leanbacklauncher.BuildConfig;
 import com.amazon.tv.leanbacklauncher.EditableAppsRowView;
@@ -695,9 +696,10 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
                 }
                 if (itemRemovedAt != -1) {
                     int numRows;
+                    int maxApps = RowPreferences.getAppsMax(AppsAdapter.this.mContext);
                     int viewType = AppsAdapter.this.getItemViewType(itemRemovedAt);
                     Resources res = AppsAdapter.this.mContext.getResources();
-                    if (AppsAdapter.this.getItemCount() > res.getInteger(R.integer.two_row_cut_off)) {
+                    if (AppsAdapter.this.getItemCount() > maxApps) {
                         numRows = res.getInteger(R.integer.max_num_banner_rows);
                     } else {
                         numRows = res.getInteger(R.integer.min_num_banner_rows);

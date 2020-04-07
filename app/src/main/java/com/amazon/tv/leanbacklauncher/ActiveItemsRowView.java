@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.OnHierarchyChangeListener;
 
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation;
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer;
 import com.amazon.tv.leanbacklauncher.apps.AppsAdapter;
@@ -133,7 +134,8 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
             integer = this.mNumRows;
         else {
             Resources res = getResources();
-            if (getAdapter().getItemCount() >= res.getInteger(R.integer.two_row_cut_off)) {
+            Context ctx = getContext();
+            if (getAdapter().getItemCount() > RowPreferences.getAppsMax(ctx)) {
                 integer = res.getInteger(R.integer.max_num_banner_rows);
             } else {
                 integer = res.getInteger(R.integer.min_num_banner_rows);

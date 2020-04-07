@@ -159,7 +159,7 @@
     <string name="max_games_rows_title">Макс. строк в «Игры»</string>
     <string name="max_apps_rows_title">Макс. строк в «Приложения»</string>
     <string name="max_rows_title">Макс. строк</string>
-    <string name="min_rows_title">Мин. строк</string>
+    <string name="max_apps_title">Макс. приложений в первой строке</string>
     <string name="apps_row_title">Раздел «Приложения»</string>
     <string name="favorites_row_title">Раздел «Избранное»</string>
     <string name="games_row_title">Раздел «Игры»</string>
