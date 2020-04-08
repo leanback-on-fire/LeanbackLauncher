@@ -115,28 +115,21 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
 			Context ctx = getContext();
 			int width = (int) getResources().getDimensionPixelSize(R.dimen.banner_width);
 			int height = (int) getResources().getDimensionPixelSize(R.dimen.banner_height);
-			//float radius = (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
-			//int stroke = (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
-			//int color = (int) getResources().getColor(R.color.banner_focus_frame_color);
-			float radius = (float) RowPreferences.getCorners(ctx);
-			int stroke = (int) RowPreferences.getFrameWidth(ctx);
-			int color = (int) RowPreferences.getFrameColor(ctx);
-			Log.d("BannerView", "DEBUG: width " + width + " height " + height + " radius " + radius + " stroke " + stroke);
+			float radius = (float) RowPreferences.getCorners(ctx); // (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
+			int stroke = (int) RowPreferences.getFrameWidth(ctx); // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
+			int color = (int) RowPreferences.getFrameColor(ctx); // (int) getResources().getColor(R.color.banner_focus_frame_color);
+			// Log.d("BannerView", "DEBUG: width " + width + " height " + height + " radius " + radius + " stroke " + stroke + " color" + color);
 			view.getLayoutParams().height = height + 2 * stroke - (int) radius / 2; // px
 			view.getLayoutParams().width = width + 2 * stroke - (int) radius / 2; // px
 			view.requestLayout(); // set new focus frame dimensions
-			//GradientDrawable gd = (GradientDrawable)this.mFocusFrame.getDrawable();
-			//gd.setStroke(stroke, color, 50, 500);
-			//gd.setCornerRadius(12f);
-			GradientDrawable gd = new GradientDrawable(
+			GradientDrawable gd = new GradientDrawable( // (GradientDrawable)this.mFocusFrame.getDrawable();
 				GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT} // Color.TRANSPARENT
 			);
 			gd.setShape(GradientDrawable.RECTANGLE);
-			gd.setStroke(stroke, color);
-			gd.setCornerRadius(radius);
-			//gd.setBounds(2, 2, 2, 2);
+			gd.setStroke(stroke, color); // setStroke(10, Color.BLACK, 50, 500);
+			gd.setCornerRadius(radius); // setCornerRadius(10f);
+			// gd.setBounds(2, 2, 2, 2);
 			this.mFocusFrame.setImageDrawable(gd); // set new focus frame drawable
-
         }
     }
 
