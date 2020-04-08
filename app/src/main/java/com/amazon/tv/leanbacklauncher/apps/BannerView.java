@@ -129,7 +129,7 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
 			//gd.setStroke(stroke, color, 50, 500);
 			//gd.setCornerRadius(12f);
 			GradientDrawable gd = new GradientDrawable(
-				GradientDrawable.Orientation.TOP_BOTTOM,new int[]{color,color,color} // Color.TRANSPARENT
+				GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT} // Color.TRANSPARENT
 			);
 			gd.setShape(GradientDrawable.RECTANGLE);
 			gd.setStroke(stroke, color);
