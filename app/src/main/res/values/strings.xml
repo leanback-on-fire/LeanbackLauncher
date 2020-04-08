@@ -24,9 +24,9 @@
     <string name="apps_order_pref_label">Sort automatically by recent usage</string>
     <string name="banners_prefs_title">Banners Appearance</string>
     <string name="banners_prefs_desc">Apps banners options</string>
-    <string name="banners_corners_radius">Corners Radius (DP)</string>
-    <string name="banners_frame_width">Frame Width (DP)</string>
-    <string name="banners_frame_color">Frame Color (#RRGGBB #AARRGGBB)</string>
+    <string name="banners_corners_radius">Corners Radius (px)</string>
+    <string name="banners_frame_width">Frame Width (px)</string>
+    <string name="banners_frame_color">Frame Color (#AARRGGBB #RRGGBB)</string>
     <string name="category_label_apps">Apps</string>
     <string name="category_label_games">Games</string>
     <string name="category_label_inputs">Inputs</string>

@@ -1,10 +1,13 @@
 package com.amazon.tv.leanbacklauncher.apps;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewParent;
@@ -13,21 +16,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amazon.tv.leanbacklauncher.DimmableItem;
-import com.amazon.tv.leanbacklauncher.EditableAppsRowView;
-import com.amazon.tv.leanbacklauncher.R;
-import com.amazon.tv.leanbacklauncher.RoundedRectOutlineProvider;
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
 import com.amazon.tv.leanbacklauncher.animation.AppViewFocusAnimator;
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInLaunchAnimation;
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation;
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer;
+import com.amazon.tv.leanbacklauncher.DimmableItem;
+import com.amazon.tv.leanbacklauncher.EditableAppsRowView;
+import com.amazon.tv.leanbacklauncher.R;
+import com.amazon.tv.leanbacklauncher.RoundedRectOutlineProvider;
 import com.amazon.tv.leanbacklauncher.widget.EditModeManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class BannerView extends FrameLayout implements OnLongClickListener, DimmableItem, ParticipatesInLaunchAnimation, ParticipatesInScrollAnimation, OnEditModeChangedListener {
-    private static RoundedRectOutlineProvider sOutline;
+    private RoundedRectOutlineProvider sOutline; // was static
     private View mAppBanner;
     private ViewDimmer mDimmer;
     private ImageView mEditFocusFrame;
@@ -59,7 +63,8 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         setSelected(false);
         setOnLongClickListener(this);
         if (sOutline == null) {
-            sOutline = new RoundedRectOutlineProvider((float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius));
+            //sOutline = new RoundedRectOutlineProvider((float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius));
+            sOutline = new RoundedRectOutlineProvider((float) RowPreferences.getCorners(context));
         }
     }
 
@@ -103,10 +108,35 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         if (view instanceof ImageView) {
             this.mEditFocusFrame = (ImageView) view;
         }
-        // focus outline
+        // focus frame
         view = findViewById(R.id.banner_focused_frame);
         if (view instanceof ImageView) {
             this.mFocusFrame = (ImageView) view;
+			Context ctx = getContext();
+			int width = (int) getResources().getDimensionPixelSize(R.dimen.banner_width);
+			int height = (int) getResources().getDimensionPixelSize(R.dimen.banner_height);
+			//float radius = (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
+			//int stroke = (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
+			//int color = (int) getResources().getColor(R.color.banner_focus_frame_color);
+			float radius = (float) RowPreferences.getCorners(ctx);
+			int stroke = (int) RowPreferences.getFrameWidth(ctx);
+			int color = (int) RowPreferences.getFrameColor(ctx);
+			Log.d("BannerView", "DEBUG: width " + width + " height " + height + " radius " + radius + " stroke " + stroke);
+			view.getLayoutParams().height = height + 2 * stroke - (int) radius / 2; // px
+			view.getLayoutParams().width = width + 2 * stroke - (int) radius / 2; // px
+			view.requestLayout(); // set new focus frame dimensions
+			//GradientDrawable gd = (GradientDrawable)this.mFocusFrame.getDrawable();
+			//gd.setStroke(stroke, color, 50, 500);
+			//gd.setCornerRadius(12f);
+			GradientDrawable gd = new GradientDrawable(
+				GradientDrawable.Orientation.TOP_BOTTOM,new int[]{color,color,color} // Color.TRANSPARENT
+			);
+			gd.setShape(GradientDrawable.RECTANGLE);
+			gd.setStroke(stroke, color);
+			gd.setCornerRadius(radius);
+			//gd.setBounds(2, 2, 2, 2);
+			this.mFocusFrame.setImageDrawable(gd); // set new focus frame drawable
+
         }
     }
 

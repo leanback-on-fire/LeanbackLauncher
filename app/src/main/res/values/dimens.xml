@@ -79,15 +79,15 @@
     <dimen name="abc_text_size_subhead_material">16.0sp</dimen>
     <dimen name="abc_text_size_title_material">20.0sp</dimen>
     <dimen name="banner_corner_radius">1.0dip</dimen><!--2.0dip-->
-    <dimen name="banner_width">142.0dip</dimen>
-    <dimen name="banner_height">80.0dip</dimen>
-    <dimen name="banner_frame_width">150.0dip</dimen>
     <dimen name="banner_frame_height">88.0dip</dimen>
     <dimen name="banner_frame_stroke">5.0dip</dimen>
+    <dimen name="banner_frame_width">150.0dip</dimen>
+    <dimen name="banner_height">80.0dip</dimen>
     <dimen name="banner_icon_size">44.0dip</dimen>
     <dimen name="banner_icon_to_text_spacing">10.0dip</dimen>
     <dimen name="banner_label_text_size">13.0sp</dimen>
     <dimen name="banner_side_padding">10.0dip</dimen>
+    <dimen name="banner_width">142.0dip</dimen>
     <dimen name="card_spacing">8.0dip</dimen>
     <dimen name="clock_text_size">40.0sp</dimen>
     <item type="dimen" name="disabled_alpha_material_dark">0.3</item>

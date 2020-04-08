@@ -23,10 +23,10 @@
     <string name="app_name">LeanbackOnFire</string>
     <string name="apps_order_pref_label">Автоматически сортировать по времени последнего использования</string>
     <string name="banners_prefs_title">Внешний вид баннеров</string>
-    <string name="banners_prefs_desc">Настройка вида баннеров</string>
-    <string name="banners_corners_radius">Радиус скругления углов (DP)</string>
-    <string name="banners_frame_width">Ширина выделения (DP)</string>
-    <string name="banners_frame_color">Цвет выделения (#RRGGBB #AARRGGBB)</string>
+    <string name="banners_prefs_desc">Настройка баннера и выделения</string>
+    <string name="banners_corners_radius">Радиус скругления углов (px)</string>
+    <string name="banners_frame_width">Ширина выделения (px)</string>
+    <string name="banners_frame_color">Цвет выделения (#AARRGGBB #RRGGBB)</string>
     <string name="category_label_apps">Приложения</string>
     <string name="category_label_games">Игры</string>
     <string name="category_label_inputs">Входы</string>

@@ -1,11 +1,13 @@
 package com.amazon.tv.firetv.leanbacklauncher.apps;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.amazon.tv.leanbacklauncher.MainActivity;
@@ -237,4 +239,40 @@ public class RowPreferences {
         pref.edit().putInt(context.getString(R.string.pref_max_apps), max).apply();
         return true;
     }
+	public static int getCorners(Context context) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		int targetCorners = (int) context.getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
+		return pref.getInt("banner_corner_radius", targetCorners);
+	}
+	public static boolean setCorners(Context context, int radius) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		// if (radius > 0)
+			pref.edit().putInt("banner_corner_radius", radius).apply();
+		return true;
+	}
+	public static int getFrameWidth(Context context) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		int targetStroke = (int) context.getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
+		return pref.getInt("banner_frame_stroke", targetStroke);
+	}
+	public static boolean setFrameWidth(Context context, int width) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		if (width > 0)
+			pref.edit().putInt("banner_frame_stroke", width).apply();
+		return true;
+	}
+	public static int getFrameColor(Context context) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		int targetColor = (int) context.getResources().getColor(R.color.banner_focus_frame_color);
+		return pref.getInt("banner_focus_frame_color", targetColor);
+	}
+	public static boolean setFrameColor(Context context, int color) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		// if (color > 0)
+			pref.edit().putInt("banner_focus_frame_color", color).apply();
+		return true;
+	}
+	public static float dimensionInDp(Context context, int dimensionInPixel) {
+		return (float) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, context.getResources().getDisplayMetrics());
+	}
 }
