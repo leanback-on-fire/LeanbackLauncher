@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="recommendation_blacklist_action_description">
-        <item quantity="other">Рекомендации от %d приложений скрыты</item>
+        <item quantity="other">Рекомендации от %d прилож. скрыты</item>
         <item quantity="one">Рекомендации от %d приложения скрыты</item>
-        <item quantity="few">Рекомендации от %d приложений скрыты</item>
-        <item quantity="many">Рекомендации от %d приложений скрыты</item>
+        <item quantity="few">Рекомендации от %d прилож. скрыты</item>
+        <item quantity="many">Рекомендации от %d прилож. скрыты</item>
     </plurals>
 </resources>

@@ -34,8 +34,8 @@ public class LegacyHomeScreenPreferenceFragment extends GuidedStepSupportFragmen
             if (blacklistCount != -1) {
                 description = getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, blacklistCount, new Object[]{Integer.valueOf(blacklistCount)});
             }
-            actions.add(new Builder(getActivity()).id(1).title((int) R.string.recommendation_blacklist_action_title).description((CharSequence) description).build());
-            actions.add(new Builder(getActivity()).id(2).title((int) R.string.home_screen_order_action_title).build());
+            actions.add(new Builder(getActivity()).id(1).title(R.string.recommendation_blacklist_action_title).description((CharSequence) description).build());
+            actions.add(new Builder(getActivity()).id(2).title(R.string.home_screen_order_action_title).description(R.string.home_screen_order_desc).build());
             actions.add(new Builder(getActivity()).id(3).title(R.string.hidden_applications_title).build());
             actions.add(new Builder(getActivity()).id(4).title(R.string.banners_prefs_title).description(R.string.banners_prefs_desc).build());
             actions.add(new Builder(getActivity()).id(5).title(R.string.wallpaper_title).description(R.string.select_wallpaper_action_desc).build());

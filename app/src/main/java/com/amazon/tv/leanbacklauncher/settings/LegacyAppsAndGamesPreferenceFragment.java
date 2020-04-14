@@ -27,7 +27,7 @@ public class LegacyAppsAndGamesPreferenceFragment extends GuidedStepSupportFragm
         super.onResume();
         ArrayList<GuidedAction> actions = new ArrayList<>();
         SortingMode sortingMode = AppsManager.getSavedSortingMode(getActivity());
-        actions.add(new Builder(getActivity()).id(1).title((int) R.string.home_screen_order_content_title).description(sortingMode == SortingMode.FIXED ? R.string.select_app_order_action_description_fixed : R.string.select_app_order_action_description_recency).build());
+        actions.add(new Builder(getActivity()).id(1).title(R.string.home_screen_order_content_title).description(sortingMode == SortingMode.FIXED ? R.string.select_app_order_action_description_fixed : R.string.select_app_order_action_description_recency).build());
 
         // BROKEN
         //if (sortingMode == SortingMode.FIXED) {
@@ -35,7 +35,7 @@ public class LegacyAppsAndGamesPreferenceFragment extends GuidedStepSupportFragm
         //    actions.add(new Builder(getActivity()).id(3).title((int) R.string.customize_game_order_action_title).build());
         //}
 
-        actions.add(new Builder(getActivity()).id(2).title(R.string.edit_row).build());
+        actions.add(new Builder(getActivity()).id(2).title(R.string.edit_row).description(R.string.select_app_customize_rows_title).build());
 
         setActions(actions);
     }

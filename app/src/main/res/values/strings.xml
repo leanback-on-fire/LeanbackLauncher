@@ -62,6 +62,7 @@
     <string name="home_screen_order_action_title">Edit App Rows</string>
     <string name="home_screen_order_content_description">Reorder apps and games by holding down the select button</string>
     <string name="home_screen_order_content_title">Apps and Games rows</string>
+    <string name="home_screen_order_desc">Apps Order and Rows Prefs</string>
     <string name="input_source_disconnected">Disconnected</string>
     <string name="input_source_unknown">Unknown</string>
     <string name="input_title_bundled_tuner">Channels</string>

@@ -23,7 +23,7 @@
     <string name="app_name">LeanbackOnFire</string>
     <string name="apps_order_pref_label">Автоматически сортировать по времени последнего использования</string>
     <string name="banners_prefs_title">Внешний вид баннеров</string>
-    <string name="banners_prefs_desc">Настройка баннера и выделения</string>
+    <string name="banners_prefs_desc">Настройка вида баннера и выделения</string>
     <string name="banners_corners_radius">Радиус скругления углов (px)</string>
     <string name="banners_frame_width">Ширина выделения (px)</string>
     <string name="banners_frame_color">Цвет выделения (#AARRGGBB #RRGGBB)</string>
@@ -62,6 +62,7 @@
     <string name="home_screen_order_action_title">Строки игр и приложений</string>
     <string name="home_screen_order_content_description">Чтобы изменить порядок приложений и игр, нажмите и удерживайте кнопку «OK» на главном экране</string>
     <string name="home_screen_order_content_title">Строки игр и приложений</string>
+    <string name="home_screen_order_desc">Порядок баннеров и настройка разделов</string>
     <string name="input_source_disconnected">Отключено</string>
     <string name="input_source_unknown">Неизвестное устройство</string>
     <string name="input_title_bundled_tuner">Каналы</string>
