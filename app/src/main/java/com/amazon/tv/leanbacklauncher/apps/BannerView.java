@@ -104,6 +104,8 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             }
             bannerView = findViewById(R.id.input_image);
             if (bannerView instanceof ImageView) {
+            	bannerView.setOutlineProvider(sOutline);
+            	bannerView.setClipToOutline(true);
                 this.mDimmer.addDimTarget((ImageView) bannerView);
             }
             bannerLabel = findViewById(R.id.input_label);
