@@ -70,13 +70,13 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
 
     protected void onFinishInflate() {
         super.onFinishInflate();
-		Context ctx = getContext();
-		int width = (int) getResources().getDimensionPixelSize(R.dimen.banner_width);
-		int height = (int) getResources().getDimensionPixelSize(R.dimen.banner_height);
-		int size = (int) RowPreferences.getBannersSize(ctx); // 50 - 200
-		this.getLayoutParams().height = height * size / 100; // px
-		this.getLayoutParams().width = width * size / 100; // px
-		this.requestLayout(); // set new BannerView dimensions
+        Context ctx = getContext();
+        int width = (int) getResources().getDimensionPixelSize(R.dimen.banner_width);
+        int height = (int) getResources().getDimensionPixelSize(R.dimen.banner_height);
+        int size = (int) RowPreferences.getBannersSize(ctx); // 50 - 200
+        this.getLayoutParams().height = height * size / 100; // px
+        this.getLayoutParams().width = width * size / 100; // px
+        this.requestLayout(); // set new BannerView dimensions
         this.mDimmer = new ViewDimmer(this);
         this.mAppBanner = findViewById(R.id.app_banner);
         this.mInstallStateOverlay = findViewById(R.id.install_state_overlay);
@@ -85,9 +85,9 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             this.mAppBanner.setClipToOutline(true);
             this.mDimmer.addDimTarget((ImageView) this.mAppBanner);
         } else {
-        	if (this.mAppBanner instanceof LinearLayout) {
-            	this.mAppBanner.setOutlineProvider(sOutline);
-            	this.mAppBanner.setClipToOutline(true);
+            if (this.mAppBanner instanceof LinearLayout) {
+                this.mAppBanner.setOutlineProvider(sOutline);
+                this.mAppBanner.setClipToOutline(true);
             }
             View inputBannerView = findViewById(R.id.input_banner);
             if (inputBannerView != null) {
@@ -104,8 +104,8 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             }
             bannerView = findViewById(R.id.input_image);
             if (bannerView instanceof ImageView) {
-            	bannerView.setOutlineProvider(sOutline);
-            	bannerView.setClipToOutline(true);
+                bannerView.setOutlineProvider(sOutline);
+                bannerView.setClipToOutline(true);
                 this.mDimmer.addDimTarget((ImageView) bannerView);
             }
             bannerLabel = findViewById(R.id.input_label);
@@ -117,9 +117,9 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             }
         }
         this.mDimmer.setDimLevelImmediate();
-		float radius = (float) RowPreferences.getCorners(ctx); // (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
-		int stroke = (int) RowPreferences.getFrameWidth(ctx); // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
-		int color = (int) RowPreferences.getFrameColor(ctx); // (int) getResources().getColor(R.color.banner_focus_frame_color);
+        float radius = (float) RowPreferences.getCorners(ctx); // (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
+        int stroke = 2;
+        int color = (int) getResources().getColor(R.color.edit_selection_indicator_color);
         // edit focus frame (edit_frame_width : edit_frame_height)
         View view = findViewById(R.id.edit_focused_frame);
         if (view instanceof ImageView) {
@@ -127,24 +127,26 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             view.getLayoutParams().width = (int) getResources().getDimensionPixelSize(R.dimen.edit_frame_width) * size / 100;
             view.getLayoutParams().height = (int) getResources().getDimensionPixelSize(R.dimen.edit_frame_height) * size / 100;
             view.requestLayout(); // set new edit focus frame dimensions
-			GradientDrawable ef = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
-			ef.setShape(GradientDrawable.RECTANGLE);
-			ef.setStroke(stroke, color);
-			ef.setCornerRadius(radius);
-			this.mEditFocusFrame.setImageDrawable(ef); // set new edit frame drawable
+            GradientDrawable ef = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
+            ef.setShape(GradientDrawable.RECTANGLE);
+            ef.setStroke(stroke, color); // fixed width
+            ef.setCornerRadius(radius * getResources().getDimensionPixelSize(R.dimen.edit_frame_width) / width);
+            this.mEditFocusFrame.setImageDrawable(ef); // set new edit frame drawable
         }
         // focus frame (banner_frame_width : banner_frame_height)
         view = findViewById(R.id.banner_focused_frame);
         if (view instanceof ImageView) {
             this.mFocusFrame = (ImageView) view;
-			view.getLayoutParams().width = (width + 2 * stroke - (int) radius / 2) * size / 100; // px
-			view.getLayoutParams().height = (height + 2 * stroke - (int) radius / 2) * size / 100; // px
-			view.requestLayout(); // set new focus frame dimensions
-			GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
-			gd.setShape(GradientDrawable.RECTANGLE);
-			gd.setStroke(stroke, color); // setStroke(10, Color.BLACK, 50, 500);
-			gd.setCornerRadius(radius); // setCornerRadius(10f);
-			this.mFocusFrame.setImageDrawable(gd); // set new focus frame drawable
+            stroke = (int) RowPreferences.getFrameWidth(ctx); // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
+            color = (int) RowPreferences.getFrameColor(ctx); // (int) getResources().getColor(R.color.banner_focus_frame_color);
+            view.getLayoutParams().width = (width + 2 * stroke - (int) radius / 2) * size / 100; // px
+            view.getLayoutParams().height = (height + 2 * stroke - (int) radius / 2) * size / 100; // px
+            view.requestLayout(); // set new focus frame dimensions
+            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
+            gd.setShape(GradientDrawable.RECTANGLE);
+            gd.setStroke(stroke * size / 100, color); // setStroke(10, Color.BLACK);
+            gd.setCornerRadius(radius); // setCornerRadius(10f);
+            this.mFocusFrame.setImageDrawable(gd); // set new focus frame drawable
         }
     }
 
@@ -241,7 +243,7 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         }
         setFocusedFrameState();
         // focus outline
-        if (this.mFocusFrame != null) { // null for inputs
+        if (this.mFocusFrame != null) {
             if (hasFocus())
                 this.mFocusFrame.setVisibility(0);
             else
