@@ -15,6 +15,8 @@ import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
+import com.amazon.tv.leanbacklauncher.animation.ViewDimmer;
 import com.amazon.tv.leanbacklauncher.apps.AppsAdapter;
 import com.amazon.tv.leanbacklauncher.apps.BannerSelectedChangedListener;
 import com.amazon.tv.leanbacklauncher.apps.BannerView;
@@ -23,7 +25,6 @@ import com.amazon.tv.leanbacklauncher.apps.OnEditModeChangedListener;
 import com.amazon.tv.leanbacklauncher.util.Util;
 import com.amazon.tv.leanbacklauncher.widget.EditModeView;
 import com.amazon.tv.leanbacklauncher.widget.EditModeViewActionListener;
-import com.amazon.tv.leanbacklauncher.animation.ViewDimmer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -117,7 +118,8 @@ public class EditableAppsRowView extends ActiveItemsRowView implements OnGlobalF
             int dimensionPixelSize;
             this.mEditMode = editMode;
             if (editMode) {
-                dimensionPixelSize = getResources().getDimensionPixelSize(R.dimen.banner_width);
+            	int size = RowPreferences.getBannersSize((Context) getContext());
+                dimensionPixelSize = getResources().getDimensionPixelSize(R.dimen.banner_width) * size / 100;
             } else {
                 dimensionPixelSize = 0;
             }

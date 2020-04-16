@@ -450,7 +450,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             int cardSpacing = res.getDimensionPixelOffset(R.dimen.inter_card_spacing);
             int numMinRows = res.getInteger(R.integer.min_num_banner_rows);
             int numMaxRows = res.getInteger(R.integer.max_num_banner_rows);
-            int rowHeight = (int) res.getDimension(R.dimen.banner_height);
+            int size = RowPreferences.getBannersSize(mMainActivity);
+            int rowHeight = (int) res.getDimension(R.dimen.banner_height) * size / 100;
             int[] constraints;
             int maxApps = RowPreferences.getAppsMax(mMainActivity);
 

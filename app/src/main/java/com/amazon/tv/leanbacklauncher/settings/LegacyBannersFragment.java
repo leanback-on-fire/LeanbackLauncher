@@ -27,10 +27,11 @@ import java.util.List;
 public class LegacyBannersFragment extends GuidedStepSupportFragment {
 
 	/* Action ID definition */
-	private static final int ACTION_RAD = 0;
-	private static final int ACTION_FWD = 1;
-	private static final int ACTION_FCL = 2;
-	private static final int ACTION_BACK = 3;
+	private static final int ACTION_SZ = 0;
+	private static final int ACTION_RAD = 1;
+	private static final int ACTION_FWD = 2;
+	private static final int ACTION_FCL = 3;
+	private static final int ACTION_BACK = 4;
 
 	@NonNull
 	public Guidance onCreateGuidance(Bundle savedInstanceState) {
@@ -54,6 +55,15 @@ public class LegacyBannersFragment extends GuidedStepSupportFragment {
         ArrayList<GuidedAction> actions = new ArrayList<>();
         Activity activity = getActivity();
 
+		actions.add(new Builder(
+			activity)
+			.id(ACTION_SZ)
+			.title((int) R.string.banners_size)
+			.description(Integer.toString(RowPreferences.getBannersSize(activity)))
+			.descriptionEditable(true)
+			.descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED)
+			.build()
+		);
 		actions.add(new Builder(
 			activity)
 			.id(ACTION_RAD)
@@ -98,6 +108,15 @@ public class LegacyBannersFragment extends GuidedStepSupportFragment {
 		int val;
 
 		switch ((int) action.getId()) {
+			case ACTION_SZ:
+				try {
+					val = Integer.parseInt(action.getDescription().toString());
+				} catch (NumberFormatException nfe) {
+					val = RowPreferences.getBannersSize(activity);
+				}
+                RowPreferences.setBannersSize(activity, val);
+                refreshHome();
+				break;
 			case ACTION_RAD:
 				try {
 					val = Integer.parseInt(action.getDescription().toString());

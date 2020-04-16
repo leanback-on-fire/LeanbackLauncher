@@ -239,6 +239,16 @@ public class RowPreferences {
         pref.edit().putInt(context.getString(R.string.pref_max_apps), max).apply();
         return true;
     }
+	public static int getBannersSize(Context context) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		return pref.getInt("banner_size", 100);
+	}
+	public static boolean setBannersSize(Context context, int size) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		if (size > 49 && size < 201)
+			pref.edit().putInt("banner_size", size).apply();
+		return true;
+	}
 	public static int getCorners(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		int targetCorners = (int) context.getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
