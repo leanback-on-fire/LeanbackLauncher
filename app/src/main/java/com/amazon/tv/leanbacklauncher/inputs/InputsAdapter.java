@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder> {
-    private static final String[] mPhysicalTunerBlackList = new String[]{"com.google.android.videos", "com.google.android.youtube.tv"}; // TODO add amazon
+    private static final String[] mPhysicalTunerBlackList = new String[]{"com.google.android.videos", "com.google.android.youtube.tv", "com.amazon.avod", "com.amazon.hedwig"}; // TODO add amazon
     private final InputsComparator mComp = new InputsComparator();
     private final Configuration mConfig;
     private final Handler mHandler = new InputsMessageHandler(this);
@@ -577,7 +577,9 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         this.mPhysicalTunerInputs.clear();
         this.mVirtualTunerInputs.clear();
         this.mIsBundledTunerVisible = false;
-        if (this.mTvManager != null) {
+        // https://stackoverflow.com/questions/45074883/nullpointerexception-in-tvinputmanager-gettvinputlist
+        boolean tifSupport = InputsAdapter.this.mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_LIVE_TV);
+        if (this.mTvManager != null && tifSupport) {
             List<TvInputInfo> serviceInputs = this.mTvManager.getTvInputList();
             if (serviceInputs != null) {
                 for (int i = 0; i < serviceInputs.size(); i++) {
@@ -815,6 +817,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
                 }
             }
         }
+        // Log.d("InputsAdapter", "isPhysicalTuner: " + isPhysicalTuner + " for " + input.getServiceInfo().packageName);
         return isPhysicalTuner;
     }
 
