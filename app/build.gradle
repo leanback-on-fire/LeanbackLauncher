@@ -6,8 +6,8 @@ android {
         applicationId "com.amazon.tv.leanbacklauncher"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 8
-        versionName "1.8"
+        versionCode 9
+        versionName "1.9"
         setProperty("archivesBaseName", "LeanbackOnFire_" + versionName)
     }
     buildTypes {
