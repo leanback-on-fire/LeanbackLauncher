@@ -91,14 +91,18 @@ public class LegacyBannersFragment extends GuidedStepSupportFragment {
 			.descriptionEditInputType(InputType.TYPE_CLASS_TEXT)
 			.build()
 		);
-//		actions.add(new Builder(
-//			activity)
-//			.id(ACTION_BACK)
-//			.title(R.string.goback)
-//			.description(null)
-//			.build()
-//		);
-
+		actions.add(new Builder(
+			activity)
+			.id(ACTION_BACK)
+			.title(null)
+			.description(R.string.banners_frame_color_desc)
+			.multilineDescription(true)
+			.focusable(false)
+			.infoOnly(true)
+			.build()
+		);
+		//actions.get(actions.size() - 1).setEnabled(false);
+		//actions.get(actions.size() - 1).setFocusable(false);
         setActions(actions); // APPLY
 	}
 
