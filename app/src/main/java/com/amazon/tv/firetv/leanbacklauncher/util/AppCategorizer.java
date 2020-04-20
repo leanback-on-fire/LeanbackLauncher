@@ -33,6 +33,7 @@ public class AppCategorizer {
             "air.com.vudu",
             "android.rbtv",
             "appletv",
+            "bbc.iplayer",
             "beeline.ott",
             "bloomberg",
             "cbs",
@@ -109,7 +110,6 @@ public class AppCategorizer {
     public static final String[] MUSIC_FILTER = new String[]{
             "deezer",
             "fmplay",
-            "iplayer",
             "ituner",
             "music",
             "pandora",
