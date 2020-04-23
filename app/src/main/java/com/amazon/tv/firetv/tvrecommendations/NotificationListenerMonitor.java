@@ -32,7 +32,6 @@ import java.util.TimerTask;
 public class NotificationListenerMonitor extends Service {
     private static final String TAG = "NotifyListenerMonitor";
     private static final int MAXIMUM_RECONNECT_ATTEMPTS = 15;
-
     private int mReconnectAttempts = 0;
 
     @Override
@@ -136,8 +135,6 @@ public class NotificationListenerMonitor extends Service {
             // register notification listener
             Settings.Secure.putString(context.getContentResolver(), "enabled_notification_listeners", listeners);
         } else {
-            // Must be on UI thread
-            // Toast.makeText(context, "Need android.permission.WRITE_SECURE_SETTINGS to bind notifications listener!", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Perms: denied");
         }
     }
@@ -162,7 +159,7 @@ public class NotificationListenerMonitor extends Service {
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.setShowBadge(true);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             manager.createNotificationChannel(notificationChannel);
         }
 

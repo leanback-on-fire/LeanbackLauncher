@@ -1,10 +1,15 @@
 package com.amazon.tv.firetv.leanbacklauncher.apps;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -12,6 +17,7 @@ import android.widget.Toast;
 
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
+import com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -102,6 +108,15 @@ public class RowPreferences {
         } else {
             Toast.makeText(context, context.getString(R.string.recs_warning), Toast.LENGTH_LONG).show();
         }
+		// request notifications access
+		if (Build.VERSION.SDK_INT >= 27) {
+			NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			if (!manager.isNotificationListenerAccessGranted(new ComponentName(context, NotificationsServiceV4.class))) { // ComponentName
+				// Open the permission page
+				Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+				context.startActivity(intent);
+			}
+		}
         return true;
     }
 
