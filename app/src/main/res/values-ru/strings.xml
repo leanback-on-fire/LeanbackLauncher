@@ -27,7 +27,7 @@
     <string name="banners_corners_radius">Радиус скругления углов (px)</string>
     <string name="banners_frame_width">Ширина выделения (px)</string>
     <string name="banners_frame_color">Цвет выделения (#AARRGGBB)</string>
-    <string name="banners_frame_color_desc">Эти значения так же могут использоваться для задания цвета: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, и teal.</string>
+    <string name="banners_frame_color_desc">Эти значения так же могут использоваться для задания цвета: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
     <string name="banners_size">Масштаб баннеров (50-200%)</string>
     <string name="category_label_apps">Приложения</string>
     <string name="category_label_games">Игры</string>
@@ -187,7 +187,9 @@
     <string name="recs_row_title">Раздел «Рекомендации»</string>
     <string name="notification_text">Сервис рекомендаций</string>
     <string name="recs_warning">"Требуется разрешение для приложения:
-android.permission.WRITE_SECURE_SETTINGS"</string>
+android.permission.WRITE_SECURE_SETTINGS
+Выполните данную команду в терминале или по adb:
+pm grant com.amazon.tv.leanbacklauncher android.permission.WRITE_SECURE_SETTINGS"</string>
     <string name="recs_warning_sale">"ВАЖНО!
 Необходимо отключить пакет:
 com.amazon.device.sale.service

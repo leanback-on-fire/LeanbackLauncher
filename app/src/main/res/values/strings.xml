@@ -27,7 +27,7 @@
     <string name="banners_corners_radius">Corners Radius (px)</string>
     <string name="banners_frame_width">Frame Width (px)</string>
     <string name="banners_frame_color">Frame Color (#AARRGGBB)</string>
-    <string name="banners_frame_color_desc">The following values are also accepted for color: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, and teal.</string>
+    <string name="banners_frame_color_desc">The following values are also accepted for color: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
     <string name="banners_size">Banners Size (50-200%)</string>
     <string name="category_label_apps">Apps</string>
     <string name="category_label_games">Games</string>
@@ -234,7 +234,9 @@ To enable, go to Settings"</string>
     <string name="recs_row_title" tools:ignore="MissingTranslation">Recommendations Row</string>
     <string name="notification_text" tools:ignore="MissingTranslation">Keeping Launcher In Memory</string>
     <string name="recs_warning">"Requires permission:
-android.permission.WRITE_SECURE_SETTINGS"</string>
+android.permission.WRITE_SECURE_SETTINGS
+Apply this command over adb:
+pm grant com.amazon.tv.leanbacklauncher android.permission.WRITE_SECURE_SETTINGS"</string>
     <string name="recs_warning_sale">"WARNING!
 You need to disable package:
 com.amazon.device.sale.service
