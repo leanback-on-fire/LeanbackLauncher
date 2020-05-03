@@ -16,11 +16,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
+import android.content.pm.ActivityInfo;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.Rect;
 import android.media.tv.TvContract;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,13 +34,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
+import android.view.accessibility.AccessibilityManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.OnHierarchyChangeListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -276,6 +278,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                     finish();
                 }
             }
+			//android O fix bug orientation
+			if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			}
             this.mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
             this.mEditModeView = (EditModeView) findViewById(R.id.edit_mode_view);
             this.mEditModeView.setUninstallListener(this);

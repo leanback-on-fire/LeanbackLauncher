@@ -67,7 +67,6 @@
             android:excludeFromRecents="true"
             android:label="@string/app_label"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"
             android:stateNotNeeded="true"
             android:supportsRtl="true">
             <intent-filter android:priority="3">
