@@ -104,7 +104,8 @@ public class AppCategorizer {
             "video",
             "viu.tv",
             "viutv",
-            "youtube"
+            "youtube",
+            "yuriev.ndr"
     };
 
     public static final String[] MUSIC_FILTER = new String[]{
