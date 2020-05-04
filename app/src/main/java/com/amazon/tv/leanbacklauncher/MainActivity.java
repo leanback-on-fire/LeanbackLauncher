@@ -280,7 +280,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             }
 			//android O fix bug orientation
 			if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			}
             this.mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
             this.mEditModeView = (EditModeView) findViewById(R.id.edit_mode_view);
