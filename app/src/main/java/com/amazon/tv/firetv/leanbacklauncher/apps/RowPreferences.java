@@ -114,7 +114,11 @@ public class RowPreferences {
 			if (!manager.isNotificationListenerAccessGranted(new ComponentName(context, NotificationsServiceV4.class))) { // ComponentName
 				// Open the permission page
 				Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-				context.startActivity(intent);
+				try {
+					context.startActivity(intent);
+            	} catch (Exception e) {
+                	// ignored
+            	}
 			}
 		}
         return true;
