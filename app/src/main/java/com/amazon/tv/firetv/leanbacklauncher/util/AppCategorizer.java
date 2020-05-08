@@ -40,6 +40,7 @@ public class AppCategorizer {
             "cn.tv",
             "com.nhl",
             "com.vgtrk",
+            "courville.nova",
             "ctcmediagroup.ctc",
             "disney",
             "divantv",
@@ -109,6 +110,7 @@ public class AppCategorizer {
     };
 
     public static final String[] MUSIC_FILTER = new String[]{
+            "audials",
             "deezer",
             "fmplay",
             "ituner",
