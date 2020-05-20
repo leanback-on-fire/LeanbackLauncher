@@ -36,11 +36,11 @@ public class AppCategorizer {
                 return AppCategory.GAME;
             }
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if ((actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_GAME)) {
+                if (actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_GAME) {
                     return AppCategory.GAME;
-                } else if ((actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO)) {
+                } else if (actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO) {
                     return AppCategory.VIDEO;
-                } else if ((actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO)) {
+                } else if (actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO) {
                     return AppCategory.MUSIC;
                 }
             }
