@@ -129,6 +129,8 @@
     <dimen name="home_screen_selected_row_alignment">135.0dip</dimen>
     <dimen name="home_scroll_animation_threshold">20.0dip</dimen>
     <dimen name="home_scroll_size_apps">240.0dip</dimen>
+    <dimen name="home_scroll_size_video">240.0dip</dimen>
+    <dimen name="home_scroll_size_music">240.0dip</dimen>
     <dimen name="home_scroll_size_games">240.0dip</dimen>
     <dimen name="home_scroll_size_inputs">240.0dip</dimen>
     <dimen name="home_scroll_size_notifications">240.0dip</dimen>
