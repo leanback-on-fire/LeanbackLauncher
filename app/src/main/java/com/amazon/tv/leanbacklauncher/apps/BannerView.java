@@ -120,29 +120,30 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         float radius = (float) RowPreferences.getCorners(ctx); // (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
         int stroke = 2;
         int color = (int) getResources().getColor(R.color.edit_selection_indicator_color);
+        GradientDrawable gd = null;
         // edit focus frame (edit_frame_width : edit_frame_height)
-        View view = findViewById(R.id.edit_focused_frame);
-        if (view instanceof ImageView) {
-            this.mEditFocusFrame = (ImageView) view;
-            view.getLayoutParams().width = (int) getResources().getDimensionPixelSize(R.dimen.edit_frame_width) * size / 100;
-            view.getLayoutParams().height = (int) getResources().getDimensionPixelSize(R.dimen.edit_frame_height) * size / 100;
-            view.requestLayout(); // set new edit focus frame dimensions
-            GradientDrawable ef = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
-            ef.setShape(GradientDrawable.RECTANGLE);
-            ef.setStroke(stroke, color); // fixed width
-            ef.setCornerRadius(radius * getResources().getDimensionPixelSize(R.dimen.edit_frame_width) / width);
-            this.mEditFocusFrame.setImageDrawable(ef); // set new edit frame drawable
+        View efv = findViewById(R.id.edit_focused_frame);
+        if (efv instanceof ImageView) {
+            this.mEditFocusFrame = (ImageView) efv;
+            efv.getLayoutParams().width = (int) getResources().getDimensionPixelSize(R.dimen.edit_frame_width) * size / 100;
+            efv.getLayoutParams().height = (int) getResources().getDimensionPixelSize(R.dimen.edit_frame_height) * size / 100;
+            efv.requestLayout(); // set new edit focus frame dimensions
+            gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
+            gd.setShape(GradientDrawable.RECTANGLE);
+            gd.setStroke(stroke, color); // fixed width
+            gd.setCornerRadius(radius * getResources().getDimensionPixelSize(R.dimen.edit_frame_width) / width);
+            this.mEditFocusFrame.setImageDrawable(gd); // set new edit frame drawable
         }
         // focus frame (banner_frame_width : banner_frame_height)
-        view = findViewById(R.id.banner_focused_frame);
-        if (view instanceof ImageView) {
-            this.mFocusFrame = (ImageView) view;
+        View ffv = findViewById(R.id.banner_focused_frame);
+        if (ffv instanceof ImageView) {
+            this.mFocusFrame = (ImageView) ffv;
             stroke = (int) RowPreferences.getFrameWidth(ctx); // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
             color = (int) RowPreferences.getFrameColor(ctx); // (int) getResources().getColor(R.color.banner_focus_frame_color);
-            view.getLayoutParams().width = (width + 2 * stroke - (int) radius / 2) * size / 100; // px
-            view.getLayoutParams().height = (height + 2 * stroke - (int) radius / 2) * size / 100; // px
-            view.requestLayout(); // set new focus frame dimensions
-            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
+            ffv.getLayoutParams().width = (width + 2 * stroke - (int) radius / 2) * size / 100; // px
+            ffv.getLayoutParams().height = (height + 2 * stroke - (int) radius / 2) * size / 100; // px
+            ffv.requestLayout(); // set new focus frame dimensions
+            gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
             gd.setShape(GradientDrawable.RECTANGLE);
             gd.setStroke(stroke * size / 100, color); // setStroke(10, Color.BLACK);
             gd.setCornerRadius(radius); // setCornerRadius(10f);
