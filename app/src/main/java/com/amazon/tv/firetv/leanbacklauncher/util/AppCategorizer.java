@@ -2,15 +2,18 @@ package com.amazon.tv.firetv.leanbacklauncher.util;
 
 
 import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
+import android.os.Build;
 
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
 
 public class AppCategorizer {
 
     public static AppCategory getAppCategory(String pkgName, ActivityInfo actInfo) {
-        if (actInfo != null) {
-            if ((actInfo.applicationInfo.flags & 33554432) != 0 || (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false))) {
-                return AppCategory.GAME;
+
+        for (String s : VIDEO_FILTER) {
+            if (pkgName.contains(s)) {
+                return AppCategory.VIDEO;
             }
         }
 
@@ -20,9 +23,26 @@ public class AppCategorizer {
             }
         }
 
-        for (String s : VIDEO_FILTER) {
+        for (String s : GAMES_FILTER) {
             if (pkgName.contains(s)) {
-                return AppCategory.VIDEO;
+                return AppCategory.GAME;
+            }
+        }
+
+        if (actInfo != null) {
+            if ((actInfo.applicationInfo.flags & ApplicationInfo.FLAG_IS_GAME) != 0 ||
+                (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false))
+            ) {
+                return AppCategory.GAME;
+            }
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if ((actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_GAME)) {
+                    return AppCategory.GAME;
+                } else if ((actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO)) {
+                    return AppCategory.VIDEO;
+                } else if ((actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO)) {
+                    return AppCategory.MUSIC;
+                }
             }
         }
 
@@ -38,6 +58,7 @@ public class AppCategorizer {
             "bloomberg",
             "cbs",
             "cn.tv",
+            "com.google.android.tv",
             "com.nhl",
             "com.vgtrk",
             "courville.nova",
@@ -55,6 +76,7 @@ public class AppCategorizer {
             "hulu",
             "iptvremote",
             "khd.app",
+            "kodi",
             "kinopub",
             "kinotrend",
             "lazycatsoft",
@@ -123,4 +145,9 @@ public class AppCategorizer {
             "tunein",
             "zaycev"
     };
+
+    public static final String[] GAMES_FILTER = new String[]{
+            "android.play.games"
+    };
+
 }
