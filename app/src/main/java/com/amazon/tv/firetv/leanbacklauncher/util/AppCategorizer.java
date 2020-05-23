@@ -98,6 +98,7 @@ public class AppCategorizer {
             "ru.cn.tv",
             "ru.ctv",
             "ru.ivi",
+            "ru.kinopoisk",
             "ru.ntv",
             "ru.rutube",
             "ru.start",
