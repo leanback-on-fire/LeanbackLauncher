@@ -109,7 +109,7 @@ public class RowPreferences {
             Toast.makeText(context, context.getString(R.string.recs_warning), Toast.LENGTH_LONG).show();
         }
 		// request notifications access
-		if (Build.VERSION.SDK_INT >= 27) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
 			NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			if (!manager.isNotificationListenerAccessGranted(new ComponentName(context, NotificationsServiceV4.class))) { // ComponentName
 				// Open the permission page
