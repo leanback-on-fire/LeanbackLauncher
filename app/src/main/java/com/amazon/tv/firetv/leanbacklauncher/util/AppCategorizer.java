@@ -63,9 +63,11 @@ public class AppCategorizer {
             "com.vgtrk",
             "courville.nova",
             "ctcmediagroup.ctc",
+            "dailymotion",
             "disney",
             "divantv",
             "dramafever",
+            "facebook",
             "firebat",
             "foxnews",
             "foxnow",
@@ -74,6 +76,7 @@ public class AppCategorizer {
             "hbo",
             "hedwig",
             "hulu",
+            "hopwatch",
             "iptvremote",
             "khd.app",
             "kodi",
@@ -134,6 +137,7 @@ public class AppCategorizer {
 
     public static final String[] MUSIC_FILTER = new String[]{
             "audials",
+            "audioplayer",
             "deezer",
             "fmplay",
             "ituner",
