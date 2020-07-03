@@ -37,8 +37,6 @@ public class LegacyHomeScreenPreferenceFragment extends GuidedStepSupportFragmen
             actions.add(new Builder(getActivity()).id(1).title(R.string.recommendation_blacklist_action_title).description((CharSequence) description).build());
             actions.add(new Builder(getActivity()).id(2).title(R.string.home_screen_order_action_title).description(R.string.home_screen_order_desc).build());
             actions.add(new Builder(getActivity()).id(3).title(R.string.hidden_applications_title).description(R.string.hidden_applications_desc).build());
-            actions.add(new Builder(getActivity()).id(4).title(R.string.banners_prefs_title).description(R.string.banners_prefs_desc).build());
-            actions.add(new Builder(getActivity()).id(5).title(R.string.wallpaper_title).description(R.string.select_wallpaper_action_desc).build());
             setActions(actions);
         }
     }
@@ -53,12 +51,6 @@ public class LegacyHomeScreenPreferenceFragment extends GuidedStepSupportFragmen
                 return;
             case 3:
                 GuidedStepSupportFragment.add(getFragmentManager(), new LegacyHiddenPreferenceFragment());
-                return;
-            case 4:
-                GuidedStepSupportFragment.add(getFragmentManager(), new LegacyBannersFragment());
-                return;
-            case 5:
-                GuidedStepSupportFragment.add(getFragmentManager(), new LegacyWallpaperFragment());
                 return;
             default:
                 return;

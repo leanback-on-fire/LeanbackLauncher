@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string">0.5</item>
+    <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string">0.25</item>
+    <item name="lb_guidedactions_item_disabled_text_alpha" type="string">0.25</item>
+    <item name="lb_guidedactions_item_enabled_chevron_alpha" type="string">1.0</item>
+    <item name="lb_guidedactions_item_unselected_description_text_alpha" type="string">0.5</item>
+    <item name="lb_guidedactions_item_unselected_text_alpha" type="string">1.0</item>
+    <item name="lb_guidedactions_width_weight" type="string">0.71428573</item>
+    <item name="lb_guidedactions_width_weight_two_panels" type="string">1.1917808</item>
+    <item name="lb_guidedbuttonactions_width_weight" type="string">0.45</item>
+    <item name="lb_guidedstep_height_weight" type="string">2.0</item>
+    <item name="lb_guidedstep_height_weight_translucent" type="string">1.0</item>
+    <item name="lb_guidedstep_keyline" type="string">40.0</item>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
     <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
@@ -10,6 +22,18 @@
     <string name="abc_activitychooserview_choose_application">Choose an app</string>
     <string name="abc_capital_off">OFF</string>
     <string name="abc_capital_on">ON</string>
+    <string name="abc_font_family_body_1_material">sans-serif</string>
+    <string name="abc_font_family_body_2_material">sans-serif-medium</string>
+    <string name="abc_font_family_button_material">sans-serif-medium</string>
+    <string name="abc_font_family_caption_material">sans-serif</string>
+    <string name="abc_font_family_display_1_material">sans-serif</string>
+    <string name="abc_font_family_display_2_material">sans-serif</string>
+    <string name="abc_font_family_display_3_material">sans-serif</string>
+    <string name="abc_font_family_display_4_material">sans-serif-light</string>
+    <string name="abc_font_family_headline_material">sans-serif</string>
+    <string name="abc_font_family_menu_material">sans-serif</string>
+    <string name="abc_font_family_subhead_material">sans-serif</string>
+    <string name="abc_font_family_title_material">sans-serif-medium</string>
     <string name="abc_search_hint">Search…</string>
     <string name="abc_searchview_description_clear">Clear query</string>
     <string name="abc_searchview_description_query">Search query</string>
@@ -19,9 +43,17 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="app_info_add_favorites">Add to Favorites</string>
+    <string name="app_info_hide_app">Hide in Launcher</string>
+    <string name="app_info_in_store">View in Store</string>
+    <string name="app_info_notification_settings">Notification Settings</string>
+    <string name="app_info_rem_favorites">Remove from Favorites</string>
+    <string name="app_info_settings">App Settings</string>
+    <string name="app_info_unhide_app">Unhide in Launcher</string>
     <string name="app_label">Home Screen</string>
     <string name="app_name">LeanbackOnFire</string>
     <string name="apps_order_pref_label">Sort automatically by recent usage</string>
+    <string name="apps_row_title">Show Apps Row</string>
     <string name="banners_prefs_title">Banners Appearance</string>
     <string name="banners_prefs_desc">Apps banners options</string>
     <string name="banners_corners_radius">Corners Radius (px)</string>
@@ -30,9 +62,12 @@
     <string name="banners_frame_color_desc">The following values are also accepted for color: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
     <string name="banners_size">Banners Size (50-200%)</string>
     <string name="category_label_apps">Apps</string>
+    <string name="category_label_favorites">Favorites</string>
     <string name="category_label_games">Games</string>
     <string name="category_label_inputs">Inputs</string>
+    <string name="category_label_music">Music</string>
     <string name="category_label_settings" />
+    <string name="category_label_videos">Video</string>
     <string name="common_google_play_services_enable_button">Enable</string>
     <string name="common_google_play_services_enable_text">"%1$s won't work unless you enable Google Play services."</string>
     <string name="common_google_play_services_enable_title">Enable Google Play services</string>
@@ -48,29 +83,40 @@
     <string name="common_google_play_services_updating_text">"%1$s won't run without Google Play services, which are currently updating."</string>
     <string name="common_google_play_services_wear_update_text">New version of Google Play services needed. It will update itself shortly.</string>
     <string name="common_open_on_phone">Open on phone</string>
-    <string name="common_signin_button_text">Sign in</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
+    <string name="common_signin_button_text">Sign in</string>
     <string name="customize_app_order_action_title">Reorder apps row</string>
     <string name="customize_game_order_action_title">Reorder games row</string>
     <string name="downloading">Downloading…</string>
+    <string name="edit_favorites">Edit Favorites</string>
     <string name="edit_finish_button_text">Done</string>
+    <string name="edit_row_title">Edit Home Rows</string>
     <string name="edit_uninstall_focused_text">Uninstall</string>
     <string name="failed_launch">"Can't open this right now"</string>
+    <string name="favorites_row_title">Show Favorites Row</string>
+    <string name="file_no_access">File not accessible!</string>
     <string name="fixed_order_action_description">Order apps and games to your liking</string>
     <string name="fixed_order_action_title">Customize order</string>
     <string name="focused_search_hint_text">Click to search</string>
     <string name="focused_search_keyboard_hint_text">Click to type</string>
     <string name="focused_search_mic_hint_text">Click to speak</string>
-    <string name="home_screen_order_action_title">Edit App Rows</string>
+    <string name="font">sans-serif-condensed</string>
+    <string name="goback">Back</string>
+    <string name="games_row_title">Show Games Row</string>
+    <string name="hidden_applications_desc">Selected apps are hidden from the home screen</string>
+    <string name="hidden_applications_title">Hidden applications</string>
+    <string name="home_screen_order_action_title">Home Screen View</string>
     <string name="home_screen_order_content_description">Reorder apps and games by holding down the select button</string>
-    <string name="home_screen_order_content_title">Apps and Games rows</string>
+    <string name="home_screen_order_content_title">Apps Order</string>
     <string name="home_screen_order_desc">Apps Order and Rows Prefs</string>
     <string name="input_source_disconnected">Disconnected</string>
     <string name="input_source_unknown">Unknown</string>
     <string name="input_title_bundled_tuner">Channels</string>
+    <string name="inputs_row_title">Inputs Row</string>
     <string name="install_pending">Install pending…</string>
     <string name="installing">Installing…</string>
     <string name="keyboard_search_accessibility_hint">Select to type your search query</string>
+    <string name="launcher_settings">Launcher</string>
     <string name="lb_control_display_fast_forward_multiplier">%1$dX</string>
     <string name="lb_control_display_rewind_multiplier">%1$dX</string>
     <string name="lb_date_separator">/</string>
@@ -107,22 +153,55 @@
     <string name="lb_search_bar_hint_with_title">Search %1$s</string>
     <string name="lb_search_bar_hint_with_title_speech">Speak to search %1$s</string>
     <string name="lb_time_separator">:</string>
+    <string name="light_font">sans-serif-light</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="max_apps_rows_title">Max Apps Rows</string>
+    <string name="max_apps_title">Apps on One Row</string>
+    <string name="max_favorites_rows_title">Max Favorites Rows</string>
+    <string name="max_games_rows_title">Max Games Rows</string>
+    <string name="max_music_rows_title">Max Music Rows</string>
+    <string name="max_rows_title">Max Rows</string>
+    <string name="max_videos_rows_title">Max Videos Rows</string>
     <string name="mic_search_accessibility_hint">Select to speak your search query</string>
+    <string name="music_row_title">Show Music Row</string>
     <string name="notif_service_name">Notifications Service</string>
     <string name="notification_card_view_description_default">No title</string>
     <string name="notification_card_view_description_label_content">%1$s %2$s</string>
     <string name="notification_card_view_description_title_content">%1$s %2$s</string>
-    <string name="notification_card_view_description_title_label">%1$s %2$s</string>
     <string name="notification_card_view_description_title_label_content">%1$s %2$s %3$s</string>
+    <string name="notification_card_view_description_title_label">%1$s %2$s</string>
+    <string name="notification_text">Keeping Launcher In Memory</string>
+    <string name="notifications">Notifications</string>
     <string name="now_playing_card_paused">Paused</string>
     <string name="now_playing_card_playing">Now Playing</string>
     <string name="now_playing_card_stopped">Stopped</string>
+    <string name="number_picker_text">%d</string>
     <string name="orb_search_action">Search Action</string>
+    <string name="pref_app_ranker_sorting_mode">apps_ranker_sorting_mode</string>
+    <string name="pref_enable_favorites_row">enable_favorites_row</string>
+    <string name="pref_enable_games_row">enable_games_row</string>
+    <string name="pref_enable_inputs_row">enable_inputs_row</string>
+    <string name="pref_enable_music_row">enable_music_row</string>
+    <string name="pref_enable_recommendations_row">enable_recommendations_row</string>
+    <string name="pref_enable_videos_row">enable_videos_row</string>
+    <string name="pref_max_apps_rows">max_apps_rows</string>
+    <string name="pref_max_apps">max_apps</string>
+    <string name="pref_max_favorites_rows">max_favorites_rows</string>
+    <string name="pref_max_games_rows">max_games_rows</string>
+    <string name="pref_max_music_rows">max_music_rows</string>
+    <string name="pref_max_videos_rows">max_videos_rows</string>
+    <string name="pref_min_apps_rows">min_apps_rows</string>
+    <string name="pref_min_favorites_rows">min_favorites_rows</string>
+    <string name="pref_min_games_rows">min_games_rows</string>
+    <string name="pref_min_music_rows">min_music_rows</string>
+    <string name="pref_min_videos_rows">min_videos_rows</string>
+    <string name="primes_marker">PrImEs</string>
+    <string name="primes_version">174122153</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="recency_order_action_description">Apps and games ordered based on recent usage</string>
     <string name="recency_order_action_title">Recency order</string>
     <string name="recm_service_name">Recommendations Service</string>
-    <string name="recommendation_blacklist_action_title">Recommendations row</string>
+    <string name="recommendation_blacklist_action_title">Recommendations Sources</string>
     <string name="recommendation_blacklist_content_description">Selected sources may display recommendations on the home screen. To hide these, turn off recommendations from specific sources.</string>
     <string name="recommendation_blacklist_content_title">Recommendations row</string>
     <string name="recommendation_row_empty_message_no_connection">No internet connection at this time</string>
@@ -130,109 +209,7 @@
     <string name="recommendation_row_empty_message_recs_disabled">"Some recommendations are hidden
 To enable, go to Settings"</string>
     <string name="recommendation_row_preparing_message">Preparing Recommendations</string>
-    <string name="restore_pending">Restore pending…</string>
-    <string name="search_hint_text">Search movies, TV, and more</string>
-    <string name="search_menu_title">Search</string>
-    <string name="select_app_order_action_description_fixed">Customize order</string>
-    <string name="select_app_order_action_description_recency">Recency order</string>
-    <string name="select_app_order_action_title">Organize apps and games</string>
-    <string name="select_app_customize_rows_title">Customize apps rows</string>
-    <string name="select_app_order_content_title">Organize apps and games</string>
-    <string name="settings_dialog_title">Home screen</string>
-    <string name="settings_network">Network</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="title_app_edit_mode">Reorder apps mode</string>
-    <string name="title_game_edit_mode">Reorder games mode</string>
-    <string name="unknown_album">Unknown</string>
-    <string name="unknown_album_artist">Unknown</string>
-    <string name="unknown_artist">Unknown</string>
-    <string name="unknown_state">…</string>
-    <string name="unknown_title">Unknown</string>
-    <string name="update_pending">Update pending…</string>
-    <string name="abc_font_family_body_1_material">sans-serif</string>
-    <string name="abc_font_family_body_2_material">sans-serif-medium</string>
-    <string name="abc_font_family_button_material">sans-serif-medium</string>
-    <string name="abc_font_family_caption_material">sans-serif</string>
-    <string name="abc_font_family_display_1_material">sans-serif</string>
-    <string name="abc_font_family_display_2_material">sans-serif</string>
-    <string name="abc_font_family_display_3_material">sans-serif</string>
-    <string name="abc_font_family_display_4_material">sans-serif-light</string>
-    <string name="abc_font_family_headline_material">sans-serif</string>
-    <string name="abc_font_family_menu_material">sans-serif</string>
-    <string name="abc_font_family_subhead_material">sans-serif</string>
-    <string name="abc_font_family_title_material">sans-serif-medium</string>
-    <string name="font">sans-serif-condensed</string>
-    <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string">0.5</item>
-    <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string">0.25</item>
-    <item name="lb_guidedactions_item_disabled_text_alpha" type="string">0.25</item>
-    <item name="lb_guidedactions_item_enabled_chevron_alpha" type="string">1.0</item>
-    <item name="lb_guidedactions_item_unselected_description_text_alpha" type="string">0.5</item>
-    <item name="lb_guidedactions_item_unselected_text_alpha" type="string">1.0</item>
-    <item name="lb_guidedactions_width_weight" type="string">0.71428573</item>
-    <item name="lb_guidedactions_width_weight_two_panels" type="string">1.1917808</item>
-    <item name="lb_guidedbuttonactions_width_weight" type="string">0.45</item>
-    <item name="lb_guidedstep_height_weight" type="string">2.0</item>
-    <item name="lb_guidedstep_height_weight_translucent" type="string">1.0</item>
-    <item name="lb_guidedstep_keyline" type="string">40.0</item>
-    <string name="light_font">sans-serif-light</string>
-    <string name="primes_marker">PrImEs</string>
-    <string name="primes_version">174122153</string>
-    <string name="regular_font">sans-serif</string>
-    <string name="v7_preference_off">OFF</string>
-    <string name="v7_preference_on">ON</string>
-    <string name="category_label_videos" tools:ignore="MissingTranslation">Video</string>
-    <string name="category_label_music" tools:ignore="MissingTranslation">Music</string>
-    <string name="category_label_favorites" tools:ignore="MissingTranslation">Favorites</string>
-    <string name="loading" tools:ignore="MissingTranslation">Loading&#8230;</string>
-    <string name="app_info_in_store" tools:ignore="MissingTranslation">View in Store</string>
-    <string name="app_info_settings" tools:ignore="MissingTranslation">App Settings</string>
-    <string name="app_info_notification_settings" tools:ignore="MissingTranslation">Notification Settings</string>
-    <string name="edit_favorites" tools:ignore="MissingTranslation">Edit Favorites</string>
-    <string name="notifications" tools:ignore="MissingTranslation">Notifications</string>
-    <string name="launcher_settings" tools:ignore="MissingTranslation">Launcher</string>
-    <string name="max_favorites_rows_title" tools:ignore="MissingTranslation">Max Favorites Rows</string>
-    <string name="max_music_rows_title" tools:ignore="MissingTranslation">Max Music Rows</string>
-    <string name="max_videos_rows_title" tools:ignore="MissingTranslation">Max Videos Rows</string>
-    <string name="max_games_rows_title" tools:ignore="MissingTranslation">Max Games Rows</string>
-    <string name="max_apps_rows_title" tools:ignore="MissingTranslation">Max Apps Rows</string>
-    <string name="max_rows_title" tools:ignore="MissingTranslation">Max Rows</string>
-    <string name="max_apps_title" tools:ignore="MissingTranslation">Apps on One Row</string>
-    <string name="pref_app_ranker_sorting_mode" tools:ignore="MissingTranslation">apps_ranker_sorting_mode</string>
-    <string name="pref_enable_music_row" tools:ignore="MissingTranslation">enable_music_row</string>
-    <string name="pref_max_music_rows" tools:ignore="MissingTranslation">max_music_rows</string>
-    <string name="pref_min_music_rows" tools:ignore="MissingTranslation">min_music_rows</string>
-    <string name="pref_enable_videos_row" tools:ignore="MissingTranslation">enable_videos_row</string>
-    <string name="pref_max_videos_rows" tools:ignore="MissingTranslation">max_videos_rows</string>
-    <string name="pref_min_videos_rows" tools:ignore="MissingTranslation">min_videos_rows</string>
-    <string name="pref_enable_games_row" tools:ignore="MissingTranslation">enable_games_row</string>
-    <string name="pref_max_games_rows" tools:ignore="MissingTranslation">max_games_rows</string>
-    <string name="pref_min_games_rows" tools:ignore="MissingTranslation">min_games_rows</string>
-    <string name="pref_enable_favorites_row" tools:ignore="MissingTranslation">enable_favorites_row</string>
-    <string name="pref_max_favorites_rows" tools:ignore="MissingTranslation">max_favorites_rows</string>
-    <string name="pref_min_favorites_rows" tools:ignore="MissingTranslation">min_favorites_rows</string>
-    <string name="pref_max_apps_rows" tools:ignore="MissingTranslation">max_apps_rows</string>
-    <string name="pref_min_apps_rows" tools:ignore="MissingTranslation">min_apps_rows</string>
-    <string name="pref_max_apps" tools:ignore="MissingTranslation">max_apps</string>
-    <string name="apps_row_title" tools:ignore="MissingTranslation">Show Apps Row</string>
-    <string name="favorites_row_title" tools:ignore="MissingTranslation">Show Favorites Row</string>
-    <string name="games_row_title" tools:ignore="MissingTranslation">Show Games Row</string>
-    <string name="videos_row_title" tools:ignore="MissingTranslation">Show Videos Row</string>
-    <string name="music_row_title" tools:ignore="MissingTranslation">Show Music Row</string>
-    <string name="sorting_title" tools:ignore="MissingTranslation">Sorting</string>
-    <string name="number_picker_text" tools:ignore="MissingTranslation">%d</string>
-    <string name="app_info_add_favorites" tools:ignore="MissingTranslation">Add to Favorites</string>
-    <string name="app_info_rem_favorites" tools:ignore="MissingTranslation">Remove from Favorites</string>
-    <string name="app_info_hide_app" tools:ignore="MissingTranslation">Hide in Launcher</string>
-    <string name="app_info_unhide_app" tools:ignore="MissingTranslation">Unhide in Launcher</string>
-    <string name="edit_row">Edit Rows</string>
-    <string name="hidden_applications_title">Hidden applications</string>
-    <string name="hidden_applications_desc">Selected apps are hidden from the home screen</string>
-    <string name="pref_enable_inputs_row">enable_inputs_row</string>
-    <string name="pref_enable_recommendations_row">enable_recommendations_row</string>
-    <string name="system_settings">System</string>
-    <string name="inputs_row_title" tools:ignore="MissingTranslation">Inputs Row</string>
-    <string name="recs_row_title" tools:ignore="MissingTranslation">Recommendations Row</string>
-    <string name="notification_text" tools:ignore="MissingTranslation">Keeping Launcher In Memory</string>
+    <string name="recs_row_title">Recommendations Row</string>
     <string name="recs_warning">"Requires permission:
 android.permission.WRITE_SECURE_SETTINGS
 Apply this command over adb:
@@ -241,12 +218,35 @@ pm grant com.amazon.tv.leanbacklauncher android.permission.WRITE_SECURE_SETTINGS
 You need to disable package:
 com.amazon.device.sale.service
 or recommendations will not work properly."</string>
-    <string name="wallpaper_title">Default Wallpaper</string>
-    <string name="select_wallpaper_action_title">Choose Wallpaper</string>
-    <string name="select_wallpaper_action_desc">Select desired background image</string>
+    <string name="regular_font">sans-serif</string>
     <string name="reset_wallpaper_action_title">Reset Wallpaper</string>
     <string name="reset_wallpaper_action_desc">Use default image</string>
+    <string name="restore_pending">Restore pending…</string>
+    <string name="search_hint_text">Search movies, TV, and more</string>
+    <string name="search_menu_title">Search</string>
+    <string name="select_app_customize_rows_title">Customize Home rows</string>
+    <string name="select_app_order_action_description_fixed">Customize order</string>
+    <string name="select_app_order_action_description_recency">Recency order</string>
+    <string name="select_app_order_action_title">Organize apps and games</string>
+    <string name="select_app_order_content_title">Organize apps and games</string>
+    <string name="select_wallpaper_action_desc">Select desired background image</string>
+    <string name="select_wallpaper_action_title">Choose Wallpaper</string>
     <string name="select">Select background.jpg on %s</string>
-    <string name="goback">Back</string>
-    <string name="file_no_access">File not accessible!</string>
+    <string name="settings_dialog_title">Home screen</string>
+    <string name="settings_network">Network</string>
+    <string name="sorting_title">Sorting</string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="system_settings">System</string>
+    <string name="title_app_edit_mode">Reorder apps mode</string>
+    <string name="title_game_edit_mode">Reorder games mode</string>
+    <string name="unknown_album">Unknown</string>
+    <string name="unknown_album_artist">Unknown</string>
+    <string name="unknown_artist">Unknown</string>
+    <string name="unknown_state">…</string>
+    <string name="unknown_title">Unknown</string>
+    <string name="update_pending">Update pending…</string>
+    <string name="v7_preference_off">OFF</string>
+    <string name="v7_preference_on">ON</string>
+    <string name="videos_row_title">Show Videos Row</string>
+    <string name="wallpaper_title">Default Wallpaper</string>
 </resources>

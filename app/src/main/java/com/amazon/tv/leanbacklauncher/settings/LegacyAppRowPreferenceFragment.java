@@ -44,7 +44,11 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
 
     @NonNull
     public GuidanceStylist.Guidance onCreateGuidance(Bundle savedInstanceState) {
-        return new GuidanceStylist.Guidance(getString(R.string.select_app_customize_rows_title), null, getString(R.string.home_screen_order_content_title), ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null));
+        return new GuidanceStylist.Guidance(
+        	getString(R.string.edit_row_title), // title
+        	getString(R.string.select_app_customize_rows_title), // description
+        	getString(R.string.settings_dialog_title), // breadcrumb (home_screen_order_action_title)
+        	ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null));
     }
 
     public void onResume() {
