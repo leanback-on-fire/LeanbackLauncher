@@ -224,44 +224,27 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
         boolean state = RowPreferences.areRecommendationsEnabled(activity);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).title(R.string.recs_row_title).description(statelabel).build());
-        // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS).checkSetId(ACTION_ID_RECOMENDATIONS).checked(state).title(statelabel).description("").build());
 
         // INPUTS
         state = RowPreferences.areInputsEnabled(activity);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).title(R.string.inputs_row_title).description(statelabel).build());
-        // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_INPUTS).checkSetId(ACTION_ID_INPUTS).checked(state).title(statelabel).description("").build());
 
         // FAV
         state = RowPreferences.areFavoritesEnabled(activity);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
         actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.favorites_row_title).description(statelabel).build());
-        // actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
 
         int[] constraints = RowPreferences.getFavoriteRowConstraints(activity);
 
         actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_favorites_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-        // actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.min_rows_title).description(Integer.toString(constraints[0])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
         favIndex = ((i - 1) / 2);
-
-        // MUSIC
-        state = categories.contains(AppCategory.MUSIC);
-        statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.music_row_title).description(statelabel).build());
-        // actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
-
-        constraints = RowPreferences.getRowConstraints(AppCategory.MUSIC, activity);
-
-        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_music_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-
-        musicIndex = ((i - 1) / 2);
 
         // VIDEO
         state = categories.contains(AppCategory.VIDEO);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
         actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.videos_row_title).description(statelabel).build());
-        // actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
 
         constraints = RowPreferences.getRowConstraints(AppCategory.VIDEO, activity);
 
@@ -269,11 +252,21 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
 
         videoIndex = ((i - 1) / 2);
 
+        // MUSIC
+        state = categories.contains(AppCategory.MUSIC);
+        statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.music_row_title).description(statelabel).build());
+
+        constraints = RowPreferences.getRowConstraints(AppCategory.MUSIC, activity);
+
+        actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.max_music_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
+
+        musicIndex = ((i - 1) / 2);
+
         // GAME
         state = categories.contains(AppCategory.GAME);
         statelabel = (state) ? getString(R.string.v7_preference_on) : getString(R.string.v7_preference_off);
         actions.add(new GuidedAction.Builder(activity).id(++i).title(R.string.games_row_title).description(statelabel).build());
-        // actions.add(new GuidedAction.Builder(activity).id(++i).checkSetId(i).checked(state).title(statelabel).description("").build());
 
         constraints = RowPreferences.getRowConstraints(AppCategory.GAME, activity);
 

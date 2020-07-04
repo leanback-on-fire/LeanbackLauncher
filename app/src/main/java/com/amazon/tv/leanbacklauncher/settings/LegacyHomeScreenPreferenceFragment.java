@@ -34,9 +34,9 @@ public class LegacyHomeScreenPreferenceFragment extends GuidedStepSupportFragmen
             if (blacklistCount != -1) {
                 description = getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, blacklistCount, new Object[]{Integer.valueOf(blacklistCount)});
             }
-            actions.add(new Builder(getActivity()).id(1).title(R.string.recommendation_blacklist_action_title).description((CharSequence) description).build());
-            actions.add(new Builder(getActivity()).id(2).title(R.string.home_screen_order_action_title).description(R.string.home_screen_order_desc).build());
-            actions.add(new Builder(getActivity()).id(3).title(R.string.hidden_applications_title).description(R.string.hidden_applications_desc).build());
+            actions.add(new Builder(getActivity()).id(1).title(R.string.home_screen_order_action_title).description(R.string.home_screen_order_desc).build());
+            actions.add(new Builder(getActivity()).id(2).title(R.string.hidden_applications_title).description(R.string.hidden_applications_desc).build());
+            actions.add(new Builder(getActivity()).id(3).title(R.string.recommendation_blacklist_action_title).description((CharSequence) description).build());
             setActions(actions);
         }
     }
@@ -44,13 +44,13 @@ public class LegacyHomeScreenPreferenceFragment extends GuidedStepSupportFragmen
     public void onGuidedActionClicked(GuidedAction action) {
         switch ((int) action.getId()) {
             case 1:
-                GuidedStepSupportFragment.add(getFragmentManager(), new LegacyRecommendationsPreferenceFragment());
-                return;
-            case 2:
                 GuidedStepSupportFragment.add(getFragmentManager(), new LegacyAppsAndGamesPreferenceFragment());
                 return;
-            case 3:
+            case 2:
                 GuidedStepSupportFragment.add(getFragmentManager(), new LegacyHiddenPreferenceFragment());
+                return;
+            case 3:
+                GuidedStepSupportFragment.add(getFragmentManager(), new LegacyRecommendationsPreferenceFragment());
                 return;
             default:
                 return;

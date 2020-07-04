@@ -189,8 +189,6 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             buildRow(RowType.FAVORITES, position++, res.getString(R.string.category_label_favorites), null, null, R.dimen.home_scroll_size_apps, true);
         }
 
-        buildRow(RowType.APPS, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, true);
-
         if (enabledCategories.contains(AppCategory.VIDEO)) {
             buildRow(RowType.VIDEO, position++, res.getString(R.string.category_label_videos), null, null, R.dimen.home_scroll_size_video, true);
         }
@@ -202,6 +200,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         if (enabledCategories.contains(AppCategory.GAME)) {
             buildRow(RowType.GAMES, position++, res.getString(R.string.category_label_games), null, null, R.dimen.home_scroll_size_games, true);
         }
+
+        buildRow(RowType.APPS, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, true);
 
         if (RowPreferences.areInputsEnabled(mMainActivity)) {
             buildRow(RowType.INPUTS, position++, res.getString(R.string.category_label_inputs), null, null, R.dimen.home_scroll_size_inputs, true);
