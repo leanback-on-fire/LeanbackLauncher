@@ -32,7 +32,7 @@ public class FireTVUtils {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             String errorReason = errors.toString();
-            Log.d("Leanback on Fire", "Failed to launch settings-activity: \n" + errorReason);
+            Log.d("LeanbackOnFire", "Failed to launch settings-activity: \n" + errorReason);
         }
     }
 
@@ -80,7 +80,7 @@ public class FireTVUtils {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             String errorReason = errors.toString();
-            Log.d("Leanback on Fire", "Failed to launch store-activity: \n" + errorReason);
+            Log.d("LeanbackOnFire", "Failed to launch store-activity: \n" + errorReason);
         }
     }
 

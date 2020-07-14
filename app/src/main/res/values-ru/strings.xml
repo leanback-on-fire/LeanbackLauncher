@@ -80,7 +80,7 @@
     <string name="goback">Назад</string>
     <string name="hidden_applications_desc">Выбранные приложения не показываются на главном экране</string>
     <string name="hidden_applications_title">Скрытые приложения</string>
-    <string name="home_screen_order_action_title">Настройка вида</string>
+    <string name="home_screen_order_action_title">Настройка главного экрана</string>
     <string name="home_screen_order_content_description">Чтобы изменить порядок приложений и игр, нажмите и удерживайте кнопку «OK» на главном экране</string>
     <string name="home_screen_order_content_title">Сортировка приложений</string>
     <string name="home_screen_order_desc">Порядок баннеров и настройка отображения разделов</string>
