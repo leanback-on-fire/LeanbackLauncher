@@ -131,7 +131,7 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
             gd.setShape(GradientDrawable.RECTANGLE);
             gd.setStroke(stroke, color); // fixed width
-            gd.setCornerRadius(radius + (getResources().getDimensionPixelSize(R.dimen.edit_frame_width) - width) / 2);
+            gd.setCornerRadius(radius + ((getResources().getDimensionPixelSize(R.dimen.edit_frame_width) - width) * size / 100) / 2);
             this.mEditFocusFrame.setImageDrawable(gd); // set new edit frame drawable
         }
         // focus frame (banner_frame_width : banner_frame_height)
