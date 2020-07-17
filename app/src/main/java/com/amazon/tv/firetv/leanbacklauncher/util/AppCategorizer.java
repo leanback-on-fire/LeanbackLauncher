@@ -50,6 +50,7 @@ public class AppCategorizer {
     }
 
     public static final String[] VIDEO_FILTER = new String[]{
+            "abema",
             "air.com.vudu",
             "android.rbtv",
             "appletv",
@@ -71,6 +72,7 @@ public class AppCategorizer {
             "firebat",
             "foxnews",
             "foxnow",
+            "fujitv",
             "fxnow",
             "haystack",
             "hbo",
@@ -124,6 +126,7 @@ public class AppCategorizer {
             "tv.okko",
             "tv.pluto",
             "tv.vintera",
+            "tver",
             "tviztv.tviz",
             "tvplayer",
             "twitch",
