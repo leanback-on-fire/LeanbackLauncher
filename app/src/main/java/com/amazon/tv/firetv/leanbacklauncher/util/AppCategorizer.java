@@ -107,6 +107,7 @@ public class AppCategorizer {
             "ru.rutube",
             "ru.start",
             "ru.tv1",
+            "ru.yourok",
             "serials",
             "showtime",
             "simon.kaelae",
