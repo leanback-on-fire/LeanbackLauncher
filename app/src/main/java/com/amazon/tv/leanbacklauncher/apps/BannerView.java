@@ -29,6 +29,7 @@ import com.amazon.tv.leanbacklauncher.widget.EditModeManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class BannerView extends FrameLayout implements OnLongClickListener, DimmableItem, ParticipatesInLaunchAnimation, ParticipatesInScrollAnimation, OnEditModeChangedListener {
     private RoundedRectOutlineProvider sOutline; // was static
@@ -88,6 +89,7 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             if (this.mAppBanner instanceof LinearLayout) {
                 this.mAppBanner.setOutlineProvider(sOutline);
                 this.mAppBanner.setClipToOutline(true);
+                // this.mAppBanner.setBackgroundColor(getRandomColor());
             }
             View inputBannerView = findViewById(R.id.input_banner);
             if (inputBannerView != null) {
@@ -367,4 +369,10 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
     public AppsAdapter.AppViewHolder getViewHolder() {
         return mViewHolder;
     }
+    
+	private int getRandomColor() {
+		Random rnd = new Random();
+		return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+	}
+
 }
