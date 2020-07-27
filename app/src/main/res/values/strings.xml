@@ -245,12 +245,12 @@ or recommendations will not work properly."</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Unknown</string>
     <string name="update_changes">Changes</string>
-    <string name="update_desc">Check for new version</string>
-    <string name="update_in_progress">Check for updates…</string>
+    <string name="update_desc">Check for new launcher version</string>
+    <string name="update_in_progress">Checking for updates…</string>
     <string name="update_install">Install update</string>
     <string name="update_new_version">Found new version!</string>
-    <string name="update_no_info">No information found.</string>
-    <string name="update_no_updates">No updates found.</string>
+    <string name="update_no_info">No information</string>
+    <string name="update_no_updates">No updates found</string>
     <string name="update_pending">Update pending…</string>
     <string name="update">Update</string>
     <string name="v7_preference_off">OFF</string>
