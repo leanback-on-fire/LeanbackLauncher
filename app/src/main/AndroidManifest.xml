@@ -48,6 +48,7 @@
     <application
         android:name="com.amazon.tv.leanbacklauncher.LauncherApplication"
         android:allowBackup="true"
+        android:banner="@drawable/banner_leanback"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:requiredForAllUsers="true"
