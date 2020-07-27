@@ -85,7 +85,7 @@ public class LegacyUpdatePreferenceFragment extends GuidedStepSupportFragment {
         int position = findActionPositionById(actionInfo.getId());
         notifyActionChanged(position);
 
-        if(lastVersionDouble.compareTo(currentVersionDouble) == 0){
+        if(lastVersionDouble.compareTo(currentVersionDouble) > 0){
             actionInfo.setDescription(getString(R.string.update_new_version));
             List<GuidedAction> listActions = new ArrayList<>();
             listActions.add(new GuidedAction.Builder(requireActivity())
