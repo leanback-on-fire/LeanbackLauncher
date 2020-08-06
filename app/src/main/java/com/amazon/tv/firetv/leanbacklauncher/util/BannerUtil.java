@@ -24,5 +24,6 @@ public class BannerUtil {
         BANNER_OVERRIDES.put("ru.cn.tv", R.drawable.banner_peerstv);
         BANNER_OVERRIDES.put("showtime", R.drawable.banner_showtime);
         BANNER_OVERRIDES.put("tunein.player", R.drawable.banner_tunein);
+        BANNER_OVERRIDES.put("ru.fmplay", R.drawable.banner_fmplay);
     }
 }
