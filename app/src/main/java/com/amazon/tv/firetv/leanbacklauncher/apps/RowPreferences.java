@@ -100,7 +100,7 @@ public class RowPreferences {
     }
 
     public static boolean setRecommendationsEnabled(Context context, boolean value) {
-        if (context.getPackageManager().checkPermission("android.permission.WRITE_SECURE_SETTINGS", context.getPackageName()) != PackageManager.PERMISSION_DENIED) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 || context.getPackageManager().checkPermission("android.permission.WRITE_SECURE_SETTINGS", context.getPackageName()) != PackageManager.PERMISSION_DENIED) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             pref.edit().putBoolean(context.getString(R.string.pref_enable_recommendations_row), value).apply();
         } else {
