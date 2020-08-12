@@ -451,7 +451,7 @@ public class EditableAppsRowView extends ActiveItemsRowView implements OnGlobalF
     }
 
     public void setBannerDrawableUninstallState(boolean uninstalling) {
-        int i = 8;
+        int i = View.GONE;
         ViewHolder lastFocusedViewHolder = getLastFocusedViewHolderInt();
         if (lastFocusedViewHolder != null && (lastFocusedViewHolder.itemView instanceof BannerView)) {
             View itemView = lastFocusedViewHolder.itemView;
@@ -468,14 +468,14 @@ public class EditableAppsRowView extends ActiveItemsRowView implements OnGlobalF
                     int i2;
                     View icon = itemView.findViewById(R.id.banner_icon);
                     if (uninstalling) {
-                        i2 = 8;
+                        i2 = View.GONE;
                     } else {
-                        i2 = 0;
+                        i2 = View.VISIBLE;
                     }
                     icon.setVisibility(i2);
                     View text = itemView.findViewById(R.id.banner_label);
                     if (!uninstalling) {
-                        i = 0;
+                        i = View.VISIBLE;
                     }
                     text.setVisibility(i);
                 }

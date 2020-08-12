@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -66,7 +67,7 @@ public class LauncherWallpaper extends FrameLayout implements HomeScrollFraction
 
     public void resetBackground() {
         this.mOverlay.cancelAnimation();
-        this.mOverlay.setVisibility(8);
+        this.mOverlay.setVisibility(View.GONE);
         this.mFadeMaskExt.cancelAnimation();
         this.mOverlay.setImageDrawable(null);
         this.mBackground.setImageDrawable(null);
@@ -119,7 +120,7 @@ public class LauncherWallpaper extends FrameLayout implements HomeScrollFraction
             this.mOverlay.animateIn(drawable);
         } else if (this.mHasBackgroundImage) {
             this.mOverlay.animateOut(this.mBackground.getDrawable());
-            this.mBackground.setVisibility(8);
+            this.mBackground.setVisibility(View.GONE);
             this.mHasBackgroundImage = false;
         } else {
             this.mDownloader.onImageDelivered();
@@ -129,7 +130,7 @@ public class LauncherWallpaper extends FrameLayout implements HomeScrollFraction
     public void animationDone(boolean visible) {
         if (visible) {
             this.mBackground.setImageDrawable(this.mOverlay.getDrawable());
-            this.mOverlay.setVisibility(8);
+            this.mOverlay.setVisibility(View.GONE);
         } else {
             this.mOverlay.setImageDrawable(null);
         }
@@ -174,24 +175,24 @@ public class LauncherWallpaper extends FrameLayout implements HomeScrollFraction
     private void updateChildVisibility() {
         int i = 8;
         if (this.mInShyMode) {
-            this.mVideoFadeMask.setVisibility(8);
-            this.mVideoFadeMaskExt.setVisibility(8);
+            this.mVideoFadeMask.setVisibility(View.GONE);
+            this.mVideoFadeMaskExt.setVisibility(View.GONE);
             WallpaperImage wallpaperImage = this.mBackground;
             if (this.mHasBackgroundImage) {
                 i = 0;
             }
             wallpaperImage.setVisibility(i);
             if (this.mWallpaper != null) {
-                this.mWallpaper.setVisibility(0);
+                this.mWallpaper.setVisibility(View.VISIBLE);
                 return;
             }
             return;
         }
-        this.mVideoFadeMask.setVisibility(0);
-        this.mVideoFadeMaskExt.setVisibility(0);
-        this.mBackground.setVisibility(8);
+        this.mVideoFadeMask.setVisibility(View.VISIBLE);
+        this.mVideoFadeMaskExt.setVisibility(View.VISIBLE);
+        this.mBackground.setVisibility(View.GONE);
         if (this.mWallpaper != null) {
-            this.mWallpaper.setVisibility(8);
+            this.mWallpaper.setVisibility(View.GONE);
         }
     }
 

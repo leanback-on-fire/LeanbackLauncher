@@ -145,13 +145,13 @@ public class NotificationCardView extends BaseCardView implements DimmableItem, 
         if (image != null) {
             image = image.mutate();
             this.mBadgeImage.setImageDrawable(getDeselectedBadgeIcon(image));
-            this.mBadgeImage.setVisibility(0);
+            this.mBadgeImage.setVisibility(VISIBLE);
             this.mBadgeImageSelected.setImageDrawable(image);
-            this.mBadgeImageSelected.setVisibility(0);
+            this.mBadgeImageSelected.setVisibility(VISIBLE);
             return;
         }
-        this.mBadgeImageSelected.setVisibility(8);
-        this.mBadgeImage.setVisibility(8);
+        this.mBadgeImageSelected.setVisibility(View.GONE);
+        this.mBadgeImage.setVisibility(View.GONE);
     }
 
     private Drawable getDeselectedBadgeIcon(Drawable image) {
@@ -194,7 +194,7 @@ public class NotificationCardView extends BaseCardView implements DimmableItem, 
 
     public void setProgressShown(boolean shown) {
         if (this.mProgBar != null) {
-            this.mProgBar.setVisibility(shown ? 0 : 4);
+            this.mProgBar.setVisibility(shown ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
@@ -330,7 +330,7 @@ public class NotificationCardView extends BaseCardView implements DimmableItem, 
         }
         if (this.mAnimationsEnabled && getVisibility() == 0 && hasWindowFocus() && isAttachedToWindow()) {
             float f2;
-            this.mSelectedMetadataContainer.setVisibility(0);
+            this.mSelectedMetadataContainer.setVisibility(View.VISIBLE);
             setMetadataOpenFraction(expanded ? 0.0f : 1.0f);
             String str = "metadataOpenFraction";
             float[] fArr = new float[2];
@@ -365,7 +365,7 @@ public class NotificationCardView extends BaseCardView implements DimmableItem, 
     private void setMetaDataExpandedImmediate(boolean expanded) {
         setMetadataAlphaAndPositionFraction(expanded ? 1.0f : 0.0f);
         setClipBounds(null);
-        this.mSelectedMetadataContainer.setVisibility(expanded ? 0 : 8);
+        this.mSelectedMetadataContainer.setVisibility(expanded ? View.VISIBLE : View.GONE);
     }
 
     @Keep

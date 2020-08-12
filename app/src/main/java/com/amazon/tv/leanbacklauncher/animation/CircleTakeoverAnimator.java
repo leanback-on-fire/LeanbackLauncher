@@ -18,7 +18,7 @@ final class CircleTakeoverAnimator extends ForwardingAnimator<Animator> {
         }
 
         public void onAnimationStart(Animator animator) {
-            CircleTakeoverAnimator.this.mCircleLayerView.setVisibility(0);
+            CircleTakeoverAnimator.this.mCircleLayerView.setVisibility(View.VISIBLE);
         }
 
         public void onAnimationCancel(Animator animation) {
@@ -38,7 +38,7 @@ final class CircleTakeoverAnimator extends ForwardingAnimator<Animator> {
     }
 
     public void reset() {
-        this.mCircleLayerView.setVisibility(4);
+        this.mCircleLayerView.setVisibility(View.INVISIBLE);
     }
 
     public void pause() {

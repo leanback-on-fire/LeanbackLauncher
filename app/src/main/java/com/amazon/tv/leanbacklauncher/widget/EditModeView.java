@@ -78,7 +78,7 @@ public final class EditModeView extends RelativeLayout implements OnClickListene
     }
 
     public void onEditModeChanged(boolean editMode) {
-        int i = 0;
+        int i = View.VISIBLE;
         if (!editMode) {
             setBannerUninstallMode(false);
             if (hasFocus()) {
@@ -86,7 +86,7 @@ public final class EditModeView extends RelativeLayout implements OnClickListene
             }
         }
         if (!editMode) {
-            i = 8;
+            i = View.GONE;
         }
         setVisibility(i);
         setAlpha(editMode ? 1.0f : 0.0f);
@@ -94,7 +94,7 @@ public final class EditModeView extends RelativeLayout implements OnClickListene
 
     public void onSelectedChanged(BannerView v, boolean selected) {
         int i;
-        int i2 = 8;
+        int i2 = View.GONE;
         if (selected) {
             this.mCurSelectedBanner = v;
         } else {
@@ -102,45 +102,45 @@ public final class EditModeView extends RelativeLayout implements OnClickListene
         }
         ImageView imageView = this.mUninstallIconCircle;
         if (selected) {
-            i = 0;
+            i = View.VISIBLE;
         } else {
-            i = 8;
+            i = View.GONE;
         }
         imageView.setVisibility(i);
         TextView textView = this.mUninstallText;
         if (selected) {
-            i = 0;
+            i = View.VISIBLE;
         } else {
-            i = 8;
+            i = View.GONE;
         }
         textView.setVisibility(i);
         imageView = this.mUninstallIcon;
         if (selected) {
-            i = 0;
+            i = View.VISIBLE;
         } else {
-            i = 8;
+            i = View.GONE;
         }
         imageView.setVisibility(i);
         imageView = this.mUninstallCircle;
         if (selected) {
-            i = 0;
+            i = View.VISIBLE;
         } else {
-            i = 8;
+            i = View.GONE;
         }
         imageView.setVisibility(i);
         Button button = this.mFinishButton;
         if (!selected) {
-            i2 = 0;
+            i2 = View.VISIBLE;
         }
         // button.setVisibility(i2); // useless DONE
     }
 
     public void clearUninstallAndFinishLayers() {
-        this.mUninstallIconCircle.setVisibility(8);
-        this.mUninstallText.setVisibility(8);
-        this.mUninstallIcon.setVisibility(8);
-        this.mUninstallCircle.setVisibility(8);
-        this.mFinishButton.setVisibility(8);
+        this.mUninstallIconCircle.setVisibility(View.GONE);
+        this.mUninstallText.setVisibility(View.GONE);
+        this.mUninstallIcon.setVisibility(View.GONE);
+        this.mUninstallCircle.setVisibility(View.GONE);
+        this.mFinishButton.setVisibility(View.GONE);
     }
 
     public void addActionListener(EditModeViewActionListener listener) {
@@ -161,7 +161,7 @@ public final class EditModeView extends RelativeLayout implements OnClickListene
         setUninstallCircleLayout();
         setUninstallIconCircleLayout();
         setUninstallTextLayout();
-        this.mUninstallApp.setVisibility(uninstallMode ? 0 : 8);
+        this.mUninstallApp.setVisibility(uninstallMode ? View.VISIBLE : View.GONE);
     }
 
     public void setBannerUninstallModeWithAnimation(boolean uninstallMode, BannerView curView, EditableAppsRowView activeItems) {

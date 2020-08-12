@@ -17,6 +17,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -231,12 +232,12 @@ public abstract class RecommendationView extends ViewGroup implements Target<Bit
                 this.mProgressBar.setLayoutDirection(0);
                 addView(this.mProgressBar);
             }
-            this.mProgressBar.setVisibility(0);
+            this.mProgressBar.setVisibility(VISIBLE);
             this.mProgressBar.setMax(progressMax);
             this.mProgressBar.setProgress(progress);
             this.mDimmer.addDimTarget(this.mProgressDrawable);
         } else if (this.mProgressBar != null) {
-            this.mProgressBar.setVisibility(8);
+            this.mProgressBar.setVisibility(View.GONE);
             this.mDimmer.removeDimTarget(this.mProgressDrawable);
         }
     }
@@ -324,16 +325,16 @@ public abstract class RecommendationView extends ViewGroup implements Target<Bit
     public void onFocusLevelSettled(boolean focused) {
         if (focused) {
             bindExpandedInfoArea();
-            this.mSourceNameView.setVisibility(8);
-            this.mTitleView.setVisibility(0);
+            this.mSourceNameView.setVisibility(View.GONE);
+            this.mTitleView.setVisibility(View.VISIBLE);
             this.mTitleView.setAlpha(1.0f);
-            this.mContentView.setVisibility(0);
+            this.mContentView.setVisibility(View.VISIBLE);
             this.mContentView.setAlpha(1.0f);
         } else {
-            this.mSourceNameView.setVisibility(0);
+            this.mSourceNameView.setVisibility(View.VISIBLE);
             this.mSourceNameView.setAlpha(1.0f);
-            this.mTitleView.setVisibility(8);
-            this.mContentView.setVisibility(8);
+            this.mTitleView.setVisibility(View.GONE);
+            this.mContentView.setVisibility(View.GONE);
         }
         setClipBounds(null);
         requestLayout();
@@ -346,9 +347,9 @@ public abstract class RecommendationView extends ViewGroup implements Target<Bit
                 bindExpandedInfoArea();
                 requestLayout();
             }
-            this.mSourceNameView.setVisibility(0);
-            this.mTitleView.setVisibility(0);
-            this.mContentView.setVisibility(0);
+            this.mSourceNameView.setVisibility(View.VISIBLE);
+            this.mTitleView.setVisibility(View.VISIBLE);
+            this.mContentView.setVisibility(View.VISIBLE);
             if (this.mInfoAreaExpandedHeight == 0) {
                 measureExpandedInfoArea(calculateCardWidth());
             }

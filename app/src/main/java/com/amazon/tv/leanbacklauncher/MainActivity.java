@@ -1031,7 +1031,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 f = 0.0f;
             }
             editModeWallpaper.setAlpha(f);
-            getEditModeWallpaper().setVisibility(0);
+            getEditModeWallpaper().setVisibility(View.VISIBLE);
             this.mHomeAdapter.setRowAlphas(editMode ? 0 : 1);
         }
         if (!editMode && this.mAppEditMode) {

@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.amazon.tv.leanbacklauncher.R;
 
@@ -52,7 +53,7 @@ public class AnimatedLayer extends WallpaperImage {
                 if (AnimatedLayer.this.mRunningAnimation == AnimatedLayer.this.mFadeOutAnim) {
                     AnimatedLayer.this.mRunningAnimation = null;
                 }
-                AnimatedLayer.this.setVisibility(8);
+                AnimatedLayer.this.setVisibility(View.GONE);
                 if (AnimatedLayer.this.mListener != null) {
                     AnimatedLayer.this.mListener.animationDone(false);
                 }
@@ -75,7 +76,7 @@ public class AnimatedLayer extends WallpaperImage {
 
     public void animateIn(Drawable image) {
         cancelAnimation();
-        setVisibility(0);
+        setVisibility(View.VISIBLE);
         setImageDrawable(image);
         this.mRunningAnimation = this.mFadeInAnim;
         this.mFadeInAnim.start();
@@ -89,7 +90,7 @@ public class AnimatedLayer extends WallpaperImage {
 
     public void animateOut(Drawable image) {
         cancelAnimation();
-        setVisibility(0);
+        setVisibility(View.VISIBLE);
         setImageDrawable(image);
         this.mRunningAnimation = this.mFadeOutAnim;
         this.mFadeOutAnim.start();

@@ -109,15 +109,15 @@ public class EditModeUninstallAnimationHolder {
         this.mBannerAnimation.setAnimationListener(new AnimationListener() {
             public void onAnimationEnd(Animation arg0) {
                 if (uninstallState == EditModeUninstallState.ENTER) {
-                    EditModeUninstallAnimationHolder.this.mUninstallBanner.setVisibility(0);
+                    EditModeUninstallAnimationHolder.this.mUninstallBanner.setVisibility(View.VISIBLE);
                     return;
                 }
-                EditModeUninstallAnimationHolder.this.mUninstallBanner.setVisibility(8);
+                EditModeUninstallAnimationHolder.this.mUninstallBanner.setVisibility(View.GONE);
                 activeitems.setBannerDrawableUninstallState(false);
             }
 
             public void onAnimationStart(Animation arg0) {
-                EditModeUninstallAnimationHolder.this.mUninstallBanner.setVisibility(0);
+                EditModeUninstallAnimationHolder.this.mUninstallBanner.setVisibility(View.VISIBLE);
                 if (uninstallState == EditModeUninstallState.ENTER) {
                     activeitems.setBannerDrawableUninstallState(true);
                 }

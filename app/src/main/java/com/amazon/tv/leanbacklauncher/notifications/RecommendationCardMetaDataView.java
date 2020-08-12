@@ -18,6 +18,6 @@ public class RecommendationCardMetaDataView extends RelativeLayout {
     }
 
     public void setVisibility(int visibility) {
-        super.setVisibility(0);
+        super.setVisibility(VISIBLE);
     }
 }

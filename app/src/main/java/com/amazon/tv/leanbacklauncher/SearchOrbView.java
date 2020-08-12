@@ -406,7 +406,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
             this.mKeyboardOrbView.setAlpha(prog);
             FrameLayout frameLayout = this.mKeyboardContainer;
             if (!visible) {
-                i = 4;
+                i = View.INVISIBLE;
             }
             frameLayout.setVisibility(i);
             this.mKeyboardContainer.setScaleX(prog);

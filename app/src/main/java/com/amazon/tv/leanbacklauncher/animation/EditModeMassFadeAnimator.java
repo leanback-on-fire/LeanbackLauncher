@@ -92,10 +92,10 @@ public final class EditModeMassFadeAnimator extends PropagatingAnimator<EditMode
         if (!holder.mOnOffOnly) {
             holder.view.setAlpha(holder.mStartAlpha);
         } else if (holder.mStartAlpha == 0.0f) {
-            holder.view.setVisibility(4);
+            holder.view.setVisibility(View.INVISIBLE);
         } else {
             holder.view.setAlpha(1.0f);
-            holder.view.setVisibility(0);
+            holder.view.setVisibility(View.VISIBLE);
         }
     }
 
@@ -104,17 +104,17 @@ public final class EditModeMassFadeAnimator extends PropagatingAnimator<EditMode
         if (!holder.mOnOffOnly) {
             holder.view.setAlpha(alpha);
         } else if (alpha == 0.0f) {
-            holder.view.setVisibility(4);
+            holder.view.setVisibility(View.INVISIBLE);
         } else {
             holder.view.setAlpha(1.0f);
-            holder.view.setVisibility(0);
+            holder.view.setVisibility(View.VISIBLE);
         }
     }
 
     protected void onResetView(ViewHolder holder) {
         if (holder.mOnOffOnly) {
             float f;
-            holder.view.setVisibility(holder.mDirection == Direction.FADE_IN ? 4 : 0);
+            holder.view.setVisibility(holder.mDirection == Direction.FADE_IN ? View.INVISIBLE : View.VISIBLE);
             View view = holder.view;
             if (holder.mDirection == Direction.FADE_IN) {
                 f = 0.0f;

@@ -196,7 +196,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         }
 
         void init(TvRecommendation rec) {
-            this.itemView.setVisibility(0);
+            this.itemView.setVisibility(View.VISIBLE);
             boolean refreshSameContent = NotificationUtils.equals(rec, this.mRecommendation);
             if (this.mRecommendationView instanceof CaptivePortalNotificationCardView) {
                 ((CaptivePortalNotificationCardView) this.mRecommendationView).setRecommendation(rec, !refreshSameContent);
