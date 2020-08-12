@@ -7,11 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 
-import com.bumptech.glide.request.target.SizeReadyCallback;
+import androidx.annotation.NonNull;
+
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.tvrecommendations.TvRecommendation;
+import com.bumptech.glide.request.target.SizeReadyCallback;
 
 public class CaptivePortalNotificationCardView extends RecommendationView {
     private Bitmap mNetworkIcon;

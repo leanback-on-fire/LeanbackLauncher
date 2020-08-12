@@ -2,7 +2,6 @@ package com.amazon.tv.leanbacklauncher;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.util.Log;
 
 class PrimesSettings {
     private final ContentResolver mContentResolver;

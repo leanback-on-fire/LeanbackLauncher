@@ -61,7 +61,7 @@ class NowPlayCardListener implements OnActiveSessionsChangedListener {
         }
 
         public void onPlaybackStateChanged(PlaybackState state) {
-            NowPlayCardListener listener = (NowPlayCardListener) this.mListener.get();
+            NowPlayCardListener listener = this.mListener.get();
             if (listener != null) {
                 if (Log.isLoggable("NowPlayCardListener", 3)) {
                     Log.d("NowPlayCardListener", "onPlaybackStateChanged: " + state);
@@ -71,7 +71,7 @@ class NowPlayCardListener implements OnActiveSessionsChangedListener {
         }
 
         public void onMetadataChanged(MediaMetadata metadata) {
-            NowPlayCardListener listener = (NowPlayCardListener) this.mListener.get();
+            NowPlayCardListener listener = this.mListener.get();
             if (listener != null) {
                 listener.updateMetadata(metadata);
             }
@@ -95,7 +95,7 @@ class NowPlayCardListener implements OnActiveSessionsChangedListener {
     }
 
     public void onActiveSessionsChanged(List<MediaController> controllers) {
-        updateMediaSessionCallback(controllers.size() == 0 ? null : (MediaController) controllers.get(0));
+        updateMediaSessionCallback(controllers.size() == 0 ? null : controllers.get(0));
     }
 
     private void updateMediaSessionCallback(MediaController activeController) {
@@ -272,7 +272,7 @@ class NowPlayCardListener implements OnActiveSessionsChangedListener {
         List<MediaController> controllers = sessionManager.getActiveSessions(null);
         MediaController controller = null;
         for (int i = 0; i < controllers.size(); i++) {
-            MediaController aController = (MediaController) controllers.get(i);
+            MediaController aController = controllers.get(i);
             if ((aController.getFlags() & 2) != 0) {
                 controller = aController;
                 break;

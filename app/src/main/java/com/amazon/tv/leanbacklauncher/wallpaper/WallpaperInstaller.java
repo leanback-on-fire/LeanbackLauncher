@@ -4,25 +4,24 @@ import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.Shader.TileMode;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.util.Util;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 
 public class WallpaperInstaller {
     private static WallpaperInstaller sInstance;
@@ -74,22 +73,22 @@ public class WallpaperInstaller {
         Resources resources = this.mContext.getResources();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.mContext);
         Drawable systemBg = null;
-		// user background
-		if (!prefs.getString("wallpaper_image", "").equals("")) {
-			Log.d("getWallpaperBitmap", "path " + prefs.getString("wallpaper_image", ""));
-        	systemBg = Drawable.createFromPath(prefs.getString("wallpaper_image", ""));
+        // user background
+        if (!prefs.getString("wallpaper_image", "").equals("")) {
+            Log.d("getWallpaperBitmap", "path " + prefs.getString("wallpaper_image", ""));
+            systemBg = Drawable.createFromPath(prefs.getString("wallpaper_image", ""));
         }
         // custom background
         if (systemBg == null) {
-        	File file = new File(this.mContext.getFilesDir(),"background.jpg");
-        	if (file.canRead()) {
-				Log.d("getWallpaperBitmap", "path " + this.mContext.getFilesDir().getPath() + "/background.jpg");
-        		systemBg = Drawable.createFromPath(this.mContext.getFilesDir().getPath() + "/background.jpg");
-        	}
+            File file = new File(this.mContext.getFilesDir(), "background.jpg");
+            if (file.canRead()) {
+                Log.d("getWallpaperBitmap", "path " + this.mContext.getFilesDir().getPath() + "/background.jpg");
+                systemBg = Drawable.createFromPath(this.mContext.getFilesDir().getPath() + "/background.jpg");
+            }
         }
         // default background
         if (systemBg == null)
-        	systemBg = resources.getDrawable(R.drawable.bg_default, null);
+            systemBg = resources.getDrawable(R.drawable.bg_default, null);
         int intrinsicWidth = systemBg.getIntrinsicWidth();
         int intrinsicHeight = systemBg.getIntrinsicHeight();
         int wallpaperWidth = Util.getDisplayMetrics(this.mContext).widthPixels;

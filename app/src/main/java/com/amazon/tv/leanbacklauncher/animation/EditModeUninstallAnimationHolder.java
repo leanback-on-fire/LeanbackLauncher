@@ -31,7 +31,7 @@ public class EditModeUninstallAnimationHolder {
         this.mUninstallIcon = editMode.getUninstallIcon();
         this.mUninstallText = editMode.getUninstallText();
         this.mUninstallIconCircle = editMode.getUninstallIconCircle();
-        this.mAnimationDuration = ((long) this.mUninstallBanner.getResources().getInteger(R.integer.edit_mode_uninstall_anim_duration));
+        this.mAnimationDuration = this.mUninstallBanner.getResources().getInteger(R.integer.edit_mode_uninstall_anim_duration);
     }
 
     private void addPositionDependantAnimations(EditModeUninstallState uninstallState, BannerView curBanner, EditableAppsRowView activeitems) {
@@ -126,7 +126,7 @@ public class EditModeUninstallAnimationHolder {
             public void onAnimationRepeat(Animation arg0) {
             }
         });
-        this.mBannerAnimation.setDuration((long) this.mUninstallBanner.getResources().getInteger(R.integer.edit_mode_uninstall_anim_duration));
+        this.mBannerAnimation.setDuration(this.mUninstallBanner.getResources().getInteger(R.integer.edit_mode_uninstall_anim_duration));
     }
 
     public void startAnimation(EditModeUninstallState uninstallState, BannerView curBanner, EditableAppsRowView activeitems) {

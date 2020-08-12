@@ -1,13 +1,13 @@
 package com.amazon.tv.leanbacklauncher.settings;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v17.leanback.app.GuidedStepFragment;
-import android.support.v17.leanback.app.GuidedStepSupportFragment;
-import android.support.v17.leanback.widget.GuidanceStylist.Guidance;
-import android.support.v17.leanback.widget.GuidedAction;
-import android.support.v17.leanback.widget.GuidedAction.Builder;
-import android.support.v4.content.res.ResourcesCompat;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.leanback.app.GuidedStepSupportFragment;
+import androidx.leanback.widget.GuidanceStylist.Guidance;
+import androidx.leanback.widget.GuidedAction;
+import androidx.leanback.widget.GuidedAction.Builder;
 
 import com.amazon.tv.leanbacklauncher.BuildConfig;
 import com.amazon.tv.leanbacklauncher.R;
@@ -33,12 +33,12 @@ public class LegacyHomeScreenPreferenceFragment extends GuidedStepSupportFragmen
 
             String description = null;
             if (blacklistCount != -1) {
-                description = getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, blacklistCount, new Object[]{Integer.valueOf(blacklistCount)});
+                description = getResources().getQuantityString(R.plurals.recommendation_blacklist_action_description, blacklistCount, Integer.valueOf(blacklistCount));
             }
             String version = String.format("%s v%s", getString(R.string.app_name), BuildConfig.VERSION_NAME);
             actions.add(new Builder(getActivity()).id(1).title(R.string.home_screen_order_action_title).description(R.string.home_screen_order_desc).build());
             actions.add(new Builder(getActivity()).id(2).title(R.string.hidden_applications_title).description(R.string.hidden_applications_desc).build());
-            actions.add(new Builder(getActivity()).id(3).title(R.string.recommendation_blacklist_action_title).description((CharSequence) description).build());
+            actions.add(new Builder(getActivity()).id(3).title(R.string.recommendation_blacklist_action_title).description(description).build());
             actions.add(new Builder(getActivity()).id(4).title(R.string.update).description(version).build());
             setActions(actions);
         }

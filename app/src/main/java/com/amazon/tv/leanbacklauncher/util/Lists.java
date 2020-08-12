@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.amazon.tv.leanbacklauncher.util.Lists.Change.*;
+import static com.amazon.tv.leanbacklauncher.util.Lists.Change.Type;
 
 public final class Lists {
 

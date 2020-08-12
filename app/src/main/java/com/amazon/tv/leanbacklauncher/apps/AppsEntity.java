@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher.apps;
 
 import android.content.Context;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
@@ -33,9 +34,9 @@ public class AppsEntity {
     }
 
     public long getLastOpenedTimeStamp(String component) {
-        Long lastOpened = (Long) this.mLastOpened.get(component);
+        Long lastOpened = this.mLastOpened.get(component);
         if (lastOpened == null) {
-            lastOpened = (Long) this.mLastOpened.get(null);
+            lastOpened = this.mLastOpened.get(null);
             if (lastOpened == null) {
                 lastOpened = Long.valueOf(0);
             }
@@ -44,9 +45,9 @@ public class AppsEntity {
     }
 
     public long getOrder(String component) {
-        Long order = (Long) this.mOrder.get(component);
+        Long order = this.mOrder.get(component);
         if ((order == null || order.longValue() == 0) && this.mOrder.keySet().size() == 1) {
-            order = (Long) this.mOrder.values().iterator().next();
+            order = this.mOrder.values().iterator().next();
             if (order == null) {
                 order = Long.valueOf(0);
             }

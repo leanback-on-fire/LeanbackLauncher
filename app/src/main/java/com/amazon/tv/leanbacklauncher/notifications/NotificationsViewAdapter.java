@@ -2,18 +2,19 @@ package com.amazon.tv.leanbacklauncher.notifications;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.util.ArraySet;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.util.DiffUtil.Callback;
-import android.support.v7.util.DiffUtil.DiffResult;
-import android.support.v7.util.ListUpdateCallback;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 
+import androidx.collection.ArraySet;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.DiffUtil.Callback;
+import androidx.recyclerview.widget.DiffUtil.DiffResult;
+import androidx.recyclerview.widget.ListUpdateCallback;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
+import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.util.Preconditions;
 import com.amazon.tv.leanbacklauncher.widget.RowViewAdapter;
 import com.amazon.tv.tvrecommendations.TvRecommendation;
-import com.amazon.tv.leanbacklauncher.MainActivity;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public abstract class NotificationsViewAdapter<VH extends ViewHolder> extends Ro
                 }
 
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return NotificationUtils.equals((TvRecommendation) syncedList.get(oldItemPosition), (TvRecommendation) masterList.get(newItemPosition));
+                    return NotificationUtils.equals(syncedList.get(oldItemPosition), masterList.get(newItemPosition));
                 }
 
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
@@ -217,7 +218,7 @@ public abstract class NotificationsViewAdapter<VH extends ViewHolder> extends Ro
     }
 
     public final void setNotificationRowViewFlipper(HomeScreenMessaging homeScreenMessaging) {
-        this.mHomeScreenMessaging = (HomeScreenMessaging) Preconditions.checkNotNull(homeScreenMessaging);
+        this.mHomeScreenMessaging = Preconditions.checkNotNull(homeScreenMessaging);
     }
 
     private void updateRowVisibility() {
@@ -262,7 +263,7 @@ public abstract class NotificationsViewAdapter<VH extends ViewHolder> extends Ro
             }
 
             public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                return NotificationUtils.equals((TvRecommendation) snapshot.get(oldItemPosition), (TvRecommendation) NotificationsViewAdapter.this.mSyncedList.get(newItemPosition));
+                return NotificationUtils.equals(snapshot.get(oldItemPosition), NotificationsViewAdapter.this.mSyncedList.get(newItemPosition));
             }
 
             public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
@@ -337,7 +338,7 @@ public abstract class NotificationsViewAdapter<VH extends ViewHolder> extends Ro
 
     private int indexOfMasterRecommendation(TvRecommendation rec) {
         for (int i = 0; i < this.mMasterList.size(); i++) {
-            if (NotificationUtils.equals(rec, (TvRecommendation) this.mMasterList.get(i))) {
+            if (NotificationUtils.equals(rec, this.mMasterList.get(i))) {
                 return i;
             }
         }

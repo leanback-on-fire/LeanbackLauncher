@@ -3,8 +3,6 @@ package com.amazon.tv.leanbacklauncher;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView.Adapter;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,9 @@ import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.amazon.tv.leanbacklauncher.HomeScrollManager.HomeScrollFractionListener;
 import com.amazon.tv.leanbacklauncher.animation.FadeAnimator;
@@ -51,7 +52,7 @@ public class ActiveFrame extends LinearLayout implements HomeScrollFractionListe
         public RowExpandAnimation(float start, float end) {
             this.mStartValue = start;
             this.mDelta = end - start;
-            setDuration((long) ActiveFrame.this.mAnimDuration);
+            setDuration(ActiveFrame.this.mAnimDuration);
             setInterpolator(AnimationUtils.loadInterpolator(ActiveFrame.this.getContext(), 17563661));
         }
 
@@ -254,8 +255,8 @@ public class ActiveFrame extends LinearLayout implements HomeScrollFractionListe
                 if (numRows <= 0) {
                     numRows = 1;
                 }
-                int numCol = (int) Math.ceil((double) (((float) itemCount) / ((float) numRows)));
-                int selectedCol = (int) Math.floor((double) (((float) this.mRow.getSelectedPosition()) / ((float) numRows)));
+                int numCol = (int) Math.ceil(((float) itemCount) / ((float) numRows));
+                int selectedCol = (int) Math.floor(((float) this.mRow.getSelectedPosition()) / ((float) numRows));
                 View selectedView = null;
                 if (itemCount > 0 && selected >= 0) {
                     ViewHolder holder = this.mRow.findViewHolderForAdapterPosition(selected);

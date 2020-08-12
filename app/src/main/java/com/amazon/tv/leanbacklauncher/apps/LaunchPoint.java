@@ -13,22 +13,23 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.palette.graphics.Palette;
+
+import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
+import com.amazon.tv.firetv.leanbacklauncher.util.AppCategorizer;
+import com.amazon.tv.firetv.leanbacklauncher.util.BannerUtil;
+import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil;
+import com.amazon.tv.leanbacklauncher.R;
+import com.amazon.tv.leanbacklauncher.util.Util;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.amazon.tv.leanbacklauncher.R;
-import com.amazon.tv.leanbacklauncher.util.Util;
-import com.amazon.tv.firetv.leanbacklauncher.util.AppCategorizer;
-import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
-import com.amazon.tv.firetv.leanbacklauncher.util.BannerUtil;
-import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil;
 
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public class LaunchPoint {
         this.mPackageName = pkgName;
         this.mPackageInstallTime = Util.getInstallTimeForPackage(context, this.mPackageName);
         if (launchIntent != null) {
-            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             if (this.mLaunchIntent.getComponent() != null) {
                 this.mComponentName = this.mLaunchIntent.getComponent().flattenToString();
             }
@@ -91,7 +92,7 @@ public class LaunchPoint {
 
         this.mLaunchColor = launchColor;
         if (launchIntent != null) {
-            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             if (this.mLaunchIntent.getComponent() != null) {
                 this.mComponentName = this.mLaunchIntent.getComponent().flattenToString();
                 this.mPackageName = this.mLaunchIntent.getComponent().getPackageName();
@@ -126,7 +127,7 @@ public class LaunchPoint {
         this.mIconDrawable = iconDrawable;
         this.mLaunchColor = launchColor;
         if (launchIntent != null) {
-            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            this.mLaunchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             if (this.mLaunchIntent.getComponent() != null) {
                 this.mComponentName = this.mLaunchIntent.getComponent().flattenToString();
                 this.mPackageName = this.mLaunchIntent.getComponent().getPackageName();
@@ -248,7 +249,7 @@ public class LaunchPoint {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.LAUNCHER");
         intent.setComponent(componentName);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         return intent;
     }
 

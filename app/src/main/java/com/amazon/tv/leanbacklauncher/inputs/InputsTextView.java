@@ -5,11 +5,12 @@ import android.content.res.Resources;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.amazon.tv.leanbacklauncher.R;
 
-public final class InputsTextView extends TextView {
+public final class InputsTextView extends AppCompatTextView {
     private TypedValue mPaddingDefault = new TypedValue();
     private TypedValue mPaddingWrapped = new TypedValue();
     private Resources mRes;
@@ -29,11 +30,6 @@ public final class InputsTextView extends TextView {
 
     public InputsTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    public InputsTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
 
@@ -88,9 +84,6 @@ public final class InputsTextView extends TextView {
             return false;
         }
         int lines = l.getLineCount();
-        if (lines <= 0 || l.getEllipsisCount(lines - 1) <= 0) {
-            return false;
-        }
-        return true;
+        return lines > 0 && l.getEllipsisCount(lines - 1) > 0;
     }
 }

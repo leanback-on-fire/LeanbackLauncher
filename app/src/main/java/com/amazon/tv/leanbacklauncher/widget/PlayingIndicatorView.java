@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
 import com.amazon.tv.leanbacklauncher.R;
 
 public class PlayingIndicatorView extends View {
@@ -32,7 +33,7 @@ public class PlayingIndicatorView extends View {
         this.mAnimator.setInterpolator(new LinearInterpolator());
         this.mAnimator.setRepeatCount(-1);
         this.mAnimator.setDuration(100000000);
-        this.mAnimator.setFloatValues(new float[]{0.0f, (float) (this.mAnimator.getDuration() / 80)});
+        this.mAnimator.setFloatValues(0.0f, (float) (this.mAnimator.getDuration() / 80));
         this.mAnimator.addUpdateListener(new AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 PlayingIndicatorView.this.mProgress = ((Float) animation.getAnimatedValue()).floatValue();

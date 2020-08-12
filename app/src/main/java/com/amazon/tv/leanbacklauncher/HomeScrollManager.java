@@ -2,11 +2,13 @@ package com.amazon.tv.leanbacklauncher;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation;
+
 import java.util.ArrayList;
 
 public class HomeScrollManager {
@@ -64,7 +66,7 @@ public class HomeScrollManager {
 
     private void updateListeners() {
         for (int i = 0; i < this.mScrollListeners.size(); i++) {
-            ((HomeScrollFractionListener) this.mScrollListeners.get(i)).onScrollPositionChanged(this.mScrollPosition, this.mFractionFromTop);
+            this.mScrollListeners.get(i).onScrollPositionChanged(this.mScrollPosition, this.mFractionFromTop);
         }
     }
 

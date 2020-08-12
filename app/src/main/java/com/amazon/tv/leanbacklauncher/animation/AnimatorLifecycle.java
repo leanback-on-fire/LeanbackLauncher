@@ -8,6 +8,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.amazon.tv.leanbacklauncher.util.Preconditions;
 
 import java.io.PrintWriter;
@@ -137,23 +138,23 @@ public final class AnimatorLifecycle implements Joinable, Resettable {
     }
 
     public boolean isInitialized() {
-        return (this.mAnimation == null || (this.mFlags & 1) == 0) ? false : true;
+        return this.mAnimation != null && (this.mFlags & 1) != 0;
     }
 
     public boolean isScheduled() {
-        return (this.mAnimation == null || (this.mFlags & 2) == 0) ? false : true;
+        return this.mAnimation != null && (this.mFlags & 2) != 0;
     }
 
     public boolean isPrimed() {
-        return (this.mAnimation == null || (this.mFlags & 4) == 0) ? false : true;
+        return this.mAnimation != null && (this.mFlags & 4) != 0;
     }
 
     public boolean isRunning() {
-        return (this.mAnimation == null || (this.mFlags & 8) == 0) ? false : true;
+        return this.mAnimation != null && (this.mFlags & 8) != 0;
     }
 
     public boolean isFinished() {
-        return (this.mAnimation == null || (this.mFlags & 16) == 0) ? false : true;
+        return this.mAnimation != null && (this.mFlags & 16) != 0;
     }
 
     public void setOnAnimationFinishedListener(OnAnimationFinishedListener listener) {
@@ -180,9 +181,9 @@ public final class AnimatorLifecycle implements Joinable, Resettable {
 
     public void dump(String prefix, PrintWriter writer, ViewGroup root) {
         String str;
-        writer.format("%s%s State:\n", new Object[]{prefix, getClass().getSimpleName()});
+        writer.format("%s%s State:\n", prefix, getClass().getSimpleName());
         prefix = prefix + "  ";
-        writer.format("%sstate: ", new Object[]{prefix});
+        writer.format("%sstate: ", prefix);
         switch (this.mFlags & 31) {
             case 1:
                 writer.write("INIT");
@@ -204,10 +205,10 @@ public final class AnimatorLifecycle implements Joinable, Resettable {
                 break;
         }
         writer.println();
-        writer.format("%sflags: ", new Object[]{prefix});
+        writer.format("%sflags: ", prefix);
         writer.write((this.mFlags & 32) == 0 ? 46 : 82);
         writer.println();
-        writer.format("%slastKnownEpicenter: %d,%d\n", new Object[]{prefix, Integer.valueOf(this.lastKnownEpicenter.centerX()), Integer.valueOf(this.lastKnownEpicenter.centerY())});
+        writer.format("%slastKnownEpicenter: %d,%d\n", prefix, Integer.valueOf(this.lastKnownEpicenter.centerX()), Integer.valueOf(this.lastKnownEpicenter.centerY()));
         String str2 = "%smAnimation: %s\n";
         Object[] objArr = new Object[2];
         objArr[0] = prefix;
@@ -218,23 +219,23 @@ public final class AnimatorLifecycle implements Joinable, Resettable {
         }
         objArr[1] = str;
         writer.format(str2, objArr);
-        writer.format("%sAnimatable Views:\n", new Object[]{prefix});
+        writer.format("%sAnimatable Views:\n", prefix);
         if (root != null) {
             dumpViewHierarchy(prefix + "  ", writer, root);
         }
         if (this.mRecentAnimationDumps != null) {
-            writer.format("%smRecentAnimationDumps: [\n", new Object[]{prefix});
+            writer.format("%smRecentAnimationDumps: [\n", prefix);
             int n = this.mRecentAnimationDumps.size();
             for (int i = 0; i < n; i++) {
-                writer.format("%s    %d) %s\n", new Object[]{prefix, Integer.valueOf(i), ((String) this.mRecentAnimationDumps.get(i)).replaceAll("\n", "\n" + prefix + "    ")});
+                writer.format("%s    %d) %s\n", prefix, Integer.valueOf(i), this.mRecentAnimationDumps.get(i).replaceAll("\n", "\n" + prefix + "    "));
             }
-            writer.format("%s]\n", new Object[]{prefix});
+            writer.format("%s]\n", prefix);
         }
     }
 
     private void dumpViewHierarchy(String prefix, PrintWriter writer, View view) {
         if (view instanceof ParticipatesInLaunchAnimation) {
-            writer.format("%s%s\n", new Object[]{prefix, toShortString(view)});
+            writer.format("%s%s\n", prefix, toShortString(view));
         }
         if (view instanceof ViewGroup) {
             ViewGroup group = (ViewGroup) view;
@@ -251,7 +252,7 @@ public final class AnimatorLifecycle implements Joinable, Resettable {
             return "null";
         }
         char c2;
-        StringBuilder append = new StringBuilder().append(view.getClass().getSimpleName()).append('@').append(Integer.toHexString(System.identityHashCode(view))).append("{").append(String.format("%.1f", new Object[]{Float.valueOf(view.getAlpha())})).append(" ").append(String.format("%.1f", new Object[]{Float.valueOf(view.getTranslationY())})).append(" ").append(String.format("%.1fx%.1f", new Object[]{Float.valueOf(view.getScaleX()), Float.valueOf(view.getScaleY())})).append(" ");
+        StringBuilder append = new StringBuilder().append(view.getClass().getSimpleName()).append('@').append(Integer.toHexString(System.identityHashCode(view))).append("{").append(String.format("%.1f", Float.valueOf(view.getAlpha()))).append(" ").append(String.format("%.1f", Float.valueOf(view.getTranslationY()))).append(" ").append(String.format("%.1fx%.1f", Float.valueOf(view.getScaleX()), Float.valueOf(view.getScaleY()))).append(" ");
         if (view.isFocused()) {
             c2 = 'F';
         } else {

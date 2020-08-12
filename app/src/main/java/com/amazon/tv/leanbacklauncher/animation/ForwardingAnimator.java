@@ -142,7 +142,7 @@ public abstract class ForwardingAnimator<T extends Animator> extends Animator im
 
     public void removeListener(AnimatorListener listener) {
         if (this.mListeners != null) {
-            AnimatorListener proxy = (AnimatorListener) this.mListeners.remove(listener);
+            AnimatorListener proxy = this.mListeners.remove(listener);
             if (proxy != null) {
                 this.mDelegate.removeListener(proxy);
             }
@@ -172,7 +172,7 @@ public abstract class ForwardingAnimator<T extends Animator> extends Animator im
 
     public void removePauseListener(AnimatorPauseListener listener) {
         if (this.mPauseListeners != null) {
-            AnimatorPauseListener proxy = (AnimatorPauseListener) this.mPauseListeners.remove(listener);
+            AnimatorPauseListener proxy = this.mPauseListeners.remove(listener);
             if (proxy != null) {
                 this.mDelegate.removePauseListener(proxy);
             }

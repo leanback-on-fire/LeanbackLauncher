@@ -1,7 +1,5 @@
 package com.amazon.tv.leanbacklauncher.logging;
 
-import java.io.IOException;
-
 public interface LeanbackProto {
 /*
     public static final class App extends ExtendableMessageNano<App> {

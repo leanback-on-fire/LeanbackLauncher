@@ -1,16 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" custom:layout_viewType="main"
-  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto">
-    <ImageView android:id="@id/art_work" android:layout_width="@dimen/notif_card_img_min_width" android:layout_height="@dimen/notif_card_img_height" android:scaleType="centerCrop" android:contentDescription="@null" />
-    <LinearLayout android:layout_gravity="bottom|center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
-        <ImageView android:layout_width="fill_parent" android:layout_height="@dimen/leanback_card_now_playing_scrim_1_height" android:src="@drawable/now_playing_scrim_1" />
-        <ImageView android:layout_width="fill_parent" android:layout_height="@dimen/leanback_card_now_playing_scrim_2_height" android:src="@drawable/now_playing_scrim_2" />
-        <ImageView android:layout_width="fill_parent" android:layout_height="@dimen/leanback_card_now_playing_scrim_3_height" android:src="@drawable/now_playing_scrim_3" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    custom:layout_viewType="main">
+
+    <ImageView
+        android:id="@id/art_work"
+        android:layout_width="@dimen/notif_card_img_min_width"
+        android:layout_height="@dimen/notif_card_img_height"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/leanback_card_now_playing_scrim_1_height"
+            custom:srcCompat="@drawable/now_playing_scrim_1" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/leanback_card_now_playing_scrim_2_height"
+            custom:srcCompat="@drawable/now_playing_scrim_2" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/leanback_card_now_playing_scrim_3_height"
+            custom:srcCompat="@drawable/now_playing_scrim_3" />
     </LinearLayout>
-    <FrameLayout android:layout_gravity="end|bottom|center" android:id="@id/status_indicator" android:paddingBottom="@dimen/leanback_card_now_playing_padding_bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="@dimen/leanback_card_now_playing_padding_end" custom:layout_viewType="main">
-        <ImageView android:id="@id/pause_icon" android:visibility="gone" android:layout_width="@dimen/leanback_card_now_playing_status_width" android:layout_height="@dimen/leanback_card_now_playing_status_height" />
+
+    <FrameLayout
+        android:id="@id/status_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom|center"
+        android:layout_marginEnd="@dimen/leanback_card_now_playing_padding_end"
+        android:paddingBottom="@dimen/leanback_card_now_playing_padding_bottom"
+        custom:layout_viewType="main">
+
+        <ImageView
+            android:id="@id/pause_icon"
+            android:layout_width="@dimen/leanback_card_now_playing_status_width"
+            android:layout_height="@dimen/leanback_card_now_playing_status_height"
+            android:visibility="gone" />
+
         <com.amazon.tv.leanbacklauncher.widget.PlayingIndicatorView
-            android:id="@id/play_animation" android:layout_width="@dimen/leanback_card_now_playing_status_width" android:layout_height="@dimen/leanback_card_now_playing_status_height" />
+            android:id="@id/play_animation"
+            android:layout_width="@dimen/leanback_card_now_playing_status_width"
+            android:layout_height="@dimen/leanback_card_now_playing_status_height" />
     </FrameLayout>
-    <ProgressBar android:layout_gravity="bottom|center" android:id="@id/progress_bar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/progress_bar_height" android:indeterminate="false" android:progressDrawable="@drawable/card_progress_drawable" android:mirrorForRtl="false" style="@android:style/Widget.ProgressBar.Horizontal" />
+
+    <ProgressBar
+        android:id="@id/progress_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/progress_bar_height"
+        android:layout_gravity="bottom|center"
+        android:indeterminate="false"
+        android:mirrorForRtl="false"
+        android:progressDrawable="@drawable/card_progress_drawable"
+        android:visibility="gone" />
 </FrameLayout>

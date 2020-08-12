@@ -14,9 +14,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Keep;
-import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +21,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.Keep;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.leanback.widget.BaseCardView;
 
 import com.amazon.tv.leanbacklauncher.DimmableItem;
 import com.amazon.tv.leanbacklauncher.R;
@@ -88,16 +89,16 @@ public class NotificationCardView extends BaseCardView implements DimmableItem, 
 
     protected void onFinishInflate() {
         super.onFinishInflate();
-        this.mImageView = (ImageView) findViewById(R.id.art_work);
+        this.mImageView = findViewById(R.id.art_work);
         this.mMetadataArea = findViewById(R.id.metadata);
-        this.mSelectedMetadataContainer = (PrescaledLayout) findViewById(R.id.selected_metadata_container);
+        this.mSelectedMetadataContainer = findViewById(R.id.selected_metadata_container);
         this.mInfoArea = findViewById(R.id.info_field);
-        this.mTitleView = (TextView) findViewById(R.id.title_text);
-        this.mContentView = (TextView) findViewById(R.id.content_text);
-        this.mSourceNameView = (TextView) findViewById(R.id.source_name);
-        this.mBadgeImage = (ImageView) findViewById(R.id.badge);
-        this.mBadgeImageSelected = (ImageView) findViewById(R.id.badge_selected);
-        this.mProgBar = (ProgressBar) findViewById(R.id.progress_bar);
+        this.mTitleView = findViewById(R.id.title_text);
+        this.mContentView = findViewById(R.id.content_text);
+        this.mSourceNameView = findViewById(R.id.source_name);
+        this.mBadgeImage = findViewById(R.id.badge);
+        this.mBadgeImageSelected = findViewById(R.id.badge_selected);
+        this.mProgBar = findViewById(R.id.progress_bar);
         Drawable cardBkg = getBackground();
         this.mColor = ResourcesCompat.getColor(getResources(), R.color.notif_background_color, null);
         this.mInfoBackground = new ColorDrawable(this.mColor);
@@ -344,7 +345,7 @@ public class NotificationCardView extends BaseCardView implements DimmableItem, 
             }
             fArr[1] = f;
             this.mMetaAnim = ObjectAnimator.ofFloat(this, str, fArr);
-            this.mMetaAnim.setDuration((long) this.mFocusAnimDuration);
+            this.mMetaAnim.setDuration(this.mFocusAnimDuration);
             this.mMetaAnim.addListener(new AnimatorListenerAdapter() {
                 public void onAnimationStart(Animator animation) {
                     NotificationCardView.this.setHasTransientState(true);

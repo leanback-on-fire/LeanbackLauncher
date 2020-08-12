@@ -11,6 +11,10 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.amazon.tv.leanbacklauncher.R;
+import com.amazon.tv.leanbacklauncher.trace.AppTrace;
+import com.amazon.tv.leanbacklauncher.trace.AppTrace.TraceTag;
+import com.amazon.tv.leanbacklauncher.util.Partner;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -19,10 +23,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.signature.ObjectKey;
-import com.amazon.tv.leanbacklauncher.R;
-import com.amazon.tv.leanbacklauncher.trace.AppTrace;
-import com.amazon.tv.leanbacklauncher.trace.AppTrace.TraceTag;
-import com.amazon.tv.leanbacklauncher.util.Partner;
 
 public class WallpaperDownloader {
     private final WallpaperBitmapTransform mBitmapTransform;
@@ -119,7 +119,7 @@ public class WallpaperDownloader {
         this.mRequestedImage.imageUri = imageUri;
         this.mRequestedImage.signature = signature;
         this.mHandler.removeCallbacksAndMessages(null);
-        this.mHandler.sendMessageDelayed(this.mHandler.obtainMessage(1), (long) this.mDownloadDelay);
+        this.mHandler.sendMessageDelayed(this.mHandler.obtainMessage(1), this.mDownloadDelay);
     }
 
     public void setEnabled(boolean enabled) {
@@ -132,7 +132,7 @@ public class WallpaperDownloader {
     private void download() {
         if (this.mRequestedImage != null) {
             if (this.mRequestedImage.imageUri != null) {
-                this.mHandler.sendEmptyMessageDelayed(2, (long) this.mDownloadTimeout);
+                this.mHandler.sendEmptyMessageDelayed(2, this.mDownloadTimeout);
                 this.mRequestedImage.traceTag = AppTrace.beginAsyncSection("Background image load");
                 this.mRequestManager.asBitmap()
                         .load(this.mRequestedImage.imageUri)

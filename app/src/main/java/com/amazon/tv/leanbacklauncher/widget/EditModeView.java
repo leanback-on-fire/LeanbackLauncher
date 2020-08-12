@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.amazon.tv.leanbacklauncher.EditableAppsRowView;
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.animation.EditModeUninstallAnimationHolder;
@@ -55,12 +56,12 @@ public final class EditModeView extends RelativeLayout implements OnClickListene
 
     protected void onFinishInflate() {
         super.onFinishInflate();
-        this.mUninstallCircle = (ImageView) findViewById(R.id.uninstall_area_circle);
-        this.mUninstallIconCircle = (ImageView) findViewById(R.id.uninstall_icon_circle);
-        this.mUninstallIcon = (ImageView) findViewById(R.id.uninstall_icon);
-        this.mUninstallText = (TextView) findViewById(R.id.uninstall_text);
-        this.mFinishButton = (Button) findViewById(R.id.finish_button);
-        this.mUninstallApp = (ImageView) findViewById(R.id.uninstall_app_banner);
+        this.mUninstallCircle = findViewById(R.id.uninstall_area_circle);
+        this.mUninstallIconCircle = findViewById(R.id.uninstall_icon_circle);
+        this.mUninstallIcon = findViewById(R.id.uninstall_icon);
+        this.mUninstallText = findViewById(R.id.uninstall_text);
+        this.mFinishButton = findViewById(R.id.finish_button);
+        this.mUninstallApp = findViewById(R.id.uninstall_app_banner);
         this.mFocusAnimator = new ViewFocusAnimator(this.mUninstallApp);
         this.mFocusAnimator.setFocusImmediate(true);
         float zDeltaIcon = (float) getResources().getDimensionPixelOffset(R.dimen.edit_uninstall_icon_z);

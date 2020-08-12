@@ -2,11 +2,12 @@ package com.amazon.tv.leanbacklauncher;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.amazon.tv.leanbacklauncher.core.LaunchException;
 import com.amazon.tv.leanbacklauncher.trace.AppTrace;

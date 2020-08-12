@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.view.View;
+
 import com.amazon.tv.leanbacklauncher.util.Preconditions;
 
 public class FadeAnimator extends ValueAnimator implements Resettable {
@@ -35,7 +36,7 @@ public class FadeAnimator extends ValueAnimator implements Resettable {
 
     public FadeAnimator(View target, Direction direction) {
         float endAlpha;
-        this.mTarget = (View) Preconditions.checkNotNull(target);
+        this.mTarget = Preconditions.checkNotNull(target);
         switch (direction) {
             case FADE_IN:
                 this.mStartAlpha = 0.0f;
@@ -48,7 +49,7 @@ public class FadeAnimator extends ValueAnimator implements Resettable {
             default:
                 throw new IllegalArgumentException("Illegal direction: " + direction);
         }
-        setFloatValues(new float[]{this.mStartAlpha, endAlpha});
+        setFloatValues(this.mStartAlpha, endAlpha);
         addListener(this.mListener);
         addUpdateListener(this.mListener);
     }

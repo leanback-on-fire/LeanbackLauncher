@@ -3,11 +3,12 @@ package com.amazon.tv.leanbacklauncher.animation;
 import android.animation.TimeInterpolator;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.support.v17.leanback.widget.HorizontalGridView;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.animation.PathInterpolator;
+
+import androidx.leanback.widget.HorizontalGridView;
 
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.util.Preconditions;
@@ -38,21 +39,21 @@ public final class MassSlideAnimator extends PropagatingAnimator<MassSlideAnimat
         private Class<?> mTargetClass = ParticipatesInLaunchAnimation.class;
 
         public Builder(ViewGroup root) {
-            this.mRoot = (ViewGroup) Preconditions.checkNotNull(root);
+            this.mRoot = Preconditions.checkNotNull(root);
         }
 
         public Builder setDirection(Direction direction) {
-            this.mDirection = (Direction) Preconditions.checkNotNull(direction);
+            this.mDirection = Preconditions.checkNotNull(direction);
             return this;
         }
 
         public Builder setEpicenter(Rect epicenter) {
-            this.mEpicenter = (Rect) Preconditions.checkNotNull(epicenter);
+            this.mEpicenter = Preconditions.checkNotNull(epicenter);
             return this;
         }
 
         public Builder setExclude(View exclude) {
-            this.mExclude = (View) Preconditions.checkNotNull(exclude);
+            this.mExclude = Preconditions.checkNotNull(exclude);
             return this;
         }
 
@@ -91,7 +92,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<MassSlideAnimat
             if (duration < 0) {
                 duration = 300;
             }
-            return (long) Math.round((((float) duration) / MassSlideAnimator.this.mPropagationSpeed) * distanceFraction);
+            return Math.round((((float) duration) / MassSlideAnimator.this.mPropagationSpeed) * distanceFraction);
         }
 
         private int getDistance(ViewHolder holder) {
@@ -212,7 +213,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<MassSlideAnimat
     private MassSlideAnimator(Builder builder) {
         super(20);
         Resources res = builder.mRoot.getResources();
-       // R.fraction.slide_animator_propagation_speed
+        // R.fraction.slide_animator_propagation_speed
         float propagationSpeed = (float) 5.8; // todo hardcoded
         this.mRows = new ArrayList<>();
         this.mRoot = builder.mRoot;
@@ -234,7 +235,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<MassSlideAnimat
             default:
                 throw new IllegalStateException("Unknown direction: " + this.mDirection);
         }
-        setDuration((long) res.getInteger(R.integer.slide_animator_default_duration));
+        setDuration(res.getInteger(R.integer.slide_animator_default_duration));
     }
 
     public PropagatingAnimator<ViewHolder> setPropagation(Propagation<ViewHolder> propagation) {
@@ -268,7 +269,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<MassSlideAnimat
     }
 
     public ViewHolder removeView(int index) {
-        ViewHolder holder = (ViewHolder) super.removeView(index);
+        ViewHolder holder = super.removeView(index);
         holder.removeListener();
         return holder;
     }
@@ -280,7 +281,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<MassSlideAnimat
     public void exclude(View target) {
         int n = size();
         for (int i = 0; i < n; i++) {
-            if (((ViewHolder) getView(i)).view == target) {
+            if (getView(i).view == target) {
                 removeView(i);
                 return;
             }
@@ -329,7 +330,7 @@ public final class MassSlideAnimator extends PropagatingAnimator<MassSlideAnimat
         StringBuilder buf = new StringBuilder().append("MassSlideAnimator@").append(Integer.toHexString(hashCode())).append(':').append(this.mDirection == Direction.SLIDE_IN ? "SLIDE_IN" : "SLIDE_OUT").append(':').append(this.mEpicenter.centerX()).append(',').append(this.mEpicenter.centerY()).append('{');
         int n = size();
         for (int i = 0; i < n; i++) {
-            buf.append("\n    ").append(((ViewHolder) getView(i)).toString().replaceAll("\n", "\n    "));
+            buf.append("\n    ").append(getView(i).toString().replaceAll("\n", "\n    "));
         }
         return buf.append("\n}").toString();
     }

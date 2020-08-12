@@ -1,10 +1,12 @@
 package com.amazon.tv.leanbacklauncher.widget;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView.Adapter;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
+
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.util.Preconditions;
 
@@ -12,7 +14,7 @@ public abstract class RowViewAdapter<VH extends ViewHolder> extends Adapter<VH> 
     protected final Context mContext;
 
     protected RowViewAdapter(Context context) {
-        this.mContext = (Context) Preconditions.checkNotNull(context);
+        this.mContext = Preconditions.checkNotNull(context);
     }
 
     public void onViewDetachedFromWindow(VH holder) {

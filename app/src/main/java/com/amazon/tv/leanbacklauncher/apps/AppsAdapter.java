@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
@@ -168,7 +169,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
             super(v, adapter);
             this.mOverlayHelper = new InstallStateOverlayHelper(v);
             if (v != null) {
-                this.mBannerView = (ImageView) v.findViewById(R.id.app_banner);
+                this.mBannerView = v.findViewById(R.id.app_banner);
             } else {
                 this.mBannerView = null;
             }
@@ -219,8 +220,8 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
             super(v, adapter);
             this.mOverlayHelper = new InstallStateOverlayHelper(v);
             if (v != null) {
-                this.mIconView = (ImageView) v.findViewById(R.id.banner_icon);
-                this.mLabelView = (TextView) v.findViewById(R.id.banner_label);
+                this.mIconView = v.findViewById(R.id.banner_icon);
+                this.mLabelView = v.findViewById(R.id.banner_label);
                 return;
             }
             this.mIconView = null;
@@ -255,9 +256,9 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
         public InstallStateOverlayHelper(View v) {
             if (v != null) {
                 this.mOverlayView = v.findViewById(R.id.install_state_overlay);
-                this.mStateView = (TextView) v.findViewById(R.id.banner_install_state);
-                this.mProgressView = (TextView) v.findViewById(R.id.banner_install_progress);
-                this.mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
+                this.mStateView = v.findViewById(R.id.banner_install_state);
+                this.mProgressView = v.findViewById(R.id.banner_install_progress);
+                this.mProgressBar = v.findViewById(R.id.progress_bar);
                 return;
             }
             this.mOverlayView = null;
@@ -387,8 +388,8 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
             super(v, adapter);
             if (v != null) {
                 this.mMainView = v.findViewById(R.id.main);
-                this.mIconView = (ImageView) v.findViewById(R.id.icon);
-                this.mLabelView = (TextView) v.findViewById(R.id.label);
+                this.mIconView = v.findViewById(R.id.icon);
+                this.mLabelView = v.findViewById(R.id.label);
                 return;
             }
             this.mMainView = null;
@@ -491,7 +492,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
         if (position < this.mLaunchPoints.size()) {
             AppTrace.beginSection("onBindAppBanner");
             try {
-                LaunchPoint launchPoint = (LaunchPoint) this.mLaunchPoints.get(position);
+                LaunchPoint launchPoint = this.mLaunchPoints.get(position);
                 holder.clearBannerState();
                 holder.init(launchPoint);
             } finally {
@@ -522,11 +523,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
 
     public void sortItemsIfNeeded(boolean force) {
         boolean sortNeeded;
-        if (this.mFlaggedForResort || force) {
-            sortNeeded = true;
-        } else {
-            sortNeeded = false;
-        }
+        sortNeeded = this.mFlaggedForResort || force;
         this.mFlaggedForResort = false;
         if (force && this.mAppsManager.getSortingMode() == AppsManager.SortingMode.FIXED) {
             saveAppOrderSnapshot();
@@ -548,8 +545,8 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
         if (desiredPosition < 0 || desiredPosition > this.mLaunchPoints.size() - 1 || initPosition < 0 || initPosition > this.mLaunchPoints.size() - 1) {
             return false;
         }
-        LaunchPoint focused = (LaunchPoint) this.mLaunchPoints.get(initPosition);
-        this.mLaunchPoints.set(initPosition, (LaunchPoint) this.mLaunchPoints.get(desiredPosition));
+        LaunchPoint focused = this.mLaunchPoints.get(initPosition);
+        this.mLaunchPoints.set(initPosition, this.mLaunchPoints.get(desiredPosition));
         this.mLaunchPoints.set(desiredPosition, focused);
         notifyItemMoved(initPosition, desiredPosition);
         if (Math.abs(desiredPosition - initPosition) > 1) {
@@ -573,14 +570,14 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
         if (index < 0 || index >= this.mLaunchPoints.size()) {
             return null;
         }
-        return ((LaunchPoint) this.mLaunchPoints.get(index)).getBannerDrawable();
+        return this.mLaunchPoints.get(index).getBannerDrawable();
     }
 
     public LaunchPoint getLaunchPointForPosition(int index) {
         if (index < 0 || index >= this.mLaunchPoints.size()) {
             return null;
         }
-        return (LaunchPoint) this.mLaunchPoints.get(index);
+        return this.mLaunchPoints.get(index);
     }
 
     private void onActionOpenLaunchPoint(String component, String group) {

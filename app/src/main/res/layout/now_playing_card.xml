@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.amazon.tv.leanbacklauncher.notifications.NowPlayingCardView android:id="@id/card" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" custom:cardType="infoUnder" custom:infoVisibility="always"
-  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto" />
+<com.amazon.tv.leanbacklauncher.notifications.NowPlayingCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@id/card"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    custom:cardType="infoUnder"
+    custom:infoVisibility="always" />

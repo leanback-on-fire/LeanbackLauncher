@@ -2,12 +2,11 @@ package com.amazon.tv.leanbacklauncher.apps;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewParent;
@@ -17,14 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
-import com.amazon.tv.leanbacklauncher.animation.AppViewFocusAnimator;
-import com.amazon.tv.leanbacklauncher.animation.ParticipatesInLaunchAnimation;
-import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation;
-import com.amazon.tv.leanbacklauncher.animation.ViewDimmer;
 import com.amazon.tv.leanbacklauncher.DimmableItem;
 import com.amazon.tv.leanbacklauncher.EditableAppsRowView;
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.RoundedRectOutlineProvider;
+import com.amazon.tv.leanbacklauncher.animation.AppViewFocusAnimator;
+import com.amazon.tv.leanbacklauncher.animation.ParticipatesInLaunchAnimation;
+import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation;
+import com.amazon.tv.leanbacklauncher.animation.ViewDimmer;
 import com.amazon.tv.leanbacklauncher.widget.EditModeManager;
 
 import java.util.ArrayList;
@@ -72,9 +71,9 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
     protected void onFinishInflate() {
         super.onFinishInflate();
         Context ctx = getContext();
-        int width = (int) getResources().getDimensionPixelSize(R.dimen.banner_width);
-        int height = (int) getResources().getDimensionPixelSize(R.dimen.banner_height);
-        int size = (int) RowPreferences.getBannersSize(ctx); // 50 - 200
+        int width = getResources().getDimensionPixelSize(R.dimen.banner_width);
+        int height = getResources().getDimensionPixelSize(R.dimen.banner_height);
+        int size = RowPreferences.getBannersSize(ctx); // 50 - 200
         this.getLayoutParams().height = height * size / 100; // px
         this.getLayoutParams().width = width * size / 100; // px
         this.requestLayout(); // set new BannerView dimensions
@@ -121,16 +120,16 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         this.mDimmer.setDimLevelImmediate();
         float radius = (float) RowPreferences.getCorners(ctx); // (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
         int stroke = 2;
-        int color = (int) getResources().getColor(R.color.edit_selection_indicator_color);
+        int color = getResources().getColor(R.color.edit_selection_indicator_color);
         GradientDrawable gd = null;
         // edit focus frame (edit_frame_width : edit_frame_height)
         View efv = findViewById(R.id.edit_focused_frame);
         if (efv instanceof ImageView) {
             this.mEditFocusFrame = (ImageView) efv;
-            efv.getLayoutParams().width = (int) getResources().getDimensionPixelSize(R.dimen.edit_frame_width) * size / 100;
-            efv.getLayoutParams().height = (int) getResources().getDimensionPixelSize(R.dimen.edit_frame_height) * size / 100;
+            efv.getLayoutParams().width = getResources().getDimensionPixelSize(R.dimen.edit_frame_width) * size / 100;
+            efv.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.edit_frame_height) * size / 100;
             efv.requestLayout(); // set new edit focus frame dimensions
-            gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
+            gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT});
             gd.setShape(GradientDrawable.RECTANGLE);
             gd.setStroke(stroke, color); // fixed width
             gd.setCornerRadius(radius + ((getResources().getDimensionPixelSize(R.dimen.edit_frame_width) - width) * size / 100) / 2);
@@ -140,12 +139,12 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         View ffv = findViewById(R.id.banner_focused_frame);
         if (ffv instanceof ImageView) {
             this.mFocusFrame = (ImageView) ffv;
-            stroke = (int) RowPreferences.getFrameWidth(ctx); // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
-            color = (int) RowPreferences.getFrameColor(ctx); // (int) getResources().getColor(R.color.banner_focus_frame_color);
+            stroke = RowPreferences.getFrameWidth(ctx); // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
+            color = RowPreferences.getFrameColor(ctx); // (int) getResources().getColor(R.color.banner_focus_frame_color);
             ffv.getLayoutParams().width = (width + 2 * stroke - (int) radius / 2) * size / 100; // px
             ffv.getLayoutParams().height = (height + 2 * stroke - (int) radius / 2) * size / 100; // px
             ffv.requestLayout(); // set new focus frame dimensions
-            gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT});
+            gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT});
             gd.setShape(GradientDrawable.RECTANGLE);
             gd.setStroke(stroke * size / 100, color); // setStroke(10, Color.BLACK);
             gd.setCornerRadius(radius); // setCornerRadius(10f);
@@ -369,10 +368,10 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
     public AppsAdapter.AppViewHolder getViewHolder() {
         return mViewHolder;
     }
-    
-	private int getRandomColor() {
-		Random rnd = new Random();
-		return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-	}
+
+    private int getRandomColor() {
+        Random rnd = new Random();
+        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
 
 }

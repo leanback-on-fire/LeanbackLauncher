@@ -40,12 +40,4 @@
         <item>com.google.android.play.games</item>
         <item>com.google.android.apps.plus</item>
     </string-array>
-    <string-array name="sorting_mode_keys" tools:ignore="MissingTranslation">
-        <item>@string/recency_order_action_title</item>
-        <item>@string/fixed_order_action_title</item>
-    </string-array>
-    <string-array name="sorting_mode_values" tools:ignore="MissingTranslation">
-        <item>"RECENCY"</item>
-        <item>"FIXED"</item>
-    </string-array>
 </resources>

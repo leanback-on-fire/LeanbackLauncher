@@ -12,8 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -21,6 +19,7 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
+
 import com.amazon.tv.leanbacklauncher.R;
 
 public class Util {
@@ -41,10 +40,7 @@ public class Util {
 
     public static boolean isPackagePresent(PackageManager pkgMan, String packageName) {
         try {
-            if (pkgMan.getApplicationInfo(packageName, 0) != null) {
-                return true;
-            }
-            return false;
+            return pkgMan.getApplicationInfo(packageName, 0) != null;
         } catch (NameNotFoundException e) {
             return false;
         }
@@ -148,27 +144,22 @@ public class Util {
 
     public static boolean isSystemApp(Context context, String packageName) {
         try {
-            if ((context.getPackageManager().getApplicationInfo(packageName, 0).flags & 1) != 0) {
-                return true;
-            }
-            return false;
+            return (context.getPackageManager().getApplicationInfo(packageName, 0).flags & 1) != 0;
         } catch (NameNotFoundException e) {
             return false;
         }
     }
 
     public static boolean isUninstallAllowed(Context context) {
-    	if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.O) {
-			if (context.getPackageManager().checkPermission("android.permission.REQUEST_DELETE_PACKAGES", context.getPackageName()) != PackageManager.PERMISSION_GRANTED) {
-			return false;
-			}
-		}
-		return true;
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.O) {
+            return context.getPackageManager().checkPermission("android.permission.REQUEST_DELETE_PACKAGES", context.getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
     }
 
     public static boolean isPackageEnabled(Context context, String packageName) {
         try {
-                return context.getPackageManager().getApplicationInfo(packageName, 0).enabled;
+            return context.getPackageManager().getApplicationInfo(packageName, 0).enabled;
         } catch (NameNotFoundException e) {
             return false;
         }

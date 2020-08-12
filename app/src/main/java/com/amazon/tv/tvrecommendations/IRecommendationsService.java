@@ -9,7 +9,7 @@ import android.os.RemoteException;
 
 public interface IRecommendationsService extends IInterface {
 
-    public static abstract class Stub extends Binder implements IRecommendationsService {
+    abstract class Stub extends Binder implements IRecommendationsService {
 
         private static class Proxy implements IRecommendationsService {
             private IBinder mRemote;
@@ -119,7 +119,7 @@ public interface IRecommendationsService extends IInterface {
                     this.mRemote.transact(7, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
-                        _result = (Bitmap) Bitmap.CREATOR.createFromParcel(_reply);
+                        _result = Bitmap.CREATOR.createFromParcel(_reply);
                     } else {
                         _result = null;
                     }

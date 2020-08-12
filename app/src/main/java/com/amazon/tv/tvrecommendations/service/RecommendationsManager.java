@@ -85,7 +85,8 @@ class RecommendationsManager implements Ranker.RankingListener {
         }
 
         public void unregisterNotificationsClient(IRecommendationsClient client, boolean isPartnerClient) throws RemoteException {
-            if (BuildConfig.DEBUG) Log.d(RecommendationsManager.this.mTag, "unregisterNotificationsClient: " + client);
+            if (BuildConfig.DEBUG)
+                Log.d(RecommendationsManager.this.mTag, "unregisterNotificationsClient: " + client);
             if (client == null) {
                 return;
             }
@@ -183,7 +184,8 @@ class RecommendationsManager implements Ranker.RankingListener {
         public synchronized void handleMessage(Message msg) {
             boolean z = true;
             synchronized (this) {
-                if (BuildConfig.DEBUG) Log.d(RecommendationsManager.this.mTag, "ClientHandler#handleMessage: msg=" + msg + "\n\tmsg.what=" + messageCodeToString(msg.what));
+                if (BuildConfig.DEBUG)
+                    Log.d(RecommendationsManager.this.mTag, "ClientHandler#handleMessage: msg=" + msg + "\n\tmsg.what=" + messageCodeToString(msg.what));
                 ArrayList<RecOperation> operations;
                 switch (msg.what) {
                     case 0: // MSG_START
@@ -280,7 +282,7 @@ class RecommendationsManager implements Ranker.RankingListener {
         }
 
         public int hashCode() {
-            return Objects.hash(new Object[]{this.mNotification, Integer.valueOf(this.mOperation)});
+            return Objects.hash(this.mNotification, Integer.valueOf(this.mOperation));
         }
 
         public boolean equals(Object other) {
@@ -342,7 +344,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void startIfReady(RemoteCallbackList<IRecommendationsClient> clients, RemoteCallbackList<IRecommendationsClient> partnerClients) {
-        if (BuildConfig.DEBUG) Log.d(this.mTag, "startIfReady:\n\tmRankerReady=" + this.mRankerReady + "\n\tmConnectedToNotificationService=" + this.mConnectedToNotificationService + "\n\tmClients.getRegisteredCallbackCount()=" + this.mClientHandler.getRegisteredClientCount() + "\n\tmStarted=" + this.mStarted);
+        if (BuildConfig.DEBUG)
+            Log.d(this.mTag, "startIfReady:\n\tmRankerReady=" + this.mRankerReady + "\n\tmConnectedToNotificationService=" + this.mConnectedToNotificationService + "\n\tmClients.getRegisteredCallbackCount()=" + this.mClientHandler.getRegisteredClientCount() + "\n\tmStarted=" + this.mStarted);
         if (this.mRankerReady && this.mConnectedToNotificationService && this.mClientHandler.getRegisteredClientCount() != 0) {
             this.mStarted = true;
             this.mPackageToRecSet.clear();
@@ -353,7 +356,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void setConnectedToNotificationService(RemoteCallbackList<IRecommendationsClient> clients, RemoteCallbackList<IRecommendationsClient> partnerClients, boolean connected) {
-        if (BuildConfig.DEBUG) Log.d(this.mTag, "setConnectedToNotificationService: state=" + connected);
+        if (BuildConfig.DEBUG)
+            Log.d(this.mTag, "setConnectedToNotificationService: state=" + connected);
         this.mConnectedToNotificationService = connected;
         if (connected) {
             startIfReady(clients, partnerClients);
@@ -397,12 +401,12 @@ class RecommendationsManager implements Ranker.RankingListener {
             int i;
             int count = clients.beginBroadcast();
             for (i = 0; i < count; i++) {
-                ((IRecommendationsClient) clients.getBroadcastItem(i)).onServiceStatusChanged(isReady);
+                clients.getBroadcastItem(i).onServiceStatusChanged(isReady);
             }
             clients.finishBroadcast();
             count = partnerClients.beginBroadcast();
             for (i = 0; i < count; i++) {
-                ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onServiceStatusChanged(isReady);
+                partnerClients.getBroadcastItem(i).onServiceStatusChanged(isReady);
             }
             partnerClients.finishBroadcast();
         } catch (RemoteException e) {
@@ -421,7 +425,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void onRecommendationsReset(RemoteCallbackList<IRecommendationsClient> clients, RemoteCallbackList<IRecommendationsClient> partnerClients, List<RecOperation> notifications) {
-        if (BuildConfig.DEBUG) Log.d(this.mTag, "onRecommendationsReset:\n\tmStarted=" + this.mStarted + "\n\tnotifications.size()=" + notifications.size() + "\n\tnotifications:");
+        if (BuildConfig.DEBUG)
+            Log.d(this.mTag, "onRecommendationsReset:\n\tmStarted=" + this.mStarted + "\n\tnotifications.size()=" + notifications.size() + "\n\tnotifications:");
         if (BuildConfig.DEBUG) for (RecOperation operation : notifications) {
             Log.d(this.mTag, "\n\t" + operation.getNotification());
         }
@@ -445,7 +450,8 @@ class RecommendationsManager implements Ranker.RankingListener {
                     }
                 }
             }
-            if (BuildConfig.DEBUG) Log.d(this.mTag, "\ttotalRecommendations=" + totalRecommendations + ", blacklistedRecommendations=" + blacklistedRecommendations + ", notifications.size()=" + notifications.size() + ", mRanker.hasBlacklistedPackages()=" + this.mRanker.hasBlacklistedPackages());
+            if (BuildConfig.DEBUG)
+                Log.d(this.mTag, "\ttotalRecommendations=" + totalRecommendations + ", blacklistedRecommendations=" + blacklistedRecommendations + ", notifications.size()=" + notifications.size() + ", mRanker.hasBlacklistedPackages()=" + this.mRanker.hasBlacklistedPackages());
             if (totalRecommendations == 0) {
                 if (this.mRanker.hasBlacklistedPackages()) {
                     reasonForClearing = 4; // CLEAR_RECOMMENDATIONS_PENDING_DISABLED
@@ -463,7 +469,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void clearAllAppRecommendations(RemoteCallbackList<IRecommendationsClient> clients, int reasonForClearing) {
-        if (BuildConfig.DEBUG) Log.d(this.mTag, "clearAllAppRecommendations:\n\treasonForClearing=" + RecommendationsClient.clearReasonToString(reasonForClearing));
+        if (BuildConfig.DEBUG)
+            Log.d(this.mTag, "clearAllAppRecommendations:\n\treasonForClearing=" + RecommendationsClient.clearReasonToString(reasonForClearing));
         int count = clients.beginBroadcast();
         for (int i = 0; i < count; i++) {
             try {
@@ -478,7 +485,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void clearAllPartnerRecommendations(RemoteCallbackList<IRecommendationsClient> partnerClients, int reasonForClearing) {
-        if (BuildConfig.DEBUG) Log.d(this.mTag, "clearAllPartnerRecommendations:\n\treasonForClearing=" + RecommendationsClient.clearReasonToString(reasonForClearing));
+        if (BuildConfig.DEBUG)
+            Log.d(this.mTag, "clearAllPartnerRecommendations:\n\treasonForClearing=" + RecommendationsClient.clearReasonToString(reasonForClearing));
         int count = partnerClients.beginBroadcast();
         for (int i = 0; i < count; i++) {
             try {
@@ -561,10 +569,10 @@ class RecommendationsManager implements Ranker.RankingListener {
                     if (inPartnerRow) {
                         handlePartnerRecommendationRemoved(partnerClients, sbn);
                     } else {
-                        ArrayList<StatusBarNotification> recSet = (ArrayList) this.mPackageToRecSet.get(sbn.getPackageName());
+                        ArrayList<StatusBarNotification> recSet = this.mPackageToRecSet.get(sbn.getPackageName());
                         if (recSet != null) {
                             for (int i = 0; i < recSet.size(); i++) {
-                                if (RecommendationsUtil.equals((StatusBarNotification) recSet.get(i), sbn)) {
+                                if (RecommendationsUtil.equals(recSet.get(i), sbn)) {
                                     recSet.remove(i);
                                     break;
                                 }
@@ -621,7 +629,7 @@ class RecommendationsManager implements Ranker.RankingListener {
                 if (wantPosition == -1) {
                     wantPosition = recSet.size();
                     while (position < wantPosition) {
-                        if (comparator.compare((StatusBarNotification) recSet.get(position), sbn) < 0) {
+                        if (comparator.compare(recSet.get(position), sbn) < 0) {
                             wantPosition = position;
                             break;
                         }
@@ -649,7 +657,7 @@ class RecommendationsManager implements Ranker.RankingListener {
             double adjustedScore = 0.0d;
             int recPosition = wantPosition;
             while (wantPosition < recSet.size()) {
-                rec = (StatusBarNotification) recSet.get(wantPosition);
+                rec = recSet.get(wantPosition);
                 this.mRanker.calculateAdjustedScore(rec, wantPosition, RecommendationsUtil.isCaptivePortal(this.mContext, rec));
                 if (!haveAdjustedScore) {
                     haveAdjustedScore = true;
@@ -733,9 +741,9 @@ class RecommendationsManager implements Ranker.RankingListener {
                 recommendation = RecommendationsUtil.fromStatusBarNotification(mContext, sbn);
                 try {
                     if (found) {
-                        ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onAddRecommendation(recommendation);
+                        partnerClients.getBroadcastItem(i).onAddRecommendation(recommendation);
                     } else {
-                        ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onUpdateRecommendation(recommendation);
+                        partnerClients.getBroadcastItem(i).onUpdateRecommendation(recommendation);
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -758,7 +766,7 @@ class RecommendationsManager implements Ranker.RankingListener {
         i = 0;
         while (i < count) {
             try {
-                ((IRecommendationsClient) partnerClients.getBroadcastItem(i)).onRemoveRecommendation(recommendation);
+                partnerClients.getBroadcastItem(i).onRemoveRecommendation(recommendation);
                 i++;
             } catch (RemoteException e) {
                 Log.e(this.mTag, "RemoteException", e);
@@ -882,7 +890,7 @@ class RecommendationsManager implements Ranker.RankingListener {
         HashSet<String> installedPackages = new HashSet();
         List<ApplicationInfo> apps = this.mContext.getPackageManager().getInstalledApplications(0);
         for (int i = 0; i < apps.size(); i++) {
-            ApplicationInfo appInfo = (ApplicationInfo) apps.get(i);
+            ApplicationInfo appInfo = apps.get(i);
             if (appInfo.enabled && !appInfo.packageName.equals("android")) {
                 installedPackages.add(appInfo.packageName);
             }

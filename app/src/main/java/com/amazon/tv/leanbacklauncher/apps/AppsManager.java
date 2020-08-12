@@ -3,14 +3,15 @@ package com.amazon.tv.leanbacklauncher.apps;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.RecyclerView.Adapter;
 
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+
+import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
 import com.amazon.tv.leanbacklauncher.HomeScreenRow;
 import com.amazon.tv.leanbacklauncher.apps.PackageChangedReceiver.Listener;
 import com.amazon.tv.leanbacklauncher.notifications.BlacklistListener;
 import com.amazon.tv.leanbacklauncher.util.Partner;
 import com.amazon.tv.leanbacklauncher.util.Util;
-import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -243,7 +244,7 @@ public class AppsManager implements InstallingLaunchPointListener, Listener, Bla
 
     public void refreshRows() {
         for (int i = 0; i < this.mRows.size(); i++) {
-            refreshRow((HomeScreenRow) this.mRows.get(i));
+            refreshRow(this.mRows.get(i));
         }
     }
 

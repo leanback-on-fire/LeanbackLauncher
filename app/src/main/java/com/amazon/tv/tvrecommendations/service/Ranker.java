@@ -59,15 +59,15 @@ public class Ranker implements DbHelper.Listener {
     }
 
     public static double getGroupStarterScore() {
-        return (double) sRankerParameters.getGroupStarterScore();
+        return sRankerParameters.getGroupStarterScore();
     }
 
     public static double getInstallBonus() {
-        return (double) sRankerParameters.getInstallBonus();
+        return sRankerParameters.getInstallBonus();
     }
 
     public static double getBonusFadePeriod() {
-        return (double) (sRankerParameters.getBonusFadePeriodDays() * 8.64E7f);
+        return sRankerParameters.getBonusFadePeriodDays() * 8.64E7f;
     }
 
     public void addListener(RankingListener listener) {
@@ -79,7 +79,8 @@ public class Ranker implements DbHelper.Listener {
     }
 
     public boolean isBlacklisted(String packageName) {
-        if (BuildConfig.DEBUG) Log.d("Ranker", "isBlacklisted: packageName=\"" + packageName + "\" -> " + this.mBlacklistedPackages.contains(packageName));
+        if (BuildConfig.DEBUG)
+            Log.d("Ranker", "isBlacklisted: packageName=\"" + packageName + "\" -> " + this.mBlacklistedPackages.contains(packageName));
         return this.mBlacklistedPackages.contains(packageName);
     }
 
@@ -104,7 +105,8 @@ public class Ranker implements DbHelper.Listener {
     }
 
     public void onActionPackageRemoved(String packageName) {
-        if (BuildConfig.DEBUG) Log.d("Ranker", "onActionPackageRemoved: packageName=" + packageName);
+        if (BuildConfig.DEBUG)
+            Log.d("Ranker", "onActionPackageRemoved: packageName=" + packageName);
         onAction(packageName, null, null, 3);
     }
 
@@ -114,13 +116,15 @@ public class Ranker implements DbHelper.Listener {
         }
         synchronized (this.mCachedActions) {
             if (this.mQueryingScores) {
-                if (BuildConfig.DEBUG) Log.d("Ranker", "onAction: Scores not ready, caching this action\nkey=" + paramString1 + ", component=" + paramString2 + ", group=" + paramString3 + ", actionType=" + RankerActions.actionToString(actionType));
+                if (BuildConfig.DEBUG)
+                    Log.d("Ranker", "onAction: Scores not ready, caching this action\nkey=" + paramString1 + ", component=" + paramString2 + ", group=" + paramString3 + ", actionType=" + RankerActions.actionToString(actionType));
                 this.mCachedActions.add(new CachedAction(paramString1, paramString2, paramString3, actionType));
                 return;
             }
         }
 
-        if (BuildConfig.DEBUG) Log.d("Ranker", "onAction: key=" + paramString1 + ", component=" + paramString2 + ", group=" + paramString3 + ", actionType=" + RankerActions.actionToString(actionType));
+        if (BuildConfig.DEBUG)
+            Log.d("Ranker", "onAction: key=" + paramString1 + ", component=" + paramString2 + ", group=" + paramString3 + ", actionType=" + RankerActions.actionToString(actionType));
 
         Entity localEntity;
 
@@ -262,9 +266,10 @@ public class Ranker implements DbHelper.Listener {
     }
 
     public void markPostedRecommendations(String packageName) {
-        if (BuildConfig.DEBUG) Log.d("Ranker", "markPostedRecommendations: packageName=" + packageName);
+        if (BuildConfig.DEBUG)
+            Log.d("Ranker", "markPostedRecommendations: packageName=" + packageName);
         synchronized (this.mEntitiesLock) {
-            Entity entity = (Entity) this.mEntities.get(packageName);
+            Entity entity = this.mEntities.get(packageName);
             if (entity == null) {
                 entity = new Entity(this.mContext, this.mDbHelper, packageName);
                 this.mEntities.put(packageName, entity);
@@ -284,7 +289,7 @@ public class Ranker implements DbHelper.Listener {
     }
 
     public final void calculateAdjustedScore(StatusBarNotification sbn, int position, boolean forceFirst) {
-        cacheScore(sbn, (getBaseNotificationScore(sbn) * Math.pow((double) (position + 1), (double) (-sRankerParameters.getSpreadFactor()))) + ((double) (forceFirst ? 1 : 0)));
+        cacheScore(sbn, (getBaseNotificationScore(sbn) * Math.pow(position + 1, -sRankerParameters.getSpreadFactor())) + ((double) (forceFirst ? 1 : 0)));
     }
 
     private double getRawScore(Notification notification) {
@@ -306,7 +311,7 @@ public class Ranker implements DbHelper.Listener {
         if (!(notif == null || TextUtils.isEmpty(packageName))) {
             Entity entity;
             synchronized (this.mEntitiesLock) {
-                entity = (Entity) this.mEntities.get(packageName);
+                entity = this.mEntities.get(packageName);
             }
             if (entity != null) {
                 double ctr = getCachedCtr(sbn);
@@ -371,16 +376,18 @@ public class Ranker implements DbHelper.Listener {
 
     public void onEntitiesLoaded(HashMap<String, Entity> entities, List<String> blacklistedPackages) {
         int partnerLength = 0;
-        if (BuildConfig.DEBUG) Log.d("Ranker", "onEntitiesLoaded:\n\tentities=" + entities + "\n\tblacklistedPackages=" + blacklistedPackages);
+        if (BuildConfig.DEBUG)
+            Log.d("Ranker", "onEntitiesLoaded:\n\tentities=" + entities + "\n\tblacklistedPackages=" + blacklistedPackages);
         synchronized (this.mEntitiesLock) {
             this.mEntities = entities;
             this.mBlacklistedPackages = blacklistedPackages;
         }
         synchronized (this.mCachedActions) {
             this.mQueryingScores = false;
-            if (BuildConfig.DEBUG) Log.d("Ranker", "onEntitiesLoaded: Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
+            if (BuildConfig.DEBUG)
+                Log.d("Ranker", "onEntitiesLoaded: Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
             while (!this.mCachedActions.isEmpty()) {
-                CachedAction action = (CachedAction) this.mCachedActions.remove();
+                CachedAction action = this.mCachedActions.remove();
                 onAction(action.key, action.component, action.group, action.action);
             }
             if (!DateUtil.initialRankingApplied(this.mContext)) {
@@ -403,7 +410,8 @@ public class Ranker implements DbHelper.Listener {
     }
 
     private void applyOutOfBoxOrdering(String[] order, int offsetEntities, int totalEntities) {
-        if (BuildConfig.DEBUG) Log.d("Ranker", "applyOutOfBoxOrdering: order=" + Arrays.toString(order) + ", offsetEntities=" + offsetEntities + ", totalEntities=" + totalEntities);
+        if (BuildConfig.DEBUG)
+            Log.d("Ranker", "applyOutOfBoxOrdering: order=" + Arrays.toString(order) + ", offsetEntities=" + offsetEntities + ", totalEntities=" + totalEntities);
         if (order != null && order.length != 0 && offsetEntities >= 0 && totalEntities >= order.length + offsetEntities) {
             int entitiesBelow = (totalEntities - offsetEntities) - order.length;
             double bonusSum = (0.5d * ((double) totalEntities)) * ((double) (totalEntities + 1));
@@ -412,7 +420,7 @@ public class Ranker implements DbHelper.Listener {
                 String key = order[(size - i) - 1];
                 if (!this.mEntities.containsKey(key)) {
                     int score = (entitiesBelow + i) + 1;
-                    Entity e = new Entity(this.mContext, this.mDbHelper, key, (long) score, (long) ((entitiesBelow + size) - i), true);
+                    Entity e = new Entity(this.mContext, this.mDbHelper, key, score, (entitiesBelow + size) - i, true);
                     e.setBonusValues(((double) sRankerParameters.getOutOfBoxBonus()) * (((double) score) / bonusSum), new Date().getTime());
                     this.mEntities.put(key, e);
                     this.mDbHelper.saveEntity(e);

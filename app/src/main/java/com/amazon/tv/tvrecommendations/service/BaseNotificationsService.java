@@ -14,7 +14,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
-import com.amazon.tv.leanbacklauncher.BuildConfig;
+
 import com.amazon.tv.tvrecommendations.service.RecommendationsManager.NotificationResolver;
 
 public abstract class BaseNotificationsService extends NotificationListenerService implements NotificationResolver {

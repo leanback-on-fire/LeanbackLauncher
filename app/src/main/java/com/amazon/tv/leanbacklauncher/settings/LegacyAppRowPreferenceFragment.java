@@ -3,25 +3,22 @@ package com.amazon.tv.leanbacklauncher.settings;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v17.leanback.app.GuidedStepSupportFragment;
-import android.support.v17.leanback.widget.GuidanceStylist;
-import android.support.v17.leanback.widget.GuidedAction;
-import android.support.v4.content.res.ResourcesCompat;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.leanback.app.GuidedStepSupportFragment;
+import androidx.leanback.widget.GuidanceStylist;
+import androidx.leanback.widget.GuidedAction;
 
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils;
-import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil;
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
 
-import java.lang.Integer;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 
@@ -45,10 +42,10 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
     @NonNull
     public GuidanceStylist.Guidance onCreateGuidance(Bundle savedInstanceState) {
         return new GuidanceStylist.Guidance(
-        	getString(R.string.edit_row_title), // title
-        	getString(R.string.select_app_customize_rows_title), // description
-        	getString(R.string.settings_dialog_title), // breadcrumb (home_screen_order_action_title)
-        	ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null));
+                getString(R.string.edit_row_title), // title
+                getString(R.string.select_app_customize_rows_title), // description
+                getString(R.string.settings_dialog_title), // breadcrumb (home_screen_order_action_title)
+                ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_home, null));
     }
 
     public void onResume() {
@@ -181,21 +178,21 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
                     RowPreferences.setRowMin(AppCategory.GAME, activity, val);
             }
         } else if (id == ACTION_ID_APPS_MAX) {
-                    try {
-                        val = Integer.parseInt(action.getDescription().toString());
-                    } catch (NumberFormatException nfe) {
-                        val = 1;
-                    }
-                    // Log.w("+++ set all.max ", ""+val);
-                    RowPreferences.setAllAppsMax(activity, val);
+            try {
+                val = Integer.parseInt(action.getDescription().toString());
+            } catch (NumberFormatException nfe) {
+                val = 1;
+            }
+            // Log.w("+++ set all.max ", ""+val);
+            RowPreferences.setAllAppsMax(activity, val);
         } else if (id == ACTION_ID_APPS_ROW) {
-                    try {
-                        val = Integer.parseInt(action.getDescription().toString());
-                    } catch (NumberFormatException nfe) {
-                        val = 1;
-                    }
-                    // Log.w("+++ set apps.max ", ""+val);
-                    RowPreferences.setAppsMax(activity, val);
+            try {
+                val = Integer.parseInt(action.getDescription().toString());
+            } catch (NumberFormatException nfe) {
+                val = 1;
+            }
+            // Log.w("+++ set apps.max ", ""+val);
+            RowPreferences.setAppsMax(activity, val);
         } else if (id == ACTION_ID_RECOMENDATIONS) { // RECOMENDATIONS
             enabled = RowPreferences.areRecommendationsEnabled(activity);
             // Log.w("+++ recommendations.enabled", ""+enabled);
@@ -279,7 +276,7 @@ public class LegacyAppRowPreferenceFragment extends GuidedStepSupportFragment {
         constraints = RowPreferences.getAllAppsConstraints(activity);
         int maxapps = RowPreferences.getAppsMax(activity);
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_MAX).title(R.string.max_apps_rows_title).description(Integer.toString(constraints[1])).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
-		// Max Apps per row
+        // Max Apps per row
         actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS_ROW).title(R.string.max_apps_title).description(Integer.toString(maxapps)).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED).build());
 
         setActions(actions); // APPLY

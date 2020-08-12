@@ -3,6 +3,7 @@ package com.amazon.tv.leanbacklauncher.notifications;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+
 import java.lang.ref.WeakReference;
 
 public class HomeScreenMessaging {
@@ -31,7 +32,7 @@ public class HomeScreenMessaging {
         }
 
         public void handleMessage(Message msg) {
-            HomeScreenMessaging homeScreenMessaging = (HomeScreenMessaging) this.mParent.get();
+            HomeScreenMessaging homeScreenMessaging = this.mParent.get();
             if (homeScreenMessaging != null) {
                 switch (msg.what) {
                     case 0:

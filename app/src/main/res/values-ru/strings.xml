@@ -22,14 +22,12 @@
     <string name="app_info_add_favorites">Добавить в Избранное</string>
     <string name="app_info_hide_app">Скрыть с главного экрана</string>
     <string name="app_info_in_store">Показать в Amazon Store</string>
-    <string name="app_info_notification_settings">Настройки уведомлений</string>
     <string name="app_info_rem_favorites">Удалить из Избранного</string>
     <string name="app_info_settings">Открыть панель управления</string>
     <string name="app_info_unhide_app">Показать на главном экране</string>
     <string name="app_label">Главный экран</string>
     <string name="app_name">LeanbackOnFire</string>
     <string name="apps_order_pref_label">Автоматически сортировать по времени последнего использования</string>
-    <string name="apps_row_title">Раздел «Приложения»</string>
     <string name="banners_corners_radius">Радиус скругления углов (px)</string>
     <string name="banners_frame_color_desc">Эти значения так же могут использоваться для задания цвета: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
     <string name="banners_frame_color">Цвет выделения (#AARRGGBB)</string>
@@ -64,7 +62,6 @@
     <string name="customize_app_order_action_title">Упорядочить приложения</string>
     <string name="customize_game_order_action_title">Упорядочить игры</string>
     <string name="downloading">Скачивание…</string>
-    <string name="edit_favorites">Изменить Избранное</string>
     <string name="edit_finish_button_text">Готово</string>
     <string name="edit_row_title">Настройка разделов</string>
     <string name="edit_uninstall_focused_text">Удалить</string>
@@ -128,13 +125,11 @@
     <string name="lb_search_bar_hint_with_title">Поиск здесь: %1$s</string>
     <string name="lb_search_bar_hint">Поиск</string>
     <string name="lb_time_separator">:</string>
-    <string name="loading">Загрузка…</string>
     <string name="max_apps_rows_title">Макс. строк в «Приложения»</string>
     <string name="max_apps_title">Приложений в одной строке</string>
     <string name="max_favorites_rows_title">Макс. строк в «Избранное»</string>
     <string name="max_games_rows_title">Макс. строк в «Игры»</string>
     <string name="max_music_rows_title">Макс. строк в «Музыка»</string>
-    <string name="max_rows_title">Макс. строк</string>
     <string name="max_videos_rows_title">Макс. строк в «Видео»</string>
     <string name="mic_search_accessibility_hint">Нажмите и произнесите запрос</string>
     <string name="music_row_title">Раздел «Музыка»</string>
@@ -149,7 +144,6 @@
     <string name="now_playing_card_paused">Приостановлено</string>
     <string name="now_playing_card_playing">Воспроизводится</string>
     <string name="now_playing_card_stopped">Остановлено</string>
-    <string name="number_picker_text">%d</string>
     <string name="orb_search_action">Поиск</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="recency_order_action_description">Сортировать по времени последнего использования</string>
@@ -188,7 +182,6 @@ com.amazon.device.sale.service
     <string name="select">Выбор background.jpg в %s</string>
     <string name="settings_dialog_title">Главный экран</string>
     <string name="settings_network">Cеть</string>
-    <string name="sorting_title">Сортировка</string>
     <string name="status_bar_notification_info_overflow">>999</string>
     <string name="system_settings">Cистема</string>
     <string name="title_app_edit_mode">Режим упорядочивания приложений</string>

@@ -7,14 +7,15 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.os.RemoteException;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
+
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.amazon.tv.leanbacklauncher.recommendations.SwitchingRecommendationsClient;
 import com.amazon.tv.leanbacklauncher.trace.AppTrace;
+import com.amazon.tv.tvrecommendations.IRecommendationsClient;
 import com.amazon.tv.tvrecommendations.IRecommendationsService;
 import com.amazon.tv.tvrecommendations.TvRecommendation;
-import com.amazon.tv.tvrecommendations.IRecommendationsClient;
 
 import java.lang.ref.WeakReference;
 import java.util.Comparator;
@@ -101,7 +102,7 @@ public abstract class NotificationsServiceAdapter<VH extends ViewHolder> extends
         }
 
         public void handleMessage(Message msg) {
-            NotificationsServiceAdapter adapter = (NotificationsServiceAdapter) this.mNotificationsServiceAdapter.get();
+            NotificationsServiceAdapter adapter = this.mNotificationsServiceAdapter.get();
             if (adapter != null) {
                 switch (msg.what) {
                     case 0:
@@ -327,7 +328,7 @@ public abstract class NotificationsServiceAdapter<VH extends ViewHolder> extends
         int position = masterList.size();
         double sortKey = getSortKey(rec);
         for (int i = 0; i < masterList.size(); i++) {
-            if (this.mComparator.compare(sortKey, getSortKey((TvRecommendation) masterList.get(i))) < 0) {
+            if (this.mComparator.compare(sortKey, getSortKey(masterList.get(i))) < 0) {
                 position = i;
                 break;
             }
@@ -376,7 +377,7 @@ public abstract class NotificationsServiceAdapter<VH extends ViewHolder> extends
         int size = masterList.size();
         int index = 0;
         while (index < size) {
-            if (NotificationUtils.equals((TvRecommendation) masterList.get(index), rec)) {
+            if (NotificationUtils.equals(masterList.get(index), rec)) {
                 found = true;
                 break;
             }
@@ -401,7 +402,7 @@ public abstract class NotificationsServiceAdapter<VH extends ViewHolder> extends
         int size = masterList.size();
         int index = 0;
         while (index < size) {
-            if (NotificationUtils.equals((TvRecommendation) masterList.get(index), rec)) {
+            if (NotificationUtils.equals(masterList.get(index), rec)) {
                 found = true;
                 break;
             }

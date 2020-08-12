@@ -2,9 +2,12 @@ package com.amazon.tv.leanbacklauncher;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.Keep;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+
+import com.amazon.tv.leanbacklauncher.notifications.RecommendationImageKey;
+import com.amazon.tv.leanbacklauncher.notifications.RecommendationImageLoaderFactory;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
@@ -17,8 +20,6 @@ import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 import com.bumptech.glide.module.GlideModule;
-import com.amazon.tv.leanbacklauncher.notifications.RecommendationImageKey;
-import com.amazon.tv.leanbacklauncher.notifications.RecommendationImageLoaderFactory;
 
 import java.io.IOException;
 

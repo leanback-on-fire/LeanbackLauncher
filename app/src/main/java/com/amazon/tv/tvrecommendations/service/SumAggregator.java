@@ -10,7 +10,7 @@ class SumAggregator<T> implements Aggregator<T> {
 
     public void add(Date date, T value) {
         if (value instanceof Integer) {
-            this.mSum += (double) ((Integer) value).intValue();
+            this.mSum += ((Integer) value).intValue();
         } else if (value instanceof Long) {
             this.mSum += (double) ((Long) value).longValue();
         } else if (value instanceof Double) {

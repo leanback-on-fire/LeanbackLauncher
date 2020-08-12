@@ -31,7 +31,7 @@ public class AppCategorizer {
 
         if (actInfo != null) {
             if ((actInfo.applicationInfo.flags & ApplicationInfo.FLAG_IS_GAME) != 0 ||
-                (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false))
+                    (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false))
             ) {
                 return AppCategory.GAME;
             }

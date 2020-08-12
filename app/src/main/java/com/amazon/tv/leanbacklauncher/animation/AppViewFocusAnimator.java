@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher.animation;
 
 import android.view.View;
+
 import com.amazon.tv.leanbacklauncher.apps.BannerSelectedChangedListener;
 import com.amazon.tv.leanbacklauncher.apps.BannerView;
 

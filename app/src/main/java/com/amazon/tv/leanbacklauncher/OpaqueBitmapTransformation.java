@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -23,12 +24,7 @@ public class OpaqueBitmapTransformation extends BitmapTransformation {
 
         byte[] idBytes;
         this.mBackgroundColor = color;
-        try {
-            idBytes = "OpaqueBitmapTransformation".getBytes("UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            Log.e("OpaqueTransform", ex.getMessage(), ex);
-            idBytes = new byte[0];
-        }
+        idBytes = "OpaqueBitmapTransformation".getBytes(StandardCharsets.UTF_8);
         this.mKeyBytes = new byte[(idBytes.length + 4)];
         System.arraycopy(idBytes, 0, this.mKeyBytes, 0, idBytes.length);
         this.mKeyBytes[idBytes.length] = (byte) ((color >> 24) & 15);
@@ -53,10 +49,7 @@ public class OpaqueBitmapTransformation extends BitmapTransformation {
     }
 
     public boolean equals(Object o) {
-        if ((o instanceof OpaqueBitmapTransformation) && ((OpaqueBitmapTransformation) o).mBackgroundColor == this.mBackgroundColor) {
-            return true;
-        }
-        return false;
+        return (o instanceof OpaqueBitmapTransformation) && ((OpaqueBitmapTransformation) o).mBackgroundColor == this.mBackgroundColor;
     }
 
     public int hashCode() {

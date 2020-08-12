@@ -59,6 +59,7 @@ public class SharedPreferencesUtil {
     public void addFavoritesListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         favPref.registerOnSharedPreferenceChangeListener(listener);
     }
+
     public void addHiddenListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         hiddenPref.registerOnSharedPreferenceChangeListener(listener);
     }

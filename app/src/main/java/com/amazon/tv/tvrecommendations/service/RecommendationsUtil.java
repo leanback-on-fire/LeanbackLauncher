@@ -16,9 +16,6 @@ import android.text.TextUtils;
 
 import com.amazon.tv.tvrecommendations.TvRecommendation;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 public class RecommendationsUtil {
     public static boolean isRecommendation(StatusBarNotification sbn) {
         return !(sbn == null || sbn.getNotification() == null || !TextUtils.equals(sbn.getNotification().category, "recommendation"));
@@ -51,20 +48,13 @@ public class RecommendationsUtil {
                 z = false;
             }
             return z;
-        } else if (TextUtils.equals(left.getPackageName(), right.getPackageName()) && left.getId() == right.getId() && TextUtils.equals(left.getTag(), right.getTag())) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return TextUtils.equals(left.getPackageName(), right.getPackageName()) && left.getId() == right.getId() && TextUtils.equals(left.getTag(), right.getTag());
     }
 
     public static boolean isPackageOnSystem(PackageManager pkgMan, String packageName) {
         try {
             ApplicationInfo info = pkgMan.getApplicationInfo(packageName, 0);
-            if (info == null || (info.flags & 1) == 0) {
-                return false;
-            }
-            return true;
+            return info != null && (info.flags & 1) != 0;
         } catch (NameNotFoundException e) {
             return false;
         }

@@ -1,6 +1,7 @@
 package com.amazon.tv.tvrecommendations.service;
 
 import android.util.SparseArray;
+
 import java.util.Date;
 
 class ActiveDayBuffer {
@@ -27,14 +28,14 @@ class ActiveDayBuffer {
     }
 
     public Signals get(Date date) {
-        return (Signals) this.mBuffer.get(DateUtil.getDay(date));
+        return this.mBuffer.get(DateUtil.getDay(date));
     }
 
     public Signals getAt(int index) {
         if (index < 0 || index >= this.mBuffer.size()) {
             return null;
         }
-        return (Signals) this.mBuffer.valueAt(index);
+        return this.mBuffer.valueAt(index);
     }
 
     public int getDayAt(int index) {

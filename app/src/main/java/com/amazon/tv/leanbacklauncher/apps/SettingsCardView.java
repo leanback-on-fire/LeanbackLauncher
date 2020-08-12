@@ -2,9 +2,11 @@ package com.amazon.tv.leanbacklauncher.apps;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.v17.leanback.widget.BaseCardView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import androidx.leanback.widget.BaseCardView;
+
 import com.amazon.tv.leanbacklauncher.DimmableItem;
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInLaunchAnimation;
@@ -34,8 +36,8 @@ public class SettingsCardView extends BaseCardView implements DimmableItem, Part
 
     protected void onFinishInflate() {
         super.onFinishInflate();
-        this.mCircle = (ImageView) findViewById(R.id.selection_circle);
-        this.mIcon = (ImageView) findViewById(R.id.icon);
+        this.mCircle = findViewById(R.id.selection_circle);
+        this.mIcon = findViewById(R.id.icon);
         this.mFocusAnimator = new ViewFocusAnimator(this);
         this.mDimmer = new ViewDimmer(this);
         this.mDimmer.addDimTarget(this.mIcon);
@@ -51,7 +53,7 @@ public class SettingsCardView extends BaseCardView implements DimmableItem, Part
     public void setSelected(boolean selected) {
         super.setSelected(selected);
         if (this.mCircle != null) {
-            this.mCircle.animate().alpha(selected ? 1.0f : 0.0f).setDuration((long) this.mAnimDuration).start();
+            this.mCircle.animate().alpha(selected ? 1.0f : 0.0f).setDuration(this.mAnimDuration).start();
         }
     }
 

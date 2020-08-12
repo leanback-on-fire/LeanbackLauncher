@@ -11,6 +11,7 @@ import android.provider.Settings.System;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.widget.TextClock;
+
 import java.text.SimpleDateFormat;
 
 public class ClockView extends TextClock {

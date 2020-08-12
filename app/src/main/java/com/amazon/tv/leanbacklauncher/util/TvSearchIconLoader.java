@@ -2,14 +2,11 @@ package com.amazon.tv.leanbacklauncher.util;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 
 public class TvSearchIconLoader extends AsyncTaskLoader<Drawable> {

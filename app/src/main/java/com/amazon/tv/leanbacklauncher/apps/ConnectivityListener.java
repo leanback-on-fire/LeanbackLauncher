@@ -14,6 +14,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class ConnectivityListener {
 
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-            ConnectivityListener listener = (ConnectivityListener) this.mListener.get();
+            ConnectivityListener listener = this.mListener.get();
             if (listener != null) {
                 listener.mConnectivityStatus.mMobileSignalStrength = ConnectivityListener.getLevel(signalStrength);
             }
@@ -151,17 +152,14 @@ public class ConnectivityListener {
         }
         for (WifiConfiguration configuredNetwork : configuredNetworks) {
             if (configuredNetwork.networkId == networkId) {
-                if (configuredNetwork.allowedKeyManagement.get(1) || configuredNetwork.allowedKeyManagement.get(2) || configuredNetwork.allowedKeyManagement.get(3)) {
-                    return true;
-                }
-                return false;
+                return configuredNetwork.allowedKeyManagement.get(1) || configuredNetwork.allowedKeyManagement.get(2) || configuredNetwork.allowedKeyManagement.get(3);
             }
         }
         return false;
     }
 
     private void updateConnectivityStatus() {
-    	// deprecated in API29
+        // deprecated in API29
         NetworkInfo networkInfo = this.mConnectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
             setNoConnection();

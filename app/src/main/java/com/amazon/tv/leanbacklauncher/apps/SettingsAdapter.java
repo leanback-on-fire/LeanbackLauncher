@@ -6,10 +6,10 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import com.amazon.tv.leanbacklauncher.BuildConfig;
-import com.amazon.tv.leanbacklauncher.R;
+
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
+import com.amazon.tv.leanbacklauncher.R;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +30,7 @@ public class SettingsAdapter extends AppsAdapter {
         }
 
         public void handleMessage(Message msg) {
-            SettingsAdapter adapter = (SettingsAdapter) this.mAdapterRef.get();
+            SettingsAdapter adapter = this.mAdapterRef.get();
             if (adapter != null) {
                 switch (msg.what) {
                     case 1:
@@ -81,7 +81,7 @@ public class SettingsAdapter extends AppsAdapter {
 
     private int updateNetwork() {
         for (int i = 0; i < this.mLaunchPoints.size(); i++) {
-            LaunchPoint launchPoint = (LaunchPoint) this.mLaunchPoints.get(i);
+            LaunchPoint launchPoint = this.mLaunchPoints.get(i);
             if (launchPoint.getSettingsType() == 0) {
                 setNetwork(this.mContext.getResources(), launchPoint);
                 return i;

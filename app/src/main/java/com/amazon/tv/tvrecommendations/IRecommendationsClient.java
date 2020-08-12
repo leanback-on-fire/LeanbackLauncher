@@ -8,7 +8,7 @@ import android.os.RemoteException;
 
 public interface IRecommendationsClient extends IInterface {
 
-    public static abstract class Stub extends Binder implements IRecommendationsClient {
+    abstract class Stub extends Binder implements IRecommendationsClient {
 
         private static class Proxy implements IRecommendationsClient {
             private IBinder mRemote;
@@ -153,7 +153,7 @@ public interface IRecommendationsClient extends IInterface {
                 case 4:
                     data.enforceInterface("IRecommendationsClient");
                     if (data.readInt() != 0) {
-                        _arg0 = (TvRecommendation) TvRecommendation.CREATOR.createFromParcel(data);
+                        _arg0 = TvRecommendation.CREATOR.createFromParcel(data);
                     } else {
                         _arg0 = null;
                     }
@@ -162,7 +162,7 @@ public interface IRecommendationsClient extends IInterface {
                 case 5:
                     data.enforceInterface("IRecommendationsClient");
                     if (data.readInt() != 0) {
-                        _arg0 = (TvRecommendation) TvRecommendation.CREATOR.createFromParcel(data);
+                        _arg0 = TvRecommendation.CREATOR.createFromParcel(data);
                     } else {
                         _arg0 = null;
                     }
@@ -171,7 +171,7 @@ public interface IRecommendationsClient extends IInterface {
                 case 6:
                     data.enforceInterface("IRecommendationsClient");
                     if (data.readInt() != 0) {
-                        _arg0 = (TvRecommendation) TvRecommendation.CREATOR.createFromParcel(data);
+                        _arg0 = TvRecommendation.CREATOR.createFromParcel(data);
                     } else {
                         _arg0 = null;
                     }

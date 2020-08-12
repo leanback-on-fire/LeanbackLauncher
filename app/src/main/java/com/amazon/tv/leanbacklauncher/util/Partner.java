@@ -273,7 +273,7 @@ public class Partner {
                 int priority = 0;
                 while (i < length) {
                     int priority2;
-                    Integer type = (Integer) sDefaultPrioritiesMap.get(inputsArray[i]);
+                    Integer type = sDefaultPrioritiesMap.get(inputsArray[i]);
                     if (type != null) {
                         priority2 = priority + 1;
                         map.put(type, Integer.valueOf(priority));
@@ -387,7 +387,7 @@ public class Partner {
             this.mRowPositions.put("settings_row", Integer.valueOf(-1));
             int position = 0;
             for (String row : rowsArray) {
-                if (((Integer) this.mRowPositions.get(row)).intValue() == -1) {
+                if (this.mRowPositions.get(row).intValue() == -1) {
                     this.mRowPositions.put(row, Integer.valueOf(position));
                     position++;
                 }

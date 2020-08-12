@@ -40,10 +40,7 @@ public class MarketUpdateReceiver extends BroadcastReceiver {
         PackageManager pm = context.getPackageManager();
         try {
             pm.getPackageInfo(pkgName, 1);
-            if (pm.getLeanbackLaunchIntentForPackage(pkgName) == null) {
-                return true;
-            }
-            return false;
+            return pm.getLeanbackLaunchIntentForPackage(pkgName) == null;
         } catch (NameNotFoundException e) {
             return false;
         }
@@ -62,7 +59,7 @@ public class MarketUpdateReceiver extends BroadcastReceiver {
             Log.d("MarketUpdateReceiver", pkgName + " is non-leanback App");
         } else {
             String action = intent.getAction();
-            LaunchPoint installLaunchPoint = (LaunchPoint) this.mInstallLaunchPoints.get(pkgName);
+            LaunchPoint installLaunchPoint = this.mInstallLaunchPoints.get(pkgName);
             if (installLaunchPoint != null || intent.getBooleanExtra("user_initiated", false)) {
                 boolean wasAdded = false;
                 if (installLaunchPoint == null) {

@@ -7,8 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
+
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+
 import java.security.MessageDigest;
 
 public class WallpaperBitmapTransform extends BitmapTransformation {

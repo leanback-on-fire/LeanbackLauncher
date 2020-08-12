@@ -117,7 +117,7 @@ public class AppsRanker implements Listener {
         }
 
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            AppsRanker appsRanker = (AppsRanker) this.mAppsRankerRef.get();
+            AppsRanker appsRanker = this.mAppsRankerRef.get();
             if (appsRanker != null) {
                 appsRanker.checkForSortingModeChange();
             }
@@ -227,7 +227,7 @@ public class AppsRanker implements Listener {
             Iterator it = launchPoints.iterator();
             while (it.hasNext()) {
                 LaunchPoint lp = (LaunchPoint) it.next();
-                AppsEntity entity = (AppsEntity) this.mEntities.get(lp.getPackageName());
+                AppsEntity entity = this.mEntities.get(lp.getPackageName());
                 if (entity != null) {
                     this.mLastLaunchPointRankingLogDump.add(lp.getTitle() + " | R " + entity.getOrder(lp.getComponentName()) + " | LO " + getLastOpened(lp) + " | INST " + lp.getFirstInstallTime());
                 }
@@ -265,7 +265,7 @@ public class AppsRanker implements Listener {
     private long getLastOpened(LaunchPoint lp) {
         AppsEntity entity;
         synchronized (this.mEntitiesLock) {
-            entity = (AppsEntity) this.mEntities.get(lp.getPackageName());
+            entity = this.mEntities.get(lp.getPackageName());
         }
         return entity != null ? entity.getLastOpenedTimeStamp(lp.getComponentName()) : -100;
     }
@@ -273,7 +273,7 @@ public class AppsRanker implements Listener {
     private long getEntityOrder(LaunchPoint lp) {
         AppsEntity entity;
         synchronized (this.mEntitiesLock) {
-            entity = (AppsEntity) this.mEntities.get(lp.getPackageName());
+            entity = this.mEntities.get(lp.getPackageName());
         }
         return entity != null ? entity.getOrder(lp.getComponentName()) : 0;
     }
@@ -304,7 +304,7 @@ public class AppsRanker implements Listener {
                 Log.d("AppsRanker", "Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
             }
             while (!this.mCachedActions.isEmpty()) {
-                CachedAction action = (CachedAction) this.mCachedActions.remove();
+                CachedAction action = this.mCachedActions.remove();
                 onAction(action.key, action.component, action.group, action.action);
             }
             if (!Util.initialRankingApplied(this.mContext)) {
@@ -321,7 +321,7 @@ public class AppsRanker implements Listener {
             }
         }
         while (!this.mListeners.isEmpty()) {
-            ((RankingListener) this.mListeners.remove()).onRankerReady();
+            this.mListeners.remove().onRankerReady();
         }
     }
 
@@ -345,7 +345,7 @@ public class AppsRanker implements Listener {
                 String key = order[(size - i) - 1];
                 if (!this.mEntities.containsKey(key)) {
                     long score = ((long) ((entitiesBelow + i) + 1)) + baseTime;
-                    AppsEntity e = new AppsEntity(this.mContext, this.mDbHelper, key, score, (long) ((entitiesBelow + size) - i));
+                    AppsEntity e = new AppsEntity(this.mContext, this.mDbHelper, key, score, (entitiesBelow + size) - i);
                     this.mEntities.put(key, e);
                     this.mDbHelper.saveEntity(e);
                 }
@@ -356,17 +356,17 @@ public class AppsRanker implements Listener {
     public void saveOrderSnapshot(ArrayList<LaunchPoint> launchPoints) {
         synchronized (this.mEntitiesLock) {
             for (int i = 0; i < launchPoints.size(); i++) {
-                saveEntityOrder((LaunchPoint) launchPoints.get(i), i);
+                saveEntityOrder(launchPoints.get(i), i);
             }
         }
     }
 
     private void saveEntityOrder(LaunchPoint launchPoint, int position) {
-        AppsEntity e = (AppsEntity) this.mEntities.get(launchPoint.getPackageName());
+        AppsEntity e = this.mEntities.get(launchPoint.getPackageName());
         if (e != null) {
             e.setOrder(launchPoint.getComponentName(), ((long) position) + 1);
         } else {
-            e = new AppsEntity(this.mContext, this.mDbHelper, launchPoint.getPackageName(), 0, (long) (position + 1));
+            e = new AppsEntity(this.mContext, this.mDbHelper, launchPoint.getPackageName(), 0, position + 1);
             this.mEntities.put(launchPoint.getPackageName(), e);
         }
         this.mDbHelper.saveEntity(e);
@@ -376,7 +376,7 @@ public class AppsRanker implements Listener {
         writer.println(prefix + "==========================");
         Iterator it = this.mLastLaunchPointRankingLogDump.iterator();
         while (it.hasNext()) {
-            writer.println(prefix + " " + ((String) it.next()));
+            writer.println(prefix + " " + it.next());
         }
         writer.println(prefix + "==========================");
     }

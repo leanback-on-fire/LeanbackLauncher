@@ -8,10 +8,11 @@ import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Keep;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Keep;
 
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.widget.PlayingIndicatorView;
@@ -70,8 +71,8 @@ public class ViewDimmer {
         this.mInactiveDimLevel = this.mTargetView.getResources().getFraction(R.fraction.launcher_inactive_dim_level, 1, 1);
         this.mEditModeDimLevel = this.mTargetView.getResources().getFraction(R.fraction.launcher_edit_mode_dim_level, 1, 1);
         int dimAnimDuration = this.mTargetView.getResources().getInteger(R.integer.item_dim_anim_duration);
-        this.mDimAnimation = ObjectAnimator.ofFloat(this, "dimLevel", new float[]{this.mInactiveDimLevel});
-        this.mDimAnimation.setDuration((long) dimAnimDuration);
+        this.mDimAnimation = ObjectAnimator.ofFloat(this, "dimLevel", this.mInactiveDimLevel);
+        this.mDimAnimation.setDuration(dimAnimDuration);
         this.mDimAnimation.addListener(new AnimatorListenerAdapter() {
             public void onAnimationStart(Animator animation) {
                 ViewDimmer.this.mTargetView.setHasTransientState(true);
@@ -144,7 +145,7 @@ public class ViewDimmer {
         if (this.mTextViews != null) {
             size = this.mTextViews.size();
             for (i = 0; i < size; i++) {
-                this.mTextViews.get(i).setTextColor(getDimmedColor(((Integer) this.mOriginalTextColors.get(i)).intValue(), level));
+                this.mTextViews.get(i).setTextColor(getDimmedColor(this.mOriginalTextColors.get(i).intValue(), level));
             }
         }
         if (this.mPlayingIndicatorViews != null) {

@@ -4,10 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.res.Resources;
-import android.support.annotation.Keep;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import androidx.annotation.Keep;
+
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.capabilities.LauncherConfiguration;
 
@@ -38,8 +40,8 @@ public class ViewFocusAnimator implements OnFocusChangeListener {
         this.mSelectedScaleDelta = getFocusedScaleFactor() - this.mUnselectedScale;
         this.mUnselectedZ = (float) res.getDimensionPixelOffset(R.dimen.unselected_item_z);
         this.mSelectedZDelta = (float) res.getDimensionPixelOffset(R.dimen.selected_item_z_delta);
-        this.mFocusAnimation = ObjectAnimator.ofFloat(this, "focusProgress", new float[]{0.0f});
-        this.mFocusAnimation.setDuration((long) res.getInteger(R.integer.item_scale_anim_duration));
+        this.mFocusAnimation = ObjectAnimator.ofFloat(this, "focusProgress", 0.0f);
+        this.mFocusAnimation.setDuration(res.getInteger(R.integer.item_scale_anim_duration));
         this.mFocusAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         LauncherConfiguration launcherConfiguration = LauncherConfiguration.getInstance();
         if (launcherConfiguration == null || !launcherConfiguration.isCardElevationEnabled()) {
@@ -99,7 +101,7 @@ public class ViewFocusAnimator implements OnFocusChangeListener {
                 this.mFocusAnimation.cancel();
             }
             if (getFocusProgress() != (focused ? 1.0f : 0.0f)) {
-                this.mFocusAnimation.setFloatValues(new float[]{getFocusProgress(), focused ? 1.0f : 0.0f});
+                this.mFocusAnimation.setFloatValues(getFocusProgress(), focused ? 1.0f : 0.0f);
                 this.mFocusAnimation.start();
                 return;
             }

@@ -17,7 +17,6 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import com.amazon.tv.leanbacklauncher.LauncherViewHolder;
 import com.amazon.tv.leanbacklauncher.R;
@@ -134,8 +135,8 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             this.mColorMatrix.setScale(0.5f, 0.5f, 0.5f, 1.0f);
             if (v instanceof BannerView) {
                 this.mBannerView = (BannerView) v;
-                this.mImageView = (ImageView) v.findViewById(R.id.input_image);
-                this.mLabelView = (TextView) v.findViewById(R.id.input_label);
+                this.mImageView = v.findViewById(R.id.input_image);
+                this.mLabelView = v.findViewById(R.id.input_label);
                 this.mBackground = v.getResources().getDrawable(R.drawable.input_banner_background, null);
                 return;
             }
@@ -201,16 +202,8 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
                 if (InputsAdapter.this.mConfig.mDisableDiconnectedInputs) {
                     boolean disconnectedL;
                     boolean disconnectedR;
-                    if (lhs.mState == 2) {
-                        disconnectedL = true;
-                    } else {
-                        disconnectedL = false;
-                    }
-                    if (rhs.mState == 2) {
-                        disconnectedR = true;
-                    } else {
-                        disconnectedR = false;
-                    }
+                    disconnectedL = lhs.mState == 2;
+                    disconnectedR = rhs.mState == 2;
                     if (disconnectedL != disconnectedR) {
                         if (disconnectedL) {
                             return 1;
@@ -524,10 +517,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
             if (isBundledTuner() && obj.isBundledTuner()) {
                 return true;
             }
-            if (this.mInfo == null || obj.mInfo == null || !this.mInfo.equals(obj.mInfo)) {
-                return false;
-            }
-            return true;
+            return this.mInfo != null && obj.mInfo != null && this.mInfo.equals(obj.mInfo);
         }
     }
 
@@ -558,7 +548,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     public void onBindViewHolder(InputViewHolder holder, int position) {
         if (position < this.mVisibleInputs.size()) {
-            holder.init((TvInputEntry) this.mVisibleInputs.get(position));
+            holder.init(this.mVisibleInputs.get(position));
         }
     }
 
@@ -593,7 +583,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     private void hideBundledTunerInput(boolean isRefresh) {
         if (this.mIsBundledTunerVisible) {
             for (int i = this.mVisibleInputs.size() - 1; i >= 0; i--) {
-                if (((TvInputEntry) this.mVisibleInputs.get(i)).isBundledTuner()) {
+                if (this.mVisibleInputs.get(i).isBundledTuner()) {
                     this.mVisibleInputs.remove(i);
                     if (!isRefresh) {
                         notifyItemRemoved(i);
@@ -620,11 +610,11 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
         try {
             int state = this.mTvManager.getInputState(input.getId());
             TvInputEntry parentEntry = null;
-            if (((TvInputEntry) this.mInputs.get(input.getId())) == null) {
+            if (this.mInputs.get(input.getId()) == null) {
                 if (!(input.getParentId() == null)) {
                     TvInputInfo parentInfo = this.mTvManager.getTvInputInfo(input.getParentId());
                     if (parentInfo != null) {
-                        parentEntry = (TvInputEntry) this.mInputs.get(parentInfo.getId());
+                        parentEntry = this.mInputs.get(parentInfo.getId());
                         if (parentEntry == null) {
                             parentEntry = new TvInputEntry(parentInfo, null, this.mTvManager.getInputState(parentInfo.getId()), this.mContext);
                             this.mInputs.put(parentInfo.getId(), parentEntry);
@@ -661,7 +651,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     private int getIndexInVisibleList(String id) {
         for (int i = 0; i < this.mVisibleInputs.size(); i++) {
-            TvInputInfo info = ((TvInputEntry) this.mVisibleInputs.get(i)).mInfo;
+            TvInputInfo info = this.mVisibleInputs.get(i).mInfo;
             if (info != null && TextUtils.equals(info.getId(), id)) {
                 return i;
             }
@@ -671,7 +661,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     private int insertEntryIntoSortedList(TvInputEntry entry, List<TvInputEntry> list) {
         int i = 0;
-        while (i < list.size() && this.mComp.compare(entry, (TvInputEntry) list.get(i)) > 0) {
+        while (i < list.size() && this.mComp.compare(entry, list.get(i)) > 0) {
             i++;
         }
         if (!list.contains(entry)) {
@@ -682,7 +672,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
 
     private void inputStateUpdated(String id, int state) {
         boolean isNowConnected = true;
-        TvInputEntry entry = (TvInputEntry) this.mInputs.get(id);
+        TvInputEntry entry = this.mInputs.get(id);
         if (entry != null) {
             boolean wasConnected = entry.mState != 2;
             if (state == 2) {
@@ -738,7 +728,7 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     }
 
     private void inputRemoved(String id) {
-        TvInputEntry entry = (TvInputEntry) this.mInputs.get(id);
+        TvInputEntry entry = this.mInputs.get(id);
         if (entry == null || entry.mInfo == null || !entry.mInfo.isPassthroughInput()) {
             removeTuner(id);
         } else {
@@ -759,11 +749,11 @@ public class InputsAdapter extends RowViewAdapter<InputsAdapter.InputViewHolder>
     }
 
     private void removeEntry(String id) {
-        TvInputEntry entry = (TvInputEntry) this.mInputs.get(id);
+        TvInputEntry entry = this.mInputs.get(id);
         if (entry != null) {
             this.mInputs.remove(id);
             for (int i = this.mVisibleInputs.size() - 1; i >= 0; i--) {
-                TvInputEntry anEntry = (TvInputEntry) this.mVisibleInputs.get(i);
+                TvInputEntry anEntry = this.mVisibleInputs.get(i);
                 if (!(anEntry.mParentEntry == null || anEntry.mParentEntry.mInfo == null || !TextUtils.equals(anEntry.mParentEntry.mInfo.getId(), id))) {
                     this.mInputs.remove(anEntry.mInfo.getId());
                     this.mVisibleInputs.remove(i);

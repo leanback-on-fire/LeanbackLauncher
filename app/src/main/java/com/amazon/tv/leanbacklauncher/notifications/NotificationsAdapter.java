@@ -8,16 +8,13 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import androidx.core.content.ContextCompat;
+
 import com.amazon.tv.leanbacklauncher.LauncherViewHolder;
 import com.amazon.tv.leanbacklauncher.MainActivity.IdleListener;
 import com.amazon.tv.leanbacklauncher.OpaqueBitmapTransformation;
@@ -27,9 +24,13 @@ import com.amazon.tv.leanbacklauncher.capabilities.LauncherConfiguration;
 import com.amazon.tv.leanbacklauncher.core.LaunchException;
 import com.amazon.tv.leanbacklauncher.trace.AppTrace;
 import com.amazon.tv.leanbacklauncher.trace.AppTrace.TraceTag;
+import com.amazon.tv.leanbacklauncher.util.Util;
 import com.amazon.tv.tvrecommendations.IRecommendationsService;
 import com.amazon.tv.tvrecommendations.TvRecommendation;
-import com.amazon.tv.leanbacklauncher.util.Util;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
@@ -122,7 +123,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         }
 
         public void handleMessage(Message msg) {
-            NotificationsAdapter adapter = (NotificationsAdapter) this.mAdapterRef.get();
+            NotificationsAdapter adapter = this.mAdapterRef.get();
             if (adapter != null && msg.what == 11 && !adapter.mIsIdle) {
                 NotifViewHolder holder = (NotifViewHolder) msg.obj;
                 PendingIntent intent = holder.getPendingIntent();
@@ -228,7 +229,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
                     this.mImageTask.cancel(true);
                 }
                 this.mImageTask = new FetchImageTask(traceTag);
-                this.mImageTask.execute(new String[]{this.mRecommendation.getKey()});
+                this.mImageTask.execute(this.mRecommendation.getKey());
             }
         }
 
@@ -348,7 +349,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         this.mRichRecommendationViewSupported = LauncherConfiguration.getInstance().isRichRecommendationViewEnabled();
         this.mLegacyRecommendationLayoutSupported = LauncherConfiguration.getInstance().isLegacyRecommendationLayoutEnabled();
         this.mGlideRequestManager = Glide.with(this.mContext);
-        this.mGlideOptions = ((RequestOptions) new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).transform(new OpaqueBitmapTransformation(this.mContext, ContextCompat.getColor(context, R.color.notif_background_color)));
+        this.mGlideOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).transform(new OpaqueBitmapTransformation(this.mContext, ContextCompat.getColor(context, R.color.notif_background_color)));
     }
 
     public void onActionOpenLaunchPoint(String component, String group) {
@@ -514,7 +515,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         Message msg = new Message();
         msg.what = 11;
         msg.obj = holder;
-        this.mImpressionHandler.sendMessageDelayed(msg, (long) this.mImpressionDelay);
+        this.mImpressionHandler.sendMessageDelayed(msg, this.mImpressionDelay);
         this.mCardUpdateController.onViewAttachedToWindow(holder);
     }
 

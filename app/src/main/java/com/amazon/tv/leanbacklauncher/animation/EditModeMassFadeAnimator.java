@@ -12,7 +12,7 @@ import com.amazon.tv.leanbacklauncher.util.Preconditions;
 
 import java.util.Iterator;
 
-import static com.amazon.tv.leanbacklauncher.animation.EditModeMassFadeAnimator.ViewHolder.*;
+import static com.amazon.tv.leanbacklauncher.animation.EditModeMassFadeAnimator.ViewHolder.Direction;
 
 public final class EditModeMassFadeAnimator extends PropagatingAnimator<EditModeMassFadeAnimator.ViewHolder> implements Joinable {
     private final EditMode mEditMode;
@@ -59,11 +59,11 @@ public final class EditModeMassFadeAnimator extends PropagatingAnimator<EditMode
 
     public EditModeMassFadeAnimator(MainActivity activity, EditMode editMode) {
         super(10);
-        this.mEditMode = (EditMode) Preconditions.checkNotNull(editMode);
+        this.mEditMode = Preconditions.checkNotNull(editMode);
         if (editMode == EditMode.EXIT) {
-            setDuration((long) activity.getResources().getInteger(R.integer.edit_mode_exit_fade_duration));
+            setDuration(activity.getResources().getInteger(R.integer.edit_mode_exit_fade_duration));
         } else {
-            setDuration((long) activity.getResources().getInteger(R.integer.edit_mode_entrance_fade_duration));
+            setDuration(activity.getResources().getInteger(R.integer.edit_mode_entrance_fade_duration));
         }
         addViews(activity);
     }
@@ -148,7 +148,7 @@ public final class EditModeMassFadeAnimator extends PropagatingAnimator<EditMode
     public void exclude(View target) {
         int n = size();
         for (int i = 0; i < n; i++) {
-            if (((ViewHolder) getView(i)).view == target) {
+            if (getView(i).view == target) {
                 removeView(i);
                 return;
             }
@@ -159,7 +159,7 @@ public final class EditModeMassFadeAnimator extends PropagatingAnimator<EditMode
         StringBuilder buf = new StringBuilder().append("EditModeMassFadeAnimator@").append(Integer.toHexString(hashCode())).append(':').append(this.mEditMode == EditMode.ENTER ? "ENTER" : "EXIT").append('{');
         int n = size();
         for (int i = 0; i < n; i++) {
-            buf.append("\n    ").append(((ViewHolder) getView(i)).toString().replaceAll("\n", "\n    "));
+            buf.append("\n    ").append(getView(i).toString().replaceAll("\n", "\n    "));
         }
         return buf.append("\n}").toString();
     }

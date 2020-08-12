@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 
-import com.bumptech.glide.request.target.SizeReadyCallback;
+import androidx.annotation.NonNull;
+
 import com.amazon.tv.leanbacklauncher.PackageResourceCache;
 import com.amazon.tv.tvrecommendations.TvRecommendation;
+import com.bumptech.glide.request.target.SizeReadyCallback;
 
 public class RecommendationCardView extends RecommendationView {
     private TvRecommendation mRecommendation;
@@ -63,7 +64,6 @@ public class RecommendationCardView extends RecommendationView {
         bindContentDescription(this.mRecommendation.getTitle(), this.mRecommendation.getSourceName(), this.mRecommendation.getText());
         onBind();
     }
-
 
 
     public String getWallpaperUri() {

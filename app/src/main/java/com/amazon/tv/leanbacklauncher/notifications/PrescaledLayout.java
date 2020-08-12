@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.amazon.tv.leanbacklauncher.R;
 
 public class PrescaledLayout extends ViewGroup {
@@ -39,7 +40,7 @@ public class PrescaledLayout extends ViewGroup {
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        this.mContent.measure(MeasureSpec.makeMeasureSpec((int) Math.ceil((double) (((float) width) * this.mScaleFactor)), 1073741824), 0);
+        this.mContent.measure(MeasureSpec.makeMeasureSpec((int) Math.ceil(((float) width) * this.mScaleFactor), 1073741824), 0);
         setMeasuredDimension(width, (int) (((float) this.mContent.getMeasuredHeight()) / this.mScaleFactor));
     }
 

@@ -40,7 +40,7 @@ public class LauncherApplication extends Application {
                         newBlacklist.add(pkg);
                     }
                 }
-                service.setBlacklistedPackages((String[]) newBlacklist.toArray(new String[newBlacklist.size()]));
+                service.setBlacklistedPackages(newBlacklist.toArray(new String[newBlacklist.size()]));
             } catch (RemoteException e) {
                 Log.e("LauncherApplication", "Could not save migrated blacklist", e);
             }

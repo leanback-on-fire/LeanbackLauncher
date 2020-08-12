@@ -1,8 +1,5 @@
 package com.amazon.tv.leanbacklauncher.trace;
 
-import android.util.Log;
-import com.amazon.tv.leanbacklauncher.BuildConfig;
-
 public final class AppTrace {
 
     static String TAG = "AppTrace";

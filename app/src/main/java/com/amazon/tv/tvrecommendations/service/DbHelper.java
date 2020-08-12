@@ -62,7 +62,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     double bonus = bonusIndex == -1 ? 0.0d : c.getDouble(bonusIndex);
                     long bonusTime = bonusTimeIndex == -1 ? 0 : c.getLong(bonusTimeIndex);
                     long initialOrder = orderIndex == -1 ? 0 : c.getLong(orderIndex);
-                    boolean postedRec = postedRecIndex == -1 ? false : c.getLong(postedRecIndex) == 1;
+                    boolean postedRec = postedRecIndex != -1 && c.getLong(postedRecIndex) == 1;
                     if (!TextUtils.isEmpty(key)) {
                         Entity ent = new Entity(DbHelper.this.mContext, DbHelper.this, key, initialOrder, postedRec);
                         if (bonusTime != 0 && bonus > 0.0d) {
@@ -96,7 +96,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         }
                     }
                     if (!TextUtils.isEmpty(key)) {
-                        entity = (Entity) entities.get(key);
+                        entity = entities.get(key);
                         if (entity != null) {
                             entity.setOrder(component, entityScore);
                             entity.setLastOpenedTimeStamp(component, lastOpened);
@@ -115,7 +115,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         group = c.getString(groupIndex);
                         long time = c.getLong(timeStampIndex);
                         if (!TextUtils.isEmpty(key)) {
-                            entity = (Entity) entities.get(key);
+                            entity = entities.get(key);
                             if (entity != null) {
                                 entity.addBucket(group, time);
                             }
@@ -140,7 +140,7 @@ public class DbHelper extends SQLiteOpenHelper {
                                 impressions = c.getInt(impressionsIndex);
                             }
                             if (!(TextUtils.isEmpty(key) || day == -1)) {
-                                entity = (Entity) entities.get(key);
+                                entity = entities.get(key);
                                 if (entity != null) {
                                     ActiveDayBuffer activeDayBuffer = entity.getSignalsBuffer(group);
                                     if (activeDayBuffer != null) {
@@ -310,8 +310,8 @@ public class DbHelper extends SQLiteOpenHelper {
             }
             for (Entry<String, ContentValues> pair : this.mComponents.entrySet()) {
                 int count;
-                String component = (String) pair.getKey();
-                ContentValues cv = (ContentValues) pair.getValue();
+                String component = pair.getKey();
+                ContentValues cv = pair.getValue();
                 long timeStamp = cv.getAsLong("last_opened").longValue();
                 synchronized (DbHelper.this.mLock) {
                     if (DbHelper.this.mMostRecentTimeStamp.longValue() < timeStamp) {
@@ -334,15 +334,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 }
             }
             for (Entry<String, ContentValues> pair2 : this.mGroups.entrySet()) {
-                ContentValues cv = (ContentValues) pair2.getValue();
-                if (db.update("buckets", cv, "key=? AND group_id=? ", new String[]{this.mKey, (String) pair2.getKey()}) == 0) {
+                ContentValues cv = pair2.getValue();
+                if (db.update("buckets", cv, "key=? AND group_id=? ", new String[]{this.mKey, pair2.getKey()}) == 0) {
                     db.insert("buckets", null, cv);
                 }
                 String groupId = pair2.getKey();
                 List<ContentValues> signals = this.mActiveDayBuffers.get(groupId);
                 if (signals != null) {
                     for (int i = 0; i < signals.size(); i++) {
-                        ContentValues signalValues = (ContentValues) signals.get(i);
+                        ContentValues signalValues = signals.get(i);
                         if (db.update("buffer_scores", signalValues, "key=? AND group_id=? AND _id=?", new String[]{this.mKey, groupId, "" + i}) == 0) {
                             db.insert("buffer_scores", null, signalValues);
                         }
@@ -484,7 +484,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public void saveEntity(Entity entity) {
         if (!TextUtils.isEmpty(entity.getKey())) {
-            createSaveEntityTask(entity).execute(new Void[0]);
+            createSaveEntityTask(entity).execute();
         }
     }
 
@@ -494,13 +494,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public void removeEntity(String key, boolean fullRemoval) {
         if (!TextUtils.isEmpty(key)) {
-            new RemoveEntityTask(key, fullRemoval).execute(new Void[0]);
+            new RemoveEntityTask(key, fullRemoval).execute();
         }
     }
 
     public void removeGroupData(String key, String group) {
         if (!TextUtils.isEmpty(key)) {
-            new RemoveGroupTask(key, group).execute(new Void[0]);
+            new RemoveGroupTask(key, group).execute();
         }
     }
 

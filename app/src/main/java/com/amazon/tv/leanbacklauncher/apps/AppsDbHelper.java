@@ -246,12 +246,12 @@ public class AppsDbHelper extends SQLiteOpenHelper {
 
     public void removeEntity(String key, boolean fullRemoval) {
         if (!TextUtils.isEmpty(key)) {
-            new RemoveEntityTask(key, fullRemoval).execute(new Void[0]);
+            new RemoveEntityTask(key, fullRemoval).execute();
         }
     }
 
     public void loadEntities(Listener listener, Executor executor) {
-        new LoadEntitiesTask(listener).executeOnExecutor(executor, new Void[0]);
+        new LoadEntitiesTask(listener).executeOnExecutor(executor);
     }
 
     public long getMostRecentTimeStamp() {

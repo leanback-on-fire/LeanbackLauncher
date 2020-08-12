@@ -1,7 +1,8 @@
 package com.amazon.tv.leanbacklauncher.notifications;
 
-import com.bumptech.glide.load.Key;
 import com.amazon.tv.tvrecommendations.TvRecommendation;
+import com.bumptech.glide.load.Key;
+
 import java.security.MessageDigest;
 
 public class RecommendationImageKey implements Key {

@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.amazon.tv.leanbacklauncher.apps.SettingsCardView android:orientation="vertical" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" custom:cardType="infoUnder" custom:infoVisibility="activated"
-  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto">
-    <FrameLayout android:id="@id/main" android:layout_width="@dimen/settings_card_width" android:layout_height="wrap_content" custom:layout_viewType="main">
-        <ImageView android:layout_gravity="center" android:id="@id/selection_circle" android:layout_width="@dimen/settings_icon_size" android:layout_height="@dimen/settings_icon_size" android:src="@drawable/settings_selection_circle" android:scaleType="fitCenter" android:contentDescription="@null" android:alpha="0.0" />
-        <ImageView android:layout_gravity="center" android:id="@id/icon" android:layout_width="@dimen/settings_icon_size" android:layout_height="@dimen/settings_icon_size" android:src="@drawable/ic_settings_settings" android:scaleType="fitCenter" android:contentDescription="@null" />
+<com.amazon.tv.leanbacklauncher.apps.SettingsCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    custom:cardType="infoUnder"
+    custom:infoVisibility="activated">
+
+    <FrameLayout
+        android:id="@id/main"
+        android:layout_width="@dimen/settings_card_width"
+        android:layout_height="wrap_content"
+        custom:layout_viewType="main">
+
+        <ImageView
+            android:id="@id/selection_circle"
+            android:layout_width="@dimen/settings_icon_size"
+            android:layout_height="@dimen/settings_icon_size"
+            android:layout_gravity="center"
+            android:alpha="0.0"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"
+            custom:srcCompat="@drawable/settings_selection_circle" />
+
+        <ImageView
+            android:id="@id/icon"
+            android:layout_width="@dimen/settings_icon_size"
+            android:layout_height="@dimen/settings_icon_size"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"
+            custom:srcCompat="@drawable/ic_settings_settings" />
     </FrameLayout>
-    <TextView android:textSize="@dimen/settings_label_text_size" android:textColor="@color/settings_label_text_color" android:ellipsize="end" android:gravity="center" android:id="@id/label" android:paddingLeft="@dimen/settings_text_padding" android:paddingRight="@dimen/settings_text_padding" android:layout_width="@dimen/settings_card_width" android:layout_height="@dimen/settings_info_height" android:maxLines="2" android:fontFamily="@string/font" custom:layout_viewType="info" />
+
+    <TextView
+        android:id="@id/label"
+        android:layout_width="@dimen/settings_card_width"
+        android:layout_height="@dimen/settings_info_height"
+        android:ellipsize="end"
+        android:fontFamily="@string/font"
+        android:gravity="center"
+        android:maxLines="2"
+        android:paddingLeft="@dimen/settings_text_padding"
+        android:paddingRight="@dimen/settings_text_padding"
+        android:textColor="@color/settings_label_text_color"
+        android:textSize="@dimen/settings_label_text_size"
+        custom:layout_viewType="info" />
 </com.amazon.tv.leanbacklauncher.apps.SettingsCardView>

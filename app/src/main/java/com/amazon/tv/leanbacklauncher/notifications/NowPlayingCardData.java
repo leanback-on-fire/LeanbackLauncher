@@ -55,8 +55,8 @@ public class NowPlayingCardData implements Parcelable {
         this.duration = in.readLong();
         this.playerPackage = in.readString();
         ClassLoader classLoader = Bitmap.class.getClassLoader();
-        this.artwork = (Bitmap) in.readParcelable(classLoader);
-        this.badgeIcon = (Bitmap) in.readParcelable(classLoader);
+        this.artwork = in.readParcelable(classLoader);
+        this.badgeIcon = in.readParcelable(classLoader);
     }
 
     public int describeContents() {

@@ -7,11 +7,7 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +17,14 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
+import com.amazon.tv.firetv.leanbacklauncher.apps.FavoritesAdapter;
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences;
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowType;
 import com.amazon.tv.leanbacklauncher.HomeScreenRow.RowChangeListener;
 import com.amazon.tv.leanbacklauncher.HomeScrollManager.HomeScrollFractionListener;
 import com.amazon.tv.leanbacklauncher.apps.AppsAdapter;
@@ -39,17 +41,13 @@ import com.amazon.tv.leanbacklauncher.notifications.NotificationsServiceAdapter;
 import com.amazon.tv.leanbacklauncher.notifications.PartnerAdapter;
 import com.amazon.tv.leanbacklauncher.util.Preconditions;
 import com.amazon.tv.leanbacklauncher.widget.EditModeView;
-import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
-import com.amazon.tv.firetv.leanbacklauncher.apps.FavoritesAdapter;
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowType;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder> implements RowChangeListener, ConnectivityListener.Listener, OnEditModeChangedListener {
@@ -91,8 +89,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     }
 
     public HomeScreenAdapter(MainActivity context, HomeScrollManager scrollMgr, NotificationsAdapter notificationsAdapter, EditModeView editModeView) {
-        this.mMainActivity = (MainActivity) Preconditions.checkNotNull(context);
-        this.mScrollManager = (HomeScrollManager) Preconditions.checkNotNull(scrollMgr);
+        this.mMainActivity = Preconditions.checkNotNull(context);
+        this.mScrollManager = Preconditions.checkNotNull(scrollMgr);
         this.mAppsManager = AppsManager.getInstance(context);
         this.mInflater = LayoutInflater.from(context);
         this.mRecommendationsAdapter = notificationsAdapter;
@@ -127,8 +125,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
 
     public void resetRowPositions(boolean smooth) {
         for (int i = 0; i < this.mAllRowsList.size(); i++) {
-            if (((HomeScreenRow) this.mAllRowsList.get(i)).getRowView() instanceof ActiveFrame) {
-                ((ActiveFrame) ((HomeScreenRow) this.mAllRowsList.get(i)).getRowView()).resetScrollPosition(smooth);
+            if (this.mAllRowsList.get(i).getRowView() instanceof ActiveFrame) {
+                ((ActiveFrame) this.mAllRowsList.get(i).getRowView()).resetScrollPosition(smooth);
             }
         }
     }
@@ -240,8 +238,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
             int insertPoint = this.mVisRowsList.size();
             i = 0;
             while (i < this.mVisRowsList.size()) {
-                if (((HomeScreenRow) this.mVisRowsList.get(i)).getPosition() != position) {
-                    if (((HomeScreenRow) this.mVisRowsList.get(i)).getPosition() > position) {
+                if (this.mVisRowsList.get(i).getPosition() != position) {
+                    if (this.mVisRowsList.get(i).getPosition() > position) {
                         insertPoint = i;
                         break;
                     }
@@ -256,7 +254,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         }
         int pos = -1;
         for (i = 0; i < this.mVisRowsList.size(); i++) {
-            if (((HomeScreenRow) this.mVisRowsList.get(i)).getPosition() == position) {
+            if (this.mVisRowsList.get(i).getPosition() == position) {
                 pos = i;
                 break;
             }
@@ -283,7 +281,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
     }
 
     public long getItemId(int position) {
-        return (long) this.mVisRowsList.get(position).getType().getCode();
+        return this.mVisRowsList.get(position).getType().getCode();
     }
 
     public int getItemViewType(int position) {
@@ -310,8 +308,8 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 break;
             case NOTIFICATIONS:
                 view = this.mInflater.inflate(R.layout.home_notification_row, parent, false);
-                NotificationRowView notifList = (NotificationRowView) view.findViewById(R.id.list);
-                HomeScreenView homeScreenView = (HomeScreenView) view.findViewById(R.id.home_screen_messaging);
+                NotificationRowView notifList = view.findViewById(R.id.list);
+                HomeScreenView homeScreenView = view.findViewById(R.id.home_screen_messaging);
                 if (!(notifList == null || homeScreenView == null)) {
                     initNotificationsRows(notifList, row.getAdapter(), homeScreenView.getHomeScreenMessaging());
                     break;
@@ -366,7 +364,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         int n = this.mHeaders.size();
         View[] headers = new View[n];
         for (int i = 0; i < n; i++) {
-            headers[i] = (View) this.mHeaders.valueAt(i);
+            headers[i] = this.mHeaders.valueAt(i);
         }
         return headers;
     }
@@ -436,7 +434,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                     }
                 }
                 Drawable icon = row.getIcon();
-                ImageView iconView = (ImageView) group.findViewById(R.id.icon);
+                ImageView iconView = group.findViewById(R.id.icon);
                 if (icon != null) {
                     iconView.setImageDrawable(icon);
                     iconView.setVisibility(View.VISIBLE);

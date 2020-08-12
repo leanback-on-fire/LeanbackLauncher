@@ -52,9 +52,9 @@ class Entity {
     }
 
     public long getLastOpenedTimeStamp(String component) {
-        Long lastOpened = (Long) this.mLastOpened.get(component);
+        Long lastOpened = this.mLastOpened.get(component);
         if (lastOpened == null) {
-            lastOpened = (Long) this.mLastOpened.get(null);
+            lastOpened = this.mLastOpened.get(null);
             if (lastOpened == null) {
                 lastOpened = Long.valueOf(0);
             }
@@ -63,9 +63,9 @@ class Entity {
     }
 
     public long getOrder(String component) {
-        Long rankOrder = (Long) this.mRankOrder.get(component);
+        Long rankOrder = this.mRankOrder.get(component);
         if ((rankOrder == null || rankOrder.longValue() == 0) && this.mRankOrder.keySet().size() == 1) {
-            rankOrder = (Long) this.mRankOrder.get(null);
+            rankOrder = this.mRankOrder.get(null);
             if (rankOrder == null) {
                 rankOrder = Long.valueOf(0);
             }
@@ -90,7 +90,7 @@ class Entity {
     }
 
     public String getKey() {
-        return new String(this.mKey);
+        return this.mKey;
     }
 
     public synchronized void onAction(int actionType, String component, String group) {
@@ -149,14 +149,14 @@ class Entity {
         Bucket bucket2;
         if (this.mBucketList.containsKey(group)) {
             Log.e("Entity", "Entity.addBucket: Got duplicated Group ID: " + group);
-            bucket2 = (Bucket) this.mBucketList.get(group);
+            bucket2 = this.mBucketList.get(group);
             bucket2.setTimestamp(timeStamp);
             this.mBucketList.remove(group);
             this.mBucketList.put(group, bucket2);
             bucket = bucket2;
         } else {
             if (this.mBucketList.size() >= 100) {
-                String removedGroup = (String) this.mBucketList.keySet().iterator().next();
+                String removedGroup = this.mBucketList.keySet().iterator().next();
                 this.mBucketList.remove(removedGroup);
                 if (this.mDbHelper != null) {
                     this.mDbHelper.removeGroupData(this.mKey, removedGroup);
@@ -183,7 +183,7 @@ class Entity {
 
     public synchronized long getGroupTimeStamp(String group) {
         long timestamp;
-        Bucket bucket = (Bucket) this.mBucketList.get(safeGroupId(group));
+        Bucket bucket = this.mBucketList.get(safeGroupId(group));
         if (bucket != null) {
             timestamp = bucket.getTimestamp();
         } else {
@@ -194,7 +194,7 @@ class Entity {
 
     public synchronized ActiveDayBuffer getSignalsBuffer(String group) {
         ActiveDayBuffer buffer;
-        Bucket bucket = (Bucket) this.mBucketList.get(safeGroupId(group));
+        Bucket bucket = this.mBucketList.get(safeGroupId(group));
         if (bucket != null) {
             buffer = bucket.getBuffer();
         } else {
@@ -240,7 +240,7 @@ class Entity {
     public synchronized double getCtr(Normalizer ctrNormalizer, String group) {
         double ctr;
         ctr = 0.0d;
-        Bucket bucket = (Bucket) this.mBucketList.get(safeGroupId(group));
+        Bucket bucket = this.mBucketList.get(safeGroupId(group));
         if (bucket != null) {
             double aggregatedCtr = bucket.getBuffer().getAggregatedScore(this.mSignalsAggregator);
             if (aggregatedCtr != -1.0d) {
@@ -261,12 +261,12 @@ class Entity {
     }
 
     private String safeGroupId(String id) {
-        return id == null ? new String("") : id;
+        return id == null ? "" : id;
     }
 
     private Bucket getOrAddBucket(String group) {
         group = safeGroupId(group);
-        Bucket bucket = (Bucket) this.mBucketList.get(group);
+        Bucket bucket = this.mBucketList.get(group);
         if (bucket == null) {
             return addBucket(group, System.currentTimeMillis());
         }
@@ -274,7 +274,7 @@ class Entity {
     }
 
     private void touchBucket(String group) {
-        Bucket bucket = (Bucket) this.mBucketList.remove(group);
+        Bucket bucket = this.mBucketList.remove(group);
         if (bucket != null) {
             bucket.updateTimestamp();
             this.mBucketList.put(group, bucket);

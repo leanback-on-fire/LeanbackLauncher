@@ -71,7 +71,7 @@ final class CircleTakeoverAnimator extends ForwardingAnimator<Animator> {
         int y = (int) (((float) pos[1]) + ((((float) target.getMeasuredHeight()) * scale) / 2.0f));
         int w = displayWidth - x;
         int h = displayHeight - y;
-        int r = (int) Math.max((double) ((int) Math.max((double) ((int) Math.max((double) ((int) Math.ceil(Math.sqrt((double) ((x * x) + (y * y))))), Math.ceil(Math.sqrt((double) ((w * w) + (y * y)))))), Math.ceil(Math.sqrt((double) ((w * w) + (h * h)))))), Math.ceil(Math.sqrt((double) ((x * x) + (h * h)))));
+        int r = (int) Math.max((int) Math.max((int) Math.max((int) Math.ceil(Math.sqrt((x * x) + (y * y))), Math.ceil(Math.sqrt((w * w) + (y * y)))), Math.ceil(Math.sqrt((w * w) + (h * h)))), Math.ceil(Math.sqrt((x * x) + (h * h))));
         circleLayerView.setBackgroundColor(-16777216 | color);
         circleLayerView.setAlpha(1.0f);
         return ViewAnimationUtils.createCircularReveal(circleLayerView, x, y, 0.0f, (float) r);

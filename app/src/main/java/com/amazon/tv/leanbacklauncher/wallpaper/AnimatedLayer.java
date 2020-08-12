@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+
 import com.amazon.tv.leanbacklauncher.R;
 
 public class AnimatedLayer extends WallpaperImage {

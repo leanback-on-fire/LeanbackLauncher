@@ -9,6 +9,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.SparseArray;
+
 import java.util.HashMap;
 
 public class PackageResourceCache {
@@ -53,7 +54,7 @@ public class PackageResourceCache {
         if (entry == null) {
             return null;
         }
-        Drawable drawable = (Drawable) entry.drawableMap.get(id);
+        Drawable drawable = entry.drawableMap.get(id);
         if (drawable != null) {
             return drawable;
         }
@@ -63,7 +64,7 @@ public class PackageResourceCache {
     }
 
     private ResourceCacheEntry getCacheEntry(String packageName) throws NameNotFoundException {
-        ResourceCacheEntry entry = (ResourceCacheEntry) this.mMap.get(packageName);
+        ResourceCacheEntry entry = this.mMap.get(packageName);
         if (entry != null) {
             return entry;
         }

@@ -1,8 +1,9 @@
 package com.amazon.tv.firetv.tvrecommendations;
 
 import android.app.ActivityManager;
-import android.app.NotificationManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
@@ -12,14 +13,12 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.IBinder;
-import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
-import android.app.NotificationChannel;
+
+import androidx.core.app.NotificationCompat;
 
 import com.amazon.tv.leanbacklauncher.MainActivity;
 import com.amazon.tv.leanbacklauncher.R;
@@ -152,7 +151,7 @@ public class NotificationListenerMonitor extends Service {
         int NOTIFICATION_ID = 1111;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-        	NotificationChannel notificationChannel = null;
+            NotificationChannel notificationChannel = null;
             notificationChannel = new NotificationChannel(CHANNEL_ID,
                     CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
@@ -165,7 +164,7 @@ public class NotificationListenerMonitor extends Service {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.ic_notification))
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_notification))
                 .setContentTitle(CHANNEL_NAME)
                 .setContentText(getResources().getString(R.string.notification_text));
 

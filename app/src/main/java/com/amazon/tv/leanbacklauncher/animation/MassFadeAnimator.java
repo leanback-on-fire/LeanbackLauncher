@@ -1,8 +1,9 @@
 package com.amazon.tv.leanbacklauncher.animation;
 
-import android.support.v17.leanback.widget.HorizontalGridView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.leanback.widget.HorizontalGridView;
 
 import com.amazon.tv.leanbacklauncher.util.Preconditions;
 
@@ -24,16 +25,16 @@ public final class MassFadeAnimator extends PropagatingAnimator<MassFadeAnimator
         private Class<?> mTargetClass = Participant.class;
 
         public Builder(ViewGroup root) {
-            this.mRoot = (ViewGroup) Preconditions.checkNotNull(root);
+            this.mRoot = Preconditions.checkNotNull(root);
         }
 
         public Builder setDirection(Direction direction) {
-            this.mDirection = (Direction) Preconditions.checkNotNull(direction);
+            this.mDirection = Preconditions.checkNotNull(direction);
             return this;
         }
 
         public Builder setTarget(Class<?> targetClass) {
-            this.mTargetClass = (Class) Preconditions.checkNotNull(targetClass);
+            this.mTargetClass = Preconditions.checkNotNull(targetClass);
             return this;
         }
 
@@ -111,7 +112,7 @@ public final class MassFadeAnimator extends PropagatingAnimator<MassFadeAnimator
     public void exclude(View target) {
         int n = size();
         for (int i = 0; i < n; i++) {
-            if (((ViewHolder) getView(i)).view == target) {
+            if (getView(i).view == target) {
                 removeView(i);
                 return;
             }
@@ -150,7 +151,7 @@ public final class MassFadeAnimator extends PropagatingAnimator<MassFadeAnimator
         StringBuilder buf = new StringBuilder().append("MassFadeAnimator@").append(Integer.toHexString(hashCode())).append(':').append(this.mDirection == Direction.FADE_IN ? "FADE_IN" : "FADE_OUT").append('{');
         int n = size();
         for (int i = 0; i < n; i++) {
-            buf.append("\n    ").append(((ViewHolder) getView(i)).toString().replaceAll("\n", "\n    "));
+            buf.append("\n    ").append(getView(i).toString().replaceAll("\n", "\n    "));
         }
         return buf.append("\n}").toString();
     }

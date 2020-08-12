@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
 import android.util.ArrayMap;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ class AppUsageStatistics {
         if (this.mAppUsageScore.size() <= 0) {
             return 0.0d;
         }
-        Double v = (Double) this.mAppUsageScore.get(packageName);
+        Double v = this.mAppUsageScore.get(packageName);
         if (v != null) {
             return v.doubleValue();
         }
@@ -78,16 +79,16 @@ class AppUsageStatistics {
         addToHistogram(map, this.mUsageStatsManager.queryUsageStats(2, cal.getTimeInMillis(), to));
         Iterator it = getInstalledPrivApps().iterator();
         while (it.hasNext()) {
-            map.remove((String) it.next());
+            map.remove(it.next());
         }
         long totalTif = 0;
         for (i = 0; i < map.size(); i++) {
-            totalTif += ((Long) map.valueAt(i)).longValue();
+            totalTif += map.valueAt(i).longValue();
         }
         ArrayMap<String, Double> adjustment = new ArrayMap();
         if (totalTif > 0) {
             for (i = 0; i < map.size(); i++) {
-                adjustment.put((String) map.keyAt(i), Double.valueOf(((double) ((Long) map.valueAt(i)).longValue()) / ((double) totalTif)));
+                adjustment.put(map.keyAt(i), Double.valueOf(((double) map.valueAt(i).longValue()) / ((double) totalTif)));
             }
         }
         return adjustment;
@@ -100,11 +101,11 @@ class AppUsageStatistics {
     private static final void addToHistogram(ArrayMap<String, Long> histogram, List<UsageStats> stats) {
         int statCount = stats.size();
         for (int j = 0; j < statCount; j++) {
-            UsageStats pkgStats = (UsageStats) stats.get(j);
+            UsageStats pkgStats = stats.get(j);
             String packageName = pkgStats.getPackageName();
             long tif = pkgStats.getTotalTimeInForeground();
             if (tif > 0) {
-                Long v = (Long) histogram.get(packageName);
+                Long v = histogram.get(packageName);
                 if (v == null) {
                     histogram.put(packageName, Long.valueOf(tif));
                 } else {

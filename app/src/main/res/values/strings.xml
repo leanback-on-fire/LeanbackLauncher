@@ -46,14 +46,12 @@
     <string name="app_info_add_favorites">Add to Favorites</string>
     <string name="app_info_hide_app">Hide in Launcher</string>
     <string name="app_info_in_store">View in Store</string>
-    <string name="app_info_notification_settings">Notification Settings</string>
     <string name="app_info_rem_favorites">Remove from Favorites</string>
     <string name="app_info_settings">App Settings</string>
     <string name="app_info_unhide_app">Unhide in Launcher</string>
     <string name="app_label">Home Screen</string>
     <string name="app_name">LeanbackOnFire</string>
     <string name="apps_order_pref_label">Sort automatically by recent usage</string>
-    <string name="apps_row_title">Show Apps Row</string>
     <string name="banners_prefs_title">Banners Appearance</string>
     <string name="banners_prefs_desc">Apps banners options</string>
     <string name="banners_corners_radius">Corners Radius (px)</string>
@@ -88,7 +86,6 @@
     <string name="customize_app_order_action_title">Reorder apps row</string>
     <string name="customize_game_order_action_title">Reorder games row</string>
     <string name="downloading">Downloading…</string>
-    <string name="edit_favorites">Edit Favorites</string>
     <string name="edit_finish_button_text">Done</string>
     <string name="edit_row_title">Edit Home Rows</string>
     <string name="edit_uninstall_focused_text">Uninstall</string>
@@ -154,13 +151,11 @@
     <string name="lb_search_bar_hint_with_title_speech">Speak to search %1$s</string>
     <string name="lb_time_separator">:</string>
     <string name="light_font">sans-serif-light</string>
-    <string name="loading">Loading&#8230;</string>
     <string name="max_apps_rows_title">Max Apps Rows</string>
     <string name="max_apps_title">Apps on One Row</string>
     <string name="max_favorites_rows_title">Max Favorites Rows</string>
     <string name="max_games_rows_title">Max Games Rows</string>
     <string name="max_music_rows_title">Max Music Rows</string>
-    <string name="max_rows_title">Max Rows</string>
     <string name="max_videos_rows_title">Max Videos Rows</string>
     <string name="mic_search_accessibility_hint">Select to speak your search query</string>
     <string name="music_row_title">Show Music Row</string>
@@ -175,9 +170,7 @@
     <string name="now_playing_card_paused">Paused</string>
     <string name="now_playing_card_playing">Now Playing</string>
     <string name="now_playing_card_stopped">Stopped</string>
-    <string name="number_picker_text">%d</string>
     <string name="orb_search_action">Search Action</string>
-    <string name="pref_app_ranker_sorting_mode">apps_ranker_sorting_mode</string>
     <string name="pref_enable_favorites_row">enable_favorites_row</string>
     <string name="pref_enable_games_row">enable_games_row</string>
     <string name="pref_enable_inputs_row">enable_inputs_row</string>
@@ -234,7 +227,6 @@ or recommendations will not work properly."</string>
     <string name="select">Select background.jpg on %s</string>
     <string name="settings_dialog_title">Home screen</string>
     <string name="settings_network">Network</string>
-    <string name="sorting_title">Sorting</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="system_settings">System</string>
     <string name="title_app_edit_mode">Reorder apps mode</string>

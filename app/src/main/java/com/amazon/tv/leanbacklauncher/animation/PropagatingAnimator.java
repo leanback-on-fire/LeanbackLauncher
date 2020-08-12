@@ -28,7 +28,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         protected final View view;
 
         protected ViewHolder(View view) {
-            this.view = (View) Preconditions.checkNotNull(view);
+            this.view = Preconditions.checkNotNull(view);
         }
 
         public String toString() {
@@ -96,7 +96,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         this.mListener = new PropagatingAnimatorListener();
         this.mPropagation = (Propagation<VH>) sDefaultPropagation;
         this.mState = (byte) 1;
-        setFloatValues(new float[]{0.0f, 1.0f});
+        setFloatValues(0.0f, 1.0f);
         addListener();
     }
 
@@ -106,7 +106,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
     }
 
     public PropagatingAnimator<VH> setPropagation(Propagation<VH> propagation) {
-        this.mPropagation = (Propagation) Preconditions.checkNotNull(propagation);
+        this.mPropagation = Preconditions.checkNotNull(propagation);
         return this;
     }
 
@@ -141,9 +141,9 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
             if (!this.mNormalized) {
                 normalizeStartDelays();
             }
-            onResetView((VH) holder);
+            onResetView(holder);
         } else if (this.mState == (byte) 2 || this.mState == (byte) 16) {
-            onResetView((VH) holder);
+            onResetView(holder);
         }
         return holder;
     }
@@ -226,7 +226,7 @@ public abstract class PropagatingAnimator<VH extends PropagatingAnimator.ViewHol
         if (startDelay >= 0 && startDelay < getDuration()) {
             return startDelay;
         }
-        throw new UnsupportedOperationException(String.format("Illegal start delay returned by %s: %d", new Object[]{this.mPropagation, Long.valueOf(startDelay)}));
+        throw new UnsupportedOperationException(String.format("Illegal start delay returned by %s: %d", this.mPropagation, Long.valueOf(startDelay)));
     }
 
     private void normalizeStartDelays() {

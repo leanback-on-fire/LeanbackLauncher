@@ -3,9 +3,9 @@ package com.amazon.tv.firetv.leanbacklauncher.apps;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil;
 import com.amazon.tv.leanbacklauncher.apps.AppsAdapter;
 import com.amazon.tv.leanbacklauncher.apps.LaunchPoint;
-import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil;
 
 /**
  * Created by rockon999 on 3/7/18.
