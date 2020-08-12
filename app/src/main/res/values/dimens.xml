@@ -93,12 +93,9 @@
     <dimen name="lb_browse_header_fading_length">12.0dip</dimen>
     <dimen name="lb_browse_header_height">24.0dip</dimen>
     <dimen name="lb_browse_header_padding_end">8.0dip</dimen>
-    <item type="dimen" name="lb_browse_header_select_duration">150</item>
-    <item type="dimen" name="lb_browse_header_select_scale">1.2</item>
     <dimen name="lb_browse_header_text_size">20.0sp</dimen>
     <dimen name="lb_browse_headers_vertical_spacing">21.0dip</dimen>
     <dimen name="lb_browse_headers_width">270.0dip</dimen>
-    <item type="dimen" name="lb_browse_headers_z">@dimen/lb_material_shadow_focused_z</item>
     <dimen name="lb_browse_item_horizontal_spacing">8.0dip</dimen>
     <dimen name="lb_browse_item_vertical_spacing">8.0dip</dimen>
     <dimen name="lb_browse_padding_bottom">48.0dip</dimen>
@@ -136,7 +133,6 @@
     <dimen name="lb_details_description_under_subtitle_baseline_margin">32.0dip</dimen>
     <dimen name="lb_details_description_under_title_baseline_margin">32.0dip</dimen>
     <dimen name="lb_details_overview_action_items_spacing">16.0dip</dimen>
-    <item type="dimen" name="lb_details_overview_action_select_duration">150</item>
     <dimen name="lb_details_overview_actions_fade_size">16.0dip</dimen>
     <dimen name="lb_details_overview_actions_height">56.0dip</dimen>
     <dimen name="lb_details_overview_actions_padding_end">132.0dip</dimen>
@@ -152,7 +148,6 @@
     <dimen name="lb_details_overview_margin_bottom">40.0dip</dimen>
     <dimen name="lb_details_overview_margin_end">132.0dip</dimen>
     <dimen name="lb_details_overview_margin_start">132.0dip</dimen>
-    <item type="dimen" name="lb_details_overview_z">@dimen/lb_material_shadow_details_z</item>
     <dimen name="lb_details_rows_align_top">167.0dip</dimen>
     <dimen name="lb_details_v2_actions_height">56.0dip</dimen>
     <dimen name="lb_details_v2_align_pos_for_actions">270.0dip</dimen>
@@ -223,7 +218,6 @@
     <dimen name="lb_playback_controls_padding_bottom">28.0dip</dimen>
     <dimen name="lb_playback_controls_padding_top">216.0dip</dimen>
     <dimen name="lb_playback_controls_time_text_size">12.0sp</dimen>
-    <item type="dimen" name="lb_playback_controls_z">@dimen/lb_material_shadow_details_z</item>
     <dimen name="lb_playback_current_time_margin_start">16.0dip</dimen>
     <dimen name="lb_playback_description_margin_end">24.0dip</dimen>
     <dimen name="lb_playback_description_margin_start">24.0dip</dimen>
