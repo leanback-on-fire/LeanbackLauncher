@@ -20,7 +20,7 @@ public class WallpaperBitmapTransform extends BitmapTransformation {
     private final Rect mRect2 = new Rect();
 
     public WallpaperBitmapTransform(Context context, Bitmap mask) {
-        super(context);
+        super();
         this.mMaskDrawable = new BitmapDrawable(context.getResources(), mask);
         this.mMaskDrawable.setTileModeX(TileMode.REPEAT);
         this.mMaskDrawable.setTileModeY(TileMode.CLAMP);

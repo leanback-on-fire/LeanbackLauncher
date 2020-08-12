@@ -618,7 +618,7 @@ public abstract class RecommendationView extends ViewGroup implements Target<Bit
 
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (this.mGlideRequest != null && this.mGlideRequest.isPaused()) {
+        if (this.mGlideRequest != null && this.mGlideRequest.isCleared()) {
             this.mGlideRequest.begin();
         }
     }

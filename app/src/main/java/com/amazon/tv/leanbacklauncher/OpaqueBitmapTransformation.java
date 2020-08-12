@@ -20,7 +20,7 @@ public class OpaqueBitmapTransformation extends BitmapTransformation {
     private final byte[] mKeyBytes;
 
     public OpaqueBitmapTransformation(Context context, int color) {
-        super(context);
+        super();
 
         byte[] idBytes;
         this.mBackgroundColor = color;
