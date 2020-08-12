@@ -67,7 +67,7 @@ public class LegacyUpdatePreferenceFragment extends GuidedStepSupportFragment {
     }
 
     public void updateAction(@NonNull JSONObject info) {
-        String lastVersion = info.optString("name", BuildConfig.VERSION_NAME).replace("v", "");
+        String lastVersion = info.optString("tag_name", BuildConfig.VERSION_NAME).replace("v", "");
         JSONArray assets = info.optJSONArray("assets");
         if (assets != null) {
             JSONObject firstAssets = assets.optJSONObject(0);
@@ -75,8 +75,10 @@ public class LegacyUpdatePreferenceFragment extends GuidedStepSupportFragment {
                 DOWNLOAD_LINK = firstAssets.optString("browser_download_url");
             }
         }
-        Double lastVersionDouble = Double.parseDouble(lastVersion);
-        Double currentVersionDouble = Double.parseDouble(BuildConfig.VERSION_NAME);
+        Double lastVersionDouble;
+        try { lastVersionDouble = Double.parseDouble(lastVersion); } catch (NumberFormatException npe) { lastVersionDouble = 0d; }
+        Double currentVersionDouble;
+        try { currentVersionDouble = Double.parseDouble(BuildConfig.VERSION_NAME); } catch (NumberFormatException npe) { currentVersionDouble = 0d; }
 
         GuidedAction actionInfo = findActionById(1);
         actionInfo.setTitle(String.format("%s %s", getString(R.string.app_name), info.optString("name")));
