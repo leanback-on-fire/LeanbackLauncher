@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<x />
+<!--LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/status_bar_latest_event_content"
     android:layout_width="fill_parent"
     android:layout_height="64.0dip"
@@ -35,4 +36,4 @@
         android:id="@id/end_padder"
         android:layout_width="6.0dip"
         android:layout_height="fill_parent" />
-</LinearLayout>
+</LinearLayout-->

@@ -8,7 +8,17 @@
     android:focusable="false"
     android:paddingStart="@dimen/row_padding"
     android:paddingEnd="@dimen/row_padding">
-    <!--<include android:id="@id/now_playing_card_preparing" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/notif_row_top_spacing" layout="@layout/now_playing_card" />-->
+    <!--
+    <include
+        android:id="@id/now_playing_card_preparing"
+        android:visibility="gone"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/notif_row_top_spacing"
+        layout="@layout/now_playing_card" />
+    -->
     <ProgressBar
         android:id="@id/empty_state_spinner"
         style="@android:style/Widget.Material.ProgressBar.Large"
