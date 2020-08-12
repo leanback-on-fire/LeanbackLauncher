@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape android:shape="rectangle"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <stroke android:width="@dimen/banner_frame_stroke" android:color="@color/banner_focus_frame_color" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <stroke
+        android:width="@dimen/banner_frame_stroke"
+        android:color="@color/banner_focus_frame_color" />
     <!--corners android:radius="@dimen/banner_corner_radius" /-->
-    <size android:height="@dimen/banner_frame_height" android:width="@dimen/banner_frame_width" />
+    <size
+        android:width="@dimen/banner_frame_width"
+        android:height="@dimen/banner_frame_height" />
 </shape>
