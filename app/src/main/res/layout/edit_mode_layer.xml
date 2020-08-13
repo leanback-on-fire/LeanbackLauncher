@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.amazon.tv.leanbacklauncher.widget.EditModeView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/edit_mode_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -53,7 +52,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_launcher_edit_uninstall" />
+        android:src="@drawable/ic_launcher_edit_uninstall" />
 
     <TextView
         android:id="@id/uninstall_text"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.amazon.tv.leanbacklauncher.apps.BannerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/input_banner_width"
     android:layout_height="@dimen/input_banner_height"
     android:focusable="true"
@@ -13,7 +12,7 @@
         android:layout_gravity="center"
         android:contentDescription="@null"
         android:visibility="gone"
-        app:srcCompat="@drawable/banner_focused_frame" />
+        android:src="@drawable/banner_focused_frame" />
 
     <ImageView
         android:id="@id/input_banner"
