@@ -5,12 +5,15 @@
     android:layout_height="wrap_content"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    custom:cardType="infoUnder"
+    custom:infoVisibility="activated">
 
     <FrameLayout
         android:id="@id/main"
         android:layout_width="@dimen/settings_card_width"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        custom:layout_viewType="main">
 
         <ImageView
             android:id="@id/selection_circle"
@@ -43,5 +46,7 @@
         android:paddingLeft="@dimen/settings_text_padding"
         android:paddingRight="@dimen/settings_text_padding"
         android:textColor="@color/settings_label_text_color"
-        android:textSize="@dimen/settings_label_text_size" />
+        android:textSize="@dimen/settings_label_text_size"
+        custom:layout_viewType="info" />
+    
 </com.amazon.tv.leanbacklauncher.apps.SettingsCardView>
