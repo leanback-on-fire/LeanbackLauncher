@@ -4,10 +4,9 @@ import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 
-import androidx.appcompat.widget.AppCompatImageView;
-
-public class WallpaperImage extends AppCompatImageView {
+public class WallpaperImage extends ImageView {
     protected float mZoom;
 
     public WallpaperImage(Context context) {

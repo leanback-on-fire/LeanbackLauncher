@@ -306,7 +306,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 }
             });
             this.mList.setAnimateChildLayout(false);
-            int notifIndex = this.mHomeAdapter.getRowIndex(1);
+            int notifIndex = this.mHomeAdapter.getRowIndex(1); // RowType.NOTIFICATIONS
             if (notifIndex != -1) {
                 this.mList.setSelectedPosition(notifIndex);
             }
@@ -319,7 +319,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                         tag = (Integer) child.getTag();
                     }
                     switch (tag) {
-                        case 0:
+                        case 0: // SEARCH
                             if (child instanceof SearchOrbView) {
                                 ((SearchOrbView) child).setLaunchListener(new SearchOrbView.SearchLaunchListener() {
                                     public void onSearchLaunched() {
@@ -329,8 +329,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                             }
                             MainActivity.this.addWidget(false);
                             break;
-                        case 1:
-                        case 2:
+                        case 1: // NOTIFICATIONS
+                        case 2: // PARTNER
                             MainActivity.this.mHomeScreenView = child.findViewById(R.id.home_screen_messaging);
                             if (MainActivity.this.mHomeScreenView != null) {
                                 HomeScreenMessaging homeScreenMessaging = MainActivity.this.mHomeScreenView.getHomeScreenMessaging();
@@ -386,8 +386,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             filter.addDataScheme("package");
             registerReceiver(this.mPackageReplacedReceiver, filter);
             // RefreshHome BC
-            // IntentFilter filterHome = new IntentFilter("com.amazon.tv.leanbacklauncher.MainActivity");
-            IntentFilter filterHome = new IntentFilter(this.getClass().getName()); // ACTION
+            IntentFilter filterHome = new IntentFilter(this.getClass().getName()); // ACTION com.amazon.tv.leanbacklauncher.MainActivity
             registerReceiver(this.mHomeRefreshReceiver, filterHome);
             getLoaderManager().initLoader(0, null, this.mSearchIconCallbacks);
             getLoaderManager().initLoader(1, null, this.mSearchSuggestionsCallbacks);
@@ -876,8 +875,8 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (this.mLaunchAnimation.isPrimed() || this.mLaunchAnimation.isRunning() || this.mEditModeAnimation.isPrimed() || this.mEditModeAnimation.isRunning()) {
             switch (keyCode) {
-                case 3: // KEYCODE_HOME
-                case 4: // KEYCODE_BACK
+                case KeyEvent.KEYCODE_HOME:
+                case KeyEvent.KEYCODE_BACK:
                     return super.onKeyDown(keyCode, event);
                 default:
                     return true;
@@ -923,10 +922,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             return super.onKeyUp(keyCode, event);
         }
         switch (keyCode) {
-            case 79:  // KEYCODE_HEADSETHOOK
-            case 85:  // KEYCODE_MEDIA_PLAY_PAUSE
-            case 86:  // KEYCODE_MEDIA_STOP
-            case 127: // KEYCODE_MEDIA_PAUSE
+            case KeyEvent.KEYCODE_HEADSETHOOK:
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_STOP:
+            case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 setShyMode(true, true);
                 return true;
             default:
