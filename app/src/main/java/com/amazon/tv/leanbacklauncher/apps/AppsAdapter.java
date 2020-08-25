@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -13,9 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
@@ -181,7 +184,11 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
             if (launchPoint != null && this.mBannerView != null) {
                 Drawable drawable = launchPoint.getBannerDrawable();
                 if (!(drawable instanceof BitmapDrawable) || ((BitmapDrawable) drawable).getBitmap().hasAlpha()) {
-                    this.mBannerView.setBackground(this.mBackground);
+                    // background for Logo images
+                    if (launchPoint.getLaunchColor() != 0)
+                        this.mBannerView.setBackgroundColor(launchPoint.getLaunchColor());
+                    else
+                        this.mBannerView.setBackground(this.mBackground);
                 } else {
                     this.mBannerView.setBackground(null);
                 }
@@ -213,6 +220,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
 
     private static final class AppFallbackViewHolder extends AppViewHolder {
         private final ImageView mIconView;
+        private final LinearLayout mBannerView;
         private final TextView mLabelView;
         private final InstallStateOverlayHelper mOverlayHelper;
 
@@ -222,10 +230,12 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
             if (v != null) {
                 this.mIconView = v.findViewById(R.id.banner_icon);
                 this.mLabelView = v.findViewById(R.id.banner_label);
+                this.mBannerView = v.findViewById(R.id.app_banner);
                 return;
             }
             this.mIconView = null;
             this.mLabelView = null;
+            this.mBannerView = null;
         }
 
         public void init(LaunchPoint launchPoint) {
@@ -237,11 +247,20 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
                 }
                 if (this.mLabelView != null) {
                     this.mLabelView.setText(launchPoint.getTitle());
+                    // dynamic label text
+                    if (isLight(launchPoint.getLaunchColor()))
+                        this.mLabelView.setTextColor(Color.BLACK);
+                    else
+                        this.mLabelView.setTextColor(Color.WHITE);
                 }
                 if (launchPoint.isInstalling()) {
                     this.mOverlayHelper.initOverlay(launchPoint);
                 } else {
                     this.mOverlayHelper.hideOverlay();
+                }
+                // background color
+                if (this.mBannerView != null) {
+                    this.mBannerView.setBackgroundColor(launchPoint.getLaunchColor());
                 }
             }
         }
@@ -743,5 +762,12 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
         new RefreshTask().execute();
     }
 
+    static boolean isDark(int color) {
+        return ColorUtils.calculateLuminance(color) < 0.25; // 0.5
+    }
+
+    static boolean isLight(int color) {
+        return ColorUtils.calculateLuminance(color) > 0.5;
+    }
 
 }

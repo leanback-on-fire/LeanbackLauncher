@@ -681,7 +681,6 @@ public class LaunchPointListGenerator {
         if (this.prefUtil == null) {
             this.prefUtil = SharedPreferencesUtil.instance(this.mContext);
         }
-
         return this.prefUtil.isHidden(pkgName) || this.mUpdatableBlacklist.containsKey(pkgName) || this.mNonUpdatableBlacklist.containsKey(pkgName);
     }
 }

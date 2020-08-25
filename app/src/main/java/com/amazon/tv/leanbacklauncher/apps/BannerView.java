@@ -88,7 +88,7 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
             if (this.mAppBanner instanceof LinearLayout) {
                 this.mAppBanner.setOutlineProvider(sOutline);
                 this.mAppBanner.setClipToOutline(true);
-                this.mAppBanner.setBackgroundColor(getRandomColor()); // FIXME! Extract color from APK
+                //this.mAppBanner.setBackgroundColor(getRandomColor()); // FIXME! Extract color from APK
             }
             View inputBannerView = findViewById(R.id.input_banner);
             if (inputBannerView != null) {
@@ -373,5 +373,4 @@ public class BannerView extends FrameLayout implements OnLongClickListener, Dimm
         Random rnd = new Random();
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
     }
-
 }
