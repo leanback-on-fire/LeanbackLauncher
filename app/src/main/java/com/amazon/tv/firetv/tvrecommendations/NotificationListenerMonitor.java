@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.amazon.tv.leanbacklauncher.util.Util.isAmazonDev;
+
 public class NotificationListenerMonitor extends Service {
     private static final String TAG = "NotifyListenerMonitor";
     private static final int MAXIMUM_RECONNECT_ATTEMPTS = 15;
@@ -164,10 +166,10 @@ public class NotificationListenerMonitor extends Service {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_notification))
                 .setContentTitle(CHANNEL_NAME)
                 .setContentText(getResources().getString(R.string.notification_text));
-
+        if (isAmazonDev(this))
+            builder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_notification));
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);

@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
@@ -27,6 +28,10 @@ public class Util {
         return new Intent("android.intent.action.ASSIST").addFlags(270532608);
     }
 
+    public static boolean isAmazonDev(Context context) {
+        return context.getPackageManager().hasSystemFeature("amazon.hardware.fire_tv");
+    }
+
     public static boolean isContentUri(String uriString) {
         if (TextUtils.isEmpty(uriString)) {
             return false;
@@ -34,8 +39,30 @@ public class Util {
         return isContentUri(Uri.parse(uriString));
     }
 
+    public static final boolean isConfirmKey(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_SPACE:
+            case KeyEvent.KEYCODE_ENTER:
+            case KeyEvent.KEYCODE_BUTTON_A:
+            case KeyEvent.KEYCODE_BUTTON_X:
+            case KeyEvent.KEYCODE_NUMPAD_ENTER:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     public static boolean isContentUri(Uri uri) {
         return "content".equals(uri.getScheme()) || "file".equals(uri.getScheme());
+    }
+
+    public static boolean isPackageEnabled(Context context, String packageName) {
+        try {
+            return context.getPackageManager().getApplicationInfo(packageName, 0).enabled;
+        } catch (NameNotFoundException e) {
+            return false;
+        }
     }
 
     public static boolean isPackagePresent(PackageManager pkgMan, String packageName) {
@@ -44,6 +71,21 @@ public class Util {
         } catch (NameNotFoundException e) {
             return false;
         }
+    }
+
+    public static boolean isSystemApp(Context context, String packageName) {
+        try {
+            return (context.getPackageManager().getApplicationInfo(packageName, 0).flags & 1) != 0;
+        } catch (NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    public static boolean isUninstallAllowed(Context context) {
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.O) {
+            return context.getPackageManager().checkPermission("android.permission.REQUEST_DELETE_PACKAGES", context.getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
     }
 
     public static boolean initialRankingApplied(Context ctx) {
@@ -142,44 +184,8 @@ public class Util {
         return startActivitySafely(context, intent);
     }
 
-    public static boolean isSystemApp(Context context, String packageName) {
-        try {
-            return (context.getPackageManager().getApplicationInfo(packageName, 0).flags & 1) != 0;
-        } catch (NameNotFoundException e) {
-            return false;
-        }
-    }
-
-    public static boolean isUninstallAllowed(Context context) {
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.O) {
-            return context.getPackageManager().checkPermission("android.permission.REQUEST_DELETE_PACKAGES", context.getPackageName()) == PackageManager.PERMISSION_GRANTED;
-        }
-        return true;
-    }
-
-    public static boolean isPackageEnabled(Context context, String packageName) {
-        try {
-            return context.getPackageManager().getApplicationInfo(packageName, 0).enabled;
-        } catch (NameNotFoundException e) {
-            return false;
-        }
-    }
-
     public static void playErrorSound(Context context) {
         ((AudioManager) context.getSystemService("audio")).playSoundEffect(9);
-    }
-
-    public static final boolean isConfirmKey(int keyCode) {
-        switch (keyCode) {
-            case 23:
-            case 62:
-            case 66:
-            case 96:
-            case 160:
-                return true;
-            default:
-                return false;
-        }
     }
 
     public static DisplayMetrics getDisplayMetrics(Context context) {

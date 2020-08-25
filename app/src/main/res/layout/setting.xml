@@ -48,5 +48,5 @@
         android:textColor="@color/settings_label_text_color"
         android:textSize="@dimen/settings_label_text_size"
         custom:layout_viewType="info" />
-    
+
 </com.amazon.tv.leanbacklauncher.apps.SettingsCardView>
