@@ -18,7 +18,6 @@ import android.util.Log;
 import com.amazon.tv.leanbacklauncher.BuildConfig;
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.tvrecommendations.IRecommendationsClient;
-import com.amazon.tv.tvrecommendations.RecommendationsClient;
 import com.amazon.tv.tvrecommendations.TvRecommendation;
 
 import java.util.ArrayList;
@@ -184,8 +183,8 @@ class RecommendationsManager implements Ranker.RankingListener {
         public synchronized void handleMessage(Message msg) {
             boolean z = true;
             synchronized (this) {
-                if (BuildConfig.DEBUG)
-                    Log.d(RecommendationsManager.this.mTag, "ClientHandler#handleMessage: msg=" + msg + "\n\tmsg.what=" + messageCodeToString(msg.what));
+                //if (BuildConfig.DEBUG)
+                //    Log.d(RecommendationsManager.this.mTag, "ClientHandler#handleMessage: msg=" + msg + "\n\tmsg.what=" + messageCodeToString(msg.what));
                 ArrayList<RecOperation> operations;
                 switch (msg.what) {
                     case 0: // MSG_START
@@ -310,7 +309,8 @@ class RecommendationsManager implements Ranker.RankingListener {
 
     private RecommendationsManager(Context context, boolean unbundled, RankerParameters rankerParameters) {
         this.mTag = unbundled ? "UB-RecommendationsManager" : "B-RecommendationsManager";
-        Log.d(this.mTag, "RecommendationsManager(Context)");
+        if (BuildConfig.DEBUG)
+            Log.d(this.mTag, "RecommendationsManager(Context)");
         this.mContext = context;
         Resources res = context.getResources();
         this.mCardMaxWidth = res.getDimensionPixelOffset(R.dimen.notif_card_img_max_width);
@@ -344,8 +344,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void startIfReady(RemoteCallbackList<IRecommendationsClient> clients, RemoteCallbackList<IRecommendationsClient> partnerClients) {
-        if (BuildConfig.DEBUG)
-            Log.d(this.mTag, "startIfReady:\n\tmRankerReady=" + this.mRankerReady + "\n\tmConnectedToNotificationService=" + this.mConnectedToNotificationService + "\n\tmClients.getRegisteredCallbackCount()=" + this.mClientHandler.getRegisteredClientCount() + "\n\tmStarted=" + this.mStarted);
+        //if (BuildConfig.DEBUG)
+        //    Log.d(this.mTag, "startIfReady:\n\tmRankerReady=" + this.mRankerReady + "\n\tmConnectedToNotificationService=" + this.mConnectedToNotificationService + "\n\tmClients.getRegisteredCallbackCount()=" + this.mClientHandler.getRegisteredClientCount() + "\n\tmStarted=" + this.mStarted);
         if (this.mRankerReady && this.mConnectedToNotificationService && this.mClientHandler.getRegisteredClientCount() != 0) {
             this.mStarted = true;
             this.mPackageToRecSet.clear();
@@ -356,8 +356,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void setConnectedToNotificationService(RemoteCallbackList<IRecommendationsClient> clients, RemoteCallbackList<IRecommendationsClient> partnerClients, boolean connected) {
-        if (BuildConfig.DEBUG)
-            Log.d(this.mTag, "setConnectedToNotificationService: state=" + connected);
+        //if (BuildConfig.DEBUG)
+        //    Log.d(this.mTag, "setConnectedToNotificationService: state=" + connected);
         this.mConnectedToNotificationService = connected;
         if (connected) {
             startIfReady(clients, partnerClients);
@@ -370,7 +370,6 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     public void onRankerReady() {
-        if (BuildConfig.DEBUG) Log.d(this.mTag, "onRankerReady");
         this.mRankerReady = true;
         this.mClientHandler.enqueueStartIfReady();
     }
@@ -425,11 +424,11 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void onRecommendationsReset(RemoteCallbackList<IRecommendationsClient> clients, RemoteCallbackList<IRecommendationsClient> partnerClients, List<RecOperation> notifications) {
-        if (BuildConfig.DEBUG)
-            Log.d(this.mTag, "onRecommendationsReset:\n\tmStarted=" + this.mStarted + "\n\tnotifications.size()=" + notifications.size() + "\n\tnotifications:");
-        if (BuildConfig.DEBUG) for (RecOperation operation : notifications) {
-            Log.d(this.mTag, "\n\t" + operation.getNotification());
-        }
+        //if (BuildConfig.DEBUG)
+        //    Log.d(this.mTag, "onRecommendationsReset:\n\tmStarted=" + this.mStarted + "\n\tnotifications.size()=" + notifications.size() + "\n\tnotifications:");
+        //if (BuildConfig.DEBUG) for (RecOperation operation : notifications) {
+        //    Log.d(this.mTag, "\n\t" + operation.getNotification());
+        //}
         if (this.mStarted) {
             int reasonForClearing;
             int totalRecommendations = 0;
@@ -450,8 +449,8 @@ class RecommendationsManager implements Ranker.RankingListener {
                     }
                 }
             }
-            if (BuildConfig.DEBUG)
-                Log.d(this.mTag, "\ttotalRecommendations=" + totalRecommendations + ", blacklistedRecommendations=" + blacklistedRecommendations + ", notifications.size()=" + notifications.size() + ", mRanker.hasBlacklistedPackages()=" + this.mRanker.hasBlacklistedPackages());
+            //if (BuildConfig.DEBUG)
+            //    Log.d(this.mTag, "\ttotalRecommendations=" + totalRecommendations + ", blacklistedRecommendations=" + blacklistedRecommendations + ", notifications.size()=" + notifications.size() + ", mRanker.hasBlacklistedPackages()=" + this.mRanker.hasBlacklistedPackages());
             if (totalRecommendations == 0) {
                 if (this.mRanker.hasBlacklistedPackages()) {
                     reasonForClearing = 4; // CLEAR_RECOMMENDATIONS_PENDING_DISABLED
@@ -469,8 +468,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void clearAllAppRecommendations(RemoteCallbackList<IRecommendationsClient> clients, int reasonForClearing) {
-        if (BuildConfig.DEBUG)
-            Log.d(this.mTag, "clearAllAppRecommendations:\n\treasonForClearing=" + RecommendationsClient.clearReasonToString(reasonForClearing));
+        //if (BuildConfig.DEBUG)
+        //    Log.d(this.mTag, "clearAllAppRecommendations:\n\treasonForClearing=" + RecommendationsClient.clearReasonToString(reasonForClearing));
         int count = clients.beginBroadcast();
         for (int i = 0; i < count; i++) {
             try {
@@ -485,8 +484,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void clearAllPartnerRecommendations(RemoteCallbackList<IRecommendationsClient> partnerClients, int reasonForClearing) {
-        if (BuildConfig.DEBUG)
-            Log.d(this.mTag, "clearAllPartnerRecommendations:\n\treasonForClearing=" + RecommendationsClient.clearReasonToString(reasonForClearing));
+        //if (BuildConfig.DEBUG)
+        //    Log.d(this.mTag, "clearAllPartnerRecommendations:\n\treasonForClearing=" + RecommendationsClient.clearReasonToString(reasonForClearing));
         int count = partnerClients.beginBroadcast();
         for (int i = 0; i < count; i++) {
             try {
@@ -519,7 +518,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void postRecommendationChangesToClients(RemoteCallbackList<IRecommendationsClient> clients, List<RecOperation> changed) {
-        if (BuildConfig.DEBUG) Log.d(this.mTag, "postRecommendationChangesToClients");
+        if (BuildConfig.DEBUG)
+            Log.d(this.mTag, "postRecommendationChangesToClients");
         if (!changed.isEmpty()) {
             int count = clients.beginBroadcast();
             try {
@@ -553,7 +553,8 @@ class RecommendationsManager implements Ranker.RankingListener {
     }
 
     private void recommendationBatchPostedInt(RemoteCallbackList<IRecommendationsClient> clients, RemoteCallbackList<IRecommendationsClient> partnerClients, List<RecOperation> postedBatch) {
-        // if (BuildConfig.DEBUG) Log.d(this.mTag, "recommendationBatchPostedInt:\n\tpostedBatch=" + postedBatch + "\n\tmStarted=" + this.mStarted);
+        //if (BuildConfig.DEBUG)
+        //    Log.d(this.mTag, "recommendationBatchPostedInt:\n\tpostedBatch=" + postedBatch + "\n\tmStarted=" + this.mStarted);
         if (this.mStarted) {
             List<RecOperation> changes = new ArrayList(postedBatch.size());
             for (RecOperation operation : postedBatch) {
