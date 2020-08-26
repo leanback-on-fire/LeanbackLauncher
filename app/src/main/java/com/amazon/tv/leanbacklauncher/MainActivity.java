@@ -124,14 +124,14 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                         activity.mIdleListeners.get(i).onIdleStateChange(activity.mIsIdle);
                     }
                     return;
-                case 3:
+                case 3: // Focus to Reccomendations or 1st Apps row
                     if (activity.mResetAfterIdleEnabled) {
                         activity.mKeepUiReset = true;
                         activity.resetLauncherState(true);
                         return;
                     }
                     return;
-                case 4:
+                case 4: // Recommendations Update
                     activity.onNotificationRowStateUpdate(msg.arg1);
                     return;
                 case 5:
@@ -594,6 +594,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     private void resetLauncherState(boolean smooth) {
+        if (BuildConfig.DEBUG) Log.d("***** resetLauncherState", "smooth: " + smooth);
         this.mScrollManager.onScrolled(0, 0);
         this.mUserInteracted = false;
         this.mHomeAdapter.resetRowPositions(smooth);
@@ -619,6 +620,23 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             }
             if (!(this.mShyMode || this.mNotificationsView == null)) {
                 this.mNotificationsView.setIgnoreNextActivateBackgroundChange();
+            }
+        } else { // focus on 1st Apps cat || Search (0)
+            int ar[] = { 0 }; // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
+            int i, x;
+            for (i = 0; i < ar.length; i++) {
+                x = ar[i];
+                int appIndex = this.mHomeAdapter.getRowIndex(x);
+                if (!(appIndex == -1 || this.mList.getSelectedPosition() == appIndex)) {
+                    if (BuildConfig.DEBUG) Log.d("***** resetLauncherState", "set focus");
+                    //if (smooth) {
+                    //    this.mList.setSelectedPositionSmooth(appIndex);
+                    //    this.mList.getChildAt(0).requestFocus();
+                    //} else {
+                        this.mList.setSelectedPosition(appIndex);
+                        this.mList.getChildAt(0).requestFocus();
+                    //}
+                }
             }
         }
         this.mLaunchAnimation.cancel();
@@ -834,15 +852,18 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     private void onNotificationRowStateUpdate(int state) {
+        Log.d("*****", "onNotificationRowStateUpdate(" + state + ") selected postion: " + mList.getSelectedPosition());
         if (state == 1 || state == 2) {
             if (!this.mUserInteracted) {
                 int searchIndex = this.mHomeAdapter.getRowIndex(0);
                 if (searchIndex != -1) {
+                    // focus on Search
                     this.mList.setSelectedPosition(searchIndex);
                     this.mList.getChildAt(searchIndex).requestFocus();
                 }
             }
         } else if (state == 0 && this.mList.getSelectedPosition() <= this.mHomeAdapter.getRowIndex(1) && this.mNotificationsView.getChildCount() > 0) {
+            // focus on Recomendations
             this.mNotificationsView.setSelectedPosition(0);
             this.mNotificationsView.getChildAt(0).requestFocus();
         }
