@@ -622,20 +622,20 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 this.mNotificationsView.setIgnoreNextActivateBackgroundChange();
             }
         } else { // focus on 1st Apps cat || Search (0)
-            int ar[] = { 0 }; // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
+            int ar[] = {0}; // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
             int i, x;
             for (i = 0; i < ar.length; i++) {
                 x = ar[i];
                 int appIndex = this.mHomeAdapter.getRowIndex(x);
                 if (!(appIndex == -1 || this.mList.getSelectedPosition() == appIndex)) {
-                    if (BuildConfig.DEBUG) Log.d("***** resetLauncherState", "set focus to " + appIndex);
+                    if (BuildConfig.DEBUG)
+                        Log.d("***** resetLauncherState", "set focus to " + appIndex);
                     //if (smooth) {
-                    //    this.mList.setSelectedPositionSmooth(appIndex);
-                    //    this.mList.getChildAt(0).requestFocus();
+                    this.mList.setSelectedPositionSmooth(appIndex);
                     //} else {
-                        this.mList.setSelectedPosition(appIndex);
-                        // this.mList.getChildAt(0).requestFocus();
+                    this.mList.setSelectedPosition(appIndex);
                     //}
+                    //this.mList.getChildAt(0).requestFocus();
                 }
             }
         }
@@ -876,17 +876,17 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
 
     public static boolean isMediaKey(int keyCode) {
         switch (keyCode) {
-            case 79:
-            case 85:
-            case 86:
-            case 87:
-            case 88:
-            case 89:
-            case 90:
-            case 91:
-            case 126:
-            case 127:
-            case 130:
+            case KeyEvent.KEYCODE_HEADSETHOOK:
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_STOP:
+            case KeyEvent.KEYCODE_MEDIA_NEXT:
+            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+            case KeyEvent.KEYCODE_MUTE:
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+            case KeyEvent.KEYCODE_MEDIA_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_RECORD:
                 return true;
             default:
                 return false;
