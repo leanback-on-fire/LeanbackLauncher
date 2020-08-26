@@ -628,13 +628,13 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 x = ar[i];
                 int appIndex = this.mHomeAdapter.getRowIndex(x);
                 if (!(appIndex == -1 || this.mList.getSelectedPosition() == appIndex)) {
-                    if (BuildConfig.DEBUG) Log.d("***** resetLauncherState", "set focus");
+                    if (BuildConfig.DEBUG) Log.d("***** resetLauncherState", "set focus to " + appIndex);
                     //if (smooth) {
                     //    this.mList.setSelectedPositionSmooth(appIndex);
                     //    this.mList.getChildAt(0).requestFocus();
                     //} else {
                         this.mList.setSelectedPosition(appIndex);
-                        this.mList.getChildAt(0).requestFocus();
+                        // this.mList.getChildAt(0).requestFocus();
                     //}
                 }
             }
