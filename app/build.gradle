@@ -6,8 +6,8 @@ android {
         applicationId "com.amazon.tv.leanbacklauncher"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 15
-        versionName "1.15"
+        versionCode 16
+        versionName "1.16"
         vectorDrawables.useSupportLibrary = true
         resConfigs "en", "ru", "uk", "it", "fr", "es", "de"
         setProperty("archivesBaseName", "LeanbackOnFire_v" + versionName)
