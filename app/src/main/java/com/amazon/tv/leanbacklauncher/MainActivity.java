@@ -19,6 +19,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.tv.TvContract;
 import android.net.Uri;
@@ -37,7 +38,9 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.leanback.widget.OnChildViewHolderSelectedListener;
 import androidx.leanback.widget.VerticalGridView;
 import androidx.preference.PreferenceManager;
@@ -63,6 +66,7 @@ import com.amazon.tv.leanbacklauncher.apps.AppsAdapter;
 import com.amazon.tv.leanbacklauncher.apps.AppsManager;
 import com.amazon.tv.leanbacklauncher.apps.BannerView;
 import com.amazon.tv.leanbacklauncher.apps.OnEditModeChangedListener;
+import com.amazon.tv.leanbacklauncher.clock.ClockView;
 import com.amazon.tv.leanbacklauncher.logging.LeanbackLauncherEventLogger;
 import com.amazon.tv.leanbacklauncher.notifications.HomeScreenMessaging;
 import com.amazon.tv.leanbacklauncher.notifications.HomeScreenMessaging.ChangeListener;
@@ -993,6 +997,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 if (!success) {
                     clearWidget(appWidgetId);
                     wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrapper, false));
+                    Typeface typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin);
+                    TextView clockview = (ClockView) findViewById(R.id.clock);
+                    if (clockview != null && typeface != null )
+                        clockview.setTypeface(typeface);
                     return;
                 }
                 return;
