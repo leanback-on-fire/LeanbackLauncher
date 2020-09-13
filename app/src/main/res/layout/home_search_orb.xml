@@ -19,7 +19,7 @@
         android:layout_marginBottom="@dimen/search_orb_margin_bottom"
         android:clipChildren="false"
         android:focusable="false"
-        android:gravity="start|top"
+        android:gravity="start|center"
         android:orientation="horizontal">
 
         <RelativeLayout
