@@ -90,7 +90,7 @@ public class AppCategorizer {
             "kinotrend",
             "kodi",
             "lazycatsoft",
-            "megogo.tv",
+            "megogo",
             "moviesanywhere",
             "mts.mtstv",
             "mtv",
