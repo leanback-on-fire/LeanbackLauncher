@@ -64,6 +64,7 @@ public class AppCategorizer {
             "com.vgtrk",
             "courville.nova",
             "ctcmediagroup.ctc",
+            "dtv.tvx",
             "dailymotion",
             "disney",
             "divantv",
