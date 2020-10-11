@@ -121,6 +121,7 @@ public class AppCategorizer {
             "showtime",
             "simon.kaelae",
             "skyking",
+            "smarttubetv",
             "smotreshka",
             "spb.tv",
             "spbtv",
