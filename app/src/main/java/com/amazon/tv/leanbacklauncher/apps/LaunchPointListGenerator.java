@@ -32,7 +32,7 @@ import java.util.Set;
 
 
 public class LaunchPointListGenerator {
-    private static final String TAG = "LaunchPointList";
+    private static final String TAG = "LaunchPointListGenerator";
     private List<LaunchPoint> mAllLaunchPoints;
     private final Queue<CachedAction> mCachedActions;
     private final Context mContext;
@@ -647,8 +647,8 @@ public class LaunchPointListGenerator {
         Intent mainIntent = new Intent(action);
         // mainIntent.addCategory("android.intent.category.PREFERENCE");
         List<ResolveInfo> launchPoints = this.mContext.getPackageManager().queryIntentActivities(mainIntent, 129);
-        if (BuildConfig.DEBUG)
-            Log.d(TAG, "getComponentNameForSettingsActivity(" + action + ") got " + launchPoints.toString());
+        //if (BuildConfig.DEBUG)
+        //    Log.d(TAG, "getComponentNameForSettingsActivity(" + action + ") got " + launchPoints.toString());
         // com.amazon.tv.settings.v2/.tv.network.NetworkActivity
         if (launchPoints.size() > 0) {
             int size = launchPoints.size();

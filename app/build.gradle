@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.amazon.tv.leanbacklauncher"
         minSdkVersion 22
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 17
         versionName "1.17"
         vectorDrawables.useSupportLibrary = true
