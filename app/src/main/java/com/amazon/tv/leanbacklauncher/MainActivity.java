@@ -283,7 +283,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             if (Partner.get(this).showLiveTvOnStartUp() && checkFirstRunAfterBoot()) {
                 Intent tvIntent = new Intent("android.intent.action.VIEW", TvContract.buildChannelUri(0));
                 tvIntent.putExtra("com.google.android.leanbacklauncher.extra.TV_APP_ON_BOOT", true);
-                if (getPackageManager().queryIntentActivities(tvIntent, 1).size() > 0) {
+                if (getPackageManager().queryIntentActivities(tvIntent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED).size() > 0) {
                     startActivity(tvIntent);
                     finish();
                 }
@@ -297,7 +297,10 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 if (!Settings.canDrawOverlays(this)) {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                             Uri.parse("package:" + getPackageName()));
-                    startActivityForResult(intent, 0);
+                    try {
+                        startActivityForResult(intent, 0);
+                    } catch (Exception e) {
+                    }
                 }
                 if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -518,8 +521,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 convertFromTranslucent();
             } else {
                 if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertToTranslucent");
-                // convertToTranslucent(null, null);
-                convertToTranslucent();
+                convertToTranslucent(); // convertToTranslucent(null, null);
             }
         }
         if (changeWallpaper && this.mWallpaper.getShynessMode() != shy) {
@@ -620,7 +622,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
     }
 
     private void resetLauncherState(boolean smooth) {
-        if (BuildConfig.DEBUG) Log.d("***** resetLauncherState", "smooth: " + smooth);
+        if (BuildConfig.DEBUG) Log.d("resetLauncherState", "smooth: " + smooth);
         this.mScrollManager.onScrolled(0, 0);
         this.mUserInteracted = false;
         this.mHomeAdapter.resetRowPositions(smooth);
@@ -655,7 +657,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                 int appIndex = this.mHomeAdapter.getRowIndex(x);
                 if (!(appIndex == -1 || this.mList.getSelectedPosition() == appIndex)) {
                     if (BuildConfig.DEBUG)
-                        Log.d("***** resetLauncherState", "set focus to " + appIndex);
+                        Log.d("resetLauncherState", "set focus to " + appIndex);
                     //if (smooth) {
                     this.mList.setSelectedPositionSmooth(appIndex);
                     //} else {
@@ -691,9 +693,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
             if (this.mAppWidgetHost != null) {
                 this.mAppWidgetHost.startListening();
             }
-            if (isBackgroundVisibleBehind()) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "onStart: BackgroundVisibleBehind");
-                z = false;
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                if (isBackgroundVisibleBehind()) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "onStart: BackgroundVisibleBehind");
+                    z = false;
+                }
             }
             setShyMode(z, true);
             this.mWallpaper.resetBackground();
@@ -727,9 +731,11 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         try {
             boolean z = true;
             super.onResume();
-            if (isBackgroundVisibleBehind()) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "onResume: BackgroundVisibleBehind");
-                z = false;
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                if (isBackgroundVisibleBehind()) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "onResume: BackgroundVisibleBehind");
+                    z = false;
+                }
             }
             boolean shyChanged = setShyMode(z, true);
             if (!AppsManager.getInstance(getApplicationContext()).checkIfResortingIsNeeded() || this.mAppEditMode) {
@@ -1021,7 +1027,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
                     wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrapper, false));
                     Typeface typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin);
                     TextView clockview = (ClockView) findViewById(R.id.clock);
-                    if (clockview != null && typeface != null )
+                    if (clockview != null && typeface != null)
                         clockview.setTypeface(typeface);
                     return;
                 }
@@ -1111,7 +1117,7 @@ public class MainActivity extends Activity implements OnEditModeChangedListener,
         boolean firstRun = PendingIntent.getActivity(this, 0, dummyIntent, 536870912) == null;
 
         if (firstRun) {
-            ((AlarmManager) getSystemService(Context.ALARM_SERVICE)).set(2, SystemClock.elapsedRealtime() + 864000000000L, PendingIntent.getActivity(this, 0, dummyIntent, 0));
+            ((AlarmManager) getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 864000000000L, PendingIntent.getActivity(this, 0, dummyIntent, 0));
         }
 
         return firstRun;
