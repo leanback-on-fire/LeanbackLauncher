@@ -22,7 +22,7 @@
     <string name="app_label">Home screen</string>
     <string name="app_name">Leanback Launcher</string>
     <string name="apps_order_pref_label">Sort automatically by recent usage</string>
-    <string name="category_label_apps">apps</string>
+    <string name="category_label_apps">Apps</string>
     <string name="category_label_games">Games</string>
     <string name="category_label_inputs">Inputs</string>
     <string name="category_label_settings" />
