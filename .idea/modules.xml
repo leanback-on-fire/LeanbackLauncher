@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LeanbackLauncher.iml" filepath="$PROJECT_DIR$/LeanbackLauncher.iml" group="LeanbackLauncher" />
-      <module fileurl="file://$PROJECT_DIR$/app/LeanbackLauncher-app.iml" filepath="$PROJECT_DIR$/app/LeanbackLauncher-app.iml" group="LeanbackLauncher/app" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LeanbackLauncher.iml" filepath="$PROJECT_DIR$/LeanbackLauncher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.iml" />
     </modules>
   </component>
 </project>
