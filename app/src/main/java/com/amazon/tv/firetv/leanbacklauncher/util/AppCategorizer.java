@@ -145,6 +145,7 @@ public class AppCategorizer {
             "video",
             "viu.tv",
             "viutv",
+            "wifire",
             "youtube",
             "yuriev.ndr"
     };
