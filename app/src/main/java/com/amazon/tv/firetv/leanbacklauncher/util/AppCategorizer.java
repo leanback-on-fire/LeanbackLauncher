@@ -64,6 +64,7 @@ public class AppCategorizer {
             "com.vgtrk",
             "courville.nova",
             "ctcmediagroup.ctc",
+            "dtv.tvx",
             "dailymotion",
             "disney",
             "divantv",
@@ -74,6 +75,7 @@ public class AppCategorizer {
             "foxnow",
             "fujitv",
             "fxnow",
+            "gyao",
             "haystack",
             "hbo",
             "hedwig",
@@ -120,9 +122,11 @@ public class AppCategorizer {
             "spb.tv",
             "spbtv",
             "starz",
+            "ted"
             "tnt_premier",
             "tricoloronline",
             "tubitv",
+            "txcom.vplayer"
             "tv.kartina",
             "tv.mts",
             "tv.ntvplus",
@@ -136,7 +140,9 @@ public class AppCategorizer {
             "twittertv",
             "ua.youtv",
             "ufc.android",
+            "unext"
             "video",
+            "viki"
             "viu.tv",
             "viutv",
             "youtube",
@@ -160,7 +166,9 @@ public class AppCategorizer {
     };
 
     public static final String[] GAMES_FILTER = new String[]{
-            "android.play.games"
+            "android.play.games",
+            "signaltalk",
+            "tetris"
     };
 
 }
