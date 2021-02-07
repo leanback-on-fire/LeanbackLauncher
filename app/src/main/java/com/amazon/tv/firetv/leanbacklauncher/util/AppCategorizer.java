@@ -129,7 +129,7 @@ public class AppCategorizer {
             "spb.tv",
             "spbtv",
             "starz",
-            "ted"
+            "ted",
             "tnt_premier",
             "tricoloronline",
             "tubitv",
@@ -145,12 +145,12 @@ public class AppCategorizer {
             "tvplayer",
             "twitch",
             "twittertv",
-            "txcom.vplayer"
+            "txcom.vplayer",
             "ua.youtv",
             "ufc.android",
-            "unext"
+            "unext",
             "video",
-            "viki"
+            "viki",
             "viu.tv",
             "viutv",
             "wifire",
