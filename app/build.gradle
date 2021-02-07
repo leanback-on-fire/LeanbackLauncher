@@ -3,6 +3,10 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     defaultConfig {
         applicationId "com.amazon.tv.leanbacklauncher"
         minSdkVersion 22
