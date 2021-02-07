@@ -16,5 +16,6 @@ app/.project
 .project
 *.bbprojectd
 app/.classpath
+app/release
 .idea/*
 .idea/misc.xml
