@@ -876,10 +876,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private fun addWidget(refresh: Boolean) {
-        val wrapper: ViewGroup = findViewById<View>(R.id.widget_wrapper) as LinearLayout
-        if (wrapper != null) {
+        val wrapper: ViewGroup? = findViewById<View>(R.id.widget_wrapper) as? LinearLayout?
+        wrapper?.let { ww ->
             if (refresh || mAppWidgetHostView == null) {
-                wrapper.removeAllViews()
+                ww.removeAllViews()
                 var success = false
                 var appWidgetId = Util.getWidgetId(this)
                 val appWidgetComp = Partner.get(this).widgetComponentName
@@ -905,7 +905,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                             if (success) {
                                 mAppWidgetHostView = mAppWidgetHost!!.createView(this, appWidgetId, appWidgetInfo)
                                 mAppWidgetHostView?.setAppWidget(appWidgetId, appWidgetInfo)
-                                wrapper.addView(mAppWidgetHostView)
+                                ww.addView(mAppWidgetHostView)
                                 Util.setWidget(this, appWidgetId, appWidgetInfo.provider)
                             }
                         }
@@ -913,7 +913,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 }
                 if (!success) {
                     clearWidget(appWidgetId)
-                    wrapper.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrapper, false))
+                    ww.addView(LayoutInflater.from(this).inflate(R.layout.clock, ww, false))
                     val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
                     val clockview: TextView = findViewById<View>(R.id.clock) as ClockView
                     if (clockview != null && typeface != null) clockview.typeface = typeface
@@ -922,10 +922,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 return
             }
             val parent = mAppWidgetHostView!!.parent as ViewGroup
-            if (parent !== wrapper) {
+            if (parent !== ww) {
                 parent.removeView(mAppWidgetHostView)
-                wrapper.removeAllViews()
-                wrapper.addView(mAppWidgetHostView)
+                ww.removeAllViews()
+                ww.addView(mAppWidgetHostView)
             }
         }
     }
