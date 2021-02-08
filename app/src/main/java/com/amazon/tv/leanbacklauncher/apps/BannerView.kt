@@ -68,7 +68,7 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
                 mAppBanner?.setClipToOutline(true)
             }
             val inputBannerView = findViewById<View>(R.id.input_banner)
-            inputBannerView.let {
+            inputBannerView?.let {
                 it.outlineProvider = sOutline
                 it.clipToOutline = true
             }

@@ -562,7 +562,7 @@ class LaunchPointList(ctx: Context) {
         return settingsItems
     }
 
-    fun packageHasSettingsEntry(packageName: String?): Boolean {
+    private fun packageHasSettingsEntry(packageName: String?): Boolean {
         if (mSettingsLaunchPoints != null) {
             for (i in mSettingsLaunchPoints!!.indices) {
                 if (TextUtils.equals(mSettingsLaunchPoints!![i].packageName, packageName)) {

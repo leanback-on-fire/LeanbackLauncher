@@ -158,6 +158,7 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
     }
 
     override fun onRankerReady() {}
+
     override fun sortLaunchPoints(launchPoints: ArrayList<LaunchPoint>) {
         Collections.sort(launchPoints, SettingsComparator())
     }

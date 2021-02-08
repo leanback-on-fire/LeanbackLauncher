@@ -11,7 +11,7 @@ import com.amazon.tv.leanbacklauncher.apps.LaunchPoint
 /**
  * Created by rockon999 on 3/7/18.
  */
-class FavoritesAdapter(context: Context?, actionOpenLaunchPointListener: ActionOpenLaunchPointListener?, vararg appTypes: AppCategory?) : AppsAdapter(context, actionOpenLaunchPointListener, *appTypes), OnSharedPreferenceChangeListener {
+class FavoritesAdapter(context: Context, actionOpenLaunchPointListener: ActionOpenLaunchPointListener?, vararg appTypes: AppCategory?) : AppsAdapter(context, actionOpenLaunchPointListener, *appTypes), OnSharedPreferenceChangeListener {
     private val prefUtil: SharedPreferencesUtil?
     private val listener: OnSharedPreferenceChangeListener = this
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -19,8 +19,8 @@ class FavoritesAdapter(context: Context?, actionOpenLaunchPointListener: ActionO
     }
 
     internal inner class FavoritesAppFilter : AppFilter() {
-        override fun include(point: LaunchPoint): Boolean {
-            return prefUtil != null && prefUtil.isFavorite(point.packageName)
+        override fun include(point: LaunchPoint?): Boolean {
+            return prefUtil != null && prefUtil.isFavorite(point?.packageName)
         }
     }
 
