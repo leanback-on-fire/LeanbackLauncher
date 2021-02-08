@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher
 
 import android.Manifest
+import android.annotation.TargetApi
 import android.app.*
 import android.appwidget.AppWidgetHost
 import android.appwidget.AppWidgetHostView
@@ -420,6 +421,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun onBackgroundVisibleBehindChanged(visible: Boolean) {
         setShyMode(!visible, true)
     }
@@ -932,7 +934,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     private fun clearWidget(appWidgetId: Int) {
         if (appWidgetId != 0) {
-            mAppWidgetHost!!.deleteAppWidgetId(appWidgetId)
+            mAppWidgetHost?.deleteAppWidgetId(appWidgetId)
         }
         Util.clearWidget(this)
     }

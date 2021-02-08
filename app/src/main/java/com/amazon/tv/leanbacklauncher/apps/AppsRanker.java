@@ -180,7 +180,7 @@ public class AppsRanker implements Listener {
             }
             synchronized (this.mCachedActions) {
                 if (this.mQueryingScores) {
-                    if (Log.isLoggable(TAG, Log.VERBOSE)) {
+                    if (Log.isLoggable(TAG, Log.DEBUG)) {
                         Log.d(TAG, "Scores not ready, caching this action");
                     }
                     this.mCachedActions.add(new CachedAction(key, component, group, actionType)); // , category
@@ -217,16 +217,14 @@ public class AppsRanker implements Listener {
         if (registerListenerIfNecessary(listener)) {
             return false;
         }
-        if (Log.isLoggable("AppsRanker", 2)) {
+        if (Log.isLoggable("AppsRanker", Log.VERBOSE)) {
             Log.v("AppsRanker", "refreshing Launchpoint ranking");
         }
         synchronized (this.mEntitiesLock) {
             Collections.sort(launchPoints, getLaunchPointComparator());
             this.mLastLaunchPointRankingLogDump.clear();
             this.mLastLaunchPointRankingLogDump.add("Last Launchpoint Ranking Ordering: " + new Date().toString());
-            Iterator it = launchPoints.iterator();
-            while (it.hasNext()) {
-                LaunchPoint lp = (LaunchPoint) it.next();
+            for (LaunchPoint lp : launchPoints) {
                 AppsEntity entity = this.mEntities.get(lp.getPackageName());
                 if (entity != null) {
                     this.mLastLaunchPointRankingLogDump.add(lp.getTitle() + " | R " + entity.getOrder(lp.getComponentName()) + " | LO " + getLastOpened(lp) + " | INST " + lp.getFirstInstallTime());
@@ -245,7 +243,7 @@ public class AppsRanker implements Listener {
     }
 
     public int insertLaunchPoint(ArrayList<LaunchPoint> launchPoints, LaunchPoint newLp) {
-        if (Log.isLoggable("AppsRanker", 2)) {
+        if (Log.isLoggable("AppsRanker", Log.VERBOSE)) {
             Log.v("AppsRanker", "Inserting new LaunchPoint");
         }
         if (registerListenerIfNecessary(null)) {
@@ -283,7 +281,7 @@ public class AppsRanker implements Listener {
         synchronized (this.mCachedActions) {
             mustRegister = this.mQueryingScores;
             if (mustRegister) {
-                if (Log.isLoggable("AppsRanker", 2)) {
+                if (Log.isLoggable("AppsRanker", Log.DEBUG)) {
                     Log.d("AppsRanker", "Entities not ready");
                 }
                 if (listener != null) {
@@ -300,7 +298,7 @@ public class AppsRanker implements Listener {
         }
         synchronized (this.mCachedActions) {
             this.mQueryingScores = false;
-            if (Log.isLoggable("AppsRanker", 2)) {
+            if (Log.isLoggable("AppsRanker", Log.DEBUG)) {
                 Log.d("AppsRanker", "Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
             }
             while (!this.mCachedActions.isEmpty()) {

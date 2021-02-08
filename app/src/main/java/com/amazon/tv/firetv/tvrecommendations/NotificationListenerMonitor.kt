@@ -120,24 +120,25 @@ class NotificationListenerMonitor : Service() {
         val CHANNEL_NAME = "LeanbackOnFire"
         val NOTIFICATION_ID = 1111
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var notificationChannel: NotificationChannel? = null
-            notificationChannel = NotificationChannel(CHANNEL_ID,
-                    CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.setShowBadge(true)
-            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            manager.createNotificationChannel(notificationChannel)
+            NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)?.let {
+                it.enableLights(true)
+                it.lightColor = Color.RED
+                it.setShowBadge(true)
+                it.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                manager.createNotificationChannel(it)
+            }
         }
+        val contentIntent = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(CHANNEL_NAME)
                 .setContentText(resources.getString(R.string.notification_text))
-        if (Util.isAmazonDev(this)) builder.setLargeIcon(BitmapFactory.decodeResource(applicationContext.resources, R.drawable.ic_notification))
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        val contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        builder.setContentIntent(contentIntent)
+                .also { bdr ->
+                    if (Util.isAmazonDev(this))
+                        bdr.setLargeIcon(BitmapFactory.decodeResource(applicationContext.resources, R.drawable.ic_notification))
+                    bdr.setContentIntent(contentIntent)
+                }
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(NOTIFICATION_ID, builder.build())
         startForeground(NOTIFICATION_ID, builder.build())
