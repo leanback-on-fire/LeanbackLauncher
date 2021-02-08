@@ -201,7 +201,7 @@ public class HomeScreenView extends ViewFlipper {
         intent.addCategory("android.intent.category.LAUNCHER");
         ResolveInfo info = getContext().getPackageManager().resolveActivity(intent, 0);
         if (info != null) {
-            return LaunchPoint.isTranslucentTheme(getContext(), info);
+            return LaunchPoint.Companion.isTranslucentTheme(getContext(), info);
         }
         return false;
     }

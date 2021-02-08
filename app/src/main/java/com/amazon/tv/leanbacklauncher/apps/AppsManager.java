@@ -23,7 +23,7 @@ public class AppsManager implements InstallingLaunchPointListener, Listener, Bla
     private AppsRanker mAppsRanker;
     private final Context mContext;
     private final BroadcastReceiver mExternalAppsUpdateReceiver;
-    private LaunchPointListGenerator mLaunchPointListGenerator;
+    private LaunchPointList mLaunchPointListGenerator;
     private final MarketUpdateReceiver mMarketUpdateReceiver;
     private final PackageChangedReceiver mPackageChangedReceiver;
     private int mReceiversRegisteredRefCount;
@@ -43,7 +43,7 @@ public class AppsManager implements InstallingLaunchPointListener, Listener, Bla
 
     private AppsManager(Context context) {
         this.mContext = context;
-        this.mLaunchPointListGenerator = new LaunchPointListGenerator(this.mContext);
+        this.mLaunchPointListGenerator = new LaunchPointList(this.mContext);
         this.mAppsRanker = AppsRanker.getInstance(this.mContext);
         this.mMarketUpdateReceiver = new MarketUpdateReceiver(this);
         this.mPackageChangedReceiver = new PackageChangedReceiver(this);
@@ -156,7 +156,7 @@ public class AppsManager implements InstallingLaunchPointListener, Listener, Bla
         this.mLaunchPointListGenerator.setExcludeChannelActivities(excludeChannelActivities);
     }
 
-    public void registerLaunchPointListGeneratorListener(LaunchPointListGenerator.Listener listener) {
+    public void registerLaunchPointListListener(LaunchPointList.Listener listener) {
         this.mLaunchPointListGenerator.registerChangeListener(listener);
     }
 

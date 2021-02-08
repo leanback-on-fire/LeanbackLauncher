@@ -1,55 +1,13 @@
-package com.amazon.tv.firetv.leanbacklauncher.util;
+package com.amazon.tv.firetv.leanbacklauncher.util
 
+import android.content.pm.ActivityInfo
+import android.content.pm.ApplicationInfo
+import android.os.Build
+import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 
-import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
-import android.os.Build;
+object AppCategorizer {
 
-import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory;
-
-public class AppCategorizer {
-
-    public static AppCategory getAppCategory(String pkgName, ActivityInfo actInfo) {
-
-        for (String s : VIDEO_FILTER) {
-            if (pkgName.contains(s)) {
-                return AppCategory.VIDEO;
-            }
-        }
-
-        for (String s : MUSIC_FILTER) {
-            if (pkgName.contains(s)) {
-                return AppCategory.MUSIC;
-            }
-        }
-
-        for (String s : GAMES_FILTER) {
-            if (pkgName.contains(s)) {
-                return AppCategory.GAME;
-            }
-        }
-
-        if (actInfo != null) {
-            if ((actInfo.applicationInfo.flags & ApplicationInfo.FLAG_IS_GAME) != 0 ||
-                    (actInfo.applicationInfo.metaData != null && actInfo.applicationInfo.metaData.getBoolean("isGame", false))
-            ) {
-                return AppCategory.GAME;
-            }
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_GAME) {
-                    return AppCategory.GAME;
-                } else if (actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO) {
-                    return AppCategory.VIDEO;
-                } else if (actInfo.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO) {
-                    return AppCategory.MUSIC;
-                }
-            }
-        }
-
-        return AppCategory.OTHER;
-    }
-
-    public static final String[] VIDEO_FILTER = new String[]{
+    val VIDEO_FILTER = arrayOf(
             "abema",
             "air.com.vudu",
             "android.rbtv",
@@ -156,9 +114,8 @@ public class AppCategorizer {
             "wifire",
             "youtube",
             "yuriev.ndr"
-    };
-
-    public static final String[] MUSIC_FILTER = new String[]{
+    )
+    val MUSIC_FILTER = arrayOf(
             "audials",
             "audioplayer",
             "deezer",
@@ -172,12 +129,46 @@ public class AppCategorizer {
             "tidal",
             "tunein",
             "zaycev"
-    };
-
-    public static final String[] GAMES_FILTER = new String[]{
+    )
+    val GAMES_FILTER = arrayOf(
             "android.play.games",
             "signaltalk",
             "tetris"
-    };
+    )
 
+    fun getAppCategory(pkgName: String?, actInfo: ActivityInfo?): AppCategory {
+        pkgName?.let { pn ->
+            for (s in VIDEO_FILTER) {
+                if (pn.contains(s)) {
+                    return AppCategory.VIDEO
+                }
+            }
+            for (s in MUSIC_FILTER) {
+                if (pn.contains(s)) {
+                    return AppCategory.MUSIC
+                }
+            }
+            for (s in GAMES_FILTER) {
+                if (pn.contains(s)) {
+                    return AppCategory.GAME
+                }
+            }
+        }
+        actInfo?.let { ai ->
+            if (ai.applicationInfo.flags and ApplicationInfo.FLAG_IS_GAME != 0 ||
+                    ai.applicationInfo.metaData != null && ai.applicationInfo.metaData.getBoolean("isGame", false)) {
+                return AppCategory.GAME
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (ai.applicationInfo.category == ApplicationInfo.CATEGORY_GAME) {
+                    return AppCategory.GAME
+                } else if (ai.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO) {
+                    return AppCategory.VIDEO
+                } else if (ai.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO) {
+                    return AppCategory.MUSIC
+                }
+            }
+        }
+        return AppCategory.OTHER
+    }
 }

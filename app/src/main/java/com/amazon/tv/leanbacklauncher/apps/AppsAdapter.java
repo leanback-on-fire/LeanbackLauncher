@@ -40,7 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> implements AppsRanker.RankingListener, LaunchPointListGenerator.Listener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> implements AppsRanker.RankingListener, LaunchPointList.Listener, SharedPreferences.OnSharedPreferenceChangeListener {
     private final ActionOpenLaunchPointListener mActionOpenLaunchPointListener;
     protected final Set<AppCategory> mAppTypes;
     protected AppFilter mFilter;
@@ -454,7 +454,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
 
         this.mFlaggedForResort = false;
         this.mActionOpenLaunchPointListener = actionOpenLaunchPointListener;
-        this.mAppsManager.registerLaunchPointListGeneratorListener(this);
+        this.mAppsManager.registerLaunchPointListListener(this);
     }
 
     public int getItemViewType(int position) {
@@ -579,7 +579,7 @@ public class AppsAdapter extends RowViewAdapter<AppsAdapter.AppViewHolder> imple
     }
 
     public void saveAppOrderSnapshot() {
-        if (Log.isLoggable("LauncherEditMode", 2)) {
+        if (Log.isLoggable("LauncherEditMode", Log.DEBUG)) {
             Log.d("LauncherEditMode", "AppsAdapter saw EditMode change and initiated snapshot.");
         }
         this.mAppsManager.saveOrderSnapshot(this.mLaunchPoints);
