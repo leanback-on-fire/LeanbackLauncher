@@ -240,7 +240,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         if (Partner.get(this).showLiveTvOnStartUp() && checkFirstRunAfterBoot()) {
             val tvIntent = Intent("android.intent.action.VIEW", TvContract.buildChannelUri(0))
             tvIntent.putExtra("com.google.android.leanbacklauncher.extra.TV_APP_ON_BOOT", true)
-            if (packageManager.queryIntentActivities(tvIntent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED).size > 0) {
+            if (packageManager.queryIntentActivities(tvIntent, 1).size > 0) {
                 startActivity(tvIntent)
                 finish()
             }

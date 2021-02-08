@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -263,7 +264,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
         this.mSwitcher = findViewById(R.id.text_switcher);
         this.mSwitcher.setAnimateFirstView(false);
         this.mSwitcher.setFactory(new ViewFactory() {
-            LayoutInflater inflater = ((LayoutInflater) context.getSystemService("layout_inflater"));
+            LayoutInflater inflater = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 
             public View makeView() {
                 return this.inflater.inflate(R.layout.search_orb_text_hint, SearchOrbView.this, false);
@@ -289,7 +290,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
             return null;
         }
         StringBuilder builder = new StringBuilder(text);
-        if (getLayoutDirection() == 1) {
+        if (getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             builder.insert(0, " ");
         } else {
             builder.append(" ");
@@ -304,7 +305,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
         if (v instanceof TextView) {
             TextView textView = (TextView) v;
             textView.setTextColor(focused ? this.mFocusedColor : this.mUnfocusedColor);
-            textView.setTypeface(null, 2);
+            textView.setTypeface(null, Typeface.ITALIC);
         }
         if (animType == 1) {
             inAnim = R.anim.slide_in_left;
@@ -412,7 +413,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
             this.mKeyboardContainer.setScaleX(prog);
             this.mKeyboardContainer.setScaleY(prog);
             int orbWidth = this.mKeyboardOrbView.getMeasuredWidth();
-            if (getLayoutDirection() != 1) {
+            if (getLayoutDirection() != View.LAYOUT_DIRECTION_RTL) {
                 i2 = -1;
             }
             float offset = ((float) (i2 * (this.mSearchOrbsSpacing + orbWidth))) * (1.0f - prog);
@@ -432,7 +433,7 @@ public class SearchOrbView extends FrameLayout implements IdleListener, SearchPa
         boolean isTouchExplorationEnabled = true;
         super.onAttachedToWindow();
         setVisibile(true);
-        AccessibilityManager am = (AccessibilityManager) this.mContext.getSystemService("accessibility");
+        AccessibilityManager am = (AccessibilityManager) this.mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
         if (!(am.isEnabled() && am.isTouchExplorationEnabled())) {
             isTouchExplorationEnabled = false;
         }
