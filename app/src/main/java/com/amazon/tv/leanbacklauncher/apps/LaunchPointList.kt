@@ -496,14 +496,13 @@ class LaunchPointList(ctx: Context) {
 
     private fun createSettingsList(): ArrayList<LaunchPoint> {
         // LEANBACK_SETTINGS
-        val mainIntent = Intent("android.intent.action.MAIN")
-        mainIntent.addCategory("android.intent.category.LEANBACK_SETTINGS")
+        val mainIntent = Intent("android.intent.action.MAIN").addCategory("android.intent.category.LEANBACK_SETTINGS")
         val settingsItems = ArrayList<LaunchPoint>()
         val pkgMan = mContext.packageManager
         val rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129)
         val specialEntries = HashMap<ComponentName?, Int>()
         // WI-FI
-        specialEntries[getComponentNameForSettingsActivity("android.settings.WIFI_SETTINGS")] = SettingsUtil.SettingsType.WIFI.code
+        specialEntries[searchComponentForAction("android.settings.WIFI_SETTINGS")] = SettingsUtil.SettingsType.WIFI.code
         if (Util.isPackageEnabled(mContext, "com.android.tv.settings")) {
             specialEntries[ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity")] = SettingsUtil.SettingsType.WIFI.code
         }
@@ -592,14 +591,9 @@ class LaunchPointList(ctx: Context) {
         } else ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name)
     }
 
-    private fun getComponentNameForSettingsActivity(action: String): ComponentName? {
-        // ComponentName.unflattenFromString("com.amazon.tv.settings.v2/.tv.network.NetworkActivity")
-        val mainIntent = Intent(action)
-        // mainIntent.addCategory("android.intent.category.PREFERENCE");
-        val launchPoints = mContext.packageManager.queryIntentActivities(mainIntent, 129)
-        //if (BuildConfig.DEBUG)
-        //    Log.d(TAG, "getComponentNameForSettingsActivity(" + action + ") got " + launchPoints.toString());
-        // com.amazon.tv.settings.v2/.tv.network.NetworkActivity
+    private fun searchComponentForAction(action: String): ComponentName? {
+        val aIntent = Intent(action)
+        val launchPoints = mContext.packageManager.queryIntentActivities(aIntent, 129)
         if (launchPoints.size > 0) {
             val size = launchPoints.size
             for (ptr in 0 until size) {
@@ -611,16 +605,6 @@ class LaunchPointList(ctx: Context) {
                 }
             }
         }
-        //      if (launchPoints.size() > 0) {
-//          int size = launchPoints.size();
-//          for (int ptr = 0; ptr < size; ptr++) {
-//              ResolveInfo info = launchPoints.get(ptr);
-//
-//              if (info.activityInfo != null) {
-//                  return getComponentName(info);
-//              }
-//          }
-//      }
         return null
     }
 
