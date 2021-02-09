@@ -162,7 +162,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     private var mNotificationsView: NotificationRowView? = null
     var mPackageReplacedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
+        override fun onReceive(context: Context, intent: Intent?) {
             val packageName = if (intent != null) intent.data else null
             if (packageName != null && packageName.toString().contains(context.packageName + ".recommendations")) {
                 Log.d(TAG, "Recommendations Service updated, reconnecting")
