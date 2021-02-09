@@ -188,20 +188,18 @@ class LaunchPointList(ctx: Context) {
     }
 
     fun addOrUpdatePackage(pkgName: String?) {
-        if (!TextUtils.isEmpty(pkgName)) {
+        if (pkgName?.isNotEmpty() == true) {
             synchronized(mCachedActions) {
                 if (mIsReady) {
                     synchronized(mLock) {
-
                         // TODO: sync with CreateLaunchPointListTask
                         val launchPoints = createLaunchPoints(pkgName)
-                        if (!launchPoints.isEmpty()) {
-
+                        if (launchPoints.isNotEmpty()) {
                             // remove every launcher with this package
-                            for (x in mAllLaunchPoints!!.indices) {
-                                val lp = mAllLaunchPoints!![x]
-                                if (lp != null && pkgName.equals(lp.packageName, ignoreCase = true)) {
-                                    mAllLaunchPoints!!.removeAt(x)
+                            for (x in mAllLaunchPoints!!.indices!!) {
+                                mAllLaunchPoints!![x].let {
+                                    if (pkgName.equals(it.packageName, true))
+                                        mAllLaunchPoints!!.removeAt(x)
                                 }
                             }
                             mAllLaunchPoints!!.addAll(launchPoints)
@@ -222,6 +220,7 @@ class LaunchPointList(ctx: Context) {
                 mCachedActions.add(CachedAction(0, pkgName))
             }
         }
+
     }
 
     fun removePackage(pkgName: String?) {
