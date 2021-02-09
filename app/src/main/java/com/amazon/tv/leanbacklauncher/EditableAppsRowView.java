@@ -349,7 +349,7 @@ public class EditableAppsRowView extends ActiveItemsRowView implements OnGlobalF
                 if (getItemAnimator().isRunning()) {
                     return focused;
                 }
-                if (getLayoutDirection() == 1 && (direction == 17 || direction == 66)) {
+                if (getLayoutDirection() == View.LAYOUT_DIRECTION_RTL && (direction == 17 || direction == 66)) {
                     direction = direction == 17 ? 66 : 17;
                 }
                 if (direction == 130) {
@@ -395,7 +395,7 @@ public class EditableAppsRowView extends ActiveItemsRowView implements OnGlobalF
     }
 
     private boolean isAccessibilityEnabled() {
-        return ((AccessibilityManager) getContext().getSystemService("accessibility")).isEnabled();
+        return ((AccessibilityManager) getContext().getSystemService(Context.ACCESSIBILITY_SERVICE)).isEnabled();
     }
 
     private boolean moveLaunchPoint(int fromPosition, int toPosition) {

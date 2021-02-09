@@ -87,7 +87,7 @@ public class ActiveFrame extends LinearLayout implements HomeScrollFractionListe
             this.mDownscaleFactor = 0.0f;
         }
         this.mRowMinSpacing = (int) ((1.0f - this.mDownscaleFactor) * getResources().getDimension(R.dimen.inter_card_spacing));
-        this.mAccessibilityManager = (AccessibilityManager) context.getSystemService("accessibility");
+        this.mAccessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
     }
 
     protected void onFinishInflate() {
@@ -189,7 +189,7 @@ public class ActiveFrame extends LinearLayout implements HomeScrollFractionListe
             this.mExpandAnim.cancel();
             this.mExpandAnim = null;
         }
-        if (animate && isAttachedToWindow() && getVisibility() == 0) {
+        if (animate && isAttachedToWindow() && getVisibility() == View.VISIBLE) {
             float f2 = this.mExpanded;
             if (!expanded) {
                 f = 0.0f;
@@ -242,7 +242,7 @@ public class ActiveFrame extends LinearLayout implements HomeScrollFractionListe
         boolean isScaled = this.mExpanded < 1.0f;
         float scale = 1.0f - ((1.0f - this.mExpanded) * this.mDownscaleFactor);
         float unfocusedScale = 1.0f - this.mDownscaleFactor;
-        boolean useRtl = getLayoutDirection() == 1;
+        boolean useRtl = getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
         if (this.mRow != null) {
             Adapter adapter = this.mRow.getAdapter();
             if (adapter != null) {
