@@ -147,7 +147,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
 
         override fun onBackgroundImageChanged(imageUri: String?, signature: String?) {
-                wallpaperView?.onBackgroundImageChanged(imageUri, signature)
+            wallpaperView?.onBackgroundImageChanged(imageUri, signature)
         }
 
         override fun onSelectedRecommendationChanged(position: Int) {
@@ -352,6 +352,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         mShyMode = true
         z = !mShyMode
         setShyMode(z, true)
+        if (BuildConfig.DEBUG) Log.d(TAG, "OnCreate setShyMode($z, true), init mShyMode=$mShyMode")
         mIdlePeriod = resources.getInteger(R.integer.idle_period)
         mResetPeriod = resources.getInteger(R.integer.reset_period)
         mFadeDismissAndSummonAnimations = resources.getBoolean(R.bool.app_launch_animation_fade)
@@ -463,11 +464,13 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mShyMode = shy
             changed = true
             if (mShyMode) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertFromTranslucent")
+                if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertFromTranslucent, mShyMode=$mShyMode")
                 convertFromTranslucent()
             } else {
-                if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertToTranslucent")
-                convertToTranslucent() // convertToTranslucent(null, null);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertToTranslucent, mShyMode=$mShyMode")
+                    convertToTranslucent() // convertToTranslucent(null, null);
+                }
             }
         }
         if (changeWallpaper && wallpaperView!!.shynessMode != shy) {
@@ -480,7 +483,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private fun convertFromTranslucent() {
-        if (this@MainActivity.isTaskRoot) return
+//        if (this@MainActivity.isTaskRoot) return // Avoid Android 9.x back to Home bug
         try {
             val convertFromTranslucent = Activity::class.java.getDeclaredMethod("convertFromTranslucent")
             convertFromTranslucent.isAccessible = true
@@ -622,17 +625,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         mLaunchAnimation.cancel()
     }
 
-    //Object result = isBackgroundVisibleBehind.invoke(MainActivity.this);
-    //if (Boolean.TRUE.equals(result))
-    //	return true;
     private val isBackgroundVisibleBehind: Boolean
         private get() {
             try {
                 val isBackgroundVisibleBehind = Activity::class.java.getDeclaredMethod("isBackgroundVisibleBehind")
                 isBackgroundVisibleBehind.isAccessible = true
-                //Object result = isBackgroundVisibleBehind.invoke(MainActivity.this);
-                //if (Boolean.TRUE.equals(result))
-                //	return true;
                 val result = isBackgroundVisibleBehind.invoke(this@MainActivity) as Boolean
                 return result
             } catch (ignored: Throwable) {
@@ -645,13 +642,12 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         super.onStart()
         mResetAfterIdleEnabled = false
         mAppWidgetHost?.startListening()
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            if (isBackgroundVisibleBehind) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "onStart: BackgroundVisibleBehind")
-                z = false
-            }
+        if (isBackgroundVisibleBehind) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "onStart: BackgroundVisibleBehind")
+            z = false
         }
         setShyMode(z, true)
+        if (BuildConfig.DEBUG) Log.d(TAG, "onStart: setShyMode($z, true)")
         wallpaperView!!.resetBackground()
         homeAdapter!!.refreshAdapterData()
         if (mKeepUiReset) {
@@ -667,18 +663,19 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {}
+
     override fun onSaveInstanceState(savedInstanceState: Bundle) {}
+
     override fun onResume() {
         var forceResort = true
         var z = true
         super.onResume()
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            if (isBackgroundVisibleBehind) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "onResume: BackgroundVisibleBehind")
-                z = false
-            }
+        if (isBackgroundVisibleBehind) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "onResume: BackgroundVisibleBehind")
+            z = false
         }
         val shyChanged = setShyMode(z, true)
+        if (BuildConfig.DEBUG) Log.d(TAG, "onResume: setShyMode($z, true) shyChanged = $shyChanged")
         if (!getInstance(applicationContext)!!.checkIfResortingIsNeeded() || isInEditMode) {
             forceResort = false
         }
@@ -768,6 +765,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             setEditMode(false, false)
         }
         setShyMode(false, false)
+        if (BuildConfig.DEBUG) Log.d(TAG, "onStop: setShyMode(false, false)")
         homeAdapter!!.sortRowsIfNeeded(false)
         mLaunchAnimation.reset()
         super.onStop()
@@ -851,7 +849,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             val selectItem = mList!!.focusedChild
             if (selectItem is ActiveFrame) {
                 val v = selectItem.mRow
-                val child = v.focusedChild // todo
+                val child = v?.focusedChild // TODO
                 if (child is BannerView) {
                     val holder = child.viewHolder
                     if (holder != null) { // holder == null when the holder is an input
@@ -1074,7 +1072,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     companion object {
         const val MY_PERMISSIONS_REQUEST_LOCATION = 99
-        private const val TAG = "LeanbackLauncher"
+        private const val TAG = "MainActivity"
         fun isMediaKey(keyCode: Int): Boolean {
             return when (keyCode) {
                 KeyEvent.KEYCODE_HEADSETHOOK, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_STOP, KeyEvent.KEYCODE_MEDIA_NEXT, KeyEvent.KEYCODE_MEDIA_PREVIOUS, KeyEvent.KEYCODE_MEDIA_REWIND, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, KeyEvent.KEYCODE_MUTE, KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_MEDIA_RECORD -> true
