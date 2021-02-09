@@ -165,7 +165,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     var mPackageReplacedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val packageName = intent?.data
-            if (packageName != null && packageName.toString().contains(context.packageName + ".recommendations")) {
+            if (packageName != null && packageName.toString().contains(context?.packageName + ".recommendations")) {
                 Log.d(TAG, "Recommendations Service updated, reconnecting")
                 if (homeAdapter != null) {
                     homeAdapter!!.onReconnectToRecommendationsService()
@@ -176,7 +176,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     var mHomeRefreshReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent.getBooleanExtra("RefreshHome", false)) {
+            if (intent?.getBooleanExtra("RefreshHome", false) == true) {
                 if (BuildConfig.DEBUG) Log.d(TAG, "KILL HOME")
                 finish()
             }
