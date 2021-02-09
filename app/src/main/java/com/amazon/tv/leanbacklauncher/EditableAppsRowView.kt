@@ -32,6 +32,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     private var mEditModeView: EditModeView? = null
     private var mLastFocused: Int
     private var mSwapping = false
+
     override fun setAdapter(adapter: Adapter<*>?) {
         getAdapter()?.unregisterAdapterDataObserver(this.mChangeObserver)
         super.setAdapter(adapter)
@@ -105,15 +106,15 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                         (it.next() as OnEditModeChangedListener).onEditModeChanged(editMode)
                     }
                 }
-                if (Log.isLoggable("EditableAppsRowView", 2)) {
-                    Log.d("EditableAppsRowView", "Edit Mode is now " + mEditMode + ".")
+                if (Log.isLoggable("EditableAppsRowView", Log.DEBUG)) {
+                    Log.d("EditableAppsRowView", "Edit Mode is now $mEditMode.")
                 }
             }
         }
     val isRowEditable: Boolean
         get() = true
 
-    override fun onSelectedChanged(v: BannerView?, selected: Boolean) {
+    override fun onSelectedChanged(v: BannerView, selected: Boolean) {
         if (isUninstallDisallowed(v) && selected) {
             mEditModeView!!.clearUninstallAndFinishLayers()
         } else {
@@ -232,8 +233,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         }
     }
 
-    override fun onEditModeChanged(editMode: Boolean) {
-        this.editMode = editMode
+    override fun onEditModeChanged(z: Boolean) {
+        editMode = z
     }
 
     fun swapAppOrder(movingBanner: BannerView?, otherBanner: BannerView?) {

@@ -208,14 +208,14 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
             if (hasFocus()) it.visibility = VISIBLE else it.visibility = GONE
         }
     }
-    // FIXME: WTF?
-//    override fun requestFocus(direction: Int, previous: Rect): Boolean {
-//        if (mLastFocusedBanner == null || mLastFocusedBanner === this) {
-//                return super.requestFocus(direction, previous)
-//        }
-//        mLastFocusedBanner!!.requestFocus()
-//        return false
-//    }
+
+    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
+           if (mLastFocusedBanner == null || mLastFocusedBanner === this) {
+               return super.requestFocus(direction, previouslyFocusedRect)
+            }
+           mLastFocusedBanner!!.requestFocus()
+           return false
+    }
 
     override fun sendAccessibilityEvent(eventType: Int) {
         if (!mEditMode || isSelected || mEditModeManager.selectedComponentName == null) {
@@ -242,7 +242,7 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
         }
     }
 
-    override fun onLongClick(v: View): Boolean {
+    override fun onLongClick(v: View?): Boolean {
         return if (isEditable && !mEditMode) {
             mEditMode = true
             isSelected = true
