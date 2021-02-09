@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.*
 import android.appwidget.AppWidgetHost
@@ -162,8 +163,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     private var mNotificationsView: NotificationRowView? = null
     var mPackageReplacedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent?) {
-            val packageName = if (intent != null) intent.data else null
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val packageName = intent?.data
             if (packageName != null && packageName.toString().contains(context.packageName + ".recommendations")) {
                 Log.d(TAG, "Recommendations Service updated, reconnecting")
                 if (homeAdapter != null) {
@@ -172,14 +173,16 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             }
         }
     }
+
     var mHomeRefreshReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
+        override fun onReceive(context: Context?, intent: Intent?) {
             if (intent.getBooleanExtra("RefreshHome", false)) {
                 if (BuildConfig.DEBUG) Log.d(TAG, "KILL HOME")
                 finish()
             }
         }
     }
+
     private val mPauseAnimation = AnimatorLifecycle()
     private var mRecommendationsAdapter: NotificationsAdapter? = null
     private val mRefreshHomeAdapter = Runnable {
@@ -979,6 +982,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         isInEditMode = editMode
     }
 
+    @SuppressLint("WrongConstant")
     private fun checkFirstRunAfterBoot(): Boolean {
         val dummyIntent = Intent("android.intent.category.LEANBACK_LAUNCHER")
         dummyIntent.setClass(this, DummyActivity::class.java)
