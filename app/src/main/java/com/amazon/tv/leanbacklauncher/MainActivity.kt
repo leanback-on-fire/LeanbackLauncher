@@ -578,14 +578,12 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private fun resetLauncherState(smooth: Boolean) {
-        if (BuildConfig.DEBUG) Log.d("resetLauncherState", "smooth: $smooth")
+        if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState(smooth: $smooth), isInEditMode: $isInEditMode")
         mScrollManager!!.onScrolled(0, 0)
         mUserInteracted = false
         homeAdapter!!.resetRowPositions(smooth)
         if (isInEditMode) {
-            val z: Boolean
-            z = smooth
-            setEditMode(false, z)
+            setEditMode(false, smooth)
         }
         var notifIndex = homeAdapter!!.getRowIndex(1)
         if (mList!!.adapter != null) {
@@ -606,7 +604,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 mNotificationsView!!.setIgnoreNextActivateBackgroundChange()
             }
         } else { // focus on 1st Apps cat || Search (0)
-            val ar = intArrayOf(0) // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
+            val ar = intArrayOf(0, 7) // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
             var i: Int
             var x: Int
             i = 0
@@ -614,7 +612,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 x = ar[i]
                 val appIndex = homeAdapter!!.getRowIndex(x)
                 if (!(appIndex == -1 || mList!!.selectedPosition == appIndex)) {
-                    if (BuildConfig.DEBUG) Log.d("resetLauncherState", "set focus to $appIndex")
+                    if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState, set focus to RowIndex $appIndex")
                     //if (smooth) {
                     mList!!.setSelectedPositionSmooth(appIndex)
                     //} else {

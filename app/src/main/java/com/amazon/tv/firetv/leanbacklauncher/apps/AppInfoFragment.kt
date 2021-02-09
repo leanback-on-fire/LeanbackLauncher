@@ -20,7 +20,7 @@ class AppInfoFragment : GuidedStepFragment() {
     private var title: String? = null
     private var pkg: String? = null
 
-    override fun onCreateGuidance(savedInstanceState: Bundle): Guidance {
+    override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
         return Guidance(title,
                 pkg,
                 "",
