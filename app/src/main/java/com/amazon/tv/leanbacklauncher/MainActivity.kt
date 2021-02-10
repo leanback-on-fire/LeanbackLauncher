@@ -194,11 +194,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     private var mResetPeriod = 0
     private var mScrollManager: HomeScrollManager? = null
     private val mSearchIconCallbacks: LoaderManager.LoaderCallbacks<Drawable> = object : LoaderManager.LoaderCallbacks<Drawable> {
-        override fun onCreateLoader(id: Int, args: Bundle): Loader<Drawable> {
+        override fun onCreateLoader(id: Int, args: Bundle?): Loader<Drawable> {
             return TvSearchIconLoader(this@MainActivity.applicationContext)
         }
 
-        override fun onLoadFinished(loader: Loader<Drawable>, data: Drawable) {
+        override fun onLoadFinished(loader: Loader<Drawable>, data: Drawable?) {
             homeAdapter!!.onSearchIconUpdate(data)
         }
 
@@ -207,11 +207,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
     }
     private val mSearchSuggestionsCallbacks: LoaderManager.LoaderCallbacks<Array<String>> = object : LoaderManager.LoaderCallbacks<Array<String>> {
-        override fun onCreateLoader(id: Int, args: Bundle): Loader<Array<String>> {
+        override fun onCreateLoader(id: Int, args: Bundle?): Loader<Array<String>> {
             return TvSearchSuggestionsLoader(this@MainActivity.applicationContext)
         }
 
-        override fun onLoadFinished(loader: Loader<Array<String>>, data: Array<String>) {
+        override fun onLoadFinished(loader: Loader<Array<String>>, data: Array<String>?) {
             homeAdapter!!.onSuggestionsUpdate(data)
         }
 
@@ -370,8 +370,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         // regiser RefreshHome broadcast
         val filterHome = IntentFilter(this.javaClass.name) // ACTION com.amazon.tv.leanbacklauncher.MainActivity
         registerReceiver(mHomeRefreshReceiver, filterHome)
-//        loaderManager.initLoader(0, null, mSearchIconCallbacks)
-//        loaderManager.initLoader(1, null, mSearchSuggestionsCallbacks)
+        loaderManager.initLoader(0, null, mSearchIconCallbacks)
+        loaderManager.initLoader(1, null, mSearchSuggestionsCallbacks)
         // start notification listener
         val pref = PreferenceManager.getDefaultSharedPreferences(appContext)
         if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), false))
@@ -603,25 +603,25 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             if (!(mShyMode || mNotificationsView == null)) {
                 mNotificationsView!!.setIgnoreNextActivateBackgroundChange()
             }
-        } else { // focus on 1st Apps cat || Search (0)
-            val ar = intArrayOf(0, 7) // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
-            var i: Int
-            var x: Int
-            i = 0
-            while (i < ar.size) {
-                x = ar[i]
-                val appIndex = homeAdapter!!.getRowIndex(x)
-                if (!(appIndex == -1 || mList!!.selectedPosition == appIndex)) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState, set focus to RowIndex $appIndex")
-                    //if (smooth) {
-                    mList!!.setSelectedPositionSmooth(appIndex)
-                    //} else {
-                    mList!!.selectedPosition = appIndex
-                    //}
-                    //this.mList.getChildAt(0).requestFocus();
-                }
-                i++
-            }
+//        } else { // focus on 1st Apps cat || Search (0)
+//            val ar = intArrayOf(0, 7) // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
+//            var i: Int
+//            var x: Int
+//            i = 0
+//            while (i < ar.size) {
+//                x = ar[i]
+//                val appIndex = homeAdapter!!.getRowIndex(x)
+//                if (!(appIndex == -1 || mList!!.selectedPosition == appIndex)) {
+//                    if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState, set focus to RowIndex $appIndex")
+//                    //if (smooth) {
+//                    mList!!.setSelectedPositionSmooth(appIndex)
+//                    //} else {
+//                    mList!!.selectedPosition = appIndex
+//                    //}
+//                    //this.mList.getChildAt(0).requestFocus();
+//                }
+//                i++
+//            }
         }
         mLaunchAnimation.cancel()
     }
