@@ -12,9 +12,6 @@ import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companio
 import com.amazon.tv.leanbacklauncher.R
 import java.util.*
 
-/**
- * TODO: Javadoc
- */
 class AppInfoFragment : GuidedStepFragment() {
     private var icon: Drawable? = null
     private var title: String? = null
@@ -91,6 +88,7 @@ class AppInfoFragment : GuidedStepFragment() {
         private const val ACTION_ID_SETTINGS = ACTION_ID_IN_STORE + 1
         private const val ACTION_ID_FAVORITE = ACTION_ID_SETTINGS + 1
         private const val ACTION_ID_HIDE = ACTION_ID_FAVORITE + 1
+
         @JvmStatic
         fun newInstance(title: String?, pkg: String?, icon: Drawable?): AppInfoFragment {
             val args = Bundle()

@@ -11,6 +11,7 @@ class SharedPreferencesUtil private constructor() {
     private var hiddenPref: SharedPreferences? = null
     private var favPref: SharedPreferences? = null
     private val genPref: SharedPreferences? = null
+
     fun isFavorite(component: String?): Boolean {
         return favPref!!.getBoolean(component, false)
     }

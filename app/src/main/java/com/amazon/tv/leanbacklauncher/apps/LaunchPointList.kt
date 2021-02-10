@@ -196,12 +196,10 @@ class LaunchPointList(ctx: Context) {
                         val launchPoints = createLaunchPoints(pkgName)
                         if (launchPoints.isNotEmpty()) {
                             // remove every launcher with this package
-                            for (x in mAllLaunchPoints!!.indices!!) {
-                                mAllLaunchPoints!![x].let {
-                                    if (pkgName.equals(it.packageName, true))
-                                        mAllLaunchPoints!!.removeAt(x)
-                                }
+                            val filter = mAllLaunchPoints!!.filter {
+                                pkgName == it.packageName
                             }
+                            mAllLaunchPoints!!.removeAll(filter)
                             mAllLaunchPoints!!.addAll(launchPoints)
                             if (!isBlacklisted(pkgName) && mShouldNotify) {
                                 for (cl in mListeners) {
@@ -220,7 +218,6 @@ class LaunchPointList(ctx: Context) {
                 mCachedActions.add(CachedAction(0, pkgName))
             }
         }
-
     }
 
     fun removePackage(pkgName: String?) {
