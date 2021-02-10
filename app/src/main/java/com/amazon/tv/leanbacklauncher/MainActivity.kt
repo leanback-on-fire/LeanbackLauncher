@@ -231,6 +231,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         fun onVisibilityChange(z: Boolean)
     }
 
+    @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         val z: Boolean
         super.onCreate(savedInstanceState)

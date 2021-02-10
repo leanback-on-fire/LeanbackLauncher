@@ -4,8 +4,11 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 30
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     defaultConfig {
         applicationId "com.amazon.tv.leanbacklauncher"
