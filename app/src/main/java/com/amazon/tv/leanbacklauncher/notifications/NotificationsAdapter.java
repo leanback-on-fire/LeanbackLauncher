@@ -207,9 +207,15 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
             setLaunchColor(this.mRecommendationView.getLaunchAnimationColor());
             this.mQueuedState = 0;
             if (this.mUseGlide) {
+                if (BuildConfig.DEBUG) Log.d("NotificationsAdapter", "Use glide for image");
                 this.mRecommendationView.setUseBackground(false);
                 this.mRecommendationView.onStartImageFetch();
                 this.adapter.mGlideRequestManager.asBitmap().load(new RecommendationImageKey(this.mRecommendation)).apply(this.adapter.mGlideOptions).into(this.mRecommendationView);
+                this.adapter.mGlideRequestManager
+                        .asBitmap()
+                        .load(new RecommendationImageKey(this.mRecommendation))
+                        .apply(this.adapter.mGlideOptions)
+                        .into(this.mRecommendationView);
                 return;
             }
             this.mRecommendationView.setUseBackground(true);

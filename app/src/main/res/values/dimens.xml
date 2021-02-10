@@ -311,7 +311,7 @@
     <dimen name="notif_card_extra_badge_size">16.0dip</dimen>
     <dimen name="notif_card_img_height">156.0dip</dimen>
     <dimen name="notif_card_img_max_width">313.0dip</dimen>
-    <dimen name="notif_card_img_min_width">108.0dip</dimen>
+    <dimen name="notif_card_img_min_width">104.0dip</dimen>
     <dimen name="notif_card_info_badge_bottom_margin">8.0dip</dimen>
     <dimen name="notif_card_info_badge_end_margin">8.0dip</dimen>
     <dimen name="notif_card_info_badge_start_margin">3.0dip</dimen>

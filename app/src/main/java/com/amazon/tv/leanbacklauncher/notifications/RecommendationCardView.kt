@@ -46,7 +46,7 @@ class RecommendationCardView internal constructor(context: Context?, private val
         onBind()
     }
 
-    override val wallpaperUri: String
+    override val wallpaperUri: String?
         get() = mRecommendation!!.backgroundImageUri
 
     override val signature: String?
