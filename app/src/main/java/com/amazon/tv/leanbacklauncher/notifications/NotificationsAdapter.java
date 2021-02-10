@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import androidx.core.content.ContextCompat;
 
+import com.amazon.tv.leanbacklauncher.BuildConfig;
 import com.amazon.tv.leanbacklauncher.LauncherViewHolder;
 import com.amazon.tv.leanbacklauncher.MainActivity.IdleListener;
 import com.amazon.tv.leanbacklauncher.OpaqueBitmapTransformation;
