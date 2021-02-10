@@ -22,6 +22,7 @@
     <string name="app_info_add_favorites">Добавить в Избранное</string>
     <string name="app_info_hide_app">Скрыть с главного экрана</string>
     <string name="app_info_in_store">Показать в Amazon Store</string>
+    <string name="app_info_in_playstore">Показать в Play Store</string>
     <string name="app_info_rem_favorites">Удалить из Избранного</string>
     <string name="app_info_settings">Открыть панель управления</string>
     <string name="app_info_unhide_app">Показать на главном экране</string>

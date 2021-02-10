@@ -45,7 +45,8 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="app_info_add_favorites">Add to Favorites</string>
     <string name="app_info_hide_app">Hide in Launcher</string>
-    <string name="app_info_in_store">View in Store</string>
+    <string name="app_info_in_store">View in App Store</string>
+    <string name="app_info_in_playstore">View in Play Store</string>
     <string name="app_info_rem_favorites">Remove from Favorites</string>
     <string name="app_info_settings">App Settings</string>
     <string name="app_info_unhide_app">Unhide in Launcher</string>

@@ -1,12 +1,11 @@
 package com.amazon.tv.firetv.leanbacklauncher.util
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -39,6 +38,16 @@ object FireTVUtils {
     }
 
     @JvmStatic
+    fun isPlayStoreInstalled(context: Context): Boolean {
+        return try {
+            val packageManager = context.packageManager
+            packageManager.getApplicationInfo("com.android.vending", 0).enabled
+        } catch (unused: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
+
+    @JvmStatic
     fun isLocalNotificationsEnabled(context: Context): Boolean {
         return try {
             val packageManager = context.packageManager
@@ -54,6 +63,15 @@ object FireTVUtils {
             packageManager.getApplicationInfo("com.amazon.tv.launcher", 0).enabled
         } catch (unused: PackageManager.NameNotFoundException) {
             false
+        }
+    }
+
+    @JvmStatic
+    fun openAppInPlayStore(context: Context, packageName: String?) {
+        try {
+            startActivity(context, Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")), null)
+        } catch (anfe: ActivityNotFoundException) {
+            startActivity(context, Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")), null)
         }
     }
 
