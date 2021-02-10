@@ -603,25 +603,25 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             if (!(mShyMode || mNotificationsView == null)) {
                 mNotificationsView!!.setIgnoreNextActivateBackgroundChange()
             }
-//        } else { // focus on 1st Apps cat || Search (0)
-//            val ar = intArrayOf(0, 7) // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
-//            var i: Int
-//            var x: Int
-//            i = 0
-//            while (i < ar.size) {
-//                x = ar[i]
-//                val appIndex = homeAdapter!!.getRowIndex(x)
-//                if (!(appIndex == -1 || mList!!.selectedPosition == appIndex)) {
-//                    if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState, set focus to RowIndex $appIndex")
-//                    //if (smooth) {
-//                    mList!!.setSelectedPositionSmooth(appIndex)
-//                    //} else {
-//                    mList!!.selectedPosition = appIndex
-//                    //}
-//                    //this.mList.getChildAt(0).requestFocus();
-//                }
-//                i++
-//            }
+        } else { // focus on 1st Apps cat || Search (0) in case No Notifications row
+            val ar = intArrayOf(0, 7) // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
+            var i: Int
+            var x: Int
+            i = 0
+            while (i < ar.size) {
+                x = ar[i]
+                val appIndex = homeAdapter!!.getRowIndex(x)
+                if (!(appIndex == -1 || mList!!.selectedPosition == appIndex)) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState, set focus to RowIndex $appIndex")
+                    //if (smooth) {
+                    mList!!.setSelectedPositionSmooth(appIndex)
+                    //} else {
+                    mList!!.selectedPosition = appIndex
+                    //}
+                    //this.mList.getChildAt(0).requestFocus();
+                }
+                i++
+            }
         }
         mLaunchAnimation.cancel()
     }
