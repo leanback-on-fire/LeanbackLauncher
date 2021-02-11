@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Queue;
 
 public class Ranker implements DbHelper.Listener {
+    private static final String TAG = "Ranker";
     static RankerParameters sRankerParameters;
     private AppUsageStatistics mAppUsageStatistics;
     private List<String> mBlacklistedPackages = new ArrayList();
@@ -80,7 +81,7 @@ public class Ranker implements DbHelper.Listener {
 
     public boolean isBlacklisted(String packageName) {
         if (BuildConfig.DEBUG)
-            Log.d("Ranker", "isBlacklisted: packageName=\"" + packageName + "\" -> " + this.mBlacklistedPackages.contains(packageName));
+            Log.d(TAG, "isBlacklisted: packageName=\"" + packageName + "\" -> " + this.mBlacklistedPackages.contains(packageName));
         return this.mBlacklistedPackages.contains(packageName);
     }
 
@@ -106,7 +107,7 @@ public class Ranker implements DbHelper.Listener {
 
     public void onActionPackageRemoved(String packageName) {
         if (BuildConfig.DEBUG)
-            Log.d("Ranker", "onActionPackageRemoved: packageName=" + packageName);
+            Log.d(TAG, "onActionPackageRemoved: packageName=" + packageName);
         onAction(packageName, null, null, 3);
     }
 
@@ -117,14 +118,14 @@ public class Ranker implements DbHelper.Listener {
         synchronized (this.mCachedActions) {
             if (this.mQueryingScores) {
                 if (BuildConfig.DEBUG)
-                    Log.d("Ranker", "onAction: Scores not ready, caching this action\nkey=" + paramString1 + ", component=" + paramString2 + ", group=" + paramString3 + ", actionType=" + RankerActions.actionToString(actionType));
+                    Log.d(TAG, "onAction: Scores not ready, caching this action\nkey=" + paramString1 + ", component=" + paramString2 + ", group=" + paramString3 + ", actionType=" + RankerActions.actionToString(actionType));
                 this.mCachedActions.add(new CachedAction(paramString1, paramString2, paramString3, actionType));
                 return;
             }
         }
 
         if (BuildConfig.DEBUG)
-            Log.d("Ranker", "onAction: key=" + paramString1 + ", component=" + paramString2 + ", group=" + paramString3 + ", actionType=" + RankerActions.actionToString(actionType));
+            Log.d(TAG, "onAction: key=" + paramString1 + ", component=" + paramString2 + ", group=" + paramString3 + ", actionType=" + RankerActions.actionToString(actionType));
 
         Entity localEntity;
 
@@ -267,7 +268,7 @@ public class Ranker implements DbHelper.Listener {
 
     public void markPostedRecommendations(String packageName) {
         if (BuildConfig.DEBUG)
-            Log.d("Ranker", "markPostedRecommendations: packageName=" + packageName);
+            Log.d(TAG, "markPostedRecommendations: packageName=" + packageName);
         synchronized (this.mEntitiesLock) {
             Entity entity = this.mEntities.get(packageName);
             if (entity == null) {
@@ -376,8 +377,8 @@ public class Ranker implements DbHelper.Listener {
 
     public void onEntitiesLoaded(HashMap<String, Entity> entities, List<String> blacklistedPackages) {
         int partnerLength = 0;
-        if (BuildConfig.DEBUG)
-            Log.d("Ranker", "onEntitiesLoaded:\n\tentities=" + entities + "\n\tblacklistedPackages=" + blacklistedPackages);
+//        if (BuildConfig.DEBUG)
+//            Log.d(TAG, "onEntitiesLoaded:\n\tentities=" + entities + "\n\tblacklistedPackages=" + blacklistedPackages);
         synchronized (this.mEntitiesLock) {
             this.mEntities = entities;
             this.mBlacklistedPackages = blacklistedPackages;
@@ -385,7 +386,7 @@ public class Ranker implements DbHelper.Listener {
         synchronized (this.mCachedActions) {
             this.mQueryingScores = false;
             if (BuildConfig.DEBUG)
-                Log.d("Ranker", "onEntitiesLoaded: Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
+                Log.d(TAG, "onEntitiesLoaded: Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
             while (!this.mCachedActions.isEmpty()) {
                 CachedAction action = this.mCachedActions.remove();
                 onAction(action.key, action.component, action.group, action.action);
@@ -411,7 +412,7 @@ public class Ranker implements DbHelper.Listener {
 
     private void applyOutOfBoxOrdering(String[] order, int offsetEntities, int totalEntities) {
         if (BuildConfig.DEBUG)
-            Log.d("Ranker", "applyOutOfBoxOrdering: order=" + Arrays.toString(order) + ", offsetEntities=" + offsetEntities + ", totalEntities=" + totalEntities);
+            Log.d(TAG, "applyOutOfBoxOrdering: order=" + Arrays.toString(order) + ", offsetEntities=" + offsetEntities + ", totalEntities=" + totalEntities);
         if (order != null && order.length != 0 && offsetEntities >= 0 && totalEntities >= order.length + offsetEntities) {
             int entitiesBelow = (totalEntities - offsetEntities) - order.length;
             double bonusSum = (0.5d * ((double) totalEntities)) * ((double) (totalEntities + 1));

@@ -28,7 +28,7 @@ import java.util.Queue;
 import java.util.concurrent.Executor;
 
 public class AppsRanker implements Listener {
-    private static final String TAG = "appsranker";
+    private static final String TAG = "AppsRanker";
     @SuppressLint({"StaticFieldLeak"})
     private static AppsRanker sAppsRanker = null;
     private final Queue<CachedAction> mCachedActions;
@@ -217,8 +217,8 @@ public class AppsRanker implements Listener {
         if (registerListenerIfNecessary(listener)) {
             return false;
         }
-        if (Log.isLoggable("AppsRanker", Log.VERBOSE)) {
-            Log.v("AppsRanker", "refreshing Launchpoint ranking");
+        if (Log.isLoggable(TAG, Log.VERBOSE)) {
+            Log.v(TAG, "refreshing Launchpoint ranking");
         }
         synchronized (this.mEntitiesLock) {
             Collections.sort(launchPoints, getLaunchPointComparator());
@@ -243,8 +243,8 @@ public class AppsRanker implements Listener {
     }
 
     public int insertLaunchPoint(ArrayList<LaunchPoint> launchPoints, LaunchPoint newLp) {
-        if (Log.isLoggable("AppsRanker", Log.VERBOSE)) {
-            Log.v("AppsRanker", "Inserting new LaunchPoint");
+        if (Log.isLoggable(TAG, Log.VERBOSE)) {
+            Log.v(TAG, "Inserting new LaunchPoint");
         }
         if (registerListenerIfNecessary(null)) {
             int pos = launchPoints.size();
@@ -281,8 +281,8 @@ public class AppsRanker implements Listener {
         synchronized (this.mCachedActions) {
             mustRegister = this.mQueryingScores;
             if (mustRegister) {
-                if (Log.isLoggable("AppsRanker", Log.DEBUG)) {
-                    Log.d("AppsRanker", "Entities not ready");
+                if (Log.isLoggable(TAG, Log.DEBUG)) {
+                    Log.d(TAG, "Entities not ready");
                 }
                 if (listener != null) {
                     this.mListeners.add(listener);
@@ -298,8 +298,8 @@ public class AppsRanker implements Listener {
         }
         synchronized (this.mCachedActions) {
             this.mQueryingScores = false;
-            if (Log.isLoggable("AppsRanker", Log.DEBUG)) {
-                Log.d("AppsRanker", "Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Scores retrieved, playing back " + this.mCachedActions.size() + " actions");
             }
             while (!this.mCachedActions.isEmpty()) {
                 CachedAction action = this.mCachedActions.remove();
