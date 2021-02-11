@@ -17,6 +17,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
@@ -37,11 +39,11 @@ import java.util.*
 
 open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOpenLaunchPointListener?, vararg appTypes: AppCategory?) : RowViewAdapter<AppViewHolder?>(context), AppsRanker.RankingListener, LaunchPointList.Listener, OnSharedPreferenceChangeListener {
     private val mActionOpenLaunchPointListener: ActionOpenLaunchPointListener?
-    protected var mAppTypes: Set<AppCategory?>? = null
+    private var mAppTypes = emptySet<AppCategory?>()
     protected var mFilter: AppFilter
     protected var mAppsManager: AppsManager?
     protected var mFlaggedForResort: Boolean
-    protected val mInflater: LayoutInflater
+    private val mInflater: LayoutInflater
     private var mItemsHaveBeenSorted = false
     protected var mLaunchPoints: ArrayList<LaunchPoint>
     private val mNotifyHandler = Handler()
@@ -193,7 +195,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
             } else {
                 mBannerView = null
             }
-            mBackground = v!!.resources.getDrawable(R.drawable.banner_background, null)
+            mBackground = ResourcesCompat.getDrawable(v!!.resources, R.drawable.banner_background, null)!!
         }
     }
 
@@ -334,15 +336,15 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     override fun getItemViewType(position: Int): Int {
         if (position >= mLaunchPoints.size) {
             Log.e("AppsAdapter", "getItemViewType with out of bounds index = $position")
-            return if (!mAppTypes!!.contains(AppCategory.SETTINGS)) {
+            return if (!mAppTypes.contains(AppCategory.SETTINGS)) {
                 0
             } else 2
         }
         val launchPoint = mLaunchPoints[position]
-        if (mAppTypes!!.contains(AppCategory.SETTINGS)) {
+        if (mAppTypes.contains(AppCategory.SETTINGS)) {
             return 2
         }
-        return if (launchPoint!!.hasBanner()) {
+        return if (launchPoint.hasBanner()) {
             0
         } else 1
     }
@@ -358,7 +360,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
                 holder = AppFallbackViewHolder(mInflater.inflate(R.layout.app_fallback_banner, parent, false), this)
                 holder
             }
-            else -> { // 2: setings
+            else -> { // 2: settings
                 holder = SettingViewHolder(mInflater.inflate(R.layout.setting, parent, false), this)
                 holder
             }
@@ -441,7 +443,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     fun getDrawableFromLaunchPoint(index: Int): Drawable? {
         return if (index < 0 || index >= mLaunchPoints.size) {
             null
-        } else mLaunchPoints[index]!!.bannerDrawable
+        } else mLaunchPoints[index].bannerDrawable
     }
 
     fun getLaunchPointForPosition(index: Int): LaunchPoint? {
@@ -458,11 +460,10 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
 
     private val refreshedLaunchPointList: ArrayList<LaunchPoint>
         private get() {
-            val launchPoints = ArrayList<LaunchPoint>()
-            if (mAppTypes!!.isEmpty()) {
+            val launchPoints = arrayListOf<LaunchPoint>()
+            if (mAppTypes.isEmpty())
                 return mAppsManager!!.allLaunchPoints
-            }
-            for (category in mAppTypes!!) {
+            for (category in mAppTypes) {
                 when (category) {
                     AppCategory.OTHER -> launchPoints.addAll(mAppsManager!!.getLaunchPointsByCategory(AppCategory.OTHER))
                     AppCategory.VIDEO -> launchPoints.addAll(mAppsManager!!.getLaunchPointsByCategory(AppCategory.VIDEO))
@@ -478,27 +479,28 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     protected open fun onPostRefresh() {}
 
     protected open fun sortLaunchPoints(launchPoints: ArrayList<LaunchPoint>) {
-        if (!mAppTypes!!.contains(AppCategory.SETTINGS)) {
-            if (launchPoints != null) {
+        if (!mAppTypes.contains(AppCategory.SETTINGS)) {
+            if (launchPoints.isNotEmpty()) {
                 mAppsManager!!.rankLaunchPoints(launchPoints, this)
             }
         }
     }
 
-    override fun onLaunchPointsAddedOrUpdated(launchPoints: ArrayList<LaunchPoint>?) {
+    override fun onLaunchPointsAddedOrUpdated(launchPoints: ArrayList<LaunchPoint>) {
         mNotifyHandler.post {
             if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsAddedOrUpdated(${launchPoints})")
             if (BuildConfig.DEBUG) Log.d(TAG, "Current Apps set: $mAppTypes, size: ${mLaunchPoints.size}")
             var saveAppOrderChanges = false
-            for (i in launchPoints!!.indices) {
+            for (i in launchPoints.indices) {
                 val lp = launchPoints[i]
                 if (BuildConfig.DEBUG) Log.d(TAG, "Check: $lp")
                 for (j in mLaunchPoints.indices) {
                     val alp = mLaunchPoints[j]
-                    if (lp.packageName == alp!!.packageName) {
+                    if (lp.packageName == alp.packageName) {
                         if (BuildConfig.DEBUG) Log.d(TAG, "Found $lp at position $j")
                         mLaunchPoints.removeAt(j)
                         notifyItemRemoved(j)
+                        break
                     }
                 }
             }
@@ -507,12 +509,14 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
                     continue
                 }
                 val lp = launchPoints[i]
-                if (lp != null && !mAppTypes!!.contains(lp.appCategory)) {
+                if (lp != null && !mAppTypes.contains(lp.appCategory)) {
                     continue
                 }
-                if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted")
-                notifyItemInserted(mAppsManager!!.insertLaunchPoint(mLaunchPoints, lp))
-                saveAppOrderChanges = true
+//                if (!mLaunchPoints.contains(lp)) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted for $lp")
+                    notifyItemInserted(mAppsManager!!.insertLaunchPoint(mLaunchPoints, lp))
+                    saveAppOrderChanges = true
+//                }
             }
             if (saveAppOrderChanges && mAppsManager!!.sortingMode === AppsManager.SortingMode.FIXED) {
                 saveAppOrderSnapshot()
@@ -520,15 +524,15 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         }
     }
 
-    override fun onLaunchPointsRemoved(launchPoints: ArrayList<LaunchPoint>?) {
+    override fun onLaunchPointsRemoved(launchPoints: ArrayList<LaunchPoint>) {
         mNotifyHandler.post {
             var i: Int
             var saveAppOrderChanges = false
             var itemRemovedAt = -1
             for (j in mLaunchPoints.indices.reversed()) {
-                i = launchPoints!!.size - 1
+                i = launchPoints.size - 1
                 while (i >= 0) {
-                    if (mLaunchPoints[j]!!.equals(launchPoints[i]) && itemRemovedAt == -1) {
+                    if (mLaunchPoints[j].equals(launchPoints[i]) && itemRemovedAt == -1) {
                         launchPoints.removeAt(i)
                         saveAppOrderChanges = true
                         itemRemovedAt = j
@@ -606,20 +610,16 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
 
     init {
         mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        mLaunchPoints = ArrayList()
+        mLaunchPoints = arrayListOf()
         mAppsManager = getInstance(context)
         prefUtil = instance(context)
-        prefUtil!!.addHiddenListener(listener)
+        prefUtil?.addHiddenListener(listener)
         mFilter = object : AppFilter() {
             override fun include(point: LaunchPoint?): Boolean {
                 return true
             }
         }
-        if (appTypes != null) {
-            mAppTypes = HashSet(Arrays.asList(*appTypes))
-        } else {
-            mAppTypes = emptySet()
-        }
+        mAppTypes = HashSet(Arrays.asList(*appTypes))
         mFlaggedForResort = false
         mActionOpenLaunchPointListener = actionOpenLaunchPointListener
         mAppsManager!!.registerLaunchPointListListener(this)

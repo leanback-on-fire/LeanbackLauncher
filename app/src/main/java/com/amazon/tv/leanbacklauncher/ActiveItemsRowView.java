@@ -17,6 +17,7 @@ import com.amazon.tv.leanbacklauncher.apps.AppsAdapter;
 import com.amazon.tv.leanbacklauncher.capabilities.LauncherConfiguration;
 
 public class ActiveItemsRowView extends HorizontalGridView implements OnHierarchyChangeListener {
+    private final String TAG = "ActiveItemsRowView";
     private final boolean mCardElevationSupported;
     private int mCardSpacing;
     AdapterDataObserver mChangeObserver;
@@ -37,22 +38,22 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
         super(context, attrs, defStyle);
         this.mChangeObserver = new AdapterDataObserver() {
             public void onChanged() {
-                if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: onChanged()");
+//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onChanged()");
                 ActiveItemsRowView.this.adjustNumRows();
                 Adapter adapter = ActiveItemsRowView.this.getAdapter();
                 if ((adapter instanceof AppsAdapter) && ((AppsAdapter) adapter).takeItemsHaveBeenSorted()) {
                     ActiveItemsRowView.this.setSelectedPosition(0);
-                    if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: setSelectedPosition(0)");
+                    if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() setSelectedPosition(0)");
                 }
             }
 
             public void onItemRangeInserted(int positionStart, int itemCount) {
-//                if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: onItemRangeInserted(positionStart " + positionStart + ", itemCount " + itemCount + ")");
+//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onItemRangeInserted(positionStart " + positionStart + ", itemCount " + itemCount + ")");
                 ActiveItemsRowView.this.adjustNumRows();
             }
 
             public void onItemRangeRemoved(int positionStart, int itemCount) {
-//                if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: onItemRangeRemoved(positionStart " + positionStart + ", itemCount " + itemCount + ")");
+//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onItemRangeRemoved(positionStart " + positionStart + ", itemCount " + itemCount + ")");
                 ActiveItemsRowView.this.adjustNumRows();
             }
         };
@@ -115,7 +116,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
     }
 
     public void adjustNumRows(int numRows, int cardSpacing, int rowHeight) {
-//        if (BuildConfig.DEBUG) Log.w("******", "adjustNumRows( numRows:" + numRows + ", cardSpacing:" + cardSpacing + ", rowHeight:" + rowHeight +")");
+//        if (BuildConfig.DEBUG) Log.w(TAG, "adjustNumRows(numRows:" + numRows + ", cardSpacing:" + cardSpacing + ", rowHeight:" + rowHeight +")");
         if (this.mIsAdjustable && this.mNumRows != numRows) {
             this.mNumRows = numRows;
             this.mCardSpacing = cardSpacing;
@@ -123,11 +124,11 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
             post(new Runnable() {
                 public void run() {
                     ActiveItemsRowView.this.getLayoutParams().height = ((ActiveItemsRowView.this.mNumRows * ActiveItemsRowView.this.mRowHeight) + ((ActiveItemsRowView.this.mNumRows - 1) * ActiveItemsRowView.this.mCardSpacing)) + (ActiveItemsRowView.this.getPaddingTop() + ActiveItemsRowView.this.getPaddingBottom());
-                    // Log.w("+++ adjustNumRows height", "" + ActiveItemsRowView.this.getLayoutParams().height);
+                    // Log.w(TAG, "height: " + ActiveItemsRowView.this.getLayoutParams().height);
                     ActiveItemsRowView.this.setNumRows(ActiveItemsRowView.this.mNumRows);
-                    // Log.w("+++ adjustNumRows setNumRows", "" + ActiveItemsRowView.this.mNumRows);
+                    // Log.w(TAG, "setNumRows: " + ActiveItemsRowView.this.mNumRows);
                     ActiveItemsRowView.this.setRowHeight(ActiveItemsRowView.this.mRowHeight);
-                    // Log.w("+++ adjustNumRows setRowHeight", "" + ActiveItemsRowView.this.mRowHeight);
+                    // Log.w(TAG, "setRowHeight: " + ActiveItemsRowView.this.mRowHeight);
                 }
             });
         }
@@ -146,7 +147,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
                 integer = res.getInteger(R.integer.min_num_banner_rows);
             }
         }
-//        if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: adjustNumRows() to " + integer);
+//        if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: adjustNumRows() to " + integer);
         adjustNumRows(integer, this.mCardSpacing, this.mRowHeight);
     }
 

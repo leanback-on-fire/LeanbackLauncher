@@ -18,7 +18,7 @@ import com.amazon.tv.leanbacklauncher.util.Util
 import java.util.*
 
 class LaunchPointList(ctx: Context) {
-    private var mAllLaunchPoints: MutableList<LaunchPoint>?
+    private var mAllLaunchPoints: MutableList<LaunchPoint>
     private val mCachedActions: Queue<CachedAction>
     private val mContext: Context
     private var mExcludeChannelActivities = false
@@ -27,14 +27,14 @@ class LaunchPointList(ctx: Context) {
     private val mListeners: MutableList<Listener>
     private val mLock: Any
     private val mNonUpdatableBlacklist: HashMap<String?, Int>
-    private var mSettingsLaunchPoints: ArrayList<LaunchPoint>? = null
+    private var mSettingsLaunchPoints: ArrayList<LaunchPoint> = arrayListOf()
     private var mShouldNotify = false
     private val mUpdatableBlacklist: HashMap<String?, Int>
 
     interface Listener {
         fun onLaunchPointListGeneratorReady()
-        fun onLaunchPointsAddedOrUpdated(arrayList: ArrayList<LaunchPoint>?)
-        fun onLaunchPointsRemoved(arrayList: ArrayList<LaunchPoint>?)
+        fun onLaunchPointsAddedOrUpdated(arrayList: ArrayList<LaunchPoint>)
+        fun onLaunchPointsRemoved(arrayList: ArrayList<LaunchPoint>)
         fun onSettingsChanged()
     }
 
@@ -144,15 +144,12 @@ class LaunchPointList(ctx: Context) {
                     }
                 }
             }
-            var x = 0
-            val size = allLaunchPoints.size
-            while (x < size) {
+            for (x in 0 until allLaunchPoints.size) {
                 val info = allLaunchPoints[x]
                 val activityInfo = info.activityInfo
                 if (activityInfo != null) {
                     launcherItems.add(LaunchPoint(mContext, pkgMan, info))
                 }
-                x++
             }
             return launcherItems
         }
@@ -196,11 +193,11 @@ class LaunchPointList(ctx: Context) {
                         val launchPoints = createLaunchPoints(pkgName)
                         if (launchPoints.isNotEmpty()) {
                             // remove every launcher with this package
-                            val filter = mAllLaunchPoints!!.filter {
+                            val filter = mAllLaunchPoints.filter {
                                 pkgName == it.packageName
                             }
-                            mAllLaunchPoints!!.removeAll(filter)
-                            mAllLaunchPoints!!.addAll(launchPoints)
+                            mAllLaunchPoints.removeAll(filter)
+                            mAllLaunchPoints.addAll(launchPoints)
                             if (!isBlacklisted(pkgName) && mShouldNotify) {
                                 for (cl in mListeners) {
                                     cl.onLaunchPointsAddedOrUpdated(launchPoints)
@@ -374,12 +371,12 @@ class LaunchPointList(ctx: Context) {
         }
     }
 
-    private fun getLaunchPointsByPackage(parentList: MutableList<LaunchPoint>?, removeLaunchPoints: MutableList<LaunchPoint>, pkgName: String?, remove: Boolean): List<LaunchPoint> {
+    private fun getLaunchPointsByPackage(parentList: MutableList<LaunchPoint>, removeLaunchPoints: MutableList<LaunchPoint>, pkgName: String?, remove: Boolean): List<LaunchPoint> {
         var removeLaunchPoints: MutableList<LaunchPoint>? = removeLaunchPoints
         if (removeLaunchPoints == null) {
             removeLaunchPoints = ArrayList()
         }
-        val itt = parentList!!.iterator()
+        val itt = parentList.iterator()
         while (itt.hasNext()) {
             val lp = itt.next()
             if (TextUtils.equals(pkgName, lp.packageName)) {
@@ -394,9 +391,9 @@ class LaunchPointList(ctx: Context) {
 
     val allLaunchPoints: ArrayList<LaunchPoint>
         get() {
-            val allLaunchPoints = ArrayList<LaunchPoint>()
-            if (mAllLaunchPoints != null && mAllLaunchPoints!!.size > 0) {
-                for (lp in mAllLaunchPoints!!) {
+            val allLaunchPoints = arrayListOf<LaunchPoint>()
+            if (mAllLaunchPoints != null && mAllLaunchPoints.size > 0) {
+                for (lp in mAllLaunchPoints) {
                     if (!isBlacklisted(lp.packageName)) {
                         allLaunchPoints.add(lp)
                     }
@@ -417,24 +414,24 @@ class LaunchPointList(ctx: Context) {
     }
 
     // todo clean up the AppCategory mess
-    private fun getLaunchPointsLocked(parentList: List<LaunchPoint>?, childList: MutableList<LaunchPoint>, category: AppCategory) {
+    private fun getLaunchPointsLocked(parentList: List<LaunchPoint>, childList: MutableList<LaunchPoint>, category: AppCategory) {
         when (category) {
-            AppCategory.GAME -> for (lp in parentList!!) {
+            AppCategory.GAME -> for (lp in parentList) {
                 if (!isBlacklisted(lp.packageName) && lp.isGame) {
                     childList.add(lp)
                 }
             }
-            AppCategory.MUSIC -> for (lp in parentList!!) {
+            AppCategory.MUSIC -> for (lp in parentList) {
                 if (!isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.MUSIC) {
                     childList.add(lp)
                 }
             }
-            AppCategory.VIDEO -> for (lp in parentList!!) {
+            AppCategory.VIDEO -> for (lp in parentList) {
                 if (!isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.VIDEO) {
                     childList.add(lp)
                 }
             }
-            AppCategory.OTHER -> for (lp in parentList!!) {
+            AppCategory.OTHER -> for (lp in parentList) {
                 if (!isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.OTHER) {
                     childList.add(lp)
                 }
@@ -503,9 +500,7 @@ class LaunchPointList(ctx: Context) {
         if (Util.isPackageEnabled(mContext, "com.android.tv.settings")) {
             specialEntries[ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity")] = SettingsUtil.SettingsType.WIFI.code
         }
-        var ptr = 0
-        val size = rawLaunchPoints.size
-        while (ptr < size) {
+        for (ptr in 0 until rawLaunchPoints.size) {
             val info = rawLaunchPoints[ptr]
             val comp = getComponentName(info)
             var type = -1
@@ -518,7 +513,6 @@ class LaunchPointList(ctx: Context) {
                 // lp.setPriority(0);
                 settingsItems.add(lp)
             }
-            ptr++
         }
         // LAUNCHER SETTINGS // 4
         val intent = Intent()
@@ -558,9 +552,9 @@ class LaunchPointList(ctx: Context) {
     }
 
     private fun packageHasSettingsEntry(packageName: String?): Boolean {
-        if (mSettingsLaunchPoints != null) {
-            for (i in mSettingsLaunchPoints!!.indices) {
-                if (TextUtils.equals(mSettingsLaunchPoints!![i].packageName, packageName)) {
+        mSettingsLaunchPoints?.let { slp ->
+            for (i in slp.indices) {
+                if (slp[i].packageName.equals(packageName)) {
                     return true
                 }
             }

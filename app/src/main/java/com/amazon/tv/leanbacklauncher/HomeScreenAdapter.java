@@ -430,7 +430,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 list.setContentDescription(row.getTitle());
                 ((TextView) group.findViewById(R.id.title)).setText(row.getTitle());
                 if (!TextUtils.isEmpty(row.getFontName())) {
-                    Typeface font = Typeface.create(row.getFontName(), 0);
+                    Typeface font = Typeface.create(row.getFontName(), Typeface.NORMAL);
                     if (font != null) {
                         ((TextView) group.findViewById(R.id.title)).setTypeface(font);
                     }
