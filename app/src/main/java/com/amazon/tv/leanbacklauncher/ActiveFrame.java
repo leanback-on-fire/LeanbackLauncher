@@ -251,7 +251,7 @@ public class ActiveFrame extends LinearLayout implements HomeScrollFractionListe
                 float usableSpace = ((float) rowLength) - (2.0f * this.mRowPadding);
                 int itemCount = adapter.getItemCount();
                 int selected = this.mRow.getSelectedPosition();
-                int numRows = this.mRow.getNumRows();
+                int numRows = this.mRow.getNumberOfRows();
                 if (numRows <= 0) {
                     numRows = 1;
                 }

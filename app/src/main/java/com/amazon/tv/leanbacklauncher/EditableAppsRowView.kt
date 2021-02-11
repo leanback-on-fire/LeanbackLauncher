@@ -24,7 +24,7 @@ import com.amazon.tv.leanbacklauncher.widget.EditModeViewActionListener
 import java.util.*
 
 class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyle: Int = 0) : ActiveItemsRowView(context, attrs, defStyle), OnGlobalFocusChangeListener, BannerSelectedChangedListener, OnEditModeChangedListener, EditModeViewActionListener {
-    lateinit var mChangeObserver: AdapterDataObserver
+    private var mChangeObserver: AdapterDataObserver
     private var mCurFocused = 0
     private val mEditListeners: ArrayList<OnEditModeChangedListener?>
     private var mEditMode = false
@@ -280,7 +280,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         var direction = direction
         if (mEditMode) {
             val position = getChildAdapterPosition(focused)
-            val numRows = numRows
+            val numRows = numberOfRows
             if (focused.isSelected) {
                 if (itemAnimator!!.isRunning) {
                     return focused
@@ -335,7 +335,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             mCurFocused = -1
             return
         }
-        var newFocusPosition = curFocusedViewHolder.layoutPosition + numRows
+        var newFocusPosition = curFocusedViewHolder.layoutPosition + numberOfRows
         if (isAccessibilityEnabled) {
             newFocusPosition = 0
         }
