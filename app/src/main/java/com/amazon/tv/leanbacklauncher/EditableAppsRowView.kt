@@ -63,7 +63,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         mEditListeners.add(listener)
     }
 
-    fun removeEditModeListener(listener: OnEditModeChangedListener?) {
+    private fun removeEditModeListener(listener: OnEditModeChangedListener?) {
         mEditListeners.remove(listener)
     }
 
@@ -100,7 +100,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                 } else if (isAccessibilityEnabled) {
                     viewTreeObserver.addOnGlobalFocusChangeListener(this)
                 }
-                if (!mEditListeners.isEmpty()) {
+                if (mEditListeners.isNotEmpty()) {
                     val it: Iterator<*> = mEditListeners.iterator()
                     while (it.hasNext()) {
                         (it.next() as OnEditModeChangedListener).onEditModeChanged(editMode)
@@ -203,10 +203,10 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
 
     override fun onUninstallComplete() {
         val lastFocusedViewHolder = lastFocusedViewHolderInt
-        if (lastFocusedViewHolder != null) {
-            lastFocusedViewHolder.itemView.isSelected = false
-            if (lastFocusedViewHolder.itemView is BannerView) {
-                (lastFocusedViewHolder.itemView as BannerView).notifyEditModeManager(false)
+        lastFocusedViewHolder?.let { lfvh ->
+            lfvh.itemView.isSelected = false
+            if (lfvh.itemView is BannerView) {
+                (lfvh.itemView as BannerView).notifyEditModeManager(false)
             }
             setChildrenLastFocusedBanner(null)
             setBannerDrawableUninstallState(false)
@@ -216,13 +216,13 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
 
     override fun onUninstallFailure() {
         val lastFocusedViewHolder = lastFocusedViewHolderInt
-        if (lastFocusedViewHolder != null) {
-            lastFocusedViewHolder.itemView.requestFocus()
+        lastFocusedViewHolder?.let { lfvh ->
+            lfvh.itemView.requestFocus()
             setBannerDrawableUninstallState(false)
         }
     }
 
-    fun setUninstallState() {
+    private fun setUninstallState() {
         refreshSelectedView()
         val curFocusedViewHolder = curViewHolderInt
         val curView = curFocusedViewHolder?.itemView
@@ -237,7 +237,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         editMode = z
     }
 
-    fun swapAppOrder(movingBanner: BannerView?, otherBanner: BannerView?) {
+    private fun swapAppOrder(movingBanner: BannerView?, otherBanner: BannerView?) {
         (adapter as AppsAdapter?)!!.moveLaunchPoint(getChildAdapterPosition(movingBanner!!), getChildAdapterPosition(otherBanner!!), true)
     }
 
@@ -288,25 +288,30 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                 if (layoutDirection == LAYOUT_DIRECTION_RTL && (direction == 17 || direction == 66)) {
                     direction = if (direction == 17) 66 else 17
                 }
-                if (direction == 130) {
-                    if (position % numRows >= numRows - 1 || position >= adapter!!.itemCount - 1) {
-                        setUninstallState()
-                        return mEditModeView!!.uninstallIcon
-                    }
-                    moveLaunchPoint(position, position + 1)
-                    return focused
-                } else if (direction == 33) {
-                    if (position % numRows <= 0) {
+                when (direction) {
+                    130 -> {
+                        if (position % numRows >= numRows - 1 || position >= adapter!!.itemCount - 1) {
+                            setUninstallState()
+                            return mEditModeView!!.uninstallIcon
+                        }
+                        moveLaunchPoint(position, position + 1)
                         return focused
                     }
-                    moveLaunchPoint(position, position - 1)
-                    return focused
-                } else if (direction == 66) {
-                    moveLaunchPoint(position, position + numRows)
-                    return focused
-                } else if (direction == 17) {
-                    moveLaunchPoint(position, position - numRows)
-                    return focused
+                    33 -> {
+                        if (position % numRows <= 0) {
+                            return focused
+                        }
+                        moveLaunchPoint(position, position - 1)
+                        return focused
+                    }
+                    66 -> {
+                        moveLaunchPoint(position, position + numRows)
+                        return focused
+                    }
+                    17 -> {
+                        moveLaunchPoint(position, position - numRows)
+                        return focused
+                    }
                 }
             } else if (direction == 130 && position % numRows == numRows - 1) {
                 setLastFocused()
@@ -323,7 +328,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     }
 
     private val isAccessibilityEnabled: Boolean
-        private get() = (context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager).isEnabled
+        get() = (context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager).isEnabled
 
     private fun moveLaunchPoint(fromPosition: Int, toPosition: Int): Boolean {
         return (adapter as AppsAdapter?)!!.moveLaunchPoint(fromPosition, toPosition, true)
@@ -357,7 +362,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     }
 
     private val lastFocusedBannerDrawable: Drawable?
-        private get() {
+        get() {
             val adapter = adapter
             val lastFocusedViewHolder = lastFocusedViewHolderInt
             if (lastFocusedViewHolder == null || adapter !is AppsAdapter) {
@@ -430,7 +435,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         }
     }
 
-    fun setLastFocused() {
+    private fun setLastFocused() {
         mLastFocused = mCurFocused
     }
 
@@ -456,11 +461,11 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             return curViewHolderInt
         }
     private val curViewHolderInt: ViewHolder?
-        private get() = if (mCurFocused != -1) {
+        get() = if (mCurFocused != -1) {
             findViewHolderForLayoutPosition(mCurFocused)
         } else null
     private val lastFocusedViewHolderInt: ViewHolder?
-        private get() = if (mLastFocused != -1) {
+        get() = if (mLastFocused != -1) {
             findViewHolderForLayoutPosition(mLastFocused)
         } else null
 
@@ -469,22 +474,18 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         mEditListeners = ArrayList<OnEditModeChangedListener?>()
         this.mChangeObserver = object : AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (mCurFocused >= positionStart) {
-                    mCurFocused = mCurFocused + itemCount
-                }
-                if (mLastFocused >= positionStart) {
-                    mLastFocused = mLastFocused + itemCount
-                }
+                if (mCurFocused >= positionStart) mCurFocused += itemCount
+                if (mLastFocused >= positionStart) mLastFocused += itemCount
             }
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
                 if (mCurFocused >= positionStart + itemCount) {
-                    mCurFocused = mCurFocused - itemCount
+                    mCurFocused -= itemCount
                 } else if (mCurFocused >= positionStart) {
                     focusOnNewPosition()
                 }
                 if (mLastFocused >= positionStart + itemCount) {
-                    mLastFocused = mLastFocused - itemCount
+                    mLastFocused -= itemCount
                 }
             }
         }
