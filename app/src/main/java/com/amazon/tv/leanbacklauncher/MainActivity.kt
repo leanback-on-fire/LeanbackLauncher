@@ -124,8 +124,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     if (BuildConfig.DEBUG) Log.d("******", "msg(7) checkLaunchPointPositions()")
                     return
                 }
-                else -> {
-                }
+                else -> TODO()
             }
         }
     }
@@ -172,9 +171,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             val packageName = intent?.data
             if (packageName != null && packageName.toString().contains(context?.packageName + ".recommendations")) {
                 Log.d(TAG, "Recommendations Service updated, reconnecting")
-                if (homeAdapter != null) {
-                    homeAdapter!!.onReconnectToRecommendationsService()
-                }
+                    homeAdapter?.onReconnectToRecommendationsService()
             }
         }
     }
@@ -221,7 +218,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
 
         override fun onLoaderReset(loader: Loader<Array<String>>) {
-            homeAdapter!!.onSuggestionsUpdate(null)
+            homeAdapter!!.onSuggestionsUpdate(emptyArray())
         }
     }
     private var mShyMode = false
@@ -291,10 +288,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mlv.itemAlignmentOffset = 0
             mlv.itemAlignmentOffsetPercent = -1.0f
             mScrollManager = HomeScrollManager(this, mlv)
-            mScrollManager!!.addHomeScrollListener(wallpaperView!!)
+            mScrollManager?.addHomeScrollListener(wallpaperView!!)
 
-            homeAdapter = HomeScreenAdapter(this, mScrollManager, mRecommendationsAdapter, editModeView)
-            homeAdapter!!.setOnEditModeChangedListener(this)
+            homeAdapter = HomeScreenAdapter(this, mScrollManager!!, mRecommendationsAdapter, editModeView!!)
+            homeAdapter?.setOnEditModeChangedListener(this)
             mlv.setItemViewCacheSize(homeAdapter!!.itemCount)
             mlv.adapter = homeAdapter
             mlv.setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
@@ -308,7 +305,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 mlv.selectedPosition = notifIndex
             }
             val recAdapter = homeAdapter!!.recommendationsAdapter
-            addIdleListener(recAdapter)
+            recAdapter?.let { addIdleListener(it) }
             mlv.setOnHierarchyChangeListener(object : OnHierarchyChangeListener {
                 override fun onChildViewAdded(parent: View, child: View) {
                     var tag = 0
@@ -431,19 +428,18 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun onBackgroundVisibleBehindChanged(visible: Boolean) {
         setShyMode(!visible, true)
     }
 
-    override fun onEditModeChanged(editMode: Boolean) {
-        if (isInEditMode == editMode) {
+    override fun onEditModeChanged(z: Boolean) {
+        if (isInEditMode == z) {
             return
         }
         if (mAccessibilityManager!!.isEnabled) {
-            setEditMode(editMode, false)
+            setEditMode(z, false)
         } else {
-            setEditMode(editMode, true)
+            setEditMode(z, true)
         }
     }
 
@@ -589,7 +585,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     private fun resetLauncherState(smooth: Boolean) {
         if (BuildConfig.DEBUG)
-            Log.d(TAG, "resetLauncherState(smooth: $smooth), isInEditMode: $isInEditMode")
+            Log.d(TAG, "resetLauncherState(smooth: $smooth)")
         mScrollManager?.onScrolled(0, 0)
         mUserInteracted = false
         homeAdapter?.resetRowPositions(smooth)
@@ -620,11 +616,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 val appIndex = homeAdapter!!.getRowIndex(element)
                 if (!(appIndex == -1 || mList?.selectedPosition == appIndex)) {
                     if (BuildConfig.DEBUG)
-                        Log.d(TAG, "resetLauncherState -> set focus to RowIndex $appIndex")
+                        Log.d(TAG, "resetLauncherState -> set focus to Row $appIndex")
 //                    if (smooth) {
 //                        mList?.setSelectedPositionSmooth(appIndex)
 //                    } else {
-                    mList?.selectedPosition = appIndex
+                        mList?.selectedPosition = appIndex
 //                    }
 //                    mList!!.getChildAt(appIndex).requestFocus()
                 }
@@ -912,7 +908,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                                 success = mAppWidgetManager!!.bindAppWidgetIdIfAllowed(appWidgetId, appWidgetInfo.provider, options)
                             }
                             if (success) {
-                                mAppWidgetHostView = mAppWidgetHost!!.createView(this, appWidgetId, appWidgetInfo)
+                                mAppWidgetHostView = mAppWidgetHost?.createView(this, appWidgetId, appWidgetInfo)
                                 mAppWidgetHostView?.setAppWidget(appWidgetId, appWidgetInfo)
                                 ww.addView(mAppWidgetHostView)
                                 Util.setWidget(this, appWidgetId, appWidgetInfo.provider)
@@ -925,7 +921,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     ww.addView(LayoutInflater.from(this).inflate(R.layout.clock, ww, false))
                     val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
                     val clockview: TextView = findViewById<View>(R.id.clock) as ClockView
-                    if (clockview != null && typeface != null) clockview.typeface = typeface
+                    if (clockview != null && typeface != null)
+                        clockview.typeface = typeface
                     return
                 }
                 return
@@ -1084,6 +1081,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     companion object {
         const val MY_PERMISSIONS_REQUEST_LOCATION = 99
         private const val TAG = "MainActivity"
+
         fun isMediaKey(keyCode: Int): Boolean {
             return when (keyCode) {
                 KeyEvent.KEYCODE_HEADSETHOOK, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_STOP, KeyEvent.KEYCODE_MEDIA_NEXT, KeyEvent.KEYCODE_MEDIA_PREVIOUS, KeyEvent.KEYCODE_MEDIA_REWIND, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, KeyEvent.KEYCODE_MUTE, KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_MEDIA_RECORD -> true
