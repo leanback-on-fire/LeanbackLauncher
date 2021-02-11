@@ -3,6 +3,7 @@ package com.amazon.tv.leanbacklauncher;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.OnHierarchyChangeListener;
@@ -36,18 +37,22 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
         super(context, attrs, defStyle);
         this.mChangeObserver = new AdapterDataObserver() {
             public void onChanged() {
+                if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: onChanged()");
                 ActiveItemsRowView.this.adjustNumRows();
                 Adapter adapter = ActiveItemsRowView.this.getAdapter();
                 if ((adapter instanceof AppsAdapter) && ((AppsAdapter) adapter).takeItemsHaveBeenSorted()) {
                     ActiveItemsRowView.this.setSelectedPosition(0);
+                    if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: setSelectedPosition(0)");
                 }
             }
 
             public void onItemRangeInserted(int positionStart, int itemCount) {
+//                if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: onItemRangeInserted(positionStart " + positionStart + ", itemCount " + itemCount + ")");
                 ActiveItemsRowView.this.adjustNumRows();
             }
 
             public void onItemRangeRemoved(int positionStart, int itemCount) {
+//                if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: onItemRangeRemoved(positionStart " + positionStart + ", itemCount " + itemCount + ")");
                 ActiveItemsRowView.this.adjustNumRows();
             }
         };
@@ -110,7 +115,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
     }
 
     public void adjustNumRows(int numRows, int cardSpacing, int rowHeight) {
-        // Log.w("+++ adjustNumRows INIT", "" + numRows + " " + cardSpacing + " " + rowHeight);
+//        if (BuildConfig.DEBUG) Log.w("******", "adjustNumRows( numRows:" + numRows + ", cardSpacing:" + cardSpacing + ", rowHeight:" + rowHeight +")");
         if (this.mIsAdjustable && this.mNumRows != numRows) {
             this.mNumRows = numRows;
             this.mCardSpacing = cardSpacing;
@@ -141,6 +146,7 @@ public class ActiveItemsRowView extends HorizontalGridView implements OnHierarch
                 integer = res.getInteger(R.integer.min_num_banner_rows);
             }
         }
+//        if (BuildConfig.DEBUG) Log.d("******", "ActiveItemsRowView: adjustNumRows() to " + integer);
         adjustNumRows(integer, this.mCardSpacing, this.mRowHeight);
     }
 

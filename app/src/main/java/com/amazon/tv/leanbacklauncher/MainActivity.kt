@@ -99,24 +99,29 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     if (activity.mResetAfterIdleEnabled) {
                         activity.mKeepUiReset = true
                         activity.resetLauncherState(true)
+                        if (BuildConfig.DEBUG) Log.d("******", "msg(3) resetLauncherState(smooth: true)")
                         return
                     }
                     return
                 }
                 4 -> {
                     activity.onNotificationRowStateUpdate(msg.arg1)
+                    if (BuildConfig.DEBUG) Log.d("******", "msg(4) onNotificationRowStateUpdate(${msg.arg1})")
                     return
                 }
                 5 -> {
                     activity.homeAdapter!!.onUiVisible()
+                    if (BuildConfig.DEBUG) Log.d("******", "msg(5) onUiVisible()")
                     return
                 }
                 6 -> {
                     activity.addWidget(true)
+                    if (BuildConfig.DEBUG) Log.d("******", "msg(6) addWidget(refresh: true)")
                     return
                 }
                 7 -> {
                     activity.checkLaunchPointPositions()
+                    if (BuildConfig.DEBUG) Log.d("******", "msg(7) checkLaunchPointPositions()")
                     return
                 }
                 else -> {
@@ -563,7 +568,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             }
         } else if (!mLaunchAnimation.isInitialized && !mLaunchAnimation.isScheduled) {
             resetLauncherState(false)
-            mLaunchAnimation.init(MassSlideAnimator.Builder(mList).setDirection(MassSlideAnimator.Direction.SLIDE_IN).setFade(mFadeDismissAndSummonAnimations).build(), mRefreshHomeAdapter, 32.toByte())
+            mLaunchAnimation.init(MassSlideAnimator.Builder(mList)
+                    .setDirection(MassSlideAnimator.Direction.SLIDE_IN)
+                    .setFade(mFadeDismissAndSummonAnimations)
+                    .build(), mRefreshHomeAdapter, 32.toByte()
+            )
         }
     }
 
@@ -579,10 +588,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private fun resetLauncherState(smooth: Boolean) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState(smooth: $smooth), isInEditMode: $isInEditMode")
-        mScrollManager!!.onScrolled(0, 0)
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "resetLauncherState(smooth: $smooth), isInEditMode: $isInEditMode")
+        mScrollManager?.onScrolled(0, 0)
         mUserInteracted = false
-        homeAdapter!!.resetRowPositions(smooth)
+        homeAdapter?.resetRowPositions(smooth)
         if (isInEditMode) {
             setEditMode(false, smooth)
         }
@@ -604,24 +614,20 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             if (!(mShyMode || mNotificationsView == null)) {
                 mNotificationsView!!.setIgnoreNextActivateBackgroundChange()
             }
-        } else { // focus on 1st Apps cat || Search (0) in case No Notifications row
-            val ar = intArrayOf(0, 7) // 0, 4, 8, 9, 7 - SEARCH, GAMES, MUSIC, VIDEO, FAVORITES as in buildRowList()
-            var i: Int
-            var x: Int
-            i = 0
-            while (i < ar.size) {
-                x = ar[i]
-                val appIndex = homeAdapter!!.getRowIndex(x)
-                if (!(appIndex == -1 || mList!!.selectedPosition == appIndex)) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState, set focus to RowIndex $appIndex")
-                    //if (smooth) {
-                    mList!!.setSelectedPositionSmooth(appIndex)
-                    //} else {
-                    mList!!.selectedPosition = appIndex
-                    //}
-                    //this.mList.getChildAt(0).requestFocus();
+        } else { // focus on 1st Apps cat (FAV) || Search (0) in case No Notifications row
+            val ar = intArrayOf(0, 7) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
+            for (element in ar) {
+                val appIndex = homeAdapter!!.getRowIndex(element)
+                if (!(appIndex == -1 || mList?.selectedPosition == appIndex)) {
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "resetLauncherState -> set focus to RowIndex $appIndex")
+//                    if (smooth) {
+//                        mList?.setSelectedPositionSmooth(appIndex)
+//                    } else {
+                    mList?.selectedPosition = appIndex
+//                    }
+//                    mList!!.getChildAt(appIndex).requestFocus()
                 }
-                i++
             }
         }
         mLaunchAnimation.cancel()
@@ -811,7 +817,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
 
     private fun onNotificationRowStateUpdate(state: Int) {
-        Log.d("*****", "onNotificationRowStateUpdate(" + state + ") selected postion: " + mList!!.selectedPosition)
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "onNotificationRowStateUpdate(state: " + state + "), current position: " + mList!!.selectedPosition)
         if (state == 1 || state == 2) {
             if (!mUserInteracted) {
                 val searchIndex = homeAdapter!!.getRowIndex(0)
@@ -1012,6 +1019,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     val isLaunchAnimationInProgress: Boolean
         get() = mLaunchAnimation.isPrimed || mLaunchAnimation.isRunning
+
     val isEditAnimationInProgress: Boolean
         get() = mEditModeAnimation.isPrimed || mEditModeAnimation.isRunning
 

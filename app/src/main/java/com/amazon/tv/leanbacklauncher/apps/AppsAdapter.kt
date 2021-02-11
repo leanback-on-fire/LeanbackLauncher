@@ -487,17 +487,16 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
 
     override fun onLaunchPointsAddedOrUpdated(launchPoints: ArrayList<LaunchPoint>?) {
         mNotifyHandler.post {
-            if (BuildConfig.DEBUG) Log.d(TAG, "run: onLaunchPointsAddedOrUpdated")
+            if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsAddedOrUpdated(${launchPoints})")
+            if (BuildConfig.DEBUG) Log.d(TAG, "Current Apps set: $mAppTypes, size: ${mLaunchPoints.size}")
             var saveAppOrderChanges = false
-            // if (BuildConfig.DEBUG) Log.d(TAG, "size: " + AppsAdapter.this.mLaunchPoints.size());
-            if (BuildConfig.DEBUG) Log.d(TAG, "Apps: " + mLaunchPoints)
             for (i in launchPoints!!.indices) {
                 val lp = launchPoints[i]
                 if (BuildConfig.DEBUG) Log.d(TAG, "Check: $lp")
                 for (j in mLaunchPoints.indices) {
                     val alp = mLaunchPoints[j]
                     if (lp.packageName == alp!!.packageName) {
-                        if (BuildConfig.DEBUG) Log.d(TAG, "Found: $alp Position: $j")
+                        if (BuildConfig.DEBUG) Log.d(TAG, "Found $lp at position $j")
                         mLaunchPoints.removeAt(j)
                         notifyItemRemoved(j)
                     }

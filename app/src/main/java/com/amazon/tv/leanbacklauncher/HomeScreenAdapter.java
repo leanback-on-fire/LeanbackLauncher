@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,6 +124,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
         }
     }
 
+    // FIXME: WRONG FOCUS
     public void resetRowPositions(boolean smooth) {
         for (int i = 0; i < this.mAllRowsList.size(); i++) {
             if (this.mAllRowsList.get(i).getRowView() instanceof ActiveFrame) {
@@ -610,6 +612,7 @@ public class HomeScreenAdapter extends Adapter<HomeScreenAdapter.HomeViewHolder>
                 }
                 child.itemView.setActivated(true);
             }
+            if (BuildConfig.DEBUG) Log.d("******", "set mActiveItemIndex to " + position);
             this.mActiveItemIndex = position;
         }
     }

@@ -213,7 +213,7 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
            if (mLastFocusedBanner == null || mLastFocusedBanner === this) {
                return super.requestFocus(direction, previouslyFocusedRect)
             }
-           mLastFocusedBanner!!.requestFocus()
+           mLastFocusedBanner?.requestFocus()
            return false
     }
 
