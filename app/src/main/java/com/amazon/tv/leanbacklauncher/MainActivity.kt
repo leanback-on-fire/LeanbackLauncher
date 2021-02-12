@@ -2,7 +2,6 @@ package com.amazon.tv.leanbacklauncher
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.*
 import android.appwidget.AppWidgetHost
 import android.appwidget.AppWidgetHostView
@@ -36,6 +35,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity
 import com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor
+import com.amazon.tv.leanbacklauncher.SearchOrbView.SearchLaunchListener
 import com.amazon.tv.leanbacklauncher.animation.*
 import com.amazon.tv.leanbacklauncher.animation.AnimatorLifecycle.OnAnimationFinishedListener
 import com.amazon.tv.leanbacklauncher.animation.EditModeMassFadeAnimator.EditMode
@@ -296,7 +296,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mlv.adapter = homeAdapter
             mlv.setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
                 override fun onChildViewHolderSelected(parent: RecyclerView?, child: RecyclerView.ViewHolder?, position: Int, subposition: Int) {
-                        homeAdapter?.onChildViewHolderSelected(parent, child, position)
+                    homeAdapter?.onChildViewHolderSelected(parent, child, position)
                 }
             })
             mlv.setAnimateChildLayout(false)
@@ -315,7 +315,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     when (tag) {
                         0 -> {
                             if (child is SearchOrbView) {
-                                child.setLaunchListener { setShyMode(true, true) }
+                                child.setLaunchListener(object : SearchLaunchListener {
+                                    override fun onSearchLaunched() {
+                                        setShyMode(true, true)
+                                    }
+                                })
                             }
                             addWidget(false)
                         }
