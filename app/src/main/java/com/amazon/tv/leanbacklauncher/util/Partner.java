@@ -1,5 +1,6 @@
 package com.amazon.tv.leanbacklauncher.util;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -89,6 +90,7 @@ public class Partner {
         this.mRowDataReady = false;
     }
 
+    @SuppressLint("WrongConstant")
     protected void sendInitBroadcast(Context context) {
         if (!TextUtils.isEmpty(this.mPackageName) && !TextUtils.isEmpty(this.mReceiverName)) {
             Intent intent = new Intent("com.google.android.leanbacklauncher.action.PARTNER_CUSTOMIZATION");

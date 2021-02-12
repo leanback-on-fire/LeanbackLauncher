@@ -63,6 +63,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
     private val mSettingsAdapter: SettingsAdapter
     private val mVisRowsList: ArrayList<HomeScreenRow> = ArrayList<HomeScreenRow>(7)
     private val mNotificationsAdapter: RecyclerView.Adapter<*>? = null
+    private final val TAG ="HomeScreenAdapter"
 
     class HomeViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!)
 
@@ -289,7 +290,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
                 else -> TODO()
             }
             rw.rowView = view
-            view!!.tag = rw.type.code
+            view.tag = rw.type.code
         }
         return HomeViewHolder(view)
     }
@@ -517,7 +518,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
                 }
                 child.itemView.isActivated = true
             }
-            if (BuildConfig.DEBUG) Log.d("******", "onChildViewHolderSelected: set mActiveItemIndex to $position")
+//            if (BuildConfig.DEBUG) Log.d(TAG, "onChildViewHolderSelected: set mActiveItemIndex to $position")
             mActiveItemIndex = position
         }
     }
