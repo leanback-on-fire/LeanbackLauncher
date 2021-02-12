@@ -23,6 +23,14 @@ class AppsManager private constructor(private val mContext: Context) : Installin
     private var mSearchChangeListener: SearchPackageChangeListener? = null
     private var mSearchPackageName: String? = null
 
+    init {
+        mLaunchPointListGenerator = LaunchPointList(mContext)
+        mAppsRanker = AppsRanker.getInstance(mContext)
+        mMarketUpdateReceiver = MarketUpdateReceiver(this)
+        mPackageChangedReceiver = PackageChangedReceiver(this)
+        mExternalAppsUpdateReceiver = ExternalAppsUpdateReceiver()
+    }
+
     interface SearchPackageChangeListener {
         fun onSearchPackageChanged()
     }
@@ -31,7 +39,7 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         FIXED, RECENCY
     }
 
-    val launchPointComparator: Comparator<LaunchPoint>
+    val launchPointComparator: Comparator<LaunchPoint>?
         get() = mAppsRanker.launchPointComparator
     val sortingMode: SortingMode
         get() = mAppsRanker.sortingMode
@@ -52,7 +60,7 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         onAppsRankerAction(packageName, null, actionType)
     }
 
-    fun insertLaunchPoint(launchPoints: ArrayList<LaunchPoint>, newLp: LaunchPoint?): Int {
+    fun insertLaunchPoint(launchPoints: ArrayList<LaunchPoint>, newLp: LaunchPoint): Int {
         return mAppsRanker.insertLaunchPoint(launchPoints, newLp)
     }
 
@@ -246,6 +254,7 @@ class AppsManager private constructor(private val mContext: Context) : Installin
 
     companion object {
         private var sAppsManager: AppsManager? = null
+
         @JvmStatic
         fun getInstance(context: Context): AppsManager? {
             if (sAppsManager == null) {
@@ -263,13 +272,5 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         fun saveSortingMode(context: Context?, mode: SortingMode) {
             PreferenceManager.getDefaultSharedPreferences(context).edit().putString("apps_ranker_sorting_mode", mode.toString()).apply()
         }
-    }
-
-    init {
-        mLaunchPointListGenerator = LaunchPointList(mContext)
-        mAppsRanker = AppsRanker.getInstance(mContext)
-        mMarketUpdateReceiver = MarketUpdateReceiver(this)
-        mPackageChangedReceiver = PackageChangedReceiver(this)
-        mExternalAppsUpdateReceiver = ExternalAppsUpdateReceiver()
     }
 }
