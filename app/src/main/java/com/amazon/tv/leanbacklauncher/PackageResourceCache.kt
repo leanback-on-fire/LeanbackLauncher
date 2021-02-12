@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.SparseArray
+import androidx.core.content.res.ResourcesCompat
 import java.util.*
 
 class PackageResourceCache private constructor(context: Context?) {
@@ -15,12 +16,9 @@ class PackageResourceCache private constructor(context: Context?) {
     private val mPackageManager: PackageManager?
 
     private class ResourceCacheEntry {
-        var drawableMap: SparseArray<Drawable?>
+        var drawableMap: SparseArray<Drawable?> = SparseArray<Drawable?>()
         var resources: Resources? = null
 
-        init {
-            drawableMap = SparseArray<Drawable?>()
-        }
     }
 
     init {
@@ -41,12 +39,12 @@ class PackageResourceCache private constructor(context: Context?) {
 
     @Throws(PackageManager.NameNotFoundException::class)
     fun getDrawable(packageName: String, id: Int): Drawable? {
-        val entry = getCacheEntry(packageName) ?: return null
+        val entry = getCacheEntry(packageName)
         var drawable = entry.drawableMap[id]
         if (drawable != null) {
             return drawable
         }
-        drawable = entry.resources!!.getDrawable(id, null)
+        drawable = ResourcesCompat.getDrawable(entry.resources!!, id, null)
         entry.drawableMap.put(id, drawable)
         return drawable
     }

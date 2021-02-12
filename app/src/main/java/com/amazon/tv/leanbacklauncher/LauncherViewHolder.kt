@@ -25,8 +25,8 @@ abstract class LauncherViewHolder protected constructor(v: View) : RecyclerView.
 
     override fun onClick(v: View) {
         mLaunchTag = AppTrace.beginAsyncSection("LaunchAnimation")
-        if (v != null && v === itemView) {
-            (mCtx as MainActivity).beginLaunchAnimation(v, mLaunchTranslucent, mLaunchColor) {
+        if (v === itemView) {
+            (mCtx as MainActivity).beginLaunchAnimation(view = v, translucent = mLaunchTranslucent, color = mLaunchColor) {
                 AppTrace.endAsyncSection(mLaunchTag)
                 try {
                     performLaunch()

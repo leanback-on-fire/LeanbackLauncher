@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation
 import java.util.*
+import kotlin.math.abs
 
 class HomeScrollManager(context: Context, private val mRecyclerView: RecyclerView) {
     private var mAnimationsEnabled = true
@@ -44,12 +45,12 @@ class HomeScrollManager(context: Context, private val mRecyclerView: RecyclerVie
     fun onScrolled(dy: Int, scrollPosition: Int) {
         if (mScrollPosition != scrollPosition) {
             mScrollPosition = scrollPosition
-            if (mScrollThreshold > 0) {
-                mFractionFromTop = Math.max(0.0f, Math.min(1.0f, Math.abs(mScrollPosition.toFloat() / mScrollThreshold.toFloat())))
+            mFractionFromTop = if (mScrollThreshold > 0) {
+                0.0f.coerceAtLeast(1.0f.coerceAtMost(Math.abs(mScrollPosition.toFloat() / mScrollThreshold.toFloat())))
             } else {
-                mFractionFromTop = 0.0f
+                0.0f
             }
-            val shouldAnimate = Math.abs(dy) <= mScrollAnimationThreshold
+            val shouldAnimate = abs(dy) <= mScrollAnimationThreshold
             if (shouldAnimate != mAnimationsEnabled) {
                 mAnimationsEnabled = shouldAnimate
                 adjustAnimationsEnabledState(mRecyclerView)
