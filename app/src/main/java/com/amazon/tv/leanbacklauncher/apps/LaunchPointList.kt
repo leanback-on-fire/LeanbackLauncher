@@ -463,6 +463,7 @@ class LaunchPointList(ctx: Context) {
             return z
         }
 
+    @SuppressLint("QueryPermissionsNeeded", "WrongConstant")
     private fun createLaunchPoints(pkgName: String?): ArrayList<LaunchPoint> {
         val rawItt: Iterator<ResolveInfo>
         val mainIntent = Intent("android.intent.action.MAIN")
@@ -488,6 +489,7 @@ class LaunchPointList(ctx: Context) {
             return channelActivities
         }
 
+    @SuppressLint("WrongConstant")
     private fun createSettingsList(): ArrayList<LaunchPoint> {
         // LEANBACK_SETTINGS
         val mainIntent = Intent("android.intent.action.MAIN").addCategory("android.intent.category.LEANBACK_SETTINGS")
@@ -551,6 +553,7 @@ class LaunchPointList(ctx: Context) {
         return settingsItems
     }
 
+    @SuppressLint("WrongConstant")
     private fun packageHasSettingsEntry(packageName: String?): Boolean {
         mSettingsLaunchPoints?.let { slp ->
             for (i in slp.indices) {
@@ -582,6 +585,7 @@ class LaunchPointList(ctx: Context) {
         } else ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name)
     }
 
+    @SuppressLint("QueryPermissionsNeeded", "WrongConstant")
     private fun searchComponentForAction(action: String): ComponentName? {
         val aIntent = Intent(action)
         val launchPoints = mContext.packageManager.queryIntentActivities(aIntent, 129)
