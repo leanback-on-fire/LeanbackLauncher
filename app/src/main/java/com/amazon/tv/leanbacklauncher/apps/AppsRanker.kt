@@ -6,10 +6,8 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.AsyncTask
 import android.preference.PreferenceManager
-import android.text.TextUtils
 import android.util.Log
 import com.amazon.tv.leanbacklauncher.R
-import com.amazon.tv.leanbacklauncher.apps.AppsDbHelper
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.getSavedSortingMode
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.SortingMode
 import com.amazon.tv.leanbacklauncher.util.Partner
@@ -20,10 +18,10 @@ import java.lang.ref.WeakReference
 import java.util.*
 import java.util.concurrent.Executor
 
-class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper, executor: Executor?) : AppsDbHelper.Listener {
+class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, executor: Executor?) : AppsDbHelper.Listener {
     private val mCachedActions: Queue<CachedAction?>
     private val mContext: Context
-    private val mDbHelper: AppsDbHelper
+    private val mDbHelper: AppsDbHelper?
     private var mEntities: HashMap<String, AppsEntity>
     private val mEntitiesLock: Any
     private val mLastLaunchPointRankingLogDump: ArrayList<String?>
@@ -46,7 +44,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper, exec
         mSortingMode = getSavedSortingMode(mContext)
         registerPreferencesListeners()
         mQueryingScores = true
-        mDbHelper.loadEntities(this, executor)
+        mDbHelper?.loadEntities(this, executor)
     }
 
     interface RankingListener {
@@ -107,7 +105,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper, exec
         }
     }
 
-    private constructor(ctx: Context, dbHelper: AppsDbHelper) : this(ctx, dbHelper, AsyncTask.SERIAL_EXECUTOR) {}
+    private constructor(ctx: Context, dbHelper: AppsDbHelper?) : this(ctx, dbHelper, AsyncTask.SERIAL_EXECUTOR) {}
 
     val sortingMode: SortingMode
         get() {
@@ -153,19 +151,19 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper, exec
                     var entity = mEntities[key]
                     if (actionType != 3) {
                         if (entity == null) {
-                            entity = AppsEntity(mContext, mDbHelper, key) //, false
+                            entity = AppsEntity(mContext, mDbHelper!!, key) //, false
                             mEntities[key] = entity
                         }
                         entity.onAction(actionType, component, group)
                         //  LoggingUtils.logRankerActionEvent(key, actionType, 0, TAG, this.mContext);
-                        mDbHelper.saveEntity(entity) // , true
-                    } else if (entity != null) {
+                        mDbHelper?.saveEntity(entity) // , true
+                    } else entity?.let {
                         if (entity.getOrder(component) != 0L) {
                             entity.onAction(actionType, component, null)
-                            mDbHelper.removeEntity(key, false)
+                            mDbHelper?.removeEntity(key, false)
                         } else {
                             mEntities.remove(key)
-                            mDbHelper.removeEntity(key, true)
+                            mDbHelper?.removeEntity(key, true)
                         }
                     }
                 }
@@ -297,9 +295,9 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper, exec
                 val key = order[size - i - 1]
                 if (!mEntities.containsKey(key)) {
                     val score = (entitiesBelow + i + 1).toLong() + baseTime
-                    val e = AppsEntity(mContext, mDbHelper, key, score, (entitiesBelow + size - i).toLong())
+                    val e = AppsEntity(mContext, mDbHelper!!, key, score, (entitiesBelow + size - i).toLong())
                     mEntities[key] = e
-                    mDbHelper.saveEntity(e)
+                    mDbHelper?.saveEntity(e)
                 }
             }
         }
@@ -318,10 +316,10 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper, exec
         if (e != null) {
             e.setOrder(launchPoint.componentName, position.toLong() + 1)
         } else {
-            e = AppsEntity(mContext, mDbHelper, launchPoint.packageName, 0, (position + 1).toLong())
+            e = AppsEntity(mContext, mDbHelper!!, launchPoint.packageName, 0, (position + 1).toLong())
             mEntities[launchPoint.packageName!!] = e
         }
-        mDbHelper.saveEntity(e)
+        mDbHelper?.saveEntity(e)
     }
 
     fun dump(prefix: String, writer: PrintWriter) {
