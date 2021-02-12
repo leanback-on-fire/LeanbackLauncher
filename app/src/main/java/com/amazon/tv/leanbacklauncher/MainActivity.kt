@@ -295,13 +295,13 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mlv.setItemViewCacheSize(homeAdapter!!.itemCount)
             mlv.adapter = homeAdapter
             mlv.setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
-                override fun onChildViewHolderSelected(parent: RecyclerView, child: RecyclerView.ViewHolder, position: Int, subposition: Int) {
-                    homeAdapter!!.onChildViewHolderSelected(parent, child, position)
+                override fun onChildViewHolderSelected(parent: RecyclerView?, child: RecyclerView.ViewHolder?, position: Int, subposition: Int) {
+                        homeAdapter?.onChildViewHolderSelected(parent, child, position)
                 }
             })
             mlv.setAnimateChildLayout(false)
-            val notifIndex = homeAdapter!!.getRowIndex(1) // RowType.NOTIFICATIONS
-            if (notifIndex != -1) {
+            val notifIndex = homeAdapter?.getRowIndex(1) // RowType.NOTIFICATIONS
+            if (notifIndex != null && notifIndex != -1) {
                 mlv.selectedPosition = notifIndex
             }
             val recAdapter = homeAdapter!!.recommendationsAdapter

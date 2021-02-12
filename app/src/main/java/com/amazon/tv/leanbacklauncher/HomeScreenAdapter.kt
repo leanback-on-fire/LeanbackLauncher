@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
-import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
@@ -63,7 +62,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
     private val mSettingsAdapter: SettingsAdapter
     private val mVisRowsList: ArrayList<HomeScreenRow> = ArrayList<HomeScreenRow>(7)
     private val mNotificationsAdapter: RecyclerView.Adapter<*>? = null
-    private final val TAG ="HomeScreenAdapter"
+    private final val TAG = "HomeScreenAdapter"
 
     class HomeViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!)
 
@@ -252,7 +251,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): HomeViewHolder {
         var view: View = View(parent.context)
         val row = mAllRowsList[position]
-        row?.let { rw ->
+        row.let { rw ->
             when (rw.type) {
                 RowType.SEARCH -> {
                     view = mInflater.inflate(R.layout.home_search_orb, parent, false)
@@ -321,7 +320,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
         }
 
     override fun onEditModeChanged(z: Boolean) {
-            mEditListener?.onEditModeChanged(z)
+        mEditListener?.onEditModeChanged(z)
     }
 
     val allRows: ArrayList<HomeScreenRow?>
@@ -501,22 +500,18 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
         }
     }
 
-    fun onChildViewHolderSelected(parent: RecyclerView, child: RecyclerView.ViewHolder, position: Int) {
+    fun onChildViewHolderSelected(parent: RecyclerView?, child: RecyclerView.ViewHolder?, position: Int) {
         if (position != mActiveItemIndex) {
             val activeItem: RecyclerView.ViewHolder?
             if (position == -1) {
-                activeItem = parent.findViewHolderForAdapterPosition(mActiveItemIndex)
-                if (activeItem != null) {
-                    activeItem.itemView.isActivated = false
-                }
+                activeItem = parent?.findViewHolderForAdapterPosition(mActiveItemIndex)
+                activeItem?.itemView?.isActivated = false
             } else {
                 if (mActiveItemIndex != -1) {
-                    activeItem = parent.findViewHolderForAdapterPosition(mActiveItemIndex)
-                    if (activeItem != null) {
-                        activeItem.itemView.isActivated = false
-                    }
+                    activeItem = parent?.findViewHolderForAdapterPosition(mActiveItemIndex)
+                    activeItem?.itemView?.isActivated = false
                 }
-                child.itemView.isActivated = true
+                child?.itemView?.isActivated = true
             }
 //            if (BuildConfig.DEBUG) Log.d(TAG, "onChildViewHolderSelected: set mActiveItemIndex to $position")
             mActiveItemIndex = position
