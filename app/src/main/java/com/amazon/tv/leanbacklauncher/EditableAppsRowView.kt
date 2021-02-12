@@ -490,7 +490,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             }
         }
         setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
-            override fun onChildViewHolderSelected(parent: RecyclerView, holder: ViewHolder, position: Int, subposition: Int) {
+            override fun onChildViewHolderSelected(parent: RecyclerView?, holder: ViewHolder?, position: Int, subposition: Int) {
                 this@EditableAppsRowView.onChildViewHolderSelected(parent, holder, position, subposition)
             }
         })
