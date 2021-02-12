@@ -64,6 +64,23 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
     private val mNotificationsAdapter: RecyclerView.Adapter<*>? = null
     private final val TAG = "HomeScreenAdapter"
 
+    init {
+        mMainActivity = Preconditions.checkNotNull(context)
+        mScrollManager = Preconditions.checkNotNull(scrollMgr)
+        mAppsManager = getInstance(context)
+        mInflater = LayoutInflater.from(context)
+        recommendationsAdapter = notificationsAdapter
+        mConnectivityListener = ConnectivityListener(context, this)
+        mSettingsAdapter = SettingsAdapter(mMainActivity, mConnectivityListener)
+        mEditModeView = editModeView
+        mPartnerAdapter = null
+        setHasStableIds(true)
+        buildRowList()
+        mAppsManager!!.refreshLaunchPointList()
+        mAppsManager.registerUpdateReceivers()
+        mConnectivityListener.start()
+    }
+
     class HomeViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!)
 
     private class ListComparator : Comparator<HomeScreenRow> {
@@ -268,7 +285,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
                     val notifList: NotificationRowView = view.findViewById(R.id.list)
                     val homeScreenView: HomeScreenView = view.findViewById(R.id.home_screen_messaging)
                     if (!(notifList == null || homeScreenView == null)) {
-                        initNotificationsRows(notifList, row.adapter, homeScreenView.homeScreenMessaging)
+                        initNotificationsRows(notifList, row.adapter!!, homeScreenView.homeScreenMessaging)
                     }
                 }
                 RowType.PARTNER, RowType.SETTINGS, RowType.INPUTS -> {
@@ -396,35 +413,35 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
                 }
                 RowType.FAVORITES -> {
                     constraints = getFavoriteRowConstraints(mMainActivity)
-                    numMaxRows = if (row.adapter.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
                 RowType.GAMES -> {
                     constraints = getRowConstraints(AppCategory.GAME, mMainActivity)
-                    numMaxRows = if (row.adapter.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
                 RowType.MUSIC -> {
                     constraints = getRowConstraints(AppCategory.MUSIC, mMainActivity)
-                    numMaxRows = if (row.adapter.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
                 RowType.VIDEO -> {
                     constraints = getRowConstraints(AppCategory.VIDEO, mMainActivity)
-                    numMaxRows = if (row.adapter.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
                 RowType.APPS -> {
                     constraints = getAllAppsConstraints(mMainActivity)
-                    numMaxRows = if (row.adapter.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
@@ -639,20 +656,4 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
         mSearch?.updateSearchSuggestions(mAssistantSuggestions)
     }
 
-    init {
-        mMainActivity = Preconditions.checkNotNull(context)
-        mScrollManager = Preconditions.checkNotNull(scrollMgr)
-        mAppsManager = getInstance(context)
-        mInflater = LayoutInflater.from(context)
-        recommendationsAdapter = notificationsAdapter
-        mConnectivityListener = ConnectivityListener(context, this)
-        mSettingsAdapter = SettingsAdapter(mMainActivity, mConnectivityListener)
-        mEditModeView = editModeView
-        mPartnerAdapter = null
-        setHasStableIds(true)
-        buildRowList()
-        mAppsManager!!.refreshLaunchPointList()
-        mAppsManager.registerUpdateReceivers()
-        mConnectivityListener.start()
-    }
 }
