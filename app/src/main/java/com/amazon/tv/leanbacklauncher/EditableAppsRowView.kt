@@ -33,6 +33,33 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     private var mLastFocused: Int
     private var mSwapping = false
 
+    init {
+        mLastFocused = -1
+        mEditListeners = ArrayList<OnEditModeChangedListener?>()
+        this.mChangeObserver = object : AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (mCurFocused >= positionStart) mCurFocused += itemCount
+                if (mLastFocused >= positionStart) mLastFocused += itemCount
+            }
+
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                if (mCurFocused >= positionStart + itemCount) {
+                    mCurFocused -= itemCount
+                } else if (mCurFocused >= positionStart) {
+                    focusOnNewPosition()
+                }
+                if (mLastFocused >= positionStart + itemCount) {
+                    mLastFocused -= itemCount
+                }
+            }
+        }
+        setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
+            override fun onChildViewHolderSelected(parent: RecyclerView?, holder: ViewHolder?, position: Int, subposition: Int) {
+                this@EditableAppsRowView.onChildViewHolderSelected(parent, holder, position, subposition)
+            }
+        })
+    }
+
     override fun setAdapter(adapter: Adapter<*>?) {
         getAdapter()?.unregisterAdapterDataObserver(this.mChangeObserver)
         super.setAdapter(adapter)
@@ -460,39 +487,15 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             }
             return curViewHolderInt
         }
+
     private val curViewHolderInt: ViewHolder?
         get() = if (mCurFocused != -1) {
             findViewHolderForLayoutPosition(mCurFocused)
         } else null
+
     private val lastFocusedViewHolderInt: ViewHolder?
         get() = if (mLastFocused != -1) {
             findViewHolderForLayoutPosition(mLastFocused)
         } else null
 
-    init {
-        mLastFocused = -1
-        mEditListeners = ArrayList<OnEditModeChangedListener?>()
-        this.mChangeObserver = object : AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (mCurFocused >= positionStart) mCurFocused += itemCount
-                if (mLastFocused >= positionStart) mLastFocused += itemCount
-            }
-
-            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                if (mCurFocused >= positionStart + itemCount) {
-                    mCurFocused -= itemCount
-                } else if (mCurFocused >= positionStart) {
-                    focusOnNewPosition()
-                }
-                if (mLastFocused >= positionStart + itemCount) {
-                    mLastFocused -= itemCount
-                }
-            }
-        }
-        setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
-            override fun onChildViewHolderSelected(parent: RecyclerView?, holder: ViewHolder?, position: Int, subposition: Int) {
-                this@EditableAppsRowView.onChildViewHolderSelected(parent, holder, position, subposition)
-            }
-        })
-    }
 }

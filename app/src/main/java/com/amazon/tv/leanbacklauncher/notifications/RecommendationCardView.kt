@@ -1,14 +1,12 @@
 package com.amazon.tv.leanbacklauncher.notifications
 
 import android.content.Context
-import android.content.pm.PackageManager
-import android.content.res.Resources.NotFoundException
 import android.graphics.Bitmap
 import com.amazon.tv.leanbacklauncher.PackageResourceCache
 import com.amazon.tv.tvrecommendations.TvRecommendation
 import com.bumptech.glide.request.target.SizeReadyCallback
 
-class RecommendationCardView internal constructor(context: Context?, private val mResourceCache: PackageResourceCache) : RecommendationView(context!!) {
+class RecommendationCardView internal constructor(context: Context?, private val mResourceCache: PackageResourceCache?) : RecommendationView(context!!) {
     private var mRecommendation: TvRecommendation? = null
 
     constructor(context: Context?) : this(context, PackageResourceCache.getInstance(context)) {}
@@ -60,7 +58,7 @@ class RecommendationCardView internal constructor(context: Context?, private val
     override fun bindBadge() {
         try {
             // TODO
-            bindBadge(mResourceCache.getDrawable(mRecommendation!!.packageName, mRecommendation!!.badgeIcon))
+            bindBadge(mResourceCache!!.getDrawable(mRecommendation!!.packageName, mRecommendation!!.badgeIcon))
             return
         } catch (e: Exception) {
             e.printStackTrace()

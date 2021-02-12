@@ -24,6 +24,35 @@ open class ActiveItemsRowView @JvmOverloads constructor(context: Context?, attrs
     var numberOfRows = 0
         private set
     private var mRowHeight = 0
+
+    init {
+        mChangeObserver = object : AdapterDataObserver() {
+            override fun onChanged() {
+//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onChanged()");
+                this@ActiveItemsRowView.adjustNumRows()
+                val adapter = this@ActiveItemsRowView.adapter
+                if (adapter is AppsAdapter && adapter.takeItemsHaveBeenSorted()) {
+                    this@ActiveItemsRowView.selectedPosition = 0
+                    if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() setSelectedPosition(0)")
+                }
+            }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onItemRangeInserted(positionStart " + positionStart + ", itemCount " + itemCount + ")");
+                this@ActiveItemsRowView.adjustNumRows()
+            }
+
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onItemRangeRemoved(positionStart " + positionStart + ", itemCount " + itemCount + ")");
+                this@ActiveItemsRowView.adjustNumRows()
+            }
+        }
+        isChildrenDrawingOrderEnabled = true
+        setAnimateChildLayout(true)
+        mDimState = DimState.INACTIVE
+        mCardElevationSupported = LauncherConfiguration.getInstance().isCardElevationEnabled
+    }
+
     override fun hasOverlappingRendering(): Boolean {
         return hasFocus() && super.hasOverlappingRendering()
     }
@@ -134,31 +163,4 @@ open class ActiveItemsRowView @JvmOverloads constructor(context: Context?, attrs
         return super.focusSearch(focused, direction)
     }
 
-    init {
-        mChangeObserver = object : AdapterDataObserver() {
-            override fun onChanged() {
-//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onChanged()");
-                this@ActiveItemsRowView.adjustNumRows()
-                val adapter = this@ActiveItemsRowView.adapter
-                if (adapter is AppsAdapter && adapter.takeItemsHaveBeenSorted()) {
-                    this@ActiveItemsRowView.selectedPosition = 0
-                    if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() setSelectedPosition(0)")
-                }
-            }
-
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onItemRangeInserted(positionStart " + positionStart + ", itemCount " + itemCount + ")");
-                this@ActiveItemsRowView.adjustNumRows()
-            }
-
-            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onItemRangeRemoved(positionStart " + positionStart + ", itemCount " + itemCount + ")");
-                this@ActiveItemsRowView.adjustNumRows()
-            }
-        }
-        isChildrenDrawingOrderEnabled = true
-        setAnimateChildLayout(true)
-        mDimState = DimState.INACTIVE
-        mCardElevationSupported = LauncherConfiguration.getInstance().isCardElevationEnabled
-    }
 }

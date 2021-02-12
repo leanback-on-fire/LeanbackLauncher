@@ -73,6 +73,30 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         fun onSearchLaunched()
     }
 
+    init {
+        var z = false
+        mContext = context
+        val res = context.resources
+        mDefaultTextToShow = res.getStringArray(R.array.search_orb_text_to_show)
+        mIdleTextFlipDelay = res.getInteger(R.integer.search_orb_idle_hint_flip_delay)
+        mLaunchFadeDuration = res.getInteger(R.integer.search_orb_text_fade_duration)
+        mSearchHintText = fixItalics(context.getString(R.string.search_hint_text))
+        mFocusedText = fixItalics(context.getString(R.string.focused_search_hint_text))
+        mFocusedMicText = fixItalics(context.getString(R.string.focused_search_mic_hint_text))
+        mFocusedKeyboardText = context.getString(R.string.focused_search_keyboard_hint_text)
+        mFocusedColor = ContextCompat.getColor(mContext, R.color.search_orb_focused_hint_color)
+        mUnfocusedColor = ContextCompat.getColor(mContext, R.color.search_orb_unfocused_hint_color)
+        if (res.getBoolean(R.bool.is_hint_flipping_allowed) && isKatnissPackagePresent) {
+            z = true
+        }
+        mIsHintFlippingAllowed = z
+        mWahlbergUx = useWahlbergUx()
+        mSearchOrbsSpacing = res.getDimensionPixelSize(R.dimen.search_orbs_spacing)
+        mKeyboardOrbAnimationDuration = res.getInteger(R.integer.lb_search_orb_scale_duration_ms)
+        mDefaultColorMicIcon = res.getDrawable(R.drawable.ic_mic_color, null)
+        mMicUnfocusedIcon = res.getDrawable(R.drawable.ic_mic_grey, null)
+    }
+
     private fun useWahlbergUx(): Boolean {
         try {
             val searchResources = mContext.packageManager.getResourcesForApplication("com.google.android.katniss")
@@ -461,27 +485,4 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         initializeSearchOrbs()
     }
 
-    init {
-        var z = false
-        mContext = context
-        val res = context.resources
-        mDefaultTextToShow = res.getStringArray(R.array.search_orb_text_to_show)
-        mIdleTextFlipDelay = res.getInteger(R.integer.search_orb_idle_hint_flip_delay)
-        mLaunchFadeDuration = res.getInteger(R.integer.search_orb_text_fade_duration)
-        mSearchHintText = fixItalics(context.getString(R.string.search_hint_text))
-        mFocusedText = fixItalics(context.getString(R.string.focused_search_hint_text))
-        mFocusedMicText = fixItalics(context.getString(R.string.focused_search_mic_hint_text))
-        mFocusedKeyboardText = context.getString(R.string.focused_search_keyboard_hint_text)
-        mFocusedColor = ContextCompat.getColor(mContext, R.color.search_orb_focused_hint_color)
-        mUnfocusedColor = ContextCompat.getColor(mContext, R.color.search_orb_unfocused_hint_color)
-        if (res.getBoolean(R.bool.is_hint_flipping_allowed) && isKatnissPackagePresent) {
-            z = true
-        }
-        mIsHintFlippingAllowed = z
-        mWahlbergUx = useWahlbergUx()
-        mSearchOrbsSpacing = res.getDimensionPixelSize(R.dimen.search_orbs_spacing)
-        mKeyboardOrbAnimationDuration = res.getInteger(R.integer.lb_search_orb_scale_duration_ms)
-        mDefaultColorMicIcon = res.getDrawable(R.drawable.ic_mic_color, null)
-        mMicUnfocusedIcon = res.getDrawable(R.drawable.ic_mic_grey, null)
-    }
 }

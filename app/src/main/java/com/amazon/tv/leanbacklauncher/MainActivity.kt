@@ -171,7 +171,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             val packageName = intent?.data
             if (packageName != null && packageName.toString().contains(context?.packageName + ".recommendations")) {
                 Log.d(TAG, "Recommendations Service updated, reconnecting")
-                    homeAdapter?.onReconnectToRecommendationsService()
+                homeAdapter?.onReconnectToRecommendationsService()
             }
         }
     }
@@ -624,7 +624,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 //                    if (smooth) {
 //                        mList?.setSelectedPositionSmooth(appIndex)
 //                    } else {
-                        mList?.selectedPosition = appIndex
+                    mList?.selectedPosition = appIndex
 //                    }
 //                    mList!!.getChildAt(appIndex).requestFocus()
                 }

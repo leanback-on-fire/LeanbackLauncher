@@ -62,7 +62,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         abstract fun include(point: LaunchPoint?): Boolean
     }
 
-    open class AppViewHolder internal constructor(v: View?, adapter: AppsAdapter?) : LauncherViewHolder(v) {
+    open class AppViewHolder internal constructor(v: View, adapter: AppsAdapter?) : LauncherViewHolder(v) {
         private val mAdapter: AppsAdapter?
         private var mBannerView: BannerView? = null
         var componentName: String? = null
@@ -138,7 +138,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         }
     }
 
-    open class AppBannerViewHolder(v: View?, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
+    open class AppBannerViewHolder(v: View, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
         private val mBackground: Drawable
         private var mBannerView: ImageView? = null
         private val mOverlayHelper: InstallStateOverlayHelper
@@ -195,11 +195,11 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
             } else {
                 mBannerView = null
             }
-            mBackground = ResourcesCompat.getDrawable(v!!.resources, R.drawable.banner_background, null)!!
+            mBackground = ResourcesCompat.getDrawable(v.resources, R.drawable.banner_background, null)!!
         }
     }
 
-    private class AppFallbackViewHolder(v: View?, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
+    private class AppFallbackViewHolder(v: View, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
         private var mIconView: ImageView?
         private var mBannerView: LinearLayout?
         private var mLabelView: TextView?
@@ -308,7 +308,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         }
     }
 
-    private class SettingViewHolder(v: View?, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
+    private class SettingViewHolder(v: View, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
         private var mIconView: ImageView?
         private var mLabelView: TextView?
         private var mMainView: View?
