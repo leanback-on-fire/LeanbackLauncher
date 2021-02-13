@@ -1,7 +1,6 @@
 package com.amazon.tv.leanbacklauncher.settings
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -33,12 +32,12 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
     }
 
     override fun onCreateActions(actions: MutableList<GuidedAction>, savedInstanceState: Bundle?) {
-        val activity = requireActivity()
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        val context = requireContext()
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             Log.v(TAG, "READ_EXTERNAL_STORAGE permission is granted")
         } else {
             Log.v(TAG, "READ_EXTERNAL_STORAGE permission not granted")
-            makeRequest(activity)
+            makeRequest()
         }
 
 //        val gpath = Environment.getExternalStorageDirectory().absolutePath
@@ -49,7 +48,7 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
 
         if (images.size > 0)
             images.forEach {
-                actions.add(GuidedAction.Builder(activity)
+                actions.add(GuidedAction.Builder(context)
                         .id(ACTION_SELECT.toLong())
                         .title(it.name)
                         .description(null)
@@ -57,7 +56,7 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
                 )
             }
 
-        actions.add(GuidedAction.Builder(activity)
+        actions.add(GuidedAction.Builder(context)
                 .id(ACTION_BACK.toLong())
                 .title(R.string.goback)
                 .description(null)
@@ -84,8 +83,8 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
         return fileList
     }
 
-    protected fun makeRequest(activity: Activity) {
-        ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+    protected fun makeRequest() {
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                 500)
     }
 
@@ -118,12 +117,16 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
         return true
     }
 
-    private fun getWallpaperDesc(context: Context?): String? {
+    private fun getWallpaperDesc(context: Context): String? {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val image = pref.getString("wallpaper_image", "")
         return if (image!!.isNotBlank()) {
             image
         } else {
+            val file = File(context.filesDir, "background.jpg")
+            if (file.canRead()) {
+                file.toString()
+            }
             getString(R.string.wallpaper_choose)
         }
     }
