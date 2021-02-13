@@ -18,12 +18,26 @@ class LegacyAppOrderPreferenceFragment : GuidedStepSupportFragment() {
     override fun onCreateActions(actions: MutableList<GuidedAction>, savedInstanceState: Bundle?) {
         var z = true
         val sortingMode = getSavedSortingMode(activity)
-        actions.add(GuidedAction.Builder(activity).id(1).checkSetId(1).checked(sortingMode === SortingMode.RECENCY).title(R.string.select_app_order_action_description_recency).description(R.string.recency_order_action_description).build())
-        val builder = GuidedAction.Builder(activity).id(2).checkSetId(1)
+        actions.add(GuidedAction.Builder(activity)
+                .id(1)
+                .checkSetId(1)
+                .checked(sortingMode === SortingMode.RECENCY)
+                .title(R.string.select_app_order_action_description_recency)
+                .description(R.string.recency_order_action_description)
+                .build()
+        )
+        val builder = GuidedAction.Builder(activity)
+                .id(2)
+                .checkSetId(1)
         if (sortingMode !== SortingMode.FIXED) {
             z = false
         }
-        actions.add(builder.checked(z).title(R.string.select_app_order_action_description_fixed).description(R.string.fixed_order_action_description).build())
+        actions.add(builder
+                .checked(z)
+                .title(R.string.select_app_order_action_description_fixed)
+                .description(R.string.fixed_order_action_description)
+                .build()
+        )
     }
 
     override fun onGuidedActionClicked(action: GuidedAction) {

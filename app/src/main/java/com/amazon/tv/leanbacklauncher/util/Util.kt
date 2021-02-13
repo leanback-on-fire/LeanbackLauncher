@@ -20,6 +20,7 @@ import android.view.KeyEvent
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityManager
 import android.widget.Toast
+import com.amazon.tv.leanbacklauncher.MainActivity
 import com.amazon.tv.leanbacklauncher.R
 
 object Util {
@@ -107,6 +108,13 @@ object Util {
     @Throws(SendIntentException::class)
     fun startActivity(context: Context, intent: PendingIntent) {
         context.startIntentSender(intent.intentSender, null, 268435456, 268435456, 0)
+    }
+
+    // refresh home broadcast
+    fun refreshHome(context: Context) {
+        val Broadcast = Intent(MainActivity::class.java.name) // ACTION
+        Broadcast.putExtra("RefreshHome", true)
+        context.sendBroadcast(Broadcast)
     }
 
     fun getInstallTimeForPackage(context: Context, pkgName: String?): Long {

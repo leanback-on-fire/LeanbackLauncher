@@ -1,5 +1,6 @@
 package com.amazon.tv.leanbacklauncher.settings
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -14,6 +15,7 @@ import androidx.leanback.widget.GuidedAction
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companion.instance
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.util.Util.refreshHome
 import java.util.*
 
 class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
@@ -52,6 +54,9 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
         if (action.id == ACTION_ID_ALL_APPS) {
             if (BuildConfig.DEBUG) Log.d("******", "ACTION_ID_ALL_APPS, ${action.isChecked}")
             util?.showAllApps(action.isChecked)
+            // refresh home broadcast
+            val activity = requireActivity()
+            refreshHome(activity)
         } else {
             if (action.isChecked) {
                 util?.hide(mActionToPackageMap!![action.id])

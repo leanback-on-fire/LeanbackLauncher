@@ -2,7 +2,6 @@ package com.amazon.tv.leanbacklauncher.settings
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
@@ -16,8 +15,8 @@ import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
 import com.amazon.tv.leanbacklauncher.BuildConfig
-import com.amazon.tv.leanbacklauncher.MainActivity
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.util.Util.refreshHome
 import java.io.File
 
 class LegacyFileListFragment : GuidedStepSupportFragment() {
@@ -109,11 +108,9 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
     private fun setWallpaper(context: Context?, image: String): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         if (!image.isEmpty()) pref.edit().putString("wallpaper_image", image).apply()
-        // refresh home
+        // refresh home broadcast
         val activity = requireActivity()
-        val Broadcast = Intent(MainActivity::class.java.name) // ACTION
-        Broadcast.putExtra("RefreshHome", true)
-        activity.sendBroadcast(Broadcast)
+        refreshHome(activity)
         return true
     }
 

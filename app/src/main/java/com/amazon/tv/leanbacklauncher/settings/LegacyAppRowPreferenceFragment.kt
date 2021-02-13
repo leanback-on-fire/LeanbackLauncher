@@ -1,7 +1,6 @@
 package com.amazon.tv.leanbacklauncher.settings
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
@@ -32,8 +31,8 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setRowMax
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setRowMin
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setVideosEnabled
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils.isLocalNotificationsEnabled
-import com.amazon.tv.leanbacklauncher.MainActivity
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.util.Util.refreshHome
 import java.util.*
 
 /**
@@ -72,10 +71,10 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         val id = action.id
         val catId = (id - 1) / 2
         val subId = ((id - 1) % 2).toInt()
-        var value: Int
         var enabled: Boolean
         val activity: Activity? = activity
         val categories = getEnabledCategories(activity!!)
+        var value: Int
 
 //        Log.d("******", "onGuidedActionClicked(id: $id) catId: $catId subId: $subId (favIndex: $favIndex videoIndex: $videoIndex musicIndex: $musicIndex gameIndex: $gameIndex)")
 
@@ -86,18 +85,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setFavoritesEnabled(activity, !enabled)
                 }
                 1 -> {
-                    value = try {
-                        action.description.toString().toInt()
+                    try {
+                        value = action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        1
+                        value = 1
                     }
                     setFavoriteRowMax(activity, value)
                 }
                 2 -> {
-                    value = try {
-                        action.description.toString().toInt()
+                    try {
+                        value = action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        1
+                        value = 1
                     }
                     setFavoriteRowMin(activity, value)
                 }
@@ -109,18 +108,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setMusicEnabled(activity, !enabled)
                 }
                 1 -> {
-                    value = try {
-                        action.description.toString().toInt()
+                    try {
+                        value = action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        1
+                        value = 1
                     }
                     setRowMax(AppCategory.MUSIC, activity, value)
                 }
                 2 -> {
-                    value = try {
-                        action.description.toString().toInt()
+                    try {
+                        value = action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        1
+                        value = 1
                     }
                     setRowMin(AppCategory.MUSIC, activity, value)
                 }
@@ -132,18 +131,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setVideosEnabled(activity, !enabled)
                 }
                 1 -> {
-                    value = try {
-                        action.description.toString().toInt()
+                    try {
+                        value = action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        1
+                        value = 1
                     }
                     setRowMax(AppCategory.VIDEO, activity, value)
                 }
                 2 -> {
-                    value = try {
-                        action.description.toString().toInt()
+                    try {
+                        value = action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        1
+                        value = 1
                     }
                     setRowMin(AppCategory.VIDEO, activity, value)
                 }
@@ -155,34 +154,34 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setGamesEnabled(activity, !enabled)
                 }
                 1 -> {
-                    value = try {
-                        action.description.toString().toInt()
+                    try {
+                        value = action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        1
+                        value = 1
                     }
                     setRowMax(AppCategory.GAME, activity, value)
                 }
                 2 -> {
-                    value = try {
-                        action.description.toString().toInt()
+                    try {
+                        value = action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        1
+                        value = 1
                     }
                     setRowMin(AppCategory.GAME, activity, value)
                 }
             }
         } else if (id == ACTION_ID_APPS_MAX.toLong()) {
-            value = try {
-                action.description.toString().toInt()
+            try {
+                value = action.description.toString().toInt()
             } catch (nfe: NumberFormatException) {
-                1
+                value = 1
             }
             setAllAppsMax(activity, value)
         } else if (id == ACTION_ID_APPS_ROW.toLong()) {
-            value = try {
-                action.description.toString().toInt()
+            try {
+                value = action.description.toString().toInt()
             } catch (nfe: NumberFormatException) {
-                1
+                value = 1
             }
             setAppsMax(activity, value)
         } else if (id == ACTION_ID_RECOMENDATIONS.toLong()) { // RECOMENDATIONS
@@ -328,9 +327,8 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
 
         // REFRESH HOME BC
         if (startup > 0) {
-            val Broadcast = Intent(MainActivity::class.java.name) // ACTION
-            Broadcast.putExtra("RefreshHome", true)
-            activity.sendBroadcast(Broadcast)
+            val activity = requireActivity()
+            refreshHome(activity)
         }
     }
 

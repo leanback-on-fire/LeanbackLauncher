@@ -10,6 +10,7 @@ import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
 import com.amazon.tv.leanbacklauncher.MainActivity
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.util.Util.refreshHome
 import java.io.File
 
 class LegacyWallpaperFragment : GuidedStepSupportFragment() {
@@ -64,11 +65,9 @@ class LegacyWallpaperFragment : GuidedStepSupportFragment() {
                 e.printStackTrace()
             }
         }
-        // refresh home
+        // refresh home broadcast
         val activity = requireActivity()
-        val Broadcast = Intent(MainActivity::class.java.name) // ACTION
-        Broadcast.putExtra("RefreshHome", true)
-        activity.sendBroadcast(Broadcast)
+        refreshHome(activity)
         return true
     }
 
@@ -86,7 +85,6 @@ class LegacyWallpaperFragment : GuidedStepSupportFragment() {
     }
 
     companion object {
-        /* Action ID definition */
         private const val ACTION_CONTINUE = 0
         private const val ACTION_RESET = 1
     }

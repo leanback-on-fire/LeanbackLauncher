@@ -1,7 +1,5 @@
 package com.amazon.tv.leanbacklauncher.settings
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
@@ -17,15 +15,13 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setBannersSize
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setCorners
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setFrameColor
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setFrameWidth
-import com.amazon.tv.leanbacklauncher.MainActivity
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.util.Util.refreshHome
 import java.util.*
 
 class LegacyBannersFragment : GuidedStepSupportFragment() {
 
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
-        // Activity activity = getActivity();
-        // String desc = getString(R.string.banners_corners_radius) + ": " + Integer.toString(RowPreferences.getCorners(activity)) + ", " + getString(R.string.banners_frame_width) + ": " + Integer.toString(RowPreferences.getFrameWidth(activity));
         return Guidance(
                 getString(R.string.banners_prefs_title),  // title
                 getString(R.string.banners_prefs_desc),  // description
@@ -41,7 +37,7 @@ class LegacyBannersFragment : GuidedStepSupportFragment() {
 
     private fun updateActions() {
         val actions = ArrayList<GuidedAction>()
-        val activity: Activity? = activity
+        val activity = requireActivity()
         actions.add(GuidedAction.Builder(
                 activity)
                 .id(ACTION_SZ.toLong())
@@ -55,7 +51,7 @@ class LegacyBannersFragment : GuidedStepSupportFragment() {
                 activity)
                 .id(ACTION_RAD.toLong())
                 .title(R.string.banners_corners_radius)
-                .description(Integer.toString(getCorners(activity!!)))
+                .description(Integer.toString(getCorners(activity)))
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
@@ -94,58 +90,50 @@ class LegacyBannersFragment : GuidedStepSupportFragment() {
     }
 
     override fun onGuidedActionClicked(action: GuidedAction) {
-        val activity: Activity? = activity
-        val `val`: Int
+        val activity = requireActivity()
+        var value: Int
         when (action.id.toInt()) {
             ACTION_SZ -> {
-                `val` = try {
-                    action.description.toString().toInt()
+                try {
+                    value = action.description.toString().toInt()
                 } catch (nfe: NumberFormatException) {
-                    getBannersSize(activity)
+                    value = getBannersSize(activity)
                 }
-                setBannersSize(activity, `val`)
-                refreshHome()
+                setBannersSize(activity, value)
+                refreshHome(activity)
             }
             ACTION_RAD -> {
-                `val` = try {
-                    action.description.toString().toInt()
+                try {
+                    value = action.description.toString().toInt()
                 } catch (nfe: NumberFormatException) {
-                    getCorners(activity!!)
+                    value = getCorners(activity!!)
                 }
-                setCorners(activity, `val`)
-                refreshHome()
+                setCorners(activity, value)
+                refreshHome(activity)
             }
             ACTION_FWD -> {
-                `val` = try {
-                    action.description.toString().toInt()
+                try {
+                    value = action.description.toString().toInt()
                 } catch (nfe: NumberFormatException) {
-                    getFrameWidth(activity!!)
+                    value = getFrameWidth(activity!!)
                 }
-                setFrameWidth(activity, `val`)
-                refreshHome()
+                setFrameWidth(activity, value)
+                refreshHome(activity)
             }
             ACTION_FCL -> {
-                `val` = try {
-                    Color.parseColor(action.description.toString())
+                try {
+                    value = Color.parseColor(action.description.toString())
                 } catch (nfe: IllegalArgumentException) {
-                    getFrameColor(activity!!)
+                    value = getFrameColor(activity!!)
                 }
-                setFrameColor(activity, `val`)
-                refreshHome()
+                setFrameColor(activity, value)
+                refreshHome(activity)
             }
             ACTION_BACK -> fragmentManager!!.popBackStack()
             else -> {
             }
         }
         updateActions()
-    }
-
-    private fun refreshHome(): Boolean {
-        val activity: Activity? = activity
-        val Broadcast = Intent(MainActivity::class.java.name) // ACTION
-        Broadcast.putExtra("RefreshHome", true)
-        activity!!.sendBroadcast(Broadcast)
-        return true
     }
 
     private fun hexStringColor(color: Int): String {
