@@ -205,4 +205,5 @@ com.amazon.device.sale.service
     <string name="v7_preference_on">ВКЛ</string>
     <string name="videos_row_title">Раздел «Видео»</string>
     <string name="wallpaper_title">Фон по умолчанию</string>
+    <string name="wallpaper_choose">Поместите изображение фона в корневой каталог хранилища и выберите здесь</string>
 </resources>

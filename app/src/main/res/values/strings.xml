@@ -250,4 +250,5 @@ or recommendations will not work properly."</string>
     <string name="v7_preference_on">ON</string>
     <string name="videos_row_title">Show Videos Row</string>
     <string name="wallpaper_title">Default Wallpaper</string>
+    <string name="wallpaper_choose">Put wallpaper image to storage directory root and select here</string>
 </resources>
