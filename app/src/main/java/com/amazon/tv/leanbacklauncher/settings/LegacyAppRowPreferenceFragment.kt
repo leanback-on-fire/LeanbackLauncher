@@ -70,14 +70,16 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
 
     override fun onGuidedActionClicked(action: GuidedAction) {
         val id = action.id
-        val modId = (id - 1) / 2
+        val catId = (id - 1) / 2
         val subId = ((id - 1) % 2).toInt()
-        var value = 1
+        var value: Int
         var enabled: Boolean
         val activity: Activity? = activity
         val categories = getEnabledCategories(activity!!)
 
-        if (modId == favIndex.toLong()) {
+//        Log.d("******", "onGuidedActionClicked(id: $id) catId: $catId subId: $subId (favIndex: $favIndex videoIndex: $videoIndex musicIndex: $musicIndex gameIndex: $gameIndex)")
+
+        if (catId == favIndex.toLong()) {
             when (subId) {
                 0 -> {
                     enabled = areFavoritesEnabled(activity)
@@ -100,7 +102,7 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setFavoriteRowMin(activity, value)
                 }
             }
-        } else if (modId == musicIndex.toLong()) {
+        } else if (catId == musicIndex.toLong()) {
             when (subId) {
                 0 -> {
                     enabled = categories.contains(AppCategory.MUSIC)
@@ -123,7 +125,7 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setRowMin(AppCategory.MUSIC, activity, value)
                 }
             }
-        } else if (modId == videoIndex.toLong()) {
+        } else if (catId == videoIndex.toLong()) {
             when (subId) {
                 0 -> {
                     enabled = categories.contains(AppCategory.VIDEO)
@@ -146,7 +148,7 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setRowMin(AppCategory.VIDEO, activity, value)
                 }
             }
-        } else if (modId == gameIndex.toLong()) {
+        } else if (catId == gameIndex.toLong()) {
             when (subId) {
                 0 -> {
                     enabled = categories.contains(AppCategory.GAME)
@@ -202,59 +204,126 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         val activity: Activity? = activity
         val categories = getEnabledCategories(activity!!)
         var statelabel: String
-        val i = 0
+        var index = 0
 
         // RECOMENDATIONS
         var state: Boolean
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             state = areRecommendationsEnabled(activity)
             statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-            actions.add(GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS.toLong()).title(R.string.recs_row_title).description(statelabel).build())
+            actions.add(GuidedAction.Builder(activity)
+                    .id(ACTION_ID_RECOMENDATIONS.toLong())
+                    .title(R.string.recs_row_title)
+                    .description(statelabel)
+                    .build()
+            )
         }
         // INPUTS
         state = areInputsEnabled(activity)
         statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity).id(ACTION_ID_INPUTS.toLong()).title(R.string.inputs_row_title).description(statelabel).build())
-
+        actions.add(GuidedAction.Builder(activity)
+                .id(ACTION_ID_INPUTS.toLong())
+                .title(R.string.inputs_row_title)
+                .description(statelabel)
+                .build()
+        )
         // FAV
         state = areFavoritesEnabled(activity)
         statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity).id(i.inc().toLong()).title(R.string.favorites_row_title).description(statelabel).build())
+        actions.add(GuidedAction.Builder(activity)
+                .id((++index).toLong())
+                .title(R.string.favorites_row_title)
+                .description(statelabel)
+                .build()
+        )
         var constraints = getFavoriteRowConstraints(activity)
-        actions.add(GuidedAction.Builder(activity).id(i.inc().toLong()).title(R.string.max_favorites_rows_title).description(constraints[1].toString()).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED).build())
-        favIndex = (i - 1) / 2
-
+        actions.add(GuidedAction.Builder(activity)
+                .id((++index).toLong())
+                .title(R.string.max_favorites_rows_title)
+                .description(constraints[1].toString())
+                .descriptionEditable(true)
+                .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
+                .build()
+        )
+        favIndex = (index - 1) / 2
         // VIDEO
         state = categories.contains(AppCategory.VIDEO)
         statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity).id(i.inc().toLong()).title(R.string.videos_row_title).description(statelabel).build())
+        actions.add(GuidedAction.Builder(activity)
+                .id((++index).toLong())
+                .title(R.string.videos_row_title)
+                .description(statelabel)
+                .build()
+        )
         constraints = getRowConstraints(AppCategory.VIDEO, activity)
-        actions.add(GuidedAction.Builder(activity).id(i.inc().toLong()).title(R.string.max_videos_rows_title).description(constraints[1].toString()).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED).build())
-        videoIndex = (i - 1) / 2
-
+        actions.add(GuidedAction.Builder(activity)
+                .id((++index).toLong())
+                .title(R.string.max_videos_rows_title)
+                .description(constraints[1].toString())
+                .descriptionEditable(true)
+                .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
+                .build()
+        )
+        videoIndex = (index - 1) / 2
         // MUSIC
         state = categories.contains(AppCategory.MUSIC)
         statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity).id(i.inc().toLong()).title(R.string.music_row_title).description(statelabel).build())
+        actions.add(GuidedAction.Builder(activity)
+                .id((++index).toLong())
+                .title(R.string.music_row_title)
+                .description(statelabel)
+                .build()
+        )
         constraints = getRowConstraints(AppCategory.MUSIC, activity)
-        actions.add(GuidedAction.Builder(activity).id(i.inc().toLong()).title(R.string.max_music_rows_title).description(constraints[1].toString()).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED).build())
-        musicIndex = (i - 1) / 2
-
+        actions.add(GuidedAction.Builder(activity)
+                .id((++index).toLong())
+                .title(R.string.max_music_rows_title)
+                .description(constraints[1].toString())
+                .descriptionEditable(true)
+                .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
+                .build()
+        )
+        musicIndex = (index - 1) / 2
         // GAME
         state = categories.contains(AppCategory.GAME)
         statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity).id(i.inc().toLong()).title(R.string.games_row_title).description(statelabel).build())
+        actions.add(GuidedAction.Builder(activity)
+                .id((++index).toLong())
+                .title(R.string.games_row_title)
+                .description(statelabel)
+                .build()
+        )
         constraints = getRowConstraints(AppCategory.GAME, activity)
-        actions.add(GuidedAction.Builder(activity).id(i.inc().toLong()).title(R.string.max_games_rows_title).description(constraints[1].toString()).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED).build())
-        gameIndex = (i - 1) / 2
-
-        // ALL
+        actions.add(GuidedAction.Builder(activity)
+                .id((++index).toLong())
+                .title(R.string.max_games_rows_title)
+                .description(constraints[1].toString())
+                .descriptionEditable(true)
+                .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
+                .build()
+        )
+        gameIndex = (index - 1) / 2
+        // ALL APPS
         // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS).title(R.string.apps_row_title).build());
         constraints = getAllAppsConstraints(activity)
         val maxapps = getAppsMax(activity)
-        actions.add(GuidedAction.Builder(activity).id(ACTION_ID_APPS_MAX.toLong()).title(R.string.max_apps_rows_title).description(constraints[1].toString()).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED).build())
+        actions.add(GuidedAction.Builder(activity)
+                .id(ACTION_ID_APPS_MAX.toLong())
+                .title(R.string.max_apps_rows_title)
+                .description(constraints[1].toString())
+                .descriptionEditable(true)
+                .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
+                .build()
+        )
         // Max Apps per row
-        actions.add(GuidedAction.Builder(activity).id(ACTION_ID_APPS_ROW.toLong()).title(R.string.max_apps_title).description(maxapps.toString()).descriptionEditable(true).descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED).build())
+        actions.add(GuidedAction.Builder(activity)
+                .id(ACTION_ID_APPS_ROW.toLong())
+                .title(R.string.max_apps_title)
+                .description(maxapps.toString())
+                .descriptionEditable(true)
+                .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
+                .build()
+        )
         setActions(actions) // APPLY
 
         // REFRESH HOME BC
