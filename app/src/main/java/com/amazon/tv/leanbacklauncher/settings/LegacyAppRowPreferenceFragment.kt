@@ -205,9 +205,9 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         val categories = getEnabledCategories(activity!!)
         var statelabel: String
         var index = 0
+        var state: Boolean
 
         // RECOMENDATIONS
-        var state: Boolean
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             state = areRecommendationsEnabled(activity)
             statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
