@@ -525,7 +525,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         return true
     }
 
-    public override fun onNewIntent(intent: Intent) {
+    public override fun onNewIntent(intent: Intent?) {
         var exitingEditMode = false
         if (isInEditMode) {
             if (Util.isInTouchExploration(applicationContext)) {
@@ -545,19 +545,18 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mLaunchAnimation.reset()
         }
         if (!exitingEditMode) {
-            if (intent.extras != null) {
-                if (intent.extras!!.getBoolean("extra_start_customize_apps")) {
+            intent?.extras?.let {
+                if (it.getBoolean("extra_start_customize_apps")) {
                     startEditMode(3)
-                } else if (intent.extras!!.getBoolean("extra_start_customize_games")) {
+                } else if (it.getBoolean("extra_start_customize_games")) {
                     startEditMode(4)
                 }
             }
             if (!mStartingEditMode) {
-                if (!hasWindowFocus() || intent.getBooleanExtra("com.android.systemui.recents.tv.RecentsTvActivity.RECENTS_HOME_INTENT_EXTRA", false)) {
+                if (!hasWindowFocus() || intent?.getBooleanExtra("com.android.systemui.recents.tv.RecentsTvActivity.RECENTS_HOME_INTENT_EXTRA", false) == true) {
                     if (!mLaunchAnimation.isScheduled) {
                         resetLauncherState(false)
-                        mLaunchAnimation
-                                .init(MassSlideAnimator.Builder(mList)
+                        mLaunchAnimation.init(MassSlideAnimator.Builder(mList)
                                         .setDirection(MassSlideAnimator.Direction.SLIDE_IN)
                                         .setFade(mFadeDismissAndSummonAnimations)
                                         .build(), mRefreshHomeAdapter, 32.toByte())
@@ -1045,15 +1044,15 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private fun primeAnimationAfterLayout() {
-        mList!!.rootView.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        mList?.rootView?.viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                mList!!.rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                mList?.rootView?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
                 if (mLaunchAnimation.isScheduled) {
                     mLaunchAnimation.prime()
                 }
             }
         })
-        mList!!.requestLayout()
+        mList?.requestLayout()
     }
 
     private fun checkLaunchPointPositions() {
