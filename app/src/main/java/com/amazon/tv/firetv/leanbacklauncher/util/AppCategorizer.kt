@@ -7,7 +7,7 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 
 object AppCategorizer {
 
-    val VIDEO_FILTER = arrayOf(
+    private val VIDEO_FILTER = arrayOf(
             "abema",
             "air.com.vudu",
             "android.rbtv",
@@ -21,6 +21,7 @@ object AppCategorizer {
             "com.google.android.tv",
             "com.lgi.orionandroid.tv",
             "com.nhl",
+            "com.plexapp",
             "com.tvp.vod.tv",
             "com.vgtrk",
             "courville.nova",
@@ -113,9 +114,9 @@ object AppCategorizer {
             "viutv",
             "wifire",
             "youtube",
-            "yuriev.ndr"
+            "yuriev.ndr",
     )
-    val MUSIC_FILTER = arrayOf(
+    private val MUSIC_FILTER = arrayOf(
             "audials",
             "audioplayer",
             "deezer",
@@ -128,12 +129,12 @@ object AppCategorizer {
             "spotify",
             "tidal",
             "tunein",
-            "zaycev"
+            "zaycev",
     )
-    val GAMES_FILTER = arrayOf(
+    private val GAMES_FILTER = arrayOf(
             "android.play.games",
             "signaltalk",
-            "tetris"
+            "tetris",
     )
 
     fun getAppCategory(pkgName: String?, actInfo: ActivityInfo?): AppCategory {
@@ -160,12 +161,16 @@ object AppCategorizer {
                 return AppCategory.GAME
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (ai.applicationInfo.category == ApplicationInfo.CATEGORY_GAME) {
-                    return AppCategory.GAME
-                } else if (ai.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO) {
-                    return AppCategory.VIDEO
-                } else if (ai.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO) {
-                    return AppCategory.MUSIC
+                when (ai.applicationInfo.category) {
+                    ApplicationInfo.CATEGORY_GAME -> {
+                        return AppCategory.GAME
+                    }
+                    ApplicationInfo.CATEGORY_VIDEO -> {
+                        return AppCategory.VIDEO
+                    }
+                    ApplicationInfo.CATEGORY_AUDIO -> {
+                        return AppCategory.MUSIC
+                    }
                 }
             }
         }
