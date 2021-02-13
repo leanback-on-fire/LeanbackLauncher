@@ -10,7 +10,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 class SharedPreferencesUtil private constructor() {
     private var hiddenPref: SharedPreferences? = null
     private var favPref: SharedPreferences? = null
-    private val genPref: SharedPreferences? = null
+    private var genPref: SharedPreferences? = null
 
     fun isFavorite(component: String?): Boolean {
         return favPref!!.getBoolean(component, false)
@@ -24,7 +24,7 @@ class SharedPreferencesUtil private constructor() {
         favPref!!.edit().putBoolean(component, false).apply()
     }
 
-    fun hidden(): Set<String> {
+    fun hidden_apps(): Set<String> {
         return hiddenPref!!.all.keys
     }
 
@@ -38,6 +38,14 @@ class SharedPreferencesUtil private constructor() {
 
     fun unhide(component: String?) {
         hiddenPref!!.edit().putBoolean(component, false).apply()
+    }
+
+    fun isAllAppsShown(): Boolean {
+        return genPref!!.getBoolean("show_all_apps", false)
+    }
+
+    fun showAllApps(mode: Boolean) {
+        genPref!!.edit().putBoolean("show_all_apps", mode).apply()
     }
 
     // todo unregister too
@@ -56,6 +64,7 @@ class SharedPreferencesUtil private constructor() {
             if (instance == null) instance = SharedPreferencesUtil()
             instance!!.hiddenPref = context.getSharedPreferences("hidden-apps", Context.MODE_PRIVATE)
             instance!!.favPref = context.getSharedPreferences("favorite-apps", Context.MODE_PRIVATE)
+            instance!!.genPref = context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
             return instance
         }
     }

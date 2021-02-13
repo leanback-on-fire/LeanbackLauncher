@@ -183,6 +183,7 @@ com.amazon.device.sale.service
     <string name="select">Выбор background.jpg в %s</string>
     <string name="settings_dialog_title">Главный экран</string>
     <string name="settings_network">Cеть</string>
+    <string name="show_all_apps">Показывать системные и не-ТВ приложения</string>
     <string name="status_bar_notification_info_overflow">>999</string>
     <string name="system_settings">Cистема</string>
     <string name="title_app_edit_mode">Режим упорядочивания приложений</string>

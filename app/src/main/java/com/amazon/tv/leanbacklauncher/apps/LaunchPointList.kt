@@ -131,9 +131,11 @@ class LaunchPointList(ctx: Context) {
                 for (itemRawLaunchPoint in normLaunchPoints) {
                     if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
                         // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
-                        if (!Util.isSystemApp(mContext, itemRawLaunchPoint.activityInfo.packageName) ||
+                        if ((prefUtil?.isAllAppsShown() == true) ||
+                                !Util.isSystemApp(mContext, itemRawLaunchPoint.activityInfo.packageName) ||
                                 itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.bueller") ||
-                                itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.venezia") || itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.imdb.tv") &&
+                                itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.venezia") ||
+                                itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.imdb.tv") &&
                                 !itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.hedwig") // broken launchpoint
                         ) {
                             if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName) &&

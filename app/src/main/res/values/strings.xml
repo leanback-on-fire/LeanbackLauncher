@@ -228,6 +228,7 @@ or recommendations will not work properly."</string>
     <string name="select">Select background.jpg on %s</string>
     <string name="settings_dialog_title">Home screen</string>
     <string name="settings_network">Network</string>
+    <string name="show_all_apps">Show System and None-TV Apps</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="system_settings">System</string>
     <string name="title_app_edit_mode">Reorder apps mode</string>
