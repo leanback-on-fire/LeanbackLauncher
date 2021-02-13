@@ -2,6 +2,7 @@ package com.amazon.tv.leanbacklauncher.settings
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.widget.Toast
@@ -71,7 +72,7 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         val id = action.id
         val modId = (id - 1) / 2
         val subId = ((id - 1) % 2).toInt()
-        var `val` = 1
+        var value = 1
         var enabled: Boolean
         val activity: Activity? = activity
         val categories = getEnabledCategories(activity!!)
@@ -80,132 +81,116 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
             when (subId) {
                 0 -> {
                     enabled = areFavoritesEnabled(activity)
-                    // Log.w("+++ favorites.enabled", ""+enabled);
                     setFavoritesEnabled(activity, !enabled)
                 }
                 1 -> {
-                    `val` = try {
+                    value = try {
                         action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
                         1
                     }
-                    // Log.w("+++ set fav.max ", ""+val);
-                    setFavoriteRowMax(activity, `val`)
+                    setFavoriteRowMax(activity, value)
                 }
                 2 -> {
-                    `val` = try {
+                    value = try {
                         action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
                         1
                     }
-                    // Log.w("+++ set fav.min ", ""+val);
-                    setFavoriteRowMin(activity, `val`)
+                    setFavoriteRowMin(activity, value)
                 }
             }
         } else if (modId == musicIndex.toLong()) {
             when (subId) {
                 0 -> {
                     enabled = categories.contains(AppCategory.MUSIC)
-                    // Log.w("+++ music.enabled", ""+enabled);
                     setMusicEnabled(activity, !enabled)
                 }
                 1 -> {
-                    `val` = try {
+                    value = try {
                         action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
                         1
                     }
-                    // Log.w("+++ set mucic.max ", ""+val);
-                    setRowMax(AppCategory.MUSIC, activity, `val`)
+                    setRowMax(AppCategory.MUSIC, activity, value)
                 }
                 2 -> {
-                    `val` = try {
+                    value = try {
                         action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
                         1
                     }
-                    // Log.w("+++ set music.min ", ""+val);
-                    setRowMin(AppCategory.MUSIC, activity, `val`)
+                    setRowMin(AppCategory.MUSIC, activity, value)
                 }
             }
         } else if (modId == videoIndex.toLong()) {
             when (subId) {
                 0 -> {
                     enabled = categories.contains(AppCategory.VIDEO)
-                    // Log.w("+++ videos.enabled", ""+enabled);
                     setVideosEnabled(activity, !enabled)
                 }
                 1 -> {
-                    `val` = try {
+                    value = try {
                         action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
                         1
                     }
-                    // Log.w("+++ set video.max ", ""+val);
-                    setRowMax(AppCategory.VIDEO, activity, `val`)
+                    setRowMax(AppCategory.VIDEO, activity, value)
                 }
                 2 -> {
-                    `val` = try {
+                    value = try {
                         action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
                         1
                     }
-                    // Log.w("+++ set video.min ", ""+val);
-                    setRowMin(AppCategory.VIDEO, activity, `val`)
+                    setRowMin(AppCategory.VIDEO, activity, value)
                 }
             }
         } else if (modId == gameIndex.toLong()) {
             when (subId) {
                 0 -> {
                     enabled = categories.contains(AppCategory.GAME)
-                    // Log.w("+++ games.enabled", ""+enabled);
                     setGamesEnabled(activity, !enabled)
                 }
                 1 -> {
-                    `val` = try {
+                    value = try {
                         action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
                         1
                     }
-                    // Log.w("+++ set game.max ", ""+val);
-                    setRowMax(AppCategory.GAME, activity, `val`)
+                    setRowMax(AppCategory.GAME, activity, value)
                 }
                 2 -> {
-                    `val` = try {
+                    value = try {
                         action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
                         1
                     }
-                    // Log.w("+++ set game.min ", ""+val);
-                    setRowMin(AppCategory.GAME, activity, `val`)
+                    setRowMin(AppCategory.GAME, activity, value)
                 }
             }
         } else if (id == ACTION_ID_APPS_MAX.toLong()) {
-            `val` = try {
+            value = try {
                 action.description.toString().toInt()
             } catch (nfe: NumberFormatException) {
                 1
             }
-            // Log.w("+++ set all.max ", ""+val);
-            setAllAppsMax(activity, `val`)
+            setAllAppsMax(activity, value)
         } else if (id == ACTION_ID_APPS_ROW.toLong()) {
-            `val` = try {
+            value = try {
                 action.description.toString().toInt()
             } catch (nfe: NumberFormatException) {
                 1
             }
-            // Log.w("+++ set apps.max ", ""+val);
-            setAppsMax(activity, `val`)
+            setAppsMax(activity, value)
         } else if (id == ACTION_ID_RECOMENDATIONS.toLong()) { // RECOMENDATIONS
             enabled = areRecommendationsEnabled(activity)
-            // Log.w("+++ recommendations.enabled", ""+enabled);
             setRecommendationsEnabled(activity, !enabled)
             if (!enabled && isLocalNotificationsEnabled(activity)) {
                 Toast.makeText(activity, activity.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG).show()
             }
         } else if (id == ACTION_ID_INPUTS.toLong()) { // INPUTS
             enabled = areInputsEnabled(activity)
-            // Log.w("+++ inputs.enabled", ""+enabled);
             setInputsEnabled(activity, !enabled)
         }
         updateActions()
@@ -213,7 +198,6 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
 
     private fun updateActions() {
 
-        // Log.w("+++ updateActions()", "+++");
         val actions = ArrayList<GuidedAction>()
         val activity: Activity? = activity
         val categories = getEnabledCategories(activity!!)
@@ -221,10 +205,12 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         val i = 0
 
         // RECOMENDATIONS
-        var state = areRecommendationsEnabled(activity)
-        statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS.toLong()).title(R.string.recs_row_title).description(statelabel).build())
-
+        var state: Boolean
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            state = areRecommendationsEnabled(activity)
+            statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
+            actions.add(GuidedAction.Builder(activity).id(ACTION_ID_RECOMENDATIONS.toLong()).title(R.string.recs_row_title).description(statelabel).build())
+        }
         // INPUTS
         state = areInputsEnabled(activity)
         statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)

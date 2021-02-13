@@ -1,5 +1,6 @@
 package com.amazon.tv.leanbacklauncher.settings
 
+import android.os.Build
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.GuidedStepSupportFragment
@@ -31,7 +32,9 @@ class LegacyHomeScreenPreferenceFragment : GuidedStepSupportFragment(), LoadBlac
             val version = String.format("%s v%s", getString(R.string.app_name), BuildConfig.VERSION_NAME)
             actions.add(GuidedAction.Builder(activity).id(1).title(R.string.home_screen_order_action_title).description(R.string.home_screen_order_desc).build())
             actions.add(GuidedAction.Builder(activity).id(2).title(R.string.hidden_applications_title).description(R.string.hidden_applications_desc).build())
-            actions.add(GuidedAction.Builder(activity).id(3).title(R.string.recommendation_blacklist_action_title).description(description).build())
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                actions.add(GuidedAction.Builder(activity).id(3).title(R.string.recommendation_blacklist_action_title).description(description).build())
+            }
             actions.add(GuidedAction.Builder(activity).id(4).title(R.string.update).description(version).build())
             setActions(actions)
         }
