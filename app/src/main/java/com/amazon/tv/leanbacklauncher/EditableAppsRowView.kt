@@ -268,7 +268,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         (adapter as AppsAdapter?)!!.moveLaunchPoint(getChildAdapterPosition(movingBanner!!), getChildAdapterPosition(otherBanner!!), true)
     }
 
-    override fun onGlobalFocusChanged(oldFocus: View, newFocus: View) {
+    override fun onGlobalFocusChanged(oldFocus: View?, newFocus: View?) {
         if (isRowActive && oldFocus != null && newFocus != null) {
             if (oldFocus !is BannerView || newFocus !is BannerView) {
                 val curFocusedViewHolder = curViewHolderInt

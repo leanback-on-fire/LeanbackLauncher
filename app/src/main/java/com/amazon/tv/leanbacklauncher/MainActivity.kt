@@ -580,10 +580,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             setTitle(if (rowType == 3) R.string.title_app_edit_mode else R.string.title_game_edit_mode)
         }
         mStartingEditMode = true
-        homeAdapter!!.resetRowPositions(false)
+        homeAdapter?.resetRowPositions(false)
         mLaunchAnimation.cancel()
         mList!!.selectedPosition = homeAdapter!!.getRowIndex(rowType)
-        homeAdapter!!.prepareEditMode(rowType)
+        homeAdapter?.prepareEditMode(rowType)
     }
 
     private fun resetLauncherState(smooth: Boolean) {
@@ -605,9 +605,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             } else {
                 mList!!.selectedPosition = notifIndex
                 val focusedChild = mList!!.focusedChild
-                val focusedPosition = mList!!.getChildAdapterPosition(focusedChild!!)
-                if (!(focusedChild == null || focusedPosition == notifIndex)) {
-                    focusedChild.clearFocus()
+                focusedChild?.let { fc ->
+                    val focusedPosition = mList!!.getChildAdapterPosition(fc)
+                    if (focusedPosition == notifIndex) {
+                        fc.clearFocus()
+                    }
                 }
             }
             if (!(mShyMode || mNotificationsView == null)) {
