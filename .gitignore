@@ -16,6 +16,7 @@ app/.project
 .project
 *.bbprojectd
 app/.classpath
+app/google-services.json
 app/release
 .idea/*
 .idea/misc.xml

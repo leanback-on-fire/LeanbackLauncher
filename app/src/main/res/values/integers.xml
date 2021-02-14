@@ -14,7 +14,7 @@
     <integer name="edit_mode_entrance_fade_duration">500</integer>
     <integer name="edit_mode_exit_fade_duration">250</integer>
     <integer name="edit_mode_uninstall_anim_duration">150</integer>
-    <integer name="google_play_services_version">10298000</integer>
+    <integer name="google_play_services_version">12451000</integer>
     <integer name="header_anim_duration">100</integer>
     <integer name="home_overlay_fade_transition_duration">300</integer>
     <integer name="idle_period">20000</integer>
