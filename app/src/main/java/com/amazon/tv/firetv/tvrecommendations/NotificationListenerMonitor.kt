@@ -111,11 +111,11 @@ class NotificationListenerMonitor : Service() {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val CHANNEL_ID = "com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4"
         val CHANNEL_NAME = "LeanbackOnFire"
         val NOTIFICATION_ID = 1111
@@ -149,6 +149,6 @@ class NotificationListenerMonitor : Service() {
 
     companion object {
         private const val TAG = "NotifyListenerMonitor"
-        private const val MAXIMUM_RECONNECT_ATTEMPTS = 30
+        private const val MAXIMUM_RECONNECT_ATTEMPTS = 15
     }
 }
