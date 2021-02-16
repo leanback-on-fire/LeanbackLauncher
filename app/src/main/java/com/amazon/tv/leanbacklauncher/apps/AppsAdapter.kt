@@ -17,7 +17,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +49,23 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     private val prefUtil: SharedPreferencesUtil?
     private val listener: OnSharedPreferenceChangeListener = this
 
+    init {
+        mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        mLaunchPoints = arrayListOf()
+        mAppsManager = getInstance(context)
+        prefUtil = instance(context)
+        prefUtil?.addHiddenListener(listener)
+        mFilter = object : AppFilter() {
+            override fun include(point: LaunchPoint?): Boolean {
+                return true
+            }
+        }
+        mAppTypes = HashSet(Arrays.asList(*appTypes))
+        mFlaggedForResort = false
+        mActionOpenLaunchPointListener = actionOpenLaunchPointListener
+        mAppsManager?.registerLaunchPointListListener(this)
+    }
+
     interface ActionOpenLaunchPointListener {
         fun onActionOpenLaunchPoint(str: String?, str2: String?)
     }
@@ -72,12 +88,12 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
 
         open fun init(launchPoint: LaunchPoint?) {
             itemView.visibility = View.VISIBLE
-            if (launchPoint != null) {
-                packageName = launchPoint.packageName
-                componentName = launchPoint.componentName
-                setLaunchIntent(launchPoint.launchIntent)
-                setLaunchTranslucent(launchPoint.isTranslucentTheme)
-                setLaunchColor(launchPoint.launchColor)
+            launchPoint?.let { lp ->
+                packageName = lp.packageName
+                componentName = lp.componentName
+                setLaunchIntent(lp.launchIntent)
+                setLaunchTranslucent(lp.isTranslucentTheme)
+                setLaunchColor(lp.launchColor)
             }
         }
 
@@ -93,11 +109,11 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         }
 
         override fun onLaunchSucceeded() {
-            if (mAdapter != null) {
-                mAdapter.mAppsManager!!.onAppsRankerAction(packageName, componentName, 1)
-                mAdapter.onActionOpenLaunchPoint(componentName, packageName)
-                if (mAdapter.mAppsManager!!.sortingMode === AppsManager.SortingMode.RECENCY) {
-                    mAdapter.mFlaggedForResort = true
+            mAdapter?.let { adapter ->
+                adapter.mAppsManager!!.onAppsRankerAction(packageName, componentName, 1)
+                adapter.onActionOpenLaunchPoint(componentName, packageName)
+                if (adapter.mAppsManager!!.sortingMode === AppsManager.SortingMode.RECENCY) {
+                    adapter.mFlaggedForResort = true
                 }
             }
         }
@@ -139,16 +155,9 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     }
 
     open class AppBannerViewHolder(v: View, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
-        private val mBackground: Drawable
+        private var mBackground: Drawable? = null
         private var mBannerView: ImageView? = null
         private val mOverlayHelper: InstallStateOverlayHelper
-        /* bridge */ /* synthetic */  override fun init(str: String?, str2: String?, intent: Intent?, i: Int) {
-            super.init(str, str2, intent, i)
-        }
-
-        /* bridge */ /* synthetic */  override fun onClick(view: View) {
-            super.onClick(view)
-        }
 
         override fun init(launchPoint: LaunchPoint?) {
             super.init(launchPoint)
@@ -192,10 +201,10 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
             mOverlayHelper = InstallStateOverlayHelper(v)
             if (v != null) {
                 mBannerView = v.findViewById(R.id.app_banner)
+                mBackground = ResourcesCompat.getDrawable(v.resources, R.drawable.banner_background, null)
             } else {
                 mBannerView = null
             }
-            mBackground = ResourcesCompat.getDrawable(v.resources, R.drawable.banner_background, null)!!
         }
     }
 
@@ -453,13 +462,11 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     }
 
     private fun onActionOpenLaunchPoint(component: String?, group: String?) {
-        if (mActionOpenLaunchPointListener != null) {
-            mActionOpenLaunchPointListener.onActionOpenLaunchPoint(component, group)
-        }
+        mActionOpenLaunchPointListener?.onActionOpenLaunchPoint(component, group)
     }
 
     private val refreshedLaunchPointList: ArrayList<LaunchPoint>
-        private get() {
+        get() {
             val launchPoints = arrayListOf<LaunchPoint>()
             if (mAppTypes.isEmpty())
                 return mAppsManager!!.allLaunchPoints
@@ -512,11 +519,9 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
                 if (lp != null && !mAppTypes.contains(lp.appCategory)) {
                     continue
                 }
-//                if (!mLaunchPoints.contains(lp)) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted for $lp")
-                    notifyItemInserted(mAppsManager!!.insertLaunchPoint(mLaunchPoints, lp))
-                    saveAppOrderChanges = true
-//                }
+                if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted for $lp")
+                notifyItemInserted(mAppsManager!!.insertLaunchPoint(mLaunchPoints, lp))
+                saveAppOrderChanges = true
             }
             if (saveAppOrderChanges && mAppsManager!!.sortingMode === AppsManager.SortingMode.FIXED) {
                 saveAppOrderSnapshot()
@@ -606,22 +611,5 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         fun isLight(color: Int): Boolean {
             return ColorUtils.calculateLuminance(color) > 0.5
         }
-    }
-
-    init {
-        mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        mLaunchPoints = arrayListOf()
-        mAppsManager = getInstance(context)
-        prefUtil = instance(context)
-        prefUtil?.addHiddenListener(listener)
-        mFilter = object : AppFilter() {
-            override fun include(point: LaunchPoint?): Boolean {
-                return true
-            }
-        }
-        mAppTypes = HashSet(Arrays.asList(*appTypes))
-        mFlaggedForResort = false
-        mActionOpenLaunchPointListener = actionOpenLaunchPointListener
-        mAppsManager!!.registerLaunchPointListListener(this)
     }
 }
