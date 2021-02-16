@@ -128,11 +128,11 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         }
 
         @Throws(IOException::class)
-        private fun readStream(`in`: InputStream?): String? {
-            if (`in` == null) {
+        private fun readStream(input: InputStream?): String? {
+            if (input == null) {
                 return null
             }
-            val inputStreamReader = InputStreamReader(`in`)
+            val inputStreamReader = InputStreamReader(input)
             val bufferedReader = BufferedReader(inputStreamReader)
             val buffer = StringBuilder()
             var line: String?

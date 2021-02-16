@@ -169,9 +169,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     var mPackageReplacedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val packageName = intent?.data
-            if (packageName != null && packageName.toString().contains(context?.packageName + ".recommendations")) {
-                Log.d(TAG, "Recommendations Service updated, reconnecting")
-                homeAdapter?.onReconnectToRecommendationsService()
+            packageName?.let {
+                if (packageName.toString().contains(context?.packageName + ".recommendations")) {
+                    Log.d(TAG, "Recommendations Service updated, reconnecting")
+                    homeAdapter?.onReconnectToRecommendationsService()
+                }
             }
         }
     }
@@ -188,9 +190,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     private val mPauseAnimation = AnimatorLifecycle()
     private var mRecommendationsAdapter: NotificationsAdapter? = null
     private val mRefreshHomeAdapter = Runnable {
-        if (homeAdapter != null) {
-            homeAdapter!!.refreshAdapterData()
-        }
+        homeAdapter?.refreshAdapterData()
     }
     private var mResetAfterIdleEnabled = false
     private var mResetPeriod = 0
@@ -388,9 +388,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     public override fun onDestroy() {
         mHandler.removeMessages(3)
         super.onDestroy()
-        if (homeAdapter != null) {
-            homeAdapter!!.onStopUi()
-            homeAdapter!!.unregisterReceivers()
+        homeAdapter?.let {
+            it.onStopUi()
+            it.unregisterReceivers()
         }
         getInstance(applicationContext)!!.onDestroy()
         unregisterReceiver(mPackageReplacedReceiver)
@@ -485,7 +485,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         if (changeWallpaper && wallpaperView!!.shynessMode != shy) {
             wallpaperView!!.shynessMode = mShyMode
             if (mShyMode && mNotificationsView != null) {
-                mNotificationsView!!.refreshSelectedBackground()
+                mNotificationsView?.refreshSelectedBackground()
             }
         }
         return changed
@@ -657,8 +657,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
         setShyMode(z, true)
         if (BuildConfig.DEBUG) Log.d(TAG, "onStart: setShyMode($z, true)")
-        wallpaperView!!.resetBackground()
-        homeAdapter!!.refreshAdapterData()
+        wallpaperView?.resetBackground()
+        homeAdapter?.refreshAdapterData()
         if (mKeepUiReset) {
             resetLauncherState(false)
         }
@@ -700,9 +700,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         if (!mHandler.hasMessages(6)) {
             mHandler.sendEmptyMessage(6)
         }
-        if (homeAdapter != null) {
-            homeAdapter!!.animateSearchIn()
-        }
+        homeAdapter?.animateSearchIn()
         for (i in mIdleListeners.indices) {
             mIdleListeners[i].onVisibilityChange(true)
         }
@@ -887,9 +885,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     private fun addWidget(refresh: Boolean) {
         val wrapper: ViewGroup? = findViewById<View>(R.id.widget_wrapper) as? LinearLayout?
-        wrapper?.let { ww ->
+        wrapper?.let { wrap ->
             if (refresh || mAppWidgetHostView == null) {
-                ww.removeAllViews()
+                wrap.removeAllViews()
                 var success = false
                 var appWidgetId = Util.getWidgetId(this)
                 val appWidgetComp = Partner.get(this).widgetComponentName
@@ -909,13 +907,13 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                                 options.putInt("appWidgetMaxWidth", width)
                                 options.putInt("appWidgetMinHeight", height)
                                 options.putInt("appWidgetMaxHeight", height)
-                                appWidgetId = mAppWidgetHost!!.allocateAppWidgetId()
-                                success = mAppWidgetManager!!.bindAppWidgetIdIfAllowed(appWidgetId, appWidgetInfo.provider, options)
+                                appWidgetId = mAppWidgetHost?.allocateAppWidgetId() ?: 0
+                                success = mAppWidgetManager?.bindAppWidgetIdIfAllowed(appWidgetId, appWidgetInfo.provider, options) == true
                             }
                             if (success) {
                                 mAppWidgetHostView = mAppWidgetHost?.createView(this, appWidgetId, appWidgetInfo)
                                 mAppWidgetHostView?.setAppWidget(appWidgetId, appWidgetInfo)
-                                ww.addView(mAppWidgetHostView)
+                                wrap.addView(mAppWidgetHostView)
                                 Util.setWidget(this, appWidgetId, appWidgetInfo.provider)
                             }
                         }
@@ -923,7 +921,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 }
                 if (!success) {
                     clearWidget(appWidgetId)
-                    ww.addView(LayoutInflater.from(this).inflate(R.layout.clock, ww, false))
+                    wrap.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrap, false))
                     val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
                     val clockview: TextView = findViewById<View>(R.id.clock) as ClockView
                     if (clockview != null && typeface != null)
@@ -933,10 +931,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 return
             }
             val parent = mAppWidgetHostView!!.parent as ViewGroup
-            if (parent !== ww) {
+            if (parent !== wrap) {
                 parent.removeView(mAppWidgetHostView)
-                ww.removeAllViews()
-                ww.addView(mAppWidgetHostView)
+                wrap.removeAllViews()
+                wrap.addView(mAppWidgetHostView)
             }
         }
     }
