@@ -22,7 +22,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
     private val mCachedActions: Queue<CachedAction?>
     private val mContext: Context
     private val mDbHelper: AppsDbHelper?
-    private var mEntities: HashMap<String, AppsEntity>
+    private var mEntities: HashMap<String, AppsEntity?>
     private val mEntitiesLock: Any
     private val mLastLaunchPointRankingLogDump: ArrayList<String?>
     private var mLaunchPointComparator: Comparator<LaunchPoint>? = null
@@ -36,7 +36,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         mEntitiesLock = Any()
         mListeners = LinkedList<RankingListener?>()
         mCachedActions = LinkedList<CachedAction?>()
-        mEntities = HashMap<String, AppsEntity>()
+        mEntities = hashMapOf<String, AppsEntity?>()
         mSortingMode = SortingMode.FIXED
         mLastLaunchPointRankingLogDump = ArrayList<String?>()
         mContext = ctx
@@ -249,7 +249,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         return mustRegister
     }
 
-    override fun onEntitiesLoaded(entities: HashMap<String, AppsEntity>) {
+    override fun onEntitiesLoaded(entities: HashMap<String, AppsEntity?>) {
         synchronized(mEntitiesLock) { mEntities = entities }
         synchronized(mCachedActions) {
             mQueryingScores = false

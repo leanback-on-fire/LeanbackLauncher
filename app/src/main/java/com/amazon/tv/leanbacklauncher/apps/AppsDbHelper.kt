@@ -27,12 +27,12 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
     private var mMostRecentTimeStamp = 0L
 
     interface Listener {
-        fun onEntitiesLoaded(hashMap: HashMap<String, AppsEntity>)
+        fun onEntitiesLoaded(hashMap: HashMap<String, AppsEntity?>)
     }
 
-    private inner class LoadEntitiesTask(private val mListener: Listener) : AsyncTask<Void?, Void?, HashMap<String, AppsEntity>>() {
-        override fun doInBackground(vararg params: Void?): HashMap<String, AppsEntity> {
-            val entities = HashMap<String, AppsEntity>()
+    private inner class LoadEntitiesTask(private val mListener: Listener) : AsyncTask<Void?, Void?, HashMap<String, AppsEntity?>>() {
+        override fun doInBackground(vararg params: Void?): HashMap<String, AppsEntity?> {
+            val entities = HashMap<String, AppsEntity?>()
             val db = this@AppsDbHelper.writableDatabase
             var c = db.query("entity", null, null, null, null, null, null)
             return try {
@@ -83,7 +83,7 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
             }
         }
 
-        public override fun onPostExecute(entities: HashMap<String, AppsEntity>) {
+        public override fun onPostExecute(entities: HashMap<String, AppsEntity?>) {
             mListener.onEntitiesLoaded(entities)
         }
     }
