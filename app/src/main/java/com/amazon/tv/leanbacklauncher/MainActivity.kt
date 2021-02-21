@@ -650,7 +650,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         var z = true
         super.onStart()
         mResetAfterIdleEnabled = false
-        mAppWidgetHost?.startListening()
+        try {
+            mAppWidgetHost?.startListening()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         if (isBackgroundVisibleBehind) {
             if (BuildConfig.DEBUG) Log.d(TAG, "onStart: BackgroundVisibleBehind")
             z = false
@@ -765,7 +769,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     override fun onStop() {
         mResetAfterIdleEnabled = true
+        try {
         mAppWidgetHost?.stopListening()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         mHandler.removeCallbacksAndMessages(null)
         mHandler.sendEmptyMessageDelayed(3, mResetPeriod.toLong())
         if (isInEditMode) {
