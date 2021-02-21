@@ -182,12 +182,10 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
 
     override fun onFocusLeavingEditModeLayer(from: Int) {
         if (isRowActive) {
-            val lastFocusedView: View
             val lastFocusedViewHolder = lastFocusedViewHolderInt
-            lastFocusedView = lastFocusedViewHolder?.itemView!!
+            val lastFocusedView = lastFocusedViewHolder?.itemView
             val curFocusedViewHolder = curViewHolderInt
-            val curFocusedView: View?
-            curFocusedView = curFocusedViewHolder?.itemView
+            val curFocusedView = curFocusedViewHolder?.itemView
             if (lastFocusedView is BannerView && curFocusedView is BannerView) {
                 lastFocusedView.requestFocus()
                 if (mLastFocused != mCurFocused) {
@@ -196,7 +194,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                 }
                 if (from == 1) {
                     lastFocusedView.setSelected(true)
-                    mEditModeView!!.setBannerUninstallModeWithAnimation(false, lastFocusedView, this)
+                    mEditModeView?.setBannerUninstallModeWithAnimation(false, lastFocusedView, this)
                 }
             } else if (childCount > 0 && mEditMode) {
                 focusOnNewPosition()
@@ -209,7 +207,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         val lastFocusedViewHolder = lastFocusedViewHolderInt
         return if (lastFocusedViewHolder == null || adapter !is AppsAdapter) {
             packageName
-        } else getViewPackageName(lastFocusedViewHolder.itemView)!!
+        } else
+            getViewPackageName(lastFocusedViewHolder.itemView)!!
     }
 
     private fun getViewLaunchPoint(view: View): LaunchPoint? {

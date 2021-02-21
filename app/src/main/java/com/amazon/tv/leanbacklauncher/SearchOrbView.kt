@@ -470,6 +470,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     }
 
     override fun setActivated(active: Boolean) {}
+
     fun updateSearchSuggestions(suggestions: Array<String>?) {
         mCurrentIndex = 0
         if (suggestions == null || suggestions.size == 0) {
