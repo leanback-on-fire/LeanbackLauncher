@@ -34,7 +34,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
 
     override fun onCreateActions(actions: MutableList<GuidedAction>, savedInstanceState: Bundle?) {
         super.onCreateActions(actions, savedInstanceState)
-        val info = GuidedAction.Builder(activity)
+        val info = GuidedAction.Builder(requireContext())
                 .id(1)
                 .title(R.string.update_in_progress)
                 .description(null)
@@ -72,7 +72,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         if (lastVersionDouble.compareTo(currentVersionDouble) > 0) {
             actionInfo.description = getString(R.string.update_new_version)
             val listActions: MutableList<GuidedAction> = ArrayList()
-            listActions.add(GuidedAction.Builder(requireActivity())
+            listActions.add(GuidedAction.Builder(requireContext())
                     .id(2)
                     .title(R.string.update_changes)
                     .description(info.optString("body", getString(R.string.update_no_info)))
@@ -82,7 +82,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                     .build()
             )
             listActions.add(actionInfo)
-            listActions.add(GuidedAction.Builder(requireActivity())
+            listActions.add(GuidedAction.Builder(requireContext())
                     .id(3)
                     .title(R.string.update_install)
                     .build()
@@ -120,8 +120,9 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         override fun onPostExecute(s: String?) {
             super.onPostExecute(s)
             try {
-                val info = JSONObject(s)
-                updateAction(info)
+                JSONObject(s)?.let {
+                    updateAction(it)
+                }
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -217,7 +218,11 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                         f!!
                 ), "application/vnd.android.package-archive")
             }
-            requireContext().startActivity(intent)
+            try {
+                context?.startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             finishGuidedStepSupportFragments()
         }
 
