@@ -117,7 +117,7 @@ object AppCategorizer {
             "viki",
             "viu.tv",
             "viutv",
-            "vplaytv",
+            "vplay",
             "wifire",
             "youtube",
             "yuriev.ndr",
