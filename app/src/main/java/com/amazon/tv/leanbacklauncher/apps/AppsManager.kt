@@ -44,12 +44,12 @@ class AppsManager private constructor(private val mContext: Context) : Installin
     val sortingMode: SortingMode
         get() = mAppsRanker.sortingMode
 
-    fun saveOrderSnapshot(launchPoints: ArrayList<LaunchPoint>) {
+    fun saveOrderSnapshot(launchPoints: ArrayList<LaunchPoint>?) {
         mAppsRanker.saveOrderSnapshot(launchPoints)
     }
 
-    fun rankLaunchPoints(launchPoints: ArrayList<LaunchPoint>, listener: AppsRanker.RankingListener?): Boolean {
-        return mAppsRanker.rankLaunchPoints(launchPoints, listener)
+    fun rankLaunchPoints(launchPoints: ArrayList<LaunchPoint>?, listener: AppsRanker.RankingListener?): Boolean {
+        return launchPoints?.let { mAppsRanker.rankLaunchPoints(it, listener) } == true
     }
 
     fun onAppsRankerAction(packageName: String?, component: String?, actionType: Int) {

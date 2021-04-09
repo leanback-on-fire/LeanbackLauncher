@@ -303,9 +303,9 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         }
     }
 
-    fun saveOrderSnapshot(launchPoints: ArrayList<LaunchPoint>) {
+    fun saveOrderSnapshot(launchPoints: ArrayList<LaunchPoint>?) {
         synchronized(mEntitiesLock) {
-            if (launchPoints.isNotEmpty()) {
+            if (launchPoints!!.isNotEmpty()) {
                 for (i in launchPoints.indices) {
                     saveEntityOrder(launchPoints[i], i)
                 }
