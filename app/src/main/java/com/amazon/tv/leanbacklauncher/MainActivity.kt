@@ -49,10 +49,7 @@ import com.amazon.tv.leanbacklauncher.notifications.NotificationCardView
 import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView
 import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView.NotificationRowListener
 import com.amazon.tv.leanbacklauncher.notifications.NotificationsAdapter
-import com.amazon.tv.leanbacklauncher.util.Partner
-import com.amazon.tv.leanbacklauncher.util.TvSearchIconLoader
-import com.amazon.tv.leanbacklauncher.util.TvSearchSuggestionsLoader
-import com.amazon.tv.leanbacklauncher.util.Util
+import com.amazon.tv.leanbacklauncher.util.*
 import com.amazon.tv.leanbacklauncher.wallpaper.LauncherWallpaper
 import com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller
 import com.amazon.tv.leanbacklauncher.widget.EditModeView
@@ -381,7 +378,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         loaderManager.initLoader(1, null, mSearchSuggestionsCallbacks)
         // start notification listener
         val pref = PreferenceManager.getDefaultSharedPreferences(appContext)
-        if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), false))
+        if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), false) && LauncherApplication.foreground)
             startService(Intent(this, NotificationListenerMonitor::class.java))
     }
 
