@@ -26,7 +26,7 @@ class AppInfoActivity : Activity() {
                 val info = packageManager.getApplicationInfo(pkg!!, 0)
                 title = packageManager.getApplicationLabel(info).toString() // todo flag/tostr
                 version = packageManager.getPackageInfo(pkg!!, 0).versionName
-                if (version!!.isEmpty()) desc = pkg else desc = "$pkg ($version)"
+                if (version.isNullOrEmpty()) desc = pkg else desc = "$pkg ($version)"
                 icon = packageManager.getApplicationBanner(info)
                 if (icon == null) icon = packageManager.getApplicationLogo(info)
                 if (icon == null) icon = packageManager.getApplicationIcon(info)
