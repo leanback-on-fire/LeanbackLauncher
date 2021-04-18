@@ -94,6 +94,7 @@ object AppCategorizer {
             "spbtv",
             "starz",
             "ted",
+            "tiktok",
             "tnt_premier",
             "tricoloronline",
             "tubitv",
