@@ -66,6 +66,7 @@ object AppCategorizer {
             "niklabs.pp",
             "ontv",
             "ott_play",
+            "ottclub",
             "ottnavigator",
             "ottplay",
             "pl.redefine.ipla",
