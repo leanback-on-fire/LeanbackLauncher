@@ -1,6 +1,5 @@
 package com.amazon.tv.leanbacklauncher.settings
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -68,7 +67,7 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
 
     private fun loadHiddenApps() {
         val util = instance(requireActivity())
-        val packages: List<String> = ArrayList(util!!.hidden_apps())
+        val packages: List<String> = ArrayList(util!!.hiddenApps())
         if (isAdded) {
             mActionToPackageMap = HashMap()
             val actions = ArrayList<GuidedAction>()

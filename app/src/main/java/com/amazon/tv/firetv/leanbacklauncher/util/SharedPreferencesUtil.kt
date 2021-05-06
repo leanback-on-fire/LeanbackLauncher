@@ -24,7 +24,7 @@ class SharedPreferencesUtil private constructor() {
         favPref!!.edit().putBoolean(component, false).apply()
     }
 
-    fun hidden_apps(): Set<String> {
+    fun hiddenApps(): Set<String> {
         return hiddenPref!!.all.keys
     }
 

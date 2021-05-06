@@ -1,7 +1,5 @@
 package com.amazon.tv.firetv.leanbacklauncher.util
 
-import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
-
 /**
  * Created by rockon999 on 2/24/18.
  */

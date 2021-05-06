@@ -1,6 +1,5 @@
 package com.amazon.tv.firetv.leanbacklauncher.apps
 
-import android.R
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -24,9 +23,9 @@ class AppInfoActivity : Activity() {
             pkg = intent.extras!!.getString("pkg")
             try {
                 val info = packageManager.getApplicationInfo(pkg!!, 0)
-                title = packageManager.getApplicationLabel(info).toString() // todo flag/tostr
+                title = packageManager.getApplicationLabel(info).toString()
                 version = packageManager.getPackageInfo(pkg!!, 0).versionName
-                if (version.isNullOrEmpty()) desc = pkg else desc = "$pkg ($version)"
+                desc = if (version.isNullOrEmpty()) pkg else "$pkg ($version)"
                 icon = packageManager.getApplicationBanner(info)
                 if (icon == null) icon = packageManager.getApplicationLogo(info)
                 if (icon == null) icon = packageManager.getApplicationIcon(info)
@@ -35,7 +34,7 @@ class AppInfoActivity : Activity() {
             }
             window.setBackgroundDrawable(ColorDrawable(Color.parseColor("#21272A")))
             val fragment = newInstance(title, pkg, icon)
-            GuidedStepFragment.addAsRoot(this, fragment, R.id.content)
+            GuidedStepFragment.addAsRoot(this, fragment, android.R.id.content)
         }
     }
 
