@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
 import com.amazon.tv.leanbacklauncher.DimmableItem
 import com.amazon.tv.leanbacklauncher.EditableAppsRowView
@@ -27,7 +28,12 @@ import com.amazon.tv.leanbacklauncher.apps.AppsAdapter.AppViewHolder
 import com.amazon.tv.leanbacklauncher.widget.EditModeManager
 import java.util.*
 
-class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyle: Int = 0) : FrameLayout(context!!, attrs, defStyle), OnLongClickListener, DimmableItem, ParticipatesInLaunchAnimation, ParticipatesInScrollAnimation, OnEditModeChangedListener {
+class BannerView @JvmOverloads constructor(
+    context: Context?,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : FrameLayout(context!!, attrs, defStyle), OnLongClickListener, DimmableItem,
+    ParticipatesInLaunchAnimation, ParticipatesInScrollAnimation, OnEditModeChangedListener {
     private var sOutline // was static
             : RoundedRectOutlineProvider? = null
     private var mAppBanner: View? = null
@@ -38,11 +44,12 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
     private var mEditListener: OnEditModeChangedListener? = null
     private var mEditMode = false
     private val mEditModeManager: EditModeManager
-    private val mFocusAnimator: AppViewFocusAnimator
+    private val mFocusAnimator: AppViewFocusAnimator = AppViewFocusAnimator(this)
     private var mInstallStateOverlay: View? = null
     private var mLastFocusedBanner: BannerView? = null
     private var mLeavingEditMode = false
-    private val mSelectedListeners: ArrayList<BannerSelectedChangedListener?> = ArrayList<BannerSelectedChangedListener?>()
+    private val mSelectedListeners: ArrayList<BannerSelectedChangedListener?> =
+        ArrayList<BannerSelectedChangedListener?>()
 
     // TODO
     var viewHolder: AppViewHolder? = null
@@ -59,13 +66,13 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
         mAppBanner = findViewById(R.id.app_banner)
         mInstallStateOverlay = findViewById(R.id.install_state_overlay)
         if (mAppBanner is ImageView) {
-            mAppBanner?.setOutlineProvider(sOutline)
-            mAppBanner?.setClipToOutline(true)
+            mAppBanner?.outlineProvider = sOutline
+            mAppBanner?.clipToOutline = true
             viewDimmer?.addDimTarget(mAppBanner as ImageView?)
         } else {
             if (mAppBanner is LinearLayout) {
-                mAppBanner?.setOutlineProvider(sOutline)
-                mAppBanner?.setClipToOutline(true)
+                mAppBanner?.outlineProvider = sOutline
+                mAppBanner?.clipToOutline = true
             }
             val inputBannerView = findViewById<View>(R.id.input_banner)
             inputBannerView?.let {
@@ -95,33 +102,47 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
             }
         }
         viewDimmer?.setDimLevelImmediate()
-        val radius = RowPreferences.getCorners(ctx).toFloat() // (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
+        val radius = RowPreferences.getCorners(ctx)
+            .toFloat() // (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
         var stroke = 2
-        var color = resources.getColor(R.color.edit_selection_indicator_color)
-        var gd: GradientDrawable? = null
+        var color = ContextCompat.getColor(ctx, R.color.edit_selection_indicator_color)
+        var gd: GradientDrawable?
         // edit focus frame (edit_frame_width : edit_frame_height)
         val efv = findViewById<View>(R.id.edit_focused_frame)
         if (efv is ImageView) {
             mEditFocusFrame = efv
-            efv.getLayoutParams().width = resources.getDimensionPixelSize(R.dimen.edit_frame_width) * size / 100
-            efv.getLayoutParams().height = resources.getDimensionPixelSize(R.dimen.edit_frame_height) * size / 100
+            efv.getLayoutParams().width =
+                resources.getDimensionPixelSize(R.dimen.edit_frame_width) * size / 100
+            efv.getLayoutParams().height =
+                resources.getDimensionPixelSize(R.dimen.edit_frame_height) * size / 100
             efv.requestLayout() // set new edit focus frame dimensions
-            gd = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT))
+            gd = GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                intArrayOf(Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT)
+            )
             gd.shape = GradientDrawable.RECTANGLE
             gd.setStroke(stroke, color) // fixed width
-            gd.cornerRadius = radius + (resources.getDimensionPixelSize(R.dimen.edit_frame_width) - width) * size / 100 / 2
+            gd.cornerRadius =
+                radius + (resources.getDimensionPixelSize(R.dimen.edit_frame_width) - width) * size / 100 / 2
             mEditFocusFrame!!.setImageDrawable(gd) // set new edit frame drawable
         }
         // focus frame (banner_frame_width : banner_frame_height)
         val ffv = findViewById<View>(R.id.banner_focused_frame)
         if (ffv is ImageView) {
             mFocusFrame = ffv
-            stroke = RowPreferences.getFrameWidth(ctx) // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
-            color = RowPreferences.getFrameColor(ctx) // (int) getResources().getColor(R.color.banner_focus_frame_color);
-            ffv.getLayoutParams().width = (width + 2 * stroke - radius.toInt() / 2) * size / 100 // px
-            ffv.getLayoutParams().height = (height + 2 * stroke - radius.toInt() / 2) * size / 100 // px
+            stroke =
+                RowPreferences.getFrameWidth(ctx) // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
+            color =
+                RowPreferences.getFrameColor(ctx) // (int) getResources().getColor(R.color.banner_focus_frame_color);
+            ffv.getLayoutParams().width =
+                (width + 2 * stroke - radius.toInt() / 2) * size / 100 // px
+            ffv.getLayoutParams().height =
+                (height + 2 * stroke - radius.toInt() / 2) * size / 100 // px
             ffv.requestLayout() // set new focus frame dimensions
-            gd = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT))
+            gd = GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                intArrayOf(Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT)
+            )
             gd.shape = GradientDrawable.RECTANGLE
             gd.setStroke(stroke * size / 100, color) // setStroke(10, Color.BLACK);
             gd.cornerRadius = radius // setCornerRadius(10f);
@@ -130,7 +151,7 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
     }
 
     fun setTextViewColor(textView: TextView?, color: Int) {
-            viewDimmer?.setTargetTextColor(textView, color)
+        viewDimmer?.setTargetTextColor(textView, color)
     }
 
     var isEditMode: Boolean
@@ -145,7 +166,7 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
         }
 
     private fun setEditMode() {
-            mEditListener?.onEditModeChanged(mEditMode)
+        mEditListener?.onEditModeChanged(mEditMode)
     }
 
     fun addSelectedListener(listener: BannerSelectedChangedListener?) {
@@ -210,11 +231,11 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
     }
 
     override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
-           if (mLastFocusedBanner == null || mLastFocusedBanner === this) {
-               return super.requestFocus(direction, previouslyFocusedRect)
-            }
-           mLastFocusedBanner?.requestFocus()
-           return false
+        if (mLastFocusedBanner == null || mLastFocusedBanner === this) {
+            return super.requestFocus(direction, previouslyFocusedRect)
+        }
+        mLastFocusedBanner?.requestFocus()
+        return false
     }
 
     override fun sendAccessibilityEvent(eventType: Int) {
@@ -264,7 +285,10 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
                 if (!(mSelectedListeners.isEmpty() || mLeavingEditMode)) {
                     val it: Iterator<*> = mSelectedListeners.iterator()
                     while (it.hasNext()) {
-                        (it.next() as BannerSelectedChangedListener).onSelectedChanged(this, selected)
+                        (it.next() as BannerSelectedChangedListener).onSelectedChanged(
+                            this,
+                            selected
+                        )
                     }
                 }
                 if (selected) {
@@ -320,7 +344,6 @@ class BannerView @JvmOverloads constructor(context: Context?, attrs: AttributeSe
     }
 
     init {
-        mFocusAnimator = AppViewFocusAnimator(this)
         mSelectedListeners.add(mFocusAnimator)
         mEditModeManager = EditModeManager.getInstance()
         isSelected = false

@@ -23,7 +23,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
     private val mContext: Context
     private val mDbHelper: AppsDbHelper?
     private var mEntities: HashMap<String, AppsEntity?>
-    private val mEntitiesLock: Any
+    private val mEntitiesLock: Any = Any()
     private val mLastLaunchPointRankingLogDump: ArrayList<String?>
     private var mLaunchPointComparator: Comparator<LaunchPoint>? = null
     private val mListeners: Queue<RankingListener?>
@@ -33,10 +33,9 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
     private var mSortingMode: SortingMode
 
     init {
-        mEntitiesLock = Any()
         mListeners = LinkedList<RankingListener?>()
         mCachedActions = LinkedList<CachedAction?>()
-        mEntities = hashMapOf<String, AppsEntity?>()
+        mEntities = hashMapOf()
         mSortingMode = SortingMode.FIXED
         mLastLaunchPointRankingLogDump = ArrayList<String?>()
         mContext = ctx
@@ -53,7 +52,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
 
     private class CachedAction(var key: String, var component: String, var group: String?, var action: Int)
 
-    private inner class LaunchPointInstallComparator() : Comparator<LaunchPoint?> {
+    private inner class LaunchPointInstallComparator : Comparator<LaunchPoint?> {
         override fun compare(lhs: LaunchPoint?, rhs: LaunchPoint?): Int {
             if (lhs == null || rhs == null) {
                 return 0
@@ -85,27 +84,25 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         }
     }
 
-    private inner class LaunchPointRecencyComparator() : Comparator<LaunchPoint?> {
+    private inner class LaunchPointRecencyComparator : Comparator<LaunchPoint?> {
         override fun compare(lhs: LaunchPoint?, rhs: LaunchPoint?): Int {
             return if (lhs == null || rhs == null) {
                 0
-            } else java.lang.Long.compare(Math.max(getLastOpened(rhs), rhs.firstInstallTime), Math.max(getLastOpened(lhs), lhs.firstInstallTime))
+            } else getLastOpened(rhs).coerceAtLeast(rhs.firstInstallTime)
+                .compareTo(getLastOpened(lhs).coerceAtLeast(lhs.firstInstallTime))
         }
     }
 
     private class SharedPreferencesChangeListener(appsRanker: AppsRanker?) : OnSharedPreferenceChangeListener {
-        private val mAppsRankerRef: WeakReference<AppsRanker?>
+        private val mAppsRankerRef: WeakReference<AppsRanker?> = WeakReference<AppsRanker?>(appsRanker)
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
             val appsRanker = mAppsRankerRef.get()
             appsRanker?.checkForSortingModeChange()
         }
 
-        init {
-            mAppsRankerRef = WeakReference<AppsRanker?>(appsRanker)
-        }
     }
 
-    private constructor(ctx: Context, dbHelper: AppsDbHelper?) : this(ctx, dbHelper, AsyncTask.SERIAL_EXECUTOR) {}
+    private constructor(ctx: Context, dbHelper: AppsDbHelper?) : this(ctx, dbHelper, AsyncTask.SERIAL_EXECUTOR)
 
     val sortingMode: SortingMode
         get() {
@@ -278,7 +275,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         }
     }
 
-    val outOfBoxOrder: Array<String>
+    private val outOfBoxOrder: Array<String>
         get() = mContext.resources.getStringArray(R.array.out_of_box_order)
     val isReady: Boolean
         get() {
@@ -288,7 +285,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         }
 
     private fun applyOutOfBoxOrdering(order: Array<String>?, offsetEntities: Int, totalEntities: Int, baseTime: Long) {
-        if (order != null && order.size != 0 && offsetEntities >= 0 && totalEntities >= order.size + offsetEntities) {
+        if (order != null && order.isNotEmpty() && offsetEntities >= 0 && totalEntities >= order.size + offsetEntities) {
             val entitiesBelow = totalEntities - offsetEntities - order.size
             val size = order.size
             for (i in 0 until size) {

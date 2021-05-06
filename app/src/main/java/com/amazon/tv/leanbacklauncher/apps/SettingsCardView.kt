@@ -14,7 +14,7 @@ import com.amazon.tv.leanbacklauncher.animation.ViewDimmer.DimState
 import com.amazon.tv.leanbacklauncher.animation.ViewFocusAnimator
 
 class SettingsCardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : BaseCardView(context, attrs, defStyle), DimmableItem, ParticipatesInLaunchAnimation, ParticipatesInScrollAnimation {
-    private val mAnimDuration: Int
+    private val mAnimDuration: Int = context.resources.getInteger(R.integer.item_scale_anim_duration)
     private var mCircle: ImageView? = null
     private var mDimmer: ViewDimmer? = null
     private var mFocusAnimator: ViewFocusAnimator? = null
@@ -57,7 +57,4 @@ class SettingsCardView @JvmOverloads constructor(context: Context, attrs: Attrib
         mFocusAnimator?.setEnabled(enabled)
     }
 
-    init {
-        mAnimDuration = context.resources.getInteger(R.integer.item_scale_anim_duration)
-    }
 }

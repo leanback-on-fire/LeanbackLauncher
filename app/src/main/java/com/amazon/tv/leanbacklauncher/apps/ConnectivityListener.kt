@@ -1,12 +1,10 @@
 package com.amazon.tv.leanbacklauncher.apps
 
-import android.Manifest
 import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
@@ -14,19 +12,21 @@ import android.telephony.PhoneStateListener
 import android.telephony.SignalStrength
 import android.telephony.TelephonyManager
 import android.util.Log
-import androidx.core.app.ActivityCompat
 import java.lang.ref.WeakReference
 
 class ConnectivityListener(private val mContext: Context, listener: Listener) {
-    private val mConnectivityManager: ConnectivityManager
+    private val mConnectivityManager: ConnectivityManager =
+        mContext.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val connectivityStatus = ConnectivityStatus()
     private val mFilter: IntentFilter
     private var mIsRegistered = false
     private val mListener: Listener
-    private val mPhoneStateListener: LeanbackLauncherPhoneStateListener
+    private val mPhoneStateListener: LeanbackLauncherPhoneStateListener =
+        LeanbackLauncherPhoneStateListener(this)
     private val mReceiver: BroadcastReceiver
     private val mTelephonyManager: TelephonyManager?
-    private val mWifiManager: WifiManager
+    private val mWifiManager: WifiManager =
+        mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
     interface Listener {
         fun onConnectivityChange()
@@ -40,8 +40,11 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
         var mWifiSsid: String? = null
     }
 
-    private class LeanbackLauncherPhoneStateListener(listener: ConnectivityListener?) : PhoneStateListener() {
-        private val mListener: WeakReference<ConnectivityListener?>
+    private class LeanbackLauncherPhoneStateListener(listener: ConnectivityListener?) :
+        PhoneStateListener() {
+        private val mListener: WeakReference<ConnectivityListener?> =
+            WeakReference<ConnectivityListener?>(listener)
+
         override fun onSignalStrengthsChanged(signalStrength: SignalStrength) {
             super.onSignalStrengthsChanged(signalStrength)
             val listener = mListener.get()
@@ -50,9 +53,6 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
             }
         }
 
-        init {
-            mListener = WeakReference<ConnectivityListener?>(listener)
-        }
     }
 
     fun start() {
@@ -146,7 +146,8 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
                     connectivityStatus.mWifiSsid = ""
                 }
                 if (wifiInfo != null) {
-                    connectivityStatus.mWifiSignalStrength = WifiManager.calculateSignalLevel(wifiInfo.rssi, 5)
+                    connectivityStatus.mWifiSignalStrength =
+                        WifiManager.calculateSignalLevel(wifiInfo.rssi, 5)
                 } else {
                     connectivityStatus.mWifiSignalStrength = 0
                 }
@@ -191,7 +192,8 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
         }
 
         private fun writeConnectivity(context: Context, inetConnected: Boolean) {
-            context.getSharedPreferences("inet-prefs", 0).edit().putBoolean("inetCondition", inetConnected).apply()
+            context.getSharedPreferences("inet-prefs", 0).edit()
+                .putBoolean("inetCondition", inetConnected).apply()
         }
 
         @JvmStatic
@@ -211,9 +213,6 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
     }
 
     init {
-        mConnectivityManager = mContext.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        mWifiManager = mContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        mPhoneStateListener = LeanbackLauncherPhoneStateListener(this)
         mTelephonyManager = mContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         mListener = listener
         mFilter = IntentFilter()
@@ -225,11 +224,15 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
                 var z = false
                 val intentAction = intent.action
                 val connectionStatus = intent.getIntExtra("inetCondition", -551)
-                val info = (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
+                val info =
+                    (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
                 if (!(info != null && info.isAvailable && info.isConnected)) {
                     writeConnectivity(context, false)
                 }
-                if (intentAction == "android.net.conn.INET_CONDITION_ACTION" || intentAction == "android.net.conn.CONNECTIVITY_CHANGE" && !readConnectivity(mContext)) {
+                if (intentAction == "android.net.conn.INET_CONDITION_ACTION" || intentAction == "android.net.conn.CONNECTIVITY_CHANGE" && !readConnectivity(
+                        mContext
+                    )
+                ) {
                     if (connectionStatus > 50) {
                         z = true
                     }

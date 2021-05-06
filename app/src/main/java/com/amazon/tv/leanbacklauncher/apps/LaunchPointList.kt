@@ -9,6 +9,7 @@ import android.media.tv.TvContract
 import android.os.AsyncTask
 import android.text.TextUtils
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
 import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil
@@ -30,6 +31,21 @@ class LaunchPointList(ctx: Context) {
     private var mSettingsLaunchPoints: ArrayList<LaunchPoint> = arrayListOf()
     private var mShouldNotify = false
     private val mUpdatableBlacklist: HashMap<String?, Int>
+
+    companion object {
+        private const val TAG = "LaunchPointList"
+    }
+
+    init {
+        mCachedActions = LinkedList()
+        mListeners = LinkedList()
+        mAllLaunchPoints = LinkedList()
+        mInstallingLaunchPoints = LinkedList()
+        mUpdatableBlacklist = HashMap()
+        mNonUpdatableBlacklist = HashMap()
+        mLock = Any()
+        mContext = ctx
+    }
 
     interface Listener {
         fun onLaunchPointListGeneratorReady()
@@ -63,7 +79,10 @@ class LaunchPointList(ctx: Context) {
             mLaunchPoint = launchPoint
         }
 
-        constructor(action: Int, launchPoint: LaunchPoint?, success: Boolean) : this(action, launchPoint) {
+        constructor(action: Int, launchPoint: LaunchPoint?, success: Boolean) : this(
+            action,
+            launchPoint
+        ) {
             mSuccess = success
         }
 
@@ -107,7 +126,8 @@ class LaunchPointList(ctx: Context) {
         }
     }
 
-    private inner class CreateLaunchPointListTask(private val mFilterChannelsActivities: Boolean) : AsyncTask<Void?, Void?, List<LaunchPoint>>() {
+    private inner class CreateLaunchPointListTask(private val mFilterChannelsActivities: Boolean) :
+        AsyncTask<Void?, Void?, List<LaunchPoint>>() {
         override fun doInBackground(vararg params: Void?): List<LaunchPoint> {
             val mainIntent = Intent("android.intent.action.MAIN")
             mainIntent.addCategory("android.intent.category.LAUNCHER")
@@ -122,7 +142,8 @@ class LaunchPointList(ctx: Context) {
             if (tvLaunchPoints.size > 0) {
                 for (itemTvLaunchPoint in tvLaunchPoints) {
                     if (itemTvLaunchPoint.activityInfo != null && itemTvLaunchPoint.activityInfo.packageName != null && itemTvLaunchPoint.activityInfo.name != null) {
-                        rawComponents[itemTvLaunchPoint.activityInfo.packageName] = itemTvLaunchPoint.activityInfo.name
+                        rawComponents[itemTvLaunchPoint.activityInfo.packageName] =
+                            itemTvLaunchPoint.activityInfo.name
                         allLaunchPoints.add(itemTvLaunchPoint)
                     }
                 }
@@ -132,14 +153,18 @@ class LaunchPointList(ctx: Context) {
                     if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
                         // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
                         if ((prefUtil?.isAllAppsShown() == true) ||
-                                !Util.isSystemApp(mContext, itemRawLaunchPoint.activityInfo.packageName) ||
-                                itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.bueller") ||
-                                itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.venezia") ||
-                                itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.imdb.tv") &&
-                                !itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.hedwig") // broken launchpoint
+                            !Util.isSystemApp(
+                                mContext,
+                                itemRawLaunchPoint.activityInfo.packageName
+                            ) ||
+                            itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.bueller") ||
+                            itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.venezia") ||
+                            itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.imdb.tv") &&
+                            !itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.hedwig") // broken launchpoint
                         ) {
                             if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName) &&
-                                    itemRawLaunchPoint.activityInfo.packageName != mContext.packageName) {
+                                itemRawLaunchPoint.activityInfo.packageName != mContext.packageName
+                            ) {
                                 allLaunchPoints.add(itemRawLaunchPoint)
                             } // todo optimize & don't hardcode
                         }
@@ -159,14 +184,17 @@ class LaunchPointList(ctx: Context) {
         public override fun onPostExecute(launcherItems: List<LaunchPoint>) {
             synchronized(mLock) {
                 mAllLaunchPoints = ArrayList()
-                mAllLaunchPoints?.addAll(launcherItems)
+                mAllLaunchPoints.addAll(launcherItems)
             }
             synchronized(mCachedActions) {
                 Log.i(TAG, "mCachedActions is empty: " + mCachedActions.isEmpty())
                 mIsReady = true
                 mShouldNotify = true
                 for (onLaunchPointListGeneratorReady in mListeners) {
-                    Log.i(TAG, "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.javaClass.name)
+                    Log.i(
+                        TAG,
+                        "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.javaClass.name
+                    )
                     onLaunchPointListGeneratorReady.onLaunchPointListGeneratorReady()
                 }
             }
@@ -225,8 +253,18 @@ class LaunchPointList(ctx: Context) {
                 if (mIsReady) {
                     synchronized(mLock) {
                         val removedLaunchPoints = ArrayList<LaunchPoint>()
-                        getLaunchPointsByPackage(mInstallingLaunchPoints, removedLaunchPoints, pkgName, true)
-                        getLaunchPointsByPackage(mAllLaunchPoints, removedLaunchPoints, pkgName, true)
+                        getLaunchPointsByPackage(
+                            mInstallingLaunchPoints,
+                            removedLaunchPoints,
+                            pkgName,
+                            true
+                        )
+                        getLaunchPointsByPackage(
+                            mAllLaunchPoints,
+                            removedLaunchPoints,
+                            pkgName,
+                            true
+                        )
                         if (!(removedLaunchPoints.isEmpty() || isBlacklisted(pkgName))) {
                             if (mShouldNotify) {
                                 for (cl in mListeners) {
@@ -258,15 +296,26 @@ class LaunchPointList(ctx: Context) {
                 synchronized(mLock) {
                     val blacklist = if (updatable) mUpdatableBlacklist else mNonUpdatableBlacklist
                     var occurrences = blacklist[pkgName]
-                    val otherOccurrences = (if (updatable) mNonUpdatableBlacklist else mUpdatableBlacklist)[pkgName]
+                    val otherOccurrences =
+                        (if (updatable) mNonUpdatableBlacklist else mUpdatableBlacklist)[pkgName]
                     if (occurrences == null || occurrences <= 0) {
                         occurrences = 0
                         if (otherOccurrences == null || otherOccurrences <= 0) {
                             added = true
                             val blacklistedLaunchPoints = ArrayList<LaunchPoint>()
-                            getLaunchPointsByPackage(mInstallingLaunchPoints, blacklistedLaunchPoints, pkgName, false)
-                            getLaunchPointsByPackage(mAllLaunchPoints, blacklistedLaunchPoints, pkgName, false)
-                            if (!blacklistedLaunchPoints.isEmpty() && mShouldNotify) {
+                            getLaunchPointsByPackage(
+                                mInstallingLaunchPoints,
+                                blacklistedLaunchPoints,
+                                pkgName,
+                                false
+                            )
+                            getLaunchPointsByPackage(
+                                mAllLaunchPoints,
+                                blacklistedLaunchPoints,
+                                pkgName,
+                                false
+                            )
+                            if (blacklistedLaunchPoints.isNotEmpty() && mShouldNotify) {
                                 for (cl in mListeners) {
                                     cl.onLaunchPointsRemoved(blacklistedLaunchPoints)
                                 }
@@ -285,7 +334,7 @@ class LaunchPointList(ctx: Context) {
     }
 
     fun removeFromBlacklist(pkgName: String?): Boolean {
-        return removeFromBlacklist(pkgName, false, true)
+        return removeFromBlacklist(pkgName, force = false, updatable = true)
     }
 
     fun removeFromBlacklist(pkgName: String?, updatable: Boolean): Boolean {
@@ -302,17 +351,28 @@ class LaunchPointList(ctx: Context) {
                 synchronized(mLock) {
                     val blacklist = if (updatable) mUpdatableBlacklist else mNonUpdatableBlacklist
                     var occurrences = blacklist[pkgName]
-                    val otherOccurrences = (if (updatable) mNonUpdatableBlacklist else mUpdatableBlacklist)[pkgName]
+                    val otherOccurrences =
+                        (if (updatable) mNonUpdatableBlacklist else mUpdatableBlacklist)[pkgName]
                     if (occurrences != null) {
-                        occurrences = occurrences - 1
+                        occurrences -= 1
                         if (occurrences <= 0 || force) {
                             blacklist.remove(pkgName)
                             if (otherOccurrences == null) {
                                 removed = true
                                 val blacklistedLaunchPoints = ArrayList<LaunchPoint>()
-                                getLaunchPointsByPackage(mInstallingLaunchPoints, blacklistedLaunchPoints, pkgName, false)
-                                getLaunchPointsByPackage(mAllLaunchPoints, blacklistedLaunchPoints, pkgName, false)
-                                if (!blacklistedLaunchPoints.isEmpty() && mShouldNotify) {
+                                getLaunchPointsByPackage(
+                                    mInstallingLaunchPoints,
+                                    blacklistedLaunchPoints,
+                                    pkgName,
+                                    false
+                                )
+                                getLaunchPointsByPackage(
+                                    mAllLaunchPoints,
+                                    blacklistedLaunchPoints,
+                                    pkgName,
+                                    false
+                                )
+                                if (blacklistedLaunchPoints.isNotEmpty() && mShouldNotify) {
                                     for (cl in mListeners) {
                                         cl.onLaunchPointsAddedOrUpdated(blacklistedLaunchPoints)
                                     }
@@ -337,7 +397,12 @@ class LaunchPointList(ctx: Context) {
                     val pkgName = launchPoint.packageName
                     val launchPoints = ArrayList<LaunchPoint>()
                     synchronized(mLock) {
-                        getLaunchPointsByPackage(mInstallingLaunchPoints, launchPoints, pkgName, true)
+                        getLaunchPointsByPackage(
+                            mInstallingLaunchPoints,
+                            launchPoints,
+                            pkgName,
+                            true
+                        )
                         getLaunchPointsByPackage(mAllLaunchPoints, launchPoints, pkgName, true)
                         for (i in launchPoints.indices) {
                             launchPoints[i].setInstallationState(launchPoint)
@@ -373,7 +438,12 @@ class LaunchPointList(ctx: Context) {
         }
     }
 
-    private fun getLaunchPointsByPackage(parentList: MutableList<LaunchPoint>, removeLaunchPoints: MutableList<LaunchPoint>, pkgName: String?, remove: Boolean): List<LaunchPoint> {
+    private fun getLaunchPointsByPackage(
+        parentList: MutableList<LaunchPoint>,
+        removeLaunchPoints: MutableList<LaunchPoint>,
+        pkgName: String?,
+        remove: Boolean
+    ): List<LaunchPoint> {
         var removeLaunchPoints: MutableList<LaunchPoint>? = removeLaunchPoints
         if (removeLaunchPoints == null) {
             removeLaunchPoints = ArrayList()
@@ -416,7 +486,11 @@ class LaunchPointList(ctx: Context) {
     }
 
     // todo clean up the AppCategory mess
-    private fun getLaunchPointsLocked(parentList: List<LaunchPoint>, childList: MutableList<LaunchPoint>, category: AppCategory) {
+    private fun getLaunchPointsLocked(
+        parentList: List<LaunchPoint>,
+        childList: MutableList<LaunchPoint>,
+        category: AppCategory
+    ) {
         when (category) {
             AppCategory.GAME -> for (lp in parentList) {
                 if (!isBlacklisted(lp.packageName) && lp.isGame) {
@@ -481,11 +555,21 @@ class LaunchPointList(ctx: Context) {
     }
 
     private val channelActivities: Set<ComponentName>
-        private get() {
+        get() {
             val channelActivities = HashSet<ComponentName>()
-            for (info in mContext.packageManager.queryIntentActivities(Intent("android.intent.action.VIEW", TvContract.buildChannelUri(0)), 513)) {
+            for (info in mContext.packageManager.queryIntentActivities(
+                Intent(
+                    "android.intent.action.VIEW",
+                    TvContract.buildChannelUri(0)
+                ), 513
+            )) {
                 if (info.activityInfo != null) {
-                    channelActivities.add(ComponentName(info.activityInfo.packageName, info.activityInfo.name))
+                    channelActivities.add(
+                        ComponentName(
+                            info.activityInfo.packageName,
+                            info.activityInfo.name
+                        )
+                    )
                 }
             }
             return channelActivities
@@ -494,15 +578,18 @@ class LaunchPointList(ctx: Context) {
     @SuppressLint("WrongConstant")
     private fun createSettingsList(): ArrayList<LaunchPoint> {
         // LEANBACK_SETTINGS
-        val mainIntent = Intent("android.intent.action.MAIN").addCategory("android.intent.category.LEANBACK_SETTINGS")
+        val mainIntent =
+            Intent("android.intent.action.MAIN").addCategory("android.intent.category.LEANBACK_SETTINGS")
         val settingsItems = ArrayList<LaunchPoint>()
         val pkgMan = mContext.packageManager
         val rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129)
         val specialEntries = HashMap<ComponentName?, Int>()
         // WI-FI
-        specialEntries[searchComponentForAction("android.settings.WIFI_SETTINGS")] = SettingsUtil.SettingsType.WIFI.code
+        specialEntries[searchComponentForAction("android.settings.WIFI_SETTINGS")] =
+            SettingsUtil.SettingsType.WIFI.code
         if (Util.isPackageEnabled(mContext, "com.android.tv.settings")) {
-            specialEntries[ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity")] = SettingsUtil.SettingsType.WIFI.code
+            specialEntries[ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity")] =
+                SettingsUtil.SettingsType.WIFI.code
         }
         for (ptr in 0 until rawLaunchPoints.size) {
             val info = rawLaunchPoints[ptr]
@@ -520,33 +607,67 @@ class LaunchPointList(ctx: Context) {
         }
         // LAUNCHER SETTINGS // 4
         val intent = Intent()
-        intent.component = ComponentName.unflattenFromString(mContext.packageName + "/.settings.LegacyHomeScreenSettingsActivity")
-        var lp = LaunchPoint(mContext, mContext.getString(R.string.launcher_settings), mContext.getDrawable(R.drawable.ic_settings_launcher), intent, 0)
+        intent.component =
+            ComponentName.unflattenFromString(mContext.packageName + "/.settings.LegacyHomeScreenSettingsActivity")
+        var lp = LaunchPoint(
+            mContext,
+            mContext.getString(R.string.launcher_settings),
+            ContextCompat.getDrawable(mContext, R.drawable.ic_settings_launcher),
+            intent,
+            0
+        )
         lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         lp.settingsType = SettingsUtil.SettingsType.APP_CONFIGURE.code
         lp.priority = -4
         settingsItems.add(lp)
         // NOTIFICATIONS // 3
         if (FireTVUtils.isLocalNotificationsEnabled(mContext)) {
-            lp = LaunchPoint(mContext, mContext.getString(R.string.notifications), mContext.getDrawable(R.drawable.ic_settings_notification), FireTVUtils.notificationCenterIntent, 0)
+            lp = LaunchPoint(
+                mContext,
+                mContext.getString(R.string.notifications),
+                ContextCompat.getDrawable(mContext, R.drawable.ic_settings_notification),
+                FireTVUtils.notificationCenterIntent,
+                0
+            )
             lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             lp.settingsType = SettingsUtil.SettingsType.NOTIFICATIONS.code
             lp.priority = -3
             settingsItems.add(lp)
         }
         // SYS SETTINGS // 1
-        if (FireTVUtils.isLauncherSettingsEnabled(mContext) and !Util.isPackageEnabled(mContext, "com.android.tv.settings")) {
-            lp = LaunchPoint(mContext, mContext.getString(R.string.system_settings), mContext.getDrawable(R.drawable.ic_settings_settings), FireTVUtils.systemSettingsIntent, 0)
+        if (FireTVUtils.isLauncherSettingsEnabled(mContext) and !Util.isPackageEnabled(
+                mContext,
+                "com.android.tv.settings"
+            )
+        ) {
+            lp = LaunchPoint(
+                mContext,
+                mContext.getString(R.string.system_settings),
+                ContextCompat.getDrawable(mContext, R.drawable.ic_settings_settings),
+                FireTVUtils.systemSettingsIntent,
+                0
+            )
             lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             lp.settingsType = SettingsUtil.SettingsType.UNKNOWN.code
             lp.priority = -1
             settingsItems.add(lp)
         }
         // NETWORK (AMAZON) // 2
-        if (Util.isPackageEnabled(mContext, "com.amazon.tv.settings.v2") and !Util.isPackageEnabled(mContext, "com.android.tv.settings")) {
+        if (Util.isPackageEnabled(mContext, "com.amazon.tv.settings.v2") and !Util.isPackageEnabled(
+                mContext,
+                "com.android.tv.settings"
+            )
+        ) {
             val wintent = Intent()
-            wintent.component = ComponentName.unflattenFromString("com.amazon.tv.settings.v2/.tv.network.NetworkActivity")
-            val wlp = LaunchPoint(mContext, mContext.getString(R.string.settings_network), mContext.getDrawable(R.drawable.network_state_disconnected), wintent, 0)
+            wintent.component =
+                ComponentName.unflattenFromString("com.amazon.tv.settings.v2/.tv.network.NetworkActivity")
+            val wlp = LaunchPoint(
+                mContext,
+                mContext.getString(R.string.settings_network),
+                ContextCompat.getDrawable(mContext, R.drawable.network_state_disconnected),
+                wintent,
+                0
+            )
             wlp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             wlp.settingsType = SettingsUtil.SettingsType.WIFI.code
             wlp.priority = -2
@@ -573,7 +694,11 @@ class LaunchPointList(ctx: Context) {
             if (info.activityInfo != null) {
                 //boolean system = (info.activityInfo.applicationInfo.flags & 1) != 0;
                 // Why discriminate against user-space settings app?
-                if ( /*system &&*/TextUtils.equals(info.activityInfo.applicationInfo.packageName, packageName)) {
+                if ( /*system &&*/TextUtils.equals(
+                        info.activityInfo.applicationInfo.packageName,
+                        packageName
+                    )
+                ) {
                     return true
                 }
             }
@@ -612,21 +737,9 @@ class LaunchPointList(ctx: Context) {
         if (prefUtil == null) {
             prefUtil = SharedPreferencesUtil.instance(mContext)
         }
-        return prefUtil!!.isHidden(pkgName) || mUpdatableBlacklist.containsKey(pkgName) || mNonUpdatableBlacklist.containsKey(pkgName)
+        return prefUtil!!.isHidden(pkgName) || mUpdatableBlacklist.containsKey(pkgName) || mNonUpdatableBlacklist.containsKey(
+            pkgName
+        )
     }
 
-    companion object {
-        private const val TAG = "LaunchPointList"
-    }
-
-    init {
-        mCachedActions = LinkedList()
-        mListeners = LinkedList()
-        mAllLaunchPoints = LinkedList()
-        mInstallingLaunchPoints = LinkedList()
-        mUpdatableBlacklist = HashMap()
-        mNonUpdatableBlacklist = HashMap()
-        mLock = Any()
-        mContext = ctx
-    }
 }

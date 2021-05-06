@@ -16,7 +16,7 @@ class PackageChangedReceiver(private val mListener: Listener) : BroadcastReceive
 
     override fun onReceive(context: Context, intent: Intent) {
         val packageName = getPackageName(intent)
-        if (packageName != null && packageName.length != 0) {
+        if (packageName != null && packageName.isNotEmpty()) {
             val action = intent.action
             if ("android.intent.action.PACKAGE_ADDED" == action) {
                 mListener.onPackageAdded(packageName)

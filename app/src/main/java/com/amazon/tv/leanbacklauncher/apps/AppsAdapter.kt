@@ -36,13 +36,19 @@ import com.amazon.tv.leanbacklauncher.util.Lists
 import com.amazon.tv.leanbacklauncher.widget.RowViewAdapter
 import java.util.*
 
-open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOpenLaunchPointListener?, vararg appTypes: AppCategory?) : RowViewAdapter<AppViewHolder?>(context), AppsRanker.RankingListener, LaunchPointList.Listener, OnSharedPreferenceChangeListener {
+open class AppsAdapter(
+    context: Context,
+    actionOpenLaunchPointListener: ActionOpenLaunchPointListener?,
+    vararg appTypes: AppCategory?
+) : RowViewAdapter<AppViewHolder?>(context), AppsRanker.RankingListener, LaunchPointList.Listener,
+    OnSharedPreferenceChangeListener {
     private val mActionOpenLaunchPointListener: ActionOpenLaunchPointListener?
     private var mAppTypes = emptySet<AppCategory?>()
     protected var mFilter: AppFilter
     protected var mAppsManager: AppsManager?
     protected var mFlaggedForResort: Boolean
-    private val mInflater: LayoutInflater
+    private val mInflater: LayoutInflater =
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private var mItemsHaveBeenSorted = false
     protected var mLaunchPoints: ArrayList<LaunchPoint>
     private val mNotifyHandler = Handler()
@@ -50,7 +56,6 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     private val listener: OnSharedPreferenceChangeListener = this
 
     init {
-        mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         mLaunchPoints = arrayListOf()
         mAppsManager = getInstance(context)
         prefUtil = instance(context)
@@ -60,7 +65,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
                 return true
             }
         }
-        mAppTypes = HashSet(Arrays.asList(*appTypes))
+        mAppTypes = HashSet(listOf(*appTypes))
         mFlaggedForResort = false
         mActionOpenLaunchPointListener = actionOpenLaunchPointListener
         mAppsManager?.registerLaunchPointListListener(this)
@@ -78,7 +83,8 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         abstract fun include(point: LaunchPoint?): Boolean
     }
 
-    open class AppViewHolder internal constructor(v: View, adapter: AppsAdapter?) : LauncherViewHolder(v) {
+    open class AppViewHolder internal constructor(v: View, adapter: AppsAdapter?) :
+        LauncherViewHolder(v) {
         private val mAdapter: AppsAdapter?
         private var mBannerView: BannerView? = null
         var componentName: String? = null
@@ -97,7 +103,12 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
             }
         }
 
-        open fun init(packageName: String?, componentName: String?, launchIntent: Intent?, launchColor: Int) {
+        open fun init(
+            packageName: String?,
+            componentName: String?,
+            launchIntent: Intent?,
+            launchColor: Int
+        ) {
             this.packageName = packageName
             this.componentName = componentName
             setLaunchIntent(launchIntent)
@@ -121,7 +132,8 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         fun checkEditModeDimLevel() {
             var curView: RecyclerView.ViewHolder? = null
             if (itemView is BannerView) {
-                val parent = if (itemView.getParent() is EditableAppsRowView) itemView.getParent() as EditableAppsRowView else null
+                val parent =
+                    if (itemView.getParent() is EditableAppsRowView) itemView.getParent() as EditableAppsRowView else null
                 if (parent != null) {
                     curView = parent.curViewHolder
                 }
@@ -157,7 +169,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     open class AppBannerViewHolder(v: View, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
         private var mBackground: Drawable? = null
         private var mBannerView: ImageView? = null
-        private val mOverlayHelper: InstallStateOverlayHelper
+        private val mOverlayHelper: InstallStateOverlayHelper = InstallStateOverlayHelper(v)
 
         override fun init(launchPoint: LaunchPoint?) {
             super.init(launchPoint)
@@ -198,21 +210,22 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         }
 
         init {
-            mOverlayHelper = InstallStateOverlayHelper(v)
             if (v != null) {
                 mBannerView = v.findViewById(R.id.app_banner)
-                mBackground = ResourcesCompat.getDrawable(v.resources, R.drawable.banner_background, null)
+                mBackground =
+                    ResourcesCompat.getDrawable(v.resources, R.drawable.banner_background, null)
             } else {
                 mBannerView = null
             }
         }
     }
 
-    private class AppFallbackViewHolder(v: View, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
+    private class AppFallbackViewHolder(v: View, adapter: AppsAdapter?) :
+        AppViewHolder(v, adapter) {
         private var mIconView: ImageView?
         private var mBannerView: LinearLayout?
         private var mLabelView: TextView?
-        private val mOverlayHelper: InstallStateOverlayHelper
+        private val mOverlayHelper: InstallStateOverlayHelper = InstallStateOverlayHelper(v)
 
         override fun init(launchPoint: LaunchPoint?) {
             super.init(launchPoint)
@@ -238,7 +251,6 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         }
 
         init {
-            mOverlayHelper = InstallStateOverlayHelper(v)
             mIconView = null
             mLabelView = null
             mBannerView = null
@@ -304,12 +316,16 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         }
 
         override fun onPostExecute(launchPoints: ArrayList<LaunchPoint>) {
-            val changes = Lists.getChanges(mLaunchPoints, launchPoints, mAppsManager!!.launchPointComparator)
+            val changes =
+                Lists.getChanges(mLaunchPoints, launchPoints, mAppsManager!!.launchPointComparator)
             mLaunchPoints = launchPoints
             onPostRefresh()
             for (change in changes) {
                 when (change.type) {
-                    Lists.Change.Type.INSERTION -> notifyItemRangeInserted(change.index, change.count)
+                    Lists.Change.Type.INSERTION -> notifyItemRangeInserted(
+                        change.index,
+                        change.count
+                    )
                     Lists.Change.Type.REMOVAL -> notifyItemRangeRemoved(change.index, change.count)
                     else -> throw IllegalStateException("Unsupported change type: " + change.type)
                 }
@@ -362,11 +378,18 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         val holder: AppViewHolder
         return when (viewType) {
             0 -> {
-                holder = AppBannerViewHolder(mInflater.inflate(R.layout.app_banner, parent, false), this)
+                holder =
+                    AppBannerViewHolder(mInflater.inflate(R.layout.app_banner, parent, false), this)
                 holder
             }
             1 -> {
-                holder = AppFallbackViewHolder(mInflater.inflate(R.layout.app_fallback_banner, parent, false), this)
+                holder = AppFallbackViewHolder(
+                    mInflater.inflate(
+                        R.layout.app_fallback_banner,
+                        parent,
+                        false
+                    ), this
+                )
                 holder
             }
             else -> { // 2: settings
@@ -405,8 +428,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     }
 
     fun sortItemsIfNeeded(force: Boolean) {
-        val sortNeeded: Boolean
-        sortNeeded = mFlaggedForResort || force
+        val sortNeeded: Boolean = mFlaggedForResort || force
         mFlaggedForResort = false
         if (force && mAppsManager!!.sortingMode === AppsManager.SortingMode.FIXED) {
             saveAppOrderSnapshot()
@@ -433,7 +455,10 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
         mLaunchPoints[desiredPosition] = focused
         notifyItemMoved(initPosition, desiredPosition)
         if (Math.abs(desiredPosition - initPosition) > 1) {
-            notifyItemMoved(desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1, initPosition)
+            notifyItemMoved(
+                desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1,
+                initPosition
+            )
         }
         if (!userAction) {
             return true
@@ -472,11 +497,31 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
                 return mAppsManager!!.allLaunchPoints
             for (category in mAppTypes) {
                 when (category) {
-                    AppCategory.OTHER -> launchPoints.addAll(mAppsManager!!.getLaunchPointsByCategory(AppCategory.OTHER))
-                    AppCategory.VIDEO -> launchPoints.addAll(mAppsManager!!.getLaunchPointsByCategory(AppCategory.VIDEO))
-                    AppCategory.MUSIC -> launchPoints.addAll(mAppsManager!!.getLaunchPointsByCategory(AppCategory.MUSIC))
-                    AppCategory.GAME -> launchPoints.addAll(mAppsManager!!.getLaunchPointsByCategory(AppCategory.GAME))
-                    AppCategory.SETTINGS -> launchPoints.addAll(mAppsManager!!.getSettingsLaunchPoints(true))
+                    AppCategory.OTHER -> launchPoints.addAll(
+                        mAppsManager!!.getLaunchPointsByCategory(
+                            AppCategory.OTHER
+                        )
+                    )
+                    AppCategory.VIDEO -> launchPoints.addAll(
+                        mAppsManager!!.getLaunchPointsByCategory(
+                            AppCategory.VIDEO
+                        )
+                    )
+                    AppCategory.MUSIC -> launchPoints.addAll(
+                        mAppsManager!!.getLaunchPointsByCategory(
+                            AppCategory.MUSIC
+                        )
+                    )
+                    AppCategory.GAME -> launchPoints.addAll(
+                        mAppsManager!!.getLaunchPointsByCategory(
+                            AppCategory.GAME
+                        )
+                    )
+                    AppCategory.SETTINGS -> launchPoints.addAll(
+                        mAppsManager!!.getSettingsLaunchPoints(
+                            true
+                        )
+                    )
                 }
             }
             sortLaunchPoints(launchPoints)
@@ -496,7 +541,10 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
     override fun onLaunchPointsAddedOrUpdated(launchPoints: ArrayList<LaunchPoint>) {
         mNotifyHandler.post {
             if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsAddedOrUpdated(${launchPoints})")
-            if (BuildConfig.DEBUG) Log.d(TAG, "Current Apps set: $mAppTypes, size: ${mLaunchPoints.size}")
+            if (BuildConfig.DEBUG) Log.d(
+                TAG,
+                "Current Apps set: $mAppTypes, size: ${mLaunchPoints.size}"
+            )
             var saveAppOrderChanges = false
             for (i in launchPoints.indices) {
                 val lp = launchPoints[i]
@@ -537,7 +585,7 @@ open class AppsAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
             for (j in mLaunchPoints.indices.reversed()) {
                 i = launchPoints.size - 1
                 while (i >= 0) {
-                    if (mLaunchPoints[j].equals(launchPoints[i]) && itemRemovedAt == -1) {
+                    if (mLaunchPoints[j] == launchPoints[i] && itemRemovedAt == -1) {
                         launchPoints.removeAt(i)
                         saveAppOrderChanges = true
                         itemRemovedAt = j

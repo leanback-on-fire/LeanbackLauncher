@@ -23,6 +23,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import java.util.*
 
 class LaunchPoint {
     var title: String? = null
@@ -36,8 +37,7 @@ class LaunchPoint {
     var installProgressPercent = 0
     var installStateStringResId = 0
         private set
-    var isInitialInstall = false
-        private set
+    private var isInitialInstall = false
     var launchColor = 0
         private set
     var launchIntent: Intent? = null
@@ -56,7 +56,7 @@ class LaunchPoint {
         private set
     private val hasGameFlag = false
 
-    constructor() {}
+    constructor()
     internal constructor(context: Context, appTitle: String?, packageName: String?) {
         clear(context)
         title = appTitle
@@ -163,7 +163,7 @@ class LaunchPoint {
             }
             val overrides = BannerUtil.BANNER_OVERRIDES
             for (str in overrides.keys) {
-                if (packageName!!.toLowerCase().contains(str)) {
+                if (packageName!!.lowercase(Locale.getDefault()).contains(str)) {
                     bannerDrawable = ContextCompat.getDrawable(ctx, overrides[str]!!)
                     if (bannerDrawable is BitmapDrawable) {
                         bannerDrawable = BitmapDrawable(res, Util.getSizeCappedBitmap((bannerDrawable as BitmapDrawable?)!!.bitmap, maxWidth, maxHeight))
@@ -250,17 +250,16 @@ class LaunchPoint {
         get() = installStateStringResId != 0
 
     override fun toString(): String {
-        return title + " [" + packageName + "]"
+        return "$title [$packageName]"
     }
 
     fun cancelPendingOperations(context: Context?) {}
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o !is LaunchPoint) return false
-        val that = o
-        return if (componentName != null && componentName != that.componentName) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is LaunchPoint) return false
+        return if (componentName != null && componentName != other.componentName) {
             false
-        } else packageName != null && packageName != that.packageName
+        } else packageName != null && packageName != other.packageName
     }
 
     override fun hashCode(): Int {
@@ -284,12 +283,12 @@ class LaunchPoint {
                 val theme = myContext.createPackageContext(info.activityInfo.applicationInfo.packageName, 0).theme
                 theme.applyStyle(info.activityInfo.themeResource, true)
                 val a = theme.obtainStyledAttributes(intArrayOf(android.R.attr.colorPrimary))
-                val color = a.getColor(0, myContext.resources.getColor(R.color.banner_background))
+                val color = a.getColor(0, ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null))
                 a.recycle()
                 color
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
-                myContext.resources.getColor(R.color.banner_background)
+                ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
             }
         }
 

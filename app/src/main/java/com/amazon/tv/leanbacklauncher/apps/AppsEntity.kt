@@ -4,10 +4,10 @@ import android.content.Context
 import java.util.*
 
 class AppsEntity(ctx: Context?, helper: AppsDbHelper, packageName: String?) {
-    private val mDbHelper: AppsDbHelper
-    private val mLastOpened: HashMap<String?, Long?>
-    private val mOrder: HashMap<String?, Long?>
-    val key: String?
+    private val mDbHelper: AppsDbHelper = helper
+    private val mLastOpened: HashMap<String?, Long?> = HashMap<String?, Long?>()
+    private val mOrder: HashMap<String?, Long?> = HashMap<String?, Long?>()
+    val key: String? = packageName
 
     constructor(context: Context?, helper: AppsDbHelper, packageName: String?, lastOpenTime: Long, initialOrder: Long) : this(context, helper, packageName) {
         setLastOpenedTimeStamp(null, lastOpenTime)
@@ -61,12 +61,5 @@ class AppsEntity(ctx: Context?, helper: AppsDbHelper, packageName: String?) {
             1 -> setLastOpenedTimeStamp(component, time)
             3 -> mLastOpened.clear()
         }
-    }
-
-    init {
-        mLastOpened = HashMap<String?, Long?>()
-        mOrder = HashMap<String?, Long?>()
-        mDbHelper = helper
-        key = packageName
     }
 }

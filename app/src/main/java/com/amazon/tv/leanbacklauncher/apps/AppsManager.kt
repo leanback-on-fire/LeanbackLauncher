@@ -13,21 +13,17 @@ import java.io.PrintWriter
 import java.util.*
 
 class AppsManager private constructor(private val mContext: Context) : InstallingLaunchPointListener, PackageChangedReceiver.Listener, BlacklistListener {
-    private val mAppsRanker: AppsRanker
+    private val mAppsRanker: AppsRanker = AppsRanker.getInstance(mContext)
     private val mExternalAppsUpdateReceiver: BroadcastReceiver
-    private val mLaunchPointListGenerator: LaunchPointList
-    private val mMarketUpdateReceiver: MarketUpdateReceiver
-    private val mPackageChangedReceiver: PackageChangedReceiver
+    private val mLaunchPointListGenerator: LaunchPointList = LaunchPointList(mContext)
+    private val mMarketUpdateReceiver: MarketUpdateReceiver = MarketUpdateReceiver(this)
+    private val mPackageChangedReceiver: PackageChangedReceiver = PackageChangedReceiver(this)
     private var mReceiversRegisteredRefCount = 0
     private val mRows: ArrayList<HomeScreenRow?> = ArrayList<HomeScreenRow?>()
     private var mSearchChangeListener: SearchPackageChangeListener? = null
     private var mSearchPackageName: String? = null
 
     init {
-        mLaunchPointListGenerator = LaunchPointList(mContext)
-        mAppsRanker = AppsRanker.getInstance(mContext)
-        mMarketUpdateReceiver = MarketUpdateReceiver(this)
-        mPackageChangedReceiver = PackageChangedReceiver(this)
         mExternalAppsUpdateReceiver = ExternalAppsUpdateReceiver()
     }
 
@@ -56,7 +52,7 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         mAppsRanker.onAction(packageName, component, actionType)
     }
 
-    fun onAppsRankerAction(packageName: String?, actionType: Int) {
+    private fun onAppsRankerAction(packageName: String?, actionType: Int) {
         onAppsRankerAction(packageName, null, actionType)
     }
 
@@ -72,7 +68,7 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         // todo this.mLaunchPointListGenerator.dump(prefix, writer);
     }
 
-    fun unregisterAppsRankerListeners() {
+    private fun unregisterAppsRankerListeners() {
         mAppsRanker.unregisterListeners()
     }
 
@@ -98,11 +94,11 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         mLaunchPointListGenerator.addOrUpdatePackage(pkgName)
     }
 
-    fun removePackage(pkgName: String?) {
+    private fun removePackage(pkgName: String?) {
         mLaunchPointListGenerator.removePackage(pkgName)
     }
 
-    fun addOrUpdateInstallingLaunchPoint(lp: LaunchPoint?) {
+    private fun addOrUpdateInstallingLaunchPoint(lp: LaunchPoint?) {
         mLaunchPointListGenerator.addOrUpdateInstallingLaunchPoint(lp)
     }
 
