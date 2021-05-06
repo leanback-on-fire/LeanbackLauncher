@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.AsyncTask
-import android.preference.PreferenceManager
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.getSavedSortingMode
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.SortingMode
@@ -18,7 +18,8 @@ import java.lang.ref.WeakReference
 import java.util.*
 import java.util.concurrent.Executor
 
-class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, executor: Executor?) : AppsDbHelper.Listener {
+class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, executor: Executor?) :
+    AppsDbHelper.Listener {
     private val mCachedActions: Queue<CachedAction?>
     private val mContext: Context
     private val mDbHelper: AppsDbHelper?
@@ -50,7 +51,12 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         fun onRankerReady()
     }
 
-    private class CachedAction(var key: String, var component: String, var group: String?, var action: Int)
+    private class CachedAction(
+        var key: String,
+        var component: String,
+        var group: String?,
+        var action: Int
+    )
 
     private inner class LaunchPointInstallComparator : Comparator<LaunchPoint?> {
         override fun compare(lhs: LaunchPoint?, rhs: LaunchPoint?): Int {
@@ -93,8 +99,11 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         }
     }
 
-    private class SharedPreferencesChangeListener(appsRanker: AppsRanker?) : OnSharedPreferenceChangeListener {
-        private val mAppsRankerRef: WeakReference<AppsRanker?> = WeakReference<AppsRanker?>(appsRanker)
+    private class SharedPreferencesChangeListener(appsRanker: AppsRanker?) :
+        OnSharedPreferenceChangeListener {
+        private val mAppsRankerRef: WeakReference<AppsRanker?> =
+            WeakReference<AppsRanker?>(appsRanker)
+
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
             val appsRanker = mAppsRankerRef.get()
             appsRanker?.checkForSortingModeChange()
@@ -102,7 +111,11 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
 
     }
 
-    private constructor(ctx: Context, dbHelper: AppsDbHelper?) : this(ctx, dbHelper, AsyncTask.SERIAL_EXECUTOR)
+    private constructor(ctx: Context, dbHelper: AppsDbHelper?) : this(
+        ctx,
+        dbHelper,
+        AsyncTask.SERIAL_EXECUTOR
+    )
 
     val sortingMode: SortingMode
         get() {
@@ -128,7 +141,12 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         onAction(packageName, component, null, actionType)
     }
 
-    private fun onAction(key: String?, component: String?, group: String?, actionType: Int) { // , AppCategory category
+    private fun onAction(
+        key: String?,
+        component: String?,
+        group: String?,
+        actionType: Int
+    ) { // , AppCategory category
         if (key?.isNotEmpty() == true) {
             if (actionType != 3) {
                 mNeedsResorting = true
@@ -138,7 +156,14 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
                     if (Log.isLoggable(TAG, Log.DEBUG)) {
                         Log.d(TAG, "Scores not ready, caching this action")
                     }
-                    mCachedActions.add(component?.let { CachedAction(key, it, group, actionType) }) // , category
+                    mCachedActions.add(component?.let {
+                        CachedAction(
+                            key,
+                            it,
+                            group,
+                            actionType
+                        )
+                    }) // , category
                     return
                 }
                 if (Log.isLoggable(TAG, Log.VERBOSE)) {
@@ -168,7 +193,10 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         }
     }
 
-    fun rankLaunchPoints(launchPoints: ArrayList<LaunchPoint>, listener: RankingListener?): Boolean {
+    fun rankLaunchPoints(
+        launchPoints: ArrayList<LaunchPoint>,
+        listener: RankingListener?
+    ): Boolean {
         if (registerListenerIfNecessary(listener)) {
             return false
         }
@@ -182,7 +210,11 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
             for (lp in launchPoints) {
                 val entity = mEntities[lp.packageName]
                 if (entity != null) {
-                    mLastLaunchPointRankingLogDump.add(lp.title + " | R " + entity.getOrder(lp.componentName) + " | LO " + getLastOpened(lp) + " | INST " + lp.firstInstallTime)
+                    mLastLaunchPointRankingLogDump.add(
+                        lp.title + " | R " + entity.getOrder(lp.componentName) + " | LO " + getLastOpened(
+                            lp
+                        ) + " | INST " + lp.firstInstallTime
+                    )
                 }
             }
         }
@@ -284,7 +316,12 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
             return z
         }
 
-    private fun applyOutOfBoxOrdering(order: Array<String>?, offsetEntities: Int, totalEntities: Int, baseTime: Long) {
+    private fun applyOutOfBoxOrdering(
+        order: Array<String>?,
+        offsetEntities: Int,
+        totalEntities: Int,
+        baseTime: Long
+    ) {
         if (order != null && order.isNotEmpty() && offsetEntities >= 0 && totalEntities >= order.size + offsetEntities) {
             val entitiesBelow = totalEntities - offsetEntities - order.size
             val size = order.size
@@ -292,7 +329,13 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
                 val key = order[size - i - 1]
                 if (!mEntities.containsKey(key)) {
                     val score = (entitiesBelow + i + 1).toLong() + baseTime
-                    val e = AppsEntity(mContext, mDbHelper!!, key, score, (entitiesBelow + size - i).toLong())
+                    val e = AppsEntity(
+                        mContext,
+                        mDbHelper!!,
+                        key,
+                        score,
+                        (entitiesBelow + size - i).toLong()
+                    )
                     mEntities[key] = e
                     mDbHelper?.saveEntity(e)
                 }
@@ -315,7 +358,13 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         if (e != null) {
             e.setOrder(launchPoint.componentName, position.toLong() + 1)
         } else {
-            e = AppsEntity(mContext, mDbHelper!!, launchPoint.packageName, 0, (position + 1).toLong())
+            e = AppsEntity(
+                mContext,
+                mDbHelper!!,
+                launchPoint.packageName,
+                0,
+                (position + 1).toLong()
+            )
             mEntities[launchPoint.packageName!!] = e
         }
         mDbHelper?.saveEntity(e)
@@ -363,7 +412,8 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         private var sAppsRanker: AppsRanker? = null
         fun getInstance(context: Context): AppsRanker {
             if (sAppsRanker == null) {
-                sAppsRanker = AppsRanker(context.applicationContext, AppsDbHelper.getInstance(context))
+                sAppsRanker =
+                    AppsRanker(context.applicationContext, AppsDbHelper.getInstance(context))
             }
             return sAppsRanker as AppsRanker
         }

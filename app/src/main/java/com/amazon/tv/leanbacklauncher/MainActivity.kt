@@ -378,7 +378,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         loaderManager.initLoader(1, null, mSearchSuggestionsCallbacks)
         // start notification listener
         val pref = PreferenceManager.getDefaultSharedPreferences(appContext)
-        if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), false) && LauncherApplication.foreground)
+        if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), false) && LauncherApplication.inForeground)
             startService(Intent(this, NotificationListenerMonitor::class.java))
     }
 

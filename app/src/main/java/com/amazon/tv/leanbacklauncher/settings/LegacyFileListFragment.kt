@@ -3,13 +3,13 @@ package com.amazon.tv.leanbacklauncher.settings
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
-import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
+import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.Util.refreshHome

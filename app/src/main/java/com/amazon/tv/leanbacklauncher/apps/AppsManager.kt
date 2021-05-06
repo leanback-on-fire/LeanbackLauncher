@@ -2,7 +2,7 @@ package com.amazon.tv.leanbacklauncher.apps
 
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.leanbacklauncher.HomeScreenRow
 import com.amazon.tv.leanbacklauncher.apps.MarketUpdateReceiver.Companion.broadcastPermission
@@ -12,10 +12,11 @@ import com.amazon.tv.leanbacklauncher.util.Util
 import java.io.PrintWriter
 import java.util.*
 
-class AppsManager private constructor(private val mContext: Context) : InstallingLaunchPointListener, PackageChangedReceiver.Listener, BlacklistListener {
+class AppsManager private constructor(private val mContext: Context) :
+    InstallingLaunchPointListener, PackageChangedReceiver.Listener, BlacklistListener {
     private val mAppsRanker: AppsRanker = AppsRanker.getInstance(mContext)
     private val mExternalAppsUpdateReceiver: BroadcastReceiver
-    private val mLaunchPointListGenerator: LaunchPointList = LaunchPointList(mContext)
+    private val mLaunchPointList: LaunchPointList = LaunchPointList(mContext)
     private val mMarketUpdateReceiver: MarketUpdateReceiver = MarketUpdateReceiver(this)
     private val mPackageChangedReceiver: PackageChangedReceiver = PackageChangedReceiver(this)
     private var mReceiversRegisteredRefCount = 0
@@ -44,7 +45,10 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         mAppsRanker.saveOrderSnapshot(launchPoints)
     }
 
-    fun rankLaunchPoints(launchPoints: ArrayList<LaunchPoint>?, listener: AppsRanker.RankingListener?): Boolean {
+    fun rankLaunchPoints(
+        launchPoints: ArrayList<LaunchPoint>?,
+        listener: AppsRanker.RankingListener?
+    ): Boolean {
         return launchPoints?.let { mAppsRanker.rankLaunchPoints(it, listener) } == true
     }
 
@@ -80,50 +84,50 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         get() = mAppsRanker.isReady
 
     fun getLaunchPointsByCategory(other: AppCategory?): List<LaunchPoint> {
-        return mLaunchPointListGenerator.getLaunchPointsByCategory(other!!)
+        return mLaunchPointList.getLaunchPointsByCategory(other!!)
     }
 
     val allLaunchPoints: ArrayList<LaunchPoint>
-        get() = mLaunchPointListGenerator.allLaunchPoints
+        get() = mLaunchPointList.allLaunchPoints
 
     fun getSettingsLaunchPoints(force: Boolean): ArrayList<LaunchPoint> {
-        return mLaunchPointListGenerator.getSettingsLaunchPoints(force)
+        return mLaunchPointList.getSettingsLaunchPoints(force)
     }
 
     fun addOrUpdatePackage(pkgName: String?) {
-        mLaunchPointListGenerator.addOrUpdatePackage(pkgName)
+        mLaunchPointList.addOrUpdatePackage(pkgName)
     }
 
     private fun removePackage(pkgName: String?) {
-        mLaunchPointListGenerator.removePackage(pkgName)
+        mLaunchPointList.removePackage(pkgName)
     }
 
     private fun addOrUpdateInstallingLaunchPoint(lp: LaunchPoint?) {
-        mLaunchPointListGenerator.addOrUpdateInstallingLaunchPoint(lp)
+        mLaunchPointList.addOrUpdateInstallingLaunchPoint(lp)
     }
 
     fun removeInstallingLaunchPoint(lp: LaunchPoint?, success: Boolean) {
-        mLaunchPointListGenerator.removeInstallingLaunchPoint(lp, success)
+        mLaunchPointList.removeInstallingLaunchPoint(lp, success)
     }
 
     fun addToPartnerExclusionList(pkgName: String?): Boolean {
-        return mLaunchPointListGenerator.addToBlacklist(pkgName)
+        return mLaunchPointList.addToBlacklist(pkgName)
     }
 
     fun removeFromPartnerExclusionList(pkgName: String?): Boolean {
-        return mLaunchPointListGenerator.removeFromBlacklist(pkgName)
+        return mLaunchPointList.removeFromBlacklist(pkgName)
     }
 
     fun refreshLaunchPointList() {
-        mLaunchPointListGenerator.refreshLaunchPointList()
+        mLaunchPointList.refreshLaunchPointList()
     }
 
     fun setExcludeChannelActivities(excludeChannelActivities: Boolean) {
-        mLaunchPointListGenerator.setExcludeChannelActivities(excludeChannelActivities)
+        mLaunchPointList.setExcludeChannelActivities(excludeChannelActivities)
     }
 
     fun registerLaunchPointListListener(listener: LaunchPointList.Listener?) {
-        mLaunchPointListGenerator.registerChangeListener(listener!!)
+        mLaunchPointList.registerChangeListener(listener!!)
     }
 
     override fun onInstallingLaunchPointAdded(launchPoint: LaunchPoint?) {
@@ -165,7 +169,11 @@ class AppsManager private constructor(private val mContext: Context) : Installin
     override fun onPackageRemoved(packageName: String?) {
         Partner.resetIfNecessary(mContext, packageName)
         removePackage(packageName)
-        if (!(mSearchChangeListener == null || packageName == null || !packageName.equals(mSearchPackageName, ignoreCase = true))) {
+        if (!(mSearchChangeListener == null || packageName == null || !packageName.equals(
+                mSearchPackageName,
+                ignoreCase = true
+            ))
+        ) {
             mSearchChangeListener!!.onSearchPackageChanged()
         }
         checkForSearchChanges(packageName)
@@ -185,12 +193,19 @@ class AppsManager private constructor(private val mContext: Context) : Installin
     }
 
     private fun checkForSearchChanges(packageName: String?) {
-        if (mSearchChangeListener != null && packageName != null && packageName.equals(mSearchPackageName, ignoreCase = true)) {
+        if (mSearchChangeListener != null && packageName != null && packageName.equals(
+                mSearchPackageName,
+                ignoreCase = true
+            )
+        ) {
             mSearchChangeListener!!.onSearchPackageChanged()
         }
     }
 
-    fun setSearchPackageChangeListener(listener: SearchPackageChangeListener?, searchPackageName: String?) {
+    fun setSearchPackageChangeListener(
+        listener: SearchPackageChangeListener?,
+        searchPackageName: String?
+    ) {
         mSearchChangeListener = listener
         mSearchPackageName = if (mSearchChangeListener != null) {
             searchPackageName
@@ -222,8 +237,16 @@ class AppsManager private constructor(private val mContext: Context) : Installin
         mReceiversRegisteredRefCount = i + 1
         if (i == 0) {
             mContext.registerReceiver(mPackageChangedReceiver, PackageChangedReceiver.intentFilter)
-            mContext.registerReceiver(mMarketUpdateReceiver, MarketUpdateReceiver.intentFilter, broadcastPermission, null)
-            mContext.registerReceiver(mExternalAppsUpdateReceiver, ExternalAppsUpdateReceiver.intentFilter)
+            mContext.registerReceiver(
+                mMarketUpdateReceiver,
+                MarketUpdateReceiver.intentFilter,
+                broadcastPermission,
+                null
+            )
+            mContext.registerReceiver(
+                mExternalAppsUpdateReceiver,
+                ExternalAppsUpdateReceiver.intentFilter
+            )
         }
     }
 
@@ -245,7 +268,7 @@ class AppsManager private constructor(private val mContext: Context) : Installin
 
     val isLaunchPointListGeneratorReady: Boolean
         get() {
-            return this.mLaunchPointListGenerator.isReady
+            return this.mLaunchPointList.isReady
         }
 
     companion object {
@@ -261,12 +284,18 @@ class AppsManager private constructor(private val mContext: Context) : Installin
 
         @JvmStatic
         fun getSavedSortingMode(context: Context?): SortingMode {
-            return SortingMode.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString("apps_ranker_sorting_mode", Partner.get(context).appSortingMode.toString())!!)
+            return SortingMode.valueOf(
+                PreferenceManager.getDefaultSharedPreferences(context).getString(
+                    "apps_ranker_sorting_mode",
+                    Partner.get(context).appSortingMode.toString()
+                )!!
+            )
         }
 
         @JvmStatic
         fun saveSortingMode(context: Context?, mode: SortingMode) {
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString("apps_ranker_sorting_mode", mode.toString()).apply()
+            PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putString("apps_ranker_sorting_mode", mode.toString()).apply()
         }
     }
 }

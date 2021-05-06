@@ -62,7 +62,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
     private val mSettingsAdapter: SettingsAdapter
     private val mVisRowsList: ArrayList<HomeScreenRow> = ArrayList<HomeScreenRow>(7)
     private val mNotificationsAdapter: RecyclerView.Adapter<*>? = null
-    private final val TAG = "HomeScreenAdapter"
+    private val TAG = "HomeScreenAdapter"
 
     init {
         mMainActivity = Preconditions.checkNotNull(context)
@@ -266,7 +266,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): HomeViewHolder {
-        var view: View = View(parent.context)
+        var view = View(parent.context)
         val row = mAllRowsList[position]
         row.let { rw ->
             when (rw.type) {
@@ -303,7 +303,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
                     }
                 }
                 RowType.ACTUAL_NOTIFICATIONS -> TODO()
-                else -> TODO()
+                //else -> TODO()
             }
             rw.rowView = view
             view.tag = rw.type.code
@@ -317,7 +317,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
 
     override fun onFailedToRecycleView(holder: HomeViewHolder): Boolean {
         if (holder.itemView is ActiveFrame) {
-            resetRowAdapter(holder.itemView as ActiveFrame)
+            resetRowAdapter(holder.itemView)
         }
         return false
     }
@@ -586,7 +586,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
     }
 
     override fun onViewAttachedToWindow(holder: HomeViewHolder) {
-        super.onViewAttachedToWindow(holder!!)
+        super.onViewAttachedToWindow(holder)
         if (holder.itemView is HomeScrollFractionListener) {
             mScrollManager.addHomeScrollListener(holder.itemView as HomeScrollFractionListener)
         }
@@ -596,6 +596,7 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
                 if (mMainActivity.isEditAnimationInProgress) {
                     mMainActivity.includeInEditAnimation(holder.itemView)
                 } else if (holder.itemView !is ActiveFrame) {
+                    // TODO()
                 } else {
                     if (mMainActivity.isInEditMode) {
                         setActiveFrameChildrenAlpha(holder.itemView as ActiveFrame, 0.0f)

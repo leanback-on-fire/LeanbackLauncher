@@ -20,6 +20,11 @@ class LauncherApplication : Application(), LifecycleObserver {
     private var mNewBlacklistClient: NewBlacklistClient? = null
     private var mOldBlacklistClient: OldBlacklistClient? = null
 
+    companion object {
+        var inForeground: Boolean = false
+        private var sBlacklistMigrated = false
+    }
+
     private inner class NewBlacklistClient(context: Context?) : SwitchingRecommendationsClient(context) {
         private var mBlacklist: Array<String> = emptyArray()
         fun saveBlackList(blacklist: Array<String>) {
@@ -83,13 +88,13 @@ class LauncherApplication : Application(), LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForegrounded() {
         if (BuildConfig.DEBUG) Log.d(TAG, "App In foreground")
-        foreground = true
+        inForeground = true
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {
         if (BuildConfig.DEBUG) Log.d(TAG, "App In background")
-        foreground = false
+        inForeground = false
     }
 
     private fun initDeviceCapabilities() {
@@ -129,10 +134,5 @@ class LauncherApplication : Application(), LifecycleObserver {
                 Log.v("LauncherApplication", "Couldn't connect to service to read blacklist", e)
             }
         }
-    }
-
-    companion object {
-        var foreground: Boolean = false
-        private var sBlacklistMigrated = false
     }
 }

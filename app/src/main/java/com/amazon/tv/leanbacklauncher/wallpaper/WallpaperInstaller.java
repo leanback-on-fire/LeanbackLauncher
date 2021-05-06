@@ -14,8 +14,9 @@ import android.graphics.Canvas;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.util.Util;
