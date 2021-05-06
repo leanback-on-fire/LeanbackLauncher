@@ -7,8 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.tvrecommendations.TvRecommendation;
@@ -73,7 +75,7 @@ public class CaptivePortalNotificationCardView extends RecommendationView {
         boolean isLayoutRtl = true;
         super.onLayout(changed, left, top, right, bottom);
         int width = right - left;
-        if (getLayoutDirection() != 1) {
+        if (getLayoutDirection() != View.LAYOUT_DIRECTION_RTL) {
             isLayoutRtl = false;
         }
         layoutMainImage(width);
@@ -82,7 +84,7 @@ public class CaptivePortalNotificationCardView extends RecommendationView {
     }
 
     private Bitmap generateArtwork() {
-        Drawable networkIcon = getResources().getDrawable(R.drawable.ic_settings_wifi_active_3, null);
+        Drawable networkIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_settings_wifi_active_3, null);
         networkIcon.setTint(-1);
         int height = networkIcon.getIntrinsicHeight();
         int width = networkIcon.getIntrinsicWidth();

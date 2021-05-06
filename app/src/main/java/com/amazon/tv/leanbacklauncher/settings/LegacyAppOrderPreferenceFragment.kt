@@ -12,13 +12,19 @@ import com.amazon.tv.leanbacklauncher.apps.AppsManager.SortingMode
 
 class LegacyAppOrderPreferenceFragment : GuidedStepSupportFragment() {
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
-        return Guidance(getString(R.string.select_app_order_action_title), null, getString(R.string.home_screen_order_content_title), ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null))
+        return Guidance(
+            getString(R.string.select_app_order_action_title),
+            null,
+            getString(R.string.home_screen_order_content_title),
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null)
+        )
     }
 
     override fun onCreateActions(actions: MutableList<GuidedAction>, savedInstanceState: Bundle?) {
         var z = true
         val sortingMode = getSavedSortingMode(activity)
-        actions.add(GuidedAction.Builder(activity)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id(1)
                 .checkSetId(1)
                 .checked(sortingMode === SortingMode.RECENCY)
@@ -27,12 +33,13 @@ class LegacyAppOrderPreferenceFragment : GuidedStepSupportFragment() {
                 .build()
         )
         val builder = GuidedAction.Builder(activity)
-                .id(2)
-                .checkSetId(1)
+            .id(2)
+            .checkSetId(1)
         if (sortingMode !== SortingMode.FIXED) {
             z = false
         }
-        actions.add(builder
+        actions.add(
+            builder
                 .checked(z)
                 .title(R.string.select_app_order_action_description_fixed)
                 .description(R.string.fixed_order_action_description)

@@ -81,22 +81,22 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
             var actionId: Long = 0
             val pm = activity!!.packageManager
             for (pkg in packages) {
-                pkg?.let {
-                    var hidden: Boolean
+                if (pkg.isNotEmpty()) {
+                    val hidden: Boolean
                     try {
                         val packageInfo = pm.getPackageInfo(pkg, 0)
                         var banner = pm.getApplicationBanner(packageInfo.applicationInfo)
                         banner = banner
-                                ?: buildBannerFromIcon(pm.getApplicationIcon(packageInfo.applicationInfo))
+                            ?: buildBannerFromIcon(pm.getApplicationIcon(packageInfo.applicationInfo))
                         hidden = util.isHidden(pkg)
                         if (hidden) // show only hidden apps
                             actions.add(GuidedAction.Builder(activity)
-                                    .id(actionId)
-                                    .title(pm.getApplicationLabel(packageInfo.applicationInfo))
-                                    .icon(banner)
-                                    .checkSetId(-1)
-                                    .checked(hidden)
-                                    .build()
+                                .id(actionId)
+                                .title(pm.getApplicationLabel(packageInfo.applicationInfo))
+                                .icon(banner)
+                                .checkSetId(-1)
+                                .checked(hidden)
+                                .build()
                             )
                         mActionToPackageMap!![actionId] = packageInfo.packageName
                         actionId++

@@ -9,7 +9,7 @@ import com.bumptech.glide.request.target.SizeReadyCallback
 class RecommendationCardView internal constructor(context: Context?, private val mResourceCache: PackageResourceCache?) : RecommendationView(context!!) {
     private var mRecommendation: TvRecommendation? = null
 
-    constructor(context: Context?) : this(context, PackageResourceCache.getInstance(context)) {}
+    constructor(context: Context?) : this(context, PackageResourceCache.getInstance(context))
 
     public override fun bindInfoAreaTitleAndContent() {
         mTitleView!!.text = mRecommendation!!.title

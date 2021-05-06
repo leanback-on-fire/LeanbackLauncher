@@ -39,16 +39,14 @@ import java.util.*
  * Created by rockon999 on 3/25/18.
  */
 class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
         return Guidance(
-                getString(R.string.edit_row_title),  // title
-                getString(R.string.select_app_customize_rows_title),  // description
-                getString(R.string.settings_dialog_title),  // breadcrumb (home_screen_order_action_title)
-                ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null))
+            getString(R.string.edit_row_title),  // title
+            getString(R.string.select_app_customize_rows_title),  // description
+            getString(R.string.settings_dialog_title),  // breadcrumb (home_screen_order_action_title)
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null)
+        )
     }
 
     override fun onResume() {
@@ -71,12 +69,10 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         val id = action.id
         val catId = (id - 1) / 2
         val subId = ((id - 1) % 2).toInt()
-        var enabled: Boolean
+        val enabled: Boolean
         val activity: Activity? = activity
         val categories = getEnabledCategories(activity!!)
-        var value: Int
-
-//        Log.d("******", "onGuidedActionClicked(id: $id) catId: $catId subId: $subId (favIndex: $favIndex videoIndex: $videoIndex musicIndex: $musicIndex gameIndex: $gameIndex)")
+        val value: Int
 
         if (catId == favIndex.toLong()) {
             when (subId) {
@@ -85,18 +81,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setFavoritesEnabled(activity, !enabled)
                 }
                 1 -> {
-                    try {
-                        value = action.description.toString().toInt()
+                    value = try {
+                        action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        value = 1
+                        1
                     }
                     setFavoriteRowMax(activity, value)
                 }
                 2 -> {
-                    try {
-                        value = action.description.toString().toInt()
+                    value = try {
+                        action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        value = 1
+                        1
                     }
                     setFavoriteRowMin(activity, value)
                 }
@@ -108,18 +104,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setMusicEnabled(activity, !enabled)
                 }
                 1 -> {
-                    try {
-                        value = action.description.toString().toInt()
+                    value = try {
+                        action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        value = 1
+                        1
                     }
                     setRowMax(AppCategory.MUSIC, activity, value)
                 }
                 2 -> {
-                    try {
-                        value = action.description.toString().toInt()
+                    value = try {
+                        action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        value = 1
+                        1
                     }
                     setRowMin(AppCategory.MUSIC, activity, value)
                 }
@@ -131,18 +127,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setVideosEnabled(activity, !enabled)
                 }
                 1 -> {
-                    try {
-                        value = action.description.toString().toInt()
+                    value = try {
+                        action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        value = 1
+                        1
                     }
                     setRowMax(AppCategory.VIDEO, activity, value)
                 }
                 2 -> {
-                    try {
-                        value = action.description.toString().toInt()
+                    value = try {
+                        action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        value = 1
+                        1
                     }
                     setRowMin(AppCategory.VIDEO, activity, value)
                 }
@@ -154,41 +150,45 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     setGamesEnabled(activity, !enabled)
                 }
                 1 -> {
-                    try {
-                        value = action.description.toString().toInt()
+                    value = try {
+                        action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        value = 1
+                        1
                     }
                     setRowMax(AppCategory.GAME, activity, value)
                 }
                 2 -> {
-                    try {
-                        value = action.description.toString().toInt()
+                    value = try {
+                        action.description.toString().toInt()
                     } catch (nfe: NumberFormatException) {
-                        value = 1
+                        1
                     }
                     setRowMin(AppCategory.GAME, activity, value)
                 }
             }
         } else if (id == ACTION_ID_APPS_MAX.toLong()) {
-            try {
-                value = action.description.toString().toInt()
+            value = try {
+                action.description.toString().toInt()
             } catch (nfe: NumberFormatException) {
-                value = 1
+                1
             }
             setAllAppsMax(activity, value)
         } else if (id == ACTION_ID_APPS_ROW.toLong()) {
-            try {
-                value = action.description.toString().toInt()
+            value = try {
+                action.description.toString().toInt()
             } catch (nfe: NumberFormatException) {
-                value = 1
+                1
             }
             setAppsMax(activity, value)
-        } else if (id == ACTION_ID_RECOMENDATIONS.toLong()) { // RECOMENDATIONS
+        } else if (id == ACTION_ID_RECOMMENDATIONS.toLong()) { // RECOMMENDATIONS
             enabled = areRecommendationsEnabled(activity)
             setRecommendationsEnabled(activity, !enabled)
             if (!enabled && isLocalNotificationsEnabled(activity)) {
-                Toast.makeText(activity, activity.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    activity,
+                    activity.getString(R.string.recs_warning_sale),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         } else if (id == ACTION_ID_INPUTS.toLong()) { // INPUTS
             enabled = areInputsEnabled(activity)
@@ -202,41 +202,48 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         val actions = ArrayList<GuidedAction>()
         val activity: Activity? = activity
         val categories = getEnabledCategories(activity!!)
-        var statelabel: String
+        var desc: String
         var index = 0
         var state: Boolean
 
-        // RECOMENDATIONS
+        // RECOMMENDATIONS
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             state = areRecommendationsEnabled(activity)
-            statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-            actions.add(GuidedAction.Builder(activity)
-                    .id(ACTION_ID_RECOMENDATIONS.toLong())
+            desc =
+                if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
+            actions.add(
+                GuidedAction.Builder(activity)
+                    .id(ACTION_ID_RECOMMENDATIONS.toLong())
                     .title(R.string.recs_row_title)
-                    .description(statelabel)
+                    .description(desc)
                     .build()
             )
         }
         // INPUTS
         state = areInputsEnabled(activity)
-        statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity)
+        desc =
+            if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id(ACTION_ID_INPUTS.toLong())
                 .title(R.string.inputs_row_title)
-                .description(statelabel)
+                .description(desc)
                 .build()
         )
         // FAV
         state = areFavoritesEnabled(activity)
-        statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity)
+        desc =
+            if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.favorites_row_title)
-                .description(statelabel)
+                .description(desc)
                 .build()
         )
         var constraints = getFavoriteRowConstraints(activity)
-        actions.add(GuidedAction.Builder(activity)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.max_favorites_rows_title)
                 .description(constraints[1].toString())
@@ -247,15 +254,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         favIndex = (index - 1) / 2
         // VIDEO
         state = categories.contains(AppCategory.VIDEO)
-        statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity)
+        desc =
+            if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.videos_row_title)
-                .description(statelabel)
+                .description(desc)
                 .build()
         )
         constraints = getRowConstraints(AppCategory.VIDEO, activity)
-        actions.add(GuidedAction.Builder(activity)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.max_videos_rows_title)
                 .description(constraints[1].toString())
@@ -266,15 +276,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         videoIndex = (index - 1) / 2
         // MUSIC
         state = categories.contains(AppCategory.MUSIC)
-        statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity)
+        desc =
+            if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.music_row_title)
-                .description(statelabel)
+                .description(desc)
                 .build()
         )
         constraints = getRowConstraints(AppCategory.MUSIC, activity)
-        actions.add(GuidedAction.Builder(activity)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.max_music_rows_title)
                 .description(constraints[1].toString())
@@ -285,15 +298,18 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         musicIndex = (index - 1) / 2
         // GAME
         state = categories.contains(AppCategory.GAME)
-        statelabel = if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
-        actions.add(GuidedAction.Builder(activity)
+        desc =
+            if (state) getString(R.string.v7_preference_on) else getString(R.string.v7_preference_off)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.games_row_title)
-                .description(statelabel)
+                .description(desc)
                 .build()
         )
         constraints = getRowConstraints(AppCategory.GAME, activity)
-        actions.add(GuidedAction.Builder(activity)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.max_games_rows_title)
                 .description(constraints[1].toString())
@@ -305,8 +321,9 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         // ALL APPS
         // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS).title(R.string.apps_row_title).build());
         constraints = getAllAppsConstraints(activity)
-        val maxapps = getAppsMax(activity)
-        actions.add(GuidedAction.Builder(activity)
+        val maxApps = getAppsMax(activity)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id(ACTION_ID_APPS_MAX.toLong())
                 .title(R.string.max_apps_rows_title)
                 .description(constraints[1].toString())
@@ -315,10 +332,11 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                 .build()
         )
         // Max Apps per row
-        actions.add(GuidedAction.Builder(activity)
+        actions.add(
+            GuidedAction.Builder(activity)
                 .id(ACTION_ID_APPS_ROW.toLong())
                 .title(R.string.max_apps_title)
-                .description(maxapps.toString())
+                .description(maxApps.toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
@@ -327,16 +345,15 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
 
         // REFRESH HOME BC
         if (startup > 0) {
-            val activity = requireActivity()
-            refreshHome(activity)
+            refreshHome(requireActivity())
         }
     }
 
     companion object {
-        private const val ACTION_ID_APPS = 50
+        //        private const val ACTION_ID_APPS = 50
         private const val ACTION_ID_APPS_ROW = 51
         private const val ACTION_ID_APPS_MAX = 52
-        private const val ACTION_ID_RECOMENDATIONS = 100
+        private const val ACTION_ID_RECOMMENDATIONS = 100
         private const val ACTION_ID_INPUTS = 200
         private var startup = 0
     }

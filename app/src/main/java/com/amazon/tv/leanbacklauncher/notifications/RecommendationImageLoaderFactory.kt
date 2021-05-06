@@ -38,7 +38,7 @@ class RecommendationImageLoaderFactory(context: Context?) : ModelLoaderFactory<R
                 return true
             }
 
-            override fun buildLoadData(recommendationImageKey: RecommendationImageKey, width: Int, height: Int, options: Options): LoadData<Bitmap?>? {
+            override fun buildLoadData(recommendationImageKey: RecommendationImageKey, width: Int, height: Int, options: Options): LoadData<Bitmap?> {
                 return LoadData(recommendationImageKey, RecommendationImageFetcher(mLoader, recommendationImageKey))
             }
         }

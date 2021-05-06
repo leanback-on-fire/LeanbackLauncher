@@ -10,66 +10,74 @@ import android.os.RemoteException
 import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.amazon.tv.leanbacklauncher.recommendations.SwitchingRecommendationsClient
-import com.amazon.tv.leanbacklauncher.settings.RecommendationsPreferenceManager.AsyncRecommendationsClient
 import com.amazon.tv.tvrecommendations.IRecommendationsService
-import java.lang.Boolean
+import kotlin.Boolean
 import java.util.*
+import kotlin.math.max
 
 class RecommendationsPreferenceManager(context: Context) {
-    private val mContext: Context
+    private val mContext: Context = context.applicationContext
 
     interface LoadBlacklistCountCallback {
-        fun onBlacklistCountLoaded(i: Int)
+        fun onBlacklistCountLoaded(blacklistCount: Int)
     }
 
     interface LoadRecommendationPackagesCallback {
-        fun onRecommendationPackagesLoaded(list: List<PackageInfo>?)
+        fun onRecommendationPackagesLoaded(info: List<PackageInfo>?)
     }
 
-    private abstract class AsyncRecommendationsClient(context: Context?) : SwitchingRecommendationsClient(context) {
-        private inner class Task() : AsyncTask<IRecommendationsService, Void?, kotlin.Boolean>() {
-
-            override fun doInBackground(vararg params: IRecommendationsService): kotlin.Boolean {
-                try {
-                    callServiceInBackground(params[0])
-                } catch (e: DeadObjectException) {
-                    Log.e("RecPrefManager", "Rec service connection broken", e)
-                    return Boolean.valueOf(true)
-                } catch (e2: RemoteException) {
-                    Log.e("RecPrefManager", "Call to recommendation service failed", e2)
-                } finally {
-                    disconnect()
-                }
-                return Boolean.valueOf(false)
-            }
-
-            override fun onPostExecute(retry: kotlin.Boolean) {
-                if (retry) {
-                    Log.d("RecPrefManager", "Task failed, retrying")
-                    connect()
-                    return
-                }
-                this@AsyncRecommendationsClient.onPostExecute()
-            }
-        }
+    private abstract class AsyncRecommendationsClient(context: Context?) :
+        SwitchingRecommendationsClient(context) {
 
         @Throws(RemoteException::class)
         protected abstract fun callServiceInBackground(iRecommendationsService: IRecommendationsService)
         override fun onConnected(service: IRecommendationsService) {
-            Task().execute(service)
+            Task(this).execute(service)
         }
 
         override fun onDisconnected() {}
         protected open fun onPostExecute() {}
+
+        companion object {
+            private class Task(private val asyncRecommendationsClient: AsyncRecommendationsClient) : AsyncTask<IRecommendationsService, Void?, Boolean>() {
+    
+                override fun doInBackground(vararg params: IRecommendationsService): Boolean {
+                    try {
+                        asyncRecommendationsClient.callServiceInBackground(params[0])
+                    } catch (e: DeadObjectException) {
+                        Log.e("RecPrefManager", "Rec service connection broken", e)
+                        return true
+                    } catch (e2: RemoteException) {
+                        Log.e("RecPrefManager", "Call to recommendation service failed", e2)
+                    } finally {
+                        asyncRecommendationsClient.disconnect()
+                    }
+                    return false
+                }
+    
+                override fun onPostExecute(retry: Boolean) {
+                    if (retry) {
+                        Log.d("RecPrefManager", "Task failed, retrying")
+                        asyncRecommendationsClient.connect()
+                        return
+                    }
+                    asyncRecommendationsClient.onPostExecute()
+                }
+            }
+        }
     }
 
-    private class LoadBlacklistCountTask(context: Context, private val mCallback: LoadBlacklistCountCallback) : AsyncRecommendationsClient(context) {
+    private class LoadBlacklistCountTask(
+        context: Context,
+        private val mCallback: LoadBlacklistCountCallback
+    ) : AsyncRecommendationsClient(context) {
         private var mBlacklistedPackageCount = 0
-        private val mPackageManager: PackageManager
-        override fun callServiceInBackground(service: IRecommendationsService) {
+        private val mPackageManager: PackageManager = context.packageManager
+        override fun callServiceInBackground(iRecommendationsService: IRecommendationsService) {
             try {
-                val blacklist = service?.blacklistedPackages
+                val blacklist = iRecommendationsService.blacklistedPackages
                 blacklist?.let {
                     mBlacklistedPackageCount = blacklist.size
                     for (pkg in blacklist) {
@@ -86,21 +94,21 @@ class RecommendationsPreferenceManager(context: Context) {
         }
 
         override fun onPostExecute() {
-            mCallback.onBlacklistCountLoaded(Math.max(0, mBlacklistedPackageCount))
+            mCallback.onBlacklistCountLoaded(max(0, mBlacklistedPackageCount))
         }
 
-        init {
-            mPackageManager = context.packageManager
-        }
     }
 
-    private class LoadRecommendationPackagesTask(private val mContext: Context, private val mCallback: LoadRecommendationPackagesCallback) : AsyncRecommendationsClient(mContext) {
+    private class LoadRecommendationPackagesTask(
+        private val mContext: Context,
+        private val mCallback: LoadRecommendationPackagesCallback
+    ) : AsyncRecommendationsClient(mContext) {
         private var mPackages: MutableList<PackageInfo>? = null
 
         @Throws(RemoteException::class)
-        override fun callServiceInBackground(service: IRecommendationsService) {
-            val packages = service.recommendationsPackages
-            val blacklistedPackages = Arrays.asList(*service.blacklistedPackages)
+        override fun callServiceInBackground(iRecommendationsService: IRecommendationsService) {
+            val packages = iRecommendationsService.recommendationsPackages
+            val blacklistedPackages = mutableListOf(*iRecommendationsService.blacklistedPackages)
             mPackages = ArrayList<PackageInfo>(packages.size)
             val pm = this.mContext.packageManager
             for (packageName in packages) {
@@ -111,24 +119,24 @@ class RecommendationsPreferenceManager(context: Context) {
                     val res = pm.getResourcesForApplication(packageName)
                     info.appTitle = pm.getApplicationLabel(appInfo)
                     if (appInfo.banner != 0) {
-                        info.banner = res.getDrawable(appInfo.banner, null)
+                        info.banner = ResourcesCompat.getDrawable(res, appInfo.banner, null)
                     } else {
                         val intent = Intent()
                         intent.addCategory("android.intent.category.LEANBACK_LAUNCHER")
                         intent.action = "android.intent.action.MAIN"
                         intent.setPackage(packageName)
                         val resolveInfo = pm.resolveActivity(intent, 0)
-                        if (!(resolveInfo == null || resolveInfo.activityInfo == null)) {
+                        if (resolveInfo?.activityInfo != null) {
                             if (resolveInfo.activityInfo.banner != 0) {
-                                info.banner = res.getDrawable(resolveInfo.activityInfo.banner, null)
+                                info.banner = ResourcesCompat.getDrawable(res, resolveInfo.activityInfo.banner, null)
                             }
                             if (info.banner == null && resolveInfo.activityInfo.logo != 0) {
-                                info.banner = res.getDrawable(resolveInfo.activityInfo.logo, null)
+                                info.banner = ResourcesCompat.getDrawable(res, resolveInfo.activityInfo.logo, null)
                             }
                         }
                     }
                     if (info.banner == null && appInfo.icon != 0) {
-                        info.icon = res.getDrawable(appInfo.icon, null)
+                        info.icon = ResourcesCompat.getDrawable(res, appInfo.icon, null)
                     }
                     if (TextUtils.isEmpty(info.appTitle)) {
                         info.appTitle = packageName
@@ -156,16 +164,21 @@ class RecommendationsPreferenceManager(context: Context) {
         var packageName: String? = null
     }
 
-    private class SaveBlacklistTask(context: Context?, private val mPackageName: String?, private val mBlacklisted: kotlin.Boolean) : AsyncRecommendationsClient(context) {
+    private class SaveBlacklistTask(
+        context: Context?,
+        private val mPackageName: String?,
+        private val mBlacklisted: Boolean
+    ) : AsyncRecommendationsClient(context) {
         @Throws(RemoteException::class)
-        override fun callServiceInBackground(service: IRecommendationsService) {
-            val blacklist: MutableList<String?> = ArrayList<String?>(Arrays.asList(*service.blacklistedPackages))
+        override fun callServiceInBackground(iRecommendationsService: IRecommendationsService) {
+            val blacklist: MutableList<String?> =
+                ArrayList<String?>(mutableListOf(*iRecommendationsService.blacklistedPackages))
             if (!mBlacklisted) {
                 blacklist.remove(mPackageName)
             } else if (!blacklist.contains(mPackageName)) {
                 blacklist.add(mPackageName)
             }
-            service.blacklistedPackages = blacklist.toTypedArray()
+            iRecommendationsService.blacklistedPackages = blacklist.toTypedArray()
         }
     }
 
@@ -177,11 +190,8 @@ class RecommendationsPreferenceManager(context: Context) {
         LoadRecommendationPackagesTask(mContext, callback).connect()
     }
 
-    fun savePackageBlacklisted(packageName: String?, blacklisted: kotlin.Boolean) {
+    fun savePackageBlacklisted(packageName: String?, blacklisted: Boolean) {
         SaveBlacklistTask(mContext, packageName, blacklisted).connect()
     }
 
-    init {
-        mContext = context.applicationContext
-    }
 }

@@ -40,7 +40,7 @@ public class PrescaledLayout extends ViewGroup {
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        this.mContent.measure(MeasureSpec.makeMeasureSpec((int) Math.ceil(((float) width) * this.mScaleFactor), 1073741824), 0);
+        this.mContent.measure(MeasureSpec.makeMeasureSpec((int) Math.ceil(((float) width) * this.mScaleFactor), MeasureSpec.EXACTLY), 0);
         setMeasuredDimension(width, (int) (((float) this.mContent.getMeasuredHeight()) / this.mScaleFactor));
     }
 

@@ -7,7 +7,6 @@ import android.graphics.Matrix.ScaleToFit
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.text.TextUtils
 import android.text.TextUtils.TruncateAt
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +31,12 @@ import com.bumptech.glide.request.Request
 import com.bumptech.glide.request.target.SizeReadyCallback
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import kotlin.math.ceil
+import kotlin.math.roundToInt
 
-abstract class RecommendationView(context: Context) : ViewGroup(context), Target<Bitmap?>, DimmableItem, ParticipatesInLaunchAnimation, ParticipatesInScrollAnimation, OnFocusLevelChangeListener {
+abstract class RecommendationView(context: Context) : ViewGroup(context), Target<Bitmap?>,
+    DimmableItem, ParticipatesInLaunchAnimation, ParticipatesInScrollAnimation,
+    OnFocusLevelChangeListener {
     private val mBackground: Drawable?
     private val mBackgroundColor: Int
     private var mBadgeIcon: Drawable? = null
@@ -44,10 +47,13 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
     private val mBadgeMarginBottom: Int
     private val mBadgeSize: Int
     private var mClipBounds: Rect? = null
+
     @JvmField
     protected val mContentView: TextView?
+
     @JvmField
     protected val mDimmer: ViewDimmer
+
     @JvmField
     protected var mExpandedInfoAreaBound = false
     private val mFocusAnimator: ViewFocusAnimator?
@@ -55,15 +61,19 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
     private var mFocusLevelAnimating = false
     private val mGapBetweenSourceNameAndBadge: Int
     private var mGlideRequest: Request? = null
+
     @JvmField
     protected var mImage: Drawable? = null
+
     @JvmField
     protected val mImageHeight: Int
     private val mImageMaxWidth: Int
     private val mImageMinWidth: Int
     private val mInfoAreaCollapsedHeight: Int
+
     @JvmField
     var mInfoAreaColor = 0
+
     @JvmField
     protected val mInfoAreaDefaultColor: Int
     private var mInfoAreaExpandedHeight = 0
@@ -73,15 +83,18 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
     private val mInfoAreaPaddingTop: Int
     private val mInfoAreaTop: Int
     private val mInfoBackground: ColorDrawable
+
     @JvmField
     protected var mPackageManager: PackageManager
     private var mProgressBar: ProgressBar? = null
     private val mProgressBarHeight: Int
     private var mProgressDrawable: Drawable? = null
     private val mScaleFactor: Float
+
     @JvmField
     protected var mSignature: String? = null
     private val mSourceNameView: TextView?
+
     @JvmField
     protected val mTitleView: TextView?
     private var mTraceTag: TraceTag? = null
@@ -110,7 +123,8 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
         if (hasProgress()) {
             if (mProgressBar == null) {
                 val context = context
-                mProgressDrawable = ContextCompat.getDrawable(context, R.drawable.card_progress_drawable)
+                mProgressDrawable =
+                    ContextCompat.getDrawable(context, R.drawable.card_progress_drawable)
                 mProgressBar = ProgressBar(context, null, 0, 16973855)
                 mProgressBar?.let {
                     it.progressDrawable = mProgressDrawable
@@ -128,41 +142,72 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
         }
     }
 
-    protected fun bindContentDescription(title: CharSequence?, label: CharSequence?, contentText: CharSequence?) {
-        val description: String
-        description = if (title != null) {
+    protected fun bindContentDescription(
+        title: CharSequence?,
+        label: CharSequence?,
+        contentText: CharSequence?
+    ) {
+        val description: String = if (title != null) {
             if (label == null || title.toString().equals(label.toString(), ignoreCase = true)) {
-                if (contentText == null || contentText.toString().equals(title.toString(), ignoreCase = true)) {
+                if (contentText == null || contentText.toString()
+                        .equals(title.toString(), ignoreCase = true)
+                ) {
                     title.toString()
                 } else {
-                    String.format(resources.getString(R.string.notification_card_view_description_title_content), title, contentText)
+                    String.format(
+                        resources.getString(R.string.notification_card_view_description_title_content),
+                        title,
+                        contentText
+                    )
                 }
-            } else if (contentText == null || contentText.toString().equals(label.toString(), ignoreCase = true)) {
-                String.format(resources.getString(R.string.notification_card_view_description_title_label), title, label)
+            } else if (contentText == null || contentText.toString()
+                    .equals(label.toString(), ignoreCase = true)
+            ) {
+                String.format(
+                    resources.getString(R.string.notification_card_view_description_title_label),
+                    title,
+                    label
+                )
             } else {
-                String.format(resources.getString(R.string.notification_card_view_description_title_label_content), title, label, contentText)
+                String.format(
+                    resources.getString(R.string.notification_card_view_description_title_label_content),
+                    title,
+                    label,
+                    contentText
+                )
             }
         } else if (label != null) {
-            if (contentText == null || contentText.toString().equals(label.toString(), ignoreCase = true)) {
+            if (contentText == null || contentText.toString()
+                    .equals(label.toString(), ignoreCase = true)
+            ) {
                 label.toString()
             } else {
-                String.format(resources.getString(R.string.notification_card_view_description_label_content), label, contentText)
+                String.format(
+                    resources.getString(R.string.notification_card_view_description_label_content),
+                    label,
+                    contentText
+                )
             }
         } else contentText?.toString()
-                ?: resources.getString(R.string.notification_card_view_description_default)
+            ?: resources.getString(R.string.notification_card_view_description_default)
         contentDescription = description
     }
 
     protected fun bindSourceName(sourceName: CharSequence?, packageName: String?) {
-        var sourceName = sourceName
-        if (TextUtils.isEmpty(sourceName)) {
-            sourceName = try {
-                mPackageManager.getApplicationLabel(mPackageManager.getApplicationInfo(packageName!!, 0))
+        var name = sourceName
+        if (name.isNullOrEmpty()) {
+            try {
+                name = mPackageManager.getApplicationLabel(
+                    mPackageManager.getApplicationInfo(
+                        packageName!!,
+                        0
+                    )
+                )
             } catch (e: PackageManager.NameNotFoundException) {
-                null
+                // unused
             }
         }
-        mSourceNameView!!.text = sourceName
+        mSourceNameView!!.text = name
     }
 
     protected fun bindExpandedInfoArea() {
@@ -189,7 +234,8 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
         if (mBadgeIcon != null) {
             mBadgeIcon = mBadgeIcon!!.mutate()
             mBadgeIcon!!.setBounds(0, 0, mBadgeIcon!!.intrinsicWidth, mBadgeIcon!!.intrinsicHeight)
-            mBadgeIconIntrinsicBounds[0.0f, 0.0f, mBadgeIcon!!.intrinsicWidth.toFloat()] = mBadgeIcon!!.intrinsicHeight.toFloat()
+            mBadgeIconIntrinsicBounds[0.0f, 0.0f, mBadgeIcon!!.intrinsicWidth.toFloat()] =
+                mBadgeIcon!!.intrinsicHeight.toFloat()
             mBadgeIcon!!.callback = this
             mDimmer.addDimTarget(mBadgeIcon)
             mDimmer.addDesatDimTarget(mBadgeIcon)
@@ -243,7 +289,7 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
             if (mClipBounds == null) {
                 mClipBounds = Rect()
             }
-            mClipBounds!![0, 0, width] = mImageHeight + mInfoAreaCollapsedHeight + Math.round((mInfoAreaExpandedHeight - mInfoAreaCollapsedHeight).toFloat() * level)
+            mClipBounds!![0, 0, width] = mImageHeight + mInfoAreaCollapsedHeight + ((mInfoAreaExpandedHeight - mInfoAreaCollapsedHeight).toFloat() * level).roundToInt()
             clipBounds = mClipBounds
             mFocusLevelAnimating = true
             mFocusLevel = level
@@ -277,8 +323,8 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
         background = null
     }
 
-    override fun setDimState(dimState: DimState, immediate: Boolean) {
-        mDimmer.setDimState(dimState, immediate)
+    override fun setDimState(dimState: DimState, z: Boolean) {
+        mDimmer.setDimState(dimState, z)
     }
 
     override fun setAnimationsEnabled(enabled: Boolean) {
@@ -293,18 +339,27 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val cardWidth = calculateCardWidth()
         if (mProgressBar != null && mProgressBar!!.visibility == 0) {
-            mProgressBar!!.measure(MeasureSpec.makeMeasureSpec(cardWidth, 1073741824), MeasureSpec.makeMeasureSpec(mProgressBarHeight, 1073741824))
+            mProgressBar!!.measure(
+                MeasureSpec.makeMeasureSpec(cardWidth, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(mProgressBarHeight, MeasureSpec.EXACTLY)
+            )
         }
         val startBound = mInfoAreaPaddingStart
         var endBound = cardWidth - mInfoAreaPaddingEnd
         if (mBadgeIcon != null) {
             endBound -= mBadgeSize + mGapBetweenSourceNameAndBadge
         }
-        mSourceNameView!!.measure(MeasureSpec.makeMeasureSpec(endBound - startBound, 1073741824), MeasureSpec.makeMeasureSpec(mInfoAreaCollapsedHeight, 1073741824))
+        mSourceNameView!!.measure(
+            MeasureSpec.makeMeasureSpec(endBound - startBound, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(mInfoAreaCollapsedHeight, MeasureSpec.EXACTLY)
+        )
         if (mExpandedInfoAreaBound && mInfoAreaExpandedHeight == 0) {
             measureExpandedInfoArea(cardWidth)
         }
-        setMeasuredDimension(cardWidth, if (mFocusLevel == 0.0f) mImageHeight + mInfoAreaCollapsedHeight else mImageHeight + mInfoAreaExpandedHeight)
+        setMeasuredDimension(
+            cardWidth,
+            if (mFocusLevel == 0.0f) mImageHeight + mInfoAreaCollapsedHeight else mImageHeight + mInfoAreaExpandedHeight
+        )
     }
 
     private fun calculateCardWidth(): Int {
@@ -335,16 +390,33 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
         mInfoBackground.setBounds(0, mInfoAreaTop, right - left, bottom - top)
     }
 
-    protected fun measureExpandedInfoArea(width: Int) {
-        mTitleView!!.measure(MeasureSpec.makeMeasureSpec(((width - mInfoAreaPaddingEnd - mInfoAreaPaddingStart).toFloat() * mScaleFactor).toInt(), 1073741824), MeasureSpec.makeMeasureSpec(0, 0))
-        mContentView!!.measure(MeasureSpec.makeMeasureSpec(((width - mInfoAreaPaddingEnd - mInfoAreaPaddingStart - mBadgeSize - mGapBetweenSourceNameAndBadge).toFloat() * mScaleFactor).toInt(), 1073741824), MeasureSpec.makeMeasureSpec(0, 0))
-        mInfoAreaExpandedHeight = (mInfoAreaPaddingTop.toFloat() + mTitleView.measuredHeight.toFloat() / mScaleFactor + mContentView.measuredHeight.toFloat() / mScaleFactor + mInfoAreaPaddingBottom.toFloat()).toInt()
+    private fun measureExpandedInfoArea(width: Int) {
+        mTitleView!!.measure(
+            MeasureSpec.makeMeasureSpec(
+                ((width - mInfoAreaPaddingEnd - mInfoAreaPaddingStart).toFloat() * mScaleFactor).toInt(),
+                MeasureSpec.EXACTLY
+            ), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+        mContentView!!.measure(
+            MeasureSpec.makeMeasureSpec(
+                ((width - mInfoAreaPaddingEnd - mInfoAreaPaddingStart - mBadgeSize - mGapBetweenSourceNameAndBadge).toFloat() * mScaleFactor).toInt(),
+                MeasureSpec.EXACTLY
+            ), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+        mInfoAreaExpandedHeight =
+            (mInfoAreaPaddingTop.toFloat() + mTitleView.measuredHeight.toFloat() / mScaleFactor + mContentView.measuredHeight.toFloat() / mScaleFactor + mInfoAreaPaddingBottom.toFloat()).toInt()
     }
 
     protected fun layoutMainImage(width: Int) {
         if (mImage != null) {
-            val scaledImageWidth = mImage!!.intrinsicWidth.toFloat() * mImageHeight.toFloat() / mImage!!.intrinsicHeight.toFloat()
-            mImage!!.setBounds(((width.toFloat() - scaledImageWidth) * 0.5f).toInt(), 0, Math.ceil(((width.toFloat() + scaledImageWidth) * 0.5f).toDouble()).toInt(), mImageHeight)
+            val scaledImageWidth =
+                mImage!!.intrinsicWidth.toFloat() * mImageHeight.toFloat() / mImage!!.intrinsicHeight.toFloat()
+            mImage!!.setBounds(
+                ((width.toFloat() - scaledImageWidth) * 0.5f).toInt(),
+                0,
+                ceil(((width.toFloat() + scaledImageWidth) * 0.5f).toDouble()).toInt(),
+                mImageHeight
+            )
         }
     }
 
@@ -365,13 +437,17 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
             val scaledBadgeSize = mBadgeSize.toFloat() / mScaleFactor
             val badgeBottom = height.toFloat() - mBadgeMarginBottom.toFloat() / mScaleFactor
             if (isLayoutRtl) {
-                mBadgeIconCollapsedBounds[mInfoAreaPaddingEnd.toFloat(), mInfoAreaTop.toFloat(), (mInfoAreaPaddingEnd + mBadgeSize).toFloat()] = (mInfoAreaTop + mInfoAreaCollapsedHeight).toFloat()
+                mBadgeIconCollapsedBounds[mInfoAreaPaddingEnd.toFloat(), mInfoAreaTop.toFloat(), (mInfoAreaPaddingEnd + mBadgeSize).toFloat()] =
+                    (mInfoAreaTop + mInfoAreaCollapsedHeight).toFloat()
                 val badgeLeft = mInfoAreaPaddingEnd.toFloat() / mScaleFactor
-                mBadgeIconExpandedBounds[badgeLeft, badgeBottom - scaledBadgeSize, badgeLeft + scaledBadgeSize] = badgeBottom
+                mBadgeIconExpandedBounds[badgeLeft, badgeBottom - scaledBadgeSize, badgeLeft + scaledBadgeSize] =
+                    badgeBottom
             } else {
-                mBadgeIconCollapsedBounds[(width - mInfoAreaPaddingEnd - mBadgeSize).toFloat(), mInfoAreaTop.toFloat(), (width - mInfoAreaPaddingEnd).toFloat()] = (mInfoAreaTop + mInfoAreaCollapsedHeight).toFloat()
+                mBadgeIconCollapsedBounds[(width - mInfoAreaPaddingEnd - mBadgeSize).toFloat(), mInfoAreaTop.toFloat(), (width - mInfoAreaPaddingEnd).toFloat()] =
+                    (mInfoAreaTop + mInfoAreaCollapsedHeight).toFloat()
                 val badgeRight = width.toFloat() - mInfoAreaPaddingEnd.toFloat() / mScaleFactor
-                mBadgeIconExpandedBounds[badgeRight - scaledBadgeSize, badgeBottom - scaledBadgeSize, badgeRight] = badgeBottom
+                mBadgeIconExpandedBounds[badgeRight - scaledBadgeSize, badgeBottom - scaledBadgeSize, badgeRight] =
+                    badgeBottom
             }
             interpolateBadgeIconLayout()
         }
@@ -380,18 +456,36 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
     protected fun layoutExpandedInfoArea(width: Int, isLayoutRtl: Boolean) {
         if (mTitleView != null && mTitleView.visibility == 0) {
             val start = (mInfoAreaPaddingStart.toFloat() * mScaleFactor).toInt()
-            val titleTop = (mInfoAreaTop.toFloat() + mInfoAreaPaddingTop.toFloat() * mScaleFactor).toInt()
+            val titleTop =
+                (mInfoAreaTop.toFloat() + mInfoAreaPaddingTop.toFloat() * mScaleFactor).toInt()
             val scaledWidth = (width.toFloat() * mScaleFactor).toInt()
             layoutChild(mTitleView, start, titleTop, scaledWidth, isLayoutRtl)
             scaleExpandedInfoAreaView(mTitleView)
-            layoutChild(mContentView, start, titleTop + mTitleView.measuredHeight, scaledWidth, isLayoutRtl)
+            layoutChild(
+                mContentView,
+                start,
+                titleTop + mTitleView.measuredHeight,
+                scaledWidth,
+                isLayoutRtl
+            )
             scaleExpandedInfoAreaView(mContentView)
         }
     }
 
-    protected fun layoutChild(view: TextView?, start: Int, top: Int, parentWidth: Int, isLayoutRtl: Boolean) {
+    private fun layoutChild(
+        view: TextView?,
+        start: Int,
+        top: Int,
+        parentWidth: Int,
+        isLayoutRtl: Boolean
+    ) {
         if (isLayoutRtl) {
-            view!!.layout(parentWidth - start - view.measuredWidth, top, parentWidth - start, view.measuredHeight + top)
+            view!!.layout(
+                parentWidth - start - view.measuredWidth,
+                top,
+                parentWidth - start,
+                view.measuredHeight + top
+            )
         } else {
             view!!.layout(start, top, view.measuredWidth + start, view.measuredHeight + top)
         }
@@ -404,11 +498,12 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
         view.scaleY = 1.0f / mScaleFactor
     }
 
-    protected fun interpolateBadgeIconLayout() {
+    private fun interpolateBadgeIconLayout() {
         if (mBadgeIcon != null) {
             val rectC = mBadgeIconCollapsedBounds
             val rectE = mBadgeIconExpandedBounds
-            sRect[rectC.left + (rectE.left - rectC.left) * mFocusLevel, rectC.top + (rectE.top - rectC.top) * mFocusLevel, rectC.right + (rectE.right - rectC.right) * mFocusLevel] = rectC.bottom + (rectE.bottom - rectC.bottom) * mFocusLevel
+            sRect[rectC.left + (rectE.left - rectC.left) * mFocusLevel, rectC.top + (rectE.top - rectC.top) * mFocusLevel, rectC.right + (rectE.right - rectC.right) * mFocusLevel] =
+                rectC.bottom + (rectE.bottom - rectC.bottom) * mFocusLevel
             mBadgeIconMatrix.setRectToRect(mBadgeIconIntrinsicBounds, sRect, ScaleToFit.CENTER)
         }
     }
@@ -499,7 +594,8 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
 
     override fun toString(): String {
         var obj: Any?
-        var append = StringBuilder().append("S: ").append(if (mSourceNameView == null) "No View" else mSourceNameView.text).append(" T: ")
+        var append = StringBuilder().append("S: ")
+            .append(if (mSourceNameView == null) "No View" else mSourceNameView.text).append(" T: ")
         obj = if (mTitleView == null) {
             "No View"
         } else {
@@ -518,7 +614,9 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
         } else {
             java.lang.Float.valueOf(mFocusAnimator.focusProgress)
         }
-        return super.toString() + " -- " + titles + " " + append.append(obj).append(" IA: ").append(mInfoAreaExpandedHeight).append(" FLA: ").append(mFocusLevelAnimating).toString()
+        return super.toString() + " -- " + titles + " " + append.append(obj).append(" IA: ")
+            .append(mInfoAreaExpandedHeight).append(" FLA: ").append(mFocusLevelAnimating)
+            .toString()
     }
 
     companion object {
@@ -597,28 +695,47 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
  */
         val res = context.resources
         val font = context.getString(R.string.font) //= a.getString(2);
-        mBackground = context.getDrawable(R.drawable.rec_card_background) //a.getDrawable(0);
-        mImageMinWidth = res.getDimensionPixelSize(R.dimen.notif_card_img_min_width) //a.getDimensionPixelSize(3, 0);
-        mImageMaxWidth = res.getDimensionPixelSize(R.dimen.notif_card_img_max_width) //a.getDimensionPixelSize(1, 0);
-        mImageHeight = res.getDimensionPixelSize(R.dimen.notif_card_img_height) //a.getDimensionPixelSize(4, 0);
-        mProgressBarHeight = res.getDimensionPixelSize(R.dimen.progress_bar_height) //a.getDimensionPixelSize(5, 0);
-        mInfoAreaPaddingStart = res.getDimensionPixelOffset(R.dimen.notif_card_info_start_margin) //a.getDimensionPixelOffset(6, 0);
-        mInfoAreaPaddingTop = res.getDimensionPixelOffset(R.dimen.notif_card_info_margin_top) // a.getDimensionPixelOffset(7, 0);
-        mInfoAreaPaddingEnd = res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_end_margin) ////a.getDimensionPixelOffset(8, 0);
-        mInfoAreaPaddingBottom = res.getDimensionPixelOffset(R.dimen.notif_card_info_margin_bottom) //a.getDimensionPixelOffset(9, 0);
-        mInfoAreaCollapsedHeight = res.getDimensionPixelSize(R.dimen.notif_card_info_height) //a.getDimensionPixelSize(10, 0);
-        mInfoAreaDefaultColor = ContextCompat.getColor(context, R.color.notif_background_color) //a.getColor(11, 0);
-        val sourceNameTextSize = res.getDimension(R.dimen.notif_card_source_text_size) //a.getDimension(12, 0.0f);
-        val sourceNameTextColor = ContextCompat.getColor(context, R.color.notif_source_text_color) //a.getColor(13, 0);
-        mGapBetweenSourceNameAndBadge = res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_start_margin) //a.getDimensionPixelOffset(14, 0);
-        mBadgeSize = res.getDimensionPixelSize(R.dimen.notif_card_extra_badge_size) //a.getDimensionPixelSize(15, 0);
-        mBadgeMarginBottom = res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_bottom_margin) //a.getDimensionPixelOffset(16, 0);
-        val titleTextSize = res.getDimension(R.dimen.notif_card_title_text_size) //a.getDimension(17, 0.0f);
-        val titleTextColor = ContextCompat.getColor(context, R.color.notif_title_text_color) //a.getColor(18, 0);
-        val contentTextSize = res.getDimension(R.dimen.notif_card_content_text_size) //a.getDimension(19, 0.0f);
-        val contentTextColor = ContextCompat.getColor(context, R.color.notif_content_text_color) //a.getColor(20, 0);
+        mBackground = ContextCompat.getDrawable(context, R.drawable.rec_card_background) //a.getDrawable(0);
+        mImageMinWidth =
+            res.getDimensionPixelSize(R.dimen.notif_card_img_min_width) //a.getDimensionPixelSize(3, 0);
+        mImageMaxWidth =
+            res.getDimensionPixelSize(R.dimen.notif_card_img_max_width) //a.getDimensionPixelSize(1, 0);
+        mImageHeight =
+            res.getDimensionPixelSize(R.dimen.notif_card_img_height) //a.getDimensionPixelSize(4, 0);
+        mProgressBarHeight =
+            res.getDimensionPixelSize(R.dimen.progress_bar_height) //a.getDimensionPixelSize(5, 0);
+        mInfoAreaPaddingStart =
+            res.getDimensionPixelOffset(R.dimen.notif_card_info_start_margin) //a.getDimensionPixelOffset(6, 0);
+        mInfoAreaPaddingTop =
+            res.getDimensionPixelOffset(R.dimen.notif_card_info_margin_top) // a.getDimensionPixelOffset(7, 0);
+        mInfoAreaPaddingEnd =
+            res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_end_margin) ////a.getDimensionPixelOffset(8, 0);
+        mInfoAreaPaddingBottom =
+            res.getDimensionPixelOffset(R.dimen.notif_card_info_margin_bottom) //a.getDimensionPixelOffset(9, 0);
+        mInfoAreaCollapsedHeight =
+            res.getDimensionPixelSize(R.dimen.notif_card_info_height) //a.getDimensionPixelSize(10, 0);
+        mInfoAreaDefaultColor =
+            ContextCompat.getColor(context, R.color.notif_background_color) //a.getColor(11, 0);
+        val sourceNameTextSize =
+            res.getDimension(R.dimen.notif_card_source_text_size) //a.getDimension(12, 0.0f);
+        val sourceNameTextColor =
+            ContextCompat.getColor(context, R.color.notif_source_text_color) //a.getColor(13, 0);
+        mGapBetweenSourceNameAndBadge =
+            res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_start_margin) //a.getDimensionPixelOffset(14, 0);
+        mBadgeSize =
+            res.getDimensionPixelSize(R.dimen.notif_card_extra_badge_size) //a.getDimensionPixelSize(15, 0);
+        mBadgeMarginBottom =
+            res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_bottom_margin) //a.getDimensionPixelOffset(16, 0);
+        val titleTextSize =
+            res.getDimension(R.dimen.notif_card_title_text_size) //a.getDimension(17, 0.0f);
+        val titleTextColor =
+            ContextCompat.getColor(context, R.color.notif_title_text_color) //a.getColor(18, 0);
+        val contentTextSize =
+            res.getDimension(R.dimen.notif_card_content_text_size) //a.getDimension(19, 0.0f);
+        val contentTextColor =
+            ContextCompat.getColor(context, R.color.notif_content_text_color) //a.getColor(20, 0);
         //a.recycle();
-        mTypeface = Typeface.create(font, 0)
+        mTypeface = Typeface.create(font, Typeface.NORMAL)
         mBackgroundColor = ContextCompat.getColor(context, R.color.notif_background_color)
         mSourceNameView = createTextView(sourceNameTextSize, sourceNameTextColor)
         mSourceNameView.gravity = 16

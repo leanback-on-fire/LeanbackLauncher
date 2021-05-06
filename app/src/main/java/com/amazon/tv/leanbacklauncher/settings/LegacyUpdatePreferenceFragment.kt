@@ -52,14 +52,12 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                 DOWNLOAD_LINK = firstAssets.optString("browser_download_url")
             }
         }
-        val lastVersionDouble: Double
-        lastVersionDouble = try {
+        val lastVersionDouble: Double = try {
             lastVersion.toDouble()
         } catch (npe: NumberFormatException) {
             0.0
         }
-        val currentVersionDouble: Double
-        currentVersionDouble = try {
+        val currentVersionDouble: Double = try {
             BuildConfig.VERSION_NAME.toDouble()
         } catch (npe: NumberFormatException) {
             0.0
@@ -120,7 +118,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         override fun onPostExecute(s: String?) {
             super.onPostExecute(s)
             try {
-                JSONObject(s)?.let {
+                JSONObject(s).let {
                     updateAction(it)
                 }
             } catch (e: JSONException) {
@@ -140,7 +138,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
             while (bufferedReader.readLine().also { line = it } != null) {
                 buffer.append(line).append("\n")
             }
-            return if (buffer.length == 0) {
+            return if (buffer.isEmpty()) {
                 null
             } else buffer.toString()
         }

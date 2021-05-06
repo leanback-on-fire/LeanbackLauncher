@@ -1,15 +1,11 @@
 package com.amazon.tv.leanbacklauncher.settings
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
@@ -23,22 +19,14 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
 
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
         return Guidance(
-                getString(R.string.select_wallpaper_action_title),  // title
-                getWallpaperDesc(requireContext()),  // description
-                getString(R.string.settings_dialog_title),  // breadcrumb (parent)
-                ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null) // icon
+            getString(R.string.select_wallpaper_action_title),  // title
+            getWallpaperDesc(requireContext()),  // description
+            getString(R.string.settings_dialog_title),  // breadcrumb (parent)
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null) // icon
         )
     }
 
     override fun onCreateActions(actions: MutableList<GuidedAction>, savedInstanceState: Bundle?) {
-        val context = requireContext()
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Log.v(TAG, "READ_EXTERNAL_STORAGE permission is granted")
-        } else {
-            Log.v(TAG, "READ_EXTERNAL_STORAGE permission not granted")
-            makeRequest()
-        }
-
 //        val gpath = Environment.getExternalStorageDirectory().absolutePath
 //        val spath = "Pictures"
 //        var fullpath = File(gpath + File.separator + spath)
@@ -47,7 +35,8 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
 
         if (images.size > 0)
             images.forEach {
-                actions.add(GuidedAction.Builder(context)
+                actions.add(
+                    GuidedAction.Builder(context)
                         .id(ACTION_SELECT.toLong())
                         .title(it.name)
                         .description(null)
@@ -55,7 +44,8 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
                 )
             }
 
-        actions.add(GuidedAction.Builder(context)
+        actions.add(
+            GuidedAction.Builder(context)
                 .id(ACTION_BACK.toLong())
                 .title(R.string.goback)
                 .description(null)
@@ -69,22 +59,20 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
 
         if (listAllFiles != null && listAllFiles.isNotEmpty()) {
             for (currentFile in listAllFiles) {
-                if (currentFile.name.endsWith(".jpeg") || currentFile.name.endsWith(".jpg") || currentFile.name.endsWith(".png")) {
+                if (currentFile.name.endsWith(".jpeg") || currentFile.name.endsWith(".jpg") || currentFile.name.endsWith(
+                        ".png"
+                    )
+                ) {
                     // File absolute path
-                    if (BuildConfig.DEBUG) Log.d("downloadFilePath", currentFile.getAbsolutePath())
+                    if (BuildConfig.DEBUG) Log.d("downloadFilePath", currentFile.absolutePath)
                     // File Name
-                    if (BuildConfig.DEBUG) Log.d("downloadFileName", currentFile.getName())
+                    if (BuildConfig.DEBUG) Log.d("downloadFileName", currentFile.name)
                     fileList.add(currentFile.absoluteFile)
                 }
             }
             if (BuildConfig.DEBUG) Log.w("fileList", "" + fileList.size)
         }
         return fileList
-    }
-
-    protected fun makeRequest() {
-        ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                500)
     }
 
     override fun onGuidedActionClicked(action: GuidedAction) {
@@ -96,7 +84,11 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
                 if (file.canRead())
                     setWallpaper(context, file.path.toString())
                 else
-                    Toast.makeText(context, activity!!.getString(R.string.file_no_access), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        activity!!.getString(R.string.file_no_access),
+                        Toast.LENGTH_LONG
+                    ).show()
                 fragmentManager!!.popBackStack()
             }
             ACTION_BACK -> fragmentManager!!.popBackStack()
@@ -107,18 +99,18 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
 
     private fun setWallpaper(context: Context?, image: String): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if (!image.isEmpty()) pref.edit().putString("wallpaper_image", image).apply()
+        if (image.isNotEmpty()) pref.edit().putString("wallpaper_image", image).apply()
         // refresh home broadcast
         val activity = requireActivity()
         refreshHome(activity)
         return true
     }
 
-    private fun getWallpaperDesc(context: Context): String? {
+    private fun getWallpaperDesc(context: Context): String {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val image = pref.getString("wallpaper_image", "")
-        return if (image!!.isNotBlank()) {
-            image
+        val imagePath = pref.getString("wallpaper_image", "")
+        return if (imagePath!!.isNotBlank()) {
+            imagePath
         } else {
             val file = File(context.filesDir, "background.jpg")
             if (file.canRead()) {
