@@ -5,16 +5,45 @@ import android.graphics.Bitmap
 import android.os.ConditionVariable
 import android.os.RemoteException
 import android.util.Log
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.recommendations.SwitchingRecommendationsClient
 import com.amazon.tv.tvrecommendations.IRecommendationsService
 
-class RecommendationImageLoader private constructor(context: Context) {
+class RecImageLoader private constructor(context: Context) {
     @get:Synchronized
     @set:Synchronized
     private var service: IRecommendationsService? = null
     private val mClient: SwitchingRecommendationsClient
     private val mServiceBound = ConditionVariable()
-    private val TAG = "RecImageLoader"
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else this.javaClass.simpleName
+
+    companion object {
+        private var sInstance: RecImageLoader? = null
+
+        @JvmStatic
+        fun getInstance(context: Context): RecImageLoader? {
+            if (sInstance == null) {
+                sInstance = RecImageLoader(context)
+            }
+            return sInstance
+        }
+    }
+
+    init {
+        mClient = object : SwitchingRecommendationsClient(context) {
+            override fun onConnected(service: IRecommendationsService) {
+                onServiceConnected(service)
+            }
+
+            override fun onDisconnected() {
+                onServiceDisconnected()
+            }
+        }
+        Log.i(TAG, "Connecting to recommendations service")
+        mClient.connect()
+    }
+
     fun getImageForRecommendation(key: String): Bitmap? {
         if (service == null) {
             Log.i(TAG, "Waiting for service connection")
@@ -57,28 +86,4 @@ class RecommendationImageLoader private constructor(context: Context) {
         mServiceBound.close()
     }
 
-    companion object {
-        private var sInstance: RecommendationImageLoader? = null
-        @JvmStatic
-        fun getInstance(context: Context): RecommendationImageLoader? {
-            if (sInstance == null) {
-                sInstance = RecommendationImageLoader(context)
-            }
-            return sInstance
-        }
-    }
-
-    init {
-        mClient = object : SwitchingRecommendationsClient(context) {
-            override fun onConnected(service: IRecommendationsService) {
-                onServiceConnected(service)
-            }
-
-            override fun onDisconnected() {
-                onServiceDisconnected()
-            }
-        }
-        Log.i(TAG, "Connecting to recommendations service")
-        mClient.connect()
-    }
 }

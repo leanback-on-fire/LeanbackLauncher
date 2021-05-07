@@ -7,6 +7,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.AsyncTask
 import android.util.Log
 import androidx.preference.PreferenceManager
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.getSavedSortingMode
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.SortingMode
@@ -32,6 +33,8 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
     private var mPrefsListener: SharedPreferencesChangeListener? = null
     private var mQueryingScores: Boolean
     private var mSortingMode: SortingMode
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     init {
         mListeners = LinkedList<RankingListener?>()
@@ -45,6 +48,18 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         registerPreferencesListeners()
         mQueryingScores = true
         mDbHelper?.loadEntities(this, executor)
+    }
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var sAppsRanker: AppsRanker? = null
+        fun getInstance(context: Context): AppsRanker {
+            if (sAppsRanker == null) {
+                sAppsRanker =
+                    AppsRanker(context.applicationContext, AppsDbHelper.getInstance(context))
+            }
+            return sAppsRanker as AppsRanker
+        }
     }
 
     interface RankingListener {
@@ -405,17 +420,4 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         }
     }
 
-    companion object {
-        private const val TAG = "AppsRanker"
-
-        @SuppressLint("StaticFieldLeak")
-        private var sAppsRanker: AppsRanker? = null
-        fun getInstance(context: Context): AppsRanker {
-            if (sAppsRanker == null) {
-                sAppsRanker =
-                    AppsRanker(context.applicationContext, AppsDbHelper.getInstance(context))
-            }
-            return sAppsRanker as AppsRanker
-        }
-    }
 }

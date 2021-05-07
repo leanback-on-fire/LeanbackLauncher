@@ -19,13 +19,20 @@ import java.util.*
 
 class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
     private var mActionToPackageMap: HashMap<Long, String>? = null
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     companion object {
         private const val ACTION_ID_ALL_APPS = -1L
     }
 
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
-        return Guidance(getString(R.string.hidden_applications_title),getString(R.string.hidden_applications_desc), getString(R.string.settings_dialog_title), ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null))
+        return Guidance(
+            getString(R.string.hidden_applications_title),
+            getString(R.string.hidden_applications_desc),
+            getString(R.string.settings_dialog_title),
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null)
+        )
     }
 
     override fun onResume() {
@@ -40,9 +47,20 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
         val iconSize = resources.getDimensionPixelSize(R.dimen.preference_item_icon_size)
         val bitmap = Bitmap.createBitmap(bannerWidth, bannerHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        canvas.drawColor(ResourcesCompat.getColor(resources, R.color.preference_item_banner_background, null))
+        canvas.drawColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.preference_item_banner_background,
+                null
+            )
+        )
         icon?.let {
-            it.setBounds((bannerWidth - iconSize) / 2, (bannerHeight - iconSize) / 2, (bannerWidth + iconSize) / 2, (bannerHeight + iconSize) / 2)
+            it.setBounds(
+                (bannerWidth - iconSize) / 2,
+                (bannerHeight - iconSize) / 2,
+                (bannerWidth + iconSize) / 2,
+                (bannerHeight + iconSize) / 2
+            )
             it.draw(canvas)
         }
         return BitmapDrawable(resources, bitmap)
@@ -51,7 +69,7 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
     override fun onGuidedActionClicked(action: GuidedAction) {
         val util = instance(requireActivity())
         if (action.id == ACTION_ID_ALL_APPS) {
-            if (BuildConfig.DEBUG) Log.d("******", "ACTION_ID_ALL_APPS, ${action.isChecked}")
+            if (BuildConfig.DEBUG) Log.d(TAG, "ACTION_ID_ALL_APPS, ${action.isChecked}")
             util?.showAllApps(action.isChecked)
             // refresh home broadcast
             val activity = requireActivity()
@@ -71,7 +89,8 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
         if (isAdded) {
             mActionToPackageMap = HashMap()
             val actions = ArrayList<GuidedAction>()
-            actions.add(GuidedAction.Builder(activity)
+            actions.add(
+                GuidedAction.Builder(activity)
                     .id(ACTION_ID_ALL_APPS)
                     .title(getString(R.string.show_all_apps))
                     .checked(util.isAllAppsShown())
@@ -90,13 +109,14 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
                             ?: buildBannerFromIcon(pm.getApplicationIcon(packageInfo.applicationInfo))
                         hidden = util.isHidden(pkg)
                         if (hidden) // show only hidden apps
-                            actions.add(GuidedAction.Builder(activity)
-                                .id(actionId)
-                                .title(pm.getApplicationLabel(packageInfo.applicationInfo))
-                                .icon(banner)
-                                .checkSetId(-1)
-                                .checked(hidden)
-                                .build()
+                            actions.add(
+                                GuidedAction.Builder(activity)
+                                    .id(actionId)
+                                    .title(pm.getApplicationLabel(packageInfo.applicationInfo))
+                                    .icon(banner)
+                                    .checkSetId(-1)
+                                    .checked(hidden)
+                                    .build()
                             )
                         mActionToPackageMap!![actionId] = packageInfo.packageName
                         actionId++

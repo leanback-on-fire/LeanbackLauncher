@@ -16,9 +16,10 @@ import com.amazon.tv.tvrecommendations.RecommendationsClient
 import java.util.*
 
 class LauncherApplication : Application(), LifecycleObserver {
-    private val TAG = "LauncherApplication"
     private var mNewBlacklistClient: NewBlacklistClient? = null
     private var mOldBlacklistClient: OldBlacklistClient? = null
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     companion object {
         var inForeground: Boolean = false
@@ -42,7 +43,7 @@ class LauncherApplication : Application(), LifecycleObserver {
                 }
                 service.blacklistedPackages = newBlacklist.toTypedArray()
             } catch (e: RemoteException) {
-                Log.e("LauncherApplication", "Could not save migrated blacklist", e)
+                Log.e(TAG, "Could not save migrated blacklist", e)
             }
             disconnect()
             mNewBlacklistClient = null
@@ -61,12 +62,12 @@ class LauncherApplication : Application(), LifecycleObserver {
                         sBlacklistMigrated = true
                         getSharedPreferences(javaClass.name, 0).edit().putInt("blacklist_migrate", 1).apply()
                         if (blacklist == null || blacklist.size <= 0) {
-                            Log.d("LauncherApplication", "No blacklist to migrate")
+                            Log.d(TAG, "No blacklist to migrate")
                         } else {
                             mNewBlacklistClient!!.saveBlackList(blacklist)
                         }
                     } catch (e: RemoteException) {
-                        Log.e("LauncherApplication", "Could not migrate blacklist", e)
+                        Log.e(TAG, "Could not migrate blacklist", e)
                     }
                 }
             }
@@ -87,13 +88,13 @@ class LauncherApplication : Application(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForegrounded() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "App In foreground")
+        if (BuildConfig.DEBUG) Log.d(TAG, "in Foreground")
         inForeground = true
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "App In background")
+        if (BuildConfig.DEBUG) Log.d(TAG, "in Background")
         inForeground = false
     }
 
@@ -113,12 +114,9 @@ class LauncherApplication : Application(), LifecycleObserver {
             primes.startCrashMonitor();
             return;
         }*/
-        Log.e("LauncherApplication", "PRIMES not enabled")
+        Log.e(TAG, "PRIMES not enabled")
     }
 
-    // private MetricTransmitter getPrimesMetricTransmitter() {
-    //    return new ClearcutMetricTransmitter(this, "LEANBACK_LAUNCHER_PRIMES");
-    // }
     private fun demigrate() {
         var z = false
         if (sBlacklistMigrated || getSharedPreferences(javaClass.name, 0).getInt("blacklist_migrate", 0) >= 1) {
@@ -131,7 +129,7 @@ class LauncherApplication : Application(), LifecycleObserver {
             try {
                 mOldBlacklistClient!!.connect()
             } catch (e: RuntimeException) {
-                Log.v("LauncherApplication", "Couldn't connect to service to read blacklist", e)
+                Log.v(TAG, "Couldn't connect to service to read blacklist", e)
             }
         }
     }

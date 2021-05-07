@@ -1,11 +1,15 @@
 package com.amazon.tv.firetv.leanbacklauncher.util
 
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -13,6 +17,9 @@ import java.io.StringWriter
  * Created by rockon999 on 2/24/18.
  */
 object FireTVUtils {
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+
     @JvmStatic
     fun startAppSettings(context: Context, packageName: String?) {
         try {
@@ -24,7 +31,7 @@ object FireTVUtils {
             val errors = StringWriter()
             e.printStackTrace(PrintWriter(errors))
             val errorReason = errors.toString()
-            Log.d("LeanbackOnFire", "Failed to launch settings-activity: \n$errorReason")
+            Log.d(TAG, "Failed to launch settings-activity: \n$errorReason")
         }
     }
 
@@ -69,9 +76,20 @@ object FireTVUtils {
     @JvmStatic
     fun openAppInPlayStore(context: Context, packageName: String?) {
         try {
-            startActivity(context, Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")), null)
+            startActivity(
+                context,
+                Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")),
+                null
+            )
         } catch (anfe: ActivityNotFoundException) {
-            startActivity(context, Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")), null)
+            startActivity(
+                context,
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                ),
+                null
+            )
         }
     }
 
@@ -80,7 +98,8 @@ object FireTVUtils {
         try {
             val localIntent = Intent()
             localIntent.setPackage("com.amazon.venezia")
-            localIntent.component = ComponentName.unflattenFromString("com.amazon.venezia/com.amazon.venezia.details.AppDetailsActivity")
+            localIntent.component =
+                ComponentName.unflattenFromString("com.amazon.venezia/com.amazon.venezia.details.AppDetailsActivity")
             localIntent.data = Uri.fromParts("application", packageName, null)
             localIntent.putExtra("asin", "")
             localIntent.putExtra("packageName", packageName)
@@ -91,7 +110,7 @@ object FireTVUtils {
             val errors = StringWriter()
             e.printStackTrace(PrintWriter(errors))
             val errorReason = errors.toString()
-            Log.d("LeanbackOnFire", "Failed to launch store-activity: \n$errorReason")
+            Log.d(TAG, "Failed to launch store-activity: \n$errorReason")
         }
     }
 
@@ -99,7 +118,8 @@ object FireTVUtils {
     // intent.putExtra("com.amazon.device.settings..PACKAGE_NAME", packageName);
     val notificationPreferencesIntent: Intent
         get() {
-            val settingsAct = "com.amazon.tv.notificationcenter/com.amazon.tv.notificationcenter.settings.NotificationSettingsActivity"
+            val settingsAct =
+                "com.amazon.tv.notificationcenter/com.amazon.tv.notificationcenter.settings.NotificationSettingsActivity"
             val intent = Intent()
             intent.setPackage("com.amazon.tv.notificationcenter")
             intent.component = ComponentName.unflattenFromString(settingsAct)
@@ -111,7 +131,8 @@ object FireTVUtils {
 
     val notificationCenterIntent: Intent
         get() {
-            val settingsAct = "com.amazon.tv.notificationcenter/com.amazon.tv.notificationcenter.NotificationCenterActivity"
+            val settingsAct =
+                "com.amazon.tv.notificationcenter/com.amazon.tv.notificationcenter.NotificationCenterActivity"
             val intent = Intent()
             intent.setPackage("com.amazon.tv.notificationcenter")
             intent.component = ComponentName.unflattenFromString(settingsAct)

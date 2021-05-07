@@ -14,12 +14,11 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areFavoritesEna
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areInputsEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areRecommendationsEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAllAppsConstraints
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsMax
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getOneRowMaxApps
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getEnabledCategories
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getFavoriteRowConstraints
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getRowConstraints
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setAllAppsMax
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setAppsMax
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setOneRowMaxApps
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setFavoriteRowMax
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setFavoriteRowMin
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setFavoritesEnabled
@@ -172,14 +171,15 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
             } catch (nfe: NumberFormatException) {
                 1
             }
-            setAllAppsMax(activity, value)
+            // setAllAppsMax(activity, value)
+            setRowMax(AppCategory.OTHER, activity, value)
         } else if (id == ACTION_ID_APPS_ROW.toLong()) {
             value = try {
                 action.description.toString().toInt()
             } catch (nfe: NumberFormatException) {
                 1
             }
-            setAppsMax(activity, value)
+            setOneRowMaxApps(activity, value)
         } else if (id == ACTION_ID_RECOMMENDATIONS.toLong()) { // RECOMMENDATIONS
             enabled = areRecommendationsEnabled(activity)
             setRecommendationsEnabled(activity, !enabled)
@@ -321,7 +321,7 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         // ALL APPS
         // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS).title(R.string.apps_row_title).build());
         constraints = getAllAppsConstraints(activity)
-        val maxApps = getAppsMax(activity)
+        val maxApps = getOneRowMaxApps(activity)
         actions.add(
             GuidedAction.Builder(activity)
                 .id(ACTION_ID_APPS_MAX.toLong())

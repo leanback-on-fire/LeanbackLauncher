@@ -93,8 +93,8 @@ public class NotificationRowView extends ActiveItemsRowView {
                 ViewHolder holder = findViewHolderForLayoutPosition(getSelectedPosition());
                 if (holder != null) {
                     View child = holder.itemView;
-                    if (child instanceof RecommendationView) {
-                        RecommendationView card = (RecommendationView) child;
+                    if (child instanceof RecView) {
+                        RecView card = (RecView) child;
                         backgroundUri = card.getWallpaperUri();
                         signature = card.getSignature();
                     }

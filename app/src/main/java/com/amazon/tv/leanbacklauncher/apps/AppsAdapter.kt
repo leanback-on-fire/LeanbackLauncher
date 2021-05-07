@@ -21,7 +21,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsMax
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getOneRowMaxApps
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companion.instance
 import com.amazon.tv.leanbacklauncher.BuildConfig
@@ -54,6 +54,8 @@ open class AppsAdapter(
     private val mNotifyHandler = Handler()
     private val prefUtil: SharedPreferencesUtil?
     private val listener: OnSharedPreferenceChangeListener = this
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     init {
         mLaunchPoints = arrayListOf()
@@ -69,6 +71,17 @@ open class AppsAdapter(
         mFlaggedForResort = false
         mActionOpenLaunchPointListener = actionOpenLaunchPointListener
         mAppsManager?.registerLaunchPointListListener(this)
+    }
+
+    companion object {
+
+        fun isDark(color: Int): Boolean {
+            return ColorUtils.calculateLuminance(color) < 0.25 // 0.5
+        }
+
+        fun isLight(color: Int): Boolean {
+            return ColorUtils.calculateLuminance(color) > 0.5
+        }
     }
 
     interface ActionOpenLaunchPointListener {
@@ -360,7 +373,7 @@ open class AppsAdapter(
 
     override fun getItemViewType(position: Int): Int {
         if (position >= mLaunchPoints.size) {
-            Log.e("AppsAdapter", "getItemViewType with out of bounds index = $position")
+            Log.e(TAG, "getItemViewType with out of bounds index = $position")
             return if (!mAppTypes.contains(AppCategory.SETTINGS)) {
                 0
             } else 2
@@ -468,8 +481,8 @@ open class AppsAdapter(
     }
 
     fun saveAppOrderSnapshot() {
-        if (Log.isLoggable("LauncherEditMode", Log.DEBUG)) {
-            Log.d("LauncherEditMode", "AppsAdapter saw EditMode change and initiated snapshot.")
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "AppsAdapter saw EditMode change and initiated snapshot.")
         }
         mAppsManager!!.saveOrderSnapshot(mLaunchPoints)
     }
@@ -543,7 +556,7 @@ open class AppsAdapter(
             if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsAddedOrUpdated(${launchPoints})")
             if (BuildConfig.DEBUG) Log.d(
                 TAG,
-                "Current Apps set: $mAppTypes, size: ${mLaunchPoints.size}"
+                "Current Apps set: $mAppTypes, mLaunchPoints size: ${mLaunchPoints.size}"
             )
             var saveAppOrderChanges = false
             for (i in launchPoints.indices) {
@@ -579,6 +592,11 @@ open class AppsAdapter(
 
     override fun onLaunchPointsRemoved(launchPoints: ArrayList<LaunchPoint>) {
         mNotifyHandler.post {
+            if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsRemoved(${launchPoints})")
+            if (BuildConfig.DEBUG) Log.d(
+                TAG,
+                "Current Apps set: $mAppTypes, mLaunchPoints size: ${mLaunchPoints.size}"
+            )
             var i: Int
             var saveAppOrderChanges = false
             var itemRemovedAt = -1
@@ -599,7 +617,7 @@ open class AppsAdapter(
             }
             if (itemRemovedAt != -1) {
                 val numRows: Int
-                val maxApps = getAppsMax(mContext)
+                val maxApps = getOneRowMaxApps(mContext)
                 val viewType = getItemViewType(itemRemovedAt)
                 val res = mContext.resources
                 numRows = if (this@AppsAdapter.itemCount > maxApps) {
@@ -607,7 +625,7 @@ open class AppsAdapter(
                 } else {
                     res.getInteger(R.integer.min_num_banner_rows)
                 }
-                if ((viewType == 0 || viewType == 1) && numRows > 1) {
+                if ((viewType == 0 || viewType == 1) && numRows > 1) { // apps
                     var lastPosition = itemRemovedAt
                     i = itemRemovedAt
                     while (i + numRows < mLaunchPoints.size) {
@@ -650,14 +668,4 @@ open class AppsAdapter(
         RefreshTask().execute()
     }
 
-    companion object {
-        private const val TAG = "AppsAdapter"
-        fun isDark(color: Int): Boolean {
-            return ColorUtils.calculateLuminance(color) < 0.25 // 0.5
-        }
-
-        fun isLight(color: Int): Boolean {
-            return ColorUtils.calculateLuminance(color) > 0.5
-        }
-    }
 }

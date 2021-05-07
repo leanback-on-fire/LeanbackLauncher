@@ -16,7 +16,7 @@ public class HomeScreenMessaging {
     private int mNextViewState = -1;
     private boolean mRecommendationsVisible = false;
     private int mTimeoutViewState = 3;
-    private TimerHandler mTimer = new TimerHandler(this);
+    private final TimerHandler mTimer = new TimerHandler(this);
     private int mViewState = -1;
     private long mWhenNextViewVisible = 0;
 
@@ -42,7 +42,6 @@ public class HomeScreenMessaging {
                         homeScreenMessaging.preparingTimeoutTriggered();
                         return;
                     default:
-                        return;
                 }
             }
         }
@@ -183,7 +182,6 @@ public class HomeScreenMessaging {
                     resetToPreparing(3);
                     return;
                 }
-                return;
         }
     }
 

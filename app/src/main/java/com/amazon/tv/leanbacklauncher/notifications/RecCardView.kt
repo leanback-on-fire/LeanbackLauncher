@@ -6,7 +6,7 @@ import com.amazon.tv.leanbacklauncher.PackageResourceCache
 import com.amazon.tv.tvrecommendations.TvRecommendation
 import com.bumptech.glide.request.target.SizeReadyCallback
 
-class RecommendationCardView internal constructor(context: Context?, private val mResourceCache: PackageResourceCache?) : RecommendationView(context!!) {
+class RecCardView internal constructor(context: Context?, private val mResourceCache: PackageResourceCache?) : RecView(context!!) {
     private var mRecommendation: TvRecommendation? = null
 
     constructor(context: Context?) : this(context, PackageResourceCache.getInstance(context))

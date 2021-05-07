@@ -37,12 +37,13 @@ import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 
 public class NotificationsAdapter extends NotificationsServiceAdapter<NotificationsAdapter.NotifViewHolder> implements IdleListener, ActionOpenLaunchPointListener {
+    private static final String TAG = (BuildConfig.DEBUG) ? "*" + "NotificationsAdapter" : "NotificationsAdapter";
     private final CardUpdateController mCardUpdateController = new CardUpdateController();
-    private RequestOptions mGlideOptions;
-    private RequestManager mGlideRequestManager;
+    private final RequestOptions mGlideOptions;
+    private final RequestManager mGlideRequestManager;
     // private boolean mHasNowPlayingCard;
     private final int mImpressionDelay;
-    private Handler mImpressionHandler = new ImpressionHandler(this);
+    private final Handler mImpressionHandler = new ImpressionHandler(this);
     private final LayoutInflater mInflater;
     private boolean mIsIdle;
     private final boolean mLegacyRecommendationLayoutSupported;
@@ -135,11 +136,11 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         }
     }
 
-    class NotifViewHolder extends LauncherViewHolder {
+    static class NotifViewHolder extends LauncherViewHolder {
         FetchImageTask mImageTask;
         int mQueuedState = 0;
         TvRecommendation mRecommendation;
-        RecommendationView mRecommendationView;
+        RecView mRecView;
         boolean mUseGlide;
         final /* synthetic */ NotificationsAdapter adapter;
 
@@ -165,7 +166,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
                         NotifViewHolder.this.adapter.mCardUpdateController.queueImageFetchIfDisconnected(NotifViewHolder.this);
                         return img;
                     } catch (RemoteException e) {
-                        Log.e("NotificationsAdapter", "Exception while fetching card image", e);
+                        Log.e(TAG, "Exception while fetching card image", e);
                     }
                 }
                 return null;
@@ -174,7 +175,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
             protected void onPostExecute(Bitmap image) {
                 if (!isCancelled()) {
                     if (image != null) {
-                        NotifViewHolder.this.mRecommendationView.setMainImage(new BitmapDrawable(NotifViewHolder.this.adapter.mContext.getResources(), image));
+                        NotifViewHolder.this.mRecView.setMainImage(new BitmapDrawable(NotifViewHolder.this.adapter.mContext.getResources(), image));
                     }
                     NotifViewHolder.this.mImageTask = null;
                     AppTrace.endAsyncSection(this.mTraceTag);
@@ -187,9 +188,9 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
 
             boolean z = false;
             this.adapter = adapter;
-            if (v instanceof RecommendationView) {
-                this.mRecommendationView = (RecommendationView) v;
-                if (!(this.mRecommendationView instanceof CaptivePortalNotificationCardView)) {
+            if (v instanceof RecView) {
+                this.mRecView = (RecView) v;
+                if (!(this.mRecView instanceof CaptivePortalNotificationCardView)) {
                     z = true;
                 }
                 this.mUseGlide = z;
@@ -199,30 +200,30 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         void init(TvRecommendation rec) {
             this.itemView.setVisibility(View.VISIBLE);
             boolean refreshSameContent = NotificationUtils.equals(rec, this.mRecommendation);
-            if (this.mRecommendationView instanceof CaptivePortalNotificationCardView) {
-                ((CaptivePortalNotificationCardView) this.mRecommendationView).setRecommendation(rec, !refreshSameContent);
+            if (this.mRecView instanceof CaptivePortalNotificationCardView) {
+                ((CaptivePortalNotificationCardView) this.mRecView).setRecommendation(rec, !refreshSameContent);
             } else {
-                ((RecommendationCardView) this.mRecommendationView).setRecommendation(rec, !refreshSameContent);
+                ((RecCardView) this.mRecView).setRecommendation(rec, !refreshSameContent);
             }
             this.mRecommendation = rec;
-            setLaunchColor(this.mRecommendationView.getLaunchAnimationColor());
+            setLaunchColor(this.mRecView.getLaunchAnimationColor());
             this.mQueuedState = 0;
             if (this.mUseGlide) {
-                if (BuildConfig.DEBUG) Log.d("NotificationsAdapter", "Use glide for image");
-                this.mRecommendationView.setUseBackground(false);
-                this.mRecommendationView.onStartImageFetch();
-                this.adapter.mGlideRequestManager.asBitmap().load(new RecommendationImageKey(this.mRecommendation)).apply(this.adapter.mGlideOptions).into(this.mRecommendationView);
+                if (BuildConfig.DEBUG) Log.d(TAG, "Use glide for image");
+                this.mRecView.setUseBackground(false);
+                this.mRecView.onStartImageFetch();
+                this.adapter.mGlideRequestManager.asBitmap().load(new RecImageKey(this.mRecommendation)).apply(this.adapter.mGlideOptions).into(this.mRecView);
                 this.adapter.mGlideRequestManager
                         .asBitmap()
-                        .load(new RecommendationImageKey(this.mRecommendation))
+                        .load(new RecImageKey(this.mRecommendation))
                         .apply(this.adapter.mGlideOptions)
-                        .into(this.mRecommendationView);
+                        .into(this.mRecView);
                 return;
             }
-            this.mRecommendationView.setUseBackground(true);
+            this.mRecView.setUseBackground(true);
             Bitmap contentImage = rec.getContentImage();
             if (contentImage != null) {
-                this.mRecommendationView.setMainImage(new BitmapDrawable(this.adapter.mContext.getResources(), contentImage));
+                this.mRecView.setMainImage(new BitmapDrawable(this.adapter.mContext.getResources(), contentImage));
             }
             if (!this.adapter.mCardUpdateController.queueImageFetchIfDisconnected(this)) {
                 executeImageTask();
@@ -352,7 +353,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         super(context, 300000, 600000);
         // this.mNowPlayCardListener = new NowPlayCardListener(context);
         this.mImpressionDelay = context.getResources().getInteger(R.integer.impression_delay);
-        this.mInflater = (LayoutInflater) this.mContext.getSystemService("layout_inflater");
+        this.mInflater = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mRichRecommendationViewSupported = LauncherConfiguration.getInstance().isRichRecommendationViewEnabled();
         this.mLegacyRecommendationLayoutSupported = LauncherConfiguration.getInstance().isLegacyRecommendationLayoutEnabled();
         this.mGlideRequestManager = Glide.with(this.mContext);
@@ -395,7 +396,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         /*try {
             this.mNowPlayCardListener.setRemoteControlListener(this);
         } catch (RemoteException e) {
-            Log.e("NotificationsAdapter", "Exception", e);
+            Log.e(TAG, "Exception", e);
         }*/
     }
 
@@ -468,7 +469,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
                     AppTrace.endSection();
                 }
             default:
-                Log.e("NotificationsAdapter", "Invalid view type = " + viewType);
+                Log.e(TAG, "Invalid view type = " + viewType);
                 return null;
         }
     }
@@ -479,7 +480,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         } else if (this.mLegacyRecommendationLayoutSupported) {
             return this.mInflater.inflate(R.layout.notification_card, parent, false);
         } else {
-            return new RecommendationCardView(parent.getContext());
+            return new RecCardView(parent.getContext());
         }
     }
 
@@ -511,7 +512,7 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
                         AppTrace.endSection();
                     }
                 default:
-                    Log.e("NotificationsAdapter", "Invalid view type = " + type);
+                    Log.e(TAG, "Invalid view type = " + type);
                     return;
             }
         }
@@ -551,8 +552,8 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
 
 
     private void remoteControllerClientChanged(boolean clearing) {
-        if (Log.isLoggable("NotificationsAdapter", 3)) {
-            Log.d("NotificationsAdapter", "remoteControllerClientChanged. Clearing= " + clearing);
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "remoteControllerClientChanged. Clearing= " + clearing);
         }
         this.mRecommendationsHandler.removeMessages(10);
         this.mRecommendationsHandler.removeMessages(9);
@@ -564,8 +565,8 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
 
     /*private void remoteControllerMediaDataUpdated(NowPlayingCardData mediaData) {
         Preconditions.checkNotNull(mediaData);
-        if (Log.isLoggable("NotificationsAdapter", 3)) {
-            Log.d("NotificationsAdapter", "remoteControllerMediaDataUpdated. mediaData= " + mediaData);
+        if (Log.isLoggable(TAG, 3)) {
+            Log.d(TAG, "remoteControllerMediaDataUpdated. mediaData= " + mediaData);
         }
         int refresh = 0;
         // if (this.mNowPlayingData != null && TextUtils.equals(this.mNowPlayingData.playerPackage, mediaData.playerPackage)) {
@@ -577,8 +578,8 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
     }*/
 
     private void remoteControllerClientPlaybackStateUpdate(int state, long stateChangeTimeMs, long currentPosMs) {
-        if (Log.isLoggable("NotificationsAdapter", 3)) {
-            Log.d("NotificationsAdapter", "remoteControllerClientPlaybackStateUpdate. state= " + state);
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "remoteControllerClientPlaybackStateUpdate. state= " + state);
         }
         //  this.mNowPlayingState = state;
         //  this.mNowPlayingPosMs = currentPosMs;

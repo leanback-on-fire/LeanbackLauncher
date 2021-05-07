@@ -309,8 +309,6 @@ class RecommendationsManager implements Ranker.RankingListener {
 
     private RecommendationsManager(Context context, boolean unbundled, RankerParameters rankerParameters) {
         this.mTag = unbundled ? "UB-RecommendationsManager" : "B-RecommendationsManager";
-        if (BuildConfig.DEBUG)
-            Log.d(this.mTag, "RecommendationsManager(Context)");
         this.mContext = context;
         Resources res = context.getResources();
         this.mCardMaxWidth = res.getDimensionPixelOffset(R.dimen.notif_card_img_max_width);

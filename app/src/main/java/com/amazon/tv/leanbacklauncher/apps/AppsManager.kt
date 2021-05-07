@@ -184,11 +184,11 @@ class AppsManager private constructor(private val mContext: Context) :
         addOrUpdatePackage(packageName)
     }
 
-    override fun onPackageBlacklisted(pkgName: String) {
+    override fun onPackageBlacklisted(pkgName: String?) {
         addToPartnerExclusionList(pkgName)
     }
 
-    override fun onPackageUnblacklisted(pkgName: String) {
+    override fun onPackageUnblacklisted(pkgName: String?) {
         removeFromPartnerExclusionList(pkgName)
     }
 

@@ -44,11 +44,8 @@ import com.amazon.tv.leanbacklauncher.apps.BannerView
 import com.amazon.tv.leanbacklauncher.apps.OnEditModeChangedListener
 import com.amazon.tv.leanbacklauncher.clock.ClockView
 import com.amazon.tv.leanbacklauncher.logging.LeanbackLauncherEventLogger
-import com.amazon.tv.leanbacklauncher.notifications.HomeScreenView
-import com.amazon.tv.leanbacklauncher.notifications.NotificationCardView
-import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView
+import com.amazon.tv.leanbacklauncher.notifications.*
 import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView.NotificationRowListener
-import com.amazon.tv.leanbacklauncher.notifications.NotificationsAdapter
 import com.amazon.tv.leanbacklauncher.util.*
 import com.amazon.tv.leanbacklauncher.wallpaper.LauncherWallpaper
 import com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller
@@ -58,8 +55,12 @@ import java.io.FileDescriptor
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.*
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallPressedListener {
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private var mAccessibilityManager: AccessibilityManager? = null
     var isInEditMode = false
         private set
@@ -96,29 +97,29 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     if (activity.mResetAfterIdleEnabled) {
                         activity.mKeepUiReset = true
                         activity.resetLauncherState(true)
-                        if (BuildConfig.DEBUG) Log.d("******", "msg(3) resetLauncherState(smooth: true)")
+                        if (BuildConfig.DEBUG) Log.d(TAG, "msg(3) resetLauncherState(smooth: true)")
                         return
                     }
                     return
                 }
                 4 -> {
                     activity.onNotificationRowStateUpdate(msg.arg1)
-                    if (BuildConfig.DEBUG) Log.d("******", "msg(4) onNotificationRowStateUpdate(${msg.arg1})")
+                    if (BuildConfig.DEBUG) Log.d(TAG, "msg(4) onNotificationRowStateUpdate(${msg.arg1})")
                     return
                 }
                 5 -> {
                     activity.homeAdapter!!.onUiVisible()
-                    if (BuildConfig.DEBUG) Log.d("******", "msg(5) onUiVisible()")
+                    if (BuildConfig.DEBUG) Log.d(TAG, "msg(5) onUiVisible()")
                     return
                 }
                 6 -> {
                     activity.addWidget(true)
-                    if (BuildConfig.DEBUG) Log.d("******", "msg(6) addWidget(refresh: true)")
+                    if (BuildConfig.DEBUG) Log.d(TAG, "msg(6) addWidget(refresh: true)")
                     return
                 }
                 7 -> {
                     activity.checkLaunchPointPositions()
-                    if (BuildConfig.DEBUG) Log.d("******", "msg(7) checkLaunchPointPositions()")
+                    if (BuildConfig.DEBUG) Log.d(TAG, "msg(7) checkLaunchPointPositions()")
                     return
                 }
                 else -> TODO()
@@ -232,7 +233,6 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val z: Boolean
         super.onCreate(savedInstanceState)
         mContentResolver = contentResolver
         if (mRecommendationsAdapter == null) {
@@ -357,7 +357,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             })
         }
         mShyMode = true
-        z = !mShyMode
+        val z: Boolean = !mShyMode
         setShyMode(z, true)
         if (BuildConfig.DEBUG) Log.d(TAG, "OnCreate setShyMode($z, true), init mShyMode=$mShyMode")
         mIdlePeriod = resources.getInteger(R.integer.idle_period)
@@ -415,17 +415,22 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     override fun onBackPressed() {
-        if (isInEditMode) {
-            editModeView!!.onBackPressed()
-        } else if (mLaunchAnimation.isRunning) {
-            mLaunchAnimation.cancel()
-        } else if (mLaunchAnimation.isPrimed) {
-            mLaunchAnimation.reset()
-        } else {
-            if (mLaunchAnimation.isFinished) {
+        when {
+            isInEditMode -> {
+                editModeView!!.onBackPressed()
+            }
+            mLaunchAnimation.isRunning -> {
+                mLaunchAnimation.cancel()
+            }
+            mLaunchAnimation.isPrimed -> {
                 mLaunchAnimation.reset()
             }
-            dismissLauncher()
+            else -> {
+                if (mLaunchAnimation.isFinished) {
+                    mLaunchAnimation.reset()
+                }
+                dismissLauncher()
+            }
         }
     }
 
@@ -444,7 +449,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
     }
 
-    override fun onUninstallPressed(packageName: String) {
+    override fun onUninstallPressed(packageName: String?) {
         if (packageName != null && !mUninstallRequested) {
             mUninstallRequested = true
             val uninstallIntent = Intent("android.intent.action.UNINSTALL_PACKAGE", Uri.parse("package:$packageName"))
@@ -572,7 +577,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
     }
 
-    protected fun startEditMode(rowType: Int) {
+    private fun startEditMode(rowType: Int) {
         if (Util.isInTouchExploration(applicationContext)) {
             setTitle(if (rowType == 3) R.string.title_app_edit_mode else R.string.title_game_edit_mode)
         }
@@ -594,7 +599,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
         var notifIndex = homeAdapter!!.getRowIndex(1)
         if (mList!!.adapter != null) {
-            notifIndex = Math.min(mList!!.adapter!!.itemCount - 1, notifIndex)
+            notifIndex = (mList!!.adapter!!.itemCount - 1).coerceAtMost(notifIndex)
         }
         if (!(notifIndex == -1 || mList!!.selectedPosition == notifIndex)) {
             if (smooth) {
@@ -632,12 +637,12 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private val isBackgroundVisibleBehind: Boolean
-        private get() {
+        get() {
             try {
-                val isBackgroundVisibleBehind = Activity::class.java.getDeclaredMethod("isBackgroundVisibleBehind")
+                val isBackgroundVisibleBehind =
+                    Activity::class.java.getDeclaredMethod("isBackgroundVisibleBehind")
                 isBackgroundVisibleBehind.isAccessible = true
-                val result = isBackgroundVisibleBehind.invoke(this@MainActivity) as Boolean
-                return result
+                return isBackgroundVisibleBehind.invoke(this@MainActivity) as Boolean
             } catch (ignored: Throwable) {
             }
             return false
@@ -791,7 +796,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private val currentScrollPos: Int
-        private get() {
+        get() {
             var pos = 0
             var topView = -1
             var i = 0
@@ -802,7 +807,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 } else {
                     topView = mList!!.getChildAdapterPosition(v)
                     if (v.measuredHeight > 0) {
-                        pos = (homeAdapter!!.getScrollOffset(topView).toFloat() * (Math.abs(v.top).toFloat() / v.measuredHeight.toFloat()) * -1.0f).toInt()
+                        pos = (homeAdapter!!.getScrollOffset(topView).toFloat() * (abs(v.top).toFloat() / v.measuredHeight.toFloat()) * -1.0f).toInt()
                     }
                     topView--
                     while (topView >= 0) {
@@ -928,9 +933,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     clearWidget(appWidgetId)
                     wrap.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrap, false))
                     val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
-                    val clockview: TextView = findViewById<View>(R.id.clock) as ClockView
-                    if (clockview != null && typeface != null)
-                        clockview.typeface = typeface
+                    val clockview: TextView? = findViewById<View>(R.id.clock) as ClockView?
+                    if (typeface != null)
+                        clockview?.typeface = typeface
                     return
                 }
                 return
@@ -961,9 +966,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mEditModeAnimation.init(EditModeMassFadeAnimator(this, if (editMode) EditMode.ENTER else EditMode.EXIT), null, 0.toByte())
             mEditModeAnimation.start()
         } else {
-            val f2: Float
             val launcherWallpaper = wallpaperView
-            f2 = if (editMode) {
+            val f2: Float = if (editMode) {
                 0.0f
             } else {
                 1.0f
@@ -1011,8 +1015,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 onCompleteCallback.run()
                 return
             }
-            val animation: ForwardingAnimatorSet
-            animation = if (view is NotificationCardView) {
+            val animation: ForwardingAnimatorSet = if (view is NotificationCardView) {
                 NotificationLaunchAnimator(mList, view, mLaunchAnimation.lastKnownEpicenter, findViewById<View>(R.id.click_circle_layer) as ImageView, color, homeAdapter!!.rowHeaders, mHomeScreenView)
             } else {
                 LauncherLaunchAnimator(mList, view, mLaunchAnimation.lastKnownEpicenter, findViewById<View>(R.id.click_circle_layer) as ImageView, color, homeAdapter!!.rowHeaders, mHomeScreenView)
@@ -1065,7 +1068,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             val buf = StringWriter()
             buf.append("Caught partially animated state; resetting...\n")
             mLaunchAnimation.dump("", PrintWriter(buf), mList)
-            Log.w("Animations", buf.toString())
+            Log.w(TAG, "Animations:$buf")
             mLaunchAnimation.reset()
         }
     }
@@ -1075,10 +1078,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             return true
         }
         if (view is ViewGroup) {
-            val group = view
-            val n = group.childCount
+            val n = view.childCount
             for (i in 0 until n) {
-                if (checkViewHierarchy(group.getChildAt(i))) {
+                if (checkViewHierarchy(view.getChildAt(i))) {
                     return true
                 }
             }
@@ -1102,8 +1104,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             v.getLocationOnScreen(location)
             epicenter.left = location[0]
             epicenter.top = location[1]
-            epicenter.right = epicenter.left + Math.round(v.width.toFloat() * v.scaleX)
-            epicenter.bottom = epicenter.top + Math.round(v.height.toFloat() * v.scaleY)
+            epicenter.right = epicenter.left + (v.width.toFloat() * v.scaleX).roundToInt()
+            epicenter.bottom = epicenter.top + (v.height.toFloat() * v.scaleY).roundToInt()
         }
     }
 }

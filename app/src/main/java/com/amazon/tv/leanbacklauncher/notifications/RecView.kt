@@ -34,7 +34,7 @@ import com.bumptech.glide.request.transition.Transition
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
-abstract class RecommendationView(context: Context) : ViewGroup(context), Target<Bitmap?>,
+abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     DimmableItem, ParticipatesInLaunchAnimation, ParticipatesInScrollAnimation,
     OnFocusLevelChangeListener {
     private val mBackground: Drawable?
@@ -289,7 +289,8 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
             if (mClipBounds == null) {
                 mClipBounds = Rect()
             }
-            mClipBounds!![0, 0, width] = mImageHeight + mInfoAreaCollapsedHeight + ((mInfoAreaExpandedHeight - mInfoAreaCollapsedHeight).toFloat() * level).roundToInt()
+            mClipBounds!![0, 0, width] =
+                mImageHeight + mInfoAreaCollapsedHeight + ((mInfoAreaExpandedHeight - mInfoAreaCollapsedHeight).toFloat() * level).roundToInt()
             clipBounds = mClipBounds
             mFocusLevelAnimating = true
             mFocusLevel = level
@@ -695,7 +696,8 @@ abstract class RecommendationView(context: Context) : ViewGroup(context), Target
  */
         val res = context.resources
         val font = context.getString(R.string.font) //= a.getString(2);
-        mBackground = ContextCompat.getDrawable(context, R.drawable.rec_card_background) //a.getDrawable(0);
+        mBackground =
+            ContextCompat.getDrawable(context, R.drawable.rec_card_background) //a.getDrawable(0);
         mImageMinWidth =
             res.getDimensionPixelSize(R.dimen.notif_card_img_min_width) //a.getDimensionPixelSize(3, 0);
         mImageMaxWidth =

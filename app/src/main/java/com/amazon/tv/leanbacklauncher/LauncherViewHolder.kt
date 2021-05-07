@@ -12,14 +12,13 @@ import com.amazon.tv.leanbacklauncher.trace.AppTrace.TraceTag
 
 abstract class LauncherViewHolder protected constructor(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
     @JvmField
-    protected val mCtx: Context
+    protected val mCtx: Context = v.context
     private var mLaunchColor = 0
     private var mLaunchIntent: Intent? = null
     private var mLaunchTag: TraceTag? = null
     private var mLaunchTranslucent = false
 
     init {
-        mCtx = v.context
         v.setOnClickListener(this)
     }
 

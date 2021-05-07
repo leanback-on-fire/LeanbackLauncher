@@ -15,10 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
-import com.amazon.tv.leanbacklauncher.DimmableItem
-import com.amazon.tv.leanbacklauncher.EditableAppsRowView
-import com.amazon.tv.leanbacklauncher.R
-import com.amazon.tv.leanbacklauncher.RoundedRectOutlineProvider
+import com.amazon.tv.leanbacklauncher.*
 import com.amazon.tv.leanbacklauncher.animation.AppViewFocusAnimator
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInLaunchAnimation
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation
@@ -50,6 +47,19 @@ class BannerView @JvmOverloads constructor(
     private var mLeavingEditMode = false
     private val mSelectedListeners: ArrayList<BannerSelectedChangedListener?> =
         ArrayList<BannerSelectedChangedListener?>()
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+
+    init {
+        mSelectedListeners.add(mFocusAnimator)
+        mEditModeManager = EditModeManager.getInstance()
+        isSelected = false
+        setOnLongClickListener(this)
+        if (sOutline == null) {
+            //sOutline = RoundedRectOutlineProvider((float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius))
+            sOutline = RoundedRectOutlineProvider(RowPreferences.getCorners(context!!).toFloat())
+        }
+    }
 
     // TODO
     var viewHolder: AppViewHolder? = null
@@ -294,8 +304,8 @@ class BannerView @JvmOverloads constructor(
                 if (selected) {
                     notifyEditModeManager(selected)
                 }
-                if (Log.isLoggable("LauncherEditMode", Log.DEBUG)) {
-                    Log.d("LauncherEditMode", "BannerView selected is now: $isSelected")
+                if (Log.isLoggable(TAG, Log.DEBUG)) {
+                    Log.d(TAG, "BannerView selected is now: $isSelected")
                 }
             }
             mLeavingEditMode = false
@@ -343,14 +353,4 @@ class BannerView @JvmOverloads constructor(
         viewDimmer?.setAnimationEnabled(enabled)
     }
 
-    init {
-        mSelectedListeners.add(mFocusAnimator)
-        mEditModeManager = EditModeManager.getInstance()
-        isSelected = false
-        setOnLongClickListener(this)
-        if (sOutline == null) {
-            //sOutline = RoundedRectOutlineProvider((float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius))
-            sOutline = RoundedRectOutlineProvider(RowPreferences.getCorners(context!!).toFloat())
-        }
-    }
 }

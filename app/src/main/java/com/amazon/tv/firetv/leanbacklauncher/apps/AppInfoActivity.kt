@@ -9,7 +9,6 @@ import android.os.Bundle
 import androidx.leanback.app.GuidedStepFragment
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoFragment.Companion.newInstance
 
-//import android.util.Log;
 class AppInfoActivity : Activity() {
     private var icon: Drawable? = null
     private var title: String? = null
@@ -40,7 +39,6 @@ class AppInfoActivity : Activity() {
 
     // close on Home press
     override fun onUserLeaveHint() {
-        //Log.d("onUserLeaveHint", "Home button pressed");
         super.onUserLeaveHint()
         finish()
     }

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.OnHierarchyChangeListener
 import androidx.leanback.widget.HorizontalGridView
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsMax
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getOneRowMaxApps
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer.DimState
@@ -15,7 +15,8 @@ import com.amazon.tv.leanbacklauncher.apps.AppsAdapter
 import com.amazon.tv.leanbacklauncher.capabilities.LauncherConfiguration
 
 open class ActiveItemsRowView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyle: Int = 0) : HorizontalGridView(context, attrs, defStyle), OnHierarchyChangeListener {
-    private val TAG = "ActiveItemsRowView"
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private val mCardElevationSupported: Boolean
     private var mCardSpacing = 0
     private var mChangeObserver: AdapterDataObserver
@@ -120,7 +121,7 @@ open class ActiveItemsRowView @JvmOverloads constructor(context: Context?, attrs
         integer = if (numberOfRows > 0) numberOfRows else {
             val res = resources
             val ctx = context
-            if (adapter!!.itemCount > getAppsMax(ctx)) {
+            if (adapter!!.itemCount > getOneRowMaxApps(ctx)) {
                 res.getInteger(R.integer.max_num_banner_rows)
             } else {
                 res.getInteger(R.integer.min_num_banner_rows)

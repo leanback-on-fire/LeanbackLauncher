@@ -232,59 +232,22 @@ object RowPreferences {
         return true
     }
 
-    fun setAllAppsMin(context: Context, min: Int): Boolean {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putInt(context.getString(R.string.pref_min_apps_rows), min).apply()
-        return true
-    }
-
-    @JvmStatic
-    fun setAllAppsMax(context: Context, max: Int): Boolean {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putInt(context.getString(R.string.pref_max_apps_rows), max).apply()
-        return true
-    }
-
-    fun setRowConstraints(cat: AppCategory?, context: Context, min: Int, max: Int): Boolean {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        when (cat) {
-            AppCategory.GAME -> {
-                pref.edit().putInt(context.getString(R.string.pref_min_games_rows), min).apply()
-                pref.edit().putInt(context.getString(R.string.pref_max_games_rows), max).apply()
-                pref.edit().putInt(context.getString(R.string.pref_min_music_rows), min).apply()
-                pref.edit().putInt(context.getString(R.string.pref_max_music_rows), max).apply()
-                pref.edit().putInt(context.getString(R.string.pref_min_videos_rows), min).apply()
-                pref.edit().putInt(context.getString(R.string.pref_max_videos_rows), max).apply()
-            }
-            AppCategory.MUSIC -> {
-                pref.edit().putInt(context.getString(R.string.pref_min_music_rows), min).apply()
-                pref.edit().putInt(context.getString(R.string.pref_max_music_rows), max).apply()
-                pref.edit().putInt(context.getString(R.string.pref_min_videos_rows), min).apply()
-                pref.edit().putInt(context.getString(R.string.pref_max_videos_rows), max).apply()
-            }
-            AppCategory.VIDEO -> {
-                pref.edit().putInt(context.getString(R.string.pref_min_videos_rows), min).apply()
-                pref.edit().putInt(context.getString(R.string.pref_max_videos_rows), max).apply()
-            }
-        }
-        return true
-    }
-
     @JvmStatic
     fun setRowMin(cat: AppCategory?, context: Context, min: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         when (cat) {
             AppCategory.GAME -> {
                 pref.edit().putInt(context.getString(R.string.pref_min_games_rows), min).apply()
-                pref.edit().putInt(context.getString(R.string.pref_min_music_rows), min).apply()
-                pref.edit().putInt(context.getString(R.string.pref_min_videos_rows), min).apply()
             }
             AppCategory.MUSIC -> {
                 pref.edit().putInt(context.getString(R.string.pref_min_music_rows), min).apply()
+            }
+            AppCategory.VIDEO -> {
                 pref.edit().putInt(context.getString(R.string.pref_min_videos_rows), min).apply()
             }
-            AppCategory.VIDEO -> pref.edit()
-                .putInt(context.getString(R.string.pref_min_videos_rows), min).apply()
+            else -> { // AppCategory.OTHER
+                pref.edit().putInt(context.getString(R.string.pref_min_apps_rows), min).apply()
+            }
         }
         return true
     }
@@ -295,21 +258,22 @@ object RowPreferences {
         when (cat) {
             AppCategory.GAME -> {
                 pref.edit().putInt(context.getString(R.string.pref_max_games_rows), max).apply()
-                pref.edit().putInt(context.getString(R.string.pref_max_music_rows), max).apply()
-                pref.edit().putInt(context.getString(R.string.pref_max_videos_rows), max).apply()
             }
             AppCategory.MUSIC -> {
                 pref.edit().putInt(context.getString(R.string.pref_max_music_rows), max).apply()
+            }
+            AppCategory.VIDEO -> {
                 pref.edit().putInt(context.getString(R.string.pref_max_videos_rows), max).apply()
             }
-            AppCategory.VIDEO -> pref.edit()
-                .putInt(context.getString(R.string.pref_max_videos_rows), max).apply()
+            else -> { // AppCategory.OTHER
+                pref.edit().putInt(context.getString(R.string.pref_max_apps_rows), max).apply()
+            }
         }
         return true
     }
 
     @JvmStatic
-    fun getAppsMax(context: Context): Int {
+    fun getOneRowMaxApps(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val res = context.resources
         return pref.getInt(
@@ -319,7 +283,7 @@ object RowPreferences {
     }
 
     @JvmStatic
-    fun setAppsMax(context: Context, max: Int): Boolean {
+    fun setOneRowMaxApps(context: Context, max: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         pref.edit().putInt(context.getString(R.string.pref_max_apps), max).apply()
         return true

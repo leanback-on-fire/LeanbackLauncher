@@ -12,6 +12,7 @@ import android.telephony.PhoneStateListener
 import android.telephony.SignalStrength
 import android.telephony.TelephonyManager
 import android.util.Log
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import java.lang.ref.WeakReference
 
 class ConnectivityListener(private val mContext: Context, listener: Listener) {
@@ -30,6 +31,79 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
 
     interface Listener {
         fun onConnectivityChange()
+    }
+
+    init {
+        mTelephonyManager = mContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        mListener = listener
+        mFilter = IntentFilter()
+        mFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        mFilter.addAction("android.net.wifi.RSSI_CHANGED")
+        mFilter.addAction("android.net.conn.INET_CONDITION_ACTION")
+        mReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                var z = false
+                val intentAction = intent.action
+                val connectionStatus = intent.getIntExtra("inetCondition", -551)
+                val info =
+                    (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
+                if (!(info != null && info.isAvailable && info.isConnected)) {
+                    writeConnectivity(context, false)
+                }
+                if (intentAction == "android.net.conn.INET_CONDITION_ACTION" || intentAction == "android.net.conn.CONNECTIVITY_CHANGE" && !readConnectivity(
+                        mContext
+                    )
+                ) {
+                    if (connectionStatus > 50) {
+                        z = true
+                    }
+                    writeConnectivity(context, z)
+                }
+                updateConnectivityStatus()
+                mListener.onConnectivityChange()
+            }
+        }
+    }
+
+    companion object {
+        private val TAG =
+            if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+
+        @TargetApi(23)
+        private fun getLevel(signalStrength: SignalStrength): Int {
+            val e: LinkageError
+            return try {
+                signalStrength.level
+            } catch (e2: NoClassDefFoundError) {
+                e = e2
+                Log.e(TAG, "Exception fetching signal level", e)
+                0
+            } catch (e3: IncompatibleClassChangeError) {
+                e = e3
+                Log.e(TAG, "Exception fetching signal level", e)
+                0
+            }
+        }
+
+        private fun writeConnectivity(context: Context, inetConnected: Boolean) {
+            context.getSharedPreferences("inet-prefs", 0).edit()
+                .putBoolean("inetCondition", inetConnected).apply()
+        }
+
+        @JvmStatic
+        fun readConnectivity(context: Context): Boolean {
+            return context.getSharedPreferences("inet-prefs", 0).getBoolean("inetCondition", true)
+        }
+
+        fun removeDoubleQuotes(string: String?): String? {
+            if (string == null) {
+                return null
+            }
+            val length = string.length
+            return if (length > 1 && string[0] == '\"' && string[length - 1] == '\"') {
+                string.substring(1, length - 1)
+            } else string
+        }
     }
 
     class ConnectivityStatus {
@@ -170,76 +244,6 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
             else -> {
                 setNoConnection()
                 return
-            }
-        }
-    }
-
-    companion object {
-        @TargetApi(23)
-        private fun getLevel(signalStrength: SignalStrength): Int {
-            val e: LinkageError
-            return try {
-                signalStrength.level
-            } catch (e2: NoClassDefFoundError) {
-                e = e2
-                Log.e("ConnectivityListener", "Exception fetching signal level", e)
-                0
-            } catch (e3: IncompatibleClassChangeError) {
-                e = e3
-                Log.e("ConnectivityListener", "Exception fetching signal level", e)
-                0
-            }
-        }
-
-        private fun writeConnectivity(context: Context, inetConnected: Boolean) {
-            context.getSharedPreferences("inet-prefs", 0).edit()
-                .putBoolean("inetCondition", inetConnected).apply()
-        }
-
-        @JvmStatic
-        fun readConnectivity(context: Context): Boolean {
-            return context.getSharedPreferences("inet-prefs", 0).getBoolean("inetCondition", true)
-        }
-
-        fun removeDoubleQuotes(string: String?): String? {
-            if (string == null) {
-                return null
-            }
-            val length = string.length
-            return if (length > 1 && string[0] == '\"' && string[length - 1] == '\"') {
-                string.substring(1, length - 1)
-            } else string
-        }
-    }
-
-    init {
-        mTelephonyManager = mContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        mListener = listener
-        mFilter = IntentFilter()
-        mFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
-        mFilter.addAction("android.net.wifi.RSSI_CHANGED")
-        mFilter.addAction("android.net.conn.INET_CONDITION_ACTION")
-        mReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                var z = false
-                val intentAction = intent.action
-                val connectionStatus = intent.getIntExtra("inetCondition", -551)
-                val info =
-                    (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
-                if (!(info != null && info.isAvailable && info.isConnected)) {
-                    writeConnectivity(context, false)
-                }
-                if (intentAction == "android.net.conn.INET_CONDITION_ACTION" || intentAction == "android.net.conn.CONNECTIVITY_CHANGE" && !readConnectivity(
-                        mContext
-                    )
-                ) {
-                    if (connectionStatus > 50) {
-                        z = true
-                    }
-                    writeConnectivity(context, z)
-                }
-                updateConnectivityStatus()
-                mListener.onConnectivityChange()
             }
         }
     }

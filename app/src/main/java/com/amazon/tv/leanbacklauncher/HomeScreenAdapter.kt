@@ -21,10 +21,10 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areFavoritesEna
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areInputsEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areRecommendationsEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAllAppsConstraints
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsMax
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getBannersSize
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getEnabledCategories
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getFavoriteRowConstraints
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getOneRowMaxApps
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getRowConstraints
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowType
 import com.amazon.tv.leanbacklauncher.HomeScreenAdapter.HomeViewHolder
@@ -40,7 +40,13 @@ import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import java.io.PrintWriter
 import java.util.*
 
-class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, notificationsAdapter: NotificationsAdapter?, editModeView: EditModeView) : RecyclerView.Adapter<HomeViewHolder?>(), RowChangeListener, ConnectivityListener.Listener, OnEditModeChangedListener {
+class HomeScreenAdapter(
+    context: MainActivity,
+    scrollMgr: HomeScrollManager,
+    notificationsAdapter: NotificationsAdapter?,
+    editModeView: EditModeView
+) : RecyclerView.Adapter<HomeViewHolder?>(), RowChangeListener, ConnectivityListener.Listener,
+    OnEditModeChangedListener {
     private var mActiveItemIndex = -1
     private val mAllRowsList: ArrayList<HomeScreenRow> = ArrayList<HomeScreenRow>(7)
     private val mAppsManager: AppsManager?
@@ -62,7 +68,8 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
     private val mSettingsAdapter: SettingsAdapter
     private val mVisRowsList: ArrayList<HomeScreenRow> = ArrayList<HomeScreenRow>(7)
     private val mNotificationsAdapter: RecyclerView.Adapter<*>? = null
-    private val TAG = "HomeScreenAdapter"
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     init {
         mMainActivity = Preconditions.checkNotNull(context)
@@ -158,27 +165,99 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
         var position = 0
         val enabledCategories = getEnabledCategories(mMainActivity)
 
-        buildRow(RowType.SEARCH, position++, null, null, null, R.dimen.home_scroll_size_search, false)
+        buildRow(
+            RowType.SEARCH,
+            position++,
+            null,
+            null,
+            null,
+            R.dimen.home_scroll_size_search,
+            false
+        )
         if (areRecommendationsEnabled(mMainActivity)) {
-            buildRow(RowType.NOTIFICATIONS, position++, null, null, null, R.dimen.home_scroll_size_notifications, false)
+            buildRow(
+                RowType.NOTIFICATIONS,
+                position++,
+                null,
+                null,
+                null,
+                R.dimen.home_scroll_size_notifications,
+                false
+            )
         }
         if (areFavoritesEnabled(mMainActivity)) {
-            buildRow(RowType.FAVORITES, position++, res.getString(R.string.category_label_favorites), null, null, R.dimen.home_scroll_size_apps, true)
+            buildRow(
+                RowType.FAVORITES,
+                position++,
+                res.getString(R.string.category_label_favorites),
+                null,
+                null,
+                R.dimen.home_scroll_size_apps,
+                true
+            )
         }
         if (enabledCategories.contains(AppCategory.VIDEO)) {
-            buildRow(RowType.VIDEO, position++, res.getString(R.string.category_label_videos), null, null, R.dimen.home_scroll_size_video, true)
+            buildRow(
+                RowType.VIDEO,
+                position++,
+                res.getString(R.string.category_label_videos),
+                null,
+                null,
+                R.dimen.home_scroll_size_video,
+                true
+            )
         }
         if (enabledCategories.contains(AppCategory.MUSIC)) {
-            buildRow(RowType.MUSIC, position++, res.getString(R.string.category_label_music), null, null, R.dimen.home_scroll_size_music, true)
+            buildRow(
+                RowType.MUSIC,
+                position++,
+                res.getString(R.string.category_label_music),
+                null,
+                null,
+                R.dimen.home_scroll_size_music,
+                true
+            )
         }
         if (enabledCategories.contains(AppCategory.GAME)) {
-            buildRow(RowType.GAMES, position++, res.getString(R.string.category_label_games), null, null, R.dimen.home_scroll_size_games, true)
+            buildRow(
+                RowType.GAMES,
+                position++,
+                res.getString(R.string.category_label_games),
+                null,
+                null,
+                R.dimen.home_scroll_size_games,
+                true
+            )
         }
-        buildRow(RowType.APPS, position++, res.getString(R.string.category_label_apps), null, null, R.dimen.home_scroll_size_apps, true)
+        buildRow(
+            RowType.APPS,
+            position++,
+            res.getString(R.string.category_label_apps),
+            null,
+            null,
+            R.dimen.home_scroll_size_apps,
+            true
+        )
         if (areInputsEnabled(mMainActivity)) {
-            buildRow(RowType.INPUTS, position++, res.getString(R.string.category_label_inputs), null, null, R.dimen.home_scroll_size_inputs, true)
+            buildRow(
+                RowType.INPUTS,
+                position++,
+                res.getString(R.string.category_label_inputs),
+                null,
+                null,
+                R.dimen.home_scroll_size_inputs,
+                true
+            )
         }
-        buildRow(RowType.SETTINGS, position, res.getString(R.string.category_label_settings), null, null, R.dimen.home_scroll_size_settings, false)
+        buildRow(
+            RowType.SETTINGS,
+            position,
+            res.getString(R.string.category_label_settings),
+            null,
+            null,
+            R.dimen.home_scroll_size_settings,
+            false
+        )
         // TODO Notifications view... buildRow(RowType.ACTUAL_NOTIFICATIONS, position++, null, null, null, R.dimen.home_scroll_size_notifications, false);
 
         val comp = ListComparator()
@@ -186,7 +265,15 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
         Collections.sort(mVisRowsList, comp)
     }
 
-    private fun buildRow(type: RowType, position: Int, title: String?, icon: Drawable?, font: String?, scrollOffsetResId: Int, hideIfEmpty: Boolean) {
+    private fun buildRow(
+        type: RowType,
+        position: Int,
+        title: String?,
+        icon: Drawable?,
+        font: String?,
+        scrollOffsetResId: Int,
+        hideIfEmpty: Boolean
+    ) {
         val row = HomeScreenRow(type, position, hideIfEmpty)
         row.setHeaderInfo(title != null, title, icon, font)
         row.adapter = initAdapter(type)
@@ -283,9 +370,14 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
                 RowType.NOTIFICATIONS -> {
                     view = mInflater.inflate(R.layout.home_notification_row, parent, false)
                     val notifList: NotificationRowView = view.findViewById(R.id.list)
-                    val homeScreenView: HomeScreenView = view.findViewById(R.id.home_screen_messaging)
+                    val homeScreenView: HomeScreenView =
+                        view.findViewById(R.id.home_screen_messaging)
                     if (!(notifList == null || homeScreenView == null)) {
-                        initNotificationsRows(notifList, row.adapter!!, homeScreenView.homeScreenMessaging)
+                        initNotificationsRows(
+                            notifList,
+                            row.adapter!!,
+                            homeScreenView.homeScreenMessaging
+                        )
                     }
                 }
                 RowType.PARTNER, RowType.SETTINGS, RowType.INPUTS -> {
@@ -347,7 +439,11 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
         mEditListener = listener
     }
 
-    private fun initNotificationsRows(list: NotificationRowView, adapter: RecyclerView.Adapter<*>, homeScreenMessaging: HomeScreenMessaging) {
+    private fun initNotificationsRows(
+        list: NotificationRowView,
+        adapter: RecyclerView.Adapter<*>,
+        homeScreenMessaging: HomeScreenMessaging
+    ) {
         list.setHasFixedSize(true)
         list.adapter = adapter
         mHomeScreenMessaging = homeScreenMessaging
@@ -406,47 +502,53 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
             val size = getBannersSize(mMainActivity)
             val rowHeight = res.getDimension(R.dimen.banner_height).toInt() * size / 100
             val constraints: IntArray
-            val maxApps = getAppsMax(mMainActivity)
+            val maxApps = getOneRowMaxApps(mMainActivity)
             group.setScaledWhenUnfocused(true)
             when (row.type) {
                 RowType.INPUTS, RowType.PARTNER -> {
                 }
                 RowType.FAVORITES -> {
                     constraints = getFavoriteRowConstraints(mMainActivity)
-                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows =
+                        if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
                 RowType.GAMES -> {
                     constraints = getRowConstraints(AppCategory.GAME, mMainActivity)
-                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows =
+                        if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
                 RowType.MUSIC -> {
                     constraints = getRowConstraints(AppCategory.MUSIC, mMainActivity)
-                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows =
+                        if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
                 RowType.VIDEO -> {
                     constraints = getRowConstraints(AppCategory.VIDEO, mMainActivity)
-                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows =
+                        if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
                 RowType.APPS -> {
                     constraints = getAllAppsConstraints(mMainActivity)
-                    numMaxRows = if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
+                    numMaxRows =
+                        if (row.adapter!!.itemCount > maxApps) constraints[1] else constraints[0]
                     // APPLY
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(numMaxRows, cardSpacing, rowHeight)
                 }
-                RowType.SETTINGS -> lp.height = res.getDimension(R.dimen.settings_row_height).toInt()
+                RowType.SETTINGS -> lp.height =
+                    res.getDimension(R.dimen.settings_row_height).toInt()
             }
             list.setItemSpacing(cardSpacing)
         }
@@ -509,7 +611,8 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
             RowType.SETTINGS -> mSettingsAdapter
             RowType.INPUTS -> {
                 // TODO this.mPartner.showPhysicalTunersSeparately(), this.mPartner.disableDisconnectedInputs(), this.mPartner.getStateIconFromTVInput()
-                val adapter: RecyclerView.Adapter<*> = InputsAdapter(mMainActivity, InputsAdapter.Configuration(true, true, true))
+                val adapter: RecyclerView.Adapter<*> =
+                    InputsAdapter(mMainActivity, InputsAdapter.Configuration(true, true, true))
                 mInputsAdapter = adapter as InputsAdapter
                 adapter
             }
@@ -517,7 +620,11 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
         }
     }
 
-    fun onChildViewHolderSelected(parent: RecyclerView?, child: RecyclerView.ViewHolder?, position: Int) {
+    fun onChildViewHolderSelected(
+        parent: RecyclerView?,
+        child: RecyclerView.ViewHolder?,
+        position: Int
+    ) {
         if (position != mActiveItemIndex) {
             val activeItem: RecyclerView.ViewHolder?
             if (position == -1) {
@@ -591,7 +698,17 @@ class HomeScreenAdapter(context: MainActivity, scrollMgr: HomeScrollManager, not
             mScrollManager.addHomeScrollListener(holder.itemView as HomeScrollFractionListener)
         }
         holder.itemView.addOnLayoutChangeListener(object : OnLayoutChangeListener {
-            override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+            override fun onLayoutChange(
+                v: View,
+                left: Int,
+                top: Int,
+                right: Int,
+                bottom: Int,
+                oldLeft: Int,
+                oldTop: Int,
+                oldRight: Int,
+                oldBottom: Int
+            ) {
                 v.removeOnLayoutChangeListener(this)
                 if (mMainActivity.isEditAnimationInProgress) {
                     mMainActivity.includeInEditAnimation(holder.itemView)
