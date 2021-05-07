@@ -24,7 +24,7 @@ public abstract class RowViewAdapter<VH extends ViewHolder> extends Adapter<VH> 
         }
     }
 
-    public void onViewAttachedToWindow(final VH holder) {
+    public void onViewAttachedToWindow(VH holder) {
         super.onViewAttachedToWindow(holder);
         if ((this.mContext instanceof MainActivity) && ((MainActivity) this.mContext).isLaunchAnimationInProgress()) {
             holder.itemView.addOnLayoutChangeListener(new OnLayoutChangeListener() {

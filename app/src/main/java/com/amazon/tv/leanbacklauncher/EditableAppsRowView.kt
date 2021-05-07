@@ -95,11 +95,11 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     }
 
     fun setEditModeView(editModeView: EditModeView?) {
-        if (mEditModeView != null) {
-            mEditModeView!!.removeActionListener(this)
+        mEditModeView?.let {
+            it.removeActionListener(this)
         }
         mEditModeView = editModeView
-        mEditModeView!!.addActionListener(this)
+        mEditModeView?.addActionListener(this)
     }
 
     @set:SuppressLint("RestrictedApi")
@@ -141,11 +141,11 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     val isRowEditable: Boolean
         get() = true
 
-    override fun onSelectedChanged(v: BannerView, selected: Boolean) {
-        if (isUninstallDisallowed(v) && selected) {
-            mEditModeView!!.clearUninstallAndFinishLayers()
+    override fun onSelectedChanged(bannerView: BannerView, selected: Boolean) {
+        if (isUninstallDisallowed(bannerView) && selected) {
+            mEditModeView?.clearUninstallAndFinishLayers()
         } else {
-            mEditModeView!!.onSelectedChanged(v, selected)
+            mEditModeView?.onSelectedChanged(bannerView, selected)
         }
         val childCount = childCount
         refreshSelectedView()
@@ -254,8 +254,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         val curView = curFocusedViewHolder?.itemView
         if (curView is BannerView && !isUninstallDisallowed(curView as BannerView?)) {
             mLastFocused = mCurFocused
-            mEditModeView!!.requestUninstallIconFocus(curView as BannerView?, this)
-            mEditModeView!!.setBannerDrawable(lastFocusedBannerDrawable)
+            mEditModeView?.requestUninstallIconFocus(curView as BannerView?, this)
+            mEditModeView?.setBannerDrawable(lastFocusedBannerDrawable)
         }
     }
 
@@ -272,23 +272,28 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             if (oldFocus !is BannerView || newFocus !is BannerView) {
                 val curFocusedViewHolder = curViewHolderInt
                 val lastFocusedViewHolder = lastFocusedViewHolderInt
-                if (newFocus == mEditModeView!!.uninstallIcon) {
-                    setUninstallState()
-                    setChildrenLastFocusedBanner(if (lastFocusedViewHolder != null) lastFocusedViewHolder.itemView as BannerView else null)
-                } else if (oldFocus == mEditModeView!!.uninstallIcon) {
-                    val bannerView: BannerView?
-                    val editModeView = mEditModeView
-                    bannerView = if (curFocusedViewHolder != null) {
-                        curFocusedViewHolder.itemView as BannerView
-                    } else {
-                        null
+                when {
+                    newFocus == mEditModeView!!.uninstallIcon -> {
+                        setUninstallState()
+                        setChildrenLastFocusedBanner(if (lastFocusedViewHolder != null) lastFocusedViewHolder.itemView as BannerView else null)
                     }
-                    editModeView!!.setBannerUninstallModeWithAnimation(false, bannerView, this)
-                    setChildrenLastFocusedBanner(null)
-                } else if (newFocus == mEditModeView!!.finishButton) {
-                    setChildrenLastFocusedBanner(if (curFocusedViewHolder != null) curFocusedViewHolder.itemView as BannerView else null)
-                } else if (oldFocus == mEditModeView!!.finishButton) {
-                    setChildrenLastFocusedBanner(null)
+                    oldFocus == mEditModeView!!.uninstallIcon -> {
+                        val bannerView: BannerView?
+                        val editModeView = mEditModeView
+                        bannerView = if (curFocusedViewHolder != null) {
+                            curFocusedViewHolder.itemView as BannerView
+                        } else {
+                            null
+                        }
+                        editModeView!!.setBannerUninstallModeWithAnimation(false, bannerView, this)
+                        setChildrenLastFocusedBanner(null)
+                    }
+                    newFocus == mEditModeView!!.finishButton -> {
+                        setChildrenLastFocusedBanner(if (curFocusedViewHolder != null) curFocusedViewHolder.itemView as BannerView else null)
+                    }
+                    oldFocus == mEditModeView!!.finishButton -> {
+                        setChildrenLastFocusedBanner(null)
+                    }
                 }
             } else if (oldFocus.isSelected() && !mSwapping) {
                 try {
@@ -301,7 +306,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             }
         }
     }
-
+    // TODO: check cast for mEditModeView
     override fun focusSearch(focused: View, direction: Int): View {
         var direction = direction
         if (mEditMode) {
@@ -318,7 +323,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                     130 -> {
                         if (position % numRows >= numRows - 1 || position >= adapter!!.itemCount - 1) {
                             setUninstallState()
-                            return mEditModeView!!.uninstallIcon
+                            return mEditModeView!!.uninstallIcon as View
                         }
                         moveLaunchPoint(position, position + 1)
                         return focused
@@ -341,7 +346,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                 }
             } else if (direction == 130 && position % numRows == numRows - 1) {
                 setLastFocused()
-                return mEditModeView!!.finishButton
+                return mEditModeView!!.finishButton as View
             } else if (direction == 130 && position == adapter!!.itemCount - 1) {
                 return focused
             } else {

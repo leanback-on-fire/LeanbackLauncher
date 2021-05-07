@@ -52,7 +52,7 @@ class BannerView @JvmOverloads constructor(
 
     init {
         mSelectedListeners.add(mFocusAnimator)
-        mEditModeManager = EditModeManager.getInstance()
+        mEditModeManager = EditModeManager.instance
         isSelected = false
         setOnLongClickListener(this)
         if (sOutline == null) {
