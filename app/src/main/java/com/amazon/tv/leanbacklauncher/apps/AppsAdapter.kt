@@ -458,11 +458,6 @@ open class AppsAdapter(
         return sorted
     }
 
-    // return row type
-    fun getType(): Set<AppCategory?> {
-        return mAppTypes
-    }
-
     fun moveLaunchPoint(initPosition: Int, desiredPosition: Int, userAction: Boolean): Boolean {
         if (desiredPosition < 0 || desiredPosition > mLaunchPoints.size - 1 || initPosition < 0 || initPosition > mLaunchPoints.size - 1) {
             return false
