@@ -36,8 +36,9 @@ open class ActiveItemsRowView @JvmOverloads constructor(
     init {
         mChangeObserver = object : AdapterDataObserver() {
             override fun onChanged() {
-//                if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() numberOfRows: $aNumRows");
-                this@ActiveItemsRowView.adjustNumRows()
+//                if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() aNumRows: $aNumRows")
+                // FIXME: this@ActiveItemsRowView.adjustNumRows()
+                this@ActiveItemsRowView.adjustNumRows("other")
                 val adapter = this@ActiveItemsRowView.adapter
                 if (adapter is AppsAdapter && adapter.takeItemsHaveBeenSorted()) {
                     this@ActiveItemsRowView.selectedPosition = 0
