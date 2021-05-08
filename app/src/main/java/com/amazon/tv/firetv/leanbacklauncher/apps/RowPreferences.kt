@@ -18,77 +18,6 @@ object RowPreferences {
     const val TAG = "AppPrefs"
 
     @JvmStatic
-    fun getFavoriteRowConstraints(context: Context): IntArray {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val res = context.resources
-        return intArrayOf(
-            pref.getInt(
-                context.getString(R.string.pref_min_favorites_rows),
-                res.getInteger(R.integer.min_num_banner_rows)
-            ),
-            pref.getInt(
-                context.getString(R.string.pref_max_favorites_rows),
-                res.getInteger(R.integer.max_num_banner_rows)
-            )
-        )
-    }
-
-    @JvmStatic
-    fun getAllAppsConstraints(context: Context): IntArray {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val res = context.resources
-        return intArrayOf(
-            pref.getInt(
-                context.getString(R.string.pref_min_apps_rows),
-                res.getInteger(R.integer.min_num_banner_rows)
-            ),
-            pref.getInt(
-                context.getString(R.string.pref_max_apps_rows),
-                res.getInteger(R.integer.max_num_banner_rows)
-            )
-        )
-    }
-
-    @JvmStatic
-    fun getRowConstraints(cat: AppCategory?, context: Context): IntArray {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val res = context.resources
-        return when (cat) {
-            AppCategory.GAME -> intArrayOf(
-                pref.getInt(
-                    context.getString(R.string.pref_min_games_rows),
-                    res.getInteger(R.integer.min_num_banner_rows)
-                ),
-                pref.getInt(
-                    context.getString(R.string.pref_max_games_rows),
-                    res.getInteger(R.integer.max_num_banner_rows)
-                )
-            )
-            AppCategory.MUSIC -> intArrayOf(
-                pref.getInt(
-                    context.getString(R.string.pref_min_music_rows),
-                    res.getInteger(R.integer.min_num_banner_rows)
-                ),
-                pref.getInt(
-                    context.getString(R.string.pref_max_music_rows),
-                    res.getInteger(R.integer.max_num_banner_rows)
-                )
-            )
-            AppCategory.VIDEO -> intArrayOf(
-                pref.getInt(
-                    context.getString(R.string.pref_min_videos_rows),
-                    res.getInteger(R.integer.min_num_banner_rows)
-                ),
-                pref.getInt(
-                    context.getString(R.string.pref_max_videos_rows),
-                    res.getInteger(R.integer.max_num_banner_rows)
-                )
-            )
-            else -> intArrayOf(0, 0)
-        }
-    }
-
-    @JvmStatic
     fun areFavoritesEnabled(context: Context): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         return pref.getBoolean(context.getString(R.string.pref_enable_favorites_row), true)
@@ -204,18 +133,13 @@ object RowPreferences {
         return true
     }
 
-    fun setFavoriteRowConstraints(context: Context, min: Int, max: Int): Boolean {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putInt(context.getString(R.string.pref_min_favorites_rows), min).apply()
-        pref.edit().putInt(context.getString(R.string.pref_max_favorites_rows), max).apply()
-        return true
-    }
-
     @JvmStatic
-    fun setFavoriteRowMin(context: Context, min: Int): Boolean {
+    fun getFavoriteRowMax(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putInt(context.getString(R.string.pref_min_favorites_rows), min).apply()
-        return true
+        return pref.getInt(
+            context.getString(R.string.pref_max_favorites_rows),
+            context.resources.getInteger(R.integer.max_num_banner_rows)
+        )
     }
 
     @JvmStatic
@@ -225,31 +149,36 @@ object RowPreferences {
         return true
     }
 
-    fun setAllAppsConstraints(context: Context, min: Int, max: Int): Boolean {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putInt(context.getString(R.string.pref_min_apps_rows), min).apply()
-        pref.edit().putInt(context.getString(R.string.pref_max_apps_rows), max).apply()
-        return true
-    }
-
     @JvmStatic
-    fun setRowMin(cat: AppCategory?, context: Context, min: Int): Boolean {
+    fun getRowMax(cat: AppCategory?, context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        when (cat) {
+        val res = context.resources
+        return when (cat) {
             AppCategory.GAME -> {
-                pref.edit().putInt(context.getString(R.string.pref_min_games_rows), min).apply()
+                pref.getInt(
+                    context.getString(R.string.pref_max_games_rows),
+                    res.getInteger(R.integer.max_num_banner_rows)
+                )
             }
             AppCategory.MUSIC -> {
-                pref.edit().putInt(context.getString(R.string.pref_min_music_rows), min).apply()
+                pref.getInt(
+                    context.getString(R.string.pref_max_music_rows),
+                    res.getInteger(R.integer.max_num_banner_rows)
+                )
             }
             AppCategory.VIDEO -> {
-                pref.edit().putInt(context.getString(R.string.pref_min_videos_rows), min).apply()
+                pref.getInt(
+                    context.getString(R.string.pref_max_videos_rows),
+                    res.getInteger(R.integer.max_num_banner_rows)
+                )
             }
             else -> { // AppCategory.OTHER
-                pref.edit().putInt(context.getString(R.string.pref_min_apps_rows), min).apply()
+                pref.getInt(
+                    context.getString(R.string.pref_max_apps_rows),
+                    res.getInteger(R.integer.max_num_banner_rows)
+                )
             }
         }
-        return true
     }
 
     @JvmStatic
@@ -273,17 +202,16 @@ object RowPreferences {
     }
 
     @JvmStatic
-    fun getOneRowMaxApps(context: Context): Int {
+    fun getAppsColumns(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val res = context.resources
         return pref.getInt(
             context.getString(R.string.pref_max_apps),
-            res.getInteger(R.integer.two_row_cut_off)
+            context.resources.getInteger(R.integer.two_row_cut_off)
         )
     }
 
     @JvmStatic
-    fun setOneRowMaxApps(context: Context, max: Int): Boolean {
+    fun setAppsColumns(context: Context, max: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         pref.edit().putInt(context.getString(R.string.pref_max_apps), max).apply()
         return true

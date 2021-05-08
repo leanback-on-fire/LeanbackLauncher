@@ -153,7 +153,7 @@
     <string name="lb_time_separator">:</string>
     <string name="light_font">sans-serif-light</string>
     <string name="max_apps_rows_title">Max Apps Rows</string>
-    <string name="max_apps_title">Apps on One Row</string>
+    <string name="max_col_title">Visible Columns</string>
     <string name="max_favorites_rows_title">Max Favorites Rows</string>
     <string name="max_games_rows_title">Max Games Rows</string>
     <string name="max_music_rows_title">Max Music Rows</string>
@@ -184,11 +184,6 @@
     <string name="pref_max_games_rows">max_games_rows</string>
     <string name="pref_max_music_rows">max_music_rows</string>
     <string name="pref_max_videos_rows">max_videos_rows</string>
-    <string name="pref_min_apps_rows">min_apps_rows</string>
-    <string name="pref_min_favorites_rows">min_favorites_rows</string>
-    <string name="pref_min_games_rows">min_games_rows</string>
-    <string name="pref_min_music_rows">min_music_rows</string>
-    <string name="pref_min_videos_rows">min_videos_rows</string>
     <string name="primes_marker">PrImEs</string>
     <string name="primes_version">174122153</string>
     <string name="progress_percent">%1$d%%</string>

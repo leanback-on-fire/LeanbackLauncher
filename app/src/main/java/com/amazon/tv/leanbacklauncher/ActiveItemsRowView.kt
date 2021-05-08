@@ -7,14 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.OnHierarchyChangeListener
 import androidx.leanback.widget.HorizontalGridView
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getOneRowMaxApps
+import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsColumns
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer.DimState
 import com.amazon.tv.leanbacklauncher.apps.AppsAdapter
 import com.amazon.tv.leanbacklauncher.capabilities.LauncherConfiguration
+import kotlin.math.abs
 
-open class ActiveItemsRowView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyle: Int = 0) : HorizontalGridView(context, attrs, defStyle), OnHierarchyChangeListener {
+open class ActiveItemsRowView @JvmOverloads constructor(
+    context: Context?,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : HorizontalGridView(context, attrs, defStyle), OnHierarchyChangeListener {
     private val TAG =
         if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private val mCardElevationSupported: Boolean
@@ -22,14 +29,14 @@ open class ActiveItemsRowView @JvmOverloads constructor(context: Context?, attrs
     private var mChangeObserver: AdapterDataObserver
     protected var mDimState: DimState
     private var mIsAdjustable = false
-    var numberOfRows = 0
+    var aNumRows = 0
         private set
     private var mRowHeight = 0
 
     init {
         mChangeObserver = object : AdapterDataObserver() {
             override fun onChanged() {
-//                if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: onChanged()");
+//                if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() numberOfRows: $aNumRows");
                 this@ActiveItemsRowView.adjustNumRows()
                 val adapter = this@ActiveItemsRowView.adapter
                 if (adapter is AppsAdapter && adapter.takeItemsHaveBeenSorted()) {
@@ -59,8 +66,8 @@ open class ActiveItemsRowView @JvmOverloads constructor(context: Context?, attrs
     }
 
     override fun setAdapter(adapter: Adapter<*>?) {
-        if (getAdapter() != null) {
-            getAdapter()!!.unregisterAdapterDataObserver(mChangeObserver)
+        getAdapter()?.let {
+            it.unregisterAdapterDataObserver(mChangeObserver)
         }
         super.setAdapter(adapter)
         adapter?.registerAdapterDataObserver(mChangeObserver)
@@ -99,45 +106,84 @@ open class ActiveItemsRowView @JvmOverloads constructor(context: Context?, attrs
         setOnHierarchyChangeListener(if (isAdjustable) this else null)
     }
 
+    // called on HomeScreenAdaper initAppRow
     fun adjustNumRows(numRows: Int, cardSpacing: Int, rowHeight: Int) {
-//        if (BuildConfig.DEBUG) Log.w(TAG, "adjustNumRows(numRows:" + numRows + ", cardSpacing:" + cardSpacing + ", rowHeight:" + rowHeight +")");
-        if (mIsAdjustable && this.numberOfRows != numRows) {
-            this.numberOfRows = numRows
+        if (mIsAdjustable && this.aNumRows != numRows) {
+            if (BuildConfig.DEBUG) Log.w(
+                TAG,
+                "adjustNumRows[$numRows], mIsAdjustable: $mIsAdjustable, numRows: $numRows, aNumRows: ${this@ActiveItemsRowView.aNumRows}"
+            )
+            this.aNumRows = numRows
             mCardSpacing = cardSpacing
             mRowHeight = rowHeight
             post {
-                this@ActiveItemsRowView.layoutParams.height = this@ActiveItemsRowView.numberOfRows * mRowHeight + (this@ActiveItemsRowView.numberOfRows - 1) * mCardSpacing + (this@ActiveItemsRowView.paddingTop + this@ActiveItemsRowView.paddingBottom)
-                // Log.w(TAG, "height: " + ActiveItemsRowView.this.getLayoutParams().height);
-                setNumRows(this@ActiveItemsRowView.numberOfRows)
-                // Log.w(TAG, "setNumRows: " + ActiveItemsRowView.this.mNumRows);
+                val lp = this@ActiveItemsRowView.layoutParams
+                lp.height =
+                    this@ActiveItemsRowView.aNumRows * mRowHeight + (this@ActiveItemsRowView.aNumRows - 1) * mCardSpacing + (this@ActiveItemsRowView.paddingTop + this@ActiveItemsRowView.paddingBottom)
+                if (BuildConfig.DEBUG) Log.w(
+                    TAG,
+                    "new height: ${this@ActiveItemsRowView.layoutParams.height}"
+                )
+                setNumRows(this@ActiveItemsRowView.aNumRows)
+                if (BuildConfig.DEBUG) Log.w(TAG, "call setNumRows($aNumRows)")
                 this@ActiveItemsRowView.setRowHeight(mRowHeight)
-                // Log.w(TAG, "setRowHeight: " + ActiveItemsRowView.this.mRowHeight);
+                if (BuildConfig.DEBUG) Log.w(TAG, "set RowHeight($mRowHeight)")
             }
         }
     }
 
+    fun adjustNumRows(category: String) {
+        // calculate number of rows based on maxApps:
+        // always fill a least one full row of maxApps
+        val curApps = adapter!!.itemCount
+        val maxApps = getAppsColumns(context)
+        var maxRows: Int // = resources.getInteger(R.integer.max_num_banner_rows)
+        var base = abs(curApps / maxApps)
+        val lost = (maxApps * (base + 1)) - curApps
+        if (lost < base + 1) base += 1
+        // FIXME: rework this category mess (what about FAVORITES?)
+        val appTypes = listOf(AppCategory.fromName(category)) // get this real somehow
+        val userMax: Int = when {
+            appTypes.contains(AppCategory.OTHER) -> RowPreferences.getRowMax(AppCategory.OTHER, context)
+            appTypes.contains(AppCategory.VIDEO) -> RowPreferences.getRowMax(AppCategory.VIDEO, context)
+            appTypes.contains(AppCategory.MUSIC) -> RowPreferences.getRowMax(AppCategory.MUSIC, context)
+            appTypes.contains(AppCategory.GAME) -> RowPreferences.getRowMax(AppCategory.GAME, context)
+            else -> context.resources.getInteger(R.integer.max_num_banner_rows)
+        }
+        // numRows
+        maxRows = if (base > 0) base.coerceAtMost(userMax) else resources.getInteger(R.integer.min_num_banner_rows)
+
+        if (BuildConfig.DEBUG) Log.w(
+            TAG,
+            "adjustNumRows($maxRows), items:$curApps columns:$maxApps waste:$lost user max:$userMax curRows:${this.aNumRows}"
+        )
+        // numRows
+        adjustNumRows(maxRows, mCardSpacing, mRowHeight)
+    }
+
+    // called on onChanged / onChildViewAdded / onChildViewRemoved
     private fun adjustNumRows() {
-        val integer: Int
-        integer = if (numberOfRows > 0) numberOfRows else {
-            val res = resources
-            val ctx = context
-            if (adapter!!.itemCount > getOneRowMaxApps(ctx)) {
-                res.getInteger(R.integer.max_num_banner_rows)
+        val integer: Int = if (aNumRows > 0) aNumRows else {
+            if (adapter!!.itemCount > getAppsColumns(context)) {
+                resources.getInteger(R.integer.max_num_banner_rows)
             } else {
-                res.getInteger(R.integer.min_num_banner_rows)
+                resources.getInteger(R.integer.min_num_banner_rows)
             }
         }
-        //        if (BuildConfig.DEBUG) Log.d(TAG, "ActiveItemsRowView: adjustNumRows() to " + integer);
+        // apply
         adjustNumRows(integer, mCardSpacing, mRowHeight)
     }
 
     override fun childHasTransientStateChanged(child: View, hasTransientState: Boolean) {}
+
     override fun onChildViewAdded(parent: View, child: View) {
-        adjustNumRows()
+        // FIXME adjustNumRows()
+        adjustNumRows("other")
     }
 
     override fun onChildViewRemoved(parent: View, child: View) {
-        adjustNumRows()
+        // FIXME adjustNumRows()
+        adjustNumRows("other")
     }
 
     override fun onScrollStateChanged(state: Int) {

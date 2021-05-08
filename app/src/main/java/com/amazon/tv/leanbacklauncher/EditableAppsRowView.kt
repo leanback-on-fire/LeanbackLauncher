@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getBannersSize
@@ -24,6 +25,8 @@ import com.amazon.tv.leanbacklauncher.widget.EditModeViewActionListener
 import java.util.*
 
 class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyle: Int = 0) : ActiveItemsRowView(context, attrs, defStyle), OnGlobalFocusChangeListener, BannerSelectedChangedListener, OnEditModeChangedListener, EditModeViewActionListener {
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private var mChangeObserver: AdapterDataObserver
     private var mCurFocused = 0
     private val mEditListeners: ArrayList<OnEditModeChangedListener?>
@@ -111,9 +114,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                 (context as Activity).setTitle(R.string.title_app_edit_mode)
             }
             if (mEditMode != editMode) {
-                val dimensionPixelSize: Int
                 mEditMode = editMode
-                dimensionPixelSize = if (editMode) {
+                val dimensionPixelSize: Int = if (editMode) {
                     val size = getBannersSize(context)
                     resources.getDimensionPixelSize(R.dimen.banner_width) * size / 100
                 } else {
@@ -133,8 +135,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                         (it.next() as OnEditModeChangedListener).onEditModeChanged(editMode)
                     }
                 }
-                if (Log.isLoggable("EditableAppsRowView", Log.DEBUG)) {
-                    Log.d("EditableAppsRowView", "Edit Mode is now $mEditMode.")
+                if (Log.isLoggable(TAG, Log.DEBUG)) {
+                    Log.d(TAG, "Edit Mode is now $mEditMode.")
                 }
             }
         }
@@ -278,9 +280,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                         setChildrenLastFocusedBanner(if (lastFocusedViewHolder != null) lastFocusedViewHolder.itemView as BannerView else null)
                     }
                     oldFocus == mEditModeView!!.uninstallIcon -> {
-                        val bannerView: BannerView?
                         val editModeView = mEditModeView
-                        bannerView = if (curFocusedViewHolder != null) {
+                        val bannerView: BannerView? = if (curFocusedViewHolder != null) {
                             curFocusedViewHolder.itemView as BannerView
                         } else {
                             null
@@ -311,16 +312,16 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         var direction = direction
         if (mEditMode) {
             val position = getChildAdapterPosition(focused)
-            val numRows = numberOfRows
-            if (focused.isSelected) {
+            val numRows = aNumRows
+            if (focused.isSelected) { // moving app in edit mode
                 if (itemAnimator!!.isRunning) {
                     return focused
                 }
-                if (layoutDirection == LAYOUT_DIRECTION_RTL && (direction == 17 || direction == 66)) {
-                    direction = if (direction == 17) 66 else 17
+                if (layoutDirection == LAYOUT_DIRECTION_RTL && (direction == FOCUS_LEFT || direction == FOCUS_RIGHT)) {
+                    direction = if (direction == FOCUS_LEFT) FOCUS_RIGHT else FOCUS_LEFT
                 }
                 when (direction) {
-                    130 -> {
+                    FOCUS_DOWN -> {
                         if (position % numRows >= numRows - 1 || position >= adapter!!.itemCount - 1) {
                             setUninstallState()
                             return mEditModeView!!.uninstallIcon as View
@@ -328,29 +329,29 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                         moveLaunchPoint(position, position + 1)
                         return focused
                     }
-                    33 -> {
+                    FOCUS_UP -> {
                         if (position % numRows <= 0) {
                             return focused
                         }
                         moveLaunchPoint(position, position - 1)
                         return focused
                     }
-                    66 -> {
+                    FOCUS_RIGHT -> {
                         moveLaunchPoint(position, position + numRows)
                         return focused
                     }
-                    17 -> {
+                    FOCUS_LEFT -> {
                         moveLaunchPoint(position, position - numRows)
                         return focused
                     }
                 }
-            } else if (direction == 130 && position % numRows == numRows - 1) {
+            } else if (direction == FOCUS_DOWN && position % numRows == numRows - 1) {
                 setLastFocused()
                 return mEditModeView!!.finishButton as View
-            } else if (direction == 130 && position == adapter!!.itemCount - 1) {
+            } else if (direction == FOCUS_DOWN && position == adapter!!.itemCount - 1) {
                 return focused
             } else {
-                if (direction == 33 && position % numRows == 0) {
+                if (direction == FOCUS_UP && position % numRows == 0) {
                     return focused
                 }
             }
@@ -371,7 +372,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             mCurFocused = -1
             return
         }
-        var newFocusPosition = curFocusedViewHolder.layoutPosition + numberOfRows
+        var newFocusPosition = curFocusedViewHolder.layoutPosition + aNumRows
         if (isAccessibilityEnabled) {
             newFocusPosition = 0
         }
@@ -414,7 +415,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         }
 
     fun setBannerDrawableUninstallState(uninstalling: Boolean) {
-        var i = GONE
+        var i = View.GONE
         val lastFocusedViewHolder = lastFocusedViewHolderInt
         if (lastFocusedViewHolder != null && lastFocusedViewHolder.itemView is BannerView) {
             val itemView = lastFocusedViewHolder.itemView
@@ -422,23 +423,22 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             if (bannerView != null) {
                 var drawable: Drawable?
                 drawable = if (uninstalling) {
-                    resources.getDrawable(R.drawable.dashed_holder, null)
+                    ResourcesCompat.getDrawable(resources, R.drawable.dashed_holder, null)
                 } else {
-                    resources.getDrawable(R.drawable.banner_background, null)
+                    ResourcesCompat.getDrawable(resources, R.drawable.banner_background, null)
                 }
                 bannerView.background = drawable
                 if (bannerView is LinearLayout) {
-                    val i2: Int
                     val icon = itemView.findViewById<View>(R.id.banner_icon)
-                    i2 = if (uninstalling) {
-                        GONE
+                    val i2: Int = if (uninstalling) {
+                        View.GONE
                     } else {
-                        VISIBLE
+                        View.VISIBLE
                     }
                     icon.visibility = i2
                     val text = itemView.findViewById<View>(R.id.banner_label)
                     if (!uninstalling) {
-                        i = VISIBLE
+                        i = View.VISIBLE
                     }
                     text.visibility = i
                 }

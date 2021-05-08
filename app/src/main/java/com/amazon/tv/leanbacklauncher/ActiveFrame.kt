@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import android.view.animation.Animation
@@ -18,26 +19,30 @@ import com.amazon.tv.leanbacklauncher.animation.ParticipatesInScrollAnimation
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer.DimState
 import com.amazon.tv.leanbacklauncher.notifications.HomeScreenView
+import kotlin.math.ceil
+import kotlin.math.floor
 
 class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : LinearLayout(context, attrs, defStyle), HomeScrollFractionListener, ParticipatesInScrollAnimation {
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private val mAccessibilityManager: AccessibilityManager
-    protected var mActiveTextMargin: Float
+    private var mActiveTextMargin: Float
     private val mAnimDuration: Int
-    protected var mBottomPadding: Int
-    protected var mCardSpacing: Float
-    protected var mDimState: DimState
+    private var mBottomPadding: Int
+    private var mCardSpacing: Float
+    private var mDimState: DimState
     private var mDimmer: ViewDimmer? = null
     private var mDownscaleFactor: Float
     private var mExpandAnim: RowExpandAnimation? = null
     private var mExpanded: Float
-    protected var mHeader: View? = null
+    private var mHeader: View? = null
     private var mHeaderFadeInAnimation: Animator? = null
     private var mHeaderFadeOutAnimation: Animator? = null
-    protected var mHeaderHeight: Int
+    private var mHeaderHeight: Int
     private val mHeaderVisible: Boolean
     var mRow: ActiveItemsRowView? = null
-    protected var mRowMinSpacing: Int
-    protected var mRowPadding: Float
+    private var mRowMinSpacing: Int
+    private var mRowPadding: Float
     private var mScalesWhenUnfocused: Boolean
 
     init {
@@ -61,13 +66,12 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private inner class RowExpandAnimation @SuppressLint("ResourceType") constructor(private val mStartValue: Float, end: Float) : Animation() {
-        private val mDelta: Float
+        private val mDelta: Float = end - mStartValue
         override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
             setExpandedFraction(mStartValue + mDelta * interpolatedTime)
         }
 
         init {
-            mDelta = end - mStartValue
             duration = mAnimDuration.toLong()
             interpolator = AnimationUtils.loadInterpolator(this@ActiveFrame.context, 17563661)
         }
@@ -132,7 +136,7 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
         if (mScalesWhenUnfocused) {
             setRowState(ViewDimmer.dimStateToActivated(mDimState), false)
         } else {
-            setRowState(true, false)
+            setRowState(expanded = true, animate = false)
         }
     }
 
@@ -230,12 +234,13 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 val usableSpace = rowLength.toFloat() - 2.0f * mRowPadding
                 val itemCount = adapter.itemCount
                 val selected = mRow!!.selectedPosition
-                var numRows = mRow!!.numberOfRows
+                var numRows = mRow!!.aNumRows
                 if (numRows <= 0) {
                     numRows = 1
                 }
-                val numCol = Math.ceil((itemCount.toFloat() / numRows.toFloat()).toDouble()).toInt()
-                val selectedCol = Math.floor((mRow!!.selectedPosition.toFloat() / numRows.toFloat()).toDouble()).toInt()
+                // TODO: check numCol math
+                val numCol = ceil((itemCount.toFloat() / numRows.toFloat()).toDouble()).toInt()
+                val selectedCol = floor((mRow!!.selectedPosition.toFloat() / numRows.toFloat()).toDouble()).toInt()
                 var selectedView: View? = null
                 if (itemCount > 0 && selected >= 0) {
                     val holder = mRow!!.findViewHolderForAdapterPosition(selected)
@@ -249,14 +254,19 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val totalLength = itemCount.toFloat() * viewLength + mCardSpacing * (itemCount - 1)
                     val distFromStart = (mCardSpacing + viewLength) * selectedCol.toFloat() + 0.5f * viewLength
                     val distFromEnd = (mCardSpacing + viewLength) * (numCol - selectedCol - 1) + 0.5f * viewLength
-                    rowAlign = if (totalLength < measuredWidth.toFloat() - 2.0f * mRowPadding) {
-                        0
-                    } else if (distFromStart <= (measuredWidth / 2).toFloat()) {
-                        0
-                    } else if (distFromEnd < (measuredWidth / 2).toFloat()) {
-                        2
-                    } else {
-                        1
+                    rowAlign = when {
+                        totalLength < measuredWidth.toFloat() - 2.0f * mRowPadding -> {
+                            0
+                        }
+                        distFromStart <= (measuredWidth / 2).toFloat() -> {
+                            0
+                        }
+                        distFromEnd < (measuredWidth / 2).toFloat() -> {
+                            2
+                        }
+                        else -> {
+                            1
+                        }
                     }
                     val selectCtr = selectedView.left.toFloat() + viewLength / 2.0f
                     if (!isScaled) {
@@ -266,9 +276,8 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         mRow!!.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
                         mRow!!.translationX = 0.0f
                     } else if (rowAlign == 1) {
-                        val f: Float
                         val activeItemsRowView = mRow
-                        f = if (useRtl) {
+                        val f: Float = if (useRtl) {
                             rowLength.toFloat() - selectCtr
                         } else {
                             selectCtr

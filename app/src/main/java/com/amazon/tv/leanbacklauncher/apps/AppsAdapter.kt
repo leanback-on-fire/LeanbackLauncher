@@ -21,7 +21,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getOneRowMaxApps
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsColumns
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getRowMax
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companion.instance
 import com.amazon.tv.leanbacklauncher.BuildConfig
@@ -35,6 +36,7 @@ import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.saveSortingMode
 import com.amazon.tv.leanbacklauncher.util.Lists
 import com.amazon.tv.leanbacklauncher.widget.RowViewAdapter
 import java.util.*
+import kotlin.math.abs
 
 open class AppsAdapter(
     context: Context,
@@ -42,25 +44,22 @@ open class AppsAdapter(
     vararg appTypes: AppCategory?
 ) : RowViewAdapter<AppViewHolder?>(context), AppsRanker.RankingListener, LaunchPointList.Listener,
     OnSharedPreferenceChangeListener {
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private val mActionOpenLaunchPointListener: ActionOpenLaunchPointListener?
     private var mAppTypes = emptySet<AppCategory?>()
     protected var mFilter: AppFilter
-    protected var mAppsManager: AppsManager?
+    protected var mAppsManager: AppsManager? = getInstance(context)
     protected var mFlaggedForResort: Boolean
     private val mInflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private var mItemsHaveBeenSorted = false
-    protected var mLaunchPoints: ArrayList<LaunchPoint>
+    protected var mLaunchPoints: ArrayList<LaunchPoint> = arrayListOf()
     private val mNotifyHandler = Handler()
-    private val prefUtil: SharedPreferencesUtil?
+    private val prefUtil: SharedPreferencesUtil? = instance(context)
     private val listener: OnSharedPreferenceChangeListener = this
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     init {
-        mLaunchPoints = arrayListOf()
-        mAppsManager = getInstance(context)
-        prefUtil = instance(context)
         prefUtil?.addHiddenListener(listener)
         mFilter = object : AppFilter() {
             override fun include(point: LaunchPoint?): Boolean {
@@ -74,7 +73,6 @@ open class AppsAdapter(
     }
 
     companion object {
-
         fun isDark(color: Int): Boolean {
             return ColorUtils.calculateLuminance(color) < 0.25 // 0.5
         }
@@ -463,11 +461,12 @@ open class AppsAdapter(
         if (desiredPosition < 0 || desiredPosition > mLaunchPoints.size - 1 || initPosition < 0 || initPosition > mLaunchPoints.size - 1) {
             return false
         }
+//        if (BuildConfig.DEBUG) Log.d(TAG, "moveLaunchPoint(initPosition: $initPosition, desiredPosition: $desiredPosition, userAction: $userAction)")
         val focused = mLaunchPoints[initPosition]
         mLaunchPoints[initPosition] = mLaunchPoints[desiredPosition]
         mLaunchPoints[desiredPosition] = focused
         notifyItemMoved(initPosition, desiredPosition)
-        if (Math.abs(desiredPosition - initPosition) > 1) {
+        if (abs(desiredPosition - initPosition) > 1) {
             notifyItemMoved(
                 desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1,
                 initPosition
@@ -553,19 +552,13 @@ open class AppsAdapter(
 
     override fun onLaunchPointsAddedOrUpdated(launchPoints: ArrayList<LaunchPoint>) {
         mNotifyHandler.post {
-            if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsAddedOrUpdated(${launchPoints})")
-            if (BuildConfig.DEBUG) Log.d(
-                TAG,
-                "Current Apps set: $mAppTypes, mLaunchPoints size: ${mLaunchPoints.size}"
-            )
             var saveAppOrderChanges = false
             for (i in launchPoints.indices) {
                 val lp = launchPoints[i]
-                if (BuildConfig.DEBUG) Log.d(TAG, "Check: $lp")
                 for (j in mLaunchPoints.indices) {
                     val alp = mLaunchPoints[j]
                     if (lp.packageName == alp.packageName) {
-                        if (BuildConfig.DEBUG) Log.d(TAG, "Found $lp at position $j")
+//                        if (BuildConfig.DEBUG) Log.d(TAG, "Found $lp at position $j")
                         mLaunchPoints.removeAt(j)
                         notifyItemRemoved(j)
                         break
@@ -580,7 +573,7 @@ open class AppsAdapter(
                 if (lp != null && !mAppTypes.contains(lp.appCategory)) {
                     continue
                 }
-                if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted for $lp")
+//                if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted for $lp")
                 notifyItemInserted(mAppsManager!!.insertLaunchPoint(mLaunchPoints, lp))
                 saveAppOrderChanges = true
             }
@@ -592,11 +585,7 @@ open class AppsAdapter(
 
     override fun onLaunchPointsRemoved(launchPoints: ArrayList<LaunchPoint>) {
         mNotifyHandler.post {
-            if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsRemoved(${launchPoints})")
-            if (BuildConfig.DEBUG) Log.d(
-                TAG,
-                "Current Apps set: $mAppTypes, mLaunchPoints size: ${mLaunchPoints.size}"
-            )
+//            if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsRemoved() Current section cats: $mAppTypes, mLaunchPoints size: ${mLaunchPoints.size}, removed size: ${launchPoints.size}")
             var i: Int
             var saveAppOrderChanges = false
             var itemRemovedAt = -1
@@ -616,16 +605,36 @@ open class AppsAdapter(
                 saveAppOrderSnapshot()
             }
             if (itemRemovedAt != -1) {
-                val numRows: Int
-                val maxApps = getOneRowMaxApps(mContext)
+
+                val maxApps = getAppsColumns(mContext)
                 val viewType = getItemViewType(itemRemovedAt)
-                val res = mContext.resources
-                numRows = if (this@AppsAdapter.itemCount > maxApps) {
-                    res.getInteger(R.integer.max_num_banner_rows)
-                } else {
-                    res.getInteger(R.integer.min_num_banner_rows)
+
+//                val res = mContext.resources
+//                val numRows = if (this@AppsAdapter.itemCount > maxApps) {
+//                    res.getInteger(R.integer.max_num_banner_rows)
+//                } else {
+//                    res.getInteger(R.integer.min_num_banner_rows)
+//                }
+
+                // calculate number of rows based on maxApps:
+                // always fill a least one full row of maxApps
+                val curApps: Int = this@AppsAdapter.itemCount // mLaunchPoints.size differ / wrong?
+                // FIXME: rework this category mess (what about FAVORITES?)
+                val userMax: Int = when {
+                    mAppTypes.contains(AppCategory.OTHER) -> getRowMax(AppCategory.OTHER, mContext)
+                    mAppTypes.contains(AppCategory.VIDEO) -> getRowMax(AppCategory.VIDEO, mContext)
+                    mAppTypes.contains(AppCategory.MUSIC) -> getRowMax(AppCategory.MUSIC, mContext)
+                    mAppTypes.contains(AppCategory.GAME) -> getRowMax(AppCategory.GAME, mContext)
+                    else -> mContext.resources.getInteger(R.integer.max_num_banner_rows)
                 }
-                if ((viewType == 0 || viewType == 1) && numRows > 1) { // apps
+                var base = abs(curApps / maxApps)
+                val lost = (maxApps * (base + 1)) - curApps
+                if (lost < base + 1) base += 1
+                val numRows =
+                    if (base > 0) base.coerceAtMost(userMax) else mContext.resources.getInteger(R.integer.min_num_banner_rows)
+                if (BuildConfig.DEBUG) Log.d(TAG, "user max rows: $userMax, calculated numRows: $numRows")
+
+                if ((viewType == 0 || viewType == 1) && numRows > 1) { // apps banner with few rows ()
                     var lastPosition = itemRemovedAt
                     i = itemRemovedAt
                     while (i + numRows < mLaunchPoints.size) {
@@ -633,9 +642,11 @@ open class AppsAdapter(
                         lastPosition = i + numRows
                         i += numRows
                     }
+//                    Log.d(TAG, "numRows > 1: removeAt($lastPosition)")
                     mLaunchPoints.removeAt(lastPosition)
                     notifyItemRemoved(lastPosition)
-                } else {
+                } else { // settings and apps in one row
+//                    Log.d(TAG, "numRows = 1: removeAt($itemRemovedAt)")
                     mLaunchPoints.removeAt(itemRemovedAt)
                     notifyItemRemoved(itemRemovedAt)
                 }

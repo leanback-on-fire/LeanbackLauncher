@@ -127,7 +127,7 @@
     <string name="lb_search_bar_hint">Поиск</string>
     <string name="lb_time_separator">:</string>
     <string name="max_apps_rows_title">Макс. строк в «Приложения»</string>
-    <string name="max_apps_title">Приложений в одной строке</string>
+    <string name="max_col_title">Количество видимых столбцов</string>
     <string name="max_favorites_rows_title">Макс. строк в «Избранное»</string>
     <string name="max_games_rows_title">Макс. строк в «Игры»</string>
     <string name="max_music_rows_title">Макс. строк в «Музыка»</string>

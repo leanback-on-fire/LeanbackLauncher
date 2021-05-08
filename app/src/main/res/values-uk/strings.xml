@@ -127,7 +127,7 @@
     <string name="lb_search_bar_hint">Пошук</string>
     <string name="lb_time_separator">:</string>
     <string name="max_apps_rows_title">Макс. рядків в «Додатки»</string>
-    <string name="max_apps_title">Додатків в одному рядку</string>
+    <string name="max_col_title">Додатків в одному рядку</string>
     <string name="max_favorites_rows_title">Макс. рядків в «Обране»</string>
     <string name="max_games_rows_title">Макс. рядків в «Ігри»</string>
     <string name="max_music_rows_title">Макс. рядків в «Музика»</string>

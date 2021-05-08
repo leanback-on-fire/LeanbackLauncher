@@ -13,21 +13,18 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areFavoritesEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areInputsEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.areRecommendationsEnabled
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAllAppsConstraints
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getOneRowMaxApps
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsColumns
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getEnabledCategories
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getFavoriteRowConstraints
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getRowConstraints
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setOneRowMaxApps
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getFavoriteRowMax
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getRowMax
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setAppsColumns
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setFavoriteRowMax
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setFavoriteRowMin
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setFavoritesEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setGamesEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setInputsEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setMusicEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setRecommendationsEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setRowMax
-import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setRowMin
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setVideosEnabled
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils.isLocalNotificationsEnabled
 import com.amazon.tv.leanbacklauncher.R
@@ -87,14 +84,6 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     }
                     setFavoriteRowMax(activity, value)
                 }
-                2 -> {
-                    value = try {
-                        action.description.toString().toInt()
-                    } catch (nfe: NumberFormatException) {
-                        1
-                    }
-                    setFavoriteRowMin(activity, value)
-                }
             }
         } else if (catId == musicIndex.toLong()) {
             when (subId) {
@@ -109,14 +98,6 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                         1
                     }
                     setRowMax(AppCategory.MUSIC, activity, value)
-                }
-                2 -> {
-                    value = try {
-                        action.description.toString().toInt()
-                    } catch (nfe: NumberFormatException) {
-                        1
-                    }
-                    setRowMin(AppCategory.MUSIC, activity, value)
                 }
             }
         } else if (catId == videoIndex.toLong()) {
@@ -133,14 +114,6 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     }
                     setRowMax(AppCategory.VIDEO, activity, value)
                 }
-                2 -> {
-                    value = try {
-                        action.description.toString().toInt()
-                    } catch (nfe: NumberFormatException) {
-                        1
-                    }
-                    setRowMin(AppCategory.VIDEO, activity, value)
-                }
             }
         } else if (catId == gameIndex.toLong()) {
             when (subId) {
@@ -156,14 +129,6 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                     }
                     setRowMax(AppCategory.GAME, activity, value)
                 }
-                2 -> {
-                    value = try {
-                        action.description.toString().toInt()
-                    } catch (nfe: NumberFormatException) {
-                        1
-                    }
-                    setRowMin(AppCategory.GAME, activity, value)
-                }
             }
         } else if (id == ACTION_ID_APPS_MAX.toLong()) {
             value = try {
@@ -171,15 +136,14 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
             } catch (nfe: NumberFormatException) {
                 1
             }
-            // setAllAppsMax(activity, value)
             setRowMax(AppCategory.OTHER, activity, value)
-        } else if (id == ACTION_ID_APPS_ROW.toLong()) {
+        } else if (id == ACTION_ID_APPS_COL.toLong()) {
             value = try {
                 action.description.toString().toInt()
             } catch (nfe: NumberFormatException) {
                 1
             }
-            setOneRowMaxApps(activity, value)
+            setAppsColumns(activity, value)
         } else if (id == ACTION_ID_RECOMMENDATIONS.toLong()) { // RECOMMENDATIONS
             enabled = areRecommendationsEnabled(activity)
             setRecommendationsEnabled(activity, !enabled)
@@ -241,12 +205,12 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                 .description(desc)
                 .build()
         )
-        var constraints = getFavoriteRowConstraints(activity)
+        var maxRows = getFavoriteRowMax(activity)
         actions.add(
             GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.max_favorites_rows_title)
-                .description(constraints[1].toString())
+                .description(maxRows.toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
@@ -263,12 +227,12 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                 .description(desc)
                 .build()
         )
-        constraints = getRowConstraints(AppCategory.VIDEO, activity)
+        maxRows = getRowMax(AppCategory.VIDEO, activity)
         actions.add(
             GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.max_videos_rows_title)
-                .description(constraints[1].toString())
+                .description(maxRows.toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
@@ -285,12 +249,12 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                 .description(desc)
                 .build()
         )
-        constraints = getRowConstraints(AppCategory.MUSIC, activity)
+        maxRows = getRowMax(AppCategory.MUSIC, activity)
         actions.add(
             GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.max_music_rows_title)
-                .description(constraints[1].toString())
+                .description(maxRows.toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
@@ -307,26 +271,25 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
                 .description(desc)
                 .build()
         )
-        constraints = getRowConstraints(AppCategory.GAME, activity)
+        maxRows = getRowMax(AppCategory.GAME, activity)
         actions.add(
             GuidedAction.Builder(activity)
                 .id((++index).toLong())
                 .title(R.string.max_games_rows_title)
-                .description(constraints[1].toString())
+                .description(maxRows.toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
         )
         gameIndex = (index - 1) / 2
         // ALL APPS
-        // actions.add(new GuidedAction.Builder(activity).id(ACTION_ID_APPS).title(R.string.apps_row_title).build());
-        constraints = getAllAppsConstraints(activity)
-        val maxApps = getOneRowMaxApps(activity)
+        maxRows = getRowMax(AppCategory.OTHER, activity)
+        val maxApps = getAppsColumns(activity)
         actions.add(
             GuidedAction.Builder(activity)
                 .id(ACTION_ID_APPS_MAX.toLong())
                 .title(R.string.max_apps_rows_title)
-                .description(constraints[1].toString())
+                .description(maxRows.toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
@@ -334,8 +297,8 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         // Max Apps per row
         actions.add(
             GuidedAction.Builder(activity)
-                .id(ACTION_ID_APPS_ROW.toLong())
-                .title(R.string.max_apps_title)
+                .id(ACTION_ID_APPS_COL.toLong())
+                .title(R.string.max_col_title)
                 .description(maxApps.toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
@@ -351,7 +314,7 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
 
     companion object {
         //        private const val ACTION_ID_APPS = 50
-        private const val ACTION_ID_APPS_ROW = 51
+        private const val ACTION_ID_APPS_COL = 51
         private const val ACTION_ID_APPS_MAX = 52
         private const val ACTION_ID_RECOMMENDATIONS = 100
         private const val ACTION_ID_INPUTS = 200
