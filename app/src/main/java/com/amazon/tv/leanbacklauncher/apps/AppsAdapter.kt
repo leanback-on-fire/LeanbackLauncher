@@ -58,6 +58,7 @@ open class AppsAdapter(
     private val mNotifyHandler = Handler()
     private val prefUtil: SharedPreferencesUtil? = instance(context)
     private val listener: OnSharedPreferenceChangeListener = this
+    private var category: AppCategory? = null
 
     init {
         prefUtil?.addHiddenListener(listener)
@@ -70,6 +71,8 @@ open class AppsAdapter(
         mFlaggedForResort = false
         mActionOpenLaunchPointListener = actionOpenLaunchPointListener
         mAppsManager?.registerLaunchPointListListener(this)
+        // 1st category of adapter
+        category = appTypes.firstOrNull()
     }
 
     companion object {
@@ -456,6 +459,10 @@ open class AppsAdapter(
         val sorted = mItemsHaveBeenSorted
         mItemsHaveBeenSorted = false
         return sorted
+    }
+
+    fun getFirstCat(): AppCategory? {
+        return category
     }
 
     fun moveLaunchPoint(initPosition: Int, desiredPosition: Int, userAction: Boolean): Boolean {
