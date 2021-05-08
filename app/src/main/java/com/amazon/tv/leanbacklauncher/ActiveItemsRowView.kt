@@ -29,6 +29,7 @@ open class ActiveItemsRowView @JvmOverloads constructor(
     private var mChangeObserver: AdapterDataObserver
     protected var mDimState: DimState
     private var mIsAdjustable = false
+    private var mAdapterType: Set<AppCategory?> = emptySet()
     var aNumRows = 0
         private set
     private var mRowHeight = 0
@@ -36,10 +37,12 @@ open class ActiveItemsRowView @JvmOverloads constructor(
     init {
         mChangeObserver = object : AdapterDataObserver() {
             override fun onChanged() {
-//                if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() aNumRows: $aNumRows")
-                // FIXME: this@ActiveItemsRowView.adjustNumRows()
-                this@ActiveItemsRowView.adjustNumRows("other")
+                if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() aNumRows: $aNumRows")
+                // this@ActiveItemsRowView.adjustNumRows()
                 val adapter = this@ActiveItemsRowView.adapter
+                if (adapter is AppsAdapter)
+                    mAdapterType = adapter.getType()
+                this@ActiveItemsRowView.adjustNumRows(mAdapterType)
                 if (adapter is AppsAdapter && adapter.takeItemsHaveBeenSorted()) {
                     this@ActiveItemsRowView.selectedPosition = 0
                     if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() setSelectedPosition(0)")
@@ -132,8 +135,8 @@ open class ActiveItemsRowView @JvmOverloads constructor(
             }
         }
     }
-
-    fun adjustNumRows(category: String) {
+    // called on onChanged / onChildViewAdded / onChildViewRemoved
+    fun adjustNumRows(category: Set<AppCategory?>) {
         // calculate number of rows based on maxApps:
         // always fill a least one full row of maxApps
         val curApps = adapter!!.itemCount
@@ -143,12 +146,11 @@ open class ActiveItemsRowView @JvmOverloads constructor(
         val lost = (maxApps * (base + 1)) - curApps
         if (lost < base + 1) base += 1
         // FIXME: rework this category mess (what about FAVORITES?)
-        val appTypes = listOf(AppCategory.fromName(category)) // get this real somehow
         val userMax: Int = when {
-            appTypes.contains(AppCategory.OTHER) -> RowPreferences.getRowMax(AppCategory.OTHER, context)
-            appTypes.contains(AppCategory.VIDEO) -> RowPreferences.getRowMax(AppCategory.VIDEO, context)
-            appTypes.contains(AppCategory.MUSIC) -> RowPreferences.getRowMax(AppCategory.MUSIC, context)
-            appTypes.contains(AppCategory.GAME) -> RowPreferences.getRowMax(AppCategory.GAME, context)
+            category.contains(AppCategory.OTHER) -> RowPreferences.getRowMax(AppCategory.OTHER, context)
+            category.contains(AppCategory.VIDEO) -> RowPreferences.getRowMax(AppCategory.VIDEO, context)
+            category.contains(AppCategory.MUSIC) -> RowPreferences.getRowMax(AppCategory.MUSIC, context)
+            category.contains(AppCategory.GAME) -> RowPreferences.getRowMax(AppCategory.GAME, context)
             else -> context.resources.getInteger(R.integer.max_num_banner_rows)
         }
         // numRows
@@ -161,8 +163,7 @@ open class ActiveItemsRowView @JvmOverloads constructor(
         // numRows
         adjustNumRows(maxRows, mCardSpacing, mRowHeight)
     }
-
-    // called on onChanged / onChildViewAdded / onChildViewRemoved
+    // unused
     private fun adjustNumRows() {
         val integer: Int = if (aNumRows > 0) aNumRows else {
             if (adapter!!.itemCount > getAppsColumns(context)) {
@@ -178,13 +179,13 @@ open class ActiveItemsRowView @JvmOverloads constructor(
     override fun childHasTransientStateChanged(child: View, hasTransientState: Boolean) {}
 
     override fun onChildViewAdded(parent: View, child: View) {
-        // FIXME adjustNumRows()
-        adjustNumRows("other")
+        // adjustNumRows()
+        adjustNumRows(mAdapterType)
     }
 
     override fun onChildViewRemoved(parent: View, child: View) {
-        // FIXME adjustNumRows()
-        adjustNumRows("other")
+        // adjustNumRows()
+        adjustNumRows(mAdapterType)
     }
 
     override fun onScrollStateChanged(state: Int) {

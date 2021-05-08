@@ -80,6 +80,7 @@ open class AppsAdapter(
         fun isLight(color: Int): Boolean {
             return ColorUtils.calculateLuminance(color) > 0.5
         }
+
     }
 
     interface ActionOpenLaunchPointListener {
@@ -455,6 +456,11 @@ open class AppsAdapter(
         val sorted = mItemsHaveBeenSorted
         mItemsHaveBeenSorted = false
         return sorted
+    }
+
+    // return row type
+    fun getType(): Set<AppCategory?> {
+        return mAppTypes
     }
 
     fun moveLaunchPoint(initPosition: Int, desiredPosition: Int, userAction: Boolean): Boolean {
