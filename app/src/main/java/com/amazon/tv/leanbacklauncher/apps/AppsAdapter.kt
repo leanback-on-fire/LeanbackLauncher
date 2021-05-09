@@ -21,8 +21,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
+import com.amazon.tv.firetv.leanbacklauncher.apps.FavoritesAdapter
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsColumns
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getRowMax
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowType
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companion.instance
 import com.amazon.tv.leanbacklauncher.*
@@ -55,7 +57,6 @@ open class AppsAdapter(
     private val mNotifyHandler = Handler()
     private val prefUtil: SharedPreferencesUtil? = instance(context)
     private val listener: OnSharedPreferenceChangeListener = this
-    private var category: AppCategory? = null
 
     init {
         prefUtil?.addHiddenListener(listener)
@@ -74,8 +75,7 @@ open class AppsAdapter(
         mFlaggedForResort = false
         mActionOpenLaunchPointListener = actionOpenLaunchPointListener
         mAppsManager?.registerLaunchPointListListener(this)
-        // 1st category of adapter
-        category = appTypes.firstOrNull()
+
     }
 
     companion object {
@@ -464,8 +464,18 @@ open class AppsAdapter(
         return sorted
     }
 
-    fun getFirstCat(): AppCategory? {
-        return category
+    fun getRowType(): RowType? { // used for adjustNumRows(RowType?) in ActiveItemsRowView
+        val rowType = when {
+            mAppTypes.contains(AppCategory.OTHER) -> RowType.APPS
+            mAppTypes.contains(AppCategory.VIDEO) -> RowType.VIDEO
+            mAppTypes.contains(AppCategory.MUSIC) -> RowType.MUSIC
+            mAppTypes.contains(AppCategory.GAME) -> RowType.GAMES
+            this is FavoritesAdapter -> RowType.FAVORITES
+            //this is SettingsAdapter -> RowType.SETTINGS
+            else -> null
+        }
+        if (BuildConfig.DEBUG) Log.d(TAG, "getRowType() rowType:$rowType")
+        return rowType
     }
 
     fun moveLaunchPoint(initPosition: Int, desiredPosition: Int, userAction: Boolean): Boolean {
@@ -648,7 +658,7 @@ open class AppsAdapter(
                     if (base > 0) base.coerceAtMost(userMax) else mContext.resources.getInteger(R.integer.min_num_banner_rows)
                 if (BuildConfig.DEBUG) Log.d(
                     TAG,
-                    "user max rows: $userMax, calculated numRows: $numRows"
+                    "mAppTypes: $mAppTypes user max rows: $userMax, calculated numRows: $numRows"
                 )
 
                 if ((viewType == 0 || viewType == 1) && numRows > 1) { // apps banner with few rows ()

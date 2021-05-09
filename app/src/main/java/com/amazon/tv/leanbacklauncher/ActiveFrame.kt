@@ -219,8 +219,6 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     // TODO: check floats
-    // E AndroidRuntime: java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Float
-    // E AndroidRuntime: 	at com.amazon.tv.leanbacklauncher.ActiveFrame.updateRow(ActiveFrame.kt:246)
     private fun updateRow(left: Int, right: Int) {
         val isScaled = mExpanded < 1.0f
         val scale = 1.0f - (1.0f - mExpanded) * mDownscaleFactor

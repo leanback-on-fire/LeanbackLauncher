@@ -600,14 +600,14 @@ class HomeScreenAdapter(
                 val categories: MutableSet<AppCategory> = HashSet()
                 categories.add(AppCategory.OTHER)
                 if (!enabledCategories.contains(AppCategory.VIDEO)) categories.add(AppCategory.VIDEO)
-                if (!enabledCategories.contains(AppCategory.GAME)) categories.add(AppCategory.GAME)
                 if (!enabledCategories.contains(AppCategory.MUSIC)) categories.add(AppCategory.MUSIC)
+                if (!enabledCategories.contains(AppCategory.GAME)) categories.add(AppCategory.GAME)
                 AppsAdapter(mMainActivity, recommendationsAdapter, *categories.toTypedArray())
             }
             RowType.FAVORITES -> FavoritesAdapter(mMainActivity, recommendationsAdapter)
             RowType.VIDEO -> AppsAdapter(mMainActivity, null, AppCategory.VIDEO)
-            RowType.GAMES -> AppsAdapter(mMainActivity, null, AppCategory.GAME)
             RowType.MUSIC -> AppsAdapter(mMainActivity, null, AppCategory.MUSIC)
+            RowType.GAMES -> AppsAdapter(mMainActivity, null, AppCategory.GAME)
             RowType.SETTINGS -> mSettingsAdapter
             RowType.INPUTS -> {
                 // TODO this.mPartner.showPhysicalTunersSeparately(), this.mPartner.disableDisconnectedInputs(), this.mPartner.getStateIconFromTVInput()
