@@ -46,7 +46,7 @@ class ViewDimmer(private val mTargetView: View) {
 
     fun setConcatMatrix(matrix: ColorMatrix?) {
         mConcatMatrix = matrix
-        dimLevel = mDimLevel // FIXME
+        // dimLevel = mDimLevel // FIXME
     }
 
     @set:Keep
@@ -147,24 +147,24 @@ class ViewDimmer(private val mTargetView: View) {
             }
             return
         }
-        setDimLevelImmediate(dimState) // FIXME
+        // setDimLevelImmediate(dimState) // FIXME
     }
 
     fun setDimLevelImmediate(dimState: DimState?) {
         if (mDimAnimation.isStarted) {
             mDimAnimation.cancel()
         }
-        dimLevel = convertToDimLevel(dimState) // FIXME
+        // dimLevel = convertToDimLevel(dimState) // FIXME
     }
 
     fun setDimLevelImmediate() {
         if (mDimState != null) {
-            setDimLevelImmediate(mDimState) // FIXME
+            // setDimLevelImmediate(mDimState) // FIXME
         } else {
-            setDimLevelImmediate(DimState.INACTIVE) // FIXME
+            // setDimLevelImmediate(DimState.INACTIVE) // FIXME
         }
     }
-    // TODO: add option to enable immeddiate dim
+    // TODO: add option to enable immediate dim
     fun setDimState(dimState: DimState?, immediate: Boolean) {
         if (immediate) {
         //    setDimLevelImmediate(dimState) // FIXME
