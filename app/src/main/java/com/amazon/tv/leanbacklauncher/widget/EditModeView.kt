@@ -27,7 +27,8 @@ class EditModeView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : RelativeLayout(context, attrs, defStyle), View.OnClickListener, BannerSelectedChangedListener,
     OnEditModeChangedListener {
-    private val mActionListeners: ArrayList<EditModeViewActionListener?> = ArrayList<EditModeViewActionListener?>()
+    private val mActionListeners: ArrayList<EditModeViewActionListener?> =
+        ArrayList<EditModeViewActionListener?>()
     private var mCurSelectedBanner: BannerView? = null
     var finishButton: Button? = null
         private set
@@ -278,7 +279,15 @@ class EditModeView @JvmOverloads constructor(
         )
         circlelp.addRule(12)
         circlelp.addRule(13)
-        uninstallCircle?.setImageDrawable(ClipCircleDrawable(ResourcesCompat.getColor(resources, R.color.edit_uninstall_area_color, null)))
+        uninstallCircle?.setImageDrawable(
+            ClipCircleDrawable(
+                ResourcesCompat.getColor(
+                    resources,
+                    R.color.edit_uninstall_area_color,
+                    null
+                )
+            )
+        )
         uninstallCircle?.layoutParams = circlelp
     }
 
@@ -295,7 +304,15 @@ class EditModeView @JvmOverloads constructor(
         )
         iconCirclelp.addRule(2, R.id.uninstall_text)
         iconCirclelp.addRule(13)
-        uninstallIconCircle?.setImageDrawable(ClipCircleDrawable(ResourcesCompat.getColor(resources, R.color.edit_uninstall_circle_color, null)))
+        uninstallIconCircle?.setImageDrawable(
+            ClipCircleDrawable(
+                ResourcesCompat.getColor(
+                    resources,
+                    R.color.edit_uninstall_circle_color,
+                    null
+                )
+            )
+        )
         uninstallIconCircle?.layoutParams = iconCirclelp
     }
 

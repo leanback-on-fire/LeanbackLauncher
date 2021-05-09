@@ -22,8 +22,12 @@ class LauncherApplication : Application(), LifecycleObserver {
         if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     companion object {
+        private lateinit var contextApp: Context
         var inForeground: Boolean = false
         private var sBlacklistMigrated = false
+        fun getContext(): Context {
+            return contextApp
+        }
     }
 
     private inner class NewBlacklistClient(context: Context?) : SwitchingRecommendationsClient(context) {
@@ -79,6 +83,7 @@ class LauncherApplication : Application(), LifecycleObserver {
     }
 
     override fun onCreate() {
+        contextApp = applicationContext
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         initDeviceCapabilities()

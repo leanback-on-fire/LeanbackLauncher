@@ -125,8 +125,12 @@ open class ActiveItemsRowView @JvmOverloads constructor(
             mRowHeight = rowHeight
             post {
                 val lp = this@ActiveItemsRowView.layoutParams
-                lp.height = this@ActiveItemsRowView.aNumRows * mRowHeight + (this@ActiveItemsRowView.aNumRows - 1) * mCardSpacing + (this@ActiveItemsRowView.paddingTop + this@ActiveItemsRowView.paddingBottom)
-                if (BuildConfig.DEBUG) Log.w(TAG, "new height: ${this@ActiveItemsRowView.layoutParams.height}")
+                lp.height =
+                    this@ActiveItemsRowView.aNumRows * mRowHeight + (this@ActiveItemsRowView.aNumRows - 1) * mCardSpacing + (this@ActiveItemsRowView.paddingTop + this@ActiveItemsRowView.paddingBottom)
+                if (BuildConfig.DEBUG) Log.w(
+                    TAG,
+                    "new height: ${this@ActiveItemsRowView.layoutParams.height}"
+                )
                 setNumRows(this@ActiveItemsRowView.aNumRows)
                 if (BuildConfig.DEBUG) Log.w(TAG, "call setNumRows($aNumRows)")
                 this@ActiveItemsRowView.setRowHeight(mRowHeight)
@@ -138,8 +142,8 @@ open class ActiveItemsRowView @JvmOverloads constructor(
     // called on onChanged / onItemRangeInserted / onItemRangeRemoved / onChildViewAdded / onChildViewRemoved
     private fun adjustNumRows(category: AppCategory?) {
         category?.let {
-        var maxRows = 1 // = resources.getInteger(R.integer.max_num_banner_rows)
-            if (BuildConfig.DEBUG) Log.d(TAG, "adjustNumRows($category)")
+            //val maxRows = resources.getInteger(R.integer.max_num_banner_rows)
+            //if (BuildConfig.DEBUG) Log.d(TAG, "adjustNumRows($category)")
             // calculate number of rows based on maxApps:
             // always fill a least one full row of maxApps
             val curApps = adapter!!.itemCount
@@ -156,7 +160,8 @@ open class ActiveItemsRowView @JvmOverloads constructor(
                 else -> context.resources.getInteger(R.integer.max_num_banner_rows)
             }
             // numRows
-            maxRows = if (base > 0) base.coerceAtMost(userMax) else resources.getInteger(R.integer.min_num_banner_rows)
+            val maxRows =
+                if (base > 0) base.coerceAtMost(userMax) else resources.getInteger(R.integer.min_num_banner_rows)
             // apply numRows
             adjustNumRows(maxRows, mCardSpacing, mRowHeight)
         }

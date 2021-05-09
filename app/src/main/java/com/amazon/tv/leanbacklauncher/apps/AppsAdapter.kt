@@ -25,10 +25,7 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsColumns
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getRowMax
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companion.instance
-import com.amazon.tv.leanbacklauncher.BuildConfig
-import com.amazon.tv.leanbacklauncher.EditableAppsRowView
-import com.amazon.tv.leanbacklauncher.LauncherViewHolder
-import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.*
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer
 import com.amazon.tv.leanbacklauncher.apps.AppsAdapter.AppViewHolder
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.getInstance
@@ -64,6 +61,12 @@ open class AppsAdapter(
         prefUtil?.addHiddenListener(listener)
         mFilter = object : AppFilter() {
             override fun include(point: LaunchPoint?): Boolean {
+                if (point?.packageName.equals("com.amazon.avod"))
+                    return false
+                if (point?.packageName.equals("com.amazon.ftv.screensaver"))
+                    return false
+                if (point?.componentName.equals("com.amazon.tv.launcher/.ui.DebugActivity"))
+                    return false
                 return true
             }
         }
@@ -574,10 +577,13 @@ open class AppsAdapter(
                 }
             }
             for (i in launchPoints.indices.reversed()) {
-                if (!mFilter.include(launchPoints[i])) {
+                val lp = launchPoints[i]
+                if (!mFilter.include(lp)) { // TODO: check this filter
                     continue
                 }
-                val lp = launchPoints[i]
+                if (lp.isFavorite()) { // exclude Favorites
+                    continue
+                }
                 if (lp != null && !mAppTypes.contains(lp.appCategory)) {
                     continue
                 }
@@ -640,7 +646,10 @@ open class AppsAdapter(
                 if (lost < base + 1) base += 1
                 val numRows =
                     if (base > 0) base.coerceAtMost(userMax) else mContext.resources.getInteger(R.integer.min_num_banner_rows)
-                if (BuildConfig.DEBUG) Log.d(TAG, "user max rows: $userMax, calculated numRows: $numRows")
+                if (BuildConfig.DEBUG) Log.d(
+                    TAG,
+                    "user max rows: $userMax, calculated numRows: $numRows"
+                )
 
                 if ((viewType == 0 || viewType == 1) && numRows > 1) { // apps banner with few rows ()
                     var lastPosition = itemRemovedAt

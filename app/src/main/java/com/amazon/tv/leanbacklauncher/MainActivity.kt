@@ -934,8 +934,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     wrap.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrap, false))
                     val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
                     val clockview: TextView? = findViewById<View>(R.id.clock) as ClockView?
-                    if (typeface != null)
+                    typeface?.let {
                         clockview?.typeface = typeface
+                    }
                     return
                 }
                 return
@@ -1065,10 +1066,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     private fun checkLaunchPointPositions() {
         if (!mLaunchAnimation.isRunning && checkViewHierarchy(mList)) {
-            val buf = StringWriter()
-            buf.append("Caught partially animated state; resetting...\n")
-            mLaunchAnimation.dump("", PrintWriter(buf), mList)
-            Log.w(TAG, "Animations:$buf")
+//            val buf = StringWriter()
+//            buf.append("Caught partially animated state; resetting...\n")
+//            mLaunchAnimation.dump("", PrintWriter(buf), mList)
+//            Log.w(TAG, "Animations:$buf")
             mLaunchAnimation.reset()
         }
     }

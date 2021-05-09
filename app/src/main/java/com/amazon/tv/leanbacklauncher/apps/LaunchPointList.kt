@@ -31,6 +31,7 @@ class LaunchPointList(ctx: Context) {
     private var mSettingsLaunchPoints: ArrayList<LaunchPoint> = arrayListOf()
     private var mShouldNotify = false
     private val mUpdatableBlacklist: HashMap<String?, Int>
+    private var rawFilter: RawFilter
 
     companion object {
         private const val TAG = "LaunchPointList"
@@ -45,6 +46,21 @@ class LaunchPointList(ctx: Context) {
         mNonUpdatableBlacklist = HashMap()
         mLock = Any()
         mContext = ctx
+        rawFilter = object : RawFilter() {
+            override fun include(point: ResolveInfo?): Boolean {
+                return when {
+                    //point?.activityInfo?.packageName?.equals(mContext.packageName) == true -> true // self actions needed (settings)
+                    point?.toString()?.contains("com.amazon.tv.launcher/.ui.DebugActivity") == true -> true
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.avod") == true -> true
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.bueller") == true -> true
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.venezia") == true -> true
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.imdb.tv") == true -> true
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.hedwig") == true -> true
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.ftv.screensaver") == true -> true
+                    else -> false
+                }
+            }
+        }
     }
 
     interface Listener {
@@ -52,6 +68,10 @@ class LaunchPointList(ctx: Context) {
         fun onLaunchPointsAddedOrUpdated(arrayList: ArrayList<LaunchPoint>)
         fun onLaunchPointsRemoved(arrayList: ArrayList<LaunchPoint>)
         fun onSettingsChanged()
+    }
+
+    abstract class RawFilter {
+        abstract fun include(point: ResolveInfo?): Boolean
     }
 
     private inner class CachedAction {
@@ -153,20 +173,14 @@ class LaunchPointList(ctx: Context) {
                     if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
                         // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
                         if ((prefUtil?.isAllAppsShown() == true) ||
-                            !Util.isSystemApp(
-                                mContext,
-                                itemRawLaunchPoint.activityInfo.packageName
-                            ) ||
-                            itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.bueller") ||
-                            itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.venezia") ||
-                            itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.imdb.tv") &&
-                            !itemRawLaunchPoint.activityInfo.packageName.startsWith("com.amazon.hedwig") // broken launchpoint
+                            !Util.isSystemApp(mContext, itemRawLaunchPoint.activityInfo.packageName)
                         ) {
                             if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName) &&
-                                itemRawLaunchPoint.activityInfo.packageName != mContext.packageName
+                                itemRawLaunchPoint.activityInfo.packageName != mContext.packageName &&
+                                !rawFilter.include(itemRawLaunchPoint) // filter
                             ) {
                                 allLaunchPoints.add(itemRawLaunchPoint)
-                            } // todo optimize & don't hardcode
+                            } // TODO optimize & don't hardcode
                         }
                     }
                 }
@@ -492,23 +506,23 @@ class LaunchPointList(ctx: Context) {
         category: AppCategory
     ) {
         when (category) {
-            AppCategory.GAME -> for (lp in parentList) {
-                if (!isBlacklisted(lp.packageName) && lp.isGame) {
+            AppCategory.VIDEO -> for (lp in parentList) {
+                if (!lp.isFavorite() && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.VIDEO) {
                     childList.add(lp)
                 }
             }
             AppCategory.MUSIC -> for (lp in parentList) {
-                if (!isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.MUSIC) {
+                if (!lp.isFavorite() && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.MUSIC) {
                     childList.add(lp)
                 }
             }
-            AppCategory.VIDEO -> for (lp in parentList) {
-                if (!isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.VIDEO) {
+            AppCategory.GAME -> for (lp in parentList) {
+                if (!lp.isFavorite() && !isBlacklisted(lp.packageName) && lp.isGame) {
                     childList.add(lp)
                 }
             }
             AppCategory.OTHER -> for (lp in parentList) {
-                if (!isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.OTHER) {
+                if (!lp.isFavorite() && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.OTHER) {
                     childList.add(lp)
                 }
             }
