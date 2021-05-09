@@ -119,7 +119,7 @@ open class ActiveItemsRowView @JvmOverloads constructor(
     // called on HomeScreenAdapter initAppRow
     fun adjustNumRows(numRows: Int, cardSpacing: Int, rowHeight: Int) {
         if (mIsAdjustable && this.aNumRows != numRows) {
-            if (BuildConfig.DEBUG) Log.w(TAG, "adjustNumRows[$numRows] was $aNumRows}")
+            if (BuildConfig.DEBUG) Log.w(TAG, "adjustNumRows[$numRows] was $aNumRows")
             this.aNumRows = numRows
             mCardSpacing = cardSpacing
             mRowHeight = rowHeight

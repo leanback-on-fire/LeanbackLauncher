@@ -179,8 +179,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     var mHomeRefreshReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.getBooleanExtra("RefreshHome", false) == true) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "KILL HOME")
-                finish()
+                if (BuildConfig.DEBUG) Log.d(TAG, "RESTART HOME")
+                recreate()
             }
         }
     }
