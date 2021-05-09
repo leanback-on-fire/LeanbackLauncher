@@ -24,5 +24,7 @@ object BannerUtil {
         BANNER_OVERRIDES["showtime"] = R.drawable.banner_showtime
         BANNER_OVERRIDES["tunein.player"] = R.drawable.banner_tunein
         BANNER_OVERRIDES["ru.fmplay"] = R.drawable.banner_fmplay
+        BANNER_OVERRIDES["com.jozein.xedge"] = R.drawable.banner_xedge
+        BANNER_OVERRIDES["com.topjohnwu.magisk"] = R.drawable.banner_magisk
     }
 }
