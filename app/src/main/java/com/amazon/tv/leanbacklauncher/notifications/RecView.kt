@@ -110,7 +110,7 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     protected fun onBind() {
         mSignature = null
         mExpandedInfoAreaBound = false
-        mFocusAnimator?.setFocusImmediate(hasFocus())
+        mFocusAnimator!!.setFocusImmediate(hasFocus())
         mDimmer.setDimLevelImmediate()
         requestLayout()
     }
@@ -137,7 +137,7 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
                 mDimmer.addDimTarget(mProgressDrawable)
             }
         } else if (mProgressBar != null) {
-            mProgressBar!!.visibility = View.GONE
+            mProgressBar!!.visibility = GONE
             mDimmer.removeDimTarget(mProgressDrawable)
         }
     }
@@ -231,12 +231,12 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
             mDimmer.removeDesatDimTarget(mBadgeIcon)
         }
         mBadgeIcon = badgeIcon
-        mBadgeIcon?.let { icon ->
-            mBadgeIcon = icon.mutate()
-            icon.setBounds(0, 0, icon.intrinsicWidth, icon.intrinsicHeight)
-            mBadgeIconIntrinsicBounds[0.0f, 0.0f, icon.intrinsicWidth.toFloat()] =
-                icon.intrinsicHeight.toFloat()
-            icon.callback = this
+        if (mBadgeIcon != null) {
+            mBadgeIcon = mBadgeIcon!!.mutate()
+            mBadgeIcon!!.setBounds(0, 0, mBadgeIcon!!.intrinsicWidth, mBadgeIcon!!.intrinsicHeight)
+            mBadgeIconIntrinsicBounds[0.0f, 0.0f, mBadgeIcon!!.intrinsicWidth.toFloat()] =
+                mBadgeIcon!!.intrinsicHeight.toFloat()
+            mBadgeIcon!!.callback = this
             mDimmer.addDimTarget(mBadgeIcon)
             mDimmer.addDesatDimTarget(mBadgeIcon)
         }
@@ -255,16 +255,16 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     override fun onFocusLevelSettled(focused: Boolean) {
         if (focused) {
             bindExpandedInfoArea()
-            mSourceNameView?.visibility = View.GONE
-            mTitleView?.visibility = View.VISIBLE
-            mTitleView?.alpha = 1.0f
-            mContentView?.visibility = View.VISIBLE
-            mContentView?.alpha = 1.0f
+            mSourceNameView!!.visibility = GONE
+            mTitleView!!.visibility = VISIBLE
+            mTitleView.alpha = 1.0f
+            mContentView!!.visibility = VISIBLE
+            mContentView.alpha = 1.0f
         } else {
-            mSourceNameView?.visibility = View.VISIBLE
-            mSourceNameView?.alpha = 1.0f
-            mTitleView?.visibility = View.GONE
-            mContentView?.visibility = View.GONE
+            mSourceNameView!!.visibility = VISIBLE
+            mSourceNameView.alpha = 1.0f
+            mTitleView!!.visibility = GONE
+            mContentView!!.visibility = GONE
         }
         clipBounds = null
         requestLayout()
@@ -277,15 +277,15 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
                 bindExpandedInfoArea()
                 requestLayout()
             }
-            mSourceNameView?.visibility = View.VISIBLE
-            mTitleView?.visibility = View.VISIBLE
-            mContentView?.visibility = View.VISIBLE
+            mSourceNameView!!.visibility = VISIBLE
+            mTitleView!!.visibility = VISIBLE
+            mContentView!!.visibility = VISIBLE
             if (mInfoAreaExpandedHeight == 0) {
                 measureExpandedInfoArea(calculateCardWidth())
             }
-            mSourceNameView?.alpha = 1.0f - level
-            mTitleView?.alpha = level
-            mContentView?.alpha = level
+            mSourceNameView.alpha = 1.0f - level
+            mTitleView.alpha = level
+            mContentView.alpha = level
             if (mClipBounds == null) {
                 mClipBounds = Rect()
             }
@@ -306,7 +306,7 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
         if (drawable != null) {
             mImage = drawable.mutate()
             layoutMainImage(width)
-            mImage?.callback = this
+            mImage!!.callback = this
             mDimmer.addDimTarget(mImage)
         } else {
             mImage = null
@@ -409,10 +409,10 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     }
 
     protected fun layoutMainImage(width: Int) {
-        mImage?.let { image ->
+        if (mImage != null) {
             val scaledImageWidth =
-                image.intrinsicWidth.toFloat() * mImageHeight.toFloat() / image.intrinsicHeight.toFloat()
-            image.setBounds(
+                mImage!!.intrinsicWidth.toFloat() * mImageHeight.toFloat() / mImage!!.intrinsicHeight.toFloat()
+            mImage!!.setBounds(
                 ((width.toFloat() - scaledImageWidth) * 0.5f).toInt(),
                 0,
                 ceil(((width.toFloat() + scaledImageWidth) * 0.5f).toDouble()).toInt(),
@@ -422,7 +422,9 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     }
 
     protected fun layoutProgressBar(width: Int) {
-            mProgressBar?.layout(0, mImageHeight - mProgressBarHeight, width, mImageHeight)
+        if (mProgressBar != null) {
+            mProgressBar!!.layout(0, mImageHeight - mProgressBarHeight, width, mImageHeight)
+        }
     }
 
     protected fun layoutSourceName(width: Int, isLayoutRtl: Boolean) {
@@ -432,7 +434,7 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     }
 
     protected fun layoutBadgeIcon(width: Int, height: Int, isLayoutRtl: Boolean) {
-        mBadgeIcon?.let {
+        if (mBadgeIcon != null) {
             val scaledBadgeSize = mBadgeSize.toFloat() / mScaleFactor
             val badgeBottom = height.toFloat() - mBadgeMarginBottom.toFloat() / mScaleFactor
             if (isLayoutRtl) {
@@ -491,12 +493,10 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     }
 
     private fun scaleExpandedInfoAreaView(view: TextView?) {
-        view?.let {
-            view.pivotX = (-view.left).toFloat()
-            view.pivotY = (-(view.top - mInfoAreaTop)).toFloat()
-            view.scaleX = 1.0f / mScaleFactor
-            view.scaleY = 1.0f / mScaleFactor
-        }
+        view!!.pivotX = (-view.left).toFloat()
+        view.pivotY = (-(view.top - mInfoAreaTop)).toFloat()
+        view.scaleX = 1.0f / mScaleFactor
+        view.scaleY = 1.0f / mScaleFactor
     }
 
     private fun interpolateBadgeIconLayout() {
@@ -518,10 +518,10 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
         }
         mInfoBackground.color = ColorUtils.blendARGB(mBackgroundColor, mInfoAreaColor, mFocusLevel)
         mInfoBackground.draw(canvas)
-        mBadgeIcon?.let {
+        if (mBadgeIcon != null) {
             canvas.save()
             canvas.concat(mBadgeIconMatrix)
-            it.draw(canvas)
+            mBadgeIcon!!.draw(canvas)
             canvas.restore()
         }
     }
