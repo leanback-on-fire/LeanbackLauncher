@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 
 public class ClockView extends TextClock {
     private final ContentObserver mFormatChangeObserver;
-    private BroadcastReceiver mIntentReceiver;
+    private final BroadcastReceiver mIntentReceiver;
 
     public ClockView(Context context) {
         this(context, null, 0);

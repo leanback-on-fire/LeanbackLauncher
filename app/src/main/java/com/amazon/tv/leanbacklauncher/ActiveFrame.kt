@@ -93,21 +93,20 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 i++
             }
         }
-        if (mRow != null) {
-            mRow!!.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom -> updateRow(left, right) }
-        }
+
+        mRow?.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom -> updateRow(left, right) }
         mHeader = findViewById(R.id.header)
-        if (mHeader != null) {
+        mHeader?.let {
             mDimmer = ViewDimmer(this)
-            val title = mHeader!!.findViewById<TextView>(R.id.title)
-            if (title != null) {
-                mDimmer!!.addDimTarget(title)
+            val title = it.findViewById<TextView>(R.id.title)
+            title?.let {
+                mDimmer?.addDimTarget(title)
             }
-            val icon = mHeader!!.findViewById<ImageView>(R.id.icon)
-            if (icon != null) {
-                mDimmer!!.addDimTarget(icon)
+            val icon = it.findViewById<ImageView>(R.id.icon)
+            icon?.let {
+                mDimmer?.addDimTarget(icon)
             }
-            mDimmer!!.setDimState(mDimState, true)
+            mDimmer?.setDimState(mDimState, true)
             mHeaderFadeInAnimation = FadeAnimator(mHeader, FadeAnimator.Direction.FADE_IN)
             mHeaderFadeOutAnimation = FadeAnimator(mHeader, FadeAnimator.Direction.FADE_OUT)
         }
@@ -117,11 +116,9 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
         var animateStateChange = false
         super.setActivated(activated)
         mDimState = ViewDimmer.activatedToDimState(activated)
-        if (mDimmer != null) {
-            mDimmer!!.setDimState(mDimState, false)
-        }
-        if (mRow != null) {
-            mRow!!.isActivated = activated
+        mDimmer?.setDimState(mDimState, false)
+        mRow?.let {
+            it.isActivated = activated
             if (mScalesWhenUnfocused) {
                 if (hasWindowFocus() && !mAccessibilityManager.isEnabled) {
                     animateStateChange = true
@@ -146,18 +143,25 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (mRow != null && mRow!!.scaleY < 1.0f) {
-            setMeasuredDimension(measuredWidth, measuredHeight - (mRow!!.measuredHeight.toFloat() * (1.0f - mRow!!.scaleY)).toInt())
+        mRow?.let { row ->
+            if (row.scaleY < 1.0f) {
+                setMeasuredDimension(
+                    measuredWidth,
+                    measuredHeight - (row.measuredHeight.toFloat() * (1.0f - row.scaleY)).toInt()
+                )
+            }
         }
     }
 
     fun resetScrollPosition(smooth: Boolean) {
         postDelayed({
-            if (mRow != null && mRow!!.selectedPosition != 0) {
-                if (smooth) {
-                    mRow!!.setSelectedPositionSmooth(0)
-                } else {
-                    mRow!!.selectedPosition = 0
+            mRow?.let { row ->
+                if (row.selectedPosition != 0) {
+                    if (smooth) {
+                        row.setSelectedPositionSmooth(0)
+                    } else {
+                        row.selectedPosition = 0
+                    }
                 }
             }
         }, 20)
@@ -165,8 +169,8 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private fun setRowState(expanded: Boolean, animate: Boolean) {
         var f = 1.0f
-        if (mExpandAnim != null) {
-            mExpandAnim!!.cancel()
+        mExpandAnim?.let {
+            it.cancel()
             mExpandAnim = null
         }
         if (animate && isAttachedToWindow && visibility == VISIBLE) {
@@ -202,48 +206,46 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private fun adjustRowDimensions(frameWidth: Int) {
         var f = 1.0f
-        if (mRow != null) {
+        mRow?.let { row ->
             val f2 = frameWidth.toFloat()
             if (mExpanded < 1.0f) {
                 f = 1.0f - mDownscaleFactor
             }
             val rowLength = (f2 / f).toInt()
-            val p = mRow!!.layoutParams
+            val p = row.layoutParams
             if (rowLength <= 0 || p.width == rowLength) {
-                updateRow(mRow!!.left, mRow!!.right)
+                updateRow(row.left, row.right)
                 return
             }
             p.width = rowLength
-            mRow!!.layoutParams = p
+            row.layoutParams = p
         }
     }
 
     // TODO: check floats
-    // E AndroidRuntime: java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Float
-    // E AndroidRuntime: 	at com.amazon.tv.leanbacklauncher.ActiveFrame.updateRow(ActiveFrame.kt:246)
     private fun updateRow(left: Int, right: Int) {
         val isScaled = mExpanded < 1.0f
         val scale = 1.0f - (1.0f - mExpanded) * mDownscaleFactor
         val unfocusedScale = 1.0f - mDownscaleFactor
         val useRtl = layoutDirection == LAYOUT_DIRECTION_RTL
-        if (mRow != null) {
-            val adapter = mRow!!.adapter
+        mRow?.let { row ->
+            val adapter = row.adapter
             if (adapter != null) {
                 val rowLength = right - left
                 val deltaW = rowLength - measuredWidth
                 val usableSpace = rowLength.toFloat() - 2.0f * mRowPadding
                 val itemCount = adapter.itemCount
-                val selected = mRow!!.selectedPosition
-                var numRows = mRow!!.aNumRows
+                val selected = row.selectedPosition
+                var numRows = row.aNumRows
                 if (numRows <= 0) {
                     numRows = 1
                 }
                 // TODO: check numCol math
                 val numCol = ceil((itemCount.toFloat() / numRows.toFloat()).toDouble()).toInt()
-                val selectedCol = floor((mRow!!.selectedPosition.toFloat() / numRows.toFloat()).toDouble()).toInt()
+                val selectedCol = floor((row.selectedPosition.toFloat() / numRows.toFloat()).toDouble()).toInt()
                 var selectedView: View? = null
                 if (itemCount > 0 && selected >= 0) {
-                    val holder = mRow!!.findViewHolderForAdapterPosition(selected)
+                    val holder = row.findViewHolderForAdapterPosition(selected)
                     if (holder != null) {
                         selectedView = holder.itemView
                     }
@@ -270,11 +272,11 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     }
                     val selectCtr = selectedView.left.toFloat() + viewLength / 2.0f
                     if (!isScaled) {
-                        mRow!!.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
-                        mRow!!.translationX = 0.0f
+                        row.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
+                        row.translationX = 0.0f
                     } else if (rowAlign == 0) {
-                        mRow!!.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
-                        mRow!!.translationX = 0.0f
+                        row.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
+                        row.translationX = 0.0f
                     } else if (rowAlign == 1) {
                         val activeItemsRowView = mRow
                         val f: Float = if (useRtl) {
@@ -301,29 +303,27 @@ class ActiveFrame @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         } else if (deltaEnd < 0.0f) {
                             centerOffset = deltaEnd
                         }
-                        mRow!!.translationX = (if (useRtl) -1 else 1).toFloat() * (measuredWidth.toFloat() / 2.0f - selectCtr - centerOffset)
+                        row.translationX = (if (useRtl) -1 else 1).toFloat() * (measuredWidth.toFloat() / 2.0f - selectCtr - centerOffset)
                     } else if (totalLength <= usableSpace) {
                         val deltaX = (measuredWidth.toFloat() - 2.0f * mRowPadding - totalLength) * (if (useRtl) -1 else 1).toFloat()
-                        mRow!!.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
-                        mRow!!.translationX = mExpanded * deltaX
+                        row.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
+                        row.translationX = mExpanded * deltaX
                     } else {
-                        mRow!!.pivotX = if (useRtl) mRowPadding else rowLength.toFloat() - mRowPadding
-                        mRow!!.translationX = ((if (useRtl) 1 else -1) * deltaW).toFloat()
+                        row.pivotX = if (useRtl) mRowPadding else rowLength.toFloat() - mRowPadding
+                        row.translationX = ((if (useRtl) 1 else -1) * deltaW).toFloat()
                     }
                 } else {
-                    mRow!!.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
-                    mRow!!.translationX = 0.0f
+                    row.pivotX = if (useRtl) rowLength.toFloat() - mRowPadding else mRowPadding
+                    row.translationX = 0.0f
                 }
-                mRow!!.pivotY = 0.0f
-                mRow!!.scaleX = scale
-                mRow!!.scaleY = scale
+                row.pivotY = 0.0f
+                row.scaleX = scale
+                row.scaleY = scale
             }
         }
     }
 
     override fun setAnimationsEnabled(enabled: Boolean) {
-        if (mDimmer != null) {
-            mDimmer!!.setAnimationEnabled(enabled)
-        }
+        mDimmer?.setAnimationEnabled(enabled)
     }
 }

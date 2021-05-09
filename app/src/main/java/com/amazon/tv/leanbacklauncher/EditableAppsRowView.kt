@@ -244,8 +244,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
 
     override fun onUninstallFailure() {
         val lastFocusedViewHolder = lastFocusedViewHolderInt
-        lastFocusedViewHolder?.let { lfvh ->
-            lfvh.itemView.requestFocus()
+        lastFocusedViewHolder?.let { last->
+            last.itemView.requestFocus()
             setBannerDrawableUninstallState(false)
         }
     }
