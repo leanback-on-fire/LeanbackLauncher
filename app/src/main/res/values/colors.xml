@@ -6,7 +6,7 @@
     <color name="banner_focus_frame_color">#40eeeeee</color>
     <color name="clock_text_color">#ffeeeeee</color>
     <color name="edit_finish_button_color">#ffeeeeee</color>
-    <color name="edit_mode_background_color">#80263238</color>
+    <color name="edit_mode_background_color">#ff263238</color>
     <color name="edit_selection_indicator_color">#80ffffff</color>
     <color name="edit_uninstall_area_color">#ffffffff</color>
     <color name="edit_uninstall_circle_color">#ff607d8b</color>
