@@ -142,7 +142,7 @@ open class ActiveItemsRowView @JvmOverloads constructor(
         type?.let {
             // calculate number of rows based on maxApps:
             // always fill a least one full row of maxApps
-            val curApps = adapter!!.itemCount
+            val curApps = adapter?.itemCount ?: 0
             val maxCols = getAppsColumns(context)
             var base = abs(curApps / maxCols)
             val lost = (maxCols * (base + 1)) - curApps
