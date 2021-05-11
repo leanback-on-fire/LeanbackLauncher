@@ -206,10 +206,7 @@ class LaunchPointList(ctx: Context) {
                 mIsReady = true
                 mShouldNotify = true
                 for (onLaunchPointListGeneratorReady in mListeners) {
-                    Log.i(
-                        TAG,
-                        "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.javaClass.name
-                    )
+                    // Log.i(TAG, "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.javaClass.name)
                     onLaunchPointListGeneratorReady.onLaunchPointListGeneratorReady()
                 }
             }
@@ -508,22 +505,22 @@ class LaunchPointList(ctx: Context) {
     ) {
         when (category) {
             AppCategory.VIDEO -> for (lp in parentList) {
-                if (!lp.isFavorite() && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.VIDEO) {
+                if (!isFavorited(lp.packageName) && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.VIDEO) {
                     childList.add(lp)
                 }
             }
             AppCategory.MUSIC -> for (lp in parentList) {
-                if (!lp.isFavorite() && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.MUSIC) {
+                if (!isFavorited(lp.packageName) && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.MUSIC) {
                     childList.add(lp)
                 }
             }
             AppCategory.GAME -> for (lp in parentList) {
-                if (!lp.isFavorite() && !isBlacklisted(lp.packageName) && lp.isGame) {
+                if (!isFavorited(lp.packageName) && !isBlacklisted(lp.packageName) && lp.isGame) {
                     childList.add(lp)
                 }
             }
             AppCategory.OTHER -> for (lp in parentList) {
-                if (!lp.isFavorite() && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.OTHER) {
+                if (!isFavorited(lp.packageName) && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.OTHER) {
                     childList.add(lp)
                 }
             }
@@ -747,7 +744,13 @@ class LaunchPointList(ctx: Context) {
 
     private var prefUtil: SharedPreferencesUtil? = null
 
-    // TODO relocate this "hiding" code
+    // TODO relocate this hiding code
+    private fun isFavorited(pkgName: String?): Boolean { // Filter favorities only when row enabled
+        if (prefUtil == null) {
+            prefUtil = SharedPreferencesUtil.instance(mContext)
+        }
+        return prefUtil!!.isFavorite(pkgName) && prefUtil!!.areFavoritesEnabled()
+    }
     private fun isBlacklisted(pkgName: String?): Boolean {
         if (prefUtil == null) {
             prefUtil = SharedPreferencesUtil.instance(mContext)

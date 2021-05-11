@@ -48,6 +48,10 @@ class SharedPreferencesUtil private constructor() {
         genPref!!.edit().putBoolean("show_all_apps", mode).apply()
     }
 
+    fun areFavoritesEnabled(): Boolean {
+        return genPref!!.getBoolean("enable_favorites_row", true)
+    }
+
     // todo unregister too
     fun addFavoritesListener(listener: OnSharedPreferenceChangeListener?) {
         favPref!!.registerOnSharedPreferenceChangeListener(listener)

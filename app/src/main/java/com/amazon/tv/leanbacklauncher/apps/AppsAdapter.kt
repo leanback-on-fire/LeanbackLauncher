@@ -63,7 +63,7 @@ open class AppsAdapter(
         mFilter = object : AppFilter() {
             override fun include(point: LaunchPoint?): Boolean {
                 // filter favorite apps
-                if (prefUtil?.isFavorite(point?.packageName) == true)
+                if (prefUtil?.isFavorite(point?.packageName) == true && prefUtil.areFavoritesEnabled())
                     return false
                 // hard filter (self / amazon / etc)
                 if (point?.componentName?.contains("com.amazon.tv.leanbacklauncher.MainActivity", true) == true)
@@ -477,7 +477,7 @@ open class AppsAdapter(
             mAppTypes.contains(AppCategory.MUSIC) -> RowType.MUSIC
             mAppTypes.contains(AppCategory.GAME) -> RowType.GAMES
             this is FavoritesAdapter -> RowType.FAVORITES
-            //this is SettingsAdapter -> RowType.SETTINGS // TODO
+            this is SettingsAdapter -> RowType.SETTINGS // TODO
             else -> null
         }
     }
@@ -592,14 +592,17 @@ open class AppsAdapter(
             for (i in launchPoints.indices.reversed()) {
                 val lp = launchPoints[i]
                 if (!mFilter.include(lp)) { // TODO: improve this filter
-                    //if (BuildConfig.DEBUG) Log.d(TAG, "filter launchpoint ${lp.componentName}")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "[${this.getRowType()}] filter launchpoint ${lp.componentName}")
                     continue
                 } else {
-                    //if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted for ${lp.componentName}")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "[${this.getRowType()}] include ${lp.componentName}, mAppTypes:$mAppTypes, appCategory:[${lp.appCategory}]")
                 }
-                if (!mAppTypes.contains(lp.appCategory)) {
+                // skip notify for wrong category
+                if (getRowType() != RowType.FAVORITES &&
+                    !mAppTypes.contains(lp.appCategory)) {
                     continue
                 }
+                //if (BuildConfig.DEBUG) Log.d(TAG, "[${this.getRowType()}] notifyItemInserted for ${lp.componentName}")
                 notifyItemInserted(mAppsManager!!.insertLaunchPoint(mLaunchPoints, lp))
                 saveAppOrderChanges = true
             }

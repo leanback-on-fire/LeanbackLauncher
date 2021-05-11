@@ -293,13 +293,6 @@ class LaunchPoint {
     val isGame: Boolean
         get() = appCategory == AppCategory.GAME
 
-    val isFavorite: () -> Boolean
-        get() = {
-            val context = LauncherApplication.getContext()
-            val prefUtil: SharedPreferencesUtil? = SharedPreferencesUtil.instance(context)
-            prefUtil?.isFavorite(packageName) ?: false
-        }
-
     fun getInstallProgressString(context: Context): String {
         return if (installProgressPercent == -1) {
             ""
