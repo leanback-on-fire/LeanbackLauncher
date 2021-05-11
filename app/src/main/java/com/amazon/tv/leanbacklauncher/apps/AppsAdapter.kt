@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -491,16 +490,12 @@ open class AppsAdapter(
         val focused = mLaunchPoints[initPosition]
         mLaunchPoints[initPosition] = mLaunchPoints[desiredPosition]
         mLaunchPoints[desiredPosition] = focused
-        Handler(Looper.getMainLooper()).post {
-            notifyItemMoved(initPosition, desiredPosition)
-        }
+        notifyItemMoved(initPosition, desiredPosition)
         if (abs(desiredPosition - initPosition) > 1) {
-            Handler(Looper.getMainLooper()).post {
-                notifyItemMoved(
-                    desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1,
-                    initPosition
-                )
-            }
+            notifyItemMoved(
+                desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1,
+                initPosition
+            )
         }
         if (!userAction) {
             return true
@@ -513,7 +508,7 @@ open class AppsAdapter(
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "AppsAdapter saw EditMode change and initiated snapshot.")
         }
-        mAppsManager?.saveOrderSnapshot(mLaunchPoints)
+        mAppsManager!!.saveOrderSnapshot(mLaunchPoints)
     }
 
     fun getDrawableFromLaunchPoint(index: Int): Drawable? {
