@@ -2,7 +2,7 @@ package com.amazon.tv.firetv.leanbacklauncher.apps
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.leanback.app.GuidedStepFragment
+import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils.isAmazonStoreInstalled
@@ -14,83 +14,10 @@ import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companio
 import com.amazon.tv.leanbacklauncher.R
 import java.util.*
 
-class AppInfoFragment : GuidedStepFragment() {
+class AppInfoFragment : GuidedStepSupportFragment() {
     private var icon: Drawable? = null
     private var title: String? = null
     private var pkg: String? = null
-
-    override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
-        return Guidance(title,
-                pkg,
-                "",
-                icon)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        updateActions()
-    }
-
-    override fun onGuidedActionClicked(action: GuidedAction) {
-        if (action.id == ACTION_ID_IN_STORE.toLong()) {
-            openAppInAmazonStore(activity, pkg)
-            activity.finish()
-        } else if (action.id == ACTION_PLAY_STORE.toLong()) {
-                openAppInPlayStore(activity, pkg)
-                activity.finish()
-            } else if (action.id == ACTION_ID_SETTINGS.toLong()) {
-                startAppSettings(activity, pkg)
-                activity.finish()
-            } else {
-                val context = activity.applicationContext
-                val util = instance(context)
-                if (action.id == ACTION_ID_FAVORITE.toLong()) {
-                    val favorited = !util!!.isFavorite(pkg)
-                    if (favorited) {
-                        util.favorite(pkg)
-                    } else {
-                        util.unfavorite(pkg)
-                    }
-                } else if (action.id == ACTION_ID_HIDE.toLong()) {
-                    val hidden = !util!!.isHidden(pkg)
-                    if (hidden) {
-                        util.hide(pkg)
-                    } else {
-                        util.unhide(pkg)
-                    }
-                }
-            }
-        updateActions()
-    }
-
-    private fun updateActions() {
-        val context = activity.applicationContext
-        val util = instance(context)
-        val actions = ArrayList<GuidedAction>()
-        val favlabel = if (!util!!.isFavorite(pkg)) getString(R.string.app_info_add_favorites) else getString(R.string.app_info_rem_favorites)
-        val hidelabel = if (!util.isHidden(pkg)) getString(R.string.app_info_hide_app) else getString(R.string.app_info_unhide_app)
-        var action = GuidedAction.Builder(context)
-                .id(ACTION_PLAY_STORE.toLong())
-                .title(getString(R.string.app_info_in_playstore)).build()
-        if (isPlayStoreInstalled(context)) actions.add(action)
-        action = GuidedAction.Builder(context)
-                .id(ACTION_ID_IN_STORE.toLong())
-                .title(getString(R.string.app_info_in_store)).build()
-        if (isAmazonStoreInstalled(context)) actions.add(action)
-        action = GuidedAction.Builder(context)
-                .id(ACTION_ID_SETTINGS.toLong())
-                .title(getString(R.string.app_info_settings)).build()
-        actions.add(action)
-        action = GuidedAction.Builder(context)
-                .id(ACTION_ID_FAVORITE.toLong())
-                .title(favlabel).build()
-        actions.add(action)
-        action = GuidedAction.Builder(context)
-                .id(ACTION_ID_HIDE.toLong())
-                .title(hidelabel).build()
-        actions.add(action)
-        setActions(actions) // APPLY
-    }
 
     companion object {
         private const val ACTION_ID_IN_STORE = 1
@@ -109,5 +36,90 @@ class AppInfoFragment : GuidedStepFragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
+        return Guidance(
+            title,
+            pkg,
+            "",
+            icon
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateActions()
+    }
+
+    override fun onGuidedActionClicked(action: GuidedAction) {
+        val ctx = requireContext()
+        val util = instance(ctx)
+        when (action.id) {
+            ACTION_ID_IN_STORE.toLong() -> {
+                openAppInAmazonStore(ctx, pkg)
+                //activity?.finishAffinity()
+            }
+            ACTION_PLAY_STORE.toLong() -> {
+                openAppInPlayStore(ctx, pkg)
+                //activity?.finishAffinity()
+            }
+            ACTION_ID_SETTINGS.toLong() -> {
+                startAppSettings(ctx, pkg)
+                //activity?.finishAffinity()
+            }
+            ACTION_ID_FAVORITE.toLong() -> {
+                val favorited = !util!!.isFavorite(pkg)
+                if (favorited) {
+                    util.favorite(pkg)
+                } else {
+                    util.unfavorite(pkg)
+                }
+            }
+            ACTION_ID_HIDE.toLong() -> {
+                val hidden = !util!!.isHidden(pkg)
+                if (hidden) {
+                    util.hide(pkg)
+                } else {
+                    util.unhide(pkg)
+                }
+            }
+        }
+
+        updateActions()
+    }
+
+    private fun updateActions() {
+        val ctx = requireContext()
+        val util = instance(ctx)
+        val actions = ArrayList<GuidedAction>()
+        val favlabel =
+            if (!util!!.isFavorite(pkg)) getString(R.string.app_info_add_favorites) else getString(
+                R.string.app_info_rem_favorites
+            )
+        val hidelabel =
+            if (!util.isHidden(pkg)) getString(R.string.app_info_hide_app) else getString(R.string.app_info_unhide_app)
+
+        var action = GuidedAction.Builder(ctx)
+            .id(ACTION_PLAY_STORE.toLong())
+            .title(getString(R.string.app_info_in_playstore)).build()
+        if (isPlayStoreInstalled(ctx)) actions.add(action)
+        action = GuidedAction.Builder(ctx)
+            .id(ACTION_ID_IN_STORE.toLong())
+            .title(getString(R.string.app_info_in_store)).build()
+        if (isAmazonStoreInstalled(ctx)) actions.add(action)
+        action = GuidedAction.Builder(ctx)
+            .id(ACTION_ID_SETTINGS.toLong())
+            .title(getString(R.string.app_info_settings)).build()
+        actions.add(action)
+        action = GuidedAction.Builder(ctx)
+            .id(ACTION_ID_FAVORITE.toLong())
+            .title(favlabel).build()
+        actions.add(action)
+        action = GuidedAction.Builder(ctx)
+            .id(ACTION_ID_HIDE.toLong())
+            .title(hidelabel).build()
+        actions.add(action)
+        setActions(actions) // APPLY
     }
 }
