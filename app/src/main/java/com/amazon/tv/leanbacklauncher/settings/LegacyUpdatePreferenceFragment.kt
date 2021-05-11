@@ -11,6 +11,7 @@ import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
 import com.amazon.tv.leanbacklauncher.BuildConfig
+import com.amazon.tv.leanbacklauncher.LauncherApplication
 import com.amazon.tv.leanbacklauncher.R
 import org.json.JSONException
 import org.json.JSONObject
@@ -118,9 +119,10 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         override fun onPostExecute(s: String?) {
             super.onPostExecute(s)
             try {
-                JSONObject(s).let {
-                    updateAction(it)
-                }
+                var json = JSONObject()
+                if (!s.isNullOrEmpty())
+                    json = JSONObject(s)
+                updateAction(json)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -204,6 +206,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
 
         override fun onPostExecute(f: File?) {
             super.onPostExecute(f)
+            val context = LauncherApplication.getContext()
             val intent = Intent(Intent.ACTION_VIEW)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -211,13 +214,13 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                 intent.setDataAndType(Uri.fromFile(f), "application/vnd.android.package-archive")
             } else {
                 intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                intent.setDataAndType(FileProvider.getUriForFile(requireContext(),
+                intent.setDataAndType(FileProvider.getUriForFile(context,
                         String.format("%s.fileProvider", BuildConfig.APPLICATION_ID),
                         f!!
                 ), "application/vnd.android.package-archive")
             }
             try {
-                context?.startActivity(intent)
+                context.startActivity(intent)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

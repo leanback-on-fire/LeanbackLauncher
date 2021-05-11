@@ -224,9 +224,9 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
             mLastLaunchPointRankingLogDump.add("Last Launchpoint Ranking Ordering: " + Date().toString())
             for (lp in launchPoints) {
                 val entity = mEntities[lp.packageName]
-                if (entity != null) {
+                entity?.let { ent ->
                     mLastLaunchPointRankingLogDump.add(
-                        lp.title + " | R " + entity.getOrder(lp.componentName) + " | LO " + getLastOpened(
+                        lp.title + " | R " + ent.getOrder(lp.componentName) + " | LO " + getLastOpened(
                             lp
                         ) + " | INST " + lp.firstInstallTime
                     )
@@ -268,13 +268,13 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
     private fun getLastOpened(lp: LaunchPoint): Long {
         var entity: AppsEntity?
         synchronized(mEntitiesLock) { entity = mEntities[lp.packageName] }
-        return if (entity != null) entity!!.getLastOpenedTimeStamp(lp.componentName) else -100
+        return entity?.getLastOpenedTimeStamp(lp.componentName) ?: -100
     }
 
     private fun getEntityOrder(lp: LaunchPoint): Long {
         var entity: AppsEntity?
         synchronized(mEntitiesLock) { entity = mEntities[lp.packageName] }
-        return if (entity != null) entity!!.getOrder(lp.componentName) else 0
+        return entity?.getOrder(lp.componentName) ?: 0
     }
 
     private fun registerListenerIfNecessary(listener: RankingListener?): Boolean {
@@ -337,7 +337,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         totalEntities: Int,
         baseTime: Long
     ) {
-        if (order != null && order.isNotEmpty() && offsetEntities >= 0 && totalEntities >= order.size + offsetEntities) {
+        if (!order.isNullOrEmpty() && offsetEntities >= 0 && totalEntities >= order.size + offsetEntities) {
             val entitiesBelow = totalEntities - offsetEntities - order.size
             val size = order.size
             for (i in 0 until size) {
@@ -360,7 +360,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
 
     fun saveOrderSnapshot(launchPoints: ArrayList<LaunchPoint>?) {
         synchronized(mEntitiesLock) {
-            if (launchPoints!!.isNotEmpty()) {
+            if (!launchPoints.isNullOrEmpty()) {
                 for (i in launchPoints.indices) {
                     saveEntityOrder(launchPoints[i], i)
                 }
@@ -369,20 +369,22 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
     }
 
     private fun saveEntityOrder(launchPoint: LaunchPoint, position: Int) {
-        var e = mEntities[launchPoint.packageName]
-        if (e != null) {
-            e.setOrder(launchPoint.componentName, position.toLong() + 1)
-        } else {
-            e = AppsEntity(
-                mContext,
-                mDbHelper!!,
-                launchPoint.packageName,
-                0,
-                (position + 1).toLong()
-            )
-            mEntities[launchPoint.packageName!!] = e
+        launchPoint.packageName?.let { packageName ->
+            var e = mEntities[packageName]
+            if (e != null) {
+                e.setOrder(launchPoint.componentName, position.toLong() + 1)
+            } else {
+                e = AppsEntity(
+                    mContext,
+                    mDbHelper!!,
+                    packageName,
+                    0,
+                    (position + 1).toLong()
+                )
+                mEntities[packageName] = e
+            }
+            mDbHelper?.saveEntity(e)
         }
-        mDbHelper?.saveEntity(e)
     }
 
     fun dump(prefix: String, writer: PrintWriter) {
