@@ -62,11 +62,17 @@ open class AppsAdapter(
         prefUtil?.addHiddenListener(listener)
         mFilter = object : AppFilter() {
             override fun include(point: LaunchPoint?): Boolean {
-                if (point?.packageName.equals("com.amazon.avod"))
+                // filter favorite apps
+                if (prefUtil?.isFavorite(point?.packageName) == true)
+                    return false
+                // hard filter (self / amazon / etc)
+                if (point?.componentName?.contains("com.amazon.tv.leanbacklauncher.MainActivity", true) == true)
+                    return false
+                if (point?.componentName.equals("com.amazon.tv.launcher/.ui.DebugActivity"))
                     return false
                 if (point?.packageName.equals("com.amazon.ftv.screensaver"))
                     return false
-                if (point?.componentName.equals("com.amazon.tv.launcher/.ui.DebugActivity"))
+                if (point?.packageName.equals("com.amazon.avod")) // broken component
                     return false
                 return true
             }
@@ -272,7 +278,7 @@ open class AppsAdapter(
             mIconView = null
             mLabelView = null
             mBannerView = null
-            v?.let {
+            v.let {
                 mIconView = it.findViewById(R.id.banner_icon)
                 mLabelView = it.findViewById(R.id.banner_label)
                 mBannerView = it.findViewById(R.id.app_banner)
@@ -465,17 +471,15 @@ open class AppsAdapter(
     }
 
     fun getRowType(): RowType? { // used for adjustNumRows(RowType?) in ActiveItemsRowView
-        val rowType = when {
+        return when {
             mAppTypes.contains(AppCategory.OTHER) -> RowType.APPS
             mAppTypes.contains(AppCategory.VIDEO) -> RowType.VIDEO
             mAppTypes.contains(AppCategory.MUSIC) -> RowType.MUSIC
             mAppTypes.contains(AppCategory.GAME) -> RowType.GAMES
             this is FavoritesAdapter -> RowType.FAVORITES
-            //this is SettingsAdapter -> RowType.SETTINGS
+            //this is SettingsAdapter -> RowType.SETTINGS // TODO
             else -> null
         }
-        if (BuildConfig.DEBUG) Log.d(TAG, "getRowType() rowType:$rowType")
-        return rowType
     }
 
     fun moveLaunchPoint(initPosition: Int, desiredPosition: Int, userAction: Boolean): Boolean {
@@ -579,7 +583,6 @@ open class AppsAdapter(
                 for (j in mLaunchPoints.indices) {
                     val alp = mLaunchPoints[j]
                     if (lp.packageName == alp.packageName) {
-//                        if (BuildConfig.DEBUG) Log.d(TAG, "Found $lp at position $j")
                         mLaunchPoints.removeAt(j)
                         notifyItemRemoved(j)
                         break
@@ -588,16 +591,15 @@ open class AppsAdapter(
             }
             for (i in launchPoints.indices.reversed()) {
                 val lp = launchPoints[i]
-                if (!mFilter.include(lp)) { // TODO: check this filter
+                if (!mFilter.include(lp)) { // TODO: improve this filter
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "filter launchpoint ${lp.componentName}")
+                    continue
+                } else {
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted for ${lp.componentName}")
+                }
+                if (!mAppTypes.contains(lp.appCategory)) {
                     continue
                 }
-                if (lp.isFavorite()) { // exclude Favorites
-                    continue
-                }
-                if (lp != null && !mAppTypes.contains(lp.appCategory)) {
-                    continue
-                }
-//                if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemInserted for $lp")
                 notifyItemInserted(mAppsManager!!.insertLaunchPoint(mLaunchPoints, lp))
                 saveAppOrderChanges = true
             }
@@ -609,7 +611,6 @@ open class AppsAdapter(
 
     override fun onLaunchPointsRemoved(launchPoints: ArrayList<LaunchPoint>) {
         mNotifyHandler.post {
-//            if (BuildConfig.DEBUG) Log.d(TAG, "onLaunchPointsRemoved() Current section cats: $mAppTypes, mLaunchPoints size: ${mLaunchPoints.size}, removed size: ${launchPoints.size}")
             var i: Int
             var saveAppOrderChanges = false
             var itemRemovedAt = -1

@@ -50,12 +50,13 @@ class LaunchPointList(ctx: Context) {
             override fun include(point: ResolveInfo?): Boolean {
                 return when {
                     //point?.activityInfo?.packageName?.equals(mContext.packageName) == true -> true // self actions needed (settings)
+                    point?.toString()?.contains("com.amazon.tv.leanbacklauncher.MainActivity") == true -> true
                     point?.toString()?.contains("com.amazon.tv.launcher/.ui.DebugActivity") == true -> true
                     point?.activityInfo?.packageName?.startsWith("com.amazon.avod") == true -> true
                     point?.activityInfo?.packageName?.startsWith("com.amazon.bueller") == true -> true
-                    point?.activityInfo?.packageName?.startsWith("com.amazon.venezia") == true -> true
-                    point?.activityInfo?.packageName?.startsWith("com.amazon.imdb.tv") == true -> true
-                    point?.activityInfo?.packageName?.startsWith("com.amazon.hedwig") == true -> true
+                    //point?.activityInfo?.packageName?.startsWith("com.amazon.venezia") == true -> true
+                    //point?.activityInfo?.packageName?.startsWith("com.amazon.imdb.tv") == true -> true
+                    //point?.activityInfo?.packageName?.startsWith("com.amazon.hedwig") == true -> true
                     point?.activityInfo?.packageName?.startsWith("com.amazon.ftv.screensaver") == true -> true
                     else -> false
                 }

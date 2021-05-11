@@ -26,6 +26,6 @@ class FavoritesAdapter(context: Context, actionOpenLaunchPointListener: ActionOp
 
     init {
         mFilter = FavoritesAppFilter()
-        this.prefUtil!!.addFavoritesListener(listener)
+        this.prefUtil?.addFavoritesListener(listener)
     }
 }

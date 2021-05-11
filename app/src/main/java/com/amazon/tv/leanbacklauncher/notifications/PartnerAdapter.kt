@@ -36,7 +36,7 @@ class PartnerAdapter(context: Context, private val mListener: BlacklistListener?
         override fun performLaunch() {
             if (mIntent != null) {
                 try {
-                    startActivity(mCtx, mIntent!!)
+                    startActivity(mContext, mIntent!!)
                 } catch (e: Exception) {
                     e.message?.let { Log.e(TAG, "Could not launch partner intent, $it ") }
                 }

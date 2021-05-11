@@ -98,9 +98,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     }
 
     fun setEditModeView(editModeView: EditModeView?) {
-        mEditModeView?.let {
-            it.removeActionListener(this)
-        }
+        mEditModeView?.removeActionListener(this)
         mEditModeView = editModeView
         mEditModeView?.addActionListener(this)
     }
@@ -231,10 +229,10 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
 
     override fun onUninstallComplete() {
         val lastFocusedViewHolder = lastFocusedViewHolderInt
-        lastFocusedViewHolder?.let { lfvh ->
-            lfvh.itemView.isSelected = false
-            if (lfvh.itemView is BannerView) {
-                (lfvh.itemView as BannerView).notifyEditModeManager(false)
+        lastFocusedViewHolder?.let { vh ->
+            vh.itemView.isSelected = false
+            if (vh.itemView is BannerView) {
+                (vh.itemView as BannerView).notifyEditModeManager(false)
             }
             setChildrenLastFocusedBanner(null)
             setBannerDrawableUninstallState(false)

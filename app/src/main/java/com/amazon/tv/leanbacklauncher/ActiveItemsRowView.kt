@@ -155,10 +155,9 @@ open class ActiveItemsRowView @JvmOverloads constructor(
                 RowType.FAVORITES -> RowPreferences.getFavoriteRowMax(context)
                 else -> context.resources.getInteger(R.integer.max_num_banner_rows)
             }
-            if (BuildConfig.DEBUG) Log.d(TAG, "adjustNumRows($type), curApps:$curApps maxCols:$maxCols userMax:$userMax")
+            //if (BuildConfig.DEBUG) Log.d(TAG, "adjustNumRows($type) curApps:$curApps maxCols:$maxCols userMax:$userMax")
             // numRows
-            val maxRows =
-                if (base > 0) base.coerceAtMost(userMax) else resources.getInteger(R.integer.min_num_banner_rows)
+            val maxRows = if (base > 0) base.coerceAtMost(userMax) else resources.getInteger(R.integer.min_num_banner_rows)
             // apply numRows
             adjustNumRows(maxRows, mCardSpacing, mRowHeight)
         }

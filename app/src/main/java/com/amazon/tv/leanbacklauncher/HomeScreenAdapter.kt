@@ -47,8 +47,8 @@ class HomeScreenAdapter(
     editModeView: EditModeView
 ) : RecyclerView.Adapter<HomeViewHolder?>(), RowChangeListener, ConnectivityListener.Listener,
     OnEditModeChangedListener {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+//    private val TAG =
+//        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private var mActiveItemIndex = -1
     private val mAllRowsList: ArrayList<HomeScreenRow> = ArrayList<HomeScreenRow>(7)
     private val mAppsManager: AppsManager? = getInstance(context)
@@ -78,8 +78,8 @@ class HomeScreenAdapter(
         mPartnerAdapter = null
         setHasStableIds(true)
         buildRowList()
-        mAppsManager!!.refreshLaunchPointList()
-        mAppsManager.registerUpdateReceivers()
+        mAppsManager?.refreshLaunchPointList()
+        mAppsManager?.registerUpdateReceivers()
         mConnectivityListener.start()
     }
 
@@ -92,15 +92,14 @@ class HomeScreenAdapter(
     }
 
     fun unregisterReceivers() {
-        if (mReceiver != null) {
-            mMainActivity.unregisterReceiver(mReceiver)
+        mReceiver?.let {
+            mMainActivity.unregisterReceiver(it)
             mReceiver = null
         }
         mConnectivityListener?.stop()
         mAppsManager?.unregisterUpdateReceivers()
-        if (mInputsAdapter != null) {
-            mInputsAdapter!!.unregisterReceivers()
-        }
+        mInputsAdapter?.unregisterReceivers()
+
     }
 
     // FIXME: WRONG FOCUS
@@ -142,9 +141,8 @@ class HomeScreenAdapter(
 
     override fun onConnectivityChange() {
         mSettingsAdapter.onConnectivityChange()
-        if (mHomeScreenMessaging != null) {
-            mHomeScreenMessaging!!.onConnectivityChange(readConnectivity(mMainActivity))
-        }
+        mHomeScreenMessaging?.onConnectivityChange(readConnectivity(mMainActivity))
+
     }
 
     private fun buildRowList() {
@@ -152,7 +150,7 @@ class HomeScreenAdapter(
         val hasInputsRow = true //this.mPartner.isRowEnabled("inputs_row");
 
         // TODO
-        mAppsManager!!.setExcludeChannelActivities(hasInputsRow)
+        mAppsManager?.setExcludeChannelActivities(hasInputsRow)
         var position = 0
         val enabledCategories = getEnabledCategories(mMainActivity)
 
@@ -276,7 +274,7 @@ class HomeScreenAdapter(
         mAllRowsList.add(row)
         row.setChangeListener(this)
         if (row.type !== RowType.NOTIFICATIONS && row.type !== RowType.ACTUAL_NOTIFICATIONS && row.type !== RowType.SEARCH) {
-            mAppsManager!!.addAppRow(row)
+            mAppsManager?.addAppRow(row)
         }
         if (row.isVisible) {
             mVisRowsList.add(row)
@@ -320,15 +318,12 @@ class HomeScreenAdapter(
 
     fun refreshAdapterData() {
         mAppsManager?.refreshRows()
-        if (mInputsAdapter != null) {
-            mInputsAdapter!!.refreshInputsData()
-        }
+        mInputsAdapter?.refreshInputsData()
+
     }
 
     fun animateSearchIn() {
-        if (mSearch != null) {
-            mSearch!!.animateIn()
-        }
+        mSearch?.animateIn()
     }
 
     override fun getItemId(position: Int): Long {
@@ -343,9 +338,9 @@ class HomeScreenAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): HomeViewHolder {
         var view = View(parent.context)
-        val row = mAllRowsList[position]
-        row.let { rw ->
-            when (rw.type) {
+        val mRow = mAllRowsList[position]
+        mRow.let { row ->
+            when (row.type) {
                 RowType.SEARCH -> {
                     view = mInflater.inflate(R.layout.home_search_orb, parent, false)
                     mHeaders.put(row.type.code, view)
@@ -353,20 +348,22 @@ class HomeScreenAdapter(
                     mSearch?.let {
                         it.updateAssistantIcon(mAssistantIcon)
                         it.updateSearchSuggestions(mAssistantSuggestions)
-                        mAppsManager!!.setSearchPackageChangeListener(it, it.searchPackageName)
+                        mAppsManager?.setSearchPackageChangeListener(it, it.searchPackageName)
                     }
                 }
                 RowType.NOTIFICATIONS -> {
                     view = mInflater.inflate(R.layout.home_notification_row, parent, false)
-                    val notifList: NotificationRowView = view.findViewById(R.id.list)
-                    val homeScreenView: HomeScreenView =
+                    val notifList: NotificationRowView? = view.findViewById(R.id.list)
+                    val homeScreenView: HomeScreenView? =
                         view.findViewById(R.id.home_screen_messaging)
                     if (!(notifList == null || homeScreenView == null)) {
-                        initNotificationsRows(
-                            notifList,
-                            row.adapter!!,
-                            homeScreenView.homeScreenMessaging
-                        )
+                        row.adapter?.let { adapter ->
+                            initNotificationsRows(
+                                notifList,
+                                adapter,
+                                homeScreenView.homeScreenMessaging
+                            )
+                        }
                     }
                 }
                 RowType.PARTNER, RowType.SETTINGS, RowType.INPUTS -> {
@@ -386,8 +383,8 @@ class HomeScreenAdapter(
                 RowType.ACTUAL_NOTIFICATIONS -> TODO()
                 //else -> TODO()
             }
-            rw.rowView = view
-            view.tag = rw.type.code
+            row.rowView = view
+            view.tag = row.type.code
         }
         return HomeViewHolder(view)
     }
@@ -460,21 +457,23 @@ class HomeScreenAdapter(
 
             val list: ActiveItemsRowView = group.findViewById(R.id.list)
             if (list is EditableAppsRowView) {
-                val editableList = list
-                editableList.setEditModeView(mEditModeView)
-                editableList.addEditModeListener(mEditModeView)
-                editableList.addEditModeListener(this)
+                list.setEditModeView(mEditModeView)
+                list.addEditModeListener(mEditModeView)
+                list.addEditModeListener(this)
             }
             list.setHasFixedSize(true)
             list.adapter = row!!.adapter
 
             if (row.hasHeader()) {
                 list.contentDescription = row.title
-                (group.findViewById<View>(R.id.title) as TextView).text = row.title
-                if (!TextUtils.isEmpty(row.fontName)) {
-                    val font = Typeface.create(row.fontName, Typeface.NORMAL)
-                    if (font != null) {
-                        (group.findViewById<View>(R.id.title) as TextView).typeface = font
+                val titleView = group.findViewById<View>(R.id.title)
+                titleView?.let { tv ->
+                    (tv as TextView).text = row.title
+                    if (!TextUtils.isEmpty(row.fontName)) {
+                        val font = Typeface.create(row.fontName, Typeface.NORMAL)
+                        if (font != null) {
+                            tv.typeface = font
+                        }
                     }
                 }
                 val icon = row.icon
@@ -498,52 +497,42 @@ class HomeScreenAdapter(
             // calculate number of rows based on maxApps:
             // always fill a least one full row of maxApps
             val curApps = row.adapter!!.itemCount
-            val maxApps = getAppsColumns(mMainActivity)
+            val maxCols = getAppsColumns(mMainActivity)
             val minRows = res.getInteger(R.integer.min_num_banner_rows)
-            var maxRows: Int // = res.getInteger(R.integer.max_num_banner_rows)
-            var base = abs(curApps / maxApps)
-            val lost = (maxApps * (base + 1)) - curApps
+            val maxRows: Int // = res.getInteger(R.integer.max_num_banner_rows)
+            var base = abs(curApps / maxCols)
+            val lost = (maxCols * (base + 1)) - curApps
             if (lost < base + 1) base += 1
             when (row.type) {
                 RowType.INPUTS, RowType.PARTNER -> {
                 }
                 RowType.FAVORITES -> {
                     userMax = getFavoriteRowMax(mMainActivity)
-                    maxRows =
-                        if (base > 0) base.coerceAtMost(userMax) else minRows
-//                    if (BuildConfig.DEBUG) Log.d(TAG, "userMax: $userMax, maxRows: $maxRows")
+                    maxRows = if (base > 0) base.coerceAtMost(userMax) else minRows
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(maxRows, cardSpacing, rowHeight)
                 }
                 RowType.GAMES -> {
                     userMax = getRowMax(AppCategory.GAME, mMainActivity)
-                    maxRows =
-                        if (base > 0) base.coerceAtMost(userMax) else minRows
-//                    if (BuildConfig.DEBUG) Log.d(TAG, "userMax: $userMax, maxRows: $maxRows")
+                    maxRows = if (base > 0) base.coerceAtMost(userMax) else minRows
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(maxRows, cardSpacing, rowHeight)
                 }
                 RowType.MUSIC -> {
                     userMax = getRowMax(AppCategory.MUSIC, mMainActivity)
-                    maxRows =
-                        if (base > 0) base.coerceAtMost(userMax) else minRows
-//                    if (BuildConfig.DEBUG) Log.d(TAG, "userMax: $userMax, maxRows: $maxRows")
+                    maxRows = if (base > 0) base.coerceAtMost(userMax) else minRows
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(maxRows, cardSpacing, rowHeight)
                 }
                 RowType.VIDEO -> {
                     userMax = getRowMax(AppCategory.VIDEO, mMainActivity)
-                    maxRows =
-                        if (base > 0) base.coerceAtMost(userMax) else minRows
-//                    if (BuildConfig.DEBUG) Log.d(TAG, "userMax: $userMax, maxRows: $maxRows")
+                    maxRows = if (base > 0) base.coerceAtMost(userMax) else minRows
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(maxRows, cardSpacing, rowHeight)
                 }
                 RowType.APPS -> {
                     userMax = getRowMax(AppCategory.OTHER, mMainActivity)
-                    maxRows =
-                        if (base > 0) base.coerceAtMost(userMax) else minRows
-//                    if (BuildConfig.DEBUG) Log.d(TAG, "userMax: $userMax, maxRows: $maxRows")
+                    maxRows = if (base > 0) base.coerceAtMost(userMax) else minRows
                     list.setIsNumRowsAdjustable(true)
                     list.adjustNumRows(maxRows, cardSpacing, rowHeight)
                 }
@@ -596,6 +585,7 @@ class HomeScreenAdapter(
             RowType.NOTIFICATIONS -> recommendationsAdapter
             RowType.ACTUAL_NOTIFICATIONS -> mNotificationsAdapter
             RowType.PARTNER -> mPartnerAdapter
+            RowType.FAVORITES -> FavoritesAdapter(mMainActivity, recommendationsAdapter)
             RowType.APPS -> {
                 val categories: MutableSet<AppCategory> = HashSet()
                 categories.add(AppCategory.OTHER)
@@ -604,7 +594,6 @@ class HomeScreenAdapter(
                 if (!enabledCategories.contains(AppCategory.GAME)) categories.add(AppCategory.GAME)
                 AppsAdapter(mMainActivity, recommendationsAdapter, *categories.toTypedArray())
             }
-            RowType.FAVORITES -> FavoritesAdapter(mMainActivity, recommendationsAdapter)
             RowType.VIDEO -> AppsAdapter(mMainActivity, null, AppCategory.VIDEO)
             RowType.MUSIC -> AppsAdapter(mMainActivity, null, AppCategory.MUSIC)
             RowType.GAMES -> AppsAdapter(mMainActivity, null, AppCategory.GAME)
@@ -711,11 +700,13 @@ class HomeScreenAdapter(
                     }
                     else -> {
                         if (mMainActivity.isInEditMode) {
-                            setActiveFrameChildrenAlpha(holder.itemView as ActiveFrame, 0.0f)
+                            setActiveFrameChildrenAlpha(holder.itemView, 0.0f)
                             return
                         }
-                        setActiveFrameChildrenAlpha(holder.itemView as ActiveFrame, 1.0f)
-                        holder.itemView.post { beginEditModeForPendingRow(holder.itemView as ActiveFrame) }
+                        setActiveFrameChildrenAlpha(holder.itemView, 1.0f)
+                        holder.itemView.post {
+                            beginEditModeForPendingRow(holder.itemView)
+                        }
                     }
                 }
             }
