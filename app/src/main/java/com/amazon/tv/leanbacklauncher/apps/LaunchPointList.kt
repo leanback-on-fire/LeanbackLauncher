@@ -227,7 +227,7 @@ class LaunchPointList(ctx: Context) {
     }
 
     fun addOrUpdatePackage(pkgName: String?) {
-        if (pkgName?.isNotEmpty() == true) {
+        if (!pkgName.isNullOrEmpty()) {
             synchronized(mCachedActions) {
                 if (mIsReady) {
                     synchronized(mLock) {
@@ -553,16 +553,36 @@ class LaunchPointList(ctx: Context) {
 
     @SuppressLint("QueryPermissionsNeeded", "WrongConstant")
     private fun createLaunchPoints(pkgName: String?): ArrayList<LaunchPoint> {
-        val rawItt: Iterator<ResolveInfo>
-        val mainIntent = Intent("android.intent.action.MAIN")
-        mainIntent.setPackage(pkgName).addCategory("android.intent.category.LAUNCHER")
+        var rawItt: Iterator<ResolveInfo>
         val launchPoints = ArrayList<LaunchPoint>()
         val pkgMan = mContext.packageManager
-        val rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129)
+        // tv LaunchPoints
+        val tvIntent = Intent(Intent.ACTION_MAIN)
+        tvIntent.setPackage(pkgName).addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER)
+        var rawLaunchPoints = pkgMan.queryIntentActivities(tvIntent, 129)
         rawItt = rawLaunchPoints.iterator()
         while (rawItt.hasNext()) {
             launchPoints.add(LaunchPoint(mContext, pkgMan, rawItt.next()))
         }
+        // normal LaunchPoints
+        if (launchPoints.isEmpty()) {
+            val mainIntent = Intent(Intent.ACTION_MAIN)
+            mainIntent.setPackage(pkgName).addCategory(Intent.CATEGORY_LAUNCHER)
+            rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129)
+            rawItt = rawLaunchPoints.iterator()
+            while (rawItt.hasNext()) {
+                launchPoints.add(LaunchPoint(mContext, pkgMan, rawItt.next()))
+            }
+        }
+        // TODO: leanback settings launchpoints / onSettingsChanged()
+//        val settingsIntent = Intent(Intent.ACTION_MAIN)
+//        settingsIntent.setPackage(pkgName).addCategory("android.intent.category.LEANBACK_SETTINGS")
+//        rawLaunchPoints = pkgMan.queryIntentActivities(settingsIntent, 129)
+//        rawItt = rawLaunchPoints.iterator()
+//        while (rawItt.hasNext()) {
+//            launchPoints.add(LaunchPoint(mContext, pkgMan, rawItt.next()))
+//        }
+
         return launchPoints
     }
 
@@ -700,13 +720,12 @@ class LaunchPointList(ctx: Context) {
         val mainIntent = Intent("android.intent.action.MAIN")
         mainIntent.addCategory("android.intent.category.PREFERENCE")
         val rawLaunchPoints = mContext.packageManager.queryIntentActivities(mainIntent, 129)
-        val size = rawLaunchPoints.size
-        for (ptr in 0 until size) {
+        for (ptr in 0 until rawLaunchPoints.size) {
             val info = rawLaunchPoints[ptr]
             if (info.activityInfo != null) {
-                //boolean system = (info.activityInfo.applicationInfo.flags & 1) != 0;
+                //boolean system = (info.activityInfo.applicationInfo.flags & 1) != 0
                 // Why discriminate against user-space settings app?
-                if ( /*system &&*/TextUtils.equals(
+                if (/*system &&*/TextUtils.equals(
                         info.activityInfo.applicationInfo.packageName,
                         packageName
                     )
