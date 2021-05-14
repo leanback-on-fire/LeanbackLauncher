@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -68,9 +67,9 @@ class BannerView @JvmOverloads constructor(
         val ctx = context
         val width = resources.getDimensionPixelSize(R.dimen.banner_width)
         val height = resources.getDimensionPixelSize(R.dimen.banner_height)
-        val size = RowPreferences.getBannersSize(ctx) // 50 - 200
-        this.layoutParams.height = height * size / 100 // px
-        this.layoutParams.width = width * size / 100 // px
+        val scale = RowPreferences.getBannersSize(ctx) // 50 - 200
+        this.layoutParams.height = height * scale / 100 // px
+        this.layoutParams.width = width * scale / 100 // px
         requestLayout() // set new BannerView dimensions
         viewDimmer = ViewDimmer(this)
         mAppBanner = findViewById(R.id.app_banner)
@@ -114,48 +113,50 @@ class BannerView @JvmOverloads constructor(
         viewDimmer?.setDimLevelImmediate()
         val radius = RowPreferences.getCorners(ctx)
             .toFloat() // (float) getResources().getDimensionPixelOffset(R.dimen.banner_corner_radius);
-        var stroke = 2
+        var stroke = 2 // fixed width for edit frame
         var color = ContextCompat.getColor(ctx, R.color.edit_selection_indicator_color)
         var gd: GradientDrawable?
         // edit focus frame (edit_frame_width : edit_frame_height)
-        val efv = findViewById<View>(R.id.edit_focused_frame)
-        if (efv is ImageView) {
-            mEditFocusFrame = efv
-            efv.getLayoutParams().width =
-                resources.getDimensionPixelSize(R.dimen.edit_frame_width) * size / 100
-            efv.getLayoutParams().height =
-                resources.getDimensionPixelSize(R.dimen.edit_frame_height) * size / 100
-            efv.requestLayout() // set new edit focus frame dimensions
+        val editFrameView = findViewById<View>(R.id.edit_focused_frame)
+        if (editFrameView is ImageView) {
+            mEditFocusFrame = editFrameView
+            editFrameView.getLayoutParams().width =
+                resources.getDimensionPixelSize(R.dimen.edit_frame_width) * scale / 100
+            editFrameView.getLayoutParams().height =
+                resources.getDimensionPixelSize(R.dimen.edit_frame_height) * scale / 100
+            editFrameView.requestLayout() // set new edit focus frame dimensions
             gd = GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
                 intArrayOf(Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT)
             )
             gd.shape = GradientDrawable.RECTANGLE
-            gd.setStroke(stroke, color) // fixed width
-            gd.cornerRadius =
-                radius + (resources.getDimensionPixelSize(R.dimen.edit_frame_width) - width) * size / 100 / 2
-            mEditFocusFrame!!.setImageDrawable(gd) // set new edit frame drawable
+            gd.setStroke(stroke, color)
+            if (radius > 0) // R + W/2
+                gd.cornerRadius = radius + (resources.getDimensionPixelSize(R.dimen.edit_frame_width) - width) * scale / 100 / 2
+            else // square
+                gd.cornerRadius = 0f
+            mEditFocusFrame?.setImageDrawable(gd) // set new edit frame drawable
         }
         // focus frame (banner_frame_width : banner_frame_height)
-        val ffv = findViewById<View>(R.id.banner_focused_frame)
-        if (ffv is ImageView) {
-            mFocusFrame = ffv
+        val focusFrameView = findViewById<View>(R.id.banner_focused_frame)
+        if (focusFrameView is ImageView) {
+            mFocusFrame = focusFrameView
             stroke =
                 RowPreferences.getFrameWidth(ctx) // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
             color =
                 RowPreferences.getFrameColor(ctx) // (int) getResources().getColor(R.color.banner_focus_frame_color);
-            ffv.getLayoutParams().width =
-                (width + 2 * stroke - radius.toInt() / 2) * size / 100 // px
-            ffv.getLayoutParams().height =
-                (height + 2 * stroke - radius.toInt() / 2) * size / 100 // px
-            ffv.requestLayout() // set new focus frame dimensions
+            focusFrameView.getLayoutParams().width =
+                (width + 2 * stroke - radius.toInt() / 2) * scale / 100 // px
+            focusFrameView.getLayoutParams().height =
+                (height + 2 * stroke - radius.toInt() / 2) * scale / 100 // px
+            focusFrameView.requestLayout() // set new focus frame dimensions
             gd = GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
                 intArrayOf(Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT)
             )
             gd.shape = GradientDrawable.RECTANGLE
-            gd.setStroke(stroke * size / 100, color) // setStroke(10, Color.BLACK);
-            gd.cornerRadius = radius // setCornerRadius(10f);
+            gd.setStroke(stroke * scale / 100, color) // setStroke(10, Color.BLACK)
+            gd.cornerRadius = radius // setCornerRadius(10f)
             mFocusFrame?.setImageDrawable(gd) // set new focus frame drawable
         }
     }
@@ -185,7 +186,7 @@ class BannerView @JvmOverloads constructor(
 
     fun clearBannerForRecycle() {
         clearFocus()
-        mEditFocusFrame!!.visibility = GONE
+        mEditFocusFrame?.visibility = View.GONE
     }
 
     fun removeSelectedListener(listener: BannerSelectedChangedListener?) {
@@ -203,14 +204,14 @@ class BannerView @JvmOverloads constructor(
         if (mEditMode && hasFocus()) {
             viewDimmer?.setDimState(DimState.ACTIVE, false)
             if (isSelected) {
-                mEditFocusFrame!!.visibility = GONE
+                mEditFocusFrame?.visibility = View.GONE
                 return
             }
-            mEditFocusFrame!!.visibility = VISIBLE // 0 - VISIBLE. 8 - GONE
+            mEditFocusFrame?.visibility = View.VISIBLE
             post { requestLayout() }
             return
         }
-        mEditFocusFrame!!.visibility = GONE
+        mEditFocusFrame?.visibility = View.GONE
     }
 
     override fun onEditModeChanged(editMode: Boolean) {
@@ -236,7 +237,7 @@ class BannerView @JvmOverloads constructor(
         setFocusedFrameState()
         // focus outline
         mFocusFrame?.let {
-            if (hasFocus()) it.visibility = VISIBLE else it.visibility = GONE
+            if (hasFocus()) it.visibility = View.VISIBLE else it.visibility = View.GONE
         }
     }
 
@@ -313,11 +314,11 @@ class BannerView @JvmOverloads constructor(
     }
 
     private val isEditModeSelected: Boolean
-        get() = TextUtils.equals(viewHolder!!.componentName, mEditModeManager.selectedComponentName)
+        get() = viewHolder?.componentName.equals(mEditModeManager.selectedComponentName)
 
     fun notifyEditModeManager(selected: Boolean) {
         if (selected) {
-            mEditModeManager.selectedComponentName = viewHolder!!.componentName
+            mEditModeManager.selectedComponentName = viewHolder?.componentName
         } else {
             mEditModeManager.selectedComponentName = null
         }
@@ -342,7 +343,7 @@ class BannerView @JvmOverloads constructor(
     override fun setZ(z: Float) {
         if (mAppBanner is ImageView || mAppBanner is LinearLayout) {
             mAppBanner?.z = z
-            mInstallStateOverlay!!.z = z
+            mInstallStateOverlay?.z = z
             return
         }
         super.setZ(z)

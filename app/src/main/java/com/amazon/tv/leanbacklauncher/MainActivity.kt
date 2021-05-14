@@ -29,6 +29,7 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.leanback.widget.VerticalGridView
 import androidx.preference.PreferenceManager
@@ -319,12 +320,12 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         mList = findViewById(R.id.main_list_view)
         mList?.let { mlv ->
             mlv.setHasFixedSize(true)
-            mlv.windowAlignment = 1
+            mlv.windowAlignment = BaseGridView.WINDOW_ALIGN_LOW_EDGE
             mlv.windowAlignmentOffset =
                 resources.getDimensionPixelOffset(R.dimen.home_screen_selected_row_alignment)
-            mlv.windowAlignmentOffsetPercent = -1.0f
+            mlv.windowAlignmentOffsetPercent = BaseGridView.WINDOW_ALIGN_OFFSET_PERCENT_DISABLED
             mlv.itemAlignmentOffset = 0
-            mlv.itemAlignmentOffsetPercent = -1.0f
+            mlv.itemAlignmentOffsetPercent = BaseGridView.WINDOW_ALIGN_OFFSET_PERCENT_DISABLED
             mScrollManager = HomeScrollManager(this, mlv)
             mScrollManager?.addHomeScrollListener(wallpaperView!!)
             homeAdapter =
@@ -678,7 +679,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         mList?.adapter?.let {
             notifIndex = (it.itemCount - 1).coerceAtMost(notifIndex)
         }
+        if (BuildConfig.DEBUG) Log.d(TAG,"currIndex:$currIndex, notifIndex:$notifIndex")
         if (notifIndex != -1 && currIndex != notifIndex) {
+            if (BuildConfig.DEBUG) Log.d(TAG,"resetLauncherState -> set focus to Recommendations row")
             if (smooth) {
                 mList?.setSelectedPositionSmooth(notifIndex)
             } else {
@@ -702,7 +705,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     rowIndex = (it.itemCount - 1).coerceAtMost(rowIndex)
                 }
                 if (rowIndex != -1 && rowIndex != currIndex) {
-                    //if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState -> set focus to row $rowIndex")
+                    if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState -> set focus to row $rowIndex")
                     if (smooth) {
                         mList?.setSelectedPositionSmooth(rowIndex)
                     } else {
@@ -807,6 +810,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
         mHandler.sendEmptyMessageDelayed(3, mResetPeriod.toLong())
         mHandler.sendEmptyMessageDelayed(7, 2000)
+
         if (mLaunchAnimation.isFinished) {
             mLaunchAnimation.reset()
         }
@@ -819,7 +823,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         mPauseAnimation.reset()
 
         if (isInEditMode) {
-            mEditModeAnimation.reset()  // FIXME: added
+            if (mEditModeAnimation.isInitialized)
+                mEditModeAnimation.reset()  // FIXME: added
             mEditModeAnimation.init(
                 EditModeMassFadeAnimator(this, EditMode.ENTER),
                 null,
@@ -853,7 +858,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mIdleListeners[i].onVisibilityChange(false)
         }
         if (isInEditMode) {
-            mEditModeAnimation.reset() // FIXME: added
+            if (mEditModeAnimation.isInitialized)
+                mEditModeAnimation.reset() // FIXME: added
             mEditModeAnimation.init(EditModeMassFadeAnimator(this, EditMode.EXIT), null, 0.toByte())
             mEditModeAnimation.start()
         }

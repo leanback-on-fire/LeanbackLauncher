@@ -57,8 +57,10 @@ class EditModeView @JvmOverloads constructor(
         uninstallText = findViewById(R.id.uninstall_text)
         finishButton = findViewById(R.id.finish_button)
         uninstallApp = findViewById(R.id.uninstall_app_banner)
-        val mFocusAnimator = ViewFocusAnimator(uninstallApp)
-        mFocusAnimator.setFocusImmediate(true)
+        uninstallApp?.let {
+            val mFocusAnimator = ViewFocusAnimator(it)
+            mFocusAnimator.setFocusImmediate(true)
+        }
         val zDeltaIcon = resources.getDimensionPixelOffset(R.dimen.edit_uninstall_icon_z)
             .toFloat()
         uninstallApp?.z = resources.getDimensionPixelOffset(R.dimen.edit_app_banner_z).toFloat()

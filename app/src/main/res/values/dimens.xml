@@ -2,7 +2,7 @@
 <resources>
     <dimen name="abc_action_bar_progress_bar_size">40.0dip</dimen>
     <dimen name="lb_onboarding_start_button_translation_offset">16.0dip</dimen>
-    <dimen name="banner_corner_radius">0.0dip</dimen><!--2.0dip-->
+    <dimen name="banner_corner_radius">4.0dip</dimen><!--2.0dip-->
     <dimen name="banner_frame_height">88.0dip</dimen>
     <dimen name="banner_frame_stroke">4.0dip</dimen>
     <dimen name="banner_frame_width">150.0dip</dimen>
