@@ -22,6 +22,12 @@ import java.util.*
 
 class NotificationListenerMonitor : Service() {
     private var mReconnectAttempts = 0
+
+    companion object {
+        private const val TAG = "NotifyListenerMonitor"
+        private const val MAXIMUM_RECONNECT_ATTEMPTS = 15
+    }
+
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "Notification listener monitor created.")
@@ -145,10 +151,5 @@ class NotificationListenerMonitor : Service() {
         manager.notify(NOTIFICATION_ID, builder.build())
         startForeground(NOTIFICATION_ID, builder.build())
         return START_STICKY
-    }
-
-    companion object {
-        private const val TAG = "NotifyListenerMonitor"
-        private const val MAXIMUM_RECONNECT_ATTEMPTS = 15
     }
 }

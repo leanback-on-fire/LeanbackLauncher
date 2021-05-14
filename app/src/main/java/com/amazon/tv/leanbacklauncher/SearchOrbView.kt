@@ -420,7 +420,8 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         if (!(am.isEnabled && am.isTouchExplorationEnabled)) {
             isTouchExplorationEnabled = false
         }
-        val finalIsTouchExplorationEnabled = isTouchExplorationEnabled
+        val finalIsTouchExplorationEnabled = isTouchExplorationEnabled // TODO: check Accessibility
+        //val finalIsTouchExplorationEnabled = false
         val listener = OnClickListener {
             val success: Boolean
             val iskeyboardSearch: Boolean = mKeyboardOrbView != null && mKeyboardOrbView!!.hasFocus()
@@ -429,13 +430,12 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
             } else startSearchActivitySafely(mContext, mSearchIntent, iskeyboardSearch) && mListener != null
             if (success) {
                 animateOut()
-                mListener!!.onSearchLaunched()
+                mListener?.onSearchLaunched()
             }
         }
-        mMicOrbView!!.setOnClickListener(listener)
-        if (mKeyboardOrbView != null) {
-            mKeyboardOrbView!!.setOnClickListener(listener)
-        }
+        mMicOrbView?.setOnClickListener(listener)
+        mKeyboardOrbView?.setOnClickListener(listener)
+
     }
 
     fun setLaunchListener(listener: SearchLaunchListener?) {

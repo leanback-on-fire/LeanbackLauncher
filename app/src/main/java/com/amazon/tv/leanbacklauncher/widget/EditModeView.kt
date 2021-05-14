@@ -125,13 +125,12 @@ class EditModeView @JvmOverloads constructor(
             View.GONE
         }
         imageView?.visibility = i
-
-//        var i2 = View.GONE
+//        i = View.GONE
 //        val button = finishButton
 //        if (!z) {
-//            i2 = View.VISIBLE
+//            i = View.VISIBLE
 //        }
-//        button?.setVisibility(i2) // useless DONE
+//        button?.visibility = i // useless DONE
     }
 
     fun clearUninstallAndFinishLayers() {
@@ -163,7 +162,7 @@ class EditModeView @JvmOverloads constructor(
         uninstallApp?.visibility =
             if (uninstallMode) View.VISIBLE else View.GONE
     }
-
+    // FIXME
     fun setBannerUninstallModeWithAnimation(
         uninstallMode: Boolean,
         curView: BannerView?,
@@ -249,14 +248,14 @@ class EditModeView @JvmOverloads constructor(
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         val action = event.action
         val keyCode = event.keyCode
-        return if (action == 0) {
-            if (keyCode == 19 && finishButton!!.isFocused) {
+        return if (action == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent.KEYCODE_DPAD_UP && finishButton!!.isFocused) {
                 notifyOnFocusLeavingEditMode(0)
                 true
-            } else if (keyCode == 19 && uninstallIcon!!.isFocused || keyCode == 4 && uninstallIcon!!.isFocused) {
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP && uninstallIcon!!.isFocused || keyCode == KeyEvent.KEYCODE_BACK && uninstallIcon!!.isFocused) {
                 notifyOnFocusLeavingEditMode(1)
                 true
-            } else if ((isConfirmKey(keyCode) || keyCode == 4) && finishButton!!.isFocused) {
+            } else if ((isConfirmKey(keyCode) || keyCode == KeyEvent.KEYCODE_BACK) && finishButton!!.isFocused) {
                 notifyOnExitEditModeTriggered()
                 true
             } else if (!isConfirmKey(keyCode) || !uninstallIcon!!.isFocused) {
@@ -265,7 +264,7 @@ class EditModeView @JvmOverloads constructor(
                 mUninstallListener?.onUninstallPressed(notifyPrepForUninstall())
                 true
             }
-        } else if (action != 1) {
+        } else if (action != KeyEvent.ACTION_UP) {
             super.dispatchKeyEvent(event)
         } else {
             true

@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.TextUtils.TruncateAt
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
@@ -110,7 +111,7 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     protected fun onBind() {
         mSignature = null
         mExpandedInfoAreaBound = false
-        mFocusAnimator!!.setFocusImmediate(hasFocus())
+        mFocusAnimator?.setFocusImmediate(hasFocus())
         mDimmer.setDimLevelImmediate()
         requestLayout()
     }
@@ -126,18 +127,18 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
                 mProgressDrawable =
                     ContextCompat.getDrawable(context, R.drawable.card_progress_drawable)
                 mProgressBar = ProgressBar(context, null, 0, 16973855)
-                mProgressBar?.let {
-                    it.progressDrawable = mProgressDrawable
-                    it.layoutDirection = View.LAYOUT_DIRECTION_LTR
+                mProgressBar?.let { bar ->
+                    bar.progressDrawable = mProgressDrawable
+                    bar.layoutDirection = View.LAYOUT_DIRECTION_LTR
                     addView(mProgressBar)
-                    it.visibility = VISIBLE
-                    it.max = progressMax
-                    it.progress = progress
+                    bar.visibility = VISIBLE
+                    bar.max = progressMax
+                    bar.progress = progress
                 }
                 mDimmer.addDimTarget(mProgressDrawable)
             }
         } else if (mProgressBar != null) {
-            mProgressBar!!.visibility = GONE
+            mProgressBar?.visibility = GONE
             mDimmer.removeDimTarget(mProgressDrawable)
         }
     }
@@ -207,17 +208,17 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
                 // unused
             }
         }
-        mSourceNameView!!.text = name
+        mSourceNameView?.text = name
     }
 
     protected fun bindExpandedInfoArea() {
         if (!mExpandedInfoAreaBound) {
             if (width.toFloat() / mImageHeight.toFloat() > 1.5f) {
-                mTitleView!!.maxLines = 1
-                mContentView!!.maxLines = 1
+                mTitleView?.maxLines = 1
+                mContentView?.maxLines = 1
             } else {
-                mTitleView!!.maxLines = 2
-                mContentView!!.maxLines = 2
+                mTitleView?.maxLines = 2
+                mContentView?.maxLines = 2
             }
             bindInfoAreaTitleAndContent()
             mExpandedInfoAreaBound = true
@@ -231,12 +232,12 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
             mDimmer.removeDesatDimTarget(mBadgeIcon)
         }
         mBadgeIcon = badgeIcon
-        if (mBadgeIcon != null) {
-            mBadgeIcon = mBadgeIcon!!.mutate()
-            mBadgeIcon!!.setBounds(0, 0, mBadgeIcon!!.intrinsicWidth, mBadgeIcon!!.intrinsicHeight)
-            mBadgeIconIntrinsicBounds[0.0f, 0.0f, mBadgeIcon!!.intrinsicWidth.toFloat()] =
-                mBadgeIcon!!.intrinsicHeight.toFloat()
-            mBadgeIcon!!.callback = this
+        mBadgeIcon?.let { badge ->
+            mBadgeIcon = badge.mutate()
+            badge.setBounds(0, 0, badge.intrinsicWidth, badge.intrinsicHeight)
+            mBadgeIconIntrinsicBounds[0.0f, 0.0f, badge.intrinsicWidth.toFloat()] =
+                badge.intrinsicHeight.toFloat()
+            badge.callback = this
             mDimmer.addDimTarget(mBadgeIcon)
             mDimmer.addDesatDimTarget(mBadgeIcon)
         }
@@ -255,16 +256,16 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     override fun onFocusLevelSettled(focused: Boolean) {
         if (focused) {
             bindExpandedInfoArea()
-            mSourceNameView!!.visibility = GONE
-            mTitleView!!.visibility = VISIBLE
+            mSourceNameView!!.visibility = View.GONE
+            mTitleView!!.visibility = View.VISIBLE
             mTitleView.alpha = 1.0f
-            mContentView!!.visibility = VISIBLE
+            mContentView!!.visibility = View.VISIBLE
             mContentView.alpha = 1.0f
         } else {
-            mSourceNameView!!.visibility = VISIBLE
+            mSourceNameView!!.visibility = View.VISIBLE
             mSourceNameView.alpha = 1.0f
-            mTitleView!!.visibility = GONE
-            mContentView!!.visibility = GONE
+            mTitleView!!.visibility = View.GONE
+            mContentView!!.visibility = View.GONE
         }
         clipBounds = null
         requestLayout()
@@ -409,10 +410,10 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     }
 
     protected fun layoutMainImage(width: Int) {
-        if (mImage != null) {
+        mImage?.let { image ->
             val scaledImageWidth =
-                mImage!!.intrinsicWidth.toFloat() * mImageHeight.toFloat() / mImage!!.intrinsicHeight.toFloat()
-            mImage!!.setBounds(
+                image.intrinsicWidth.toFloat() * mImageHeight.toFloat() / image.intrinsicHeight.toFloat()
+            image.setBounds(
                 ((width.toFloat() - scaledImageWidth) * 0.5f).toInt(),
                 0,
                 ceil(((width.toFloat() + scaledImageWidth) * 0.5f).toDouble()).toInt(),
@@ -422,9 +423,7 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     }
 
     protected fun layoutProgressBar(width: Int) {
-        if (mProgressBar != null) {
-            mProgressBar!!.layout(0, mImageHeight - mProgressBarHeight, width, mImageHeight)
-        }
+        mProgressBar?.layout(0, mImageHeight - mProgressBarHeight, width, mImageHeight)
     }
 
     protected fun layoutSourceName(width: Int, isLayoutRtl: Boolean) {
@@ -500,7 +499,7 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
     }
 
     private fun interpolateBadgeIconLayout() {
-        if (mBadgeIcon != null) {
+        mBadgeIcon?.let {
             val rectC = mBadgeIconCollapsedBounds
             val rectE = mBadgeIconExpandedBounds
             sRect[rectC.left + (rectE.left - rectC.left) * mFocusLevel, rectC.top + (rectE.top - rectC.top) * mFocusLevel, rectC.right + (rectE.right - rectC.right) * mFocusLevel] =
@@ -518,10 +517,10 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
         }
         mInfoBackground.color = ColorUtils.blendARGB(mBackgroundColor, mInfoAreaColor, mFocusLevel)
         mInfoBackground.draw(canvas)
-        if (mBadgeIcon != null) {
+        mBadgeIcon?.let { badge ->
             canvas.save()
             canvas.concat(mBadgeIconMatrix)
-            mBadgeIcon!!.draw(canvas)
+            badge.draw(canvas)
             canvas.restore()
         }
     }
@@ -632,8 +631,7 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
         isFocusable = true
         val launcherConfiguration = LauncherConfiguration.getInstance()
         if (launcherConfiguration != null && launcherConfiguration.isRoundCornersEnabled) {
-            if (sOutline == null) {
-                // sOutline = RoundedRectOutlineProvider(resources.getDimensionPixelOffset(R.dimen.notif_card_corner_radius).toFloat())
+            if (sOutline == null) { // sOutline = RoundedRectOutlineProvider(resources.getDimensionPixelOffset(R.dimen.notif_card_corner_radius).toFloat())
                 sOutline = RoundedRectOutlineProvider(RowPreferences.getCorners(context).toFloat())
             }
             outlineProvider = sOutline
@@ -643,110 +641,39 @@ abstract class RecView(context: Context) : ViewGroup(context), Target<Bitmap?>,
         mInfoBackground = ColorDrawable()
         mDimmer.addDimTarget(mInfoBackground)
         mPackageManager = getContext().packageManager
-        /*int[] attr = new int[]{
-                R.attr.background,
-                R.attr.maxWidth,
-                R.attr.cardFont,
-                R.attr.minWidth,
-                R.attr.imageHeight,
-                R.attr.progressBarHeight,
-                R.attr.infoAreaPaddingStart, //
-                R.attr.infoAreaPaddingTop,
-                R.attr.infoAreaPaddingEnd,
-                R.attr.infoAreaPaddingBottom,
-                R.attr.infoAreaCollapsedHeight,
-                R.attr.infoAreaDefaultColor,
-                R.attr.sourceNameTextSize,
-                R.attr.sourceNameTextColor,
-                R.attr.gapBetweenSourceNameAndBadge,
-                R.attr.badgeSize,
-                R.attr.badgeMarginBottom,
-                R.attr.titleTextSize,
-                R.attr.titleTextColor,
-                R.attr.contentTextSize,
-                R.attr.contentTextColor,
-        };
-        Arrays.sort(attr);*/
-        //  TypedArray a = context.obtainStyledAttributes(R.style.LeanbackRecommendationCard, R.styleable.LeanbackRecommendationCard);
 
-/*
-
-   <item name="background">@drawable/rec_card_background</item>
-        <item name="maxWidth">@dimen/notif_card_img_max_width</item>
-        <item name="cardFont">@string/font</item>
-        <item name="minWidth">@dimen/notif_card_img_min_width</item>
-        <item name="imageHeight">@dimen/notif_card_img_height</item>
-        <item name="progressBarHeight">@dimen/progress_bar_height</item>
-        <item name="infoAreaPaddingStart">@dimen/notif_card_info_start_margin</item>
-        <item name="infoAreaPaddingTop">@dimen/notif_card_info_margin_top</item>
-        <item name="infoAreaPaddingEnd">@dimen/notif_card_info_badge_end_margin</item>
-        <item name="infoAreaPaddingBottom">@dimen/notif_card_info_margin_bottom</item>
-        <item name="infoAreaCollapsedHeight">@dimen/notif_card_info_height</item>
-        <item name="infoAreaDefaultColor">@color/notif_background_color</item>
-        <item name="sourceNameTextSize">@dimen/notif_card_source_text_size</item>
-        <item name="sourceNameTextColor">@color/notif_source_text_color</item>
-        <item name="gapBetweenSourceNameAndBadge">@dimen/notif_card_info_badge_start_margin</item>
-        <item name="badgeSize">@dimen/notif_card_extra_badge_size</item>
-        <item name="badgeMarginBottom">@dimen/notif_card_info_badge_bottom_margin</item>
-        <item name="titleTextSize">@dimen/notif_card_title_text_size</item>
-        <item name="titleTextColor">@color/notif_title_text_color</item>
-        <item name="contentTextSize">@dimen/</item>
-        <item name="contentTextColor">@color/notif_content_text_color</item>
-
- */
         val res = context.resources
-        val font = context.getString(R.string.font) //= a.getString(2);
-        mBackground =
-            ContextCompat.getDrawable(context, R.drawable.rec_card_background) //a.getDrawable(0);
-        mImageMinWidth =
-            res.getDimensionPixelSize(R.dimen.notif_card_img_min_width) //a.getDimensionPixelSize(3, 0);
-        mImageMaxWidth =
-            res.getDimensionPixelSize(R.dimen.notif_card_img_max_width) //a.getDimensionPixelSize(1, 0);
-        mImageHeight =
-            res.getDimensionPixelSize(R.dimen.notif_card_img_height) //a.getDimensionPixelSize(4, 0);
-        mProgressBarHeight =
-            res.getDimensionPixelSize(R.dimen.progress_bar_height) //a.getDimensionPixelSize(5, 0);
-        mInfoAreaPaddingStart =
-            res.getDimensionPixelOffset(R.dimen.notif_card_info_start_margin) //a.getDimensionPixelOffset(6, 0);
-        mInfoAreaPaddingTop =
-            res.getDimensionPixelOffset(R.dimen.notif_card_info_margin_top) // a.getDimensionPixelOffset(7, 0);
-        mInfoAreaPaddingEnd =
-            res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_end_margin) ////a.getDimensionPixelOffset(8, 0);
-        mInfoAreaPaddingBottom =
-            res.getDimensionPixelOffset(R.dimen.notif_card_info_margin_bottom) //a.getDimensionPixelOffset(9, 0);
-        mInfoAreaCollapsedHeight =
-            res.getDimensionPixelSize(R.dimen.notif_card_info_height) //a.getDimensionPixelSize(10, 0);
-        mInfoAreaDefaultColor =
-            ContextCompat.getColor(context, R.color.notif_background_color) //a.getColor(11, 0);
-        val sourceNameTextSize =
-            res.getDimension(R.dimen.notif_card_source_text_size) //a.getDimension(12, 0.0f);
-        val sourceNameTextColor =
-            ContextCompat.getColor(context, R.color.notif_source_text_color) //a.getColor(13, 0);
-        mGapBetweenSourceNameAndBadge =
-            res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_start_margin) //a.getDimensionPixelOffset(14, 0);
-        mBadgeSize =
-            res.getDimensionPixelSize(R.dimen.notif_card_extra_badge_size) //a.getDimensionPixelSize(15, 0);
-        mBadgeMarginBottom =
-            res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_bottom_margin) //a.getDimensionPixelOffset(16, 0);
-        val titleTextSize =
-            res.getDimension(R.dimen.notif_card_title_text_size) //a.getDimension(17, 0.0f);
-        val titleTextColor =
-            ContextCompat.getColor(context, R.color.notif_title_text_color) //a.getColor(18, 0);
-        val contentTextSize =
-            res.getDimension(R.dimen.notif_card_content_text_size) //a.getDimension(19, 0.0f);
-        val contentTextColor =
-            ContextCompat.getColor(context, R.color.notif_content_text_color) //a.getColor(20, 0);
-        //a.recycle();
+        val font = context.getString(R.string.font)
+        mBackground = ContextCompat.getDrawable(context, R.drawable.rec_card_background)
+        mImageMinWidth = res.getDimensionPixelSize(R.dimen.notif_card_img_min_width)
+        mImageMaxWidth = res.getDimensionPixelSize(R.dimen.notif_card_img_max_width)
+        mImageHeight = res.getDimensionPixelSize(R.dimen.notif_card_img_height)
+        mProgressBarHeight = res.getDimensionPixelSize(R.dimen.progress_bar_height)
+        mInfoAreaPaddingStart = res.getDimensionPixelOffset(R.dimen.notif_card_info_start_margin)
+        mInfoAreaPaddingTop = res.getDimensionPixelOffset(R.dimen.notif_card_info_margin_top)
+        mInfoAreaPaddingEnd = res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_end_margin)
+        mInfoAreaPaddingBottom = res.getDimensionPixelOffset(R.dimen.notif_card_info_margin_bottom)
+        mInfoAreaCollapsedHeight = res.getDimensionPixelSize(R.dimen.notif_card_info_height)
+        mInfoAreaDefaultColor = ContextCompat.getColor(context, R.color.notif_background_color)
+        mGapBetweenSourceNameAndBadge = res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_start_margin)
+        mBadgeSize = res.getDimensionPixelSize(R.dimen.notif_card_extra_badge_size)
+        mBadgeMarginBottom = res.getDimensionPixelOffset(R.dimen.notif_card_info_badge_bottom_margin)
         mTypeface = Typeface.create(font, Typeface.NORMAL)
         mBackgroundColor = ContextCompat.getColor(context, R.color.notif_background_color)
+        val sourceNameTextSize = res.getDimension(R.dimen.notif_card_source_text_size)
+        val sourceNameTextColor = ContextCompat.getColor(context, R.color.notif_source_text_color)
         mSourceNameView = createTextView(sourceNameTextSize, sourceNameTextColor)
-        mSourceNameView.gravity = 16
+        mSourceNameView.gravity = Gravity.CENTER_VERTICAL
         mSourceNameView.setLines(1)
         addView(mSourceNameView)
         mDimmer.addDimTarget(mSourceNameView)
+        val titleTextSize = res.getDimension(R.dimen.notif_card_title_text_size)
+        val titleTextColor = ContextCompat.getColor(context, R.color.notif_title_text_color)
         mTitleView = createTextView(titleTextSize, titleTextColor)
         addView(mTitleView)
         mDimmer.addDimTarget(mTitleView)
+        val contentTextSize = res.getDimension(R.dimen.notif_card_content_text_size)
+        val contentTextColor = ContextCompat.getColor(context, R.color.notif_content_text_color)
         mContentView = createTextView(contentTextSize, contentTextColor)
         addView(mContentView)
         mDimmer.addDimTarget(mContentView)

@@ -101,8 +101,7 @@ class HomeScreenAdapter(
         mInputsAdapter?.unregisterReceivers()
 
     }
-
-    // FIXME: WRONG FOCUS
+    // TODO: check scrolls
     fun resetRowPositions(smooth: Boolean) {
         for (i in mAllRowsList.indices) {
             if (mAllRowsList[i].rowView is ActiveFrame) {
@@ -638,26 +637,26 @@ class HomeScreenAdapter(
     }
 
     fun onReconnectToRecommendationsService() {
-        recommendationsAdapter!!.reregisterListener()
+        recommendationsAdapter?.reregisterListener()
     }
 
     fun onInitUi() {
-        recommendationsAdapter!!.onInitUi()
+        recommendationsAdapter?.onInitUi()
         mPartnerAdapter?.onInitUi()
     }
 
     fun onUiVisible() {
-        recommendationsAdapter!!.onUiVisible()
+        recommendationsAdapter?.onUiVisible()
         mPartnerAdapter?.onUiVisible()
     }
 
     fun onUiInvisible() {
-        recommendationsAdapter!!.onUiInvisible()
+        recommendationsAdapter?.onUiInvisible()
         mPartnerAdapter?.onUiInvisible()
     }
 
     fun onStopUi() {
-        recommendationsAdapter!!.onStopUi()
+        recommendationsAdapter?.onStopUi()
         mPartnerAdapter?.onStopUi()
     }
 
@@ -747,9 +746,7 @@ class HomeScreenAdapter(
 
     fun onSearchIconUpdate(assistantIcon: Drawable?) {
         mAssistantIcon = assistantIcon
-        if (mSearch != null) {
-            mSearch!!.updateAssistantIcon(mAssistantIcon)
-        }
+        mSearch?.updateAssistantIcon(mAssistantIcon)
     }
 
     fun onSuggestionsUpdate(suggestions: Array<String>?) {

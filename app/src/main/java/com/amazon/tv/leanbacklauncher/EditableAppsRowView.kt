@@ -24,7 +24,12 @@ import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import com.amazon.tv.leanbacklauncher.widget.EditModeViewActionListener
 import java.util.*
 
-class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyle: Int = 0) : ActiveItemsRowView(context, attrs, defStyle), OnGlobalFocusChangeListener, BannerSelectedChangedListener, OnEditModeChangedListener, EditModeViewActionListener {
+class EditableAppsRowView @JvmOverloads constructor(
+    context: Context?,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ActiveItemsRowView(context, attrs, defStyle), OnGlobalFocusChangeListener,
+    BannerSelectedChangedListener, OnEditModeChangedListener, EditModeViewActionListener {
     private val TAG =
         if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private var mChangeObserver: AdapterDataObserver
@@ -49,7 +54,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                 if (mCurFocused >= positionStart + itemCount) {
                     mCurFocused -= itemCount
                 } else if (mCurFocused >= positionStart) {
-                    focusOnNewPosition()
+                    focusOnNewPosition() // TODO: check EditMode logic
                 }
                 if (mLastFocused >= positionStart + itemCount) {
                     mLastFocused -= itemCount
@@ -57,8 +62,13 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             }
         }
         setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
-            override fun onChildViewHolderSelected(parent: RecyclerView?, holder: ViewHolder?, position: Int, subposition: Int) {
-                this@EditableAppsRowView.onChildViewHolderSelected(parent, holder, position, subposition)
+            override fun onChildViewHolderSelected(
+                parent: RecyclerView?,
+                holder: ViewHolder?,
+                position: Int,
+                subposition: Int
+            ) {
+                this@EditableAppsRowView.onChildViewHolderSelected(position)
             }
         })
     }
@@ -133,7 +143,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                         (it.next() as OnEditModeChangedListener).onEditModeChanged(editMode)
                     }
                 }
-                if (Log.isLoggable(TAG, Log.DEBUG)) {
+                if (BuildConfig.DEBUG) {
                     Log.d(TAG, "Edit Mode is now $mEditMode.")
                 }
             }
@@ -165,7 +175,10 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             return true
         }
         val lp = getViewLaunchPoint(v)
-        return lp == null || Util.isSystemApp(context, getViewPackageName(v)) || !Util.isUninstallAllowed(context) || lp.isInstalling
+        return lp == null || Util.isSystemApp(
+            context,
+            getViewPackageName(v)
+        ) || !Util.isUninstallAllowed(context) || lp.isInstalling
     }
 
     override fun onEditModeExitTriggered() {
@@ -229,10 +242,10 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
 
     override fun onUninstallComplete() {
         val lastFocusedViewHolder = lastFocusedViewHolderInt
-        lastFocusedViewHolder?.let { vh ->
-            vh.itemView.isSelected = false
-            if (vh.itemView is BannerView) {
-                (vh.itemView as BannerView).notifyEditModeManager(false)
+        lastFocusedViewHolder?.let { holder ->
+            holder.itemView.isSelected = false
+            if (holder.itemView is BannerView) {
+                (holder.itemView as BannerView).notifyEditModeManager(false)
             }
             setChildrenLastFocusedBanner(null)
             setBannerDrawableUninstallState(false)
@@ -242,8 +255,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
 
     override fun onUninstallFailure() {
         val lastFocusedViewHolder = lastFocusedViewHolderInt
-        lastFocusedViewHolder?.let { lfvh ->
-            lfvh.itemView.requestFocus()
+        lastFocusedViewHolder?.let { holder ->
+            holder.itemView.requestFocus()
             setBannerDrawableUninstallState(false)
         }
     }
@@ -264,7 +277,17 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     }
 
     private fun swapAppOrder(movingBanner: BannerView?, otherBanner: BannerView?) {
-        (adapter as AppsAdapter?)!!.moveLaunchPoint(getChildAdapterPosition(movingBanner!!), getChildAdapterPosition(otherBanner!!), true)
+        if (BuildConfig.DEBUG) Log.d(
+            TAG,
+            "swapAppOrder(${getChildAdapterPosition(movingBanner!!)},${
+                getChildAdapterPosition(otherBanner!!)
+            })"
+        )
+        (adapter as AppsAdapter?)?.moveLaunchPoint(
+            getChildAdapterPosition(movingBanner!!),
+            getChildAdapterPosition(otherBanner!!),
+            true
+        )
     }
 
     override fun onGlobalFocusChanged(oldFocus: View?, newFocus: View?) {
@@ -273,6 +296,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                 val curFocusedViewHolder = curViewHolderInt
                 val lastFocusedViewHolder = lastFocusedViewHolderInt
                 when {
+                    // uninstall icon
                     newFocus == mEditModeView!!.uninstallIcon -> {
                         setUninstallState()
                         setChildrenLastFocusedBanner(if (lastFocusedViewHolder != null) lastFocusedViewHolder.itemView as BannerView else null)
@@ -287,6 +311,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                         editModeView!!.setBannerUninstallModeWithAnimation(false, bannerView, this)
                         setChildrenLastFocusedBanner(null)
                     }
+                    // uninstall button
                     newFocus == mEditModeView!!.finishButton -> {
                         setChildrenLastFocusedBanner(if (curFocusedViewHolder != null) curFocusedViewHolder.itemView as BannerView else null)
                     }
@@ -305,9 +330,10 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             }
         }
     }
+
     // TODO: check cast for mEditModeView
     override fun focusSearch(focused: View, direction: Int): View {
-        var direction = direction
+        var dir = direction
         if (mEditMode) {
             val position = getChildAdapterPosition(focused)
             val numRows = aNumRows
@@ -315,10 +341,10 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                 if (itemAnimator!!.isRunning) {
                     return focused
                 }
-                if (layoutDirection == LAYOUT_DIRECTION_RTL && (direction == FOCUS_LEFT || direction == FOCUS_RIGHT)) {
-                    direction = if (direction == FOCUS_LEFT) FOCUS_RIGHT else FOCUS_LEFT
+                if (layoutDirection == LAYOUT_DIRECTION_RTL && (dir == FOCUS_LEFT || dir == FOCUS_RIGHT)) {
+                    dir = if (dir == FOCUS_LEFT) FOCUS_RIGHT else FOCUS_LEFT
                 }
-                when (direction) {
+                when (dir) {
                     FOCUS_DOWN -> {
                         if (position % numRows >= numRows - 1 || position >= adapter!!.itemCount - 1) {
                             setUninstallState()
@@ -343,22 +369,28 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                         return focused
                     }
                 }
-            } else if (direction == FOCUS_DOWN && position % numRows == numRows - 1) {
+            } else if (dir == FOCUS_DOWN && position % numRows == numRows - 1) {
                 setLastFocused()
                 return mEditModeView!!.finishButton as View
-            } else if (direction == FOCUS_DOWN && position == adapter!!.itemCount - 1) {
+            } else if (dir == FOCUS_DOWN && position == adapter!!.itemCount - 1) {
                 return focused
             } else {
-                if (direction == FOCUS_UP && position % numRows == 0) {
+                if (dir == FOCUS_UP && position % numRows == 0) {
                     return focused
                 }
             }
         }
-        return super.focusSearch(focused, direction)
+        return super.focusSearch(focused, dir)
     }
 
     private val isAccessibilityEnabled: Boolean
-        get() = (context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager).isEnabled
+        //get() = (context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager).isEnabled
+        get() {
+            val enabled =
+                (context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager).isEnabled
+            Log.d(TAG, "Accessibility enabled: $enabled.")
+            return enabled
+        }
 
     private fun moveLaunchPoint(fromPosition: Int, toPosition: Int): Boolean {
         return (adapter as AppsAdapter?)!!.moveLaunchPoint(fromPosition, toPosition, true)
@@ -367,16 +399,16 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
     private fun focusOnNewPosition() {
         val curFocusedViewHolder = curViewHolderInt
         if (curFocusedViewHolder == null) {
-            mCurFocused = -1
+            mCurFocused = NO_POSITION
             return
         }
         var newFocusPosition = curFocusedViewHolder.layoutPosition + aNumRows
-        if (isAccessibilityEnabled) {
+        if (isAccessibilityEnabled || !isRowActive) { // FIXME: no accessibility focus bug
             newFocusPosition = 0
         }
-        val numApps = childCount
-        if (newFocusPosition >= numApps) {
-            newFocusPosition = numApps - 1
+        val children = childCount
+        if (newFocusPosition >= children) {
+            newFocusPosition = children - 1
         }
         if (newFocusPosition == curFocusedViewHolder.layoutPosition) {
             newFocusPosition--
@@ -387,8 +419,8 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         }
         onSelectedChanged(curFocusedViewHolder.itemView as BannerView, false)
         val newFocusView = getChildAt(newFocusPosition)
-        newFocusView.requestFocus()
-        newFocusView.isSelected = false
+        newFocusView?.requestFocus()
+        newFocusView?.isSelected = false
     }
 
     private val lastFocusedBannerDrawable: Drawable?
@@ -398,22 +430,21 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
             if (lastFocusedViewHolder == null || adapter !is AppsAdapter) {
                 return null
             }
-            val position = lastFocusedViewHolder.adapterPosition
+            val position = lastFocusedViewHolder.bindingAdapterPosition
             if (position != -1) {
-                var d = adapter.getDrawableFromLaunchPoint(position)
-                if (d == null) {
+                var drawable = adapter.getDrawableFromLaunchPoint(position)
+                if (drawable == null) {
                     lastFocusedViewHolder.itemView.isDrawingCacheEnabled = true
                     val tmpBitmap = Bitmap.createBitmap(lastFocusedViewHolder.itemView.drawingCache)
                     lastFocusedViewHolder.itemView.isDrawingCacheEnabled = false
-                    d = BitmapDrawable(resources, tmpBitmap)
+                    drawable = BitmapDrawable(resources, tmpBitmap)
                 }
-                return d
+                return drawable
             }
             return null
         }
 
     fun setBannerDrawableUninstallState(uninstalling: Boolean) {
-        var i = View.GONE
         val lastFocusedViewHolder = lastFocusedViewHolderInt
         if (lastFocusedViewHolder != null && lastFocusedViewHolder.itemView is BannerView) {
             val itemView = lastFocusedViewHolder.itemView
@@ -426,14 +457,15 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
                     ResourcesCompat.getDrawable(resources, R.drawable.banner_background, null)
                 }
                 bannerView.background = drawable
+                var i = View.GONE
                 if (bannerView is LinearLayout) {
                     val icon = itemView.findViewById<View>(R.id.banner_icon)
-                    val i2: Int = if (uninstalling) {
+                    val vis: Int = if (uninstalling) {
                         View.GONE
                     } else {
                         View.VISIBLE
                     }
-                    icon.visibility = i2
+                    icon.visibility = vis
                     val text = itemView.findViewById<View>(R.id.banner_label)
                     if (!uninstalling) {
                         i = View.VISIBLE
@@ -468,7 +500,7 @@ class EditableAppsRowView @JvmOverloads constructor(context: Context?, attrs: At
         mLastFocused = mCurFocused
     }
 
-    fun onChildViewHolderSelected(parent: RecyclerView?, holder: ViewHolder?, position: Int, subposition: Int) {
+    fun onChildViewHolderSelected(position: Int) {
         if (position != mCurFocused) {
             if (mEditMode) {
                 mLastFocused = mCurFocused

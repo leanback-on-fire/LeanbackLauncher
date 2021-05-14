@@ -66,7 +66,11 @@ open class AppsAdapter(
                 if (prefUtil?.isFavorite(point?.packageName) == true && prefUtil.areFavoritesEnabled())
                     return false
                 // hard filter (self / amazon / etc)
-                if (point?.componentName?.contains("com.amazon.tv.leanbacklauncher.MainActivity", true) == true)
+                if (point?.componentName?.contains(
+                        "com.amazon.tv.leanbacklauncher.MainActivity",
+                        true
+                    ) == true
+                )
                     return false
                 if (point?.componentName.equals("com.amazon.tv.launcher/.ui.DebugActivity"))
                     return false
@@ -486,16 +490,18 @@ open class AppsAdapter(
         if (desiredPosition < 0 || desiredPosition > mLaunchPoints.size - 1 || initPosition < 0 || initPosition > mLaunchPoints.size - 1) {
             return false
         }
-//        if (BuildConfig.DEBUG) Log.d(TAG, "moveLaunchPoint(initPosition: $initPosition, desiredPosition: $desiredPosition, userAction: $userAction)")
+        //if (BuildConfig.DEBUG) Log.d(TAG, "moveLaunchPoint(initPosition: $initPosition, desiredPosition: $desiredPosition, userAction: $userAction)")
         val focused = mLaunchPoints[initPosition]
         mLaunchPoints[initPosition] = mLaunchPoints[desiredPosition]
         mLaunchPoints[desiredPosition] = focused
         notifyItemMoved(initPosition, desiredPosition)
+        //if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemMoved($initPosition, $desiredPosition)")
         if (abs(desiredPosition - initPosition) > 1) {
             notifyItemMoved(
                 desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1,
                 initPosition
             )
+            //if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemMoved(${desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1}, $initPosition)")
         }
         if (!userAction) {
             return true
@@ -599,10 +605,11 @@ open class AppsAdapter(
                 }
                 // skip notify for wrong category
                 if (getRowType() != RowType.FAVORITES &&
-                    !mAppTypes.contains(lp.appCategory)) {
+                    !mAppTypes.contains(lp.appCategory)
+                ) {
                     continue
                 }
-                //if (BuildConfig.DEBUG) Log.d(TAG, "[${this.getRowType()}] notifyItemInserted for ${lp.componentName}")
+                //if (BuildConfig.DEBUG) Log.d( TAG, "[${this.getRowType()}] notifyItemInserted for ${lp.componentName}")
                 notifyItemInserted(mAppsManager!!.insertLaunchPoint(mLaunchPoints, lp))
                 saveAppOrderChanges = true
             }
@@ -621,6 +628,7 @@ open class AppsAdapter(
                 i = launchPoints.size - 1
                 while (i >= 0) {
                     if (mLaunchPoints[j] == launchPoints[i] && itemRemovedAt == -1) {
+                        //if (BuildConfig.DEBUG) Log.d(TAG, "launchPoints.removeAt($i)")
                         launchPoints.removeAt(i)
                         saveAppOrderChanges = true
                         itemRemovedAt = j
@@ -660,12 +668,7 @@ open class AppsAdapter(
                 if (lost < base + 1) base += 1
                 val numRows =
                     if (base > 0) base.coerceAtMost(userMax) else mContext.resources.getInteger(R.integer.min_num_banner_rows)
-                if (BuildConfig.DEBUG) Log.d(
-                    TAG,
-                    "mAppTypes: $mAppTypes user max rows: $userMax, calculated numRows: $numRows"
-                )
-
-                if ((viewType == 0 || viewType == 1) && numRows > 1) { // apps banner with few rows ()
+                if ((viewType == 0 || viewType == 1) && numRows > 1) { // apps banner with few rows
                     var lastPosition = itemRemovedAt
                     i = itemRemovedAt
                     while (i + numRows < mLaunchPoints.size) {
@@ -673,13 +676,24 @@ open class AppsAdapter(
                         lastPosition = i + numRows
                         i += numRows
                     }
-//                    Log.d(TAG, "numRows > 1: removeAt($lastPosition)")
                     mLaunchPoints.removeAt(lastPosition)
                     notifyItemRemoved(lastPosition)
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "numRows > 1: notifyItemRemoved($lastPosition)")
                 } else { // settings and apps in one row
-//                    Log.d(TAG, "numRows = 1: removeAt($itemRemovedAt)")
-                    mLaunchPoints.removeAt(itemRemovedAt)
-                    notifyItemRemoved(itemRemovedAt)
+                    //mLaunchPoints.removeAt(itemRemovedAt)
+                    //notifyItemRemoved(itemRemovedAt)
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "numRows = 1: notifyItemRemoved($itemRemovedAt)")
+                    // remove by moving too, no accessibility bug
+                    var lastPosition = itemRemovedAt
+                    i = itemRemovedAt
+                    while (i < mLaunchPoints.size) {
+                        moveLaunchPoint(i, i + 1, false)
+                        lastPosition = i
+                        i++
+                    }
+                    mLaunchPoints.removeAt(lastPosition)
+                    notifyItemRemoved(lastPosition)
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "numRows = 1: notifyItemRemoved($itemRemovedAt)")
                 }
             }
             saveAppOrderSnapshot()

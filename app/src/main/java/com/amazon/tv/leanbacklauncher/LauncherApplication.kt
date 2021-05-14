@@ -108,8 +108,8 @@ class LauncherApplication : Application(), LifecycleObserver {
     }
 
     private fun initPrimes() {
-        //final PrimesSettings primesSettings = new PrimesSettings(this);
-        /*if (primesSettings.isPrimesEnabled()) {
+        /*final PrimesSettings primesSettings = new PrimesSettings(this);
+        if (primesSettings.isPrimesEnabled()) {
             Primes primes = Primes.initialize(PrimesApiProvider.newInstance(this, new PrimesConfigurationsProvider() {
                 public PrimesConfigurations get() {
                     return PrimesConfigurations.newBuilder().setMetricTransmitter(LauncherApplication.this.getPrimesMetricTransmitter()).setPackageConfigurations(new PrimesPackageConfigurations(primesSettings.isPackageStatsMetricEnabled())).setMemoryConfigurations(new PrimesMemoryConfigurations(primesSettings.isMemoryMetricEnabled())).setCrashConfigurations(new PrimesCrashConfigurations(primesSettings.isCrashMetricEnabled())).build();
@@ -119,7 +119,7 @@ class LauncherApplication : Application(), LifecycleObserver {
             primes.startCrashMonitor();
             return;
         }*/
-        Log.e(TAG, "PRIMES not enabled")
+        Log.d(TAG, "PRIMES not enabled")
     }
 
     private fun demigrate() {
