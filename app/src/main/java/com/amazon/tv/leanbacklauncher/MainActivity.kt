@@ -502,9 +502,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             return
         }
         if (mAccessibilityManager?.isEnabled == true) {
-            setEditMode(z, false)
+            setEditMode(editMode = z, useAnimation = false)
         } else {
-            setEditMode(z, true)
+            setEditMode(editMode = z, useAnimation = true)
         }
     }
 
@@ -672,7 +672,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         homeAdapter?.resetRowPositions(smooth)
 
         if (isInEditMode) {
-            setEditMode(false, smooth)
+            setEditMode(editMode = false, useAnimation = smooth)
         }
         val currIndex = mList!!.selectedPosition
         var notifIndex = homeAdapter!!.getRowIndex(1) // Recomendations row

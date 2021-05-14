@@ -21,8 +21,10 @@ import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
 class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
-    private val RELEASES_LINK = "https://api.github.com/repos/tsynik/LeanbackLauncher/releases/latest"
+    private val RELEASES_LINK =
+        "https://api.github.com/repos/tsynik/LeanbackLauncher/releases/latest"
     private var DOWNLOAD_LINK: String? = null
+    private val ctx = LauncherApplication.getContext()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,21 +32,27 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
     }
 
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
-        return Guidance(getString(R.string.update), getString(R.string.update_desc), null, ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null))
+        return Guidance(
+            getString(R.string.update),
+            getString(R.string.update_desc),
+            null,
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null)
+        )
     }
 
     override fun onCreateActions(actions: MutableList<GuidedAction>, savedInstanceState: Bundle?) {
         super.onCreateActions(actions, savedInstanceState)
-        val info = GuidedAction.Builder(requireContext())
-                .id(1)
-                .title(R.string.update_in_progress)
-                .description(null)
-                .infoOnly(true)
-                .build()
+        val info = GuidedAction.Builder(ctx)
+            .id(1)
+            .title(R.string.update_in_progress)
+            .description(null)
+            .infoOnly(true)
+            .build()
         actions.add(info)
     }
 
     fun updateAction(info: JSONObject) {
+
         val lastVersion = info.optString("tag_name", BuildConfig.VERSION_NAME).replace("v", "")
         val assets = info.optJSONArray("assets")
         if (assets != null) {
@@ -64,14 +72,16 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
             0.0
         }
         val actionInfo = findActionById(1)
-        actionInfo.title = String.format("%s %s", getString(R.string.app_name), info.optString("name"))
+        actionInfo.title =
+            String.format("%s %s", getString(R.string.app_name), info.optString("name"))
         actionInfo.description = getString(R.string.update_no_updates)
         val position = findActionPositionById(actionInfo.id)
         notifyActionChanged(position)
         if (lastVersionDouble.compareTo(currentVersionDouble) > 0) {
             actionInfo.description = getString(R.string.update_new_version)
             val listActions: MutableList<GuidedAction> = ArrayList()
-            listActions.add(GuidedAction.Builder(requireContext())
+            listActions.add(
+                GuidedAction.Builder(ctx)
                     .id(2)
                     .title(R.string.update_changes)
                     .description(info.optString("body", getString(R.string.update_no_info)))
@@ -81,7 +91,8 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                     .build()
             )
             listActions.add(actionInfo)
-            listActions.add(GuidedAction.Builder(requireContext())
+            listActions.add(
+                GuidedAction.Builder(ctx)
                     .id(3)
                     .title(R.string.update_install)
                     .build()
@@ -150,7 +161,8 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         }
     }
 
-    private inner class Download(url: String?, filePath: String) : AsyncTask<String?, Void?, File?>() {
+    private inner class Download(url: String?, filePath: String) :
+        AsyncTask<String?, Void?, File?>() {
         override fun doInBackground(vararg strings: String?): File? {
             val fileURL = strings[0]
             val saveDir = strings[1]
@@ -214,17 +226,20 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                 intent.setDataAndType(Uri.fromFile(f), "application/vnd.android.package-archive")
             } else {
                 intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                intent.setDataAndType(FileProvider.getUriForFile(context,
+                intent.setDataAndType(
+                    FileProvider.getUriForFile(
+                        context,
                         String.format("%s.fileProvider", BuildConfig.APPLICATION_ID),
                         f!!
-                ), "application/vnd.android.package-archive")
+                    ), "application/vnd.android.package-archive"
+                )
             }
             try {
                 context.startActivity(intent)
+                finishGuidedStepSupportFragments()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            finishGuidedStepSupportFragments()
         }
 
         init {
