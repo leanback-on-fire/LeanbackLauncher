@@ -70,7 +70,7 @@ class BannerView @JvmOverloads constructor(
         val scale = RowPreferences.getBannersSize(ctx) // 50 - 200
         this.layoutParams.height = height * scale / 100 // px
         this.layoutParams.width = width * scale / 100 // px
-        requestLayout() // set new BannerView dimensions
+        this.requestLayout() // set new BannerView dimensions
         viewDimmer = ViewDimmer(this)
         mAppBanner = findViewById(R.id.app_banner)
         mInstallStateOverlay = findViewById(R.id.install_state_overlay)
@@ -120,9 +120,9 @@ class BannerView @JvmOverloads constructor(
         val editFrameView = findViewById<View>(R.id.edit_focused_frame)
         if (editFrameView is ImageView) {
             mEditFocusFrame = editFrameView
-            editFrameView.getLayoutParams().width =
+            editFrameView.layoutParams.width =
                 resources.getDimensionPixelSize(R.dimen.edit_frame_width) * scale / 100
-            editFrameView.getLayoutParams().height =
+            editFrameView.layoutParams.height =
                 resources.getDimensionPixelSize(R.dimen.edit_frame_height) * scale / 100
             editFrameView.requestLayout() // set new edit focus frame dimensions
             gd = GradientDrawable(
@@ -132,7 +132,8 @@ class BannerView @JvmOverloads constructor(
             gd.shape = GradientDrawable.RECTANGLE
             gd.setStroke(stroke, color)
             if (radius > 0) // R + W/2
-                gd.cornerRadius = radius + (resources.getDimensionPixelSize(R.dimen.edit_frame_width) - width) * scale / 100 / 2
+                gd.cornerRadius =
+                    radius + (resources.getDimensionPixelSize(R.dimen.edit_frame_width) - width) * scale / 100 / 2
             else // square
                 gd.cornerRadius = 0f
             mEditFocusFrame?.setImageDrawable(gd) // set new edit frame drawable
@@ -145,9 +146,9 @@ class BannerView @JvmOverloads constructor(
                 RowPreferences.getFrameWidth(ctx) // (int) getResources().getDimensionPixelSize(R.dimen.banner_frame_stroke);
             color =
                 RowPreferences.getFrameColor(ctx) // (int) getResources().getColor(R.color.banner_focus_frame_color);
-            focusFrameView.getLayoutParams().width =
+            focusFrameView.layoutParams.width =
                 (width + 2 * stroke - radius.toInt() / 2) * scale / 100 // px
-            focusFrameView.getLayoutParams().height =
+            focusFrameView.layoutParams.height =
                 (height + 2 * stroke - radius.toInt() / 2) * scale / 100 // px
             focusFrameView.requestLayout() // set new focus frame dimensions
             gd = GradientDrawable(
