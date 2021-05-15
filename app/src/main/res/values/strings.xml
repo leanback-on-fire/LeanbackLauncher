@@ -99,7 +99,7 @@
     <string name="focused_search_keyboard_hint_text">Click to type</string>
     <string name="focused_search_mic_hint_text">Click to speak</string>
     <string name="font">sans-serif-condensed</string>
-    <string name="goback">Back</string>
+    <string name="goback">[ .. ]</string>
     <string name="games_row_title">Show Games Row</string>
     <string name="hidden_applications_desc">Selected apps are hidden from the home screen</string>
     <string name="hidden_applications_title">Hidden applications</string>

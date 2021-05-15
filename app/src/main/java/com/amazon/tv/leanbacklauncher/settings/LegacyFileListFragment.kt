@@ -49,6 +49,14 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
         val subdirs = dirReader(dir)
         val dimages = imageReader(dir)
         val actions = ArrayList<GuidedAction>()
+        // back
+        actions.add(
+            GuidedAction.Builder(ctx)
+                .id(ACTION_BACK.toLong())
+                .title(R.string.goback)
+                .description(null)
+                .build()
+        )
         // directories
         if (subdirs.size > 0)
             subdirs.forEach {
@@ -71,14 +79,6 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
                         .build()
                 )
             }
-        // back
-        actions.add(
-            GuidedAction.Builder(ctx)
-                .id(ACTION_BACK.toLong())
-                .title(R.string.goback)
-                .description(null)
-                .build()
-        )
 
         setActions(actions)
     }
