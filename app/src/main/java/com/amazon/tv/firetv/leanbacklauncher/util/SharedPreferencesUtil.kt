@@ -13,62 +13,78 @@ class SharedPreferencesUtil private constructor() {
     private var genPref: SharedPreferences? = null
 
     fun isFavorite(component: String?): Boolean {
-        return favPref!!.getBoolean(component, false)
+        return favPref?.getBoolean(component, false) ?: false
     }
 
     fun favorite(component: String?) {
-        favPref!!.edit().putBoolean(component, true).apply()
+        component?.let {
+            favPref?.edit()?.putBoolean(it, true)?.apply()
+        }
     }
 
     fun unfavorite(component: String?) {
-        favPref!!.edit().putBoolean(component, false).apply()
+        component?.let {
+            //favPref?.edit()?.putBoolean(it, false)?.apply()
+            favPref?.edit()?.remove(it)?.apply()
+        }
     }
 
     fun hiddenApps(): Set<String> {
-        return hiddenPref!!.all.keys
+        return hiddenPref?.all?.keys ?: emptySet()
     }
 
     fun isHidden(component: String?): Boolean {
-        return hiddenPref!!.getBoolean(component, false)
+        return hiddenPref?.getBoolean(component, false) ?: false
     }
 
     fun hide(component: String?) {
-        hiddenPref!!.edit().putBoolean(component, true).apply()
+        component?.let {
+            hiddenPref?.edit()?.putBoolean(it, true)?.apply()
+        }
     }
 
     fun unhide(component: String?) {
-        hiddenPref!!.edit().putBoolean(component, false).apply()
+        component?.let {
+            //hiddenPref?.edit()?.putBoolean(it, false)?.apply()
+            hiddenPref?.edit()?.remove(it)?.apply()
+        }
     }
 
     fun isAllAppsShown(): Boolean {
-        return genPref!!.getBoolean("show_all_apps", false)
+        return genPref?.getBoolean("show_all_apps", false) ?: false
     }
 
     fun showAllApps(mode: Boolean) {
-        genPref!!.edit().putBoolean("show_all_apps", mode).apply()
+        mode?.let {
+            genPref?.edit()?.putBoolean("show_all_apps", it)?.apply()
+        }
     }
 
     fun areFavoritesEnabled(): Boolean {
-        return genPref!!.getBoolean("enable_favorites_row", true)
+        return genPref?.getBoolean("enable_favorites_row", true) ?: true
     }
 
     // todo unregister too
     fun addFavoritesListener(listener: OnSharedPreferenceChangeListener?) {
-        favPref!!.registerOnSharedPreferenceChangeListener(listener)
+        favPref?.registerOnSharedPreferenceChangeListener(listener)
     }
 
     fun addHiddenListener(listener: OnSharedPreferenceChangeListener?) {
-        hiddenPref!!.registerOnSharedPreferenceChangeListener(listener)
+        hiddenPref?.registerOnSharedPreferenceChangeListener(listener)
     }
 
     companion object {
         private var instance: SharedPreferencesUtil? = null
+
         @JvmStatic
         fun instance(context: Context): SharedPreferencesUtil? {
             if (instance == null) instance = SharedPreferencesUtil()
-            instance!!.hiddenPref = context.getSharedPreferences("hidden-apps", Context.MODE_PRIVATE)
-            instance!!.favPref = context.getSharedPreferences("favorite-apps", Context.MODE_PRIVATE)
-            instance!!.genPref = context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
+            instance?.hiddenPref = context.getSharedPreferences("hidden-apps", Context.MODE_PRIVATE)
+            instance?.favPref = context.getSharedPreferences("favorite-apps", Context.MODE_PRIVATE)
+            instance?.genPref = context.getSharedPreferences(
+                context.packageName + "_preferences",
+                Context.MODE_PRIVATE
+            )
             return instance
         }
     }
