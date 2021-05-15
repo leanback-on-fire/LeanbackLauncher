@@ -103,6 +103,24 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.amazon.tv.leanbacklauncher.settings.HomeScreenSettingsActivity"
+            android:excludeFromRecents="true"
+            android:enabled="@bool/side_panel_settings_enabled"
+            android:exported="false"
+            android:icon="@drawable/ic_settings_launcher"
+            android:label="@string/launcher_settings"
+            android:theme="@style/Theme.Settings.SidePanel">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.amazon.tv.leanbacklauncher.SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name="com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4"
             android:label="@string/notif_service_name"
