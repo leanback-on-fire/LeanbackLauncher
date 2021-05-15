@@ -33,6 +33,16 @@
         <item name="guidanceIconStyle">@style/Widget.Leanback.GuidanceIconStyle.Legacy</item>
         <item name="guidedActionItemIconStyle">@style/Widget.Leanback.GuidedActionItemIconStyle.Legacy</item>
     </style>
+    <!-- https://android.googlesource.com/platform/frameworks/support/+/refs/heads/androidx-main/samples/SupportLeanbackDemos/src/main/res/values/themes.xml -->
+    <style name="Theme.Settings.SidePanel" parent="@style/Theme.Leanback">
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--item name="android:backgroundDimAmount">0.5</item-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorPrimary">@color/settings_background_color</item><!--tools:targetApi="21"-->
+        <item name="android:colorAccent">?attr/defaultBrandColor</item><!--tools:targetApi="21"-->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
+    </style>
 
     <style name="UpdateProgressBar" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
         <item name="android:maxHeight">@dimen/install_progress_bar_height</item>

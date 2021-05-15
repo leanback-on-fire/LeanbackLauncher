@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.Color
 import android.media.tv.TvContract
 import android.os.AsyncTask
 import android.text.TextUtils
@@ -12,8 +14,9 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
-import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil
+import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil.SettingsType
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.Util
 import java.util.*
@@ -50,8 +53,10 @@ class LaunchPointList(ctx: Context) {
             override fun include(point: ResolveInfo?): Boolean {
                 return when {
                     //point?.activityInfo?.packageName?.equals(mContext.packageName) == true -> true // self actions needed (settings)
-                    point?.toString()?.contains("com.amazon.tv.leanbacklauncher.MainActivity") == true -> true
-                    point?.toString()?.contains("com.amazon.tv.launcher/.ui.DebugActivity") == true -> true
+                    point?.toString()
+                        ?.contains("com.amazon.tv.leanbacklauncher.MainActivity") == true -> true
+                    point?.toString()
+                        ?.contains("com.amazon.tv.launcher/.ui.DebugActivity") == true -> true
                     point?.activityInfo?.packageName?.startsWith("com.amazon.avod") == true -> true
                     point?.activityInfo?.packageName?.startsWith("com.amazon.bueller") == true -> true
                     //point?.activityInfo?.packageName?.startsWith("com.amazon.venezia") == true -> true
@@ -156,8 +161,8 @@ class LaunchPointList(ctx: Context) {
             tvIntent.addCategory("android.intent.category.LEANBACK_LAUNCHER")
             val launcherItems: MutableList<LaunchPoint> = LinkedList()
             val pkgMan = mContext.packageManager
-            val normLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129)
-            val tvLaunchPoints = pkgMan.queryIntentActivities(tvIntent, 129)
+            val normLaunchPoints = pkgMan.queryIntentActivities(mainIntent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
+            val tvLaunchPoints = pkgMan.queryIntentActivities(tvIntent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
             val rawComponents: MutableMap<String, String> = HashMap()
             val allLaunchPoints: MutableList<ResolveInfo> = ArrayList()
             if (tvLaunchPoints.size > 0) {
@@ -532,6 +537,9 @@ class LaunchPointList(ctx: Context) {
         if (force || mSettingsLaunchPoints == null) {
             mSettingsLaunchPoints = createSettingsList()
         }
+        for (lp in mSettingsLaunchPoints) {
+            Log.d(TAG, "***** lp ${lp.componentName} translucent ${lp.isTranslucentTheme}")
+        }
         return ArrayList(mSettingsLaunchPoints)
     }
 
@@ -559,7 +567,7 @@ class LaunchPointList(ctx: Context) {
         // tv LaunchPoints
         val tvIntent = Intent(Intent.ACTION_MAIN)
         tvIntent.setPackage(pkgName).addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER)
-        var rawLaunchPoints = pkgMan.queryIntentActivities(tvIntent, 129)
+        var rawLaunchPoints = pkgMan.queryIntentActivities(tvIntent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
         rawItt = rawLaunchPoints.iterator()
         while (rawItt.hasNext()) {
             launchPoints.add(LaunchPoint(mContext, pkgMan, rawItt.next()))
@@ -568,7 +576,7 @@ class LaunchPointList(ctx: Context) {
         if (launchPoints.isEmpty()) {
             val mainIntent = Intent(Intent.ACTION_MAIN)
             mainIntent.setPackage(pkgName).addCategory(Intent.CATEGORY_LAUNCHER)
-            rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129)
+            rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
             rawItt = rawLaunchPoints.iterator()
             while (rawItt.hasNext()) {
                 launchPoints.add(LaunchPoint(mContext, pkgMan, rawItt.next()))
@@ -577,7 +585,7 @@ class LaunchPointList(ctx: Context) {
         // TODO: leanback settings launchpoints / onSettingsChanged()
 //        val settingsIntent = Intent(Intent.ACTION_MAIN)
 //        settingsIntent.setPackage(pkgName).addCategory("android.intent.category.LEANBACK_SETTINGS")
-//        rawLaunchPoints = pkgMan.queryIntentActivities(settingsIntent, 129)
+//        rawLaunchPoints = pkgMan.queryIntentActivities(settingsIntent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
 //        rawItt = rawLaunchPoints.iterator()
 //        while (rawItt.hasNext()) {
 //            launchPoints.add(LaunchPoint(mContext, pkgMan, rawItt.next()))
@@ -593,7 +601,7 @@ class LaunchPointList(ctx: Context) {
                 Intent(
                     "android.intent.action.VIEW",
                     TvContract.buildChannelUri(0)
-                ), 513
+                ), PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS
             )) {
                 if (info.activityInfo != null) {
                     channelActivities.add(
@@ -614,21 +622,21 @@ class LaunchPointList(ctx: Context) {
             Intent("android.intent.action.MAIN").addCategory("android.intent.category.LEANBACK_SETTINGS")
         val settingsItems = ArrayList<LaunchPoint>()
         val pkgMan = mContext.packageManager
-        val rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, 129)
+        val rawLaunchPoints = pkgMan.queryIntentActivities(mainIntent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
         val specialEntries = HashMap<ComponentName?, Int>()
-        // WI-FI
-        specialEntries[searchComponentForAction("android.settings.WIFI_SETTINGS")] =
-            SettingsUtil.SettingsType.WIFI.code
+        var comp = searchComponentForAction("android.settings.WIFI_SETTINGS")
+        specialEntries[comp] = SettingsType.WIFI.code
         if (Util.isPackageEnabled(mContext, "com.android.tv.settings")) {
-            specialEntries[ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity")] =
-                SettingsUtil.SettingsType.WIFI.code
+            comp =
+                ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity")
+            specialEntries[comp] = SettingsType.WIFI.code
         }
         for (ptr in 0 until rawLaunchPoints.size) {
             val info = rawLaunchPoints[ptr]
             val comp = getComponentName(info)
             var type = -1
             if (specialEntries.containsKey(comp)) {
-                type = specialEntries[comp]!!
+                type = specialEntries[comp]!! // WI-FI
             }
             if (info.activityInfo != null) {
                 val lp = LaunchPoint(mContext, pkgMan, info, false, type)
@@ -638,22 +646,35 @@ class LaunchPointList(ctx: Context) {
             }
         }
         // LAUNCHER SETTINGS // 4
+        var lp: LaunchPoint
         val intent = Intent()
-        intent.component =
-            ComponentName.unflattenFromString(mContext.packageName + "/.settings.LegacyHomeScreenSettingsActivity")
-        var lp = LaunchPoint(
-            mContext,
-            mContext.getString(R.string.launcher_settings),
-            ContextCompat.getDrawable(mContext, R.drawable.ic_settings_launcher),
-            intent,
-            0
-        )
-        lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        lp.settingsType = SettingsUtil.SettingsType.APP_CONFIGURE.code
-        lp.priority = -4
-        settingsItems.add(lp)
+        if (mContext.resources.getBoolean(R.bool.full_screen_settings_enabled)) {
+            intent.component =
+                ComponentName.unflattenFromString(mContext.packageName + "/.settings.LegacyHomeScreenSettingsActivity")
+            lp = LaunchPoint(
+                mContext,
+                mContext.getString(R.string.launcher_settings),
+                ContextCompat.getDrawable(mContext, R.drawable.ic_settings_launcher),
+                intent, Color.TRANSPARENT
+            )
+            lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            lp.settingsType = SettingsType.APP_CONFIGURE.code
+            lp.priority = -4
+            settingsItems.add(lp)
+        } else if (BuildConfig.DEBUG && mContext.resources.getBoolean(R.bool.side_panel_settings_enabled)) {
+            intent.component =
+                ComponentName.unflattenFromString(mContext.packageName + "/.settings.HomeScreenSettingsActivity")
+                val info = pkgMan.resolveActivity(intent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
+                if (info?.activityInfo != null) {
+                    lp = LaunchPoint(mContext, pkgMan, info, false, SettingsType.APP_CONFIGURE.code)
+                    lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    lp.priority = -4
+                    settingsItems.add(lp)
+                }
+        }
+
         // NOTIFICATIONS // 3
-        if (FireTVUtils.isLocalNotificationsEnabled(mContext)) {
+        if (FireTVUtils.isAmazonNotificationsEnabled(mContext)) {
             lp = LaunchPoint(
                 mContext,
                 mContext.getString(R.string.notifications),
@@ -662,12 +683,12 @@ class LaunchPointList(ctx: Context) {
                 0
             )
             lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            lp.settingsType = SettingsUtil.SettingsType.NOTIFICATIONS.code
+            lp.settingsType = SettingsType.NOTIFICATIONS.code
             lp.priority = -3
             settingsItems.add(lp)
         }
         // SYS SETTINGS // 1
-        if (FireTVUtils.isLauncherSettingsEnabled(mContext) and !Util.isPackageEnabled(
+        if (FireTVUtils.isAmazonLauncherEnabled(mContext) and !Util.isPackageEnabled(
                 mContext,
                 "com.android.tv.settings"
             )
@@ -680,7 +701,7 @@ class LaunchPointList(ctx: Context) {
                 0
             )
             lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            lp.settingsType = SettingsUtil.SettingsType.UNKNOWN.code
+            lp.settingsType = SettingsType.UNKNOWN.code
             lp.priority = -1
             settingsItems.add(lp)
         }
@@ -701,7 +722,7 @@ class LaunchPointList(ctx: Context) {
                 0
             )
             wlp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            wlp.settingsType = SettingsUtil.SettingsType.WIFI.code
+            wlp.settingsType = SettingsType.WIFI.code
             wlp.priority = -2
             settingsItems.add(wlp)
         }
@@ -719,7 +740,7 @@ class LaunchPointList(ctx: Context) {
         }
         val mainIntent = Intent("android.intent.action.MAIN")
         mainIntent.addCategory("android.intent.category.PREFERENCE")
-        val rawLaunchPoints = mContext.packageManager.queryIntentActivities(mainIntent, 129)
+        val rawLaunchPoints = mContext.packageManager.queryIntentActivities(mainIntent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
         for (ptr in 0 until rawLaunchPoints.size) {
             val info = rawLaunchPoints[ptr]
             if (info.activityInfo != null) {
@@ -746,7 +767,7 @@ class LaunchPointList(ctx: Context) {
     @SuppressLint("QueryPermissionsNeeded", "WrongConstant")
     private fun searchComponentForAction(action: String): ComponentName? {
         val aIntent = Intent(action)
-        val launchPoints = mContext.packageManager.queryIntentActivities(aIntent, 129)
+        val launchPoints = mContext.packageManager.queryIntentActivities(aIntent, PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA)
         if (launchPoints.size > 0) {
             val size = launchPoints.size
             for (ptr in 0 until size) {
@@ -770,6 +791,7 @@ class LaunchPointList(ctx: Context) {
         }
         return prefUtil!!.isFavorite(pkgName) && prefUtil!!.areFavoritesEnabled()
     }
+
     private fun isBlacklisted(pkgName: String?): Boolean {
         if (prefUtil == null) {
             prefUtil = SharedPreferencesUtil.instance(mContext)

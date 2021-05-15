@@ -15,9 +15,7 @@ import androidx.palette.graphics.Palette
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.firetv.leanbacklauncher.util.AppCategorizer
 import com.amazon.tv.firetv.leanbacklauncher.util.BannerUtil
-import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil
-import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
-import com.amazon.tv.leanbacklauncher.LauncherApplication
+import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil.SettingsType
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.Util
 import com.bumptech.glide.Glide
@@ -50,7 +48,7 @@ class LaunchPoint {
     var packageName: String? = null
         private set
     var priority = 0
-    var settingsType = SettingsUtil.SettingsType.UNKNOWN.code
+    var settingsType = SettingsType.UNKNOWN.code
     private var mTranslucentTheme = false
     var isTranslucentTheme = false
         private set
@@ -274,7 +272,7 @@ class LaunchPoint {
         launchIntent = null
         mHasBanner = false
         priority = -1
-        settingsType = SettingsUtil.SettingsType.UNKNOWN.code
+        settingsType = SettingsType.UNKNOWN.code
         isInitialInstall = false
         mListener = null
         firstInstallTime = -1

@@ -55,7 +55,7 @@ object FireTVUtils {
     }
 
     @JvmStatic
-    fun isLocalNotificationsEnabled(context: Context): Boolean {
+    fun isAmazonNotificationsEnabled(context: Context): Boolean {
         return try {
             val packageManager = context.packageManager
             packageManager.getApplicationInfo("com.amazon.device.sale.service", 0).enabled
@@ -64,7 +64,7 @@ object FireTVUtils {
         }
     }
 
-    fun isLauncherSettingsEnabled(context: Context): Boolean {
+    fun isAmazonLauncherEnabled(context: Context): Boolean {
         return try {
             val packageManager = context.packageManager
             packageManager.getApplicationInfo("com.amazon.tv.launcher", 0).enabled

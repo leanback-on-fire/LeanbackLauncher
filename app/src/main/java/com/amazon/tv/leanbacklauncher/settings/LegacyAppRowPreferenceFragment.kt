@@ -26,7 +26,7 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setMusicEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setRecommendationsEnabled
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setRowMax
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.setVideosEnabled
-import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils.isLocalNotificationsEnabled
+import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils.isAmazonNotificationsEnabled
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.Util.refreshHome
 import java.util.*
@@ -147,7 +147,7 @@ class LegacyAppRowPreferenceFragment : GuidedStepSupportFragment() {
         } else if (id == ACTION_ID_RECOMMENDATIONS.toLong()) { // RECOMMENDATIONS
             enabled = areRecommendationsEnabled(activity)
             setRecommendationsEnabled(activity, !enabled)
-            if (!enabled && isLocalNotificationsEnabled(activity)) {
+            if (!enabled && isAmazonNotificationsEnabled(activity)) {
                 Toast.makeText(
                     activity,
                     activity.getString(R.string.recs_warning_sale),

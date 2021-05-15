@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_dialog_title">
+    <PreferenceCategory>
+
+        <Preference
+            android:key="preference"
+            android:summary="@string/home_screen_order_desc"
+            android:title="@string/home_screen_order_action_title" />
+
+        <Preference
+            android:key="preference"
+            android:summary="@string/hidden_applications_desc"
+            android:title="@string/hidden_applications_title" />
+
+        <Preference
+            android:key="preference"
+            android:summary="description"
+            android:title="@string/recommendation_blacklist_action_title" />
+
+        <Preference
+            android:key="preference"
+            android:summary="version"
+            android:title="@string/update" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
