@@ -92,9 +92,9 @@ class LegacyWallpaperFragment : GuidedStepSupportFragment() {
         return if (image!!.isNotBlank()) {
             image
         } else {
-            val file = File(context.filesDir, "background.jpg")
+            val file = File(context.getExternalFilesDir(null), "background.jpg")
             if (file.canRead()) {
-                file.toString()
+                file.path
             } else null
         }
     }
