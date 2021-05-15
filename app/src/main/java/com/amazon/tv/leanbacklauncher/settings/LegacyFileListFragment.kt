@@ -45,9 +45,14 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
         val ctx = requireContext()
         if (BuildConfig.DEBUG) Log.d(TAG, "onResume() rootPath: $rootPath")
 
-        val dir = File(rootPath)
-        val subdirs = dirReader(dir)
-        val dimages = imageReader(dir)
+        var dir: File? = null
+        var subdirs: ArrayList<File> = ArrayList()
+        var dimages: ArrayList<File> = ArrayList()
+        rootPath?.let { dir = File(it) }
+        dir?.let {
+            subdirs = dirReader(it)
+            dimages = imageReader(it)
+        }
         val actions = ArrayList<GuidedAction>()
         // back
         actions.add(
