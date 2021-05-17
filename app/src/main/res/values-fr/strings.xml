@@ -140,4 +140,5 @@ Pour les activer, accédez aux paramètres."</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Inconnu</string>
     <string name="update_pending">Mise à jour en attente…</string>
+    <string name="hidden_applications_empty">Aucune application cachée</string>
 </resources>

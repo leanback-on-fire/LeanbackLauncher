@@ -170,7 +170,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             val packageName = intent?.data
             packageName?.let {
                 if (packageName.toString().contains(context?.packageName + ".recommendations")) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Recommendations Service updated, reconnecting.")
+                    if (BuildConfig.DEBUG) Log.d(
+                        TAG,
+                        "Recommendations Service updated, reconnecting."
+                    )
                     homeAdapter?.onReconnectToRecommendationsService()
                 }
             }
@@ -442,6 +445,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     public override fun onDestroy() {
+        Log.d(TAG, "onDestroy()")
         mHandler.removeMessages(3)
         super.onDestroy()
         homeAdapter?.let {
@@ -679,9 +683,12 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         mList?.adapter?.let {
             notifIndex = (it.itemCount - 1).coerceAtMost(notifIndex)
         }
-        if (BuildConfig.DEBUG) Log.d(TAG,"currIndex:$currIndex, notifIndex:$notifIndex")
+        if (BuildConfig.DEBUG) Log.d(TAG, "currIndex:$currIndex, notifIndex:$notifIndex")
         if (notifIndex != -1 && currIndex != notifIndex) {
-            if (BuildConfig.DEBUG) Log.d(TAG,"resetLauncherState -> set focus to Recommendations row")
+            if (BuildConfig.DEBUG) Log.d(
+                TAG,
+                "resetLauncherState -> set focus to Recommendations row"
+            )
             if (smooth) {
                 mList?.setSelectedPositionSmooth(notifIndex)
             } else {
@@ -698,14 +705,24 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 mNotificationsView?.setIgnoreNextActivateBackgroundChange()
             }
         } else { // focus on 1st Apps cat (FAV|VIDEO|MUSIC|GAMES|APPS) || SEARCH in case No Notifications row
-            val rowTypes = intArrayOf(0,7,9,8,4,3) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
+            val rowTypes = intArrayOf(
+                0,
+                7,
+                9,
+                8,
+                4,
+                3
+            ) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
             for (type in rowTypes) {
                 var rowIndex = homeAdapter?.getRowIndex(type) ?: -1
                 mList?.adapter?.let {
                     rowIndex = (it.itemCount - 1).coerceAtMost(rowIndex)
                 }
                 if (rowIndex != -1 && rowIndex != currIndex) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState -> set focus to row $rowIndex")
+                    if (BuildConfig.DEBUG) Log.d(
+                        TAG,
+                        "resetLauncherState -> set focus to row $rowIndex"
+                    )
                     if (smooth) {
                         mList?.setSelectedPositionSmooth(rowIndex)
                     } else {
@@ -785,7 +802,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             forceResort = false
         }
         homeAdapter?.sortRowsIfNeeded(forceResort)
-        WallpaperInstaller.getInstance(this).installWallpaperIfNeeded()
+        WallpaperInstaller.getInstance(this)?.installWallpaperIfNeeded()
         wallpaperView?.shynessMode = mShyMode
         if (shyChanged) {
             wallpaperView?.resetBackground()

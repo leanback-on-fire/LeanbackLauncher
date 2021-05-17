@@ -312,6 +312,20 @@ class LaunchPoint {
         return "$title [$packageName]"
     }
 
+    fun dump(): String {
+        return "$title [$packageName]\n" +
+                "component:$componentName\n" +
+                "contentDescription:$contentDescription\n" +
+                "hasBanner:$mHasBanner\n" +
+                "launchColor:$launchColor\n" +
+                "launchIntent:$launchIntent\n" +
+                "priority:$priority\n" +
+                "settingsType:$settingsType\n" +
+                "isTranslucentTheme:$isTranslucentTheme\n" +
+                "isGame:$isGame\n" +
+                "appCategory:$appCategory\n"
+    }
+
     fun cancelPendingOperations(context: Context?) {}
 
     override fun equals(other: Any?): Boolean {

@@ -140,4 +140,5 @@ Per attivarli, vai alle Impostazioni"</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Sconosciuto</string>
     <string name="update_pending">Aggiornamento in attesa…</string>
+    <string name="hidden_applications_empty">Nessuna applicazione nascosta</string>
 </resources>

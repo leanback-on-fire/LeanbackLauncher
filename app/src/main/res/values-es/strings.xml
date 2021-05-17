@@ -140,4 +140,5 @@ Para habilitarlas, accede a Ajustes"</string>
     <string name="unknown_state">...</string>
     <string name="unknown_title">Desconocido</string>
     <string name="update_pending">Actualización pendiente…</string>
+    <string name="hidden_applications_empty">No hay aplicaciones ocultas</string>
 </resources>

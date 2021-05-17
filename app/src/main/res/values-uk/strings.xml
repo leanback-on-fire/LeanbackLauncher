@@ -75,7 +75,6 @@
     <string name="focused_search_keyboard_hint_text">Натисніть, щоб вводити текст</string>
     <string name="focused_search_mic_hint_text">Натисніть, щоб диктувати</string>
     <string name="games_row_title">Розділ «Ігри»</string>
-    <string name="goback">[ .. ]</string>
     <string name="hidden_applications_desc">Вибрані додатки не показуються на головному екрані</string>
     <string name="hidden_applications_title">Приховані додатки</string>
     <string name="home_screen_order_action_title">Налаштування головного екрану</string>
@@ -207,4 +206,5 @@ com.amazon.device.sale.service
     <string name="videos_row_title">Розділ «Відео»</string>
     <string name="wallpaper_title">Типове тло</string>
     <string name="wallpaper_choose">Помістіть зображення фону в кореневій каталог сховища і виберіть тут</string>
+    <string name="hidden_applications_empty">Немає прихованих додатків</string>
 </resources>

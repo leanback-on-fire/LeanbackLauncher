@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string">0.5</item>
-    <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string">0.25</item>
-    <item name="lb_guidedactions_item_disabled_text_alpha" type="string">0.25</item>
-    <item name="lb_guidedactions_item_enabled_chevron_alpha" type="string">1.0</item>
-    <item name="lb_guidedactions_item_unselected_description_text_alpha" type="string">0.5</item>
-    <item name="lb_guidedactions_item_unselected_text_alpha" type="string">1.0</item>
-    <item name="lb_guidedactions_width_weight" type="string">0.71428573</item>
-    <item name="lb_guidedactions_width_weight_two_panels" type="string">1.1917808</item>
-    <item name="lb_guidedbuttonactions_width_weight" type="string">0.45</item>
-    <item name="lb_guidedstep_height_weight" type="string">2.0</item>
-    <item name="lb_guidedstep_height_weight_translucent" type="string">1.0</item>
-    <item name="lb_guidedstep_keyline" type="string">40.0</item>
+    <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string" translatable="false">0.5</item>
+    <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string" translatable="false">0.25</item>
+    <item name="lb_guidedactions_item_disabled_text_alpha" type="string" translatable="false">0.25</item>
+    <item name="lb_guidedactions_item_enabled_chevron_alpha" type="string" translatable="false">1.0</item>
+    <item name="lb_guidedactions_item_unselected_description_text_alpha" type="string" translatable="false">0.5</item>
+    <item name="lb_guidedactions_item_unselected_text_alpha" type="string" translatable="false">1.0</item>
+    <item name="lb_guidedactions_width_weight" type="string" translatable="false">0.71428573</item>
+    <item name="lb_guidedactions_width_weight_two_panels" type="string" translatable="false">1.1917808</item>
+    <item name="lb_guidedbuttonactions_width_weight" type="string" translatable="false">0.45</item>
+    <item name="lb_guidedstep_height_weight" type="string" translatable="false">2.0</item>
+    <item name="lb_guidedstep_height_weight_translucent" type="string" translatable="false">1.0</item>
+    <item name="lb_guidedstep_keyline" type="string" translatable="false">40.0</item>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
     <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
@@ -22,18 +22,18 @@
     <string name="abc_activitychooserview_choose_application">Choose an app</string>
     <string name="abc_capital_off">OFF</string>
     <string name="abc_capital_on">ON</string>
-    <string name="abc_font_family_body_1_material">sans-serif</string>
-    <string name="abc_font_family_body_2_material">sans-serif-medium</string>
-    <string name="abc_font_family_button_material">sans-serif-medium</string>
-    <string name="abc_font_family_caption_material">sans-serif</string>
-    <string name="abc_font_family_display_1_material">sans-serif</string>
-    <string name="abc_font_family_display_2_material">sans-serif</string>
-    <string name="abc_font_family_display_3_material">sans-serif</string>
-    <string name="abc_font_family_display_4_material">sans-serif-light</string>
-    <string name="abc_font_family_headline_material">sans-serif</string>
-    <string name="abc_font_family_menu_material">sans-serif</string>
-    <string name="abc_font_family_subhead_material">sans-serif</string>
-    <string name="abc_font_family_title_material">sans-serif-medium</string>
+    <string name="abc_font_family_body_1_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_body_2_material" translatable="false">sans-serif-medium</string>
+    <string name="abc_font_family_button_material" translatable="false">sans-serif-medium</string>
+    <string name="abc_font_family_caption_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_display_1_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_display_2_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_display_3_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_display_4_material" translatable="false">sans-serif-light</string>
+    <string name="abc_font_family_headline_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_menu_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_subhead_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_title_material" translatable="false">sans-serif-medium</string>
     <string name="abc_search_hint">Search…</string>
     <string name="abc_searchview_description_clear">Clear query</string>
     <string name="abc_searchview_description_query">Search query</string>
@@ -99,10 +99,11 @@
     <string name="focused_search_keyboard_hint_text">Click to type</string>
     <string name="focused_search_mic_hint_text">Click to speak</string>
     <string name="font">sans-serif-condensed</string>
-    <string name="goback">[ .. ]</string>
+    <string name="goback" translatable="false">[ .. ]</string>
     <string name="games_row_title">Show Games Row</string>
     <string name="hidden_applications_desc">Selected apps are hidden from the home screen</string>
     <string name="hidden_applications_title">Hidden applications</string>
+    <string name="hidden_applications_empty">No hidden applications</string>
     <string name="home_screen_order_action_title">Home Screen View</string>
     <string name="home_screen_order_content_description">Reorder apps and games by holding down the select button</string>
     <string name="home_screen_order_content_title">Apps Order</string>
@@ -151,7 +152,7 @@
     <string name="lb_search_bar_hint_with_title">Search %1$s</string>
     <string name="lb_search_bar_hint_with_title_speech">Speak to search %1$s</string>
     <string name="lb_time_separator">:</string>
-    <string name="light_font">sans-serif-light</string>
+    <string name="light_font" translatable="false">sans-serif-light</string>
     <string name="max_apps_rows_title">Max Apps Rows</string>
     <string name="max_col_title">Visible Columns</string>
     <string name="max_favorites_rows_title">Max Favorites Rows</string>
@@ -184,8 +185,8 @@
     <string name="pref_max_games_rows">max_games_rows</string>
     <string name="pref_max_music_rows">max_music_rows</string>
     <string name="pref_max_videos_rows">max_videos_rows</string>
-    <string name="primes_marker">PrImEs</string>
-    <string name="primes_version">174122153</string>
+    <string name="primes_marker" translatable="false">PrImEs</string>
+    <string name="primes_version" translatable="false">174122153</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="recency_order_action_description">Apps and games ordered based on recent usage</string>
     <string name="recency_order_action_title">Recency order</string>
@@ -207,7 +208,7 @@ pm grant com.amazon.tv.leanbacklauncher android.permission.WRITE_SECURE_SETTINGS
 You need to disable package:
 com.amazon.device.sale.service
 or recommendations will not work properly."</string>
-    <string name="regular_font">sans-serif</string>
+    <string name="regular_font" translatable="false">sans-serif</string>
     <string name="reset_wallpaper_action_title">Reset Wallpaper</string>
     <string name="reset_wallpaper_action_desc">Use default image</string>
     <string name="restore_pending">Restore pending…</string>

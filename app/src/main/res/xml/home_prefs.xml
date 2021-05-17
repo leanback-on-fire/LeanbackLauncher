@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/home_screen_order_action_title" android:key="home_prefs">
+    <PreferenceCategory>
+
+        <Preference
+            android:key="rows_prefs"
+            android:summary="@string/select_app_customize_rows_title"
+            android:title="@string/edit_row_title" />
+
+        <Preference
+            android:key="apps_order"
+            android:summary="description"
+            android:title="@string/home_screen_order_content_title" />
+
+        <Preference
+            android:key="banners_prefs"
+            android:summary="@string/banners_prefs_desc"
+            android:title="@string/banners_prefs_title" />
+
+        <Preference
+            android:key="background_prefs"
+            android:summary="@string/select_wallpaper_action_desc"
+            android:title="@string/wallpaper_title" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

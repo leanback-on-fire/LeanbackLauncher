@@ -140,4 +140,5 @@ Rufe die Einstellungen auf, um sie zu aktivieren"</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Unbekannt</string>
     <string name="update_pending">Update steht aus…</string>
+    <string name="hidden_applications_empty">Keine versteckten Anwendungen</string>
 </resources>

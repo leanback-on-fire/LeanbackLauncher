@@ -6,5 +6,6 @@
             android:id="@+id/settingsFragment"
             android:name="com.amazon.tv.leanbacklauncher.settings.SettingsFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></fragment>
+            android:layout_height="match_parent">
+    </fragment>
 </RelativeLayout>
