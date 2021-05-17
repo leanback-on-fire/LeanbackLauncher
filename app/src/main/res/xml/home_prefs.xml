@@ -1,11 +1,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/home_screen_order_action_title" android:key="home_prefs">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="home_prefs"
+    android:title="@string/home_screen_order_action_title">
     <PreferenceCategory>
 
         <Preference
             android:key="rows_prefs"
             android:summary="@string/select_app_customize_rows_title"
-            android:title="@string/edit_row_title" />
+            android:title="@string/edit_row_title"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.AppRowsPreferenceFragment" />
 
         <Preference
             android:key="apps_order"
@@ -15,7 +18,8 @@
         <Preference
             android:key="banners_prefs"
             android:summary="@string/banners_prefs_desc"
-            android:title="@string/banners_prefs_title" />
+            android:title="@string/banners_prefs_title"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.BannersPreferenceFragment" />
 
         <Preference
             android:key="background_prefs"

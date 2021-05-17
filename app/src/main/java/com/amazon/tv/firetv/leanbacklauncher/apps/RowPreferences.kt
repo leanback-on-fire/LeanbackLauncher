@@ -263,7 +263,6 @@ object RowPreferences {
     fun getFrameColor(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetColor = ContextCompat.getColor(context, R.color.banner_focus_frame_color)
-
         return pref.getInt("banner_focus_frame_color", targetColor)
     }
 

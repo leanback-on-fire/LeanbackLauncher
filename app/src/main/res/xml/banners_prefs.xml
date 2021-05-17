@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="banners_prefs"
+    android:title="@string/banners_prefs_title">
+    <PreferenceCategory>
+
+        <EditTextPreference
+            android:defaultValue="100"
+            android:key="banners_size"
+            android:title="@string/banners_size"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:key="banners_corners_radius"
+            android:title="@string/banners_corners_radius" />
+
+        <EditTextPreference
+            android:key="banners_frame_width"
+            android:title="@string/banners_frame_width" />
+
+        <EditTextPreference
+            android:key="banners_frame_color"
+            android:title="@string/banners_frame_color"
+            android:defaultValue="1089400558" />
+
+        <Preference
+            android:enabled="false"
+            android:key="color_desc"
+            android:selectable="false"
+            android:title="@string/banners_frame_color_desc" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

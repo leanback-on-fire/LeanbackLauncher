@@ -3,6 +3,7 @@ package com.amazon.tv.leanbacklauncher.settings
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.leanback.preference.LeanbackPreferenceFragmentCompat
 import androidx.leanback.preference.LeanbackSettingsFragmentCompat
 import androidx.preference.*
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
@@ -119,7 +121,7 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(homePrefResId, rootKey)
-        val ps = findPreference<PreferenceScreen>("home_prefs")
+        findPreference<PreferenceScreen>("home_prefs")
 
         val sortingMode = AppsManager.getSavedSortingMode(context)
         findPreference<Preference>("apps_order")?.apply {
@@ -145,17 +147,6 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
         }
         return super.onPreferenceTreeClick(preference)
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        val sortingMode = AppsManager.getSavedSortingMode(context)
-//        findPreference<Preference>("apps_order")?.apply {
-//            this.summary =
-//                if (sortingMode == AppsManager.SortingMode.FIXED) getString(R.string.select_app_order_action_description_fixed)
-//                else getString(R.string.select_app_order_action_description_recency)
-//        }
-//    }
-
 }
 
 class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
@@ -165,7 +156,6 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         )
     private var mIdToPackageMap: HashMap<Long, String> = hashMapOf()
     private var screen: PreferenceScreen? = null
-    private val KEY_ID_ALL_APPS = 1000L
 
     private fun loadHiddenApps() {
         val prefUtil = SharedPreferencesUtil.instance(requireContext())
@@ -177,7 +167,6 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         showAllAppsPref.key = KEY_ID_ALL_APPS.toString()
         showAllAppsPref.title = getString(R.string.show_all_apps)
         showAllAppsPref.isChecked = prefUtil.isAllAppsShown()
-        //prefs.add(showAllAppsPref)
         screen?.addPreference(showAllAppsPref) // show all apps switch
 
         var appId: Long = 0
@@ -255,6 +244,10 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             return true
         }
         return super.onPreferenceTreeClick(preference)
+    }
+
+    companion object {
+        private const val KEY_ID_ALL_APPS = 1000L
     }
 }
 
@@ -344,5 +337,116 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
         }
         return BitmapDrawable(resources, bitmap)
     }
+}
 
+class BannersPreferenceFragment :
+    LeanbackPreferenceFragmentCompat()/*, SharedPreferences.OnSharedPreferenceChangeListener*/ {
+    private val TAG =
+        if (BuildConfig.DEBUG) ("***" + javaClass.simpleName).take(23) else javaClass.simpleName.take(
+            23
+        )
+    private val bannersPrefResId = R.xml.banners_prefs
+
+//    override fun onResume() {
+//        super.onResume()
+//        // Set up a listener whenever a key changes
+//        preferenceScreen.sharedPreferences
+//            .registerOnSharedPreferenceChangeListener(this)
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        // Unregister the listener whenever a key changes
+//        preferenceScreen.sharedPreferences
+//            .unregisterOnSharedPreferenceChangeListener(this)
+//    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        // Load the preferences from an XML resource
+        setPreferencesFromResource(bannersPrefResId, rootKey)
+
+        findPreference<EditTextPreference>("banners_size")?.apply {
+            val size = RowPreferences.getBannersSize(context).toString()
+            //this.summary = size
+        }
+        findPreference<EditTextPreference>("banners_corners_radius")?.apply {
+            val radius = RowPreferences.getCorners(context).toString()
+            this.summary = radius
+        }
+        val cornersPref: EditTextPreference? = findPreference("banners_corners_radius")
+            cornersPref!!.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { preference, newValue ->
+                // Manually save to Prefs
+                //Utilities().putPrefBoolean(preference.key, newValue as Boolean)
+                Log.d(TAG, "$preference new value $newValue")
+                val value = try {
+                    newValue.toString().toInt()
+                } catch (nfe: NumberFormatException) {
+                    RowPreferences.getCorners(requireContext())
+                }
+                RowPreferences.setCorners(context, value)
+                //this.summary = value.toString()
+                Util.refreshHome(requireContext())
+
+                // Reflect the newValue to Preference?
+                true
+            }
+
+        findPreference<EditTextPreference>("banners_frame_width")?.apply {
+            val width = RowPreferences.getFrameWidth(context).toString()
+            this.summary = width
+            setOnPreferenceChangeListener { preference, newValue ->
+                Log.d(TAG, "$preference new value $newValue")
+                val value = try {
+                    newValue.toString().toInt()
+                } catch (nfe: NumberFormatException) {
+                    RowPreferences.getFrameWidth(context)
+                }
+                RowPreferences.setFrameWidth(context, value)
+                this.summary = value.toString()
+                Util.refreshHome(context)
+                true
+            }
+        }
+        findPreference<EditTextPreference>("banners_frame_color")?.apply {
+            val color = hexStringColor(
+                RowPreferences.getFrameColor(context)
+            )
+            this.summary = color
+            setOnPreferenceChangeListener { preference, newValue ->
+                Log.d(TAG, "$preference new value $newValue")
+                val value = try {
+                    Color.parseColor(newValue.toString())
+                } catch (nfe: IllegalArgumentException) {
+                    RowPreferences.getFrameColor(requireContext())
+                }
+                RowPreferences.setFrameColor(context, value)
+                this.summary = hexStringColor(value)
+                Util.refreshHome(context)
+                true
+            }
+        }
+    }
+
+    private fun hexStringColor(color: Int): String {
+        return String.format("#%08X", -0x1 and color)
+    }
+
+//    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+//        val pref = findPreference<Preference>(key!!)
+//        Log.d(TAG, "pref $key changed to $pref")
+//    }
+}
+
+class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
+    private val TAG =
+        if (BuildConfig.DEBUG) ("***" + javaClass.simpleName).take(23) else javaClass.simpleName.take(
+            23
+        )
+    private val rowsPrefResId = R.xml.rows_prefs
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        // Load the preferences from an XML resource
+        setPreferencesFromResource(rowsPrefResId, rootKey)
+    }
 }
