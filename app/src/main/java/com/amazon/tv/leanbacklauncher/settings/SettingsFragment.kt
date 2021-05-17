@@ -238,13 +238,13 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         var appIdFromKey: Long = -1L
         if (preference.key.isDigitsOnly())
             appIdFromKey = preference.key.toLong()
-
         if (preference is SwitchPreference) {
             if (appIdFromKey == KEY_ID_ALL_APPS) {
                 prefUtil?.showAllApps(preference.isChecked)
                 // refresh home broadcast
                 Util.refreshHome(context)
             }
+            return true
         } else if (preference is CheckBoxPreference) {
             if (preference.isChecked) {
                 prefUtil?.hide(mIdToPackageMap[appIdFromKey])
@@ -252,8 +252,9 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
                 prefUtil?.unhide(mIdToPackageMap[appIdFromKey])
                 screen?.removePreference(preference)
             }
+            return true
         }
-        return true
+        return super.onPreferenceTreeClick(preference)
     }
 }
 
@@ -281,7 +282,9 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        val recIdFromKey = preference.key.toLong()
+        var recIdFromKey: Long = -1L
+        if (preference.key.isDigitsOnly())
+            recIdFromKey = preference.key.toLong()
         if (preference is CheckBoxPreference)
             mPreferenceManager?.savePackageBlacklisted(
                 mIdToPackageMap[recIdFromKey],
