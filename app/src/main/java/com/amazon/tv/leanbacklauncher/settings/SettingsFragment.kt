@@ -407,6 +407,7 @@ class BannersPreferenceFragment :
             }
             RowPreferences.setFrameColor(context, value)
             preference.summary = hexStringColor(value)
+            // refresh home broadcast
             Util.refreshHome(requireContext())
             true
         }
@@ -471,20 +472,17 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        val ctx = requireContext()
-        val fm = fragmentManager
-
-        when (preference.key) {
+        return when (preference.key) {
             "select_wallpaper" -> {
                 // TODO: ask for permissions
-                return super.onPreferenceTreeClick(preference)
+                super.onPreferenceTreeClick(preference)
             }
             "reset_wallpaper" -> {
                 resetWallpaper()
                 fragmentManager?.popBackStack()
-                return true
+                true
             }
-            else -> return super.onPreferenceTreeClick(preference)
+            else -> super.onPreferenceTreeClick(preference)
         }
     }
 
@@ -501,7 +499,6 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
             }
         }
         // refresh home broadcast
-        // val activity = requireActivity()
         Util.refreshHome(context)
         return true
     }
@@ -599,7 +596,6 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
     }
 
     private fun loadFileList() {
-        // TODO
         var dir: File? = null
         var subdirs: ArrayList<File> = ArrayList()
         var dimages: ArrayList<File> = ArrayList()
@@ -609,14 +605,14 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
             subdirs = dirReader(it)
             dimages = imageReader(it)
         }
-        //val actions = ArrayList<GuidedAction>()
         val prefs = ArrayList<Preference>()
+
         // back
         val backPref = Preference(context)
         backPref.key = ACTION_BACK.toString()
         backPref.title = getString(R.string.goback)
-        //screen?.addPreference(backPref)
         prefs.add(backPref)
+
         // directories
         if (subdirs.size > 0)
             subdirs.forEach {
@@ -627,6 +623,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                     ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_folder_24, null)
                 prefs.add(dirPref)
             }
+
         // images
         if (dimages.size > 0)
             dimages.forEach {
@@ -640,6 +637,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 }
                 prefs.add(imagePref)
             }
+
         // apply
         if (prefs.isNotEmpty()) {
             for (pref in prefs) {
@@ -651,16 +649,17 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
     private fun imageReader(root: File): ArrayList<File> {
         val imageList: ArrayList<File> = ArrayList()
         val images = root.listFiles { file ->
-            (!file.isDirectory && file.name.endsWith(".jpeg") || file.name.endsWith(".jpg") || file.name.endsWith(
-                ".png"
-            ))
+            (!file.isDirectory &&
+                    file.name.endsWith(".jpeg") ||
+                    file.name.endsWith(".jpg") ||
+                    file.name.endsWith(".png"))
         }
         if (!images.isNullOrEmpty()) {
             for (image in images) {
                 // File absolute path
-                if (BuildConfig.DEBUG) Log.d(TAG, "image path ${image.absolutePath}")
+                //if (BuildConfig.DEBUG) Log.d(TAG, "image path ${image.absolutePath}")
                 // File Name
-                if (BuildConfig.DEBUG) Log.d(TAG, "image name ${image.name}")
+                //if (BuildConfig.DEBUG) Log.d(TAG, "image name ${image.name}")
                 imageList.add(image.absoluteFile)
             }
             if (BuildConfig.DEBUG) Log.w(TAG, "fileList size ${imageList.size}")

@@ -28,10 +28,10 @@
             android:title="@string/banners_frame_color" />
 
         <Preference
-            android:enabled="false"
+            android:enabled="true"
             android:key="color_desc"
             android:selectable="false"
-            android:title="@string/banners_frame_color_desc" />
+            android:summary="@string/banners_frame_color_desc" />
 
     </PreferenceCategory>
 </PreferenceScreen>
