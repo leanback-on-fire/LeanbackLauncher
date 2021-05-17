@@ -5,22 +5,22 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:key="recs_row"
+            android:key="@string/pref_enable_recommendations_row"
             android:title="@string/recs_row_title"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:key="inputs_row"
+            android:key="@string/pref_enable_inputs_row"
             android:title="@string/inputs_row_title"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:key="favorites_row"
+            android:key="@string/pref_enable_favorites_row"
             android:title="@string/favorites_row_title"
             android:defaultValue="true" />
 
         <EditTextPreference
-            android:key="max_favorites_rows_pref"
+            android:key="@string/pref_max_favorites_rows"
             android:title="@string/max_favorites_rows_title"
             android:defaultValue="@integer/max_num_banner_rows"
             app:useSimpleSummaryProvider="true" />
@@ -31,7 +31,7 @@
             android:defaultValue="true" />
 
         <EditTextPreference
-            android:key="max_videos_rows_pref"
+            android:key="@string/pref_max_videos_rows"
             android:title="@string/max_videos_rows_title"
             android:defaultValue="@integer/max_num_banner_rows"
             app:useSimpleSummaryProvider="true" />
@@ -42,7 +42,7 @@
             android:defaultValue="true" />
 
         <EditTextPreference
-            android:key="max_music_rows_pref"
+            android:key="@string/pref_max_music_rows"
             android:title="@string/max_music_rows_title"
             android:defaultValue="@integer/max_num_banner_rows"
             app:useSimpleSummaryProvider="true" />
@@ -53,19 +53,19 @@
             android:defaultValue="true" />
 
         <EditTextPreference
-            android:key="max_games_rows_pref"
+            android:key="@string/pref_max_games_rows"
             android:title="@string/max_games_rows_title"
             android:defaultValue="@integer/max_num_banner_rows"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:key="max_apps_rows_pref"
+            android:key="string/pref_max_apps_rows"
             android:title="@string/max_apps_rows_title"
             android:defaultValue="@integer/max_num_banner_rows"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:key="max_col_pref"
+            android:key="@string/pref_max_apps"
             android:title="@string/max_col_title"
             android:defaultValue="@integer/two_row_cut_off"
             app:useSimpleSummaryProvider="true" />

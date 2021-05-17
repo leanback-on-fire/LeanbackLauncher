@@ -136,16 +136,16 @@ object RowPreferences {
     @JvmStatic
     fun getFavoriteRowMax(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return pref.getInt(
+        return pref.getString(
             context.getString(R.string.pref_max_favorites_rows),
-            context.resources.getInteger(R.integer.max_num_banner_rows)
-        )
+            context.resources.getInteger(R.integer.max_num_banner_rows).toString()
+        )?.toIntOrNull() ?: context.resources.getInteger(R.integer.max_num_banner_rows)
     }
 
     @JvmStatic
     fun setFavoriteRowMax(context: Context, max: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putInt(context.getString(R.string.pref_max_favorites_rows), max).apply()
+        pref.edit().putString(context.getString(R.string.pref_max_favorites_rows), max.toString()).apply()
         return true
     }
 
@@ -155,28 +155,28 @@ object RowPreferences {
         val res = context.resources
         return when (cat) {
             AppCategory.GAME -> {
-                pref.getInt(
+                pref.getString(
                     context.getString(R.string.pref_max_games_rows),
-                    res.getInteger(R.integer.max_num_banner_rows)
-                )
+                    res.getInteger(R.integer.max_num_banner_rows).toString()
+                )?.toIntOrNull() ?: context.resources.getInteger(R.integer.max_num_banner_rows)
             }
             AppCategory.MUSIC -> {
-                pref.getInt(
+                pref.getString(
                     context.getString(R.string.pref_max_music_rows),
-                    res.getInteger(R.integer.max_num_banner_rows)
-                )
+                    res.getInteger(R.integer.max_num_banner_rows).toString()
+                )?.toIntOrNull() ?: context.resources.getInteger(R.integer.max_num_banner_rows)
             }
             AppCategory.VIDEO -> {
-                pref.getInt(
+                pref.getString(
                     context.getString(R.string.pref_max_videos_rows),
-                    res.getInteger(R.integer.max_num_banner_rows)
-                )
+                    res.getInteger(R.integer.max_num_banner_rows).toString()
+                )?.toIntOrNull() ?: context.resources.getInteger(R.integer.max_num_banner_rows)
             }
             else -> { // AppCategory.OTHER
-                pref.getInt(
+                pref.getString(
                     context.getString(R.string.pref_max_apps_rows),
-                    res.getInteger(R.integer.max_num_banner_rows)
-                )
+                    res.getInteger(R.integer.max_num_banner_rows).toString()
+                )?.toIntOrNull() ?: context.resources.getInteger(R.integer.max_num_banner_rows)
             }
         }
     }
@@ -186,16 +186,16 @@ object RowPreferences {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         when (cat) {
             AppCategory.GAME -> {
-                pref.edit().putInt(context.getString(R.string.pref_max_games_rows), max).apply()
+                pref.edit().putString(context.getString(R.string.pref_max_games_rows), max.toString()).apply()
             }
             AppCategory.MUSIC -> {
-                pref.edit().putInt(context.getString(R.string.pref_max_music_rows), max).apply()
+                pref.edit().putString(context.getString(R.string.pref_max_music_rows), max.toString()).apply()
             }
             AppCategory.VIDEO -> {
-                pref.edit().putInt(context.getString(R.string.pref_max_videos_rows), max).apply()
+                pref.edit().putString(context.getString(R.string.pref_max_videos_rows), max.toString()).apply()
             }
             else -> { // AppCategory.OTHER
-                pref.edit().putInt(context.getString(R.string.pref_max_apps_rows), max).apply()
+                pref.edit().putString(context.getString(R.string.pref_max_apps_rows), max.toString()).apply()
             }
         }
         return true
@@ -204,29 +204,29 @@ object RowPreferences {
     @JvmStatic
     fun getAppsColumns(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return pref.getInt(
+        return pref.getString(
             context.getString(R.string.pref_max_apps),
-            context.resources.getInteger(R.integer.two_row_cut_off)
-        )
+            context.resources.getInteger(R.integer.two_row_cut_off).toString()
+        )?.toIntOrNull() ?: context.resources.getInteger(R.integer.two_row_cut_off)
     }
 
     @JvmStatic
     fun setAppsColumns(context: Context, max: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putInt(context.getString(R.string.pref_max_apps), max).apply()
+        pref.edit().putString(context.getString(R.string.pref_max_apps), max.toString()).apply()
         return true
     }
 
     @JvmStatic
     fun getBannersSize(context: Context?): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return pref.getInt("banner_size", 100)
+        return pref.getString("banner_size", "100")?.toIntOrNull() ?: 100
     }
 
     @JvmStatic
     fun setBannersSize(context: Context?, size: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if (size in 50..200) pref.edit().putInt("banner_size", size).apply()
+        if (size in 50..200) pref.edit().putString("banner_size", size.toString()).apply()
         return true
     }
 
@@ -234,14 +234,14 @@ object RowPreferences {
     fun getCorners(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetCorners = context.resources.getDimensionPixelOffset(R.dimen.banner_corner_radius)
-        return pref.getInt("banner_corner_radius", targetCorners)
+        return pref.getString("banner_corner_radius", targetCorners.toString())?.toIntOrNull() ?: targetCorners
     }
 
     @JvmStatic
     fun setCorners(context: Context?, radius: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         // if (radius > 0)
-        pref.edit().putInt("banner_corner_radius", radius).apply()
+        pref.edit().putString("banner_corner_radius", radius.toString()).apply()
         return true
     }
 
@@ -249,13 +249,13 @@ object RowPreferences {
     fun getFrameWidth(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetStroke = context.resources.getDimensionPixelSize(R.dimen.banner_frame_stroke)
-        return pref.getInt("banner_frame_stroke", targetStroke)
+        return pref.getString("banner_frame_stroke", targetStroke.toString())?.toIntOrNull() ?: targetStroke
     }
 
     @JvmStatic
     fun setFrameWidth(context: Context?, width: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if (width > 0) pref.edit().putInt("banner_frame_stroke", width).apply()
+        if (width > 0) pref.edit().putString("banner_frame_stroke", width.toString()).apply()
         return true
     }
 
@@ -263,14 +263,14 @@ object RowPreferences {
     fun getFrameColor(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetColor = ContextCompat.getColor(context, R.color.banner_focus_frame_color)
-        return pref.getInt("banner_focus_frame_color", targetColor)
+        return pref.getString("banner_focus_frame_color", targetColor.toString())?.toIntOrNull() ?: targetColor
     }
 
     @JvmStatic
     fun setFrameColor(context: Context?, color: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         // if (color > 0)
-        pref.edit().putInt("banner_focus_frame_color", color).apply()
+        pref.edit().putString("banner_focus_frame_color", color.toString()).apply()
         return true
     }
 

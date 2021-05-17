@@ -365,50 +365,19 @@ class BannersPreferenceFragment :
         // Load the preferences from an XML resource
         setPreferencesFromResource(bannersPrefResId, rootKey)
 
-        findPreference<EditTextPreference>("banners_size")?.apply {
-            val size = RowPreferences.getBannersSize(context).toString()
-            //this.summary = size
-        }
-        findPreference<EditTextPreference>("banners_corners_radius")?.apply {
-            val radius = RowPreferences.getCorners(context).toString()
-            this.summary = radius
-        }
-        val cornersPref: EditTextPreference? = findPreference("banners_corners_radius")
-            cornersPref!!.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { preference, newValue ->
-                // Manually save to Prefs
-                //Utilities().putPrefBoolean(preference.key, newValue as Boolean)
-                Log.d(TAG, "$preference new value $newValue")
-                val value = try {
-                    newValue.toString().toInt()
-                } catch (nfe: NumberFormatException) {
-                    RowPreferences.getCorners(requireContext())
-                }
-                RowPreferences.setCorners(context, value)
-                //this.summary = value.toString()
-                Util.refreshHome(requireContext())
-
-                // Reflect the newValue to Preference?
-                true
-            }
-
-        findPreference<EditTextPreference>("banners_frame_width")?.apply {
-            val width = RowPreferences.getFrameWidth(context).toString()
-            this.summary = width
-            setOnPreferenceChangeListener { preference, newValue ->
-                Log.d(TAG, "$preference new value $newValue")
-                val value = try {
-                    newValue.toString().toInt()
-                } catch (nfe: NumberFormatException) {
-                    RowPreferences.getFrameWidth(context)
-                }
-                RowPreferences.setFrameWidth(context, value)
-                this.summary = value.toString()
-                Util.refreshHome(context)
-                true
-            }
-        }
-        findPreference<EditTextPreference>("banners_frame_color")?.apply {
+//        findPreference<EditTextPreference>("banner_size")?.apply {
+//            val size = RowPreferences.getBannersSize(context).toString()
+//            this.summary = size
+//        }
+//        findPreference<EditTextPreference>("banner_corner_radius")?.apply {
+//            val radius = RowPreferences.getCorners(context).toString()
+//            this.summary = radius
+//        }
+//        findPreference<EditTextPreference>("banner_frame_stroke")?.apply {
+//            val stroke = RowPreferences.getFrameWidth(context).toString()
+//            this.summary = stroke
+//        }
+        findPreference<EditTextPreference>("banner_focus_frame_color")?.apply {
             val color = hexStringColor(
                 RowPreferences.getFrameColor(context)
             )
