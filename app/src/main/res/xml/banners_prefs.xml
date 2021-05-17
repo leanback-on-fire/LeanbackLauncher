@@ -23,9 +23,9 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            android:defaultValue="1089400558"
             android:key="banner_focus_frame_color"
-            android:title="@string/banners_frame_color"
-            android:defaultValue="1089400558" />
+            android:title="@string/banners_frame_color" />
 
         <Preference
             android:enabled="false"

@@ -24,7 +24,8 @@
         <Preference
             android:key="background_prefs"
             android:summary="@string/select_wallpaper_action_desc"
-            android:title="@string/wallpaper_title" />
+            android:title="@string/wallpaper_title"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.WallpaperFragment" />
 
     </PreferenceCategory>
 </PreferenceScreen>

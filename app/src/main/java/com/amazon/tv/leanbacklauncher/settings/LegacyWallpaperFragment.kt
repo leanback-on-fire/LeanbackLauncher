@@ -72,7 +72,7 @@ class LegacyWallpaperFragment : GuidedStepSupportFragment() {
         val context = requireContext()
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         pref.edit().remove("wallpaper_image").apply()
-        val file = File(context.filesDir, "background.jpg")
+        val file = File(context.getExternalFilesDir(null), "background.jpg")
         if (file.exists()) {
             try {
                 file.delete()

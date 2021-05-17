@@ -1,5 +1,6 @@
 package com.amazon.tv.leanbacklauncher.settings
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -8,7 +9,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.text.InputType
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
@@ -21,11 +26,13 @@ import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.apps.AppsManager
 import com.amazon.tv.leanbacklauncher.util.Util
+import java.io.File
 import java.util.*
+
 
 class SettingsFragment : LeanbackSettingsFragmentCompat() {
     private val TAG =
-        if (BuildConfig.DEBUG) ("***" + javaClass.simpleName).take(23) else javaClass.simpleName.take(
+        if (BuildConfig.DEBUG) ("*** " + javaClass.simpleName).take(23) else javaClass.simpleName.take(
             23
         )
 
@@ -74,7 +81,7 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
  */
 class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
     private val TAG =
-        if (BuildConfig.DEBUG) ("***" + javaClass.simpleName).take(23) else javaClass.simpleName.take(
+        if (BuildConfig.DEBUG) ("*** " + javaClass.simpleName).take(23) else javaClass.simpleName.take(
             23
         )
     private val rootPrefResId = R.xml.preferences
@@ -113,7 +120,7 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
 
 class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
     private val TAG =
-        if (BuildConfig.DEBUG) ("***" + javaClass.simpleName).take(23) else javaClass.simpleName.take(
+        if (BuildConfig.DEBUG) ("*** " + javaClass.simpleName).take(23) else javaClass.simpleName.take(
             23
         )
     private val homePrefResId = R.xml.home_prefs
@@ -150,10 +157,6 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
 }
 
 class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("***" + javaClass.simpleName).take(23) else javaClass.simpleName.take(
-            23
-        )
     private var mIdToPackageMap: HashMap<Long, String> = hashMapOf()
     private var screen: PreferenceScreen? = null
 
@@ -342,7 +345,7 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
 class BannersPreferenceFragment :
     LeanbackPreferenceFragmentCompat()/*, SharedPreferences.OnSharedPreferenceChangeListener*/ {
     private val TAG =
-        if (BuildConfig.DEBUG) ("***" + javaClass.simpleName).take(23) else javaClass.simpleName.take(
+        if (BuildConfig.DEBUG) ("*** " + javaClass.simpleName).take(23) else javaClass.simpleName.take(
             23
         )
     private val bannersPrefResId = R.xml.banners_prefs
@@ -365,34 +368,52 @@ class BannersPreferenceFragment :
         // Load the preferences from an XML resource
         setPreferencesFromResource(bannersPrefResId, rootKey)
 
+        val bs = findPreference("banner_size") as EditTextPreference?
+        bs!!.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+        }
 //        findPreference<EditTextPreference>("banner_size")?.apply {
 //            val size = RowPreferences.getBannersSize(context).toString()
 //            this.summary = size
-//        }
+//    }
+
+        val bc = findPreference("banner_corner_radius") as EditTextPreference?
 //        findPreference<EditTextPreference>("banner_corner_radius")?.apply {
 //            val radius = RowPreferences.getCorners(context).toString()
 //            this.summary = radius
-//        }
+//    }
+        bc!!.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+        }
+
+        val bf = findPreference("banner_frame_stroke") as EditTextPreference?
 //        findPreference<EditTextPreference>("banner_frame_stroke")?.apply {
 //            val stroke = RowPreferences.getFrameWidth(context).toString()
 //            this.summary = stroke
 //        }
-        findPreference<EditTextPreference>("banner_focus_frame_color")?.apply {
+        bf!!.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+        }
+        val fc = findPreference("banner_focus_frame_color") as EditTextPreference?
+        fc!!.setOnPreferenceChangeListener { preference, newValue ->
+            Log.d(TAG, "$preference new value $newValue")
+            val value = try {
+                Color.parseColor(newValue.toString())
+            } catch (nfe: IllegalArgumentException) {
+                RowPreferences.getFrameColor(requireContext())
+            }
+            RowPreferences.setFrameColor(context, value)
+            preference.summary = hexStringColor(value)
+            Util.refreshHome(requireContext())
+            true
+        }
+        fc.apply {
             val color = hexStringColor(
                 RowPreferences.getFrameColor(context)
             )
             this.summary = color
-            setOnPreferenceChangeListener { preference, newValue ->
-                Log.d(TAG, "$preference new value $newValue")
-                val value = try {
-                    Color.parseColor(newValue.toString())
-                } catch (nfe: IllegalArgumentException) {
-                    RowPreferences.getFrameColor(requireContext())
-                }
-                RowPreferences.setFrameColor(context, value)
-                this.summary = hexStringColor(value)
-                Util.refreshHome(context)
-                true
+            setOnBindEditTextListener {
+                it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
             }
         }
     }
@@ -408,14 +429,228 @@ class BannersPreferenceFragment :
 }
 
 class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("***" + javaClass.simpleName).take(23) else javaClass.simpleName.take(
-            23
-        )
     private val rowsPrefResId = R.xml.rows_prefs
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(rowsPrefResId, rootKey)
     }
+}
+
+class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        // Load the preferences from an XML resource
+        setPreferencesFromResource(R.xml.wallpaper_prefs, rootKey)
+
+        findPreference<Preference>("select_wallpaper")?.apply {
+            this.summary = getWallpaperDesc(context)
+        }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        val ctx = requireContext()
+        val fm = fragmentManager
+
+        when (preference.key) {
+            "select_wallpaper" -> {
+                // TODO: ask for permissions
+                return super.onPreferenceTreeClick(preference)
+            }
+            "reset_wallpaper" -> {
+                resetWallpaper()
+                fragmentManager?.popBackStack()
+                return true
+            }
+            else -> return super.onPreferenceTreeClick(preference)
+        }
+    }
+
+    fun resetWallpaper(): Boolean {
+        val context = requireContext()
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        pref.edit().remove("wallpaper_image").apply()
+        val file = File(context.getExternalFilesDir(null), "background.jpg")
+        if (file.exists()) {
+            try {
+                file.delete()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        // refresh home broadcast
+        // val activity = requireActivity()
+        Util.refreshHome(context)
+        return true
+    }
+
+    private fun getWallpaperDesc(context: Context): String {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val imagePath = pref.getString("wallpaper_image", "")
+        return if (!imagePath.isNullOrEmpty()) {
+            imagePath
+        } else {
+            val file = File(context.getExternalFilesDir(null), "background.jpg")
+            if (file.canRead()) {
+                file.toString()
+            }
+            getString(R.string.select_wallpaper_action_desc)
+        }
+    }
+}
+
+class FileListFragment : LeanbackPreferenceFragmentCompat() {
+
+    companion object {
+        private val TAG = if (BuildConfig.DEBUG) "*** FileListFragment".take(23) else "FileListFragment".take(23)
+        private var rootPath: String? = null
+        private var dirName: String? = null
+        private var screen: PreferenceScreen? = null
+
+        /* Action ID definition */
+        private const val ACTION_BACK = 1
+        private const val ACTION_DIR = 2
+        private const val ACTION_SELECT = 3
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (rootPath.isNullOrEmpty())
+            rootPath = Environment.getExternalStorageDirectory().absolutePath
+        if (BuildConfig.DEBUG) Log.d(TAG, "onCreate() rootPath: $rootPath")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val fm = fragmentManager
+        if (rootPath.isNullOrEmpty() || fm?.backStackEntryCount == 3) // 3 on root dir
+            rootPath = Environment.getExternalStorageDirectory().absolutePath
+        if (BuildConfig.DEBUG) Log.d(TAG, "onResume() rootPath: $rootPath, backStackEntryCount: ${fm?.backStackEntryCount}")
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        val context = preferenceManager.context
+        screen = preferenceManager.createPreferenceScreen(context)
+        screen?.title = getString(R.string.select_wallpaper_action_title)
+
+        loadFileList()
+
+        preferenceScreen = screen
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        val ctx = requireContext()
+        val fm = fragmentManager
+
+        when (preference.key) {
+            ACTION_BACK.toString() -> {
+                dirName?.let { rootPath = rootPath?.removeSuffix(it) }
+                fm?.popBackStack()
+                return true
+            }
+            ACTION_DIR.toString() -> {
+                rootPath = File(rootPath, preference.title.toString()).absolutePath
+                dirName = preference.title.toString()
+                val curFragContainerId = (view!!.parent as ViewGroup).id
+                fm?.beginTransaction()?.replace(curFragContainerId, FileListFragment())?.addToBackStack(null)?.commit()
+                return true
+            }
+            ACTION_SELECT.toString() -> {
+                val name = preference.title
+                val file = File(rootPath, name.toString())
+                if (file.canRead())
+                    setWallpaper(ctx, file.path.toString())
+                else
+                    Toast.makeText(ctx, ctx.getString(R.string.file_no_access), Toast.LENGTH_LONG)
+                        .show()
+                dirName?.let { rootPath = rootPath?.removeSuffix(it) }
+                fm?.popBackStack()
+                return true
+            }
+            else -> return super.onPreferenceTreeClick(preference)
+        }
+    }
+
+    private fun loadFileList() {
+        // TODO
+        var dir: File? = null
+        var subdirs: ArrayList<File> = ArrayList()
+        var dimages: ArrayList<File> = ArrayList()
+
+        rootPath?.let { dir = File(it) }
+        dir?.let {
+            subdirs = dirReader(it)
+            dimages = imageReader(it)
+        }
+        //val actions = ArrayList<GuidedAction>()
+        val prefs = ArrayList<Preference>()
+        // back
+        val backPref = Preference(context)
+        backPref.key = ACTION_BACK.toString()
+        backPref.title = getString(R.string.goback)
+        //screen?.addPreference(backPref)
+        prefs.add(backPref)
+        // directories
+        if (subdirs.size > 0)
+            subdirs.forEach {
+                val dirPref = Preference(context)
+                dirPref.key = ACTION_DIR.toString()
+                dirPref.title = it.name
+                prefs.add(dirPref)
+            }
+        // images
+        if (dimages.size > 0)
+            dimages.forEach {
+                val imagePref = Preference(context)
+                imagePref.key = ACTION_SELECT.toString()
+                imagePref.title = it.name
+                prefs.add(imagePref)
+            }
+        // apply
+        if (prefs.isNotEmpty()) {
+            for (pref in prefs) {
+                screen?.addPreference(pref)
+            }
+        }
+    }
+
+    private fun imageReader(root: File): ArrayList<File> {
+        val imageList: ArrayList<File> = ArrayList()
+        val images = root.listFiles { file ->
+            (!file.isDirectory && file.name.endsWith(".jpeg") || file.name.endsWith(".jpg") || file.name.endsWith(
+                ".png"
+            ))
+        }
+        if (!images.isNullOrEmpty()) {
+            for (image in images) {
+                // File absolute path
+                if (BuildConfig.DEBUG) Log.d(TAG, "image path ${image.absolutePath}")
+                // File Name
+                if (BuildConfig.DEBUG) Log.d(TAG, "image name ${image.name}")
+                imageList.add(image.absoluteFile)
+            }
+            if (BuildConfig.DEBUG) Log.w(TAG, "fileList size ${imageList.size}")
+        }
+        return imageList
+    }
+
+    private fun dirReader(root: File): ArrayList<File> {
+        val dirList: ArrayList<File> = ArrayList()
+        val dirs = root.listFiles { file ->
+            file.isDirectory && !file.name.startsWith(".")
+        }
+        if (!dirs.isNullOrEmpty())
+            for (dir in dirs) {
+                dirList.add(dir.absoluteFile)
+            }
+        return dirList
+    }
+
+    private fun setWallpaper(context: Context?, image: String): Boolean {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        if (image.isNotEmpty()) pref.edit().putString("wallpaper_image", image).apply()
+        // refresh home broadcast
+        Util.refreshHome(requireContext())
+        return true
+    }
+
 }

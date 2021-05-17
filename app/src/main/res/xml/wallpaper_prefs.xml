@@ -1,0 +1,19 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="wallpaper_prefs"
+    android:title="@string/wallpaper_title">
+    <PreferenceCategory>
+
+        <Preference
+            android:key="select_wallpaper"
+            android:title="@string/select_wallpaper_action_title"
+            android:summary="@string/select_wallpaper_action_desc"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.FileListFragment" />
+
+        <Preference
+            android:key="reset_wallpaper"
+            android:title="@string/reset_wallpaper_action_title"
+            android:summary="@string/reset_wallpaper_action_desc" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
