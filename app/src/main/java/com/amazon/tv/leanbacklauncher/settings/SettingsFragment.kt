@@ -1,5 +1,6 @@
 package com.amazon.tv.leanbacklauncher.settings
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -14,6 +15,8 @@ import android.text.InputType
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
@@ -438,6 +441,26 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
 }
 
 class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
+
+    override fun onResume() {
+        super.onResume()
+
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                500
+            )
+        }
+
+        findPreference<Preference>("select_wallpaper")?.apply {
+            this.summary = getWallpaperDesc(context)
+        }
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.wallpaper_prefs, rootKey)
@@ -501,7 +524,8 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
 class FileListFragment : LeanbackPreferenceFragmentCompat() {
 
     companion object {
-        private val TAG = if (BuildConfig.DEBUG) "*** FileListFragment".take(23) else "FileListFragment".take(23)
+        private val TAG =
+            if (BuildConfig.DEBUG) "*** FileListFragment".take(23) else "FileListFragment".take(23)
         private var rootPath: String? = null
         private var dirName: String? = null
         private var screen: PreferenceScreen? = null
@@ -524,7 +548,10 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         val fm = fragmentManager
         if (rootPath.isNullOrEmpty() || fm?.backStackEntryCount == 3) // 3 on root dir
             rootPath = Environment.getExternalStorageDirectory().absolutePath
-        if (BuildConfig.DEBUG) Log.d(TAG, "onResume() rootPath: $rootPath, backStackEntryCount: ${fm?.backStackEntryCount}")
+        if (BuildConfig.DEBUG) Log.d(
+            TAG,
+            "onResume() rootPath: $rootPath, backStackEntryCount: ${fm?.backStackEntryCount}"
+        )
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -551,7 +578,8 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 rootPath = File(rootPath, preference.title.toString()).absolutePath
                 dirName = preference.title.toString()
                 val curFragContainerId = (view!!.parent as ViewGroup).id
-                fm?.beginTransaction()?.replace(curFragContainerId, FileListFragment())?.addToBackStack(null)?.commit()
+                fm?.beginTransaction()?.replace(curFragContainerId, FileListFragment())
+                    ?.addToBackStack(null)?.commit()
                 return true
             }
             ACTION_SELECT.toString() -> {
@@ -595,6 +623,8 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 val dirPref = Preference(context)
                 dirPref.key = ACTION_DIR.toString()
                 dirPref.title = it.name
+                dirPref.icon =
+                    ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_folder_24, null)
                 prefs.add(dirPref)
             }
         // images
@@ -603,6 +633,11 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 val imagePref = Preference(context)
                 imagePref.key = ACTION_SELECT.toString()
                 imagePref.title = it.name
+                try {
+                    val d = Drawable.createFromPath(it.toString())
+                    imagePref.icon = buildBannerFromImage(d)
+                } catch (e: java.lang.Exception) {
+                }
                 prefs.add(imagePref)
             }
         // apply
@@ -643,6 +678,31 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 dirList.add(dir.absoluteFile)
             }
         return dirList
+    }
+
+    private fun buildBannerFromImage(image: Drawable?): Drawable {
+        val resources = resources
+        val bannerWidth = resources.getDimensionPixelSize(R.dimen.preference_item_banner_width)
+        val bannerHeight = resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
+        val bitmap = Bitmap.createBitmap(bannerWidth, bannerHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.preference_item_banner_background,
+                null
+            )
+        )
+        image?.let {
+            it.setBounds(
+                0,
+                0,
+                bannerWidth,
+                bannerHeight
+            )
+            it.draw(canvas)
+        }
+        return BitmapDrawable(resources, bitmap)
     }
 
     private fun setWallpaper(context: Context?, image: String): Boolean {
