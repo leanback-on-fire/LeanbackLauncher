@@ -35,7 +35,9 @@ import java.util.*
 
 
 class SettingsFragment : LeanbackSettingsFragmentCompat() {
-    private val TAG = "SettingsFragment"
+    companion object {
+        private const val TAG = "SettingsFragment"
+    }
 
     override fun onPreferenceStartInitialScreen() {
         startPreferenceFragment(LauncherSettingsFragment())
@@ -81,7 +83,9 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
  * The fragment that is embedded in SettingsFragment
  */
 class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
-    private val TAG = "*****"
+    companion object {
+        private const val TAG = "LauncherSettingsFrag"
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
@@ -102,7 +106,9 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
 
     }
 }
-
+/**
+ * The fragment that is defined in preferences.xml
+ */
 class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -134,10 +140,16 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
         return super.onPreferenceTreeClick(preference)
     }
 }
-
+/**
+ * The fragment that is defined in preferences.xml
+ */
 class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
     private var mIdToPackageMap: HashMap<Long, String> = hashMapOf()
     private var screen: PreferenceScreen? = null
+
+    companion object {
+        private const val KEY_ID_ALL_APPS = 1000L
+    }
 
     private fun loadHiddenApps() {
         val prefUtil = SharedPreferencesUtil.instance(requireContext())
@@ -199,8 +211,8 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         val context = preferenceManager.context
         screen = preferenceManager.createPreferenceScreen(context)
         screen?.title = getString(R.string.hidden_applications_title)
-        loadHiddenApps()
         preferenceScreen = screen
+        loadHiddenApps()
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
@@ -228,12 +240,10 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         }
         return super.onPreferenceTreeClick(preference)
     }
-
-    companion object {
-        private const val KEY_ID_ALL_APPS = 1000L
-    }
 }
-
+/**
+ * The fragment that is defined in preferences.xml
+ */
 class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
     RecommendationsPreferenceManager.LoadRecommendationPackagesCallback {
     private var mIdToPackageMap: HashMap<Long, String> = hashMapOf()
@@ -330,24 +340,13 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
         return BitmapDrawable(resources, bitmap)
     }
 }
-
-class BannersPreferenceFragment :
-    LeanbackPreferenceFragmentCompat()/*, SharedPreferences.OnSharedPreferenceChangeListener*/ {
-    private val TAG = "*****"
-
-//    override fun onResume() {
-//        super.onResume()
-//        // Set up a listener whenever a key changes
-//        preferenceScreen.sharedPreferences
-//            .registerOnSharedPreferenceChangeListener(this)
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        // Unregister the listener whenever a key changes
-//        preferenceScreen.sharedPreferences
-//            .unregisterOnSharedPreferenceChangeListener(this)
-//    }
+/**
+ * The fragment that is defined in home_prefs.xml
+ */
+class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
+    companion object {
+        private const val TAG = "BannersPreferenceFrag"
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
@@ -416,12 +415,10 @@ class BannersPreferenceFragment :
         return super.onPreferenceTreeClick(preference)
     }
 
-//    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-//        val pref = findPreference<Preference>(key!!)
-//        Log.d(TAG, "pref $key changed to $pref")
-//    }
 }
-
+/**
+ * The fragment that is defined in home_prefs.xml
+ */
 class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -449,7 +446,9 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
     }
 
 }
-
+/**
+ * The fragment that is defined in home_prefs.xml
+ */
 class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onResume() {
@@ -522,7 +521,9 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
         }
     }
 }
-
+/**
+ * The fragment that is defined in wallpaper_prefs.xml
+ */
 class FileListFragment : LeanbackPreferenceFragmentCompat() {
 
     private var screen: PreferenceScreen? = null
