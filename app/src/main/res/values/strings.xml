@@ -173,18 +173,22 @@
     <string name="now_playing_card_playing">Now Playing</string>
     <string name="now_playing_card_stopped">Stopped</string>
     <string name="orb_search_action">Search Action</string>
-    <string name="pref_enable_favorites_row">enable_favorites_row</string>
-    <string name="pref_enable_games_row">enable_games_row</string>
-    <string name="pref_enable_inputs_row">enable_inputs_row</string>
-    <string name="pref_enable_music_row">enable_music_row</string>
-    <string name="pref_enable_recommendations_row">enable_recommendations_row</string>
-    <string name="pref_enable_videos_row">enable_videos_row</string>
-    <string name="pref_max_apps_rows">max_apps_rows</string>
-    <string name="pref_max_apps">max_apps</string>
-    <string name="pref_max_favorites_rows">max_favorites_rows</string>
-    <string name="pref_max_games_rows">max_games_rows</string>
-    <string name="pref_max_music_rows">max_music_rows</string>
-    <string name="pref_max_videos_rows">max_videos_rows</string>
+    <string name="pref_banner_corner_radius" translatable="false">banner_corner_radius</string>
+    <string name="pref_banner_focus_frame_color" translatable="false">banner_focus_frame_color</string>
+    <string name="pref_banner_frame_stroke" translatable="false">banner_frame_stroke</string>
+    <string name="pref_banner_size" translatable="false">banner_size</string>
+    <string name="pref_enable_favorites_row" translatable="false">enable_favorites_row</string>
+    <string name="pref_enable_games_row" translatable="false">enable_games_row</string>
+    <string name="pref_enable_inputs_row" translatable="false">enable_inputs_row</string>
+    <string name="pref_enable_music_row" translatable="false">enable_music_row</string>
+    <string name="pref_enable_recommendations_row" translatable="false">enable_recommendations_row</string>
+    <string name="pref_enable_videos_row" translatable="false">enable_videos_row</string>
+    <string name="pref_max_apps_rows" translatable="false">max_apps_rows</string>
+    <string name="pref_max_apps" translatable="false">max_apps</string>
+    <string name="pref_max_favorites_rows" translatable="false">max_favorites_rows</string>
+    <string name="pref_max_games_rows" translatable="false">max_games_rows</string>
+    <string name="pref_max_music_rows" translatable="false">max_music_rows</string>
+    <string name="pref_max_videos_rows" translatable="false">max_videos_rows</string>
     <string name="primes_marker" translatable="false">PrImEs</string>
     <string name="primes_version" translatable="false">174122153</string>
     <string name="progress_percent">%1$d%%</string>

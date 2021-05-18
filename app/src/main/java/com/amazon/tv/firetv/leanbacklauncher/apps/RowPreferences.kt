@@ -7,9 +7,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.amazon.tv.leanbacklauncher.BuildConfig
+import com.amazon.tv.leanbacklauncher.LauncherApplication
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4
 import java.util.*
@@ -220,13 +223,13 @@ object RowPreferences {
     @JvmStatic
     fun getBannersSize(context: Context?): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return pref.getString("banner_size", "100")?.toIntOrNull() ?: 100
+        return pref.getString(context?.getString(R.string.pref_banner_size), "100")?.toIntOrNull() ?: 100
     }
 
     @JvmStatic
     fun setBannersSize(context: Context?, size: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if (size in 50..200) pref.edit().putString("banner_size", size.toString()).apply()
+        if (size in 50..200) pref.edit().putString(context?.getString(R.string.pref_banner_size), size.toString()).apply()
         return true
     }
 
@@ -234,14 +237,14 @@ object RowPreferences {
     fun getCorners(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetCorners = context.resources.getDimensionPixelOffset(R.dimen.banner_corner_radius)
-        return pref.getString("banner_corner_radius", targetCorners.toString())?.toIntOrNull() ?: targetCorners
+        return pref.getString(context.getString(R.string.pref_banner_corner_radius), targetCorners.toString())?.toIntOrNull() ?: targetCorners
     }
 
     @JvmStatic
     fun setCorners(context: Context?, radius: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         // if (radius > 0)
-        pref.edit().putString("banner_corner_radius", radius.toString()).apply()
+        pref.edit().putString(context?.getString(R.string.pref_banner_corner_radius), radius.toString()).apply()
         return true
     }
 
@@ -249,13 +252,13 @@ object RowPreferences {
     fun getFrameWidth(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetStroke = context.resources.getDimensionPixelSize(R.dimen.banner_frame_stroke)
-        return pref.getString("banner_frame_stroke", targetStroke.toString())?.toIntOrNull() ?: targetStroke
+        return pref.getString(context.getString(R.string.pref_banner_frame_stroke), targetStroke.toString())?.toIntOrNull() ?: targetStroke
     }
 
     @JvmStatic
     fun setFrameWidth(context: Context?, width: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if (width > 0) pref.edit().putString("banner_frame_stroke", width.toString()).apply()
+        if (width > 0) pref.edit().putString(context?.getString(R.string.pref_banner_frame_stroke), width.toString()).apply()
         return true
     }
 
@@ -263,15 +266,40 @@ object RowPreferences {
     fun getFrameColor(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetColor = ContextCompat.getColor(context, R.color.banner_focus_frame_color)
-        return pref.getString("banner_focus_frame_color", targetColor.toString())?.toIntOrNull() ?: targetColor
+        return pref.getString(context.getString(R.string.pref_banner_focus_frame_color), targetColor.toString())?.toIntOrNull() ?: targetColor
     }
 
     @JvmStatic
     fun setFrameColor(context: Context?, color: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         // if (color > 0)
-        pref.edit().putString("banner_focus_frame_color", color.toString()).apply()
+        pref.edit().putString(context?.getString(R.string.pref_banner_focus_frame_color), color.toString()).apply()
         return true
+    }
+
+    fun fixRowPrefs() {
+        val context = LauncherApplication.getContext()
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val list = listOf(
+            context.getString(R.string.pref_banner_focus_frame_color),
+            context.getString(R.string.pref_banner_frame_stroke),
+            context.getString(R.string.pref_banner_corner_radius),
+            context.getString(R.string.pref_banner_size),
+            context.getString(R.string.pref_max_apps),
+            context.getString(R.string.pref_max_games_rows),
+            context.getString(R.string.pref_max_music_rows),
+            context.getString(R.string.pref_max_videos_rows),
+            context.getString(R.string.pref_max_apps_rows),
+            context.getString(R.string.pref_max_favorites_rows)
+        )
+        for (item in list) {
+            try {
+                if (pref.getInt(item, -1) != -1) {
+                    pref.edit()?.remove(item)?.apply()
+                    if (BuildConfig.DEBUG) Log.d("RowPreferences", "fix int $item pref")
+                }
+            } catch (e: Exception) { }
+        }
     }
 
 //    fun dimensionInDp(context: Context, dimensionInPixel: Int): Float {

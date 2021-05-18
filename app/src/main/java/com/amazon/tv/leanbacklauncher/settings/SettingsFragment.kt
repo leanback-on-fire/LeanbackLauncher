@@ -86,33 +86,21 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.preferences, rootKey)
+        val ps = findPreference<PreferenceScreen>("root_prefs")
 
-//        val ps = findPreference<PreferenceScreen>("prefs")
-
-//        findPreference<Preference>("rec_sources")?.apply {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                Log.d(TAG, "REMOVE $this from $ps")
-//                ps?.removePreference(this)
-//            }
-//        }
-
-        findPreference<Preference>("version")?.apply {
-            this.summary = BuildConfig.VERSION_NAME
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val ps = findPreference<PreferenceScreen>("prefs")
-        Log.d(TAG, "onResume()")
         findPreference<Preference>("rec_sources")?.apply {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d(TAG, "REMOVE $this from $ps")
                 ps?.removePreference(this)
+                preferenceScreen = ps
             }
         }
-    }
 
+        findPreference<Preference>("version")?.apply {
+            this.summary = BuildConfig.VERSION_NAME
+        }
+
+    }
 }
 
 class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
@@ -356,16 +344,16 @@ class BannersPreferenceFragment :
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.banners_prefs, rootKey)
 
-        val bs = findPreference("banner_size") as EditTextPreference?
+        val bs = findPreference(getString(R.string.pref_banner_size)) as EditTextPreference?
         bs!!.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
         }
-//        findPreference<EditTextPreference>("banner_size")?.apply {
+//        findPreference<EditTextPreference>(getString(R.string.pref_banner_size))?.apply {
 //            val size = RowPreferences.getBannersSize(context).toString()
 //            this.summary = size
 //    }
 
-        val bc = findPreference("banner_corner_radius") as EditTextPreference?
+        val bc = findPreference(getString(R.string.pref_banner_corner_radius)) as EditTextPreference?
 //        findPreference<EditTextPreference>("banner_corner_radius")?.apply {
 //            val radius = RowPreferences.getCorners(context).toString()
 //            this.summary = radius
@@ -374,7 +362,7 @@ class BannersPreferenceFragment :
             editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
         }
 
-        val bf = findPreference("banner_frame_stroke") as EditTextPreference?
+        val bf = findPreference(getString(R.string.pref_banner_frame_stroke)) as EditTextPreference?
 //        findPreference<EditTextPreference>("banner_frame_stroke")?.apply {
 //            val stroke = RowPreferences.getFrameWidth(context).toString()
 //            this.summary = stroke
@@ -382,7 +370,7 @@ class BannersPreferenceFragment :
         bf!!.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
         }
-        val fc = findPreference("banner_focus_frame_color") as EditTextPreference?
+        val fc = findPreference(getString(R.string.pref_banner_focus_frame_color)) as EditTextPreference?
         fc!!.setOnPreferenceChangeListener { preference, newValue ->
             Log.d(TAG, "$preference new value $newValue")
             val value = try {

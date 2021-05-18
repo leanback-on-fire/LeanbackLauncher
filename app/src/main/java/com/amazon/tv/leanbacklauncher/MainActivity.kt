@@ -35,6 +35,7 @@ import androidx.leanback.widget.VerticalGridView
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
 import com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor
 import com.amazon.tv.leanbacklauncher.SearchOrbView.SearchLaunchListener
 import com.amazon.tv.leanbacklauncher.animation.*
@@ -442,6 +443,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             ) && LauncherApplication.inForeground
         )
             startService(Intent(this, NotificationListenerMonitor::class.java))
+        // fix int options migrate
+        RowPreferences.fixRowPrefs()
     }
 
     public override fun onDestroy() {

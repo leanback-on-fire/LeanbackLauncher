@@ -6,25 +6,25 @@
 
         <EditTextPreference
             android:defaultValue="100"
-            android:key="banner_size"
+            android:key="@string/pref_banner_size"
             android:title="@string/banners_size"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             android:defaultValue="8"
-            android:key="banner_corner_radius"
+            android:key="@string/pref_banner_corner_radius"
             android:title="@string/banners_corners_radius"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             android:defaultValue="8"
-            android:key="banner_frame_stroke"
+            android:key="@string/pref_banner_frame_stroke"
             android:title="@string/banners_frame_width"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             android:defaultValue="1089400558"
-            android:key="banner_focus_frame_color"
+            android:key="@string/pref_banner_focus_frame_color"
             android:title="@string/banners_frame_color" />
 
         <Preference
