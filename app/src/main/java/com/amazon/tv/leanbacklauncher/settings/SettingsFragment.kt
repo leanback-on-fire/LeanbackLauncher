@@ -524,11 +524,12 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
 }
 
 class FileListFragment : LeanbackPreferenceFragmentCompat() {
-    private var rootPath: String? = null
-    private var dirName: String? = null
+
     private var screen: PreferenceScreen? = null
 
     companion object {
+        private var rootPath: String? = null
+        private var dirName: String? = null
 
         /* Action ID definition */
         private const val ACTION_BACK = 1
@@ -538,8 +539,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onResume() {
         super.onResume()
-        val fm = fragmentManager
-        if (rootPath.isNullOrEmpty() || fm?.backStackEntryCount == 3) // 3 on root dir
+        if (fragmentManager?.backStackEntryCount == 3) // 3 on root dir
             rootPath = Environment.getExternalStorageDirectory().absolutePath
     }
 
@@ -551,6 +551,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
 
         if (rootPath.isNullOrEmpty())
             rootPath = Environment.getExternalStorageDirectory().absolutePath
+
         loadFileList()
     }
 
@@ -592,7 +593,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         var dir: File? = null
         var folders: ArrayList<File> = ArrayList()
         var images: ArrayList<File> = ArrayList()
-
+        Log.d("*****", "loadFileList($rootPath)")
         rootPath?.let { dir = File(it) }
         dir?.let {
             folders = dirReader(it)
@@ -604,6 +605,8 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         val backPref = Preference(context)
         backPref.key = ACTION_BACK.toString()
         backPref.title = getString(R.string.goback)
+        backPref.icon =
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_twotone_arrow_back_24, null)
         prefs.add(backPref)
 
         // directories
@@ -613,7 +616,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 dirPref.key = ACTION_DIR.toString()
                 dirPref.title = it.name
                 dirPref.icon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_folder_24, null)
+                    ResourcesCompat.getDrawable(resources, R.drawable.ic_twotone_folder_24, null)
                 prefs.add(dirPref)
             }
 
