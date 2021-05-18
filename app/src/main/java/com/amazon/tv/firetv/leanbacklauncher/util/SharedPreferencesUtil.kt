@@ -54,7 +54,7 @@ class SharedPreferencesUtil private constructor() {
         return genPref?.getBoolean("show_all_apps", false) ?: false
     }
 
-    fun showAllApps(mode: Boolean) {
+    fun showAllApps(mode: Boolean?) {
         mode?.let {
             genPref?.edit()?.putBoolean("show_all_apps", it)?.apply()
         }

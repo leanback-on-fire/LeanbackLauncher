@@ -147,10 +147,10 @@
     <string name="now_playing_card_stopped">Остановлено</string>
     <string name="orb_search_action">Поиск</string>
     <string name="progress_percent">%1$d%%</string>
+    <string name="rec_soures_empty">Нет источников рекомендаций</string>
     <string name="recency_order_action_description">Сортировать по времени последнего использования</string>
     <string name="recency_order_action_title">Упорядочить по дате</string>
     <string name="recm_service_name">Сервис рекомендаций</string>
-
     <string name="recommendation_blacklist_action_title">Источники рекомендаций</string>
     <string name="recommendation_blacklist_content_description">Некоторые приложения показывают рекомендации на главном экране. Можно отключить те из них, которые вас не интересуют.</string>
     <string name="recommendation_blacklist_content_title">Строка рекомендаций</string>

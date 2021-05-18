@@ -192,6 +192,7 @@
     <string name="primes_marker" translatable="false">PrImEs</string>
     <string name="primes_version" translatable="false">174122153</string>
     <string name="progress_percent">%1$d%%</string>
+    <string name="rec_soures_empty">No recommendations sources</string>
     <string name="recency_order_action_description">Apps and games ordered based on recent usage</string>
     <string name="recency_order_action_title">Recency order</string>
     <string name="recm_service_name">Recommendations Service</string>

@@ -290,8 +290,17 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
                 recId++
             }
         }
-        for (rec in recs) {
-            screen?.addPreference(rec)
+        if (recs.isNotEmpty()) {
+            for (rec in recs) {
+                screen?.addPreference(rec)
+            }
+        } else {
+            val emptyPref = Preference(context)
+            emptyPref.key = "empty"
+            emptyPref.title = getString(R.string.rec_soures_empty)
+            emptyPref.isEnabled = false
+            emptyPref.isSelectable = false
+            screen?.addPreference(emptyPref)
         }
     }
 
@@ -353,7 +362,8 @@ class BannersPreferenceFragment :
 //            this.summary = size
 //    }
 
-        val bc = findPreference(getString(R.string.pref_banner_corner_radius)) as EditTextPreference?
+        val bc =
+            findPreference(getString(R.string.pref_banner_corner_radius)) as EditTextPreference?
 //        findPreference<EditTextPreference>("banner_corner_radius")?.apply {
 //            val radius = RowPreferences.getCorners(context).toString()
 //            this.summary = radius
@@ -370,7 +380,8 @@ class BannersPreferenceFragment :
         bf!!.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
         }
-        val fc = findPreference(getString(R.string.pref_banner_focus_frame_color)) as EditTextPreference?
+        val fc =
+            findPreference(getString(R.string.pref_banner_focus_frame_color)) as EditTextPreference?
         fc!!.setOnPreferenceChangeListener { preference, newValue ->
             Log.d(TAG, "$preference new value $newValue")
             val value = try {
@@ -424,7 +435,8 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             val enabled = (preference as SwitchPreference).isChecked
             RowPreferences.setRecommendationsEnabled(ctx, enabled)
             if (enabled && FireTVUtils.isAmazonNotificationsEnabled(ctx)) {
-                Toast.makeText(ctx, ctx.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG).show()
+                Toast.makeText(ctx, ctx.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG)
+                    .show()
             }
             // refresh home broadcast
             Util.refreshHome(requireContext())
