@@ -100,4 +100,5 @@
     <color name="settings_label_text_color">#ffeeeeee</color>
     <color name="settings_launch_ripple_color">#ff3d3d3d</color>
     <color name="settings_selection_indicator_color">#4ceeeeee</color>
+    <color name="amazon_orange">#ffa724</color>
 </resources>

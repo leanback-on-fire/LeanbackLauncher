@@ -24,6 +24,7 @@ import androidx.leanback.preference.LeanbackPreferenceFragmentCompat
 import androidx.leanback.preference.LeanbackSettingsFragmentCompat
 import androidx.preference.*
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
+import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
@@ -34,10 +35,7 @@ import java.util.*
 
 
 class SettingsFragment : LeanbackSettingsFragmentCompat() {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*** " + javaClass.simpleName).take(23) else javaClass.simpleName.take(
-            23
-        )
+    private val TAG = "SettingsFragment"
 
     override fun onPreferenceStartInitialScreen() {
         startPreferenceFragment(LauncherSettingsFragment())
@@ -83,15 +81,11 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
  * The fragment that is embedded in SettingsFragment
  */
 class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*** " + javaClass.simpleName).take(23) else javaClass.simpleName.take(
-            23
-        )
-    private val rootPrefResId = R.xml.preferences
+    private val TAG = "*****"
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
-        setPreferencesFromResource(rootPrefResId, rootKey)
+        setPreferencesFromResource(R.xml.preferences, rootKey)
 
 //        val ps = findPreference<PreferenceScreen>("prefs")
 
@@ -122,15 +116,10 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
 }
 
 class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*** " + javaClass.simpleName).take(23) else javaClass.simpleName.take(
-            23
-        )
-    private val homePrefResId = R.xml.home_prefs
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
-        setPreferencesFromResource(homePrefResId, rootKey)
+        setPreferencesFromResource(R.xml.home_prefs, rootKey)
         findPreference<PreferenceScreen>("home_prefs")
 
         val sortingMode = AppsManager.getSavedSortingMode(context)
@@ -141,10 +130,9 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
         }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        if (preference.key == "apps_order") {
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        if (preference?.key == "apps_order") {
             val mode = AppsManager.getSavedSortingMode(context)
-            Log.d(TAG, "curr sort mode = $mode")
             if (mode == AppsManager.SortingMode.FIXED) {
                 AppsManager.saveSortingMode(context, AppsManager.SortingMode.RECENCY)
                 preference.summary = getString(R.string.select_app_order_action_description_recency)
@@ -227,20 +215,21 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         preferenceScreen = screen
     }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         val context = requireContext()
         val prefUtil = SharedPreferencesUtil.instance(context)
         var appIdFromKey: Long = -1L
-        if (preference.key.isDigitsOnly())
+        if (preference!!.key.isDigitsOnly())
             appIdFromKey = preference.key.toLong()
-        if (preference is SwitchPreference) {
+
+        if (preference is SwitchPreference) { // show all apps switch
             if (appIdFromKey == KEY_ID_ALL_APPS) {
                 prefUtil?.showAllApps(preference.isChecked)
                 // refresh home broadcast
                 Util.refreshHome(context)
             }
             return true
-        } else if (preference is CheckBoxPreference) {
+        } else if (preference is CheckBoxPreference) { // hidden apps list
             if (preference.isChecked) {
                 prefUtil?.hide(mIdToPackageMap[appIdFromKey])
             } else {
@@ -280,9 +269,9 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
         preferenceScreen = screen
     }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         var recIdFromKey: Long = -1L
-        if (preference.key.isDigitsOnly())
+        if (preference!!.key.isDigitsOnly())
             recIdFromKey = preference.key.toLong()
         if (preference is CheckBoxPreference)
             mPreferenceManager?.savePackageBlacklisted(
@@ -347,11 +336,7 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
 
 class BannersPreferenceFragment :
     LeanbackPreferenceFragmentCompat()/*, SharedPreferences.OnSharedPreferenceChangeListener*/ {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*** " + javaClass.simpleName).take(23) else javaClass.simpleName.take(
-            23
-        )
-    private val bannersPrefResId = R.xml.banners_prefs
+    private val TAG = "*****"
 
 //    override fun onResume() {
 //        super.onResume()
@@ -369,7 +354,7 @@ class BannersPreferenceFragment :
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
-        setPreferencesFromResource(bannersPrefResId, rootKey)
+        setPreferencesFromResource(R.xml.banners_prefs, rootKey)
 
         val bs = findPreference("banner_size") as EditTextPreference?
         bs!!.setOnBindEditTextListener { editText ->
@@ -426,6 +411,12 @@ class BannersPreferenceFragment :
         return String.format("#%08X", -0x1 and color)
     }
 
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        // refresh home broadcast
+        Util.refreshHome(requireContext())
+        return super.onPreferenceTreeClick(preference)
+    }
+
 //    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
 //        val pref = findPreference<Preference>(key!!)
 //        Log.d(TAG, "pref $key changed to $pref")
@@ -433,19 +424,37 @@ class BannersPreferenceFragment :
 }
 
 class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
-    private val rowsPrefResId = R.xml.rows_prefs
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
-        setPreferencesFromResource(rowsPrefResId, rootKey)
+        setPreferencesFromResource(R.xml.rows_prefs, rootKey)
     }
+
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        val ctx = requireContext()
+        if (preference?.key == getString(R.string.pref_enable_recommendations_row)) {
+            val enabled = (preference as SwitchPreference).isChecked
+            RowPreferences.setRecommendationsEnabled(ctx, enabled)
+            if (enabled && FireTVUtils.isAmazonNotificationsEnabled(ctx)) {
+                Toast.makeText(ctx, ctx.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG).show()
+            }
+            // refresh home broadcast
+            Util.refreshHome(requireContext())
+            return true
+        } else { // all others
+            // refresh home broadcast
+            Util.refreshHome(requireContext())
+        }
+        return super.onPreferenceTreeClick(preference)
+    }
+
 }
 
 class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onResume() {
         super.onResume()
-
+        // check permissions
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE
@@ -471,12 +480,8 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
         }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        return when (preference.key) {
-            "select_wallpaper" -> {
-                // TODO: ask for permissions
-                super.onPreferenceTreeClick(preference)
-            }
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        return when (preference?.key) {
             "reset_wallpaper" -> {
                 resetWallpaper()
                 fragmentManager?.popBackStack()
@@ -519,13 +524,11 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
 }
 
 class FileListFragment : LeanbackPreferenceFragmentCompat() {
+    private var rootPath: String? = null
+    private var dirName: String? = null
+    private var screen: PreferenceScreen? = null
 
     companion object {
-        private val TAG =
-            if (BuildConfig.DEBUG) "*** FileListFragment".take(23) else "FileListFragment".take(23)
-        private var rootPath: String? = null
-        private var dirName: String? = null
-        private var screen: PreferenceScreen? = null
 
         /* Action ID definition */
         private const val ACTION_BACK = 1
@@ -533,39 +536,29 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         private const val ACTION_SELECT = 3
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (rootPath.isNullOrEmpty())
-            rootPath = Environment.getExternalStorageDirectory().absolutePath
-        if (BuildConfig.DEBUG) Log.d(TAG, "onCreate() rootPath: $rootPath")
-    }
-
     override fun onResume() {
         super.onResume()
         val fm = fragmentManager
         if (rootPath.isNullOrEmpty() || fm?.backStackEntryCount == 3) // 3 on root dir
             rootPath = Environment.getExternalStorageDirectory().absolutePath
-        if (BuildConfig.DEBUG) Log.d(
-            TAG,
-            "onResume() rootPath: $rootPath, backStackEntryCount: ${fm?.backStackEntryCount}"
-        )
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = preferenceManager.context
         screen = preferenceManager.createPreferenceScreen(context)
         screen?.title = getString(R.string.select_wallpaper_action_title)
-
-        loadFileList()
-
         preferenceScreen = screen
+
+        if (rootPath.isNullOrEmpty())
+            rootPath = Environment.getExternalStorageDirectory().absolutePath
+        loadFileList()
     }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         val ctx = requireContext()
         val fm = fragmentManager
 
-        when (preference.key) {
+        when (preference?.key) {
             ACTION_BACK.toString() -> {
                 dirName?.let { rootPath = rootPath?.removeSuffix(it) }
                 fm?.popBackStack()
@@ -597,13 +590,13 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
 
     private fun loadFileList() {
         var dir: File? = null
-        var subdirs: ArrayList<File> = ArrayList()
-        var dimages: ArrayList<File> = ArrayList()
+        var folders: ArrayList<File> = ArrayList()
+        var images: ArrayList<File> = ArrayList()
 
         rootPath?.let { dir = File(it) }
         dir?.let {
-            subdirs = dirReader(it)
-            dimages = imageReader(it)
+            folders = dirReader(it)
+            images = imageReader(it)
         }
         val prefs = ArrayList<Preference>()
 
@@ -614,8 +607,8 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         prefs.add(backPref)
 
         // directories
-        if (subdirs.size > 0)
-            subdirs.forEach {
+        if (folders.size > 0)
+            folders.forEach {
                 val dirPref = Preference(context)
                 dirPref.key = ACTION_DIR.toString()
                 dirPref.title = it.name
@@ -625,8 +618,8 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
             }
 
         // images
-        if (dimages.size > 0)
-            dimages.forEach {
+        if (images.size > 0)
+            images.forEach {
                 val imagePref = Preference(context)
                 imagePref.key = ACTION_SELECT.toString()
                 imagePref.title = it.name
@@ -656,13 +649,8 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         }
         if (!images.isNullOrEmpty()) {
             for (image in images) {
-                // File absolute path
-                //if (BuildConfig.DEBUG) Log.d(TAG, "image path ${image.absolutePath}")
-                // File Name
-                //if (BuildConfig.DEBUG) Log.d(TAG, "image name ${image.name}")
                 imageList.add(image.absoluteFile)
             }
-            if (BuildConfig.DEBUG) Log.w(TAG, "fileList size ${imageList.size}")
         }
         return imageList
     }

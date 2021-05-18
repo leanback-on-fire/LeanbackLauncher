@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="LeanbackLauncherAnim">
         <item name="android:taskOpenEnterAnimation">@anim/home_fade_in_top</item>
@@ -34,13 +34,14 @@
         <item name="guidedActionItemIconStyle">@style/Widget.Leanback.GuidedActionItemIconStyle.Legacy</item>
     </style>
     <!-- https://android.googlesource.com/platform/frameworks/support/+/refs/heads/androidx-main/samples/SupportLeanbackDemos/src/main/res/values/themes.xml -->
-    <style name="Theme.Settings.SidePanel" parent="@style/Theme.Leanback">
+    <style name="Theme.Settings.SidePanel" parent="Theme.Leanback">
         <item name="android:backgroundDimEnabled">true</item>
-        <!--item name="android:backgroundDimAmount">0.5</item-->
+        <item name="android:backgroundDimAmount">0.5</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorPrimary">@color/settings_background_color</item><!--tools:targetApi="21"-->
-        <item name="android:colorAccent">?attr/defaultBrandColor</item><!--tools:targetApi="21"-->
+        <!--settings_dialog_bg_protection/settings_background_color-->
+        <item name="android:colorPrimary" tools:targetApi="21">@color/settings_dialog_bg_protection</item>
+        <!--item name="android:colorAccent" tools:targetApi="21">@color/amazon_orange</item-->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
     </style>
 
