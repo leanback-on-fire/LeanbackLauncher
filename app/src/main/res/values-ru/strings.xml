@@ -75,7 +75,7 @@
     <string name="focused_search_keyboard_hint_text">Нажмите, чтобы ввести текст</string>
     <string name="focused_search_mic_hint_text">Нажмите кнопку и говорите</string>
     <string name="games_row_title">Раздел «Игры»</string>
-    <string name="hidden_applications_desc">Выбранные приложения не показываются на главном экране</string>
+    <string name="hidden_applications_desc">Приложения в списке не показываются на главном экране</string>
     <string name="hidden_applications_title">Скрытые приложения</string>
     <string name="hidden_applications_empty">Нет скрытых приложений</string>
     <string name="home_screen_order_action_title">Настройка главного экрана</string>

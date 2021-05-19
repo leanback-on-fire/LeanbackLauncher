@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.InputType
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -90,22 +91,29 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.preferences, rootKey)
-        val ps = findPreference<PreferenceScreen>("root_prefs")
-
-        findPreference<Preference>("rec_sources")?.apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d(TAG, "REMOVE $this from $ps")
-                ps?.removePreference(this)
-                preferenceScreen = ps
-            }
-        }
 
         findPreference<Preference>("version")?.apply {
             this.summary = BuildConfig.VERSION_NAME
         }
 
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val ps = findPreference<PreferenceScreen>("root_prefs")
+        findPreference<Preference>("rec_sources")?.apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Log.d(TAG, "REMOVE $this from $ps")
+                ps?.removePreference(this)
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
 }
+
 /**
  * The fragment that is defined in preferences.xml
  */
@@ -140,49 +148,43 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
         return super.onPreferenceTreeClick(preference)
     }
 }
+
 /**
  * The fragment that is defined in preferences.xml
  */
 class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
-    private var mIdToPackageMap: HashMap<Long, String> = hashMapOf()
     private var screen: PreferenceScreen? = null
 
     companion object {
-        private const val KEY_ID_ALL_APPS = 1000L
+        private const val KEY_ID_ALL_APP = "show_all_apps"
+        private const val HIDDEN_CAT_KEY = "hidden_apps_category"
     }
 
     private fun loadHiddenApps() {
         val prefUtil = SharedPreferencesUtil.instance(requireContext())
         val packages: List<String> = ArrayList(prefUtil!!.hiddenApps())
-        mIdToPackageMap = HashMap()
         val prefs = ArrayList<Preference>()
 
         val showAllAppsPref = SwitchPreference(context)
-        showAllAppsPref.key = KEY_ID_ALL_APPS.toString()
+        showAllAppsPref.key = KEY_ID_ALL_APP
         showAllAppsPref.title = getString(R.string.show_all_apps)
-        showAllAppsPref.isChecked = prefUtil.isAllAppsShown()
         screen?.addPreference(showAllAppsPref) // show all apps switch
 
-        var appId: Long = 0
         val pm = activity!!.packageManager
         for (pkg in packages) {
             if (pkg.isNotEmpty()) {
-                val hidden: Boolean
                 try {
                     val packageInfo = pm.getPackageInfo(pkg, 0)
-                    hidden = prefUtil.isHidden(pkg)
+                    val hidden: Boolean = prefUtil.isHidden(pkg)
                     if (hidden) { // show only hidden apps
                         val icon =
                             pm.getApplicationIcon(packageInfo.applicationInfo) // ?: pm.getApplicationBanner(packageInfo.applicationInfo)
-                        val appPreference = CheckBoxPreference(context)
-                        appPreference.key = appId.toString()
+                        val appPreference = Preference(context)
+                        appPreference.key = packageInfo.packageName
                         appPreference.title = pm.getApplicationLabel(packageInfo.applicationInfo)
                         appPreference.icon = icon
-                        appPreference.isChecked = hidden
                         prefs.add(appPreference)
                     }
-                    mIdToPackageMap[appId] = packageInfo.packageName
-                    appId++
                 } catch (e: PackageManager.NameNotFoundException) {
                     e.printStackTrace()
                 }
@@ -190,7 +192,7 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         }
 
         val hiddenCategory = PreferenceCategory(context)
-        hiddenCategory.key = "hidden_apps_category"
+        hiddenCategory.key = HIDDEN_CAT_KEY
         hiddenCategory.title = getString(R.string.hidden_applications_desc)
         screen?.addPreference(hiddenCategory)
         if (prefs.isNotEmpty()) {
@@ -211,36 +213,28 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         val context = preferenceManager.context
         screen = preferenceManager.createPreferenceScreen(context)
         screen?.title = getString(R.string.hidden_applications_title)
-        preferenceScreen = screen
         loadHiddenApps()
+        preferenceScreen = screen
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         val context = requireContext()
         val prefUtil = SharedPreferencesUtil.instance(context)
-        var appIdFromKey: Long = -1L
-        if (preference!!.key.isDigitsOnly())
-            appIdFromKey = preference.key.toLong()
 
         if (preference is SwitchPreference) { // show all apps switch
-            if (appIdFromKey == KEY_ID_ALL_APPS) {
-                prefUtil?.showAllApps(preference.isChecked)
+            if (preference.key == KEY_ID_ALL_APP) {
                 // refresh home broadcast
-                Util.refreshHome(context)
             }
             return true
-        } else if (preference is CheckBoxPreference) { // hidden apps list
-            if (preference.isChecked) {
-                prefUtil?.hide(mIdToPackageMap[appIdFromKey])
-            } else {
-                prefUtil?.unhide(mIdToPackageMap[appIdFromKey])
-                screen?.removePreference(preference)
-            }
+        } else { // hidden apps list
+            prefUtil?.unhide(preference?.key)
+            screen?.findPreference<PreferenceCategory>(HIDDEN_CAT_KEY)
+                ?.removePreference(preference)
             return true
         }
-        return super.onPreferenceTreeClick(preference)
     }
 }
+
 /**
  * The fragment that is defined in preferences.xml
  */
@@ -317,7 +311,8 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
     private fun buildBannerFromIcon(icon: Drawable?): Drawable {
         val resources = resources
         val bannerWidth = resources.getDimensionPixelSize(R.dimen.preference_item_banner_width)
-        val bannerHeight = resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
+        val bannerHeight =
+            resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
         val iconSize = resources.getDimensionPixelSize(R.dimen.preference_item_icon_size)
         val bitmap = Bitmap.createBitmap(bannerWidth, bannerHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -340,6 +335,7 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
         return BitmapDrawable(resources, bitmap)
     }
 }
+
 /**
  * The fragment that is defined in home_prefs.xml
  */
@@ -352,55 +348,51 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.banners_prefs, rootKey)
 
-        val bs = findPreference(getString(R.string.pref_banner_size)) as EditTextPreference?
-        bs!!.setOnBindEditTextListener { editText ->
-            editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+        findPreference<EditTextPreference>(getString(R.string.pref_banner_size))?.apply {
+            //val size = RowPreferences.getBannersSize(context).toString()
+            //this.summary = size
+            setOnBindEditTextListener { editText ->
+                editText.inputType =
+                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+            }
         }
-//        findPreference<EditTextPreference>(getString(R.string.pref_banner_size))?.apply {
-//            val size = RowPreferences.getBannersSize(context).toString()
-//            this.summary = size
-//    }
-
-        val bc =
-            findPreference(getString(R.string.pref_banner_corner_radius)) as EditTextPreference?
-//        findPreference<EditTextPreference>("banner_corner_radius")?.apply {
-//            val radius = RowPreferences.getCorners(context).toString()
-//            this.summary = radius
-//    }
-        bc!!.setOnBindEditTextListener { editText ->
-            editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+        findPreference<EditTextPreference>(getString(R.string.pref_banner_corner_radius))?.apply {
+            //val radius = RowPreferences.getCorners(context).toString()
+            //this.summary = radius
+            setOnBindEditTextListener { editText ->
+                editText.inputType =
+                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+            }
         }
-
-        val bf = findPreference(getString(R.string.pref_banner_frame_stroke)) as EditTextPreference?
-//        findPreference<EditTextPreference>("banner_frame_stroke")?.apply {
-//            val stroke = RowPreferences.getFrameWidth(context).toString()
-//            this.summary = stroke
-//        }
-        bf!!.setOnBindEditTextListener { editText ->
-            editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+        findPreference<EditTextPreference>(getString(R.string.pref_banner_frame_stroke))?.apply {
+            //val stroke = RowPreferences.getFrameWidth(context).toString()
+            //this.summary = stroke
+            setOnBindEditTextListener { editText ->
+                editText.inputType =
+                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+            }
         }
         val fc =
             findPreference(getString(R.string.pref_banner_focus_frame_color)) as EditTextPreference?
-        fc!!.setOnPreferenceChangeListener { preference, newValue ->
-            Log.d(TAG, "$preference new value $newValue")
-            val value = try {
-                Color.parseColor(newValue.toString())
-            } catch (nfe: IllegalArgumentException) {
-                RowPreferences.getFrameColor(requireContext())
-            }
-            RowPreferences.setFrameColor(context, value)
-            preference.summary = hexStringColor(value)
-            // refresh home broadcast
-            Util.refreshHome(requireContext())
-            true
-        }
-        fc.apply {
+        fc?.apply {
             val color = hexStringColor(
                 RowPreferences.getFrameColor(context)
             )
             this.summary = color
             setOnBindEditTextListener {
                 it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+            }
+            setOnPreferenceChangeListener { preference, newValue ->
+                Log.d(TAG, "$preference new value $newValue")
+                val value = try {
+                    Color.parseColor(newValue.toString())
+                } catch (nfe: IllegalArgumentException) {
+                    RowPreferences.getFrameColor(requireContext())
+                }
+                RowPreferences.setFrameColor(context, value)
+                preference.summary = hexStringColor(value)
+                // refresh home broadcast
+                true
             }
         }
     }
@@ -411,11 +403,11 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         // refresh home broadcast
-        Util.refreshHome(requireContext())
         return super.onPreferenceTreeClick(preference)
     }
 
 }
+
 /**
  * The fragment that is defined in home_prefs.xml
  */
@@ -432,20 +424,23 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             val enabled = (preference as SwitchPreference).isChecked
             RowPreferences.setRecommendationsEnabled(ctx, enabled)
             if (enabled && FireTVUtils.isAmazonNotificationsEnabled(ctx)) {
-                Toast.makeText(ctx, ctx.getString(R.string.recs_warning_sale), Toast.LENGTH_LONG)
+                Toast.makeText(
+                    ctx,
+                    ctx.getString(R.string.recs_warning_sale),
+                    Toast.LENGTH_LONG
+                )
                     .show()
             }
             // refresh home broadcast
-            Util.refreshHome(requireContext())
             return true
         } else { // all others
             // refresh home broadcast
-            Util.refreshHome(requireContext())
         }
         return super.onPreferenceTreeClick(preference)
     }
 
 }
+
 /**
  * The fragment that is defined in home_prefs.xml
  */
@@ -503,7 +498,6 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
             }
         }
         // refresh home broadcast
-        Util.refreshHome(context)
         return true
     }
 
@@ -521,6 +515,7 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
         }
     }
 }
+
 /**
  * The fragment that is defined in wallpaper_prefs.xml
  */
@@ -580,7 +575,11 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 if (file.canRead())
                     setWallpaper(ctx, file.path.toString())
                 else
-                    Toast.makeText(ctx, ctx.getString(R.string.file_no_access), Toast.LENGTH_LONG)
+                    Toast.makeText(
+                        ctx,
+                        ctx.getString(R.string.file_no_access),
+                        Toast.LENGTH_LONG
+                    )
                         .show()
                 dirName?.let { rootPath = rootPath?.removeSuffix(it) }
                 fm?.popBackStack()
@@ -617,7 +616,11 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 dirPref.key = ACTION_DIR.toString()
                 dirPref.title = it.name
                 dirPref.icon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.ic_twotone_folder_24, null)
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_twotone_folder_24,
+                        null
+                    )
                 prefs.add(dirPref)
             }
 
@@ -674,7 +677,8 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
     private fun buildBannerFromImage(image: Drawable?): Drawable {
         val resources = resources
         val bannerWidth = resources.getDimensionPixelSize(R.dimen.preference_item_banner_width)
-        val bannerHeight = resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
+        val bannerHeight =
+            resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
         val bitmap = Bitmap.createBitmap(bannerWidth, bannerHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(
@@ -700,7 +704,6 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         if (image.isNotEmpty()) pref.edit().putString("wallpaper_image", image).apply()
         // refresh home broadcast
-        Util.refreshHome(requireContext())
         return true
     }
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.util.Util
 
 class SettingsActivity: FragmentActivity(), PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,5 +27,12 @@ class SettingsActivity: FragmentActivity(), PreferenceFragmentCompat.OnPreferenc
             .addToBackStack(null)
             .commit()
         return true
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        // refresh home broadcast
+        Util.refreshHome(applicationContext)
+        finishAffinity()
     }
 }
