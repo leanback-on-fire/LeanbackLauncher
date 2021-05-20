@@ -26,7 +26,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
-            android:key="videos_row"
+            android:key="@string/pref_enable_videos_row"
             android:title="@string/videos_row_title"
             android:defaultValue="true" />
 
@@ -37,7 +37,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
-            android:key="music_row"
+            android:key="@string/pref_enable_music_row"
             android:title="@string/music_row_title"
             android:defaultValue="true" />
 
@@ -48,7 +48,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
-            android:key="games_row"
+            android:key="@string/pref_enable_games_row"
             android:title="@string/games_row_title"
             android:defaultValue="true" />
 

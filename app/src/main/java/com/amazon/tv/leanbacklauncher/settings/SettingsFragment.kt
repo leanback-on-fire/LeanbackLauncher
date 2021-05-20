@@ -30,7 +30,6 @@ import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.apps.AppsManager
-import com.amazon.tv.leanbacklauncher.util.Util
 import java.io.File
 import java.util.*
 
@@ -433,12 +432,11 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             }
             // refresh home broadcast
             return true
-        } else { // all others
-            // refresh home broadcast
+        } else {
+            //refresh home broadcast
         }
         return super.onPreferenceTreeClick(preference)
     }
-
 }
 
 /**
