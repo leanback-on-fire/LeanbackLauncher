@@ -79,7 +79,7 @@
             android:configChanges="keyboard|keyboardHidden|navigation|orientation"
             android:excludeFromRecents="true"
             android:label="@string/app_label"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:stateNotNeeded="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.MAIN" />

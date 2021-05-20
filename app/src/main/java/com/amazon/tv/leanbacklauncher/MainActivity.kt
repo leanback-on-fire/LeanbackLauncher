@@ -36,6 +36,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowType
 import com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor
 import com.amazon.tv.leanbacklauncher.SearchOrbView.SearchLaunchListener
 import com.amazon.tv.leanbacklauncher.animation.*
@@ -436,12 +437,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         loaderManager.initLoader(1, null, mSearchSuggestionsCallbacks)
 
         // start notification listener
-        val pref = PreferenceManager.getDefaultSharedPreferences(appContext)
-        if (pref.getBoolean(
-                appContext.getString(R.string.pref_enable_recommendations_row),
-                false
-            ) && LauncherApplication.inForeground
-        )
+        if (RowPreferences.areRecommendationsEnabled(this) && LauncherApplication.inForeground)
             startService(Intent(this, NotificationListenerMonitor::class.java))
         // fix int options migrate
         RowPreferences.fixRowPrefs()
@@ -542,11 +538,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mShyMode = shy
             changed = true
             if (mShyMode) {
-                //if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertFromTranslucent, mShyMode=$mShyMode")
+                //if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode(shy:$shy,changeWallpaper:$changeWallpaper) -> convertFromTranslucent() [mShyMode=$mShyMode]")
                 convertFromTranslucent()
             } else {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                    //if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertToTranslucent, mShyMode=$mShyMode")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode(shy:$shy,changeWallpaper:$changeWallpaper) convertToTranslucent() [mShyMode=$mShyMode]")
                     convertToTranslucent() // convertToTranslucent(null, null);
                 }
             }
@@ -554,6 +550,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         if (changeWallpaper && wallpaperView?.shynessMode != shy) {
             wallpaperView?.shynessMode = mShyMode
             if (mShyMode && mNotificationsView != null) {
+                //if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode(shy:$shy,changeWallpaper:$changeWallpaper) refreshSelectedBackground() [mShyMode=$mShyMode]")
                 mNotificationsView?.refreshSelectedBackground()
             }
         }
@@ -707,33 +704,33 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             if (!(mShyMode || mNotificationsView == null)) {
                 mNotificationsView?.setIgnoreNextActivateBackgroundChange()
             }
-        } else { // focus on 1st Apps cat (FAV|VIDEO|MUSIC|GAMES|APPS) || SEARCH in case No Notifications row
-            val rowTypes = intArrayOf(
-                0,
-                7,
-                9,
-                8,
-                4,
-                3
-            ) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
-            for (type in rowTypes) {
-                var rowIndex = homeAdapter?.getRowIndex(type) ?: -1
-                mList?.adapter?.let {
-                    rowIndex = (it.itemCount - 1).coerceAtMost(rowIndex)
-                }
-                if (rowIndex != -1 && rowIndex != currIndex) {
-                    if (BuildConfig.DEBUG) Log.d(
-                        TAG,
-                        "resetLauncherState -> set focus to row $rowIndex"
-                    )
-                    if (smooth) {
-                        mList?.setSelectedPositionSmooth(rowIndex)
-                    } else {
-                        mList?.selectedPosition = rowIndex
-                    }
-                    break
-                }
-            }
+//        } else if ( notifIndex == -1) { // focus on 1st Apps cat (FAV|VIDEO|MUSIC|GAMES|APPS) || SEARCH in case No Notifications row
+//            val rowTypes = intArrayOf(
+//                0, // SEARCH
+//                7, // FAVORITES
+//                9, // VIDEO
+//                8, // MUSIC
+//                4, // GAMES
+//                3, // APPS
+//            ) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
+//            for (type in rowTypes) {
+//                var rowIndex = homeAdapter?.getRowIndex(type) ?: -1
+//                mList?.adapter?.let {
+//                    rowIndex = (it.itemCount - 1).coerceAtMost(rowIndex)
+//                }
+//                if (rowIndex != -1 && rowIndex != currIndex) {
+//                    if (BuildConfig.DEBUG) Log.d(
+//                        TAG,
+//                        "resetLauncherState -> set focus to ${RowType.fromRowCode(type)} row"
+//                    )
+//                    if (smooth) {
+//                        mList?.setSelectedPositionSmooth(rowIndex)
+//                    } else {
+//                        mList?.selectedPosition = rowIndex
+//                    }
+//                    break
+//                }
+//            }
         }
         mLaunchAnimation.cancel()
     }
