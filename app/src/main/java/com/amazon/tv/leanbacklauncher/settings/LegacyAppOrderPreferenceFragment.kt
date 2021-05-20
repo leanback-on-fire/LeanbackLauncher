@@ -28,7 +28,7 @@ class LegacyAppOrderPreferenceFragment : GuidedStepSupportFragment() {
                 .id(1)
                 .checkSetId(1)
                 .checked(sortingMode === SortingMode.RECENCY)
-                .title(R.string.select_app_order_action_description_recency)
+                .title(R.string.select_app_order_action_recency)
                 .description(R.string.recency_order_action_description)
                 .build()
         )
@@ -41,7 +41,7 @@ class LegacyAppOrderPreferenceFragment : GuidedStepSupportFragment() {
         actions.add(
             builder
                 .checked(z)
-                .title(R.string.select_app_order_action_description_fixed)
+                .title(R.string.select_app_order_action_fixed)
                 .description(R.string.fixed_order_action_description)
                 .build()
         )

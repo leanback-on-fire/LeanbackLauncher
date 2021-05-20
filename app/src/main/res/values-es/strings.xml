@@ -125,8 +125,8 @@ Para habilitarlas, accede a Ajustes"</string>
     <string name="restore_pending">Restauración pendiente…</string>
     <string name="search_hint_text">Busca películas, series y mucho más</string>
     <string name="search_menu_title">Buscar</string>
-    <string name="select_app_order_action_description_fixed">Personalizar orden</string>
-    <string name="select_app_order_action_description_recency">Ordenar por fecha más reciente</string>
+    <string name="select_app_order_action_fixed">Personalizar orden</string>
+    <string name="select_app_order_action_recency">Ordenar por fecha más reciente</string>
     <string name="select_app_order_action_title">Organizar aplicaciones y juegos</string>
     <string name="select_app_order_content_title">Organizar aplicaciones y juegos</string>
     <string name="settings_dialog_title">Pantalla de inicio</string>

@@ -147,7 +147,7 @@
     <string name="orb_search_action">Пошук</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="recency_order_action_description">Сортувати за часом останнього використання</string>
-    <string name="recency_order_action_title">Сортувати за датою</string>
+    <string name="recency_order_action_title">Порядок сортування</string>
     <string name="recm_service_name">Служба рекомендацій</string>
 
     <string name="recommendation_blacklist_action_title">Джерела рекомендацій</string>
@@ -173,8 +173,8 @@ com.amazon.device.sale.service
     <string name="search_hint_text">Шукайте фільми, телепередачі тощо</string>
     <string name="search_menu_title">Пошук</string>
     <string name="select_app_customize_rows_title">Налаштування відображення розділів головного екрану</string>
-    <string name="select_app_order_action_description_fixed">Сортувати вручну</string>
-    <string name="select_app_order_action_description_recency">Сортувати за датою</string>
+    <string name="select_app_order_action_fixed">Сортувати вручну</string>
+    <string name="select_app_order_action_recency">Сортувати за датою</string>
     <string name="select_app_order_action_title">Впорядкувати додатки та ігри</string>
     <string name="select_app_order_content_title">Впорядкування додатки та ігри</string>
     <string name="select_wallpaper_action_desc">Виберіть зображення за замовчуванням</string>

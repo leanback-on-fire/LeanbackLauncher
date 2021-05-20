@@ -31,7 +31,7 @@ class LegacyAppsAndGamesPreferenceFragment : GuidedStepSupportFragment() {
         )
         actions.add(
             GuidedAction.Builder(activity).id(2).title(R.string.home_screen_order_content_title)
-                .description(if (sortingMode === SortingMode.FIXED) R.string.select_app_order_action_description_fixed else R.string.select_app_order_action_description_recency)
+                .description(if (sortingMode === SortingMode.FIXED) R.string.select_app_order_action_fixed else R.string.select_app_order_action_recency)
                 .build()
         )
         // BROKEN

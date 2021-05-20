@@ -220,8 +220,8 @@ or recommendations will not work properly."</string>
     <string name="search_hint_text">Search movies, TV, and more</string>
     <string name="search_menu_title">Search</string>
     <string name="select_app_customize_rows_title">Customize Home rows</string>
-    <string name="select_app_order_action_description_fixed">Custom order</string>
-    <string name="select_app_order_action_description_recency">Recency order</string>
+    <string name="select_app_order_action_fixed">Custom order</string>
+    <string name="select_app_order_action_recency">Recency order</string>
     <string name="select_app_order_action_title">Organize apps and games</string>
     <string name="select_app_order_content_title">Organize apps and games</string>
     <string name="select_wallpaper_action_desc">Select desired background image</string>

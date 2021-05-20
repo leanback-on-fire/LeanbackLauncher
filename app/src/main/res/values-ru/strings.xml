@@ -148,8 +148,8 @@
     <string name="orb_search_action">Поиск</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="rec_soures_empty">Нет источников рекомендаций</string>
-    <string name="recency_order_action_description">Сортировать по времени последнего использования</string>
-    <string name="recency_order_action_title">Упорядочить по дате</string>
+    <string name="recency_order_action_description">Сортировка по времени последнего использования</string>
+    <string name="recency_order_action_title">Порядок сортировки</string>
     <string name="recm_service_name">Сервис рекомендаций</string>
     <string name="recommendation_blacklist_action_title">Источники рекомендаций</string>
     <string name="recommendation_blacklist_content_description">Некоторые приложения показывают рекомендации на главном экране. Можно отключить те из них, которые вас не интересуют.</string>
@@ -174,8 +174,8 @@ com.amazon.device.sale.service
     <string name="search_hint_text">Ищите фильмы, сериалы и многое другое</string>
     <string name="search_menu_title">Поиск</string>
     <string name="select_app_customize_rows_title">Настройка отображения разделов главного экрана</string>
-    <string name="select_app_order_action_description_fixed">Упорядочить вручную</string>
-    <string name="select_app_order_action_description_recency">Упорядочить по дате</string>
+    <string name="select_app_order_action_fixed">Упорядочить вручную</string>
+    <string name="select_app_order_action_recency">Упорядочить по времени</string>
     <string name="select_app_order_action_title">Упорядочить приложения и игры</string>
     <string name="select_app_order_content_title">Упорядочивание приложений и игр</string>
     <string name="select_wallpaper_action_desc">Выберите изображение по умолчанию</string>

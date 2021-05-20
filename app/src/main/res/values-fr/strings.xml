@@ -125,8 +125,8 @@ Pour les activer, accédez aux paramètres."</string>
     <string name="restore_pending">Restauration en attente…</string>
     <string name="search_hint_text">Rechercher des films, des émissions télévisées et bien plus</string>
     <string name="search_menu_title">Rechercher</string>
-    <string name="select_app_order_action_description_fixed">"Personnaliser l'ordre"</string>
-    <string name="select_app_order_action_description_recency">Ordre en fonction de la dernière utilisation</string>
+    <string name="select_app_order_action_fixed">"Personnaliser l'ordre"</string>
+    <string name="select_app_order_action_recency">Ordre en fonction de la dernière utilisation</string>
     <string name="select_app_order_action_title">Organiser les applications et les jeux</string>
     <string name="select_app_order_content_title">Organiser les applications et les jeux</string>
     <string name="settings_dialog_title">"Écran d'accueil"</string>

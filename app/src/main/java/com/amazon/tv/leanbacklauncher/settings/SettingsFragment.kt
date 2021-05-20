@@ -126,8 +126,8 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
         val sortingMode = AppsManager.getSavedSortingMode(context)
         findPreference<Preference>("apps_order")?.apply {
             this.summary =
-                if (sortingMode == AppsManager.SortingMode.FIXED) getString(R.string.select_app_order_action_description_fixed)
-                else getString(R.string.select_app_order_action_description_recency)
+                if (sortingMode == AppsManager.SortingMode.FIXED) getString(R.string.fixed_order_action_description)
+                else getString(R.string.recency_order_action_description)
         }
     }
 
@@ -136,10 +136,10 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
             val mode = AppsManager.getSavedSortingMode(context)
             if (mode == AppsManager.SortingMode.FIXED) {
                 AppsManager.saveSortingMode(context, AppsManager.SortingMode.RECENCY)
-                preference.summary = getString(R.string.select_app_order_action_description_recency)
+                preference.summary = getString(R.string.recency_order_action_description)
             } else {
                 AppsManager.saveSortingMode(context, AppsManager.SortingMode.FIXED)
-                preference.summary = getString(R.string.select_app_order_action_description_fixed)
+                preference.summary = getString(R.string.fixed_order_action_description)
 
             }
             return true
