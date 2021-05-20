@@ -95,21 +95,10 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
             this.summary = BuildConfig.VERSION_NAME
         }
 
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val ps = findPreference<PreferenceScreen>("root_prefs")
-        findPreference<Preference>("rec_sources")?.apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d(TAG, "REMOVE $this from $ps")
-                ps?.removePreference(this)
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val ps = findPreference<PreferenceScreen>("root_prefs")
+            ps?.removePreferenceRecursively("rec_sources")
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 }
 
@@ -415,6 +404,10 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.rows_prefs, rootKey)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val ps = findPreference<PreferenceScreen>("rows_prefs")
+            ps?.removePreferenceRecursively(getString(R.string.pref_enable_recommendations_row))
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
@@ -432,8 +425,6 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             }
             // refresh home broadcast
             return true
-        } else {
-            //refresh home broadcast
         }
         return super.onPreferenceTreeClick(preference)
     }
