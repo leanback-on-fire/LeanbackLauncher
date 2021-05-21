@@ -41,7 +41,7 @@ object Updater {
                         0.0
                     }
                     val lastVersionDouble: Double = try {
-                        rel.tag_name.replace("v", "").substringAfterLast(".").toDouble()
+                        rel.tag_name.replace("v", "").substringAfter(".").toDouble()
                     } catch (npe: NumberFormatException) {
                         0.0
                     }
@@ -51,7 +51,7 @@ object Updater {
                         0.0
                     }
                     val currVersionDouble: Double = try {
-                        BuildConfig.VERSION_NAME.substringAfterLast(".").toDouble()
+                        BuildConfig.VERSION_NAME.substringAfter(".").toDouble()
                     } catch (npe: NumberFormatException) {
                         0.0
                     }
@@ -84,7 +84,7 @@ object Updater {
                 0.0
             }
             val lastVersionDouble: Double = try {
-                rel.tag_name.replace("v", "").substringAfterLast(".").toDouble()
+                rel.tag_name.replace("v", "").substringAfter(".").toDouble()
             } catch (npe: NumberFormatException) {
                 0.0
             }
@@ -94,7 +94,7 @@ object Updater {
                 0.0
             }
             val currVersionDouble: Double = try {
-                BuildConfig.VERSION_NAME.substringAfterLast(".").toDouble()
+                BuildConfig.VERSION_NAME.substringAfter(".").toDouble()
             } catch (npe: NumberFormatException) {
                 0.0
             }
