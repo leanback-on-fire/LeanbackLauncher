@@ -354,53 +354,43 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.banners_prefs, rootKey)
-
-        findPreference<EditTextPreference>(getString(R.string.pref_banner_size))?.apply {
-            //val size = RowPreferences.getBannersSize(context).toString()
-            //this.summary = size
-            setOnBindEditTextListener { editText ->
-                editText.inputType =
-                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-            }
-        }
-        findPreference<EditTextPreference>(getString(R.string.pref_banner_corner_radius))?.apply {
-            //val radius = RowPreferences.getCorners(context).toString()
-            //this.summary = radius
-            setOnBindEditTextListener { editText ->
-                editText.inputType =
-                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-            }
-        }
-        findPreference<EditTextPreference>(getString(R.string.pref_banner_frame_stroke))?.apply {
-            //val stroke = RowPreferences.getFrameWidth(context).toString()
-            //this.summary = stroke
-            setOnBindEditTextListener { editText ->
-                editText.inputType =
-                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-            }
-        }
-        val fc =
-            findPreference(getString(R.string.pref_banner_focus_frame_color)) as EditTextPreference?
-        fc?.apply {
-            val color = hexStringColor(
-                RowPreferences.getFrameColor(context)
-            )
+// FIXME:
+//        findPreference<EditTextPreference>(getString(R.string.pref_banner_size))?.apply {
+//            setOnBindEditTextListener { editText ->
+//                editText.inputType =
+//                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+//            }
+//        }
+//        findPreference<EditTextPreference>(getString(R.string.pref_banner_corner_radius))?.apply {
+//            setOnBindEditTextListener { editText ->
+//                editText.inputType =
+//                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+//            }
+//        }
+//        findPreference<EditTextPreference>(getString(R.string.pref_banner_frame_stroke))?.apply {
+//            setOnBindEditTextListener { editText ->
+//                editText.inputType =
+//                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+//            }
+//        }
+        findPreference<EditTextPreference>(getString(R.string.pref_banner_focus_frame_color))?.apply {
+            val color = hexStringColor(RowPreferences.getFrameColor(context))
             this.summary = color
-            setOnBindEditTextListener {
-                it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-            }
-            setOnPreferenceChangeListener { preference, newValue ->
-                Log.d(TAG, "$preference new value $newValue")
-                val value = try {
-                    Color.parseColor(newValue.toString())
-                } catch (nfe: IllegalArgumentException) {
-                    RowPreferences.getFrameColor(requireContext())
-                }
-                RowPreferences.setFrameColor(context, value)
-                preference.summary = hexStringColor(value)
-                // refresh home broadcast
-                true
-            }
+// FIXME:
+//            setOnBindEditTextListener {
+//                it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+//            }
+//            setOnPreferenceChangeListener { preference, newValue ->
+//                val value = try {
+//                    Color.parseColor(newValue.toString())
+//                } catch (nfe: IllegalArgumentException) {
+//                    RowPreferences.getFrameColor(requireContext())
+//                }
+//                Log.d(TAG, "$preference new value $newValue, summary ${hexStringColor(value)}")
+//                preference.summary = hexStringColor(value)
+//                // refresh home broadcast
+//                true
+//            }
         }
     }
 
@@ -408,10 +398,10 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         return String.format("#%08X", -0x1 and color)
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        // refresh home broadcast
-        return super.onPreferenceTreeClick(preference)
-    }
+//    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+//        // refresh home broadcast
+//        return super.onPreferenceTreeClick(preference)
+//    }
 
 }
 

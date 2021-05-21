@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
@@ -15,6 +16,7 @@ import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.LauncherApplication
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4
+import java.lang.IllegalArgumentException
 import java.util.*
 
 object RowPreferences {
@@ -265,8 +267,18 @@ object RowPreferences {
     @JvmStatic
     fun getFrameColor(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val targetColor = ContextCompat.getColor(context, R.color.banner_focus_frame_color)
-        return pref.getString(context.getString(R.string.pref_banner_focus_frame_color), targetColor.toString())?.toIntOrNull() ?: targetColor
+        val defaultColor = ContextCompat.getColor(context, R.color.banner_focus_frame_color)
+        val color: Int = try {
+            Color.parseColor(
+                pref.getString(
+                    context.getString(R.string.pref_banner_focus_frame_color),
+                    defaultColor.toString()
+                )
+            )
+        } catch (e: IllegalArgumentException) {
+            defaultColor
+        }
+        return color
     }
 
     @JvmStatic
