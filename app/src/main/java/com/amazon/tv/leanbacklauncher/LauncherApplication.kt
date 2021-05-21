@@ -2,6 +2,7 @@ package com.amazon.tv.leanbacklauncher
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.RemoteException
@@ -13,8 +14,12 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.amazon.tv.leanbacklauncher.capabilities.HighEndLauncherConfiguration
 import com.amazon.tv.leanbacklauncher.capabilities.LauncherConfiguration
 import com.amazon.tv.leanbacklauncher.recommendations.SwitchingRecommendationsClient
+import com.amazon.tv.leanbacklauncher.util.Updater
 import com.amazon.tv.tvrecommendations.IRecommendationsService
 import com.amazon.tv.tvrecommendations.RecommendationsClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class LauncherApplication : Application(), LifecycleObserver {
@@ -114,6 +119,12 @@ class LauncherApplication : Application(), LifecycleObserver {
         initDeviceCapabilities()
         initPrimes()
         demigrate()
+        // self update check
+        GlobalScope.launch(Dispatchers.IO) {
+            if (Updater.check()) {
+                startActivity(Intent(contextApp, UpdateActivity::class.java))
+            }
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
