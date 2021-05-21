@@ -122,7 +122,9 @@ class LauncherApplication : Application(), LifecycleObserver {
         // self update check
         GlobalScope.launch(Dispatchers.IO) {
             if (Updater.check()) {
-                startActivity(Intent(contextApp, UpdateActivity::class.java))
+                val intent = Intent(contextApp, UpdateActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
         }
     }
