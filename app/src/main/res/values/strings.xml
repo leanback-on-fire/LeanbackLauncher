@@ -239,7 +239,7 @@ or recommendations will not work properly."</string>
     <string name="unknown_artist">Unknown</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Unknown</string>
-    <string name="update_app_found">$1%s update available!</string>
+    <string name="update_app_found">%s update available!</string>
     <string name="update_changes">Changes</string>
     <string name="update_desc">Check for new launcher version</string>
     <string name="update_in_progress">Checking for updates…</string>

@@ -10,6 +10,7 @@ import com.amazon.tv.leanbacklauncher.LauncherApplication
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.model.Asset
 import com.amazon.tv.leanbacklauncher.util.model.Release
+import com.amazon.tv.leanbacklauncher.util.model.Releases
 import com.google.gson.Gson
 import java.io.File
 import java.io.FileOutputStream
@@ -19,8 +20,9 @@ import javax.net.ssl.HttpsURLConnection
 
 object Updater {
     private val RELEASE_LINK =
-        "https://api.github.com/repos/tsynik/LeanbackLauncher/releases/latest"
-    private var release: Release? = null
+        "https://api.github.com/repos/tsynik/LeanbackLauncher/releases"
+    private var releases: Releases? = null
+    private var newVersion: Release? = null
 
     fun check(): Boolean {
         try {
@@ -31,21 +33,23 @@ object Updater {
                 conn.getInputStream()?.bufferedReader(Charset.defaultCharset())?.readText()
                     ?: return false
             val gson = Gson()
-            release = gson.fromJson(body, Release::class.java)
-            release?.let { rel ->
-                val lastVersionDouble: Double = try {
-                    rel.tag_name.replace("v", "").toDouble()
-                } catch (npe: NumberFormatException) {
-                    0.0
-                }
-                val currVersionDouble: Double = try {
-                    BuildConfig.VERSION_NAME.toDouble()
-                } catch (npe: NumberFormatException) {
-                    0.0
-                }
-                if (lastVersionDouble > currVersionDouble) {
-                    release = rel
-                    return true
+            releases = gson.fromJson(body, Releases::class.java)
+            releases?.let {
+                it.forEach { rel ->
+                    val lastVersionDouble: Double = try {
+                        rel.tag_name.replace("v", "").toDouble()
+                    } catch (npe: NumberFormatException) {
+                        0.0
+                    }
+                    val currVersionDouble: Double = try {
+                        BuildConfig.VERSION_NAME.toDouble()
+                    } catch (npe: NumberFormatException) {
+                        0.0
+                    }
+                    if (lastVersionDouble > currVersionDouble) {
+                        newVersion = rel
+                        return true
+                    }
                 }
             }
             return false
@@ -56,15 +60,15 @@ object Updater {
     }
 
     fun getVersion(): String {
-        if (release == null)
+        if (newVersion == null)
             check()
-        return release?.tag_name?.replace("v", "") ?: ""
+        return newVersion?.tag_name?.replace("v", "") ?: ""
     }
 
     fun getOverview(): Spanned {
         var ret = ""
 
-        release?.let { rel ->
+        releases?.forEach { rel ->
             val lastVersionDouble: Double = try {
                 rel.tag_name.replace("v", "").toDouble()
             } catch (npe: NumberFormatException) {
@@ -90,7 +94,7 @@ object Updater {
 
     private fun downloadApk(file: File, onProgress: ((prc: Int) -> Unit)?) {
         synchronized(download) {
-            release?.let { rel ->
+            newVersion?.let { rel ->
                 if (file.exists())
                     file.delete()
                 var link = ""
@@ -133,10 +137,10 @@ object Updater {
 
     fun installNewVersion(onProgress: ((prc: Int) -> Unit)?) {
         val ctx = LauncherApplication.getContext()
-        if (release == null && !check())
+        if (newVersion == null && !check())
             return
 
-        release?.let { rel ->
+        newVersion?.let { rel ->
             val destination = File(
                 //Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                 ctx.getExternalFilesDir(null),

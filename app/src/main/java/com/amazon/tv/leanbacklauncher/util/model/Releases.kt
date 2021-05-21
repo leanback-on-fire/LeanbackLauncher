@@ -1,5 +1,7 @@
 package com.amazon.tv.leanbacklauncher.util.model
 
+class Releases : ArrayList<Release>()
+
 data class Release(
     val url: String,
     val assets_url: String,

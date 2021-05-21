@@ -193,7 +193,7 @@ com.amazon.device.sale.service
     <string name="unknown_artist">Неизвестный исполнитель</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Неизвестное название</string>
-    <string name="update_app_found">Доступно обновление $1%s!</string>
+    <string name="update_app_found">Доступно обновление %s!</string>
     <string name="update_changes">Изменения</string>
     <string name="update_desc">Проверка обновления лаунчера</string>
     <string name="update_in_progress">Идет проверка обновления…</string>
