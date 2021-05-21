@@ -6,13 +6,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.text.InputType
 import android.util.Log
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
@@ -61,10 +59,8 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
         if (f is PreferenceFragmentCompat
             || f is PreferenceDialogFragmentCompat
         ) {
-            Log.d(TAG, "onPreferenceStartFragment: startPreferenceFragment($f)")
             startPreferenceFragment(f)
         } else {
-            Log.d(TAG, "onPreferenceStartFragment: startImmersiveFragment($f)")
             startImmersiveFragment(f)
         }
         return true
@@ -78,7 +74,6 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
         val args = Bundle(1)
         args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, pref.key)
         fragment.arguments = args
-        Log.d(TAG, "onPreferenceStartScreen: startPreferenceFragment($fragment)")
         startPreferenceFragment(fragment)
         return true
     }
