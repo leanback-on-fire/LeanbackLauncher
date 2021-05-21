@@ -16,12 +16,11 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_gravity="left|top"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="80dp"
-        android:minWidth="300dp"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -29,7 +28,7 @@
             android:id="@+id/tvCurrentVersion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/update_cur_version"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -37,7 +36,7 @@
             android:id="@+id/tvNewVersion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
+            android:layout_marginBottom="30dp"
             android:text="@string/update_new_version"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -51,22 +50,15 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="left|top"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="200dp"
         android:gravity="center"
         android:minWidth="400dp"
+        android:minHeight="240dp"
         android:orientation="vertical"
         android:padding="10dp">
-
-        <!--ProgressBar
-            android:id="@+id/pbUpdate"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone" /-->
 
         <!-- https://material.io/components/progress-indicators/android#using-progress-indicators -->
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -75,8 +67,18 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:indicatorColor="@color/amazon_orange"
-            app:indicatorSize="150dp"
+            app:indicatorSize="120dp"
             app:trackColor="@color/settings_selection_indicator_color" />
+
+        <TextView
+            android:id="@+id/tvUpdatePrc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-91dp"
+            android:lineSpacingExtra="0dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/settings_selection_indicator_color"
+            android:textSize="36sp" />
 
     </LinearLayout>
 
