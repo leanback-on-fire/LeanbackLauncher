@@ -2,6 +2,8 @@ package com.amazon.tv.leanbacklauncher
 
 import android.app.Application
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
 import androidx.lifecycle.Lifecycle
@@ -28,9 +30,30 @@ class LauncherApplication : Application(), LifecycleObserver {
         fun getContext(): Context {
             return contextApp
         }
+
+        fun Toast(txt: String, long: Boolean = false) {
+            Handler(Looper.getMainLooper()).post {
+                val show = if (long)
+                    android.widget.Toast.LENGTH_LONG
+                else
+                    android.widget.Toast.LENGTH_SHORT
+                android.widget.Toast.makeText(contextApp, txt, show).show()
+            }
+        }
+
+        fun Toast(resId: Int, long: Boolean = false) {
+            Handler(Looper.getMainLooper()).post {
+                val show = if (long)
+                    android.widget.Toast.LENGTH_LONG
+                else
+                    android.widget.Toast.LENGTH_SHORT
+                android.widget.Toast.makeText(contextApp, resId, show).show()
+            }
+        }
     }
 
-    private inner class NewBlacklistClient(context: Context?) : SwitchingRecommendationsClient(context) {
+    private inner class NewBlacklistClient(context: Context?) :
+        SwitchingRecommendationsClient(context) {
         private var mBlacklist: Array<String> = emptyArray()
         fun saveBlackList(blacklist: Array<String>) {
             mBlacklist = blacklist
@@ -39,7 +62,8 @@ class LauncherApplication : Application(), LifecycleObserver {
 
         override fun onConnected(service: IRecommendationsService) {
             try {
-                val newBlacklist: MutableList<String?> = ArrayList<String?>(Arrays.asList(*service.blacklistedPackages))
+                val newBlacklist: MutableList<String?> =
+                    ArrayList<String?>(Arrays.asList(*service.blacklistedPackages))
                 for (pkg in mBlacklist) {
                     if (!newBlacklist.contains(pkg)) {
                         newBlacklist.add(pkg)
@@ -64,7 +88,8 @@ class LauncherApplication : Application(), LifecycleObserver {
                         val blacklist = service.blacklistedPackages
                         service.blacklistedPackages = arrayOfNulls(0)
                         sBlacklistMigrated = true
-                        getSharedPreferences(javaClass.name, 0).edit().putInt("blacklist_migrate", 1).apply()
+                        getSharedPreferences(javaClass.name, 0).edit()
+                            .putInt("blacklist_migrate", 1).apply()
                         if (blacklist == null || blacklist.size <= 0) {
                             Log.d(TAG, "No blacklist to migrate")
                         } else {
@@ -124,7 +149,11 @@ class LauncherApplication : Application(), LifecycleObserver {
 
     private fun demigrate() {
         var z = false
-        if (sBlacklistMigrated || getSharedPreferences(javaClass.name, 0).getInt("blacklist_migrate", 0) >= 1) {
+        if (sBlacklistMigrated || getSharedPreferences(
+                javaClass.name,
+                0
+            ).getInt("blacklist_migrate", 0) >= 1
+        ) {
             z = true
         }
         sBlacklistMigrated = z

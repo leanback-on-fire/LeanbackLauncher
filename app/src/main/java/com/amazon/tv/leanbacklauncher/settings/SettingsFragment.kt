@@ -2,6 +2,7 @@ package com.amazon.tv.leanbacklauncher.settings
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -13,9 +14,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.InputType
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -23,13 +22,19 @@ import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import androidx.leanback.preference.LeanbackPreferenceFragmentCompat
 import androidx.leanback.preference.LeanbackSettingsFragmentCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.leanbacklauncher.BuildConfig
+import com.amazon.tv.leanbacklauncher.LauncherApplication
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.UpdateActivity
 import com.amazon.tv.leanbacklauncher.apps.AppsManager
+import com.amazon.tv.leanbacklauncher.util.Updater
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 
@@ -99,6 +104,20 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
             val ps = findPreference<PreferenceScreen>("root_prefs")
             ps?.removePreferenceRecursively("rec_sources")
         }
+    }
+
+    // https://developer.android.com/topic/libraries/architecture/coroutines
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        if (preference?.key == "version") {
+            lifecycleScope.launch(Dispatchers.IO) {
+                if (Updater.check())
+                    startActivity(Intent(activity, UpdateActivity::class.java))
+                else
+                    LauncherApplication.Toast(getString(R.string.update_no_updates))
+            }
+            return true
+        }
+        return super.onPreferenceTreeClick(preference)
     }
 }
 
@@ -416,12 +435,7 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             val enabled = (preference as SwitchPreference).isChecked
             RowPreferences.setRecommendationsEnabled(ctx, enabled)
             if (enabled && FireTVUtils.isAmazonNotificationsEnabled(ctx)) {
-                Toast.makeText(
-                    ctx,
-                    ctx.getString(R.string.recs_warning_sale),
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+                LauncherApplication.Toast(getString(R.string.recs_warning_sale))
             }
             // refresh home broadcast
             return true
@@ -564,12 +578,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 if (file.canRead())
                     setWallpaper(ctx, file.path.toString())
                 else
-                    Toast.makeText(
-                        ctx,
-                        ctx.getString(R.string.file_no_access),
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                    LauncherApplication.Toast(getString(R.string.file_no_access))
                 dirName?.let { rootPath = rootPath?.removeSuffix(it) }
                 fm?.popBackStack()
                 return true
