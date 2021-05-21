@@ -8,7 +8,6 @@ import androidx.core.text.HtmlCompat
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.LauncherApplication
 import com.amazon.tv.leanbacklauncher.R
-import com.amazon.tv.leanbacklauncher.util.model.Asset
 import com.amazon.tv.leanbacklauncher.util.model.Release
 import com.amazon.tv.leanbacklauncher.util.model.Releases
 import com.google.gson.Gson
@@ -36,17 +35,27 @@ object Updater {
             releases = gson.fromJson(body, Releases::class.java)
             releases?.let {
                 it.forEach { rel ->
+                    val majorVersionDouble: Double = try {
+                        rel.tag_name.replace("v", "").substringBefore(".").toDouble()
+                    } catch (npe: NumberFormatException) {
+                        0.0
+                    }
                     val lastVersionDouble: Double = try {
-                        rel.tag_name.replace("v", "").toDouble()
+                        rel.tag_name.replace("v", "").substringAfterLast(".").toDouble()
+                    } catch (npe: NumberFormatException) {
+                        0.0
+                    }
+                    val majorCurrVersionDouble: Double = try {
+                        BuildConfig.VERSION_NAME.substringBefore(".").toDouble()
                     } catch (npe: NumberFormatException) {
                         0.0
                     }
                     val currVersionDouble: Double = try {
-                        BuildConfig.VERSION_NAME.toDouble()
+                        BuildConfig.VERSION_NAME.substringAfterLast(".").toDouble()
                     } catch (npe: NumberFormatException) {
                         0.0
                     }
-                    if (lastVersionDouble > currVersionDouble) {
+                    if (majorVersionDouble >= majorCurrVersionDouble && lastVersionDouble > currVersionDouble) {
                         newVersion = rel
                         return true
                     }
@@ -69,22 +78,32 @@ object Updater {
         var ret = ""
 
         releases?.forEach { rel ->
+            val majorVersionDouble: Double = try {
+                rel.tag_name.replace("v", "").substringBefore(".").toDouble()
+            } catch (npe: NumberFormatException) {
+                0.0
+            }
             val lastVersionDouble: Double = try {
-                rel.tag_name.replace("v", "").toDouble()
+                rel.tag_name.replace("v", "").substringAfterLast(".").toDouble()
+            } catch (npe: NumberFormatException) {
+                0.0
+            }
+            val majorCurrVersionDouble: Double = try {
+                BuildConfig.VERSION_NAME.substringBefore(".").toDouble()
             } catch (npe: NumberFormatException) {
                 0.0
             }
             val currVersionDouble: Double = try {
-                BuildConfig.VERSION_NAME.toDouble()
+                BuildConfig.VERSION_NAME.substringAfterLast(".").toDouble()
             } catch (npe: NumberFormatException) {
                 0.0
             }
-            if (lastVersionDouble > currVersionDouble) {
+            if (majorVersionDouble >= majorCurrVersionDouble && lastVersionDouble > currVersionDouble) {
                 ret += "<font color='white'><b>${rel.tag_name}</b></font> <br>"
-                ret += "<i>${rel.body.replace("\n", "<br>")}</i><br><br>"
+                ret += "<i>${rel.body.replace("\r\n", "<br/>")}</i><br/><br/>"
             } else {
                 ret += "${rel.tag_name}<br>"
-                ret += "<i>${rel.body.replace("\n", "<br>")}</i><br><br>"
+                ret += "<i>${rel.body.replace("\r\n", "<br/>")}</i><br/><br/>"
             }
         }
         return HtmlCompat.fromHtml(ret.trim(), HtmlCompat.FROM_HTML_MODE_LEGACY)
