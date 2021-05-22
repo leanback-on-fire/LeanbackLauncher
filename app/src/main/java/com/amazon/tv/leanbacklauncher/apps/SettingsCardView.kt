@@ -1,10 +1,12 @@
 package com.amazon.tv.leanbacklauncher.apps
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.leanback.widget.BaseCardView
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
 import com.amazon.tv.leanbacklauncher.DimmableItem
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.animation.ParticipatesInLaunchAnimation
@@ -22,6 +24,7 @@ class SettingsCardView @JvmOverloads constructor(context: Context, attrs: Attrib
     override fun onFinishInflate() {
         super.onFinishInflate()
         mCircle = findViewById(R.id.selection_circle)
+        mCircle?.setColorFilter(RowPreferences.getFrameColor(context),PorterDuff.Mode.SRC_ATOP)
         mIcon = findViewById(R.id.icon)
         mFocusAnimator = ViewFocusAnimator(this)
         mDimmer = ViewDimmer(this)

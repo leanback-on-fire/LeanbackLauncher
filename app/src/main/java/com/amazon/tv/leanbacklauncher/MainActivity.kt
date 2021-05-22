@@ -8,6 +8,7 @@ import android.appwidget.AppWidgetManager
 import android.content.*
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.media.tv.TvContract
@@ -1079,6 +1080,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     val settingsVG: ViewGroup? = findViewById<View>(R.id.settings) as LinearLayout?
                     settingsVG?.let { group ->
                         val sel = findViewById<ImageView>(R.id.settings_selection_circle)
+                        sel?.setColorFilter(RowPreferences.getFrameColor(this), PorterDuff.Mode.SRC_ATOP)
                         val icon = findViewById<ImageView>(R.id.settings_icon)
                         group.setOnClickListener {
                             startSettings(it)
