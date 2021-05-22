@@ -62,15 +62,6 @@ class LegacyAppsAndGamesPreferenceFragment : GuidedStepSupportFragment() {
                 add(fragmentManager, LegacyBannersFragment())
             }
             4 -> {
-//                if (ContextCompat.checkSelfPermission(
-//                        requireContext(),
-//                        Manifest.permission.READ_EXTERNAL_STORAGE
-//                    ) != PackageManager.PERMISSION_GRANTED
-//                )
-//                    ActivityCompat.requestPermissions(
-//                        requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-//                        500
-//                    )
                 add(fragmentManager, LegacyWallpaperFragment())
             }
             else -> return

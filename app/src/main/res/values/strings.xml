@@ -153,6 +153,7 @@
     <string name="lb_search_bar_hint_with_title_speech">Speak to search %1$s</string>
     <string name="lb_time_separator">:</string>
     <string name="light_font" translatable="false">sans-serif-light</string>
+    <string name="location_note">Location permission needed for Wi-Fi network state indicator on Android Marshmallow and above</string>
     <string name="max_apps_rows_title">Max Apps Rows</string>
     <string name="max_col_title">Visible Columns</string>
     <string name="max_favorites_rows_title">Max Favorites Rows</string>

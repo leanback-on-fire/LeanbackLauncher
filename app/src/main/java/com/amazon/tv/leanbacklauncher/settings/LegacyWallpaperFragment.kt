@@ -12,6 +12,7 @@ import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
 import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.util.Permission
 import com.amazon.tv.leanbacklauncher.util.Util.refreshHome
 import java.io.File
 
@@ -45,16 +46,7 @@ class LegacyWallpaperFragment : GuidedStepSupportFragment() {
                 .description(R.string.reset_wallpaper_action_desc)
                 .build()
         )
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                500
-            )
-        }
+        Permission.isReadStoragePermissionGranted(requireActivity())
     }
 
     override fun onGuidedActionClicked(action: GuidedAction) {

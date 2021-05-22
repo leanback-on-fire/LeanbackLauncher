@@ -1,6 +1,5 @@
 package com.amazon.tv.leanbacklauncher
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.*
 import android.appwidget.AppWidgetHost
@@ -27,8 +26,6 @@ import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
@@ -243,7 +240,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     companion object {
-        const val MY_PERMISSIONS_REQUEST_LOCATION = 99
+        const val PERMISSIONS_REQUEST_LOCATION = 99
 
         fun isMediaKey(keyCode: Int): Boolean {
             return when (keyCode) {
@@ -289,11 +286,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 finish()
             }
         }
-        //android O fix bug orientation
+        // android O fix bug orientation
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
-        //overlay permissions request on M+
+        // overlay permissions request on M+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
                 val intent = Intent(
@@ -305,18 +302,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 } catch (e: Exception) {
                 }
             }
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                    MY_PERMISSIONS_REQUEST_LOCATION
-                )
-            } // TODO: onRequestPermissionsResult
         }
+        // network indicator
+        Permission.isLocationPermissionGranted(this@MainActivity)
         // FIXME: focus issues
         // mAccessibilityManager = getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
         editModeView = findViewById(R.id.edit_mode_view)
@@ -535,6 +523,25 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSIONS_REQUEST_LOCATION -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "Agree location permission")
+                    recreate()
+                } else {
+                    Log.i(TAG, "Not agree location permission")
+                    LauncherApplication.Toast(R.string.location_note, true)
+                }
+            }
+        }
+    }
+
     private fun setShyMode(shy: Boolean, changeWallpaper: Boolean): Boolean {
         var changed = false
         if (mShyMode != shy) {
@@ -707,7 +714,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             if (!(mShyMode || mNotificationsView == null)) {
                 mNotificationsView?.setIgnoreNextActivateBackgroundChange()
             }
-        } else if ( notifIndex == -1) { // focus on 1st Apps cat (FAV|VIDEO|MUSIC|GAMES|APPS) in case No Notifications row
+        } else if (notifIndex == -1) { // focus on 1st Apps cat (FAV|VIDEO|MUSIC|GAMES|APPS) in case No Notifications row
             val rowTypes = intArrayOf(
 //                0, // SEARCH
                 7, // FAVORITES
@@ -1066,7 +1073,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 if (!success) {
                     clearWidget(appWidgetId)
                     // launcher settings
-                    wrap.addView(LayoutInflater.from(this).inflate(R.layout.widget_settings, wrap, false))
+                    wrap.addView(
+                        LayoutInflater.from(this).inflate(R.layout.widget_settings, wrap, false)
+                    )
                     val settingsVG: ViewGroup? = findViewById<View>(R.id.settings) as LinearLayout?
                     settingsVG?.let { group ->
                         val sel = findViewById<ImageView>(R.id.settings_selection_circle)

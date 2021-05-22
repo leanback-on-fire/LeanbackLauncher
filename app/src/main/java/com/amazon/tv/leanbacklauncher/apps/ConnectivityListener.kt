@@ -1,5 +1,6 @@
 package com.amazon.tv.leanbacklauncher.apps
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -99,10 +100,11 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
             if (string == null) {
                 return null
             }
-            val length = string.length
-            return if (length > 1 && string[0] == '\"' && string[length - 1] == '\"') {
-                string.substring(1, length - 1)
-            } else string
+            return string.removeSurrounding("\"")
+//            val length = string.length
+//            return if (length > 1 && string[0] == '\"' && string[length - 1] == '\"') {
+//                string.substring(1, length - 1)
+//            } else string
         }
     }
 
@@ -152,6 +154,7 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
         connectivityStatus.mWifiSignalStrength = 0
     }
 
+    @SuppressLint("MissingPermission")
     private fun isSecureWifi(wifiInfo: WifiInfo?): Boolean {
         if (wifiInfo == null) {
             return false

@@ -126,6 +126,7 @@
     <string name="lb_search_bar_hint_with_title">Поиск здесь: %1$s</string>
     <string name="lb_search_bar_hint">Поиск</string>
     <string name="lb_time_separator">:</string>
+    <string name="location_note">Разрешение местоположения необходимо для индикатора сети Wi-Fi на Android Marshmallow и выше</string>
     <string name="max_apps_rows_title">Макс. строк в «Приложения»</string>
     <string name="max_col_title">Количество видимых столбцов</string>
     <string name="max_favorites_rows_title">Макс. строк в «Избранное»</string>

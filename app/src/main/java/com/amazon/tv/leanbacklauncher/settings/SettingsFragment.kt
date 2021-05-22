@@ -1,6 +1,5 @@
 package com.amazon.tv.leanbacklauncher.settings
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,8 +12,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
@@ -30,7 +27,9 @@ import com.amazon.tv.leanbacklauncher.LauncherApplication
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.UpdateActivity
 import com.amazon.tv.leanbacklauncher.apps.AppsManager
+import com.amazon.tv.leanbacklauncher.util.Permission
 import com.amazon.tv.leanbacklauncher.util.Updater
+import com.amazon.tv.leanbacklauncher.util.Util
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -40,9 +39,11 @@ import java.util.*
 class SettingsFragment : LeanbackSettingsFragmentCompat() {
     companion object {
         private const val TAG = "SettingsFragment"
+        var needRestartHome = false
     }
 
     override fun onPreferenceStartInitialScreen() {
+        needRestartHome = false // reset state
         startPreferenceFragment(LauncherSettingsFragment())
     }
 
@@ -74,9 +75,19 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
         val args = Bundle(1)
         args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, pref.key)
         fragment.arguments = args
+        Log.d(TAG, "onPreferenceStartScreen($caller,$pref)")
         startPreferenceFragment(fragment)
         return true
     }
+
+    override fun onStop() {
+        super.onStop()
+        if (needRestartHome) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "onStop() send refresh HOME broadcast")
+            Util.refreshHome(LauncherApplication.getContext())
+        }
+    }
+
 }
 
 /**
@@ -92,7 +103,7 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         findPreference<Preference>("version")?.apply {
-            this.summary = getString(R.string.app_name) +" v" + BuildConfig.VERSION_NAME
+            this.summary = getString(R.string.app_name) + " v" + BuildConfig.VERSION_NAME
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -226,6 +237,7 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         if (preference is SwitchPreference) { // show all apps switch
             if (preference.key == KEY_ID_ALL_APP) {
                 // refresh home broadcast
+                SettingsFragment.needRestartHome = true
             }
             return true
         } else { // hidden apps list
@@ -393,10 +405,11 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         return String.format("#%08X", -0x1 and color)
     }
 
-//    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-//        // refresh home broadcast
-//        return super.onPreferenceTreeClick(preference)
-//    }
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        // refresh home broadcast
+        SettingsFragment.needRestartHome = true
+        return super.onPreferenceTreeClick(preference)
+    }
 
 }
 
@@ -423,8 +436,11 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
                 LauncherApplication.Toast(getString(R.string.recs_warning_sale))
             }
             // refresh home broadcast
+            SettingsFragment.needRestartHome = true
             return true
         }
+        // refresh home broadcast
+        SettingsFragment.needRestartHome = true
         return super.onPreferenceTreeClick(preference)
     }
 }
@@ -437,17 +453,7 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
     override fun onResume() {
         super.onResume()
         // check permissions
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                500
-            )
-        }
-
+        Permission.isReadStoragePermissionGranted(requireActivity())
         findPreference<Preference>("select_wallpaper")?.apply {
             this.summary = getWallpaperDesc(context)
         }
@@ -486,6 +492,7 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
             }
         }
         // refresh home broadcast
+        SettingsFragment.needRestartHome = true
         return true
     }
 
@@ -687,6 +694,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         if (image.isNotEmpty()) pref.edit().putString("wallpaper_image", image).apply()
         // refresh home broadcast
+        SettingsFragment.needRestartHome = true
         return true
     }
 

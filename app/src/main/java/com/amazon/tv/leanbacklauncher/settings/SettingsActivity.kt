@@ -5,20 +5,25 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.amazon.tv.leanbacklauncher.R
-import com.amazon.tv.leanbacklauncher.util.Util
 
-class SettingsActivity: FragmentActivity(), PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+class SettingsActivity : FragmentActivity(),
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings)
     }
+
     // https://developer.android.com/guide/topics/ui/settings/organize-your-settings
-    override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
+    override fun onPreferenceStartFragment(
+        caller: PreferenceFragmentCompat,
+        pref: Preference
+    ): Boolean {
         // Instantiate the new Fragment
         val args = pref.extras
         val fragment = supportFragmentManager.fragmentFactory.instantiate(
             classLoader,
-            pref.fragment)
+            pref.fragment
+        )
         fragment.arguments = args
         fragment.setTargetFragment(caller, 0)
         // Replace the existing Fragment with the new Fragment
@@ -27,12 +32,5 @@ class SettingsActivity: FragmentActivity(), PreferenceFragmentCompat.OnPreferenc
             .addToBackStack(null)
             .commit()
         return true
-    }
-
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        // refresh home broadcast
-        Util.refreshHome(applicationContext)
-        finishAffinity()
     }
 }
