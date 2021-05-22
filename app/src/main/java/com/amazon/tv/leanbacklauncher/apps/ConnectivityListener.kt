@@ -1,11 +1,13 @@
 package com.amazon.tv.leanbacklauncher.apps
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
@@ -13,6 +15,7 @@ import android.telephony.PhoneStateListener
 import android.telephony.SignalStrength
 import android.telephony.TelephonyManager
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import java.lang.ref.WeakReference
 
@@ -154,13 +157,19 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
         connectivityStatus.mWifiSignalStrength = 0
     }
 
-    @SuppressLint("MissingPermission")
     private fun isSecureWifi(wifiInfo: WifiInfo?): Boolean {
         if (wifiInfo == null) {
             return false
         }
         val networkId = wifiInfo.networkId
-        val configuredNetworks = mWifiManager.configuredNetworks ?: return false
+        val configuredNetworks = if (ActivityCompat.checkSelfPermission(
+                mContext,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return false
+        } else
+            mWifiManager.configuredNetworks ?: return false
         for (configuredNetwork in configuredNetworks) {
             if (configuredNetwork.networkId == networkId) {
                 return configuredNetwork.allowedKeyManagement[1] || configuredNetwork.allowedKeyManagement[2] || configuredNetwork.allowedKeyManagement[3]

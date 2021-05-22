@@ -34,6 +34,7 @@ import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.getInstance
 import com.amazon.tv.leanbacklauncher.apps.ConnectivityListener.Companion.readConnectivity
 import com.amazon.tv.leanbacklauncher.inputs.InputsAdapter
 import com.amazon.tv.leanbacklauncher.notifications.*
+import com.amazon.tv.leanbacklauncher.util.Permission
 import com.amazon.tv.leanbacklauncher.util.Preconditions
 import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import java.io.PrintWriter
@@ -80,6 +81,7 @@ class HomeScreenAdapter(
         buildRowList()
         mAppsManager?.refreshLaunchPointList()
         mAppsManager?.registerUpdateReceivers()
+        //if (Permission.isLocationPermissionGranted(mMainActivity))
         mConnectivityListener.start()
     }
 

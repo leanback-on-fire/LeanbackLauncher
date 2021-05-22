@@ -304,8 +304,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 }
             }
         }
-        // network indicator
-        Permission.isLocationPermissionGranted(this@MainActivity)
+        // network monitor (request from HomeScreenAdapter)
+        Permission.isLocationPermissionGranted(this)
         // FIXME: focus issues
         // mAccessibilityManager = getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
         editModeView = findViewById(R.id.edit_mode_view)
@@ -532,7 +532,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSIONS_REQUEST_LOCATION -> {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG, "Agree location permission")
                     recreate()
                 } else {
