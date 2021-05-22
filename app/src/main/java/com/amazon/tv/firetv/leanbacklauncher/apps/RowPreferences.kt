@@ -16,7 +16,6 @@ import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.LauncherApplication
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4
-import java.lang.IllegalArgumentException
 import java.util.*
 
 object RowPreferences {
@@ -150,7 +149,8 @@ object RowPreferences {
     @JvmStatic
     fun setFavoriteRowMax(context: Context, max: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putString(context.getString(R.string.pref_max_favorites_rows), max.toString()).apply()
+        pref.edit().putString(context.getString(R.string.pref_max_favorites_rows), max.toString())
+            .apply()
         return true
     }
 
@@ -191,16 +191,24 @@ object RowPreferences {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         when (cat) {
             AppCategory.GAME -> {
-                pref.edit().putString(context.getString(R.string.pref_max_games_rows), max.toString()).apply()
+                pref.edit()
+                    .putString(context.getString(R.string.pref_max_games_rows), max.toString())
+                    .apply()
             }
             AppCategory.MUSIC -> {
-                pref.edit().putString(context.getString(R.string.pref_max_music_rows), max.toString()).apply()
+                pref.edit()
+                    .putString(context.getString(R.string.pref_max_music_rows), max.toString())
+                    .apply()
             }
             AppCategory.VIDEO -> {
-                pref.edit().putString(context.getString(R.string.pref_max_videos_rows), max.toString()).apply()
+                pref.edit()
+                    .putString(context.getString(R.string.pref_max_videos_rows), max.toString())
+                    .apply()
             }
             else -> { // AppCategory.OTHER
-                pref.edit().putString(context.getString(R.string.pref_max_apps_rows), max.toString()).apply()
+                pref.edit()
+                    .putString(context.getString(R.string.pref_max_apps_rows), max.toString())
+                    .apply()
             }
         }
         return true
@@ -225,13 +233,15 @@ object RowPreferences {
     @JvmStatic
     fun getBannersSize(context: Context?): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return pref.getString(context?.getString(R.string.pref_banner_size), "100")?.toIntOrNull() ?: 100
+        return pref.getString(context?.getString(R.string.pref_banner_size), "100")?.toIntOrNull()
+            ?: 100
     }
 
     @JvmStatic
     fun setBannersSize(context: Context?, size: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if (size in 50..200) pref.edit().putString(context?.getString(R.string.pref_banner_size), size.toString()).apply()
+        if (size in 50..200) pref.edit()
+            .putString(context?.getString(R.string.pref_banner_size), size.toString()).apply()
         return true
     }
 
@@ -239,14 +249,19 @@ object RowPreferences {
     fun getCorners(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetCorners = context.resources.getDimensionPixelOffset(R.dimen.banner_corner_radius)
-        return pref.getString(context.getString(R.string.pref_banner_corner_radius), targetCorners.toString())?.toIntOrNull() ?: targetCorners
+        return pref.getString(
+            context.getString(R.string.pref_banner_corner_radius),
+            targetCorners.toString()
+        )?.toIntOrNull() ?: targetCorners
     }
 
     @JvmStatic
     fun setCorners(context: Context?, radius: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         // if (radius > 0)
-        pref.edit().putString(context?.getString(R.string.pref_banner_corner_radius), radius.toString()).apply()
+        pref.edit()
+            .putString(context?.getString(R.string.pref_banner_corner_radius), radius.toString())
+            .apply()
         return true
     }
 
@@ -254,13 +269,18 @@ object RowPreferences {
     fun getFrameWidth(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val targetStroke = context.resources.getDimensionPixelSize(R.dimen.banner_frame_stroke)
-        return pref.getString(context.getString(R.string.pref_banner_frame_stroke), targetStroke.toString())?.toIntOrNull() ?: targetStroke
+        return pref.getString(
+            context.getString(R.string.pref_banner_frame_stroke),
+            targetStroke.toString()
+        )?.toIntOrNull() ?: targetStroke
     }
 
     @JvmStatic
     fun setFrameWidth(context: Context?, width: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if (width > 0) pref.edit().putString(context?.getString(R.string.pref_banner_frame_stroke), width.toString()).apply()
+        if (width > 0) pref.edit()
+            .putString(context?.getString(R.string.pref_banner_frame_stroke), width.toString())
+            .apply()
         return true
     }
 
@@ -268,25 +288,32 @@ object RowPreferences {
     fun getFrameColor(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val defaultColor = ContextCompat.getColor(context, R.color.banner_focus_frame_color)
-        val color: Int = try {
-            Color.parseColor(
-                pref.getString(
-                    context.getString(R.string.pref_banner_focus_frame_color),
-                    defaultColor.toString()
-                )
+        val hexColor = "#${Integer.toHexString(defaultColor)}"
+        return try {
+            val userColor = pref.getString(
+                context.getString(R.string.pref_banner_focus_frame_color),
+                hexColor
             )
-        } catch (e: IllegalArgumentException) {
+            if (!userColor.isNullOrEmpty())
+                Color.parseColor(userColor)
+            else
+                defaultColor
+        } catch (e: Exception) {
             defaultColor
         }
-        return color
     }
 
     @JvmStatic
     fun setFrameColor(context: Context?, color: Int): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        // if (color > 0)
-        pref.edit().putString(context?.getString(R.string.pref_banner_focus_frame_color), color.toString()).apply()
-        return true
+        val hexColor = "#${Integer.toHexString(color)}"
+        if (hexColor.isNotEmpty()) {
+            pref.edit()
+                .putString(context?.getString(R.string.pref_banner_focus_frame_color), hexColor)
+                .apply()
+            return true
+        }
+        return false
     }
 
     fun fixRowPrefs() {
@@ -310,7 +337,8 @@ object RowPreferences {
                     pref.edit()?.remove(item)?.apply()
                     if (BuildConfig.DEBUG) Log.d("RowPreferences", "fix int $item pref")
                 }
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+            }
         }
     }
 
