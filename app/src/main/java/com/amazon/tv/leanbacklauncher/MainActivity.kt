@@ -47,6 +47,8 @@ import com.amazon.tv.leanbacklauncher.clock.ClockView
 import com.amazon.tv.leanbacklauncher.logging.LeanbackLauncherEventLogger
 import com.amazon.tv.leanbacklauncher.notifications.*
 import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView.NotificationRowListener
+import com.amazon.tv.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity
+import com.amazon.tv.leanbacklauncher.settings.SettingsActivity
 import com.amazon.tv.leanbacklauncher.util.*
 import com.amazon.tv.leanbacklauncher.wallpaper.LauncherWallpaper
 import com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller
@@ -57,6 +59,7 @@ import java.io.PrintWriter
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
+
 
 class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallPressedListener {
     private val TAG =
@@ -1060,6 +1063,31 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 }
                 if (!success) {
                     clearWidget(appWidgetId)
+                    // launcher settings
+                    wrap.addView(LayoutInflater.from(this).inflate(R.layout.widget_settings, wrap, false))
+                    val settingsVG: ViewGroup? = findViewById<View>(R.id.settings) as LinearLayout?
+                    settingsVG?.let { group ->
+                        val sel = findViewById<ImageView>(R.id.settings_selection_circle)
+                        val icon = findViewById<ImageView>(R.id.settings_icon)
+                        group.setOnClickListener {
+                            startSettings(it)
+                        }
+                        group.setOnFocusChangeListener { v, hasFocus ->
+                            if (hasFocus) {
+                                sel?.alpha = 1.0f
+                                icon?.clearAnimation()
+                                icon?.alpha = 1.0f
+                            } else {
+                                sel?.alpha = 0.0f
+                                icon?.alpha = 0.5f
+                                icon?.breath()
+                            }
+                        }
+                        sel?.alpha = 0.0f
+                        icon?.alpha = 0.5f
+                        icon?.breath()
+                    }
+                    // clock
                     wrap.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrap, false))
                     val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
                     val clockview: TextView? = findViewById<View>(R.id.clock) as ClockView?
@@ -1076,6 +1104,18 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 wrap.removeAllViews()
                 wrap.addView(mAppWidgetHostView)
             }
+        }
+    }
+
+    fun startSettings(v: View) {
+        if (applicationContext.resources.getBoolean(R.bool.full_screen_settings_enabled)) {
+            val intent = Intent(this@MainActivity, LegacyHomeScreenSettingsActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+        } else if (applicationContext.resources.getBoolean(R.bool.side_panel_settings_enabled)) {
+            val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
         }
     }
 

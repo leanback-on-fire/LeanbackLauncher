@@ -120,8 +120,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     private val isKatnissPackagePresent: Boolean
         get() {
-            val info: PackageInfo?
-            info = try {
+            val info: PackageInfo? = try {
                 mContext.packageManager.getPackageInfo("com.google.android.katniss", 0)
             } catch (e: PackageManager.NameNotFoundException) {
                 null
@@ -133,12 +132,12 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         super.onFinishInflate()
         mWidgetView = findViewById(R.id.widget_wrapper)
         mMicOrbView = findViewById(R.id.mic_orb)
-        mMicOrbView?.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+        mMicOrbView?.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
             setSearchState(false)
             if (mAssistantIcon != null) {
-                mMicOrbView?.setOrbIcon(if (hasFocus) mDefaultColorMicIcon else mAssistantIcon)
+                mMicOrbView?.orbIcon = if (hasFocus) mDefaultColorMicIcon else mAssistantIcon
             }
-        })
+        }
         initializeSearchOrbs()
         initTextSwitcher(context)
     }
@@ -173,16 +172,20 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                 val keyboardOrbView = v as SearchOrbView
                 keyboardOrbView.orbIcon = if (hasFocus) mKeyboardFocusedIcon else mKeyboardUnfocusedIcon
                 keyboardOrbView.orbColor = if (hasFocus) mColorBright else mColorDim
-                if (hasFocus) {
-                    mMicOrbView?.orbIcon = mMicUnfocusedIcon
-                } else if (mAssistantIcon != null) {
-                    mMicOrbView?.orbIcon = mAssistantIcon
-                } else {
-                    mMicOrbView?.orbIcon = mDefaultColorMicIcon
+                when {
+                    hasFocus -> {
+                        mMicOrbView?.orbIcon = mMicUnfocusedIcon
+                    }
+                    mAssistantIcon != null -> {
+                        mMicOrbView?.orbIcon = mAssistantIcon
+                    }
+                    else -> {
+                        mMicOrbView?.orbIcon = mDefaultColorMicIcon
+                    }
                 }
             }
             mOrbAnimation = ObjectAnimator.ofFloat(this, "keyboardOrbProgress", 0.0f)
-            mOrbAnimation?.setDuration(mKeyboardOrbAnimationDuration.toLong())
+            mOrbAnimation?.duration = mKeyboardOrbAnimationDuration.toLong()
         } else {
             mKeyboardFocusedIcon = null
             mKeyboardUnfocusedIcon = null
@@ -190,20 +193,25 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
             mKeyboardContainer = null
         }
         val partnerSearchIcon = Partner.get(mContext).customSearchIcon
-        if (mAssistantIcon != null) {
-            mMicOrbView?.orbIcon = mAssistantIcon
-            mMicOrbView?.orbColor = mColorBright
-            mMicOrbView?.enableOrbColorAnimation(false)
-        } else if (partnerSearchIcon != null) {
-            mMicOrbView?.orbIcon = partnerSearchIcon
-        } else if (mWahlbergUx) {
-            mMicOrbView?.orbColor = mColorBright
-            mMicOrbView?.orbIcon = mDefaultColorMicIcon
-            mMicOrbView?.enableOrbColorAnimation(false)
-        } else {
-            mMicOrbView?.orbColors = SearchOrbView.Colors(ContextCompat.getColor(mContext, R.color.search_orb_bg_color_old), ContextCompat.getColor(mContext, R.color.search_orb_bg_bright_color_old))
-            mMicOrbView?.orbIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_search_mic_out_normal)
-            mMicOrbView?.enableOrbColorAnimation(true)
+        when {
+            mAssistantIcon != null -> {
+                mMicOrbView?.orbIcon = mAssistantIcon
+                mMicOrbView?.orbColor = mColorBright
+                mMicOrbView?.enableOrbColorAnimation(false)
+            }
+            partnerSearchIcon != null -> {
+                mMicOrbView?.orbIcon = partnerSearchIcon
+            }
+            mWahlbergUx -> {
+                mMicOrbView?.orbColor = mColorBright
+                mMicOrbView?.orbIcon = mDefaultColorMicIcon
+                mMicOrbView?.enableOrbColorAnimation(false)
+            }
+            else -> {
+                mMicOrbView?.orbColors = SearchOrbView.Colors(ContextCompat.getColor(mContext, R.color.search_orb_bg_color_old), ContextCompat.getColor(mContext, R.color.search_orb_bg_bright_color_old))
+                mMicOrbView?.orbIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_search_mic_out_normal)
+                mMicOrbView?.enableOrbColorAnimation(true)
+            }
         }
         viewTreeObserver.addOnGlobalLayoutListener { setKeyboardOrbProgress(mKeyboardOrbProgress) }
     }
@@ -221,8 +229,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         val i = if (focused) if (!isKeyboard) -2 else -3 else -1
         mCurrentIndex = i
         if (old != mCurrentIndex) {
-            val useFade: Boolean
-            useFade = old != -1 && mCurrentIndex != -1
+            val useFade: Boolean = old != -1 && mCurrentIndex != -1
             val z: Boolean = !isReset
             configSwitcher(z, focused, if (useFade) 2 else 1)
             if (mWahlbergUx) {
@@ -250,7 +257,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     private fun initTextSwitcher(context: Context) {
         mSwitcher = findViewById(R.id.text_switcher)
-        mSwitcher?.setAnimateFirstView(false)
+        mSwitcher?.animateFirstView = false
         mSwitcher?.setFactory(object : ViewSwitcher.ViewFactory {
             var inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             override fun makeView(): View {
@@ -264,7 +271,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                 if (old == mCurrentIndex) {
                     mCurrentIndex = (mCurrentIndex + 1) % mTextToShow.size
                 }
-                configSwitcher(true, false, 0)
+                configSwitcher(switchViews = true, focused = false, animType = 0)
                 mSwitcher?.setText(fixItalics(mTextToShow[mCurrentIndex]))
                 mHandler.postDelayed(this, mIdleTextFlipDelay.toLong())
             }
@@ -290,19 +297,22 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         val outAnim: Int
         val v = if (switchViews) mSwitcher!!.nextView else mSwitcher!!.currentView
         if (v is TextView) {
-            val textView = v
-            textView.setTextColor(if (focused) mFocusedColor else mUnfocusedColor)
-            textView.setTypeface(null, Typeface.ITALIC)
+            v.setTextColor(if (focused) mFocusedColor else mUnfocusedColor)
+            v.setTypeface(null, Typeface.ITALIC)
         }
-        if (animType == 1) {
-            inAnim = R.anim.slide_in_left
-            outAnim = R.anim.slide_out_right
-        } else if (animType == 0) {
-            inAnim = R.anim.slide_in_bottom
-            outAnim = R.anim.slide_out_top
-        } else {
-            inAnim = R.anim.fade_in
-            outAnim = R.anim.fade_out
+        when (animType) {
+            1 -> {
+                inAnim = R.anim.slide_in_left
+                outAnim = R.anim.slide_out_right
+            }
+            0 -> {
+                inAnim = R.anim.slide_in_bottom
+                outAnim = R.anim.slide_out_top
+            }
+            else -> {
+                inAnim = R.anim.fade_in
+                outAnim = R.anim.fade_out
+            }
         }
         mSwitcher!!.setInAnimation(mContext, inAnim)
         mSwitcher!!.setOutAnimation(mContext, outAnim)
@@ -341,7 +351,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         searchOrbView!!.enableOrbColorAnimation(z)
     }
 
-    private fun setVisibile(visible: Boolean) {
+    private fun setVisible(visible: Boolean) {
         animateVisibility(mWidgetView, visible)
         animateVisibility(mSwitcher, visible)
     }
@@ -377,30 +387,28 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         }
     }
 
-    private fun setKeyboardOrbProgress(prog: Float) {
-        val focusable: Boolean
-        val visible: Boolean
+    private fun setKeyboardOrbProgress(progress: Float) {
         var i = 0
         var i2 = 1
-        focusable = prog.toDouble() == 1.0
-        visible = prog > 0.0f
-        mKeyboardOrbProgress = prog
+        val focusable: Boolean = progress.toDouble() == 1.0
+        val visible: Boolean = progress > 0.0f
+        mKeyboardOrbProgress = progress
         if (mKeyboardOrbView != null) {
             mKeyboardOrbView!!.isFocusable = focusable
-            mKeyboardOrbView!!.alpha = prog
+            mKeyboardOrbView!!.alpha = progress
             val frameLayout = mKeyboardContainer
             if (!visible) {
                 i = INVISIBLE
             }
             frameLayout!!.visibility = i
-            mKeyboardContainer!!.scaleX = prog
-            mKeyboardContainer!!.scaleY = prog
+            mKeyboardContainer!!.scaleX = progress
+            mKeyboardContainer!!.scaleY = progress
             val orbWidth = mKeyboardOrbView!!.measuredWidth
             if (layoutDirection != LAYOUT_DIRECTION_RTL) {
                 i2 = -1
             }
-            val offset = (i2 * (mSearchOrbsSpacing + orbWidth)).toFloat() * (1.0f - prog)
-            mKeyboardOrbView!!.translationX = offset / prog
+            val offset = (i2 * (mSearchOrbsSpacing + orbWidth)).toFloat() * (1.0f - progress)
+            mKeyboardOrbView!!.translationX = offset / progress
             if (mSwitcher != null) {
                 mSwitcher!!.translationX = offset
             }
@@ -415,7 +423,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     public override fun onAttachedToWindow() {
         var isTouchExplorationEnabled = true
         super.onAttachedToWindow()
-        setVisibile(true)
+        setVisible(true)
         val am = mContext.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         if (!(am.isEnabled && am.isTouchExplorationEnabled)) {
             isTouchExplorationEnabled = false
@@ -461,11 +469,11 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     }
 
     fun animateIn() {
-        setVisibile(true)
+        setVisible(true)
     }
 
     private fun animateOut() {
-        setVisibile(false)
+        setVisible(false)
         reset()
     }
 
@@ -473,10 +481,10 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     fun updateSearchSuggestions(suggestions: Array<String>?) {
         mCurrentIndex = 0
-        if (suggestions == null || suggestions.size == 0) {
-            mTextToShow = mDefaultTextToShow
+        mTextToShow = if (suggestions == null || suggestions.isEmpty()) {
+            mDefaultTextToShow
         } else {
-            mTextToShow = suggestions
+            suggestions
         }
     }
 

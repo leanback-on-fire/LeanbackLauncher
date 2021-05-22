@@ -368,4 +368,6 @@
     <dimen name="widget_end_spacing">56.0dip</dimen>
     <dimen name="widget_height">100.0dip</dimen>
     <dimen name="widget_width">336.0dip</dimen>
+    <dimen name="widget_settings_size">64.0dip</dimen>
+    <dimen name="widget_settings_padding">8.0dip</dimen>
 </resources>

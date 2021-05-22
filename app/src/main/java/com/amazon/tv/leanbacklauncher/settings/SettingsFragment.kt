@@ -92,7 +92,7 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         findPreference<Preference>("version")?.apply {
-            this.summary = BuildConfig.VERSION_NAME
+            this.summary = getString(R.string.app_name) +" v" + BuildConfig.VERSION_NAME
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -370,7 +370,7 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
 //        }
         findPreference<EditTextPreference>(getString(R.string.pref_banner_focus_frame_color))?.apply {
             val color = hexStringColor(RowPreferences.getFrameColor(context))
-            this.summary = color
+            this.summary = color + " (#AARRGGBB)"
 // FIXME:
 //            setOnBindEditTextListener {
 //                it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED

@@ -660,39 +660,39 @@ class LaunchPointList(ctx: Context) {
                 settingsItems.add(lp)
             }
         }
-        // LAUNCHER SETTINGS // 4
-        if (mContext.resources.getBoolean(R.bool.full_screen_settings_enabled)) {
-            val setIntent = Intent()
-            setIntent.action = "com.amazon.tv.leanbacklauncher.SETTINGS"
-            setIntent.component =
-                ComponentName.unflattenFromString(mContext.packageName + "/.settings.LegacyHomeScreenSettingsActivity")
-            lp = LaunchPoint(
-                mContext,
-                mContext.getString(R.string.launcher_settings),
-                ContextCompat.getDrawable(mContext, R.drawable.ic_settings_launcher),
-                setIntent,
-                ContextCompat.getColor(mContext, R.color.settings_dialog_bg_protection)
-            )
-            lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            lp.settingsType = SettingsType.APP_CONFIGURE.code
-            lp.priority = -4
-            settingsItems.add(lp)
-        }
-        if (mContext.resources.getBoolean(R.bool.side_panel_settings_enabled)) {
-            val ssIntent = Intent()
-            ssIntent.component =
-                ComponentName.unflattenFromString(mContext.packageName + "/.settings.SettingsActivity")
-            val info = pkgMan.resolveActivity(
-                ssIntent,
-                PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA
-            )
-            if (info?.activityInfo != null) {
-                lp = LaunchPoint(mContext, pkgMan, info, false, SettingsType.APP_CONFIGURE.code)
-                lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                lp.priority = -4
-                settingsItems.add(lp)
-            }
-        }
+//        // LAUNCHER SETTINGS // 4
+//        if (mContext.resources.getBoolean(R.bool.full_screen_settings_enabled)) {
+//            val setIntent = Intent()
+//            setIntent.action = "com.amazon.tv.leanbacklauncher.SETTINGS"
+//            setIntent.component =
+//                ComponentName.unflattenFromString(mContext.packageName + "/.settings.LegacyHomeScreenSettingsActivity")
+//            lp = LaunchPoint(
+//                mContext,
+//                mContext.getString(R.string.launcher_settings),
+//                ContextCompat.getDrawable(mContext, R.drawable.ic_settings_launcher),
+//                setIntent,
+//                ContextCompat.getColor(mContext, R.color.settings_dialog_bg_protection)
+//            )
+//            lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//            lp.settingsType = SettingsType.APP_CONFIGURE.code
+//            lp.priority = -4
+//            settingsItems.add(lp)
+//        }
+//        if (mContext.resources.getBoolean(R.bool.side_panel_settings_enabled)) {
+//            val ssIntent = Intent()
+//            ssIntent.component =
+//                ComponentName.unflattenFromString(mContext.packageName + "/.settings.SettingsActivity")
+//            val info = pkgMan.resolveActivity(
+//                ssIntent,
+//                PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA
+//            )
+//            if (info?.activityInfo != null) {
+//                lp = LaunchPoint(mContext, pkgMan, info, false, SettingsType.APP_CONFIGURE.code)
+//                lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                lp.priority = -4
+//                settingsItems.add(lp)
+//            }
+//        }
 
         // NOTIFICATIONS // 3
         if (FireTVUtils.isAmazonNotificationsEnabled(mContext)) {

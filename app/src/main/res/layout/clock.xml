@@ -7,5 +7,8 @@
     android:focusable="false"
     android:fontFamily="@string/light_font"
     android:gravity="end|center"
+    android:lineHeight="@dimen/clock_text_size"
+    android:lineSpacingExtra="0sp"
+    android:lineSpacingMultiplier="1.0"
     android:textColor="@color/clock_text_color"
     android:textSize="@dimen/clock_text_size" />

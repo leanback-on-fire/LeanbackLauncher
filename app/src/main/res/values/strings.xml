@@ -57,7 +57,7 @@
     <string name="banners_prefs_desc">Apps banners options</string>
     <string name="banners_corners_radius">Corners Radius (px)</string>
     <string name="banners_frame_width">Frame Width (px)</string>
-    <string name="banners_frame_color">Frame Color (#AARRGGBB)</string>
+    <string name="banners_frame_color">Frame Color</string>
     <string name="banners_frame_color_desc">The following values are also accepted for color: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
     <string name="banners_size">Banners Size (50-200%)</string>
     <string name="category_label_apps">Apps</string>

@@ -31,7 +31,7 @@
     <string name="apps_order_pref_label">Автоматично сортувати за часом останнього використання</string>
     <string name="banners_corners_radius">Радіус заокруглення кутів (px)</string>
     <string name="banners_frame_color_desc">Ці значення так само можуть використовуватися для завдання кольору: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
-    <string name="banners_frame_color">Колір виділення (#AARRGGBB)</string>
+    <string name="banners_frame_color">Колір виділення</string>
     <string name="banners_frame_width">Ширина виділення (px)</string>
     <string name="banners_prefs_desc">Налаштування банера та виділення</string>
     <string name="banners_prefs_title">Зовнішній вигляд банерів</string>
