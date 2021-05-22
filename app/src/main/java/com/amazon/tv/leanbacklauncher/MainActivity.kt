@@ -36,6 +36,7 @@ import androidx.leanback.widget.VerticalGridView
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowType
 import com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor
 import com.amazon.tv.leanbacklauncher.SearchOrbView.SearchLaunchListener
 import com.amazon.tv.leanbacklauncher.animation.*
@@ -706,33 +707,33 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             if (!(mShyMode || mNotificationsView == null)) {
                 mNotificationsView?.setIgnoreNextActivateBackgroundChange()
             }
-//        } else if ( notifIndex == -1) { // focus on 1st Apps cat (FAV|VIDEO|MUSIC|GAMES|APPS) || SEARCH in case No Notifications row
-//            val rowTypes = intArrayOf(
+        } else if ( notifIndex == -1) { // focus on 1st Apps cat (FAV|VIDEO|MUSIC|GAMES|APPS) in case No Notifications row
+            val rowTypes = intArrayOf(
 //                0, // SEARCH
-//                7, // FAVORITES
-//                9, // VIDEO
-//                8, // MUSIC
-//                4, // GAMES
-//                3, // APPS
-//            ) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
-//            for (type in rowTypes) {
-//                var rowIndex = homeAdapter?.getRowIndex(type) ?: -1
-//                mList?.adapter?.let {
-//                    rowIndex = (it.itemCount - 1).coerceAtMost(rowIndex)
-//                }
-//                if (rowIndex != -1 && rowIndex != currIndex) {
-//                    if (BuildConfig.DEBUG) Log.d(
-//                        TAG,
-//                        "resetLauncherState -> set focus to ${RowType.fromRowCode(type)} row"
-//                    )
-//                    if (smooth) {
-//                        mList?.setSelectedPositionSmooth(rowIndex)
-//                    } else {
-//                        mList?.selectedPosition = rowIndex
-//                    }
-//                    break
-//                }
-//            }
+                7, // FAVORITES
+                9, // VIDEO
+                8, // MUSIC
+                4, // GAMES
+                3, // APPS
+            ) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
+            for (type in rowTypes) {
+                var rowIndex = homeAdapter?.getRowIndex(type) ?: -1
+                mList?.adapter?.let {
+                    rowIndex = (it.itemCount - 1).coerceAtMost(rowIndex)
+                }
+                if (rowIndex != -1) {
+                    if (BuildConfig.DEBUG) Log.d(
+                        TAG,
+                        "resetLauncherState -> set focus to ${RowType.fromRowCode(type)} row"
+                    )
+                    if (smooth) {
+                        mList?.setSelectedPositionSmooth(rowIndex)
+                    } else {
+                        mList?.selectedPosition = rowIndex
+                    }
+                    break
+                }
+            }
         }
         mLaunchAnimation.cancel()
     }
