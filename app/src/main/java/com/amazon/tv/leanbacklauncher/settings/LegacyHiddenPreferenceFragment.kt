@@ -11,7 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
-import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companion.instance
+import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.Util.refreshHome
@@ -67,25 +67,24 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
     }
 
     override fun onGuidedActionClicked(action: GuidedAction) {
-        val util = instance(requireActivity())
+        val prefUtil = SharedPreferencesUtil.instance(requireContext())
         if (action.id == ACTION_ID_ALL_APPS) {
             if (BuildConfig.DEBUG) Log.d(TAG, "ACTION_ID_ALL_APPS, ${action.isChecked}")
-            util?.showAllApps(action.isChecked)
+            prefUtil?.showAllApps(action.isChecked)
             // refresh home broadcast
-            val activity = requireActivity()
-            refreshHome(activity)
+            refreshHome(requireContext())
         } else {
             if (action.isChecked) {
-                util?.hide(mActionToPackageMap!![action.id])
+                prefUtil?.hide(mActionToPackageMap!![action.id])
             } else {
-                util?.unhide(mActionToPackageMap!![action.id])
+                prefUtil?.unhide(mActionToPackageMap!![action.id])
             }
         }
     }
 
     private fun loadHiddenApps() {
-        val util = instance(requireActivity())
-        val packages: List<String> = ArrayList(util!!.hiddenApps())
+        val prefUtil = SharedPreferencesUtil.instance(requireContext())
+        val packages: List<String> = ArrayList(prefUtil!!.hiddenApps())
         if (isAdded) {
             mActionToPackageMap = HashMap()
             val actions = ArrayList<GuidedAction>()
@@ -93,7 +92,7 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
                 GuidedAction.Builder(activity)
                     .id(ACTION_ID_ALL_APPS)
                     .title(getString(R.string.show_all_apps))
-                    .checked(util.isAllAppsShown())
+                    .checked(prefUtil.isAllAppsShown())
                     .checkSetId(GuidedAction.CHECKBOX_CHECK_SET_ID)
                     .build()
             )
@@ -107,7 +106,7 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
                         var banner = pm.getApplicationBanner(packageInfo.applicationInfo)
                         banner = banner
                             ?: buildBannerFromIcon(pm.getApplicationIcon(packageInfo.applicationInfo))
-                        hidden = util.isHidden(pkg)
+                        hidden = prefUtil.isHidden(pkg)
                         if (hidden) // show only hidden apps
                             actions.add(
                                 GuidedAction.Builder(activity)

@@ -180,10 +180,12 @@ class LaunchPointList(ctx: Context) {
                 }
             }
             if (normLaunchPoints.size > 0) {
+                if (prefUtil == null)
+                    prefUtil = SharedPreferencesUtil.instance(mContext)
                 for (itemRawLaunchPoint in normLaunchPoints) {
                     if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
                         // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
-                        if ((prefUtil?.isAllAppsShown() == true) ||
+                        if ((prefUtil!!.isAllAppsShown()) ||
                             !Util.isSystemApp(mContext, itemRawLaunchPoint.activityInfo.packageName)
                         ) {
                             if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName) &&

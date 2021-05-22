@@ -75,7 +75,6 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
         val args = Bundle(1)
         args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, pref.key)
         fragment.arguments = args
-        Log.d(TAG, "onPreferenceStartScreen($caller,$pref)")
         startPreferenceFragment(fragment)
         return true
     }
@@ -290,7 +289,7 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
     override fun onRecommendationPackagesLoaded(info: List<RecommendationsPreferenceManager.PackageInfo>?) {
         mIdToPackageMap = HashMap()
         val recs = ArrayList<Preference>()
-        var recId: Long = 0
+        var recId: Long = 100000 // for shared prefs map
         if (info != null) {
             for (packageInfo in info) {
                 val banner: Drawable? = if (packageInfo.banner != null) {

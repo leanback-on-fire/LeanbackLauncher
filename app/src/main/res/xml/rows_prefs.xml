@@ -59,7 +59,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:key="string/pref_max_apps_rows"
+            android:key="@string/pref_max_apps_rows"
             android:title="@string/max_apps_rows_title"
             android:defaultValue="@integer/max_num_banner_rows"
             app:useSimpleSummaryProvider="true" />

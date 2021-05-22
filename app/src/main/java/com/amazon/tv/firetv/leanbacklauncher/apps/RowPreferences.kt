@@ -324,18 +324,18 @@ object RowPreferences {
             context.getString(R.string.pref_banner_frame_stroke),
             context.getString(R.string.pref_banner_corner_radius),
             context.getString(R.string.pref_banner_size),
-            context.getString(R.string.pref_max_apps),
             context.getString(R.string.pref_max_games_rows),
             context.getString(R.string.pref_max_music_rows),
             context.getString(R.string.pref_max_videos_rows),
             context.getString(R.string.pref_max_apps_rows),
-            context.getString(R.string.pref_max_favorites_rows)
+            context.getString(R.string.pref_max_favorites_rows),
+            context.getString(R.string.pref_max_apps),
         )
         for (item in list) {
             try {
                 if (pref.getInt(item, -1) != -1) {
                     pref.edit()?.remove(item)?.apply()
-                    if (BuildConfig.DEBUG) Log.d("RowPreferences", "fix int $item pref")
+                    if (BuildConfig.DEBUG) Log.d("RowPreferences", "fix old int $item pref")
                 }
             } catch (e: Exception) {
             }
