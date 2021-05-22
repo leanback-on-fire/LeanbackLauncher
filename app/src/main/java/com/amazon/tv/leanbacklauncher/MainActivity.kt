@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.OnHierarchyChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.accessibility.AccessibilityManager
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -1078,13 +1079,25 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                                 icon?.clearAnimation()
                                 icon?.alpha = 1.0f
                             } else {
-                                sel?.alpha = 0.0f
-                                icon?.alpha = 0.5f
+                                //sel?.alpha = 0.0f
+                                sel?.animate()?.apply {
+                                    interpolator = LinearInterpolator()
+                                    duration = 500
+                                    alpha(0.0f)
+                                    start()
+                                }
+                                icon?.alpha = 1.0f
                                 icon?.breath()
                             }
                         }
                         sel?.alpha = 0.0f
-                        icon?.alpha = 0.5f
+                        icon?.alpha = 0.0f
+                        icon?.animate()?.apply {
+                            interpolator = LinearInterpolator()
+                            duration = 500
+                            alpha(1.0f)
+                            start()
+                        }
                         icon?.breath()
                     }
                     // clock
