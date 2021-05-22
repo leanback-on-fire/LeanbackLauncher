@@ -23,7 +23,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:defaultValue="1089400558"
+            android:defaultValue="#40EEEEEE"
             android:key="@string/pref_banner_focus_frame_color"
             android:title="@string/banners_frame_color" />
 
