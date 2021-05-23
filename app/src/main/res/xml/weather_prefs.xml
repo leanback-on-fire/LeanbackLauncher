@@ -1,0 +1,14 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="weather_prefs"
+    android:title="@string/weather_home_description">
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_enable_local_weather"
+            android:title="@string/enable_local_weather_title"
+            android:summary="@string/enable_local_weather_description" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

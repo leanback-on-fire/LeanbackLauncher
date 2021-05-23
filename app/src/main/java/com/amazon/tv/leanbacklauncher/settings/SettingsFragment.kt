@@ -86,7 +86,6 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
             Util.refreshHome(LauncherApplication.getContext())
         }
     }
-
 }
 
 /**
@@ -182,7 +181,7 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         showAllAppsPref.title = getString(R.string.show_all_apps)
         screen?.addPreference(showAllAppsPref) // show all apps switch
 
-        val pm = activity!!.packageManager
+        val pm = requireActivity().packageManager
         for (pkg in packages) {
             if (pkg.isNotEmpty()) {
                 try {
@@ -409,7 +408,6 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         SettingsFragment.needRestartHome = true
         return super.onPreferenceTreeClick(preference)
     }
-
 }
 
 /**
@@ -558,7 +556,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
             ACTION_DIR.toString() -> {
                 rootPath = File(rootPath, preference.title.toString()).absolutePath
                 dirName = preference.title.toString()
-                val curFragContainerId = (view!!.parent as ViewGroup).id
+                val curFragContainerId = (requireView().parent as ViewGroup).id
                 fm?.beginTransaction()?.replace(curFragContainerId, FileListFragment())
                     ?.addToBackStack(null)?.commit()
                 return true
@@ -696,5 +694,21 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         SettingsFragment.needRestartHome = true
         return true
     }
+}
 
+/**
+ * The fragment that is defined in preferences.xml
+ */
+class WeatherPreferenceFragment : LeanbackPreferenceFragmentCompat() {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        // Load the preferences from an XML resource
+        setPreferencesFromResource(R.xml.weather_prefs, rootKey)
+        //val ps = findPreference<PreferenceScreen>("weather_prefs")
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        // refresh home broadcast
+        SettingsFragment.needRestartHome = true
+        return super.onPreferenceTreeClick(preference)
+    }
 }

@@ -66,6 +66,8 @@
     <string name="edit_finish_button_text">Готово</string>
     <string name="edit_row_title">Настройка разделов</string>
     <string name="edit_uninstall_focused_text">Удалить</string>
+    <string name="enable_local_weather_title">Показывать погоду</string>
+    <string name="enable_local_weather_description">Показывать текущую погоду (требуется разрешение на местоположение)</string>
     <string name="failed_launch">Не удалось открыть</string>
     <string name="favorites_row_title">Раздел «Избранное»</string>
     <string name="file_no_access">Не удалось прочитать файл!</string>
@@ -212,4 +214,6 @@ com.amazon.device.sale.service
     <string name="videos_row_title">Раздел «Видео»</string>
     <string name="wallpaper_title">Фон по умолчанию</string>
     <string name="wallpaper_choose">Поместите изображение фона в корневой каталог хранилища и выберите здесь</string>
+    <string name="weather_home_title">Настройки погоды</string>
+    <string name="weather_home_description">Местная погода и прогноз на главной странице</string>
 </resources>

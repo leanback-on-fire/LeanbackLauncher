@@ -82,7 +82,8 @@
             android:excludeFromRecents="true"
             android:label="@string/app_label"
             android:launchMode="singleInstance"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:theme="@style/AppCompatFullScreenTheme">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.MAIN" />
 
@@ -107,8 +108,8 @@
 
         <activity
             android:name="com.amazon.tv.leanbacklauncher.settings.SettingsActivity"
-            android:excludeFromRecents="true"
             android:enabled="@bool/side_panel_settings_enabled"
+            android:excludeFromRecents="true"
             android:icon="@drawable/ic_settings_launcher"
             android:label="@string/launcher_settings"
             android:theme="@style/Theme.Settings.SidePanel">
@@ -122,8 +123,7 @@
             android:name=".UpdateActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <service
             android:name="com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4"

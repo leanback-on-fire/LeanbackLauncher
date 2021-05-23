@@ -13,12 +13,26 @@
     </style>
 
     <style name="LeanbackLauncherTheme" parent="@android:style/Theme.Material.NoActionBar.Overscan">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/LeanbackLauncherAnim</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:fontFamily">@string/font</item>
+        <item name="android:windowAnimationStyle">@style/LeanbackLauncherAnim</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppCompatFullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:fontFamily">@string/font</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowAnimationStyle">@style/LeanbackLauncherAnim</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowOverscan">true</item>
     </style>
 
     <style name="Theme.Settings.Legacy" parent="@style/Theme.Leanback.GuidedStep">

@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.location.Location
 import android.media.tv.TvContract
 import android.net.Uri
 import android.os.*
@@ -27,6 +28,8 @@ import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
@@ -54,6 +57,11 @@ import com.amazon.tv.leanbacklauncher.wallpaper.LauncherWallpaper
 import com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller
 import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import com.amazon.tv.leanbacklauncher.widget.EditModeView.OnEditModeUninstallPressedListener
+import de.interaapps.localweather.LocalWeather
+import de.interaapps.localweather.Weather
+import de.interaapps.localweather.utils.Lang
+import de.interaapps.localweather.utils.LocationFailedEnum
+import de.interaapps.localweather.utils.Units
 import java.io.FileDescriptor
 import java.io.PrintWriter
 import java.util.*
@@ -61,7 +69,8 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
-class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallPressedListener {
+class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
+    OnEditModeUninstallPressedListener {
     private val TAG =
         if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private var mAccessibilityManager: AccessibilityManager? = null
@@ -239,6 +248,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         fun onIdleStateChange(z: Boolean)
         fun onVisibilityChange(z: Boolean)
     }
+
+    private var localWeather: LocalWeather? = null
 
     companion object {
         const val PERMISSIONS_REQUEST_LOCATION = 99
@@ -431,8 +442,18 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         // start notification listener
         if (RowPreferences.areRecommendationsEnabled(this) && LauncherApplication.inForeground)
             startService(Intent(this, NotificationListenerMonitor::class.java))
+
         // fix int options migrate
         RowPreferences.fixRowPrefs()
+
+        // LocalWeather https://github.com/interaapps/LocalWeather-Android
+        if (RowPreferences.isWeatherEnabled(this)) {
+            localWeather = LocalWeather(
+                this@MainActivity,
+                "b7a56bb43570189115cb8b2d98cdde5b"
+            )
+            //initializeWeather() // already in addWidget()
+        }
     }
 
     public override fun onDestroy() {
@@ -515,6 +536,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (RowPreferences.isWeatherEnabled(this))
+            localWeather?.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 321 && resultCode != 0) {
             if (resultCode == -1) {
                 editModeView?.uninstallComplete()
@@ -530,15 +553,82 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (RowPreferences.isWeatherEnabled(this))
+            localWeather?.onRequestPermissionResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSIONS_REQUEST_LOCATION -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG, "Agree location permission")
                     recreate()
                 } else {
                     Log.i(TAG, "Not agree location permission")
                     LauncherApplication.Toast(R.string.location_note, true)
                 }
+            }
+        }
+    }
+
+    private fun initializeWeather() {
+        localWeather?.let {
+            it.useCurrentLocation = true
+            it.updateCurrentLocation = true
+            val ul = Locale.getDefault().isO3Language
+            val uc = Locale.getDefault().isO3Country
+            it.lang = if (ul.equals("rus", true)) Lang.RUSSIAN else Lang.ENGLISH // Lang.ENGLISH
+            it.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC // Units.METRIC
+
+            it.weatherCallback = object : LocalWeather.WeatherCallback {
+                override fun onSuccess(weather: Weather) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess()")
+                    updateWeatherDetails(weather)
+                }
+
+                override fun onFailure(exception: Throwable?) {
+                    Log.e(TAG, "Weather fetching exception ${exception!!.message!!}")
+                }
+            }
+
+            it.fetchCurrentLocation(object : LocalWeather.CurrentLocationCallback {
+                override fun onSuccess(location: Location) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Location fetching success")
+                    it.fetchCurrentWeatherByLocation(location)
+                }
+
+                override fun onFailure(failed: LocationFailedEnum) {
+                    Log.e(TAG, "Location fetching failed $failed")
+                }
+            })
+        }
+    }
+
+    private fun updateWeatherDetails(weather: Weather) {
+        // TODO: store result to prefs?
+        val unit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
+        //val speed = if (localWeather!!.unit == Units.METRIC) "km/h" else "mi/h"
+        //Log.d( TAG, "LocalWeather Temp:${weather.temperature}${unit} Country:${weather.country} Latitude:${weather.latitude} Longitude:${weather.longitude} Description:${weather.descriptions[0]}")
+        val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
+        weatherVG?.let { group ->
+            //Log.d(TAG, "weather ViewGroup exist!")
+            group.visibility = View.VISIBLE
+            group.alpha = 0.0f
+            group.animate()?.apply {
+                interpolator = LinearInterpolator()
+                duration = 300
+                alpha(1.0f)
+                start()
+            }
+            // icon
+            val icon = findViewById<AppCompatImageView>(R.id.weather_icon)
+            icon?.let {
+                OpenWeatherIcons(applicationContext, weather.icons[0], it)
+                it.visibility = View.VISIBLE
+                it.contentDescription = weather.descriptions[0]
+            }
+            // temperature
+            val curTemp = findViewById<TextView>(R.id.curtemp)
+            curTemp?.let {
+                it.visibility = View.VISIBLE
+                it.text = weather.temperature.toInt().toString() + unit // "°"
             }
         }
     }
@@ -613,6 +703,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     public override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
         var exitingEditMode = false
         if (isInEditMode) {
             if (Util.isInTouchExploration(applicationContext)) {
@@ -796,8 +887,6 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {}
-
-    override fun onSaveInstanceState(savedInstanceState: Bundle) {}
 
     override fun onResume() {
         var forceResort = true
@@ -1080,7 +1169,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     val settingsVG: ViewGroup? = findViewById<View>(R.id.settings) as LinearLayout?
                     settingsVG?.let { group ->
                         val sel = findViewById<ImageView>(R.id.settings_selection_circle)
-                        sel?.setColorFilter(RowPreferences.getFrameColor(this), PorterDuff.Mode.SRC_ATOP)
+                        sel?.setColorFilter(
+                            RowPreferences.getFrameColor(this),
+                            PorterDuff.Mode.SRC_ATOP
+                        )
                         val icon = findViewById<ImageView>(R.id.settings_icon)
                         group.setOnClickListener {
                             startSettings(it)
@@ -1115,10 +1207,20 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     // clock
                     wrap.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrap, false))
                     val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
-                    val clockview: TextView? = findViewById<View>(R.id.clock) as ClockView?
+                    val clockView: TextView? = findViewById<View>(R.id.clock) as ClockView?
                     typeface?.let {
-                        clockview?.typeface = typeface
+                        clockView?.typeface = typeface
                     }
+                    // weather widget update
+                    initializeWeather()
+//                    val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
+//                    weatherVG?.let { group ->
+//                        val sel = findViewById<ImageView>(R.id.weather_selection_circle)
+//                        sel?.setColorFilter(
+//                            RowPreferences.getFrameColor(this),
+//                            PorterDuff.Mode.SRC_ATOP
+//                        )
+//                    }
                     return
                 }
                 return

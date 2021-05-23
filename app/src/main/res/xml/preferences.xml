@@ -23,6 +23,12 @@
             app:fragment="com.amazon.tv.leanbacklauncher.settings.RecommendationsPreferenceFragment" />
 
         <Preference
+            android:key="weather"
+            android:summary="@string/weather_home_description"
+            android:title="@string/weather_home_title"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.WeatherPreferenceFragment" />
+
+        <Preference
             android:key="version"
             android:summary="version"
             android:title="@string/update" />

@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.amazon.tv.leanbacklauncher.clock.ClockView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/clock"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/widget_clock_height"
-    android:layout_gravity="end|center|top"
-    android:focusable="false"
-    android:fontFamily="@string/light_font"
-    android:gravity="end|center"
-    android:lineHeight="@dimen/clock_text_size"
-    android:lineSpacingExtra="0sp"
-    android:lineSpacingMultiplier="1.0"
-    android:textColor="@color/clock_text_color"
-    android:textSize="@dimen/clock_text_size" />
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.amazon.tv.leanbacklauncher.clock.ClockView
+        android:id="@id/clock"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/widget_clock_height"
+        android:layout_gravity="end|center|top"
+        android:focusable="false"
+        android:fontFamily="@string/light_font"
+        android:gravity="end|center"
+        android:includeFontPadding="false"
+        android:textColor="@color/clock_text_color"
+        android:textSize="@dimen/clock_text_size" />
+
+    <LinearLayout
+        android:id="@+id/weather"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/widget_weather_height"
+        android:layout_gravity="end|center|top"
+        android:alpha="0.0"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="start|center"
+        android:orientation="horizontal"
+        android:textColor="@color/clock_text_color"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/curtemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:focusable="false"
+            android:fontFamily="@string/light_font"
+            android:gravity="center"
+            android:textColor="@color/clock_text_color"
+            android:textSize="24sp" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/weather_selection_circle"
+                android:layout_width="@dimen/widget_weather_height"
+                android:layout_height="@dimen/widget_weather_height"
+                android:layout_gravity="center"
+                android:alpha="0.0"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/settings_selection_circle"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/weather_icon"
+                android:layout_width="@dimen/widget_weather_height"
+                android:layout_height="@dimen/widget_weather_height"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/weather01d" />
+
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -37,7 +37,7 @@ object RowPreferences {
     @JvmStatic
     fun areInputsEnabled(context: Context): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return pref.getBoolean(context.getString(R.string.pref_enable_inputs_row), false) // true
+        return pref.getBoolean(context.getString(R.string.pref_enable_inputs_row), false)
     }
 
     @JvmStatic
@@ -53,7 +53,7 @@ object RowPreferences {
         return pref.getBoolean(
             context.getString(R.string.pref_enable_recommendations_row),
             false
-        ) // true
+        )
     }
 
     @JvmStatic
@@ -314,6 +314,12 @@ object RowPreferences {
             return true
         }
         return false
+    }
+
+    @JvmStatic
+    fun isWeatherEnabled(context: Context): Boolean {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        return pref.getBoolean(context.getString(R.string.pref_enable_local_weather), false)
     }
 
     fun fixRowPrefs() {
