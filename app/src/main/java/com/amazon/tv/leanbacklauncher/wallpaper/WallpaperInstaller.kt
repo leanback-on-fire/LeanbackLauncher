@@ -12,7 +12,7 @@ import android.graphics.Shader.TileMode
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Log
-import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
@@ -73,12 +73,11 @@ class WallpaperInstaller private constructor(context: Context) {
             }
             // default background
             if (systemBg == null) systemBg =
-                ResourcesCompat.getDrawable(resources, R.drawable.bg_default, null)
+                    // ResourcesCompat.getDrawable(resources, R.drawable.bg_default, null)
+                ContextCompat.getDrawable(mContext, R.drawable.bg_default)
             val intrinsicWidth = systemBg!!.intrinsicWidth
             val intrinsicHeight = systemBg.intrinsicHeight
-            val wallpaperWidth = getDisplayMetrics(
-                mContext
-            ).widthPixels
+            val wallpaperWidth = getDisplayMetrics(mContext).widthPixels
             val wallpaperHeight = wallpaperWidth * intrinsicHeight / intrinsicWidth
             val bitmap =
                 Bitmap.createBitmap(wallpaperWidth, wallpaperHeight, Bitmap.Config.ARGB_8888)

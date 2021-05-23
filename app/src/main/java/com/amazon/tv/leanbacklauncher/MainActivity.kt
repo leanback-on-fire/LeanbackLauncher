@@ -452,7 +452,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 this@MainActivity,
                 "b7a56bb43570189115cb8b2d98cdde5b"
             )
-            //initializeWeather() // already in addWidget()
+            // initializeWeather() // already in addWidget()
         }
     }
 
@@ -569,15 +569,15 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     }
 
     private fun initializeWeather() {
-        localWeather?.let {
-            it.useCurrentLocation = true
-            it.updateCurrentLocation = true
+        localWeather?.let { lw ->
+            lw.useCurrentLocation = true
+            lw.updateCurrentLocation = true
             val ul = Locale.getDefault().isO3Language
             val uc = Locale.getDefault().isO3Country
-            it.lang = if (ul.equals("rus", true)) Lang.RUSSIAN else Lang.ENGLISH // Lang.ENGLISH
-            it.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC // Units.METRIC
+            lw.lang = if (ul.equals("rus", true)) Lang.RUSSIAN else Lang.ENGLISH // Lang.ENGLISH
+            lw.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC // Units.METRIC
 
-            it.weatherCallback = object : LocalWeather.WeatherCallback {
+            lw.weatherCallback = object : LocalWeather.WeatherCallback {
                 override fun onSuccess(weather: Weather) {
                     if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess()")
                     updateWeatherDetails(weather)
@@ -588,10 +588,10 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 }
             }
 
-            it.fetchCurrentLocation(object : LocalWeather.CurrentLocationCallback {
+            lw.fetchCurrentLocation(object : LocalWeather.CurrentLocationCallback {
                 override fun onSuccess(location: Location) {
                     if (BuildConfig.DEBUG) Log.d(TAG, "Location fetching success")
-                    it.fetchCurrentWeatherByLocation(location)
+                    lw.fetchCurrentWeatherByLocation(location)
                 }
 
                 override fun onFailure(failed: LocationFailedEnum) {
@@ -605,7 +605,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         // TODO: store result to prefs?
         val unit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
         //val speed = if (localWeather!!.unit == Units.METRIC) "km/h" else "mi/h"
-        //Log.d( TAG, "LocalWeather Temp:${weather.temperature}${unit} Country:${weather.country} Latitude:${weather.latitude} Longitude:${weather.longitude} Description:${weather.descriptions[0]}")
+        //if (BuildConfig.DEBUG) Log.d( TAG, "LocalWeather updateWeatherDetails() Temp:${weather.temperature}${unit} Country:${weather.country} Latitude:${weather.latitude} Longitude:${weather.longitude} Description:${weather.descriptions[0]}")
         val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
         weatherVG?.let { group ->
             //Log.d(TAG, "weather ViewGroup exist!")

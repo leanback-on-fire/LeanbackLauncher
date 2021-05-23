@@ -67,7 +67,7 @@
     <string name="edit_row_title">Настройка разделов</string>
     <string name="edit_uninstall_focused_text">Удалить</string>
     <string name="enable_local_weather_title">Показывать погоду</string>
-    <string name="enable_local_weather_description">Показывать текущую погоду (требуется разрешение на местоположение)</string>
+    <string name="enable_local_weather_description">Показывать текущую погоду (требуется разрешение на местоположение и сервисы Google)</string>
     <string name="failed_launch">Не удалось открыть</string>
     <string name="favorites_row_title">Раздел «Избранное»</string>
     <string name="file_no_access">Не удалось прочитать файл!</string>
