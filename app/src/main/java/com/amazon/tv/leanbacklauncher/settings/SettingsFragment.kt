@@ -24,6 +24,7 @@ import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.LauncherApplication
+import com.amazon.tv.leanbacklauncher.MainActivity.Companion.JSONFILE
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.UpdateActivity
 import com.amazon.tv.leanbacklauncher.apps.AppsManager
@@ -700,6 +701,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
  * The fragment that is defined in preferences.xml
  */
 class WeatherPreferenceFragment : LeanbackPreferenceFragmentCompat() {
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.weather_prefs, rootKey)
@@ -707,6 +709,10 @@ class WeatherPreferenceFragment : LeanbackPreferenceFragmentCompat() {
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        // clean cached weather
+        val cache = File(JSONFILE)
+        if (cache.exists())
+            cache.delete()
         // refresh home broadcast
         SettingsFragment.needRestartHome = true
         return super.onPreferenceTreeClick(preference)

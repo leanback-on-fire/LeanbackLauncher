@@ -61,7 +61,8 @@ import com.amazon.tv.leanbacklauncher.wallpaper.LauncherWallpaper
 import com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller
 import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import com.amazon.tv.leanbacklauncher.widget.EditModeView.OnEditModeUninstallPressedListener
-import de.interaapps.localweather.BuildConfig
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import de.interaapps.localweather.LocalWeather
 import de.interaapps.localweather.Weather
 import de.interaapps.localweather.utils.Lang
@@ -71,6 +72,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.File
 import java.io.FileDescriptor
 import java.io.PrintWriter
 import java.net.URL
@@ -264,6 +267,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
     companion object {
         const val PERMISSIONS_REQUEST_LOCATION = 99
+        val JSONFILE = LauncherApplication.getContext().cacheDir?.absolutePath + "/weather.json"
 
         fun isMediaKey(keyCode: Int): Boolean {
             return when (keyCode) {
@@ -579,6 +583,10 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
+    val MAXCACHEAGE = TimeUnit.MINUTES.toMillis(10)
+    val isWeatherCacheValid: Boolean
+        get() = File(JSONFILE).lastModified() + MAXCACHEAGE > System.currentTimeMillis()
+
     private fun initializeWeather() {
         localWeather?.let { lw ->
             val ul = Locale.getDefault().isO3Language
@@ -589,37 +597,57 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             if (RowPreferences.isUseLocationEnabled(this) && !Util.isAmazonDev(this)) {
                 lw.useCurrentLocation = true
                 lw.updateCurrentLocation = true
+                lw.updateLocationInterval = TimeUnit.MINUTES.toMillis(10) // FIXME: no updates
             } else {
                 lw.useCurrentLocation = false
                 RowPreferences.getUserLocation(this)?.let { userLoc ->
                     if (userLoc.isNotEmpty() && !RowPreferences.isUseLocationEnabled(this))
                         if (userLoc.isDigitsOnly()) { // assume city id, ex. 524901
-                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($userLoc)")
-                            lw.fetchCurrentWeatherByCityId(userLoc)
+                            //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($userLoc)")
+                            // TODO: cache
+                            if (isWeatherCacheValid) {
+                                readJsonWeather(JSONFILE)
+                            } else
+                                lw.fetchCurrentWeatherByCityId(userLoc)
                         } else if (userLoc.split(", ").size == 2 &&
                             userLoc.split(", ").first().toDoubleOrNull() != null &&
                             userLoc.split(", ").last().toDoubleOrNull() != null
                         ) { // assume coordinates, ex. 45.75 47.61
                             val lat = userLoc.split(", ").first().toDouble()
                             val lon = userLoc.split(", ").last().toDouble()
-                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
-                            lw.fetchCurrentWeatherByLocation(lat, lon)
+                            //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
+                            // TODO: cache
+                            if (isWeatherCacheValid)
+                                readJsonWeather(JSONFILE)
+                            else
+                                lw.fetchCurrentWeatherByLocation(lat, lon)
                         } else {
-                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityName($userLoc)")
-                            lw.fetchCurrentWeatherByCityName(userLoc)
+                            //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityName($userLoc)")
+                            // TODO: cache
+                            if (isWeatherCacheValid)
+                                readJsonWeather(JSONFILE)
+                            else
+                                lw.fetchCurrentWeatherByCityName(userLoc)
                         }
                     else if (Util.isAmazonDev(this)) { // no user setting or Amazon, fallback to GeoIP
                         lifecycleScope.launch(Dispatchers.IO) {
                             val geoJson = URL("http://api.sypexgeo.net").readText()
                             if (geoJson.isNotEmpty()) {
-                                if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
+                                if (BuildConfig.DEBUG) Log.d(
+                                    TAG,
+                                    "Use GeoIP as fallback, json:$geoJson"
+                                )
                                 try {
                                     val mJsonResponse = JSONObject(geoJson)
                                     val mCityObj = mJsonResponse.getJSONObject("city")
                                     if (mCityObj.has("id") && !mCityObj.isNull("id")) {
                                         val mCode: Int = mCityObj.getInt("id")
                                         //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
-                                        lw.fetchCurrentWeatherByCityId(id = mCode.toString())
+                                        // TODO: cache
+                                        if (isWeatherCacheValid)
+                                            readJsonWeather(JSONFILE)
+                                        else
+                                            lw.fetchCurrentWeatherByCityId(id = mCode.toString())
                                     } else if (
                                         mCityObj.has("lat") &&
                                         mCityObj.has("lon") &&
@@ -629,7 +657,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                         val lat: Double = mCityObj.getDouble("lat")
                                         val lon: Double = mCityObj.getDouble("lon")
                                         //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
-                                        lw.fetchCurrentWeatherByLocation(lat, lon)
+                                        // TODO: cache
+                                        if (isWeatherCacheValid)
+                                            readJsonWeather(JSONFILE)
+                                        else
+                                            lw.fetchCurrentWeatherByLocation(lat, lon)
                                     }
                                 } catch (e: Exception) {
                                     // unused
@@ -643,11 +675,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
             lw.weatherCallback = object : LocalWeather.WeatherCallback {
                 override fun onSuccess(weather: Weather) {
-                    if (BuildConfig.DEBUG) Log.d(
-                        TAG,
-                        "LocalWeather onSuccess() -> updateWeatherDetails"
-                    )
-                    updateWeatherDetails(weather)
+                    if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess() -> updateWeatherDetails)")
+                    // TODO: store result / use cache
+                    //updateWeatherDetails(weather)
+                    writeJsonWeather(weather)
+                    readJsonWeather(JSONFILE)
                 }
 
                 override fun onFailure(exception: Throwable?) {
@@ -655,11 +687,15 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                     LauncherApplication.Toast("Weather error: ${exception!!.message!!}", true)
                 }
             }
-
+            // only used when useCurrentLocation is true
             lw.fetchCurrentLocation(object : LocalWeather.CurrentLocationCallback {
                 override fun onSuccess(location: Location) {
                     if (BuildConfig.DEBUG) Log.d(TAG, "Location fetching success")
-                    lw.fetchCurrentWeatherByLocation(location)
+                    // TODO: cache
+                    if (isWeatherCacheValid)
+                        readJsonWeather(JSONFILE)
+                    else
+                        lw.fetchCurrentWeatherByLocation(location)
                 }
 
                 override fun onFailure(failed: LocationFailedEnum) {
@@ -677,7 +713,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                 if (mCityObj.has("id") && !mCityObj.isNull("id")) {
                                     val mCode: Int = mCityObj.getInt("id")
                                     //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
-                                    lw.fetchCurrentWeatherByCityId(id = mCode.toString())
+                                    // TODO: cache
+                                    if (isWeatherCacheValid)
+                                        readJsonWeather(JSONFILE)
+                                    else
+                                        lw.fetchCurrentWeatherByCityId(id = mCode.toString())
                                 } else if (
                                     mCityObj.has("lat") &&
                                     mCityObj.has("lon") &&
@@ -687,7 +727,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                     val lat: Double = mCityObj.getDouble("lat")
                                     val lon: Double = mCityObj.getDouble("lon")
                                     //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
-                                    lw.fetchCurrentWeatherByLocation(lat, lon)
+                                    // TODO: cache
+                                    if (isWeatherCacheValid)
+                                        readJsonWeather(JSONFILE)
+                                    else
+                                        lw.fetchCurrentWeatherByLocation(lat, lon)
                                 }
                             } catch (e: Exception) {
                                 // unused
@@ -699,14 +743,30 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
+    private fun writeJsonWeather(weather: Weather) {
+        //val gsonWeather = Gson().toJson(weather)
+        //File(cacheFile).writeText(gsonWeather)
+        val gsonPrettyWeather = GsonBuilder().setPrettyPrinting().create().toJson(weather)
+        if (BuildConfig.DEBUG) Log.d(TAG, "writeJsonWeather()")
+        File(JSONFILE).writeText(gsonPrettyWeather)
+    }
+
+    private fun readJsonWeather(f: String) {
+        val gson = Gson()
+        val bufferedReader: BufferedReader = File(f).bufferedReader()
+        val input = bufferedReader.use { it.readText() }
+        val cachedWeather = gson.fromJson(input, Weather::class.java)
+        if (BuildConfig.DEBUG) Log.d(TAG, "readJsonWeather -> updateWeatherDetails()")
+        updateWeatherDetails(cachedWeather)
+    }
+
     private fun updateWeatherDetails(weather: Weather) {
-        // TODO: store result to prefs?
         val unit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
         //val speed = if (localWeather!!.unit == Units.METRIC) "km/h" else "mi/h"
-        //if (BuildConfig.DEBUG) Log.d( TAG, "LocalWeather updateWeatherDetails() Temp:${weather.temperature}${unit} Country:${weather.country} Latitude:${weather.latitude} Longitude:${weather.longitude} Description:${weather.descriptions[0]}")
+        //if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather updateWeatherDetails()\nCity:${weather.name}\nCountry:${weather.country}\nTemp:${weather.temperature}${unit}\nDescription:${weather.descriptions[0]}\nLatitude:${weather.latitude}\nLongitude:${weather.longitude}\n")
         val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
         val locTV: TextView? = findViewById(R.id.curLocation)
-        // weather.name = Weather Location
+        // weather.name = Moscow
         // weather.country = RU
         val curWeatherLoc = weather.name
         if (RowPreferences.showLocation(this)) {
