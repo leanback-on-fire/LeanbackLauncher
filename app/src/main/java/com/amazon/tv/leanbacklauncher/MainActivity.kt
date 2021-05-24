@@ -75,6 +75,7 @@ import java.io.FileDescriptor
 import java.io.PrintWriter
 import java.net.URL
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -585,36 +586,67 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             lw.lang = if (ul.equals("rus", true)) Lang.RUSSIAN else Lang.ENGLISH // Lang.ENGLISH
             lw.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC // Units.METRIC
 
-            if (RowPreferences.isUseLocationEnabled(this)) {
+            if (RowPreferences.isUseLocationEnabled(this) && !Util.isAmazonDev(this)) {
                 lw.useCurrentLocation = true
                 lw.updateCurrentLocation = true
             } else {
                 lw.useCurrentLocation = false
-                RowPreferences.getUserLocation(this)?.let { loc ->
-                    if (loc.isNotEmpty())
-                        if (loc.isDigitsOnly()) { // assume city id, ex. 524901
-                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($loc)")
-                            lw.fetchCurrentWeatherByCityId(loc)
-                        } else if (loc.split(", ").size == 2 &&
-                            loc.split(", ").first().toDoubleOrNull() != null &&
-                            loc.split(", ").last().toDoubleOrNull() != null
+                RowPreferences.getUserLocation(this)?.let { userLoc ->
+                    if (userLoc.isNotEmpty() && !RowPreferences.isUseLocationEnabled(this))
+                        if (userLoc.isDigitsOnly()) { // assume city id, ex. 524901
+                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($userLoc)")
+                            lw.fetchCurrentWeatherByCityId(userLoc)
+                        } else if (userLoc.split(", ").size == 2 &&
+                            userLoc.split(", ").first().toDoubleOrNull() != null &&
+                            userLoc.split(", ").last().toDoubleOrNull() != null
                         ) { // assume coordinates, ex. 45.75 47.61
-                            val lat = loc.split(", ").first().toDouble()
-                            val lon = loc.split(", ").last().toDouble()
+                            val lat = userLoc.split(", ").first().toDouble()
+                            val lon = userLoc.split(", ").last().toDouble()
                             if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
-                                lw.fetchCurrentWeatherByLocation(lat, lon)
+                            lw.fetchCurrentWeatherByLocation(lat, lon)
                         } else {
-                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityName($loc)")
-                            lw.fetchCurrentWeatherByCityName(loc)
+                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityName($userLoc)")
+                            lw.fetchCurrentWeatherByCityName(userLoc)
                         }
-                    else
+                    else if (Util.isAmazonDev(this)) { // no user setting or Amazon, fallback to GeoIP
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            val geoJson = URL("http://api.sypexgeo.net").readText()
+                            if (geoJson.isNotEmpty()) {
+                                if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
+                                try {
+                                    val mJsonResponse = JSONObject(geoJson)
+                                    val mCityObj = mJsonResponse.getJSONObject("city")
+                                    if (mCityObj.has("id") && !mCityObj.isNull("id")) {
+                                        val mCode: Int = mCityObj.getInt("id")
+                                        //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
+                                        lw.fetchCurrentWeatherByCityId(id = mCode.toString())
+                                    } else if (
+                                        mCityObj.has("lat") &&
+                                        mCityObj.has("lon") &&
+                                        !mCityObj.isNull("lat") &&
+                                        !mCityObj.isNull("lon")
+                                    ) {
+                                        val lat: Double = mCityObj.getDouble("lat")
+                                        val lon: Double = mCityObj.getDouble("lon")
+                                        //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
+                                        lw.fetchCurrentWeatherByLocation(lat, lon)
+                                    }
+                                } catch (e: Exception) {
+                                    // unused
+                                }
+                            }
+                        }
+                    } else
                         LauncherApplication.Toast(R.string.user_location_warning, true)
                 }
             }
 
             lw.weatherCallback = object : LocalWeather.WeatherCallback {
                 override fun onSuccess(weather: Weather) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess() -> updateWeatherDetails")
+                    if (BuildConfig.DEBUG) Log.d(
+                        TAG,
+                        "LocalWeather onSuccess() -> updateWeatherDetails"
+                    )
                     updateWeatherDetails(weather)
                 }
 
@@ -635,24 +667,31 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                     // http://api.sypexgeo.net/xml
                     // 524901 XX.XXXXX YY.YYYYY Москва
                     //val geoid = URL("http://api.sypexgeo.net/xml").readText()
-                    val geoJson = URL("http://api.sypexgeo.net").readText()
-                    if (geoJson.isNotEmpty()) {
-                        if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
-                        try {
-                            val mJsonResponse = JSONObject(geoJson)
-                            val mCityObj = mJsonResponse.getJSONObject("city")
-                            if (mCityObj.has("id") && !mCityObj.isNull("id")) {
-                                val mCode: Int = mCityObj.getInt("id")
-                                if (BuildConfig.DEBUG) Log.d(TAG,"fetchCurrentWeatherByCityId($mCode)")
-                                lw.fetchCurrentWeatherByCityId(id = mCode.toString())
-                            } else if (mCityObj.has("lat") && mCityObj.has("lon") && !mCityObj.isNull("lat") && !mCityObj.isNull("lon")) {
-                                val lat: Double = mCityObj.getDouble("lat")
-                                val lon: Double = mCityObj.getDouble("lon")
-                                if (BuildConfig.DEBUG) Log.d(TAG,"fetchCurrentWeatherByLocation($lat,$lon)")
-                                lw.fetchCurrentWeatherByLocation(latitude = lat, longitude = lon)
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val geoJson = URL("http://api.sypexgeo.net").readText()
+                        if (geoJson.isNotEmpty()) {
+                            //if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
+                            try {
+                                val mJsonResponse = JSONObject(geoJson)
+                                val mCityObj = mJsonResponse.getJSONObject("city")
+                                if (mCityObj.has("id") && !mCityObj.isNull("id")) {
+                                    val mCode: Int = mCityObj.getInt("id")
+                                    //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
+                                    lw.fetchCurrentWeatherByCityId(id = mCode.toString())
+                                } else if (
+                                    mCityObj.has("lat") &&
+                                    mCityObj.has("lon") &&
+                                    !mCityObj.isNull("lat") &&
+                                    !mCityObj.isNull("lon")
+                                ) {
+                                    val lat: Double = mCityObj.getDouble("lat")
+                                    val lon: Double = mCityObj.getDouble("lon")
+                                    //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
+                                    lw.fetchCurrentWeatherByLocation(lat, lon)
+                                }
+                            } catch (e: Exception) {
+                                // unused
                             }
-                        } catch (e: Exception) {
-                            // unused
                         }
                     }
                 }
@@ -666,24 +705,24 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         //val speed = if (localWeather!!.unit == Units.METRIC) "km/h" else "mi/h"
         //if (BuildConfig.DEBUG) Log.d( TAG, "LocalWeather updateWeatherDetails() Temp:${weather.temperature}${unit} Country:${weather.country} Latitude:${weather.latitude} Longitude:${weather.longitude} Description:${weather.descriptions[0]}")
         val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
-        val locTV = findViewById<TextView?>(R.id.curLocation)
+        val locTV: TextView? = findViewById(R.id.curLocation)
         // weather.name = Weather Location
         // weather.country = RU
-        val curLoc = weather.name
-        if (RowPreferences.showLocation(applicationContext)) {
+        val curWeatherLoc = weather.name
+        if (RowPreferences.showLocation(this)) {
             lifecycleScope.launch(Dispatchers.Main) {
-                if (curLoc.isNotEmpty()) locTV.text = curLoc else locTV.text = ""
+                if (curWeatherLoc.isNotEmpty()) locTV?.text = curWeatherLoc else locTV?.text = ""
                 weatherVG?.visibility = View.GONE
-                locTV.visibility = View.VISIBLE
-                locTV.alpha = 0.0f
-                locTV.animate()?.apply {
+                locTV?.visibility = View.VISIBLE
+                locTV?.alpha = 0.0f
+                locTV?.animate()?.apply {
                     interpolator = LinearInterpolator()
                     duration = 300
                     alpha(1.0f)
                     start()
                 }
-                delay(5000)
-                locTV.animate()?.apply {
+                delay(TimeUnit.SECONDS.toMillis(3))
+                locTV?.animate()?.apply {
                     interpolator = LinearInterpolator()
                     duration = 1000
                     alpha(0.0f)
@@ -710,7 +749,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             // icon
             val icon = findViewById<AppCompatImageView>(R.id.weather_icon)
             icon?.let {
-                OpenWeatherIcons(applicationContext, weather.icons[0], it)
+                OpenWeatherIcons(this, weather.icons[0], it)
                 it.visibility = View.VISIBLE
                 it.contentDescription = weather.descriptions[0]
             }
