@@ -61,6 +61,7 @@ import com.amazon.tv.leanbacklauncher.wallpaper.LauncherWallpaper
 import com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller
 import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import com.amazon.tv.leanbacklauncher.widget.EditModeView.OnEditModeUninstallPressedListener
+import de.interaapps.localweather.BuildConfig
 import de.interaapps.localweather.LocalWeather
 import de.interaapps.localweather.Weather
 import de.interaapps.localweather.utils.Lang
@@ -636,13 +637,23 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                     //val geoid = URL("http://api.sypexgeo.net/xml").readText()
                     val geoJson = URL("http://api.sypexgeo.net").readText()
                     if (geoJson.isNotEmpty()) {
-                        val mJsonResponse = JSONObject(geoJson)
-                        val mCityObj = mJsonResponse.getJSONObject("city")
-                        val mCode: String = mCityObj.getString("id")
-                        val lat: Double? = mCityObj.getString("lat").toDoubleOrNull()
-                        val lon: Double? = mCityObj.getString("lon").toDoubleOrNull()
-                        if (lat != null && lon != null)
-                            lw.fetchCurrentWeatherByLocation(latitude = lat, longitude = lon)
+                        if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
+                        try {
+                            val mJsonResponse = JSONObject(geoJson)
+                            val mCityObj = mJsonResponse.getJSONObject("city")
+                            if (mCityObj.has("id") && !mCityObj.isNull("id")) {
+                                val mCode: Int = mCityObj.getInt("id")
+                                if (BuildConfig.DEBUG) Log.d(TAG,"fetchCurrentWeatherByCityId($mCode)")
+                                lw.fetchCurrentWeatherByCityId(id = mCode.toString())
+                            } else if (mCityObj.has("lat") && mCityObj.has("lon") && !mCityObj.isNull("lat") && !mCityObj.isNull("lon")) {
+                                val lat: Double = mCityObj.getDouble("lat")
+                                val lon: Double = mCityObj.getDouble("lon")
+                                if (BuildConfig.DEBUG) Log.d(TAG,"fetchCurrentWeatherByLocation($lat,$lon)")
+                                lw.fetchCurrentWeatherByLocation(latitude = lat, longitude = lon)
+                            }
+                        } catch (e: Exception) {
+                            // unused
+                        }
                     }
                 }
             })
