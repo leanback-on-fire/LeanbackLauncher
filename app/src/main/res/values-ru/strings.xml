@@ -211,8 +211,8 @@ com.amazon.device.sale.service
     <string name="update_loading">Загрузка обновления…</string>
     <string name="update">Обновление приложения</string>
     <string name="error_app_not_found">Не найдено подходящих приложений</string>
-    <string name="use_current_location_title">Использовать текущее местоположение</string>
-    <string name="use_current_location_description">Местоположение из ОС (требуется разрешение на местоположение и сервисы Google)</string>
+    <string name="use_current_location_title">Текущее местоположение</string>
+    <string name="use_current_location_description">Использовать местоположение из ОС (требуется разрешение на местоположение и сервисы Google)</string>
     <string name="user_location_title">Местоположение пользователя</string>
     <string name="v7_preference_off">ВЫКЛ</string>
     <string name="v7_preference_on">ВКЛ</string>
