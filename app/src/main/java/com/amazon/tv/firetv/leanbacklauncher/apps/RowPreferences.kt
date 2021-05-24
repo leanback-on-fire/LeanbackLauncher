@@ -322,6 +322,24 @@ object RowPreferences {
         return pref.getBoolean(context.getString(R.string.pref_enable_local_weather), false)
     }
 
+    @JvmStatic
+    fun isUseLocationEnabled(context: Context): Boolean {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        return pref.getBoolean(context.getString(R.string.pref_use_current_location), true)
+    }
+
+    @JvmStatic
+    fun showLocation(context: Context): Boolean {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        return pref.getBoolean(context.getString(R.string.pref_show_location), false)
+    }
+
+    @JvmStatic
+    fun getUserLocation(context: Context): String? {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        return pref.getString(context.getString(R.string.pref_user_location), "")
+    }
+
     fun fixRowPrefs() {
         val context = LauncherApplication.getContext()
         val pref = PreferenceManager.getDefaultSharedPreferences(context)

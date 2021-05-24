@@ -1,5 +1,7 @@
 package com.amazon.tv.leanbacklauncher
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.*
 import android.appwidget.AppWidgetHost
@@ -34,6 +36,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.leanback.widget.VerticalGridView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
@@ -62,8 +65,13 @@ import de.interaapps.localweather.Weather
 import de.interaapps.localweather.utils.Lang
 import de.interaapps.localweather.utils.LocationFailedEnum
 import de.interaapps.localweather.utils.Units
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.io.FileDescriptor
 import java.io.PrintWriter
+import java.net.URL
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -570,12 +578,20 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
     private fun initializeWeather() {
         localWeather?.let { lw ->
-            lw.useCurrentLocation = true
-            lw.updateCurrentLocation = true
             val ul = Locale.getDefault().isO3Language
             val uc = Locale.getDefault().isO3Country
             lw.lang = if (ul.equals("rus", true)) Lang.RUSSIAN else Lang.ENGLISH // Lang.ENGLISH
             lw.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC // Units.METRIC
+
+            if (RowPreferences.isUseLocationEnabled(this)) {
+                lw.useCurrentLocation = true
+                lw.updateCurrentLocation = true
+            } else {
+                RowPreferences.getUserLocation(this)?.let { loc ->
+                    if (loc.isNotEmpty())
+                        lw.fetchCurrentWeatherByCityName(loc)
+                }
+            }
 
             lw.weatherCallback = object : LocalWeather.WeatherCallback {
                 override fun onSuccess(weather: Weather) {
@@ -596,6 +612,19 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
                 override fun onFailure(failed: LocationFailedEnum) {
                     Log.e(TAG, "Location fetching failed $failed")
+                    // http://api.sypexgeo.net/xml
+                    // 524901 XX.XXXXX YY.YYYYY Москва
+                    //val geoid = URL("http://api.sypexgeo.net/xml").readText()
+                    val geoJson = URL("http://api.sypexgeo.net").readText()
+                    if (geoJson.isNotEmpty()) {
+                        val mJsonResponse = JSONObject(geoJson)
+                        val mCityObj = mJsonResponse.getJSONObject("city")
+                        val mCode: String = mCityObj.getString("id")
+                        val lat: Double? = mCityObj.getString("lat").toDoubleOrNull()
+                        val lon: Double? = mCityObj.getString("lon").toDoubleOrNull()
+                        if (lat != null && lon != null)
+                            lw.fetchCurrentWeatherByLocation(latitude = lat, longitude = lon)
+                    }
                 }
             })
         }
@@ -607,6 +636,37 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         //val speed = if (localWeather!!.unit == Units.METRIC) "km/h" else "mi/h"
         //if (BuildConfig.DEBUG) Log.d( TAG, "LocalWeather updateWeatherDetails() Temp:${weather.temperature}${unit} Country:${weather.country} Latitude:${weather.latitude} Longitude:${weather.longitude} Description:${weather.descriptions[0]}")
         val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
+        val locTV = findViewById<TextView?>(R.id.curLocation)
+        // weather.name = Weather Location
+        // weather.country = RU
+        val curLoc = weather.name
+        if (RowPreferences.showLocation(applicationContext)) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                if (curLoc.isNotEmpty()) locTV.text = curLoc else locTV.text = ""
+                weatherVG?.visibility = View.GONE
+                locTV.visibility = View.VISIBLE
+                locTV.alpha = 0.0f
+                locTV.animate()?.apply {
+                    interpolator = LinearInterpolator()
+                    duration = 300
+                    alpha(1.0f)
+                    start()
+                }
+                delay(5000)
+                locTV.animate()?.apply {
+                    interpolator = LinearInterpolator()
+                    duration = 1000
+                    alpha(0.0f)
+                    setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            locTV.visibility = View.GONE
+                            weatherVG?.visibility = View.VISIBLE
+                        }
+                    })
+                    start()
+                }
+            }
+        }
         weatherVG?.let { group ->
             //Log.d(TAG, "weather ViewGroup exist!")
             group.visibility = View.VISIBLE

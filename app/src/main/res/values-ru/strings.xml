@@ -67,7 +67,7 @@
     <string name="edit_row_title">Настройка разделов</string>
     <string name="edit_uninstall_focused_text">Удалить</string>
     <string name="enable_local_weather_title">Показывать погоду</string>
-    <string name="enable_local_weather_description">Показывать текущую погоду (требуется разрешение на местоположение и сервисы Google)</string>
+    <string name="enable_local_weather_description">Показывать текущую погоду</string>
     <string name="failed_launch">Не удалось открыть</string>
     <string name="favorites_row_title">Раздел «Избранное»</string>
     <string name="file_no_access">Не удалось прочитать файл!</string>
@@ -187,6 +187,8 @@ com.amazon.device.sale.service
     <string name="settings_dialog_title">Главный экран</string>
     <string name="settings_network">Cеть</string>
     <string name="show_all_apps">Показывать системные и не-ТВ приложения</string>
+    <string name="show_location_title">Показать местоположение</string>
+    <string name="show_location_description">Показать расположение с погодой</string>
     <string name="status_bar_notification_info_overflow">>999</string>
     <string name="system_settings">Cистема</string>
     <string name="title_app_edit_mode">Режим упорядочивания приложений</string>
@@ -209,6 +211,9 @@ com.amazon.device.sale.service
     <string name="update_loading">Загрузка обновления…</string>
     <string name="update">Обновление приложения</string>
     <string name="error_app_not_found">Не найдено подходящих приложений</string>
+    <string name="use_current_location_title">Использовать текущее местоположение</string>
+    <string name="use_current_location_description">Местоположение из ОС (требуется разрешение на местоположение и сервисы Google)</string>
+    <string name="user_location_title">Местоположение пользователя</string>
     <string name="v7_preference_off">ВЫКЛ</string>
     <string name="v7_preference_on">ВКЛ</string>
     <string name="videos_row_title">Раздел «Видео»</string>

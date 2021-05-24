@@ -67,4 +67,17 @@
 
         </FrameLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/curLocation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_weather_height"
+        android:layout_gravity="center"
+        android:focusable="false"
+        android:fontFamily="@string/light_font"
+        android:gravity="center"
+        android:textColor="@color/clock_text_color"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
 </LinearLayout>
