@@ -263,6 +263,7 @@ or recommendations will not work properly."</string>
     <string name="use_current_location_title">Use current location</string>
     <string name="use_current_location_description">Autodetect location by OS (Google services and location permission required)</string>
     <string name="user_location_title">User location</string>
+    <string name="user_location_warning">User location for weather not set in preferences</string>
     <string name="error_app_not_found">No suitable applications found</string>
     <string name="v7_preference_off">OFF</string>
     <string name="v7_preference_on">ON</string>

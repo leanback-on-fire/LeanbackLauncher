@@ -33,6 +33,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.text.isDigitsOnly
 import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.leanback.widget.VerticalGridView
@@ -587,20 +588,38 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 lw.useCurrentLocation = true
                 lw.updateCurrentLocation = true
             } else {
+                lw.useCurrentLocation = false
                 RowPreferences.getUserLocation(this)?.let { loc ->
                     if (loc.isNotEmpty())
-                        lw.fetchCurrentWeatherByCityName(loc)
+                        if (loc.isDigitsOnly()) { // assume city id, ex. 524901
+                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($loc)")
+                            lw.fetchCurrentWeatherByCityId(loc)
+                        } else if (loc.split(", ").size == 2 &&
+                            loc.split(", ").first().toDoubleOrNull() != null &&
+                            loc.split(", ").last().toDoubleOrNull() != null
+                        ) { // assume coordinates, ex. 45.75 47.61
+                            val lat = loc.split(", ").first().toDouble()
+                            val lon = loc.split(", ").last().toDouble()
+                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
+                                lw.fetchCurrentWeatherByLocation(lat, lon)
+                        } else {
+                            if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityName($loc)")
+                            lw.fetchCurrentWeatherByCityName(loc)
+                        }
+                    else
+                        LauncherApplication.Toast(R.string.user_location_warning, true)
                 }
             }
 
             lw.weatherCallback = object : LocalWeather.WeatherCallback {
                 override fun onSuccess(weather: Weather) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess()")
+                    if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess() -> updateWeatherDetails")
                     updateWeatherDetails(weather)
                 }
 
                 override fun onFailure(exception: Throwable?) {
                     Log.e(TAG, "Weather fetching exception ${exception!!.message!!}")
+                    LauncherApplication.Toast("Weather error: ${exception!!.message!!}", true)
                 }
             }
 
