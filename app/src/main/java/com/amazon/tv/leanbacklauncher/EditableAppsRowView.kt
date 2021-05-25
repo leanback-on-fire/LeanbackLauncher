@@ -16,6 +16,7 @@ import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.recyclerview.widget.RecyclerView
+import com.amazon.tv.firetv.leanbacklauncher.apps.FavoritesAdapter
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getBannersSize
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer
 import com.amazon.tv.leanbacklauncher.apps.*
@@ -148,8 +149,13 @@ class EditableAppsRowView @JvmOverloads constructor(
                 }
             }
         }
+
     val isRowEditable: Boolean
-        get() = true
+        //get() = true // disable EditMode for Favorites
+        get() {
+            val adapter = adapter
+            return adapter !is FavoritesAdapter
+        }
 
     override fun onSelectedChanged(bannerView: BannerView, selected: Boolean) {
         if (isUninstallDisallowed(bannerView) && selected) {

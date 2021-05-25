@@ -34,6 +34,7 @@ class LaunchPointList(ctx: Context) {
     private var mShouldNotify = false
     private val mUpdatableBlacklist: HashMap<String?, Int>
     private var rawFilter: RawFilter
+    private var prefUtil: SharedPreferencesUtil? = null
 
     companion object {
         private const val TAG = "LaunchPointList"
@@ -65,6 +66,9 @@ class LaunchPointList(ctx: Context) {
                     else -> false
                 }
             }
+        }
+        if (prefUtil == null) {
+            prefUtil = SharedPreferencesUtil.instance(mContext)
         }
     }
 
@@ -180,8 +184,6 @@ class LaunchPointList(ctx: Context) {
                 }
             }
             if (normLaunchPoints.size > 0) {
-                if (prefUtil == null)
-                    prefUtil = SharedPreferencesUtil.instance(mContext)
                 for (itemRawLaunchPoint in normLaunchPoints) {
                     if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
                         // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
@@ -811,20 +813,12 @@ class LaunchPointList(ctx: Context) {
         return null
     }
 
-    private var prefUtil: SharedPreferencesUtil? = null
-
     // TODO relocate this hiding code
     private fun isFavorited(pkgName: String?): Boolean { // Filter favorities only when row enabled
-        if (prefUtil == null) {
-            prefUtil = SharedPreferencesUtil.instance(mContext)
-        }
         return prefUtil!!.isFavorite(pkgName) && prefUtil!!.areFavoritesEnabled()
     }
 
     private fun isBlacklisted(pkgName: String?): Boolean {
-        if (prefUtil == null) {
-            prefUtil = SharedPreferencesUtil.instance(mContext)
-        }
         return prefUtil!!.isHidden(pkgName) || mUpdatableBlacklist.containsKey(pkgName) || mNonUpdatableBlacklist.containsKey(
             pkgName
         )

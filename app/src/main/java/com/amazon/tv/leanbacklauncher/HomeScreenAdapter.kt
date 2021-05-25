@@ -586,14 +586,14 @@ class HomeScreenAdapter(
             RowType.NOTIFICATIONS -> recommendationsAdapter
             RowType.ACTUAL_NOTIFICATIONS -> mNotificationsAdapter
             RowType.PARTNER -> mPartnerAdapter
-            RowType.FAVORITES -> FavoritesAdapter(mMainActivity, recommendationsAdapter)
+            RowType.FAVORITES -> FavoritesAdapter(mMainActivity, null)
             RowType.APPS -> {
                 val categories: MutableSet<AppCategory> = HashSet()
                 categories.add(AppCategory.OTHER)
                 if (!enabledCategories.contains(AppCategory.VIDEO)) categories.add(AppCategory.VIDEO)
                 if (!enabledCategories.contains(AppCategory.MUSIC)) categories.add(AppCategory.MUSIC)
                 if (!enabledCategories.contains(AppCategory.GAME)) categories.add(AppCategory.GAME)
-                AppsAdapter(mMainActivity, recommendationsAdapter, *categories.toTypedArray())
+                AppsAdapter(mMainActivity, null, *categories.toTypedArray())
             }
             RowType.VIDEO -> AppsAdapter(mMainActivity, null, AppCategory.VIDEO)
             RowType.MUSIC -> AppsAdapter(mMainActivity, null, AppCategory.MUSIC)

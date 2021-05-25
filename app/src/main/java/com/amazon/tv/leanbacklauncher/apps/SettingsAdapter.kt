@@ -218,9 +218,9 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
     override fun onSettingsChanged() {
         refreshDataSetAsync()
     }
-
+// TODO
 //    override fun onLaunchPointsAddedOrUpdated(arrayList: ArrayList<LaunchPoint>) {}
-
+// TODO
 //    override fun onLaunchPointsRemoved(arrayList: ArrayList<LaunchPoint>) {}
 
 }

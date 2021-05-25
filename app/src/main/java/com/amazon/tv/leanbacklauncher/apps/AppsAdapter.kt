@@ -334,11 +334,14 @@ open class AppsAdapter(
             val lps: List<LaunchPoint> = refreshedLaunchPointList
             val filtered = ArrayList<LaunchPoint>()
 
-            // TODO
+            // TODO: rewrite to coroutines
             for (lp in lps) {
                 if (mFilter.include(lp)) {
                     filtered.add(lp)
                 }
+            }
+            if (getRowType() == RowType.FAVORITES) { // add sorting to FAVORITES
+                sortLaunchPoints(filtered)
             }
             return filtered
         }
@@ -354,7 +357,10 @@ open class AppsAdapter(
                         change.index,
                         change.count
                     )
-                    Lists.Change.Type.REMOVAL -> notifyItemRangeRemoved(change.index, change.count)
+                    Lists.Change.Type.REMOVAL -> notifyItemRangeRemoved(
+                        change.index,
+                        change.count
+                    )
                     else -> throw IllegalStateException("Unsupported change type: " + change.type)
                 }
             }
