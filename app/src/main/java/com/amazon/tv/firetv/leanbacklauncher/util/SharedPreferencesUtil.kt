@@ -29,10 +29,6 @@ class SharedPreferencesUtil private constructor() {
         }
     }
 
-    fun favoriteApps(): Set<String> {
-        return favPref?.all?.keys ?: emptySet()
-    }
-
     fun hiddenApps(): Set<String> {
         return hiddenPref?.all?.keys ?: emptySet()
     }

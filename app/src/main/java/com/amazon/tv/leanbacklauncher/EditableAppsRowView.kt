@@ -151,11 +151,11 @@ class EditableAppsRowView @JvmOverloads constructor(
         }
 
     val isRowEditable: Boolean
-        //get() = true // disable EditMode for Favorites
-        get() {
-            val adapter = adapter
-            return adapter !is FavoritesAdapter
-        }
+        get() = true
+//        get() { // disable EditMode for Settings
+//            val adapter = adapter
+//            return adapter !is SettingsAdapter
+//        }
 
     override fun onSelectedChanged(bannerView: BannerView, selected: Boolean) {
         if (isUninstallDisallowed(bannerView) && selected) {
