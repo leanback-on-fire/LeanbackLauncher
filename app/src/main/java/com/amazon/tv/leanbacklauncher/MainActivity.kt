@@ -675,7 +675,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
             lw.weatherCallback = object : LocalWeather.WeatherCallback {
                 override fun onSuccess(weather: Weather) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess() -> updateWeatherDetails)")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess() -> updateWeatherDetails()")
                     // TODO: store result / use cache
                     //updateWeatherDetails(weather)
                     writeJsonWeather(weather)
@@ -747,7 +747,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         //val gsonWeather = Gson().toJson(weather)
         //File(cacheFile).writeText(gsonWeather)
         val gsonPrettyWeather = GsonBuilder().setPrettyPrinting().create().toJson(weather)
-        if (BuildConfig.DEBUG) Log.d(TAG, "writeJsonWeather()")
+        //if (BuildConfig.DEBUG) Log.d(TAG, "writeJsonWeather()")
         File(JSONFILE).writeText(gsonPrettyWeather)
     }
 
@@ -756,7 +756,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         val bufferedReader: BufferedReader = File(f).bufferedReader()
         val input = bufferedReader.use { it.readText() }
         val cachedWeather = gson.fromJson(input, Weather::class.java)
-        if (BuildConfig.DEBUG) Log.d(TAG, "readJsonWeather -> updateWeatherDetails()")
+        //if (BuildConfig.DEBUG) Log.d(TAG, "readJsonWeather -> updateWeatherDetails()")
         updateWeatherDetails(cachedWeather)
     }
 

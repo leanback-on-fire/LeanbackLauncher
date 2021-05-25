@@ -283,12 +283,7 @@ class EditableAppsRowView @JvmOverloads constructor(
     }
 
     private fun swapAppOrder(movingBanner: BannerView?, otherBanner: BannerView?) {
-        if (BuildConfig.DEBUG) Log.d(
-            TAG,
-            "swapAppOrder(${getChildAdapterPosition(movingBanner!!)},${
-                getChildAdapterPosition(otherBanner!!)
-            })"
-        )
+        //if (BuildConfig.DEBUG) Log.d(TAG, "swapAppOrder(${getChildAdapterPosition(movingBanner!!)},${getChildAdapterPosition(otherBanner!!)})")
         (adapter as AppsAdapter?)?.moveLaunchPoint(
             getChildAdapterPosition(movingBanner!!),
             getChildAdapterPosition(otherBanner!!),

@@ -46,7 +46,7 @@ open class ActiveItemsRowView @JvmOverloads constructor(
                 this@ActiveItemsRowView.adjustNumRows(rowType)
                 if (adapter is AppsAdapter && adapter.takeItemsHaveBeenSorted()) {
                     this@ActiveItemsRowView.selectedPosition = 0
-                    if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() setSelectedPosition(0)")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "onChanged() setSelectedPosition(0)")
                 }
             }
 
@@ -120,7 +120,7 @@ open class ActiveItemsRowView @JvmOverloads constructor(
     // called on HomeScreenAdapter initAppRow
     fun adjustNumRows(numRows: Int, cardSpacing: Int, rowHeight: Int) {
         if (mIsAdjustable && this.aNumRows != numRows) {
-            if (BuildConfig.DEBUG) Log.w(TAG, "adjustNumRows[$numRows] was $aNumRows")
+            //if (BuildConfig.DEBUG) Log.w(TAG, "adjustNumRows[$numRows] was $aNumRows")
             this.aNumRows = numRows
             mCardSpacing = cardSpacing
             mRowHeight = rowHeight
@@ -128,11 +128,11 @@ open class ActiveItemsRowView @JvmOverloads constructor(
                 val lp = this@ActiveItemsRowView.layoutParams
                 lp.height =
                     this@ActiveItemsRowView.aNumRows * mRowHeight + (this@ActiveItemsRowView.aNumRows - 1) * mCardSpacing + (this@ActiveItemsRowView.paddingTop + this@ActiveItemsRowView.paddingBottom)
-                if (BuildConfig.DEBUG) Log.w(TAG, "new height: ${this@ActiveItemsRowView.layoutParams.height}")
+                //if (BuildConfig.DEBUG) Log.w(TAG, "new height: ${this@ActiveItemsRowView.layoutParams.height}")
                 setNumRows(this@ActiveItemsRowView.aNumRows)
-                if (BuildConfig.DEBUG) Log.w(TAG, "call setNumRows($aNumRows)")
+                //if (BuildConfig.DEBUG) Log.w(TAG, "call setNumRows($aNumRows)")
                 this@ActiveItemsRowView.setRowHeight(mRowHeight)
-                if (BuildConfig.DEBUG) Log.w(TAG, "set RowHeight($mRowHeight)")
+                //if (BuildConfig.DEBUG) Log.w(TAG, "set RowHeight($mRowHeight)")
             }
         }
     }
