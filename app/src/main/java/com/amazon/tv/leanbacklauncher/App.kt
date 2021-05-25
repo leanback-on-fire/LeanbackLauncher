@@ -3,6 +3,8 @@ package com.amazon.tv.leanbacklauncher
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Handler
 import android.os.Looper
 import android.os.RemoteException
@@ -19,10 +21,12 @@ import com.amazon.tv.tvrecommendations.IRecommendationsService
 import com.amazon.tv.tvrecommendations.RecommendationsClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-class LauncherApplication : Application(), LifecycleObserver {
+
+class App : Application(), LifecycleObserver {
     private var mNewBlacklistClient: NewBlacklistClient? = null
     private var mOldBlacklistClient: OldBlacklistClient? = null
     private val TAG =
@@ -36,23 +40,25 @@ class LauncherApplication : Application(), LifecycleObserver {
             return contextApp
         }
 
-        fun Toast(txt: String, long: Boolean = false) {
+        fun toast(txt: String?, long: Boolean = false) {
             Handler(Looper.getMainLooper()).post {
                 val show = if (long)
                     android.widget.Toast.LENGTH_LONG
                 else
                     android.widget.Toast.LENGTH_SHORT
-                android.widget.Toast.makeText(contextApp, txt, show).show()
+                if (!txt.isNullOrEmpty())
+                    android.widget.Toast.makeText(contextApp, txt, show).show()
             }
         }
 
-        fun Toast(resId: Int, long: Boolean = false) {
+        fun toast(resId: Int?, long: Boolean = false) {
             Handler(Looper.getMainLooper()).post {
                 val show = if (long)
                     android.widget.Toast.LENGTH_LONG
                 else
                     android.widget.Toast.LENGTH_SHORT
-                android.widget.Toast.makeText(contextApp, resId, show).show()
+                if (resId != null)
+                    android.widget.Toast.makeText(contextApp, resId, show).show()
             }
         }
     }
@@ -68,7 +74,7 @@ class LauncherApplication : Application(), LifecycleObserver {
         override fun onConnected(service: IRecommendationsService) {
             try {
                 val newBlacklist: MutableList<String?> =
-                    ArrayList<String?>(Arrays.asList(*service.blacklistedPackages))
+                    ArrayList<String?>(listOf(*service.blacklistedPackages))
                 for (pkg in mBlacklist) {
                     if (!newBlacklist.contains(pkg)) {
                         newBlacklist.add(pkg)
@@ -87,7 +93,7 @@ class LauncherApplication : Application(), LifecycleObserver {
 
     private inner class OldBlacklistClient(context: Context?) : RecommendationsClient(context) {
         override fun onConnected(service: IRecommendationsService) {
-            synchronized(LauncherApplication::class.java) {
+            synchronized(App::class.java) {
                 if (!sBlacklistMigrated) {
                     try {
                         val blacklist = service.blacklistedPackages
@@ -121,12 +127,30 @@ class LauncherApplication : Application(), LifecycleObserver {
         demigrate()
         // self update check
         GlobalScope.launch(Dispatchers.IO) {
-            if (Updater.check()) {
-                val intent = Intent(contextApp, UpdateActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+            var count = 60
+            try {
+                while (!isConnected(contextApp) && count > 0) {
+                    delay(1000) // wait for network
+                    count--
+                }
+                if (Updater.check()) {
+                    val intent = Intent(contextApp, UpdateActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
+            } catch (e: Exception) {
             }
         }
+    }
+
+    fun isConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        var networkInfo: NetworkInfo? = null
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.activeNetworkInfo
+        }
+        return networkInfo != null && networkInfo.state == NetworkInfo.State.CONNECTED
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

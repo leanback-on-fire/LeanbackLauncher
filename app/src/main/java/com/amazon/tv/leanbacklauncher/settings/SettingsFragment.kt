@@ -23,7 +23,7 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.leanbacklauncher.BuildConfig
-import com.amazon.tv.leanbacklauncher.LauncherApplication
+import com.amazon.tv.leanbacklauncher.App
 import com.amazon.tv.leanbacklauncher.MainActivity.Companion.JSONFILE
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.UpdateActivity
@@ -84,7 +84,7 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
         super.onStop()
         if (needRestartHome) {
             if (BuildConfig.DEBUG) Log.d(TAG, "onStop() send refresh HOME broadcast")
-            Util.refreshHome(LauncherApplication.getContext())
+            Util.refreshHome(App.getContext())
         }
     }
 }
@@ -118,7 +118,7 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
                 if (Updater.check())
                     startActivity(Intent(activity, UpdateActivity::class.java))
                 else
-                    LauncherApplication.Toast(getString(R.string.update_no_updates))
+                    App.toast(getString(R.string.update_no_updates))
             }
             return true
         }
@@ -431,7 +431,7 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             val enabled = (preference as SwitchPreference).isChecked
             RowPreferences.setRecommendationsEnabled(ctx, enabled)
             if (enabled && FireTVUtils.isAmazonNotificationsEnabled(ctx)) {
-                LauncherApplication.Toast(getString(R.string.recs_warning_sale))
+                App.toast(getString(R.string.recs_warning_sale))
             }
             // refresh home broadcast
             SettingsFragment.needRestartHome = true
@@ -568,7 +568,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 if (file.canRead())
                     setWallpaper(ctx, file.path.toString())
                 else
-                    LauncherApplication.Toast(getString(R.string.file_no_access))
+                    App.toast(getString(R.string.file_no_access))
                 dirName?.let { rootPath = rootPath?.removeSuffix(it) }
                 fm?.popBackStack()
                 return true

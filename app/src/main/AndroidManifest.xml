@@ -57,7 +57,7 @@
     <permission android:name="com.amazon.tv.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
 
     <application
-        android:name="com.amazon.tv.leanbacklauncher.LauncherApplication"
+        android:name="com.amazon.tv.leanbacklauncher.App"
         android:allowBackup="true"
         android:banner="@drawable/banner_leanback"
         android:hardwareAccelerated="true"

@@ -6,7 +6,7 @@ import android.text.Spanned
 import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
 import com.amazon.tv.leanbacklauncher.BuildConfig
-import com.amazon.tv.leanbacklauncher.LauncherApplication
+import com.amazon.tv.leanbacklauncher.App
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.model.Release
 import com.amazon.tv.leanbacklauncher.util.model.Releases
@@ -155,7 +155,7 @@ object Updater {
     }
 
     fun installNewVersion(onProgress: ((prc: Int) -> Unit)?) {
-        val ctx = LauncherApplication.getContext()
+        val ctx = App.getContext()
         if (newVersion == null && !check())
             return
 
@@ -177,9 +177,9 @@ object Updater {
                 install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 install.setDataAndType(uri, "application/vnd.android.package-archive")
                 if (install.resolveActivity(ctx.packageManager) != null)
-                    LauncherApplication.getContext().startActivity(install)
+                    App.getContext().startActivity(install)
                 else
-                    LauncherApplication.Toast(R.string.error_app_not_found)
+                    App.toast(R.string.error_app_not_found)
             } else {
                 val fileUri =
                     FileProvider.getUriForFile(
@@ -194,7 +194,7 @@ object Updater {
                 if (install.resolveActivity(ctx.packageManager) != null)
                     ctx.startActivity(install)
                 else
-                    LauncherApplication.Toast(R.string.error_app_not_found)
+                    App.toast(R.string.error_app_not_found)
             }
         }
     }

@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.BuildConfig
-import com.amazon.tv.leanbacklauncher.LauncherApplication
+import com.amazon.tv.leanbacklauncher.App
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4
 import java.util.*
@@ -341,7 +341,7 @@ object RowPreferences {
     }
 
     fun fixRowPrefs() {
-        val context = LauncherApplication.getContext()
+        val context = App.getContext()
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val list = listOf(
             context.getString(R.string.pref_banner_focus_frame_color),

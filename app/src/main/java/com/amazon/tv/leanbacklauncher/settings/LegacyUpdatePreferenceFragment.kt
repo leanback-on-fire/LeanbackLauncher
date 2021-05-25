@@ -11,7 +11,7 @@ import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
 import com.amazon.tv.leanbacklauncher.BuildConfig
-import com.amazon.tv.leanbacklauncher.LauncherApplication
+import com.amazon.tv.leanbacklauncher.App
 import com.amazon.tv.leanbacklauncher.R
 import org.json.JSONException
 import org.json.JSONObject
@@ -24,7 +24,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
     private val RELEASES_LINK =
         "https://api.github.com/repos/tsynik/LeanbackLauncher/releases/latest"
     private var DOWNLOAD_LINK: String? = null
-    private val ctx = LauncherApplication.getContext()
+    private val ctx = App.getContext()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -218,7 +218,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
 
         override fun onPostExecute(f: File?) {
             super.onPostExecute(f)
-            val context = LauncherApplication.getContext()
+            val context = App.getContext()
             val intent = Intent(Intent.ACTION_VIEW)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

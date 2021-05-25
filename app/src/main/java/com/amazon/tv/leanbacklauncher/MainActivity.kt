@@ -71,6 +71,7 @@ import de.interaapps.localweather.utils.Units
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.File
@@ -267,7 +268,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
     companion object {
         const val PERMISSIONS_REQUEST_LOCATION = 99
-        val JSONFILE = LauncherApplication.getContext().cacheDir?.absolutePath + "/weather.json"
+        val JSONFILE = App.getContext().cacheDir?.absolutePath + "/weather.json"
 
         fun isMediaKey(keyCode: Int): Boolean {
             return when (keyCode) {
@@ -455,7 +456,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         loaderManager.initLoader(1, null, mSearchSuggestionsCallbacks)
 
         // start notification listener
-        if (RowPreferences.areRecommendationsEnabled(this) && LauncherApplication.inForeground)
+        if (RowPreferences.areRecommendationsEnabled(this) && App.inForeground)
             startService(Intent(this, NotificationListenerMonitor::class.java))
 
         // fix int options migrate
@@ -577,7 +578,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                     recreate()
                 } else {
                     Log.i(TAG, "Not agree location permission")
-                    LauncherApplication.Toast(R.string.location_note, true)
+                    App.toast(R.string.location_note, true)
                 }
             }
         }
@@ -631,13 +632,10 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                         }
                     else if (Util.isAmazonDev(this)) { // no user setting or Amazon, fallback to GeoIP
                         lifecycleScope.launch(Dispatchers.IO) {
-                            val geoJson = URL("http://api.sypexgeo.net").readText()
-                            if (geoJson.isNotEmpty()) {
-                                if (BuildConfig.DEBUG) Log.d(
-                                    TAG,
-                                    "Use GeoIP as fallback, json:$geoJson"
-                                )
-                                try {
+                            try {
+                                val geoJson = URL("http://api.sypexgeo.net").readText()
+                                if (geoJson.isNotEmpty()) {
+                                    //if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
                                     val mJsonResponse = JSONObject(geoJson)
                                     val mCityObj = mJsonResponse.getJSONObject("city")
                                     if (mCityObj.has("id") && !mCityObj.isNull("id")) {
@@ -645,7 +643,9 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                         //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
                                         // TODO: cache
                                         if (isWeatherCacheValid)
-                                            readJsonWeather(JSONFILE)
+                                            withContext(Dispatchers.Main) {
+                                                readJsonWeather(JSONFILE)
+                                            }
                                         else
                                             lw.fetchCurrentWeatherByCityId(id = mCode.toString())
                                     } else if (
@@ -659,17 +659,19 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                         //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
                                         // TODO: cache
                                         if (isWeatherCacheValid)
-                                            readJsonWeather(JSONFILE)
+                                            withContext(Dispatchers.Main) {
+                                                readJsonWeather(JSONFILE)
+                                            }
                                         else
                                             lw.fetchCurrentWeatherByLocation(lat, lon)
                                     }
-                                } catch (e: Exception) {
-                                    // unused
                                 }
+                            } catch (e: Exception) {
+                                // unused
                             }
                         }
                     } else
-                        LauncherApplication.Toast(R.string.user_location_warning, true)
+                        App.toast(R.string.user_location_warning, true)
                 }
             }
 
@@ -684,7 +686,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
                 override fun onFailure(exception: Throwable?) {
                     Log.e(TAG, "Weather fetching exception ${exception!!.message!!}")
-                    LauncherApplication.Toast("Weather error: ${exception!!.message!!}", true)
+                    App.toast("Weather error: ${exception!!.message!!}", true)
                 }
             }
             // only used when useCurrentLocation is true
@@ -700,14 +702,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
                 override fun onFailure(failed: LocationFailedEnum) {
                     Log.e(TAG, "Location fetching failed $failed")
-                    // http://api.sypexgeo.net/xml
-                    // 524901 XX.XXXXX YY.YYYYY Москва
-                    //val geoid = URL("http://api.sypexgeo.net/xml").readText()
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val geoJson = URL("http://api.sypexgeo.net").readText()
-                        if (geoJson.isNotEmpty()) {
-                            //if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
-                            try {
+                        try {
+                            val geoJson = URL("http://api.sypexgeo.net").readText()
+                            if (geoJson.isNotEmpty()) {
+                                //if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
                                 val mJsonResponse = JSONObject(geoJson)
                                 val mCityObj = mJsonResponse.getJSONObject("city")
                                 if (mCityObj.has("id") && !mCityObj.isNull("id")) {
@@ -715,7 +714,9 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                     //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
                                     // TODO: cache
                                     if (isWeatherCacheValid)
-                                        readJsonWeather(JSONFILE)
+                                        withContext(Dispatchers.Main) {
+                                            readJsonWeather(JSONFILE)
+                                        }
                                     else
                                         lw.fetchCurrentWeatherByCityId(id = mCode.toString())
                                 } else if (
@@ -729,13 +730,15 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                     //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
                                     // TODO: cache
                                     if (isWeatherCacheValid)
-                                        readJsonWeather(JSONFILE)
+                                        withContext(Dispatchers.Main) {
+                                            readJsonWeather(JSONFILE)
+                                        }
                                     else
                                         lw.fetchCurrentWeatherByLocation(lat, lon)
                                 }
-                            } catch (e: Exception) {
-                                // unused
                             }
+                        } catch (e: Exception) {
+                            // unused
                         }
                     }
                 }
