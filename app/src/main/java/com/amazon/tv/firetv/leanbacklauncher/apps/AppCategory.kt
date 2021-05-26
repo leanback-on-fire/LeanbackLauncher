@@ -1,6 +1,7 @@
 package com.amazon.tv.firetv.leanbacklauncher.apps
 
 import android.util.SparseArray
+import java.util.*
 
 enum class AppCategory(val code: Int) {
     OTHER(0),
@@ -21,7 +22,7 @@ enum class AppCategory(val code: Int) {
             return if (name == null)
                 null
             else
-                valueOf(name.toUpperCase().trim { it <= ' ' })
+                valueOf(name.uppercase(Locale.getDefault()).trim { it <= ' ' })
         }
 
         val VALUES = values()

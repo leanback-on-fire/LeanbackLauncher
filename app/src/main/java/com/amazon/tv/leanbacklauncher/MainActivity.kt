@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher
 
-import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.*
 import android.appwidget.AppWidgetHost
@@ -9,8 +10,10 @@ import android.appwidget.AppWidgetManager
 import android.content.*
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.location.Location
 import android.media.tv.TvContract
 import android.net.Uri
 import android.os.*
@@ -23,17 +26,22 @@ import android.view.ViewGroup
 import android.view.ViewGroup.OnHierarchyChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.accessibility.AccessibilityManager
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.text.isDigitsOnly
+import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.leanback.widget.VerticalGridView
-import androidx.preference.PreferenceManager
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowType
 import com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor
 import com.amazon.tv.leanbacklauncher.SearchOrbView.SearchLaunchListener
 import com.amazon.tv.leanbacklauncher.animation.*
@@ -44,25 +52,42 @@ import com.amazon.tv.leanbacklauncher.apps.BannerView
 import com.amazon.tv.leanbacklauncher.apps.OnEditModeChangedListener
 import com.amazon.tv.leanbacklauncher.clock.ClockView
 import com.amazon.tv.leanbacklauncher.logging.LeanbackLauncherEventLogger
-import com.amazon.tv.leanbacklauncher.notifications.HomeScreenView
-import com.amazon.tv.leanbacklauncher.notifications.NotificationCardView
-import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView
+import com.amazon.tv.leanbacklauncher.notifications.*
 import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView.NotificationRowListener
-import com.amazon.tv.leanbacklauncher.notifications.NotificationsAdapter
-import com.amazon.tv.leanbacklauncher.util.Partner
-import com.amazon.tv.leanbacklauncher.util.TvSearchIconLoader
-import com.amazon.tv.leanbacklauncher.util.TvSearchSuggestionsLoader
-import com.amazon.tv.leanbacklauncher.util.Util
+import com.amazon.tv.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity
+import com.amazon.tv.leanbacklauncher.settings.SettingsActivity
+import com.amazon.tv.leanbacklauncher.util.*
 import com.amazon.tv.leanbacklauncher.wallpaper.LauncherWallpaper
 import com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller
 import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import com.amazon.tv.leanbacklauncher.widget.EditModeView.OnEditModeUninstallPressedListener
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import de.interaapps.localweather.LocalWeather
+import de.interaapps.localweather.Weather
+import de.interaapps.localweather.utils.Lang
+import de.interaapps.localweather.utils.LocationFailedEnum
+import de.interaapps.localweather.utils.Units
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.File
 import java.io.FileDescriptor
 import java.io.PrintWriter
-import java.io.StringWriter
+import java.net.URL
 import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
-class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallPressedListener {
+
+class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
+    OnEditModeUninstallPressedListener {
+    private val TAG =
+        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private var mAccessibilityManager: AccessibilityManager? = null
     var isInEditMode = false
         private set
@@ -78,7 +103,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     private var mFadeDismissAndSummonAnimations = false
     private val mHandler: Handler = MainActivityMessageHandler(this)
 
-    private class MainActivityMessageHandler constructor(private val activity: MainActivity) : Handler() {
+    private class MainActivityMessageHandler constructor(private val activity: MainActivity) :
+        Handler() {
         override fun handleMessage(msg: Message) {
             var z = true
             when (msg.what) {
@@ -99,29 +125,29 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     if (activity.mResetAfterIdleEnabled) {
                         activity.mKeepUiReset = true
                         activity.resetLauncherState(true)
-                        if (BuildConfig.DEBUG) Log.d("******", "msg(3) resetLauncherState(smooth: true)")
+                        //if (BuildConfig.DEBUG) Log.d(TAG, "msg(3) resetLauncherState(smooth: true)")
                         return
                     }
                     return
                 }
                 4 -> {
                     activity.onNotificationRowStateUpdate(msg.arg1)
-                    if (BuildConfig.DEBUG) Log.d("******", "msg(4) onNotificationRowStateUpdate(${msg.arg1})")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "msg(4) onNotificationRowStateUpdate(${msg.arg1})")
                     return
                 }
                 5 -> {
-                    activity.homeAdapter!!.onUiVisible()
-                    if (BuildConfig.DEBUG) Log.d("******", "msg(5) onUiVisible()")
+                    activity.homeAdapter?.onUiVisible()
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "msg(5) onUiVisible()")
                     return
                 }
                 6 -> {
                     activity.addWidget(true)
-                    if (BuildConfig.DEBUG) Log.d("******", "msg(6) addWidget(refresh: true)")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "msg(6) addWidget(refresh: true)")
                     return
                 }
                 7 -> {
                     activity.checkLaunchPointPositions()
-                    if (BuildConfig.DEBUG) Log.d("******", "msg(7) checkLaunchPointPositions()")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "msg(7) checkLaunchPointPositions()")
                     return
                 }
                 else -> TODO()
@@ -147,7 +173,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         private var mHandler: Handler? = null
         private val mSelectFirstRecommendationRunnable = Runnable {
             if (mNotificationsView!!.adapter != null && mNotificationsView!!.adapter!!.itemCount > 0) {
-                mNotificationsView!!.setSelectedPositionSmooth(0)
+                mNotificationsView?.setSelectedPositionSmooth(0)
             }
         }
 
@@ -156,11 +182,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
 
         override fun onSelectedRecommendationChanged(position: Int) {
-            if (mKeepUiReset && !mAccessibilityManager!!.isEnabled && position > 0) {
+            if (mKeepUiReset && mAccessibilityManager?.isEnabled != true && position > 0) {
                 if (this.mHandler == null) {
                     this.mHandler = Handler()
                 }
-                this.mHandler!!.post(mSelectFirstRecommendationRunnable)
+                this.mHandler?.post(mSelectFirstRecommendationRunnable)
             }
         }
     }
@@ -171,7 +197,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             val packageName = intent?.data
             packageName?.let {
                 if (packageName.toString().contains(context?.packageName + ".recommendations")) {
-                    Log.d(TAG, "Recommendations Service updated, reconnecting")
+                    if (BuildConfig.DEBUG) Log.d(
+                        TAG,
+                        "Recommendations Service updated, reconnecting."
+                    )
                     homeAdapter?.onReconnectToRecommendationsService()
                 }
             }
@@ -181,8 +210,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     var mHomeRefreshReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.getBooleanExtra("RefreshHome", false) == true) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "KILL HOME")
-                finish()
+                if (BuildConfig.DEBUG) Log.d(TAG, "RESTART HOME")
+                recreate()
             }
         }
     }
@@ -195,32 +224,34 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     private var mResetAfterIdleEnabled = false
     private var mResetPeriod = 0
     private var mScrollManager: HomeScrollManager? = null
-    private val mSearchIconCallbacks: LoaderManager.LoaderCallbacks<Drawable> = object : LoaderManager.LoaderCallbacks<Drawable> {
-        override fun onCreateLoader(id: Int, args: Bundle?): Loader<Drawable> {
-            return TvSearchIconLoader(this@MainActivity.applicationContext)
-        }
+    private val mSearchIconCallbacks: LoaderManager.LoaderCallbacks<Drawable> =
+        object : LoaderManager.LoaderCallbacks<Drawable> {
+            override fun onCreateLoader(id: Int, args: Bundle?): Loader<Drawable> {
+                return TvSearchIconLoader(this@MainActivity.applicationContext)
+            }
 
-        override fun onLoadFinished(loader: Loader<Drawable>, data: Drawable?) {
-            homeAdapter!!.onSearchIconUpdate(data)
-        }
+            override fun onLoadFinished(loader: Loader<Drawable>, data: Drawable?) {
+                homeAdapter?.onSearchIconUpdate(data)
+            }
 
-        override fun onLoaderReset(loader: Loader<Drawable>) {
-            homeAdapter!!.onSearchIconUpdate(null)
+            override fun onLoaderReset(loader: Loader<Drawable>) {
+                homeAdapter?.onSearchIconUpdate(null)
+            }
         }
-    }
-    private val mSearchSuggestionsCallbacks: LoaderManager.LoaderCallbacks<Array<String>> = object : LoaderManager.LoaderCallbacks<Array<String>> {
-        override fun onCreateLoader(id: Int, args: Bundle?): Loader<Array<String>> {
-            return TvSearchSuggestionsLoader(this@MainActivity.applicationContext)
-        }
+    private val mSearchSuggestionsCallbacks: LoaderManager.LoaderCallbacks<Array<String>> =
+        object : LoaderManager.LoaderCallbacks<Array<String>> {
+            override fun onCreateLoader(id: Int, args: Bundle?): Loader<Array<String>> {
+                return TvSearchSuggestionsLoader(this@MainActivity.applicationContext)
+            }
 
-        override fun onLoadFinished(loader: Loader<Array<String>>, data: Array<String>?) {
-            homeAdapter!!.onSuggestionsUpdate(data)
-        }
+            override fun onLoadFinished(loader: Loader<Array<String>>, data: Array<String>?) {
+                homeAdapter?.onSuggestionsUpdate(data)
+            }
 
-        override fun onLoaderReset(loader: Loader<Array<String>>) {
-            homeAdapter!!.onSuggestionsUpdate(emptyArray())
+            override fun onLoaderReset(loader: Loader<Array<String>>) {
+                homeAdapter?.onSuggestionsUpdate(emptyArray())
+            }
         }
-    }
     private var mShyMode = false
     private var mStartingEditMode = false
     private var mUninstallRequested = false
@@ -233,9 +264,41 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         fun onVisibilityChange(z: Boolean)
     }
 
+    private var localWeather: LocalWeather? = null
+
+    companion object {
+        const val PERMISSIONS_REQUEST_LOCATION = 99
+        val JSONFILE = App.getContext().cacheDir?.absolutePath + "/weather.json"
+
+        fun isMediaKey(keyCode: Int): Boolean {
+            return when (keyCode) {
+                KeyEvent.KEYCODE_HEADSETHOOK,
+                KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE,
+                KeyEvent.KEYCODE_MEDIA_STOP,
+                KeyEvent.KEYCODE_MEDIA_NEXT,
+                KeyEvent.KEYCODE_MEDIA_PREVIOUS,
+                KeyEvent.KEYCODE_MEDIA_REWIND,
+                KeyEvent.KEYCODE_MEDIA_FAST_FORWARD,
+                KeyEvent.KEYCODE_MUTE,
+                KeyEvent.KEYCODE_MEDIA_PLAY,
+                KeyEvent.KEYCODE_MEDIA_PAUSE,
+                KeyEvent.KEYCODE_MEDIA_RECORD -> true
+                else -> false
+            }
+        }
+
+        private fun getBoundsOnScreen(v: View, epicenter: Rect) {
+            val location = IntArray(2)
+            v.getLocationOnScreen(location)
+            epicenter.left = location[0]
+            epicenter.top = location[1]
+            epicenter.right = epicenter.left + (v.width.toFloat() * v.scaleX).roundToInt()
+            epicenter.bottom = epicenter.top + (v.height.toFloat() * v.scaleY).roundToInt()
+        }
+    }
+
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val z: Boolean
         super.onCreate(savedInstanceState)
         mContentResolver = contentResolver
         if (mRecommendationsAdapter == null) {
@@ -251,28 +314,27 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 finish()
             }
         }
-        //android O fix bug orientation
+        // android O fix bug orientation
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
-        //overlay permissions request on M+
+        // overlay permissions request on M+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
-                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:$packageName"))
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:$packageName")
+                )
                 try {
                     startActivityForResult(intent, 0)
                 } catch (e: Exception) {
                 }
             }
-            if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                        MY_PERMISSIONS_REQUEST_LOCATION)
-            } // TODO: onRequestPermissionsResult
         }
-        mAccessibilityManager = getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
+        // network monitor (request from HomeScreenAdapter)
+        Permission.isLocationPermissionGranted(this)
+        // FIXME: focus issues
+        // mAccessibilityManager = getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
         editModeView = findViewById(R.id.edit_mode_view)
         editModeView?.setUninstallListener(this)
         wallpaperView = findViewById(R.id.background_container)
@@ -282,20 +344,26 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         mList = findViewById(R.id.main_list_view)
         mList?.let { mlv ->
             mlv.setHasFixedSize(true)
-            mlv.windowAlignment = 1
-            mlv.windowAlignmentOffset = resources.getDimensionPixelOffset(R.dimen.home_screen_selected_row_alignment)
-            mlv.windowAlignmentOffsetPercent = -1.0f
+            mlv.windowAlignment = BaseGridView.WINDOW_ALIGN_LOW_EDGE
+            mlv.windowAlignmentOffset =
+                resources.getDimensionPixelOffset(R.dimen.home_screen_selected_row_alignment)
+            mlv.windowAlignmentOffsetPercent = BaseGridView.WINDOW_ALIGN_OFFSET_PERCENT_DISABLED
             mlv.itemAlignmentOffset = 0
-            mlv.itemAlignmentOffsetPercent = -1.0f
+            mlv.itemAlignmentOffsetPercent = BaseGridView.WINDOW_ALIGN_OFFSET_PERCENT_DISABLED
             mScrollManager = HomeScrollManager(this, mlv)
             mScrollManager?.addHomeScrollListener(wallpaperView!!)
-
-            homeAdapter = HomeScreenAdapter(this, mScrollManager!!, mRecommendationsAdapter, editModeView!!)
+            homeAdapter =
+                HomeScreenAdapter(this, mScrollManager!!, mRecommendationsAdapter, editModeView!!)
             homeAdapter?.setOnEditModeChangedListener(this)
             mlv.setItemViewCacheSize(homeAdapter!!.itemCount)
             mlv.adapter = homeAdapter
             mlv.setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
-                override fun onChildViewHolderSelected(parent: RecyclerView?, child: RecyclerView.ViewHolder?, position: Int, subposition: Int) {
+                override fun onChildViewHolderSelected(
+                    parent: RecyclerView?,
+                    child: RecyclerView.ViewHolder?,
+                    position: Int,
+                    subposition: Int
+                ) {
                     homeAdapter?.onChildViewHolderSelected(parent, child, position)
                 }
             })
@@ -304,8 +372,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             if (notifIndex != null && notifIndex != -1) {
                 mlv.selectedPosition = notifIndex
             }
-            val recAdapter = homeAdapter!!.recommendationsAdapter
-            recAdapter?.let { addIdleListener(it) }
+            val recAdapter = homeAdapter?.recommendationsAdapter
+            recAdapter?.let { adapter ->
+                addIdleListener(adapter)
+            }
             mlv.setOnHierarchyChangeListener(object : OnHierarchyChangeListener {
                 override fun onChildViewAdded(parent: View, child: View) {
                     var tag = 0
@@ -317,7 +387,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                             if (child is SearchOrbView) {
                                 child.setLaunchListener(object : SearchLaunchListener {
                                     override fun onSearchLaunched() {
-                                        setShyMode(true, true)
+                                        setShyMode(shy = true, changeWallpaper = true)
                                     }
                                 })
                             }
@@ -333,7 +403,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                                     mNotificationsView?.setListener(mNotifListener)
                                 }
                                 homeScreenMessaging.setListener { state ->
-                                    mHandler.sendMessageDelayed(mHandler.obtainMessage(4, state, 0), 500)
+                                    mHandler.sendMessageDelayed(
+                                        mHandler.obtainMessage(4, state, 0),
+                                        500
+                                    )
                                     if (state == 0 && mDelayFirstRecommendationsVisible) {
                                         mDelayFirstRecommendationsVisible = false
                                         mHandler.sendEmptyMessageDelayed(5, 1500)
@@ -351,23 +424,23 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             })
             mlv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    mScrollManager!!.onScrolled(dy, currentScrollPos)
+                    mScrollManager?.onScrolled(dy, currentScrollPos)
                 }
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    mScrollManager!!.onScrollStateChanged(newState)
+                    mScrollManager?.onScrollStateChanged(newState)
                 }
             })
         }
         mShyMode = true
-        z = !mShyMode
+        val z: Boolean = !mShyMode
         setShyMode(z, true)
-        if (BuildConfig.DEBUG) Log.d(TAG, "OnCreate setShyMode($z, true), init mShyMode=$mShyMode")
+        //if (BuildConfig.DEBUG) Log.d(TAG, "OnCreate setShyMode($z, true), init mShyMode=$mShyMode")
         mIdlePeriod = resources.getInteger(R.integer.idle_period)
         mResetPeriod = resources.getInteger(R.integer.reset_period)
         mFadeDismissAndSummonAnimations = resources.getBoolean(R.bool.app_launch_animation_fade)
         mKeepUiReset = true
-        homeAdapter!!.onInitUi()
+        homeAdapter?.onInitUi()
         mEventLogger = LeanbackLauncherEventLogger.getInstance(appContext)
         val filter = IntentFilter()
         filter.addAction("android.intent.action.PACKAGE_REPLACED")
@@ -375,24 +448,39 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         filter.addDataScheme("package")
         registerReceiver(mPackageReplacedReceiver, filter)
         // regiser RefreshHome broadcast
-        val filterHome = IntentFilter(this.javaClass.name) // ACTION com.amazon.tv.leanbacklauncher.MainActivity
+        val filterHome =
+            IntentFilter(this.javaClass.name) // ACTION com.amazon.tv.leanbacklauncher.MainActivity
         registerReceiver(mHomeRefreshReceiver, filterHome)
+
         loaderManager.initLoader(0, null, mSearchIconCallbacks)
         loaderManager.initLoader(1, null, mSearchSuggestionsCallbacks)
+
         // start notification listener
-        val pref = PreferenceManager.getDefaultSharedPreferences(appContext)
-        if (pref.getBoolean(appContext.getString(R.string.pref_enable_recommendations_row), false))
+        if (RowPreferences.areRecommendationsEnabled(this) && App.inForeground)
             startService(Intent(this, NotificationListenerMonitor::class.java))
+
+        // fix int options migrate
+        RowPreferences.fixRowPrefs()
+
+        // LocalWeather https://github.com/interaapps/LocalWeather-Android
+        if (RowPreferences.isWeatherEnabled(this)) {
+            localWeather = LocalWeather(
+                this@MainActivity,
+                "b7a56bb43570189115cb8b2d98cdde5b"
+            )
+            // initializeWeather() // already in addWidget()
+        }
     }
 
     public override fun onDestroy() {
+        Log.d(TAG, "onDestroy()")
         mHandler.removeMessages(3)
         super.onDestroy()
         homeAdapter?.let {
             it.onStopUi()
             it.unregisterReceivers()
         }
-        getInstance(applicationContext)!!.onDestroy()
+        getInstance(applicationContext)?.onDestroy()
         unregisterReceiver(mPackageReplacedReceiver)
         unregisterReceiver(mHomeRefreshReceiver)
     }
@@ -418,17 +506,22 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     override fun onBackPressed() {
-        if (isInEditMode) {
-            editModeView!!.onBackPressed()
-        } else if (mLaunchAnimation.isRunning) {
-            mLaunchAnimation.cancel()
-        } else if (mLaunchAnimation.isPrimed) {
-            mLaunchAnimation.reset()
-        } else {
-            if (mLaunchAnimation.isFinished) {
+        when {
+            isInEditMode -> {
+                editModeView?.onBackPressed()
+            }
+            mLaunchAnimation.isRunning -> {
+                mLaunchAnimation.cancel()
+            }
+            mLaunchAnimation.isPrimed -> {
                 mLaunchAnimation.reset()
             }
-            dismissLauncher()
+            else -> {
+                if (mLaunchAnimation.isFinished) {
+                    mLaunchAnimation.reset()
+                }
+                dismissLauncher()
+            }
         }
     }
 
@@ -440,17 +533,18 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         if (isInEditMode == z) {
             return
         }
-        if (mAccessibilityManager!!.isEnabled) {
-            setEditMode(z, false)
+        if (mAccessibilityManager?.isEnabled == true) {
+            setEditMode(editMode = z, useAnimation = false)
         } else {
-            setEditMode(z, true)
+            setEditMode(editMode = z, useAnimation = true)
         }
     }
 
-    override fun onUninstallPressed(packageName: String) {
+    override fun onUninstallPressed(packageName: String?) {
         if (packageName != null && !mUninstallRequested) {
             mUninstallRequested = true
-            val uninstallIntent = Intent("android.intent.action.UNINSTALL_PACKAGE", Uri.parse("package:$packageName"))
+            val uninstallIntent =
+                Intent("android.intent.action.UNINSTALL_PACKAGE", Uri.parse("package:$packageName"))
             uninstallIntent.putExtra("android.intent.extra.RETURN_RESULT", true)
             startActivityForResult(uninstallIntent, 321)
         }
@@ -458,11 +552,275 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (RowPreferences.isWeatherEnabled(this))
+            localWeather?.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 321 && resultCode != 0) {
             if (resultCode == -1) {
-                editModeView!!.uninstallComplete()
+                editModeView?.uninstallComplete()
             } else if (resultCode == 1) {
-                editModeView!!.uninstallFailure()
+                editModeView?.uninstallFailure()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (RowPreferences.isWeatherEnabled(this))
+            localWeather?.onRequestPermissionResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSIONS_REQUEST_LOCATION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "Agree location permission")
+                    recreate()
+                } else {
+                    Log.i(TAG, "Not agree location permission")
+                    App.toast(R.string.location_note, true)
+                }
+            }
+        }
+    }
+
+    val MAXCACHEAGE = TimeUnit.MINUTES.toMillis(10)
+    val isWeatherCacheValid: Boolean
+        get() = File(JSONFILE).lastModified() + MAXCACHEAGE > System.currentTimeMillis()
+
+    private fun initializeWeather() {
+        localWeather?.let { lw ->
+            val ul = Locale.getDefault().isO3Language
+            val uc = Locale.getDefault().isO3Country
+            lw.lang = if (ul.equals("rus", true)) Lang.RUSSIAN else Lang.ENGLISH // Lang.ENGLISH
+            lw.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC // Units.METRIC
+
+            if (RowPreferences.isUseLocationEnabled(this) && !Util.isAmazonDev(this)) {
+                lw.useCurrentLocation = true
+                lw.updateCurrentLocation = true
+                lw.updateLocationInterval = TimeUnit.MINUTES.toMillis(10) // FIXME: no updates
+            } else {
+                lw.useCurrentLocation = false
+                RowPreferences.getUserLocation(this)?.let { userLoc ->
+                    if (userLoc.isNotEmpty() && !RowPreferences.isUseLocationEnabled(this))
+                        if (userLoc.isDigitsOnly()) { // assume city id, ex. 524901
+                            //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($userLoc)")
+                            // TODO: cache
+                            if (isWeatherCacheValid) {
+                                readJsonWeather(JSONFILE)
+                            } else
+                                lw.fetchCurrentWeatherByCityId(userLoc)
+                        } else if (userLoc.split(", ").size == 2 &&
+                            userLoc.split(", ").first().toDoubleOrNull() != null &&
+                            userLoc.split(", ").last().toDoubleOrNull() != null
+                        ) { // assume coordinates, ex. 45.75 47.61
+                            val lat = userLoc.split(", ").first().toDouble()
+                            val lon = userLoc.split(", ").last().toDouble()
+                            //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
+                            // TODO: cache
+                            if (isWeatherCacheValid)
+                                readJsonWeather(JSONFILE)
+                            else
+                                lw.fetchCurrentWeatherByLocation(lat, lon)
+                        } else {
+                            //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityName($userLoc)")
+                            // TODO: cache
+                            if (isWeatherCacheValid)
+                                readJsonWeather(JSONFILE)
+                            else
+                                lw.fetchCurrentWeatherByCityName(userLoc)
+                        }
+                    else if (Util.isAmazonDev(this)) { // no user setting or Amazon, fallback to GeoIP
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            try {
+                                val geoJson = URL("http://api.sypexgeo.net").readText()
+                                if (geoJson.isNotEmpty()) {
+                                    //if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
+                                    val mJsonResponse = JSONObject(geoJson)
+                                    val mCityObj = mJsonResponse.getJSONObject("city")
+                                    if (mCityObj.has("id") && !mCityObj.isNull("id")) {
+                                        val mCode: Int = mCityObj.getInt("id")
+                                        //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
+                                        // TODO: cache
+                                        if (isWeatherCacheValid)
+                                            withContext(Dispatchers.Main) {
+                                                readJsonWeather(JSONFILE)
+                                            }
+                                        else
+                                            lw.fetchCurrentWeatherByCityId(id = mCode.toString())
+                                    } else if (
+                                        mCityObj.has("lat") &&
+                                        mCityObj.has("lon") &&
+                                        !mCityObj.isNull("lat") &&
+                                        !mCityObj.isNull("lon")
+                                    ) {
+                                        val lat: Double = mCityObj.getDouble("lat")
+                                        val lon: Double = mCityObj.getDouble("lon")
+                                        //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
+                                        // TODO: cache
+                                        if (isWeatherCacheValid)
+                                            withContext(Dispatchers.Main) {
+                                                readJsonWeather(JSONFILE)
+                                            }
+                                        else
+                                            lw.fetchCurrentWeatherByLocation(lat, lon)
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                // unused
+                            }
+                        }
+                    } else
+                        App.toast(R.string.user_location_warning, true)
+                }
+            }
+
+            lw.weatherCallback = object : LocalWeather.WeatherCallback {
+                override fun onSuccess(weather: Weather) {
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess() -> updateWeatherDetails()")
+                    // TODO: store result / use cache
+                    //updateWeatherDetails(weather)
+                    writeJsonWeather(weather)
+                    readJsonWeather(JSONFILE)
+                }
+
+                override fun onFailure(exception: Throwable?) {
+                    Log.e(TAG, "Weather fetching exception ${exception!!.message!!}")
+                    App.toast("Weather error: ${exception!!.message!!}", true)
+                }
+            }
+            // only used when useCurrentLocation is true
+            lw.fetchCurrentLocation(object : LocalWeather.CurrentLocationCallback {
+                override fun onSuccess(location: Location) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Location fetching success")
+                    // TODO: cache
+                    if (isWeatherCacheValid)
+                        readJsonWeather(JSONFILE)
+                    else
+                        lw.fetchCurrentWeatherByLocation(location)
+                }
+
+                override fun onFailure(failed: LocationFailedEnum) {
+                    Log.e(TAG, "Location fetching failed $failed")
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        try {
+                            val geoJson = URL("http://api.sypexgeo.net").readText()
+                            if (geoJson.isNotEmpty()) {
+                                //if (BuildConfig.DEBUG) Log.d(TAG, "Use GeoIP as fallback, json:$geoJson")
+                                val mJsonResponse = JSONObject(geoJson)
+                                val mCityObj = mJsonResponse.getJSONObject("city")
+                                if (mCityObj.has("id") && !mCityObj.isNull("id")) {
+                                    val mCode: Int = mCityObj.getInt("id")
+                                    //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
+                                    // TODO: cache
+                                    if (isWeatherCacheValid)
+                                        withContext(Dispatchers.Main) {
+                                            readJsonWeather(JSONFILE)
+                                        }
+                                    else
+                                        lw.fetchCurrentWeatherByCityId(id = mCode.toString())
+                                } else if (
+                                    mCityObj.has("lat") &&
+                                    mCityObj.has("lon") &&
+                                    !mCityObj.isNull("lat") &&
+                                    !mCityObj.isNull("lon")
+                                ) {
+                                    val lat: Double = mCityObj.getDouble("lat")
+                                    val lon: Double = mCityObj.getDouble("lon")
+                                    //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
+                                    // TODO: cache
+                                    if (isWeatherCacheValid)
+                                        withContext(Dispatchers.Main) {
+                                            readJsonWeather(JSONFILE)
+                                        }
+                                    else
+                                        lw.fetchCurrentWeatherByLocation(lat, lon)
+                                }
+                            }
+                        } catch (e: Exception) {
+                            // unused
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun writeJsonWeather(weather: Weather) {
+        //val gsonWeather = Gson().toJson(weather)
+        //File(cacheFile).writeText(gsonWeather)
+        val gsonPrettyWeather = GsonBuilder().setPrettyPrinting().create().toJson(weather)
+        //if (BuildConfig.DEBUG) Log.d(TAG, "writeJsonWeather()")
+        File(JSONFILE).writeText(gsonPrettyWeather)
+    }
+
+    private fun readJsonWeather(f: String) {
+        val gson = Gson()
+        val bufferedReader: BufferedReader = File(f).bufferedReader()
+        val input = bufferedReader.use { it.readText() }
+        val cachedWeather = gson.fromJson(input, Weather::class.java)
+        //if (BuildConfig.DEBUG) Log.d(TAG, "readJsonWeather -> updateWeatherDetails()")
+        updateWeatherDetails(cachedWeather)
+    }
+
+    private fun updateWeatherDetails(weather: Weather) {
+        val unit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
+        //val speed = if (localWeather!!.unit == Units.METRIC) "km/h" else "mi/h"
+        //if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather updateWeatherDetails()\nCity:${weather.name}\nCountry:${weather.country}\nTemp:${weather.temperature}${unit}\nDescription:${weather.descriptions[0]}\nLatitude:${weather.latitude}\nLongitude:${weather.longitude}\n")
+        val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
+        val locTV: TextView? = findViewById(R.id.curLocation)
+        // weather.name = Moscow
+        // weather.country = RU
+        val curWeatherLoc = weather.name
+        if (RowPreferences.showLocation(this)) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                if (curWeatherLoc.isNotEmpty()) locTV?.text = curWeatherLoc else locTV?.text = ""
+                weatherVG?.visibility = View.GONE
+                locTV?.visibility = View.VISIBLE
+                locTV?.alpha = 0.0f
+                locTV?.animate()?.apply {
+                    interpolator = LinearInterpolator()
+                    duration = 300
+                    alpha(1.0f)
+                    start()
+                }
+                delay(TimeUnit.SECONDS.toMillis(3))
+                locTV?.animate()?.apply {
+                    interpolator = LinearInterpolator()
+                    duration = 1000
+                    alpha(0.0f)
+                    setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            locTV.visibility = View.GONE
+                            weatherVG?.visibility = View.VISIBLE
+                        }
+                    })
+                    start()
+                }
+            }
+        }
+        weatherVG?.let { group ->
+            //Log.d(TAG, "weather ViewGroup exist!")
+            group.visibility = View.VISIBLE
+            group.alpha = 0.0f
+            group.animate()?.apply {
+                interpolator = LinearInterpolator()
+                duration = 300
+                alpha(1.0f)
+                start()
+            }
+            // icon
+            val icon = findViewById<AppCompatImageView>(R.id.weather_icon)
+            icon?.let {
+                OpenWeatherIcons(this, weather.icons[0], it)
+                it.visibility = View.VISIBLE
+                it.contentDescription = weather.descriptions[0]
+            }
+            // temperature
+            val curTemp = findViewById<TextView>(R.id.curtemp)
+            curTemp?.let {
+                it.visibility = View.VISIBLE
+                it.text = weather.temperature.toInt().toString() + unit // "°"
             }
         }
     }
@@ -473,18 +831,19 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mShyMode = shy
             changed = true
             if (mShyMode) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertFromTranslucent, mShyMode=$mShyMode")
+                //if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode(shy:$shy,changeWallpaper:$changeWallpaper) -> convertFromTranslucent() [mShyMode=$mShyMode]")
                 convertFromTranslucent()
             } else {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode: convertToTranslucent, mShyMode=$mShyMode")
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode(shy:$shy,changeWallpaper:$changeWallpaper) convertToTranslucent() [mShyMode=$mShyMode]")
                     convertToTranslucent() // convertToTranslucent(null, null);
                 }
             }
         }
-        if (changeWallpaper && wallpaperView!!.shynessMode != shy) {
-            wallpaperView!!.shynessMode = mShyMode
+        if (changeWallpaper && wallpaperView?.shynessMode != shy) {
+            wallpaperView?.shynessMode = mShyMode
             if (mShyMode && mNotificationsView != null) {
+                //if (BuildConfig.DEBUG) Log.d(TAG, "setShyMode(shy:$shy,changeWallpaper:$changeWallpaper) refreshSelectedBackground() [mShyMode=$mShyMode]")
                 mNotificationsView?.refreshSelectedBackground()
             }
         }
@@ -492,9 +851,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private fun convertFromTranslucent() {
-//        if (this@MainActivity.isTaskRoot) return // Avoid Android 9.x back to Home bug
         try {
-            val convertFromTranslucent = Activity::class.java.getDeclaredMethod("convertFromTranslucent")
+            val convertFromTranslucent =
+                Activity::class.java.getDeclaredMethod("convertFromTranslucent")
             convertFromTranslucent.isAccessible = true
             convertFromTranslucent.invoke(this@MainActivity)
         } catch (ignored: Throwable) {
@@ -509,7 +868,11 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                     translucentConversionListenerClazz = clazz
                 }
             }
-            val convertToTranslucent = Activity::class.java.getDeclaredMethod("convertToTranslucent", translucentConversionListenerClazz, ActivityOptions::class.java)
+            val convertToTranslucent = Activity::class.java.getDeclaredMethod(
+                "convertToTranslucent",
+                translucentConversionListenerClazz,
+                ActivityOptions::class.java
+            )
             convertToTranslucent.isAccessible = true
             convertToTranslucent.invoke(this@MainActivity, null, null)
         } catch (ignored: Throwable) {
@@ -520,18 +883,25 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         if (mShyMode) {
             return false
         }
-        mLaunchAnimation.init(LauncherDismissAnimator(mList, mFadeDismissAndSummonAnimations, homeAdapter!!.rowHeaders), mMoveTaskToBack, 0.toByte())
+        mLaunchAnimation.init(
+            LauncherDismissAnimator(
+                mList,
+                mFadeDismissAndSummonAnimations,
+                homeAdapter!!.rowHeaders
+            ), mMoveTaskToBack, 0.toByte()
+        )
         mLaunchAnimation.start()
         return true
     }
 
     public override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
         var exitingEditMode = false
         if (isInEditMode) {
             if (Util.isInTouchExploration(applicationContext)) {
                 setTitle(R.string.app_label)
             }
-            setEditMode(false, true)
+            setEditMode(editMode = false, useAnimation = true)
             exitingEditMode = true
         }
         if (mLaunchAnimation.isRunning) {
@@ -553,13 +923,19 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 }
             }
             if (!mStartingEditMode) {
-                if (!hasWindowFocus() || intent?.getBooleanExtra("com.android.systemui.recents.tv.RecentsTvActivity.RECENTS_HOME_INTENT_EXTRA", false) == true) {
+                if (!hasWindowFocus() || intent?.getBooleanExtra(
+                        "com.android.systemui.recents.tv.RecentsTvActivity.RECENTS_HOME_INTENT_EXTRA",
+                        false
+                    ) == true
+                ) {
                     if (!mLaunchAnimation.isScheduled) {
                         resetLauncherState(false)
-                        mLaunchAnimation.init(MassSlideAnimator.Builder(mList)
-                                        .setDirection(MassSlideAnimator.Direction.SLIDE_IN)
-                                        .setFade(mFadeDismissAndSummonAnimations)
-                                        .build(), mRefreshHomeAdapter, 32.toByte())
+                        mLaunchAnimation.init(
+                            MassSlideAnimator.Builder(mList)
+                                .setDirection(MassSlideAnimator.Direction.SLIDE_IN)
+                                .setFade(mFadeDismissAndSummonAnimations)
+                                .build(), mRefreshHomeAdapter, 32.toByte()
+                        )
                     }
                 } else if (!dismissLauncher()) {
                     resetLauncherState(true)
@@ -567,7 +943,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             }
         } else if (!mLaunchAnimation.isInitialized && !mLaunchAnimation.isScheduled) {
             resetLauncherState(false)
-            mLaunchAnimation.init(MassSlideAnimator.Builder(mList)
+            mLaunchAnimation.init(
+                MassSlideAnimator.Builder(mList)
                     .setDirection(MassSlideAnimator.Direction.SLIDE_IN)
                     .setFade(mFadeDismissAndSummonAnimations)
                     .build(), mRefreshHomeAdapter, 32.toByte()
@@ -575,59 +952,77 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
     }
 
-    protected fun startEditMode(rowType: Int) {
+    private fun startEditMode(rowType: Int) {
         if (Util.isInTouchExploration(applicationContext)) {
             setTitle(if (rowType == 3) R.string.title_app_edit_mode else R.string.title_game_edit_mode)
         }
         mStartingEditMode = true
         homeAdapter?.resetRowPositions(false)
         mLaunchAnimation.cancel()
-        mList!!.selectedPosition = homeAdapter!!.getRowIndex(rowType)
+        mList?.selectedPosition = homeAdapter!!.getRowIndex(rowType)
         homeAdapter?.prepareEditMode(rowType)
     }
 
     private fun resetLauncherState(smooth: Boolean) {
-        if (BuildConfig.DEBUG)
-            Log.d(TAG, "resetLauncherState(smooth: $smooth)")
+        if (BuildConfig.DEBUG) Log.d(TAG, "resetLauncherState(smooth:$smooth)")
         mScrollManager?.onScrolled(0, 0)
         mUserInteracted = false
         homeAdapter?.resetRowPositions(smooth)
+
         if (isInEditMode) {
-            setEditMode(false, smooth)
+            setEditMode(editMode = false, useAnimation = smooth)
         }
-        var notifIndex = homeAdapter!!.getRowIndex(1)
-        if (mList!!.adapter != null) {
-            notifIndex = Math.min(mList!!.adapter!!.itemCount - 1, notifIndex)
+        val currIndex = mList!!.selectedPosition
+        var notifIndex = homeAdapter!!.getRowIndex(1) // Recomendations row
+        mList?.adapter?.let {
+            notifIndex = (it.itemCount - 1).coerceAtMost(notifIndex)
         }
-        if (!(notifIndex == -1 || mList!!.selectedPosition == notifIndex)) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "currIndex:$currIndex, notifIndex:$notifIndex")
+        if (notifIndex != -1 && currIndex != notifIndex) {
+            if (BuildConfig.DEBUG) Log.d(
+                TAG,
+                "resetLauncherState -> set focus to Recommendations row"
+            )
             if (smooth) {
-                mList!!.setSelectedPositionSmooth(notifIndex)
+                mList?.setSelectedPositionSmooth(notifIndex)
             } else {
-                mList!!.selectedPosition = notifIndex
-                val focusedChild = mList!!.focusedChild
-                focusedChild?.let { fc ->
-                    val focusedPosition = mList!!.getChildAdapterPosition(fc)
+                mList?.selectedPosition = notifIndex
+                val focusedChild = mList?.focusedChild
+                focusedChild?.let { child ->
+                    val focusedPosition = mList?.getChildAdapterPosition(child)
                     if (focusedPosition == notifIndex) {
-                        fc.clearFocus()
+                        child.clearFocus()
                     }
                 }
             }
             if (!(mShyMode || mNotificationsView == null)) {
-                mNotificationsView!!.setIgnoreNextActivateBackgroundChange()
+                mNotificationsView?.setIgnoreNextActivateBackgroundChange()
             }
-        } else { // focus on 1st Apps cat (FAV) || Search (0) in case No Notifications row
-            val ar = intArrayOf(0, 7) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
-            for (element in ar) {
-                val appIndex = homeAdapter!!.getRowIndex(element)
-                if (!(appIndex == -1 || mList?.selectedPosition == appIndex)) {
-                    if (BuildConfig.DEBUG)
-                        Log.d(TAG, "resetLauncherState -> set focus to Row $appIndex")
-//                    if (smooth) {
-//                        mList?.setSelectedPositionSmooth(appIndex)
-//                    } else {
-                    mList?.selectedPosition = appIndex
-//                    }
-//                    mList!!.getChildAt(appIndex).requestFocus()
+        } else if (notifIndex == -1) { // focus on 1st Apps cat (FAV|VIDEO|MUSIC|GAMES|APPS) in case No Notifications row
+            val rowTypes = intArrayOf(
+//                0, // SEARCH
+                7, // FAVORITES
+                9, // VIDEO
+                8, // MUSIC
+                4, // GAMES
+                3, // APPS
+            ) // 0, 3, 4, 7, 8, 9 - SEARCH, APPS, GAMES, FAVORITES, MUSIC, VIDEO as in RowType()
+            for (type in rowTypes) {
+                var rowIndex = homeAdapter?.getRowIndex(type) ?: -1
+                mList?.adapter?.let {
+                    rowIndex = (it.itemCount - 1).coerceAtMost(rowIndex)
+                }
+                if (rowIndex != -1) {
+                    if (BuildConfig.DEBUG) Log.d(
+                        TAG,
+                        "resetLauncherState -> set focus to ${RowType.fromRowCode(type)} row"
+                    )
+                    if (smooth) {
+                        mList?.setSelectedPositionSmooth(rowIndex)
+                    } else {
+                        mList?.selectedPosition = rowIndex
+                    }
+                    break
                 }
             }
         }
@@ -635,12 +1030,12 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private val isBackgroundVisibleBehind: Boolean
-        private get() {
+        get() {
             try {
-                val isBackgroundVisibleBehind = Activity::class.java.getDeclaredMethod("isBackgroundVisibleBehind")
+                val isBackgroundVisibleBehind =
+                    Activity::class.java.getDeclaredMethod("isBackgroundVisibleBehind")
                 isBackgroundVisibleBehind.isAccessible = true
-                val result = isBackgroundVisibleBehind.invoke(this@MainActivity) as Boolean
-                return result
+                return isBackgroundVisibleBehind.invoke(this@MainActivity) as Boolean
             } catch (ignored: Throwable) {
             }
             return false
@@ -656,19 +1051,27 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             e.printStackTrace()
         }
         if (isBackgroundVisibleBehind) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "onStart: BackgroundVisibleBehind")
+            //if (BuildConfig.DEBUG) Log.d(TAG, "onStart: BackgroundVisibleBehind")
             z = false
         }
         setShyMode(z, true)
-        if (BuildConfig.DEBUG) Log.d(TAG, "onStart: setShyMode($z, true)")
+        //if (BuildConfig.DEBUG) Log.d(TAG, "onStart: setShyMode($z,changeWallpaper:true)")
         wallpaperView?.resetBackground()
         homeAdapter?.refreshAdapterData()
         if (mKeepUiReset) {
             resetLauncherState(false)
         }
+
         if (!mStartingEditMode) {
             if (!mLaunchAnimation.isInitialized) {
-                mLaunchAnimation.init(LauncherReturnAnimator(mList, mLaunchAnimation.lastKnownEpicenter, homeAdapter!!.rowHeaders, mHomeScreenView), mRefreshHomeAdapter, 32.toByte())
+                mLaunchAnimation.init(
+                    LauncherReturnAnimator(
+                        mList,
+                        mLaunchAnimation.lastKnownEpicenter,
+                        homeAdapter!!.rowHeaders,
+                        mHomeScreenView
+                    ), mRefreshHomeAdapter, 32.toByte()
+                )
             }
             mLaunchAnimation.schedule<LauncherReturnAnimator>()
         }
@@ -677,29 +1080,27 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {}
 
-    override fun onSaveInstanceState(savedInstanceState: Bundle) {}
-
     override fun onResume() {
         var forceResort = true
         var z = true
         super.onResume()
         if (isBackgroundVisibleBehind) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "onResume: BackgroundVisibleBehind")
+            //if (BuildConfig.DEBUG) Log.d(TAG, "onResume: BackgroundVisibleBehind")
             z = false
         }
         val shyChanged = setShyMode(z, true)
-        if (BuildConfig.DEBUG) Log.d(TAG, "onResume: setShyMode($z, true) shyChanged = $shyChanged")
+        //if (BuildConfig.DEBUG) Log.d(TAG, "onResume: setShyMode($z,changeWallpaper:true) shyChanged:$shyChanged")
         if (!getInstance(applicationContext)!!.checkIfResortingIsNeeded() || isInEditMode) {
             forceResort = false
         }
-        homeAdapter!!.sortRowsIfNeeded(forceResort)
-        WallpaperInstaller.getInstance(this).installWallpaperIfNeeded()
-        wallpaperView!!.shynessMode = mShyMode
+        homeAdapter?.sortRowsIfNeeded(forceResort)
+        WallpaperInstaller.getInstance(this)?.installWallpaperIfNeeded()
+        wallpaperView?.shynessMode = mShyMode
         if (shyChanged) {
-            wallpaperView!!.resetBackground()
+            wallpaperView?.resetBackground()
         }
         if (mShyMode && mNotificationsView != null) {
-            mNotificationsView!!.refreshSelectedBackground()
+            mNotificationsView?.refreshSelectedBackground()
         }
         if (!mHandler.hasMessages(6)) {
             mHandler.sendEmptyMessage(6)
@@ -718,6 +1119,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
         mHandler.sendEmptyMessageDelayed(3, mResetPeriod.toLong())
         mHandler.sendEmptyMessageDelayed(7, 2000)
+
         if (mLaunchAnimation.isFinished) {
             mLaunchAnimation.reset()
         }
@@ -728,14 +1130,23 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             primeAnimationAfterLayout()
         }
         mPauseAnimation.reset()
+
         if (isInEditMode) {
-            mEditModeAnimation.init(EditModeMassFadeAnimator(this, EditMode.ENTER), null, 0.toByte())
+            if (mEditModeAnimation.isInitialized)
+                mEditModeAnimation.reset()  // FIXME: added
+            mEditModeAnimation.init(
+                EditModeMassFadeAnimator(this, EditMode.ENTER),
+                null,
+                0.toByte()
+            )
             mEditModeAnimation.start()
         }
         mUninstallRequested = false
+
         overridePendingTransition(R.anim.home_fade_in_top, R.anim.home_fade_out_bottom)
+
         if (!(homeAdapter == null || homeAdapter!!.isUiVisible || mDelayFirstRecommendationsVisible)) {
-            homeAdapter!!.onUiVisible()
+            homeAdapter?.onUiVisible()
         }
     }
 
@@ -756,13 +1167,15 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             mIdleListeners[i].onVisibilityChange(false)
         }
         if (isInEditMode) {
+            if (mEditModeAnimation.isInitialized)
+                mEditModeAnimation.reset() // FIXME: added
             mEditModeAnimation.init(EditModeMassFadeAnimator(this, EditMode.EXIT), null, 0.toByte())
             mEditModeAnimation.start()
         }
         mPauseAnimation.init(LauncherPauseAnimator(mList), null, 0.toByte())
         mPauseAnimation.start()
         if (homeAdapter != null && homeAdapter!!.isUiVisible) {
-            homeAdapter!!.onUiInvisible()
+            homeAdapter?.onUiInvisible()
             mDelayFirstRecommendationsVisible = false
         }
     }
@@ -770,31 +1183,36 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     override fun onStop() {
         mResetAfterIdleEnabled = true
         try {
-        mAppWidgetHost?.stopListening()
+            mAppWidgetHost?.stopListening()
         } catch (e: Exception) {
             e.printStackTrace()
         }
         mHandler.removeCallbacksAndMessages(null)
         mHandler.sendEmptyMessageDelayed(3, mResetPeriod.toLong())
         if (isInEditMode) {
-            setEditMode(false, false)
+            setEditMode(editMode = false, useAnimation = false)
         }
-        setShyMode(false, false)
-        if (BuildConfig.DEBUG) Log.d(TAG, "onStop: setShyMode(false, false)")
-        homeAdapter!!.sortRowsIfNeeded(false)
+        setShyMode(shy = false, changeWallpaper = false)
+        //if (BuildConfig.DEBUG) Log.d(TAG, "onStop: setShyMode(false,changeWallpaper:false)")
+        homeAdapter?.sortRowsIfNeeded(false)
         mLaunchAnimation.reset()
         super.onStop()
     }
 
-    override fun dump(prefix: String, fd: FileDescriptor?, writer: PrintWriter, args: Array<String>?) {
+    override fun dump(
+        prefix: String,
+        fd: FileDescriptor?,
+        writer: PrintWriter,
+        args: Array<String>?
+    ) {
         super.dump(prefix, fd, writer, args)
-        getInstance(applicationContext)!!.dump(prefix, writer)
+        getInstance(applicationContext)?.dump(prefix, writer)
         mLaunchAnimation.dump(prefix, writer, mList)
-        homeAdapter!!.dump(prefix, writer)
+        homeAdapter?.dump(prefix, writer)
     }
 
     private val currentScrollPos: Int
-        private get() {
+        get() {
             var pos = 0
             var topView = -1
             var i = 0
@@ -805,7 +1223,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 } else {
                     topView = mList!!.getChildAdapterPosition(v)
                     if (v.measuredHeight > 0) {
-                        pos = (homeAdapter!!.getScrollOffset(topView).toFloat() * (Math.abs(v.top).toFloat() / v.measuredHeight.toFloat()) * -1.0f).toInt()
+                        pos = (homeAdapter!!.getScrollOffset(topView)
+                            .toFloat() * (abs(v.top).toFloat() / v.measuredHeight.toFloat()) * -1.0f).toInt()
                     }
                     topView--
                     while (topView >= 0) {
@@ -824,26 +1243,27 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         }
 
     private fun onNotificationRowStateUpdate(state: Int) {
-        if (BuildConfig.DEBUG)
-            Log.d(TAG, "onNotificationRowStateUpdate(state: " + state + "), current position: " + mList!!.selectedPosition)
+        //if (BuildConfig.DEBUG) Log.d(TAG, "onNotificationRowStateUpdate(state: " + state + "), active row position: " + mList!!.selectedPosition)
         if (state == 1 || state == 2) {
             if (!mUserInteracted) {
                 val searchIndex = homeAdapter!!.getRowIndex(0)
                 if (searchIndex != -1) {
-                    // focus on Search
-                    mList!!.selectedPosition = searchIndex
-                    mList!!.getChildAt(searchIndex).requestFocus()
+                    // focus on Search in case no recs yet
+                    mList?.selectedPosition = searchIndex
+                    mList?.getChildAt(searchIndex)?.requestFocus()
+                    //if (BuildConfig.DEBUG) Log.d(TAG, "select search row and requestFocus()")
                 }
             }
         } else if (state == 0 && mList!!.selectedPosition <= homeAdapter!!.getRowIndex(1) && mNotificationsView!!.childCount > 0) {
             // focus on Recomendations
-            mNotificationsView!!.selectedPosition = 0
-            mNotificationsView!!.getChildAt(0).requestFocus()
+            mNotificationsView?.selectedPosition = 0
+            mNotificationsView?.getChildAt(0)?.requestFocus()
+            //if (BuildConfig.DEBUG) Log.d(TAG, "select recs row and focus on 1st")
         }
     }
 
     override fun onSearchRequested(): Boolean {
-        setShyMode(true, true)
+        setShyMode(shy = true, changeWallpaper = true)
         return super.onSearchRequested()
     }
 
@@ -884,7 +1304,7 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             super.onKeyUp(keyCode, event)
         } else when (keyCode) {
             KeyEvent.KEYCODE_HEADSETHOOK, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_STOP, KeyEvent.KEYCODE_MEDIA_PAUSE -> {
-                setShyMode(true, true)
+                setShyMode(shy = true, changeWallpaper = true)
                 true
             }
             else -> true
@@ -916,10 +1336,15 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                                 options.putInt("appWidgetMinHeight", height)
                                 options.putInt("appWidgetMaxHeight", height)
                                 appWidgetId = mAppWidgetHost?.allocateAppWidgetId() ?: 0
-                                success = mAppWidgetManager?.bindAppWidgetIdIfAllowed(appWidgetId, appWidgetInfo.provider, options) == true
+                                success = mAppWidgetManager?.bindAppWidgetIdIfAllowed(
+                                    appWidgetId,
+                                    appWidgetInfo.provider,
+                                    options
+                                ) == true
                             }
                             if (success) {
-                                mAppWidgetHostView = mAppWidgetHost?.createView(this, appWidgetId, appWidgetInfo)
+                                mAppWidgetHostView =
+                                    mAppWidgetHost?.createView(this, appWidgetId, appWidgetInfo)
                                 mAppWidgetHostView?.setAppWidget(appWidgetId, appWidgetInfo)
                                 wrap.addView(mAppWidgetHostView)
                                 Util.setWidget(this, appWidgetId, appWidgetInfo.provider)
@@ -929,11 +1354,65 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 }
                 if (!success) {
                     clearWidget(appWidgetId)
+                    // launcher settings
+                    wrap.addView(
+                        LayoutInflater.from(this).inflate(R.layout.widget_settings, wrap, false)
+                    )
+                    val settingsVG: ViewGroup? = findViewById<View>(R.id.settings) as LinearLayout?
+                    settingsVG?.let { group ->
+                        val sel = findViewById<ImageView>(R.id.settings_selection_circle)
+                        sel?.setColorFilter(
+                            RowPreferences.getFrameColor(this),
+                            PorterDuff.Mode.SRC_ATOP
+                        )
+                        val icon = findViewById<ImageView>(R.id.settings_icon)
+                        group.setOnClickListener {
+                            startSettings(it)
+                        }
+                        group.setOnFocusChangeListener { v, hasFocus ->
+                            if (hasFocus) {
+                                sel?.alpha = 1.0f
+                                icon?.clearAnimation()
+                                icon?.alpha = 1.0f
+                            } else {
+                                //sel?.alpha = 0.0f
+                                sel?.animate()?.apply {
+                                    interpolator = LinearInterpolator()
+                                    duration = 500
+                                    alpha(0.0f)
+                                    start()
+                                }
+                                icon?.alpha = 1.0f
+                                icon?.breath()
+                            }
+                        }
+                        sel?.alpha = 0.0f
+                        icon?.alpha = 0.0f
+                        icon?.animate()?.apply {
+                            interpolator = LinearInterpolator()
+                            duration = 500
+                            alpha(1.0f)
+                            start()
+                        }
+                        icon?.breath()
+                    }
+                    // clock
                     wrap.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrap, false))
                     val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
-                    val clockview: TextView = findViewById<View>(R.id.clock) as ClockView
-                    if (clockview != null && typeface != null)
-                        clockview.typeface = typeface
+                    val clockView: TextView? = findViewById<View>(R.id.clock) as ClockView?
+                    typeface?.let {
+                        clockView?.typeface = typeface
+                    }
+                    // weather widget update
+                    initializeWeather()
+//                    val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
+//                    weatherVG?.let { group ->
+//                        val sel = findViewById<ImageView>(R.id.weather_selection_circle)
+//                        sel?.setColorFilter(
+//                            RowPreferences.getFrameColor(this),
+//                            PorterDuff.Mode.SRC_ATOP
+//                        )
+//                    }
                     return
                 }
                 return
@@ -944,6 +1423,18 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
                 wrap.removeAllViews()
                 wrap.addView(mAppWidgetHostView)
             }
+        }
+    }
+
+    fun startSettings(v: View) {
+        if (applicationContext.resources.getBoolean(R.bool.full_screen_settings_enabled)) {
+            val intent = Intent(this@MainActivity, LegacyHomeScreenSettingsActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+        } else if (applicationContext.resources.getBoolean(R.bool.side_panel_settings_enabled)) {
+            val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
         }
     }
 
@@ -958,31 +1449,36 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         get() = findViewById(R.id.edit_mode_background)
 
     private fun setEditMode(editMode: Boolean, useAnimation: Boolean) {
-        var f = 1.0f
+        var alpha = 1.0f
         mEditModeAnimation.reset()
         if (useAnimation) {
-            mEditModeAnimation.init(EditModeMassFadeAnimator(this, if (editMode) EditMode.ENTER else EditMode.EXIT), null, 0.toByte())
+            mEditModeAnimation.init(
+                EditModeMassFadeAnimator(
+                    this,
+                    if (editMode) EditMode.ENTER else EditMode.EXIT
+                ), null, 0.toByte()
+            )
             mEditModeAnimation.start()
         } else {
-            val f2: Float
             val launcherWallpaper = wallpaperView
-            f2 = if (editMode) {
+            val f: Float = if (editMode) {
                 0.0f
             } else {
                 1.0f
             }
-            launcherWallpaper!!.alpha = f2
+            launcherWallpaper?.alpha = f
             val editModeWallpaper = editModeWallpaper
             if (!editMode) {
-                f = 0.0f
+                alpha = 0.0f
             }
-            editModeWallpaper.alpha = f
+            editModeWallpaper.alpha = alpha
             editModeWallpaper.visibility = View.VISIBLE
-            homeAdapter!!.setRowAlphas(if (editMode) 0 else 1)
+            homeAdapter?.setRowAlphas(if (editMode) 0 else 1)
         }
+        // FIXME: wrong focus and useless with no DIM
         if (!editMode && isInEditMode) {
             for (i in 0 until mList!!.childCount) {
-                val activeFrame = mList!!.getChildAt(i)
+                val activeFrame = mList?.getChildAt(i)
                 if (activeFrame is ActiveFrame) {
                     for (j in 0 until activeFrame.childCount) {
                         val activeItemsRow = activeFrame.getChildAt(j)
@@ -1002,23 +1498,44 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         dummyIntent.setClass(this, DummyActivity::class.java)
         val firstRun = PendingIntent.getActivity(this, 0, dummyIntent, 536870912) == null
         if (firstRun) {
-            (getSystemService(ALARM_SERVICE) as AlarmManager)[AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 864000000000L] = PendingIntent.getActivity(this, 0, dummyIntent, 0)
+            (getSystemService(ALARM_SERVICE) as AlarmManager)[AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 864000000000L] =
+                PendingIntent.getActivity(this, 0, dummyIntent, 0)
         }
         return firstRun
     }
 
-    fun beginLaunchAnimation(view: View, translucent: Boolean, color: Int, onCompleteCallback: Runnable) {
+    fun beginLaunchAnimation(
+        view: View,
+        translucent: Boolean,
+        color: Int,
+        onCompleteCallback: Runnable
+    ) {
         if (!mLaunchAnimation.isPrimed && !mLaunchAnimation.isRunning && !mLaunchAnimation.isFinished) {
             getBoundsOnScreen(view, mLaunchAnimation.lastKnownEpicenter)
             if (translucent) {
                 onCompleteCallback.run()
                 return
             }
-            val animation: ForwardingAnimatorSet
-            animation = if (view is NotificationCardView) {
-                NotificationLaunchAnimator(mList, view, mLaunchAnimation.lastKnownEpicenter, findViewById<View>(R.id.click_circle_layer) as ImageView, color, homeAdapter!!.rowHeaders, mHomeScreenView)
+            val animation: ForwardingAnimatorSet = if (view is NotificationCardView) {
+                NotificationLaunchAnimator(
+                    mList,
+                    view,
+                    mLaunchAnimation.lastKnownEpicenter,
+                    findViewById<View>(R.id.click_circle_layer) as ImageView,
+                    color,
+                    homeAdapter!!.rowHeaders,
+                    mHomeScreenView
+                )
             } else {
-                LauncherLaunchAnimator(mList, view, mLaunchAnimation.lastKnownEpicenter, findViewById<View>(R.id.click_circle_layer) as ImageView, color, homeAdapter!!.rowHeaders, mHomeScreenView)
+                LauncherLaunchAnimator(
+                    mList,
+                    view,
+                    mLaunchAnimation.lastKnownEpicenter,
+                    findViewById<View>(R.id.click_circle_layer) as ImageView,
+                    color,
+                    homeAdapter!!.rowHeaders,
+                    mHomeScreenView
+                )
             }
             mLaunchAnimation.init(animation, onCompleteCallback, 0.toByte())
             mLaunchAnimation.start()
@@ -1052,7 +1569,8 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
     }
 
     private fun primeAnimationAfterLayout() {
-        mList?.rootView?.viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        mList?.rootView?.viewTreeObserver?.addOnGlobalLayoutListener(object :
+            OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 mList?.rootView?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
                 if (mLaunchAnimation.isScheduled) {
@@ -1065,10 +1583,10 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
 
     private fun checkLaunchPointPositions() {
         if (!mLaunchAnimation.isRunning && checkViewHierarchy(mList)) {
-            val buf = StringWriter()
-            buf.append("Caught partially animated state; resetting...\n")
-            mLaunchAnimation.dump("", PrintWriter(buf), mList)
-            Log.w("Animations", buf.toString())
+//            val buf = StringWriter()
+//            buf.append("Caught partially animated state; resetting...\n")
+//            mLaunchAnimation.dump("", PrintWriter(buf), mList)
+//            Log.w(TAG, "Animations:$buf")
             mLaunchAnimation.reset()
         }
     }
@@ -1078,10 +1596,9 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
             return true
         }
         if (view is ViewGroup) {
-            val group = view
-            val n = group.childCount
+            val n = view.childCount
             for (i in 0 until n) {
-                if (checkViewHierarchy(group.getChildAt(i))) {
+                if (checkViewHierarchy(view.getChildAt(i))) {
                     return true
                 }
             }
@@ -1089,24 +1606,4 @@ class MainActivity : Activity(), OnEditModeChangedListener, OnEditModeUninstallP
         return false
     }
 
-    companion object {
-        const val MY_PERMISSIONS_REQUEST_LOCATION = 99
-        private const val TAG = "MainActivity"
-
-        fun isMediaKey(keyCode: Int): Boolean {
-            return when (keyCode) {
-                KeyEvent.KEYCODE_HEADSETHOOK, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_STOP, KeyEvent.KEYCODE_MEDIA_NEXT, KeyEvent.KEYCODE_MEDIA_PREVIOUS, KeyEvent.KEYCODE_MEDIA_REWIND, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, KeyEvent.KEYCODE_MUTE, KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_MEDIA_RECORD -> true
-                else -> false
-            }
-        }
-
-        private fun getBoundsOnScreen(v: View, epicenter: Rect) {
-            val location = IntArray(2)
-            v.getLocationOnScreen(location)
-            epicenter.left = location[0]
-            epicenter.top = location[1]
-            epicenter.right = epicenter.left + Math.round(v.width.toFloat() * v.scaleX)
-            epicenter.bottom = epicenter.top + Math.round(v.height.toFloat() * v.scaleY)
-        }
-    }
 }

@@ -6,18 +6,26 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Message
+import androidx.core.content.res.ResourcesCompat
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.leanbacklauncher.R
 import java.lang.ref.WeakReference
 import java.util.*
 
-class SettingsAdapter(context: Context?, private val mConnectivityListener: ConnectivityListener) : AppsAdapter(context!!, null, AppCategory.SETTINGS) {
+class SettingsAdapter(context: Context?, private val mConnectivityListener: ConnectivityListener) :
+    AppsAdapter(context!!, null, AppCategory.SETTINGS) {
     private val mHandler: Handler = NetworkUpdateHandler(this)
     private var mNetResources: Resources? = null
     private var mNetResourcesSet = false
 
+//    companion object {
+//        private const val TAG = "SettingsAdapter"
+//    }
+
     private class NetworkUpdateHandler(adapter: SettingsAdapter?) : Handler() {
-        private val mAdapterRef: WeakReference<SettingsAdapter?>
+        private val mAdapterRef: WeakReference<SettingsAdapter?> =
+            WeakReference<SettingsAdapter?>(adapter)
+
         override fun handleMessage(msg: Message) {
             val adapter = mAdapterRef.get()
             adapter?.let {
@@ -33,10 +41,6 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
                     else -> return
                 }
             }
-        }
-
-        init {
-            mAdapterRef = WeakReference<SettingsAdapter?>(adapter)
         }
     }
 
@@ -66,7 +70,7 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
     private fun updateNetwork(): Int {
         for (i in mLaunchPoints.indices) {
             val launchPoint = mLaunchPoints[i]
-            if (launchPoint?.settingsType == 0) {
+            if (launchPoint.settingsType == 0) {
                 setNetwork(mContext.resources, launchPoint)
                 return i
             }
@@ -86,43 +90,57 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
         when (connectivityStatus.mNetworkType) {
             1 -> {
                 titleId = R.string.settings_network
-                launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_disconnected")
+                launchPoint.iconDrawable =
+                    getNetResourceDrawable(launchPoint, "network_state_disconnected")
             }
             3, 5 -> {
                 title = connectivityStatus.mWifiSsid
                 hasNetworkName = true
                 when (connectivityStatus.mWifiSignalStrength) {
-                    0 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_wifi_0")
-                    1 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_wifi_1")
-                    2 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_wifi_2")
-                    3 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_wifi_3")
-                    4 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_wifi_4")
+                    0 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_wifi_0")
+                    1 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_wifi_1")
+                    2 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_wifi_2")
+                    3 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_wifi_3")
+                    4 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_wifi_4")
                     else -> {
                     }
                 }
             }
             7 -> {
-                launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_ethernet")
+                launchPoint.iconDrawable =
+                    getNetResourceDrawable(launchPoint, "network_state_ethernet")
                 titleId = R.string.settings_network
             }
             9 -> {
                 title = connectivityStatus.mWifiSsid
                 hasNetworkName = true
-                launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_wifi_no_internet")
+                launchPoint.iconDrawable =
+                    getNetResourceDrawable(launchPoint, "network_state_wifi_no_internet")
             }
             11 -> {
                 titleId = R.string.settings_network
-                launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_ethernet_no_internet")
+                launchPoint.iconDrawable =
+                    getNetResourceDrawable(launchPoint, "network_state_ethernet_no_internet")
             }
             13 -> {
                 title = connectivityStatus.mMobileNetworkName
                 hasNetworkName = true
                 when (connectivityStatus.mMobileSignalStrength) {
-                    0 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_0")
-                    1 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_1")
-                    2 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_2")
-                    3 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_3")
-                    4 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_4")
+                    0 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_0")
+                    1 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_1")
+                    2 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_2")
+                    3 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_3")
+                    4 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_4")
                     else -> {
                     }
                 }
@@ -131,11 +149,16 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
                 title = connectivityStatus.mMobileNetworkName
                 hasNetworkName = true
                 when (connectivityStatus.mMobileSignalStrength) {
-                    0 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_0")
-                    1 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_1")
-                    2 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_2")
-                    3 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_3")
-                    4 -> launchPoint.iconDrawable = getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_4")
+                    0 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_0")
+                    1 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_1")
+                    2 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_2")
+                    3 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_3")
+                    4 -> launchPoint.iconDrawable =
+                        getNetResourceDrawable(launchPoint, "network_state_cellular_no_internet_4")
                     else -> {
                     }
                 }
@@ -165,37 +188,39 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
 
     private fun setNetworkResources(lp: LaunchPoint) {
         try {
-            mNetResources = mContext.packageManager.getResourcesForApplication(lp.launchIntent!!.component!!.packageName)
+            mNetResources =
+                mContext.packageManager.getResourcesForApplication(lp.launchIntent!!.component!!.packageName)
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
         mNetResourcesSet = true
     }
 
-    private fun getNetResourceDrawable(launchPoint: LaunchPoint, resName: String): Drawable {
+    private fun getNetResourceDrawable(launchPoint: LaunchPoint, resName: String): Drawable? {
         var resId = 0
         if (mNetResources != null) {
             resId = mNetResources!!.getIdentifier(resName, "drawable", launchPoint.packageName)
         }
         if (resId != 0) {
-            val ret = mNetResources!!.getDrawable(resId, null)
+            val ret = ResourcesCompat.getDrawable(mNetResources!!, resId, null)
             if (ret != null) {
                 return ret
             }
         }
         val launcherRes = mContext.resources
-        return launcherRes.getDrawable(launcherRes.getIdentifier(resName, "drawable", mContext.packageName), null)
+        return ResourcesCompat.getDrawable(
+            launcherRes,
+            launcherRes.getIdentifier(resName, "drawable", mContext.packageName),
+            null
+        )
     }
 
     override fun onSettingsChanged() {
         refreshDataSetAsync()
     }
-
+// TODO
 //    override fun onLaunchPointsAddedOrUpdated(arrayList: ArrayList<LaunchPoint>) {}
-
+// TODO
 //    override fun onLaunchPointsRemoved(arrayList: ArrayList<LaunchPoint>) {}
 
-    companion object {
-        private const val TAG = "SettingsAdapter"
-    }
 }

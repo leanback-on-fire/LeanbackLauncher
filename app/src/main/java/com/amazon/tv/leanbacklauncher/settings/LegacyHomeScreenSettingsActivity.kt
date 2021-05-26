@@ -12,7 +12,7 @@ class LegacyHomeScreenSettingsActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         window.decorView.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.settings_dialog_bg_protection, null))
         if (savedInstanceState == null) {
-            GuidedStepSupportFragment.addAsRoot(this, LegacyHomeScreenPreferenceFragment(), 16908290)
+            GuidedStepSupportFragment.addAsRoot(this, LegacyHomeScreenPreferenceFragment(), android.R.id.content)
         }
     }
 

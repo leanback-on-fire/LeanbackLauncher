@@ -125,8 +125,8 @@ To enable, go to Settings"</string>
     <string name="restore_pending">Restore pending…</string>
     <string name="search_hint_text">Search movies, TV and more</string>
     <string name="search_menu_title">Search</string>
-    <string name="select_app_order_action_description_fixed">Customise order</string>
-    <string name="select_app_order_action_description_recency">Recency order</string>
+    <string name="select_app_order_action_fixed">Customise order</string>
+    <string name="select_app_order_action_recency">Recency order</string>
     <string name="select_app_order_action_title">Organise apps and games</string>
     <string name="select_app_order_content_title">Organise apps and games</string>
     <string name="settings_dialog_title">Home screen</string>

@@ -31,15 +31,14 @@ class LegacyRecommendationsPreferenceFragment : GuidedStepSupportFragment(), Loa
         mPreferenceManager?.loadRecommendationsPackages(this)
     }
 
-    override fun onRecommendationPackagesLoaded(infos: List<RecommendationsPreferenceManager.PackageInfo>?) {
+    override fun onRecommendationPackagesLoaded(info: List<RecommendationsPreferenceManager.PackageInfo>?) {
         if (isAdded) {
             mActionToPackageMap = HashMap()
             val actions = ArrayList<GuidedAction>()
             var actionId: Long = 0
-            if (infos != null) {
-                for (packageInfo in infos) {
-                    var banner: Drawable?
-                    banner = if (packageInfo.banner != null) {
+            if (info != null) {
+                for (packageInfo in info) {
+                    val banner: Drawable? = if (packageInfo.banner != null) {
                         packageInfo.banner
                     } else {
                         buildBannerFromIcon(packageInfo.icon)
@@ -52,7 +51,7 @@ class LegacyRecommendationsPreferenceFragment : GuidedStepSupportFragment(), Loa
                             .checked(!packageInfo.blacklisted)
                             .build()
                     )
-                    mActionToPackageMap.put(actionId, packageInfo.packageName!!)
+                    mActionToPackageMap[actionId] = packageInfo.packageName!!
                     actionId++
                 }
             }

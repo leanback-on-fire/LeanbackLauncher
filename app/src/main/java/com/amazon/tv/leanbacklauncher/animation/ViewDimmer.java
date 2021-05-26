@@ -29,7 +29,7 @@ public class ViewDimmer {
     private ColorMatrix mConcatMatrix;
     private List<Drawable> mDesatDrawables;
     private List<ImageView> mDesatImageViews;
-    private ObjectAnimator mDimAnimation;
+    private final ObjectAnimator mDimAnimation;
     private float mDimLevel;
     private DimState mDimState;
     private List<Drawable> mDrawables;
@@ -38,7 +38,7 @@ public class ViewDimmer {
     private final float mInactiveDimLevel;
     private List<Integer> mOriginalTextColors;
     private List<PlayingIndicatorView> mPlayingIndicatorViews;
-    private View mTargetView;
+    private final View mTargetView;
     private List<TextView> mTextViews;
 
     public enum DimState {
@@ -98,7 +98,7 @@ public class ViewDimmer {
 
     public void setConcatMatrix(ColorMatrix matrix) {
         this.mConcatMatrix = matrix;
-        // setDimLevel(this.mDimLevel);
+        //setDimLevel(this.mDimLevel); // FIXME
     }
 
     @Keep
@@ -203,29 +203,29 @@ public class ViewDimmer {
             }
             return;
         }
-        // setDimLevelImmediate(dimState);
+        //setDimLevelImmediate(dimState); // FIXME
     }
 
     public void setDimLevelImmediate(DimState dimState) {
         if (this.mDimAnimation.isStarted()) {
             this.mDimAnimation.cancel();
         }
-        // setDimLevel(convertToDimLevel(dimState));
+        //setDimLevel(convertToDimLevel(dimState)); // FIXME
     }
 
     public void setDimLevelImmediate() {
         if (this.mDimState != null) {
-            //  setDimLevelImmediate(this.mDimState);
+            //setDimLevelImmediate(this.mDimState); // FIXME
         } else {
-            //  setDimLevelImmediate(DimState.INACTIVE);
+            //setDimLevelImmediate(DimState.INACTIVE); // FIXME
         }
     }
 
     public void setDimState(DimState dimState, boolean immediate) {
         if (immediate) {
-            //setDimLevelImmediate(dimState);
+            //setDimLevelImmediate(dimState); // FIXME
         } else {
-            //animateDim(dimState);
+            //animateDim(dimState); // FIXME
         }
         this.mDimState = dimState;
     }

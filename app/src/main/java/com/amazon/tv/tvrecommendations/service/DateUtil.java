@@ -1,7 +1,8 @@
 package com.amazon.tv.tvrecommendations.service;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
 
 import java.util.Calendar;
 import java.util.Date;

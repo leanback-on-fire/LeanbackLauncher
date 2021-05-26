@@ -1,0 +1,37 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/settings_dialog_title"
+    android:key="root_prefs">
+    <PreferenceCategory>
+
+        <Preference
+            android:key="order_and_rows"
+            android:summary="@string/home_screen_order_desc"
+            android:title="@string/home_screen_order_action_title"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.HomePreferencesFragment" />
+
+        <Preference
+            android:key="hidden_apps"
+            android:summary="@string/hidden_applications_desc"
+            android:title="@string/hidden_applications_title"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.HiddenPreferenceFragment" />
+
+        <Preference
+            android:key="rec_sources"
+            android:summary="@string/recommendation_blacklist_content_description"
+            android:title="@string/recommendation_blacklist_action_title"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.RecommendationsPreferenceFragment" />
+
+        <Preference
+            android:key="weather"
+            android:summary="@string/weather_home_description"
+            android:title="@string/weather_home_title"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.WeatherPreferenceFragment" />
+
+        <Preference
+            android:key="version"
+            android:summary="version"
+            android:title="@string/update" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

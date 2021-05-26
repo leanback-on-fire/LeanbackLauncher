@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.os.AsyncTask
 import android.text.TextUtils
 import android.util.Log
-import com.amazon.tv.leanbacklauncher.apps.AppsDbHelper
 import com.amazon.tv.leanbacklauncher.util.Util.setInitialRankingAppliedFlag
 import com.amazon.tv.tvrecommendations.service.DbHelper
 import com.amazon.tv.tvrecommendations.service.DbStateWriter
@@ -21,16 +20,18 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executor
 
-class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(context, databaseName, null, 11) {
-    private val mContext: Context
-    private val mLock: Any
+class AppsDbHelper(context: Context, databaseName: String?) :
+    SQLiteOpenHelper(context, databaseName, null, 11) {
+    private val mContext: Context = context
+    private val mLock: Any = Any()
     private var mMostRecentTimeStamp = 0L
 
     interface Listener {
         fun onEntitiesLoaded(hashMap: HashMap<String, AppsEntity?>)
     }
 
-    private inner class LoadEntitiesTask(private val mListener: Listener) : AsyncTask<Void?, Void?, HashMap<String, AppsEntity?>>() {
+    private inner class LoadEntitiesTask(private val mListener: Listener) :
+        AsyncTask<Void?, Void?, HashMap<String, AppsEntity?>>() {
         override fun doInBackground(vararg params: Void?): HashMap<String, AppsEntity?> {
             val entities = HashMap<String, AppsEntity?>()
             val db = this@AppsDbHelper.writableDatabase
@@ -90,7 +91,8 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
 
     internal interface RecommendationMigrationTable
 
-    private inner class RemoveEntityTask(private val mKey: String, var mFullRemoval: Boolean) : AsyncTask<Void?, Void?, Void?>() {
+    private inner class RemoveEntityTask(private val mKey: String, var mFullRemoval: Boolean) :
+        AsyncTask<Void?, Void?, Void?>() {
         override fun doInBackground(vararg params: Void?): Void? {
             val selectionArgs = arrayOf(mKey)
             val db = this@AppsDbHelper.writableDatabase
@@ -102,7 +104,7 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
                 }
                 db.setTransactionSuccessful()
             } catch (e: SQLiteException) {
-                Log.e(TAG, "Could not remove entity " + mKey, e)
+                Log.e(TAG, "Could not remove entity $mKey", e)
             } finally {
                 db.endTransaction()
             }
@@ -112,7 +114,7 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
 
     private inner class SaveEntityTask(entity: AppsEntity) : AsyncTask<Any?, Any?, Any?>() {
         private val mComponents: MutableList<ContentValues> = ArrayList()
-        private val mKey: String?
+        private val mKey: String? = entity.key
 
         override fun doInBackground(vararg params: Any?): Any? {
             val cv = ContentValues()
@@ -133,15 +135,25 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
                 }
                 if (component == null) {
                     try {
-                        count = db.update("entity_scores", componentValues, "key = ? AND component IS NULL", arrayOf(mKey))
+                        count = db.update(
+                            "entity_scores",
+                            componentValues,
+                            "key = ? AND component IS NULL",
+                            arrayOf(mKey)
+                        )
                     } catch (e: SQLiteException) {
-                        Log.e(TAG, "Could not save entity " + mKey, e)
+                        Log.e(TAG, "Could not save entity $mKey", e)
                         db.endTransaction()
                     } catch (th: Throwable) {
                         db.endTransaction()
                     }
                 } else {
-                    count = db.update("entity_scores", componentValues, "key = ? AND component = ?", arrayOf(mKey, component))
+                    count = db.update(
+                        "entity_scores",
+                        componentValues,
+                        "key = ? AND component = ?",
+                        arrayOf(mKey, component)
+                    )
                 }
                 if (count == 0) {
                     db.insert("entity_scores", null, componentValues)
@@ -153,7 +165,6 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
         }
 
         init {
-            mKey = entity.key
             for (component in entity.components) {
                 val cv = ContentValues()
                 cv.put("key", mKey)
@@ -165,7 +176,7 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
         }
     }
 
-    private constructor(context: Context) : this(context, "launcher.db") {}
+    private constructor(context: Context) : this(context, "launcher.db")
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("CREATE TABLE IF NOT EXISTS entity ( 'key' TEXT PRIMARY KEY ) ")
@@ -193,7 +204,7 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
     }
 
     fun saveEntity(entity: AppsEntity) {
-        if (!TextUtils.isEmpty(entity.key)) {
+        if (!entity.key.isNullOrEmpty()) {
             createSaveEntityTask(entity).execute()
         }
     }
@@ -203,9 +214,9 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
     }
 
     fun removeEntity(key: String?, fullRemoval: Boolean) {
-            if (key != null && key.isNotEmpty()) {
-                RemoveEntityTask(key, fullRemoval).execute()
-            }
+        if (key != null && key.isNotEmpty()) {
+            RemoveEntityTask(key, fullRemoval).execute()
+        }
     }
 
     fun loadEntities(listener: Listener, executor: Executor?) {
@@ -232,14 +243,15 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
                         Log.e(TAG, "Cannot migrate database state back after a downgrade", e)
                         file
                     }
-                    file
                 }
                 else -> file
             }
         }
+
     private val recommendationMigrationState: Int
-        private get() = try {
-            DatabaseUtils.longForQuery(readableDatabase, "SELECT state FROM rec_migration", null).toInt()
+        get() = try {
+            DatabaseUtils.longForQuery(readableDatabase, "SELECT state FROM rec_migration", null)
+                .toInt()
         } catch (e: SQLiteDoneException) {
             0
         }
@@ -247,23 +259,57 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
     @Throws(IOException::class)
     private fun writeRecommendationMigrationFile(db: SQLiteDatabase) {
         val writer = DbStateWriter(FileOutputStream(File(mContext.filesDir, "migration_launcher")))
-        var cursor = db.query("entity", arrayOf("key", "notif_bonus", "bonus_timestamp", "has_recs"), null, null, null, null, null)
+        var cursor = db.query(
+            "entity",
+            arrayOf("key", "notif_bonus", "bonus_timestamp", "has_recs"),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
         while (cursor.moveToNext()) {
             try {
-                writer.writeEntity(cursor.getString(0), cursor.getFloat(1), cursor.getLong(2), cursor.getInt(3) != 0)
+                writer.writeEntity(
+                    cursor.getString(0),
+                    cursor.getFloat(1),
+                    cursor.getLong(2),
+                    cursor.getInt(3) != 0
+                )
             } finally {
                 cursor.close()
             }
         }
-        cursor = db.query("entity_scores", arrayOf("key", "component", "entity_score", "last_opened"), null, null, null, null, null)
+        cursor = db.query(
+            "entity_scores",
+            arrayOf("key", "component", "entity_score", "last_opened"),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
         while (cursor.moveToNext()) {
             try {
-                writer.writeComponent(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getLong(3))
+                writer.writeComponent(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getInt(2),
+                    cursor.getLong(3)
+                )
             } finally {
                 cursor.close()
             }
         }
-        cursor = db.query("buckets", arrayOf("key", "group_id", "last_updated"), null, null, null, null, null)
+        cursor = db.query(
+            "buckets",
+            arrayOf("key", "group_id", "last_updated"),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
         while (cursor.moveToNext()) {
             try {
                 writer.writeBucket(cursor.getString(0), cursor.getString(1), cursor.getLong(2))
@@ -271,10 +317,25 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
                 cursor.close()
             }
         }
-        cursor = db.query("buffer_scores", arrayOf("_id", "key", "group_id", "day", "mClicks", "mImpressions"), null, null, null, null, null)
+        cursor = db.query(
+            "buffer_scores",
+            arrayOf("_id", "key", "group_id", "day", "mClicks", "mImpressions"),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
         while (cursor.moveToNext()) {
             try {
-                writer.writeSignals(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5))
+                writer.writeSignals(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getInt(3),
+                    cursor.getInt(4),
+                    cursor.getInt(5)
+                )
             } finally {
                 cursor.close()
             }
@@ -299,6 +360,7 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
 
         @SuppressLint("StaticFieldLeak")
         private var sAppsDbHelper: AppsDbHelper? = null
+
         @JvmStatic
         fun getInstance(context: Context): AppsDbHelper? {
             if (sAppsDbHelper == null) {
@@ -312,8 +374,4 @@ class AppsDbHelper(context: Context, databaseName: String?) : SQLiteOpenHelper(c
         }
     }
 
-    init {
-        mLock = Any()
-        mContext = context
-    }
 }

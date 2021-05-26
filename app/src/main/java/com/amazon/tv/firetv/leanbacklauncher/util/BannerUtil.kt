@@ -7,6 +7,8 @@ object BannerUtil {
     val BANNER_OVERRIDES: MutableMap<String, Int> = HashMap()
 
     init {
+        BANNER_OVERRIDES["com.amazon.tv.launcher"] = R.drawable.banner_amazon_launcher
+        BANNER_OVERRIDES["com.amazon.ssm"] = R.drawable.banner_amazon_ssm
         BANNER_OVERRIDES["amazon.venezia"] = R.drawable.banner_amazon_apps
         BANNER_OVERRIDES["bueller.music"] = R.drawable.banner_amazon_music
         BANNER_OVERRIDES["bueller.photos"] = R.drawable.banner_amazon_photo
@@ -23,5 +25,7 @@ object BannerUtil {
         BANNER_OVERRIDES["tunein.player"] = R.drawable.banner_tunein
         BANNER_OVERRIDES["ru.fmplay"] = R.drawable.banner_fmplay
         BANNER_OVERRIDES["tv2x2"] = R.drawable.banner_2x2
+        BANNER_OVERRIDES["com.jozein.xedge"] = R.drawable.banner_xedge
+        BANNER_OVERRIDES["com.topjohnwu.magisk"] = R.drawable.banner_magisk
     }
 }

@@ -1,7 +1,6 @@
 package com.amazon.tv.leanbacklauncher.widget;
 
 import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -34,15 +33,13 @@ public class PlayingIndicatorView extends View {
         this.mAnimator.setRepeatCount(-1);
         this.mAnimator.setDuration(100000000);
         this.mAnimator.setFloatValues(0.0f, (float) (this.mAnimator.getDuration() / 80));
-        this.mAnimator.addUpdateListener(new AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                PlayingIndicatorView.this.mProgress = ((Float) animation.getAnimatedValue()).floatValue();
-                PlayingIndicatorView.this.invalidate();
-            }
+        this.mAnimator.addUpdateListener(animation -> {
+            PlayingIndicatorView.this.mProgress = (Float) animation.getAnimatedValue();
+            PlayingIndicatorView.this.invalidate();
         });
         this.mPaint = new Paint();
         this.mPaint.setColor(-1);
-        setLayerType(1, null);
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setImportantForAccessibility(2);
     }
 
@@ -71,7 +68,7 @@ public class PlayingIndicatorView extends View {
     }
 
     public void startAnimationIfVisible() {
-        if (getVisibility() == 0) {
+        if (getVisibility() == View.VISIBLE) {
             this.mAnimator.start();
             postInvalidate();
         }

@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher.apps
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -15,21 +16,99 @@ import android.telephony.SignalStrength
 import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import java.lang.ref.WeakReference
 
 class ConnectivityListener(private val mContext: Context, listener: Listener) {
-    private val mConnectivityManager: ConnectivityManager
+    private val mConnectivityManager: ConnectivityManager =
+        mContext.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val connectivityStatus = ConnectivityStatus()
     private val mFilter: IntentFilter
     private var mIsRegistered = false
     private val mListener: Listener
-    private val mPhoneStateListener: LeanbackLauncherPhoneStateListener
+    private val mPhoneStateListener: LeanbackLauncherPhoneStateListener =
+        LeanbackLauncherPhoneStateListener(this)
     private val mReceiver: BroadcastReceiver
     private val mTelephonyManager: TelephonyManager?
-    private val mWifiManager: WifiManager
+    private val mWifiManager: WifiManager =
+        mContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
     interface Listener {
         fun onConnectivityChange()
+    }
+
+    init {
+        mTelephonyManager = mContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        mListener = listener
+        mFilter = IntentFilter()
+        mFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        mFilter.addAction("android.net.wifi.RSSI_CHANGED")
+        mFilter.addAction("android.net.conn.INET_CONDITION_ACTION")
+        mReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                var z = false
+                val intentAction = intent.action
+                val connectionStatus = intent.getIntExtra("inetCondition", -551)
+                val info =
+                    (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
+                if (!(info != null && info.isAvailable && info.isConnected)) {
+                    writeConnectivity(context, false)
+                }
+                if (intentAction == "android.net.conn.INET_CONDITION_ACTION" || intentAction == "android.net.conn.CONNECTIVITY_CHANGE" && !readConnectivity(
+                        mContext
+                    )
+                ) {
+                    if (connectionStatus > 50) {
+                        z = true
+                    }
+                    writeConnectivity(context, z)
+                }
+                updateConnectivityStatus()
+                mListener.onConnectivityChange()
+            }
+        }
+    }
+
+    companion object {
+        private val TAG =
+            if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+
+        @TargetApi(23)
+        private fun getLevel(signalStrength: SignalStrength): Int {
+            val e: LinkageError
+            return try {
+                signalStrength.level
+            } catch (e2: NoClassDefFoundError) {
+                e = e2
+                Log.e(TAG, "Exception fetching signal level", e)
+                0
+            } catch (e3: IncompatibleClassChangeError) {
+                e = e3
+                Log.e(TAG, "Exception fetching signal level", e)
+                0
+            }
+        }
+
+        private fun writeConnectivity(context: Context, inetConnected: Boolean) {
+            context.getSharedPreferences("inet-prefs", 0).edit()
+                .putBoolean("inetCondition", inetConnected).apply()
+        }
+
+        @JvmStatic
+        fun readConnectivity(context: Context): Boolean {
+            return context.getSharedPreferences("inet-prefs", 0).getBoolean("inetCondition", true)
+        }
+
+        fun removeDoubleQuotes(string: String?): String? {
+            if (string == null) {
+                return null
+            }
+            return string.removeSurrounding("\"")
+//            val length = string.length
+//            return if (length > 1 && string[0] == '\"' && string[length - 1] == '\"') {
+//                string.substring(1, length - 1)
+//            } else string
+        }
     }
 
     class ConnectivityStatus {
@@ -40,8 +119,11 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
         var mWifiSsid: String? = null
     }
 
-    private class LeanbackLauncherPhoneStateListener(listener: ConnectivityListener?) : PhoneStateListener() {
-        private val mListener: WeakReference<ConnectivityListener?>
+    private class LeanbackLauncherPhoneStateListener(listener: ConnectivityListener?) :
+        PhoneStateListener() {
+        private val mListener: WeakReference<ConnectivityListener?> =
+            WeakReference<ConnectivityListener?>(listener)
+
         override fun onSignalStrengthsChanged(signalStrength: SignalStrength) {
             super.onSignalStrengthsChanged(signalStrength)
             val listener = mListener.get()
@@ -50,9 +132,6 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
             }
         }
 
-        init {
-            mListener = WeakReference<ConnectivityListener?>(listener)
-        }
     }
 
     fun start() {
@@ -83,7 +162,14 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
             return false
         }
         val networkId = wifiInfo.networkId
-        val configuredNetworks = mWifiManager.configuredNetworks ?: return false
+        val configuredNetworks = if (ActivityCompat.checkSelfPermission(
+                mContext,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return false
+        } else
+            mWifiManager.configuredNetworks ?: return false
         for (configuredNetwork in configuredNetworks) {
             if (configuredNetwork.networkId == networkId) {
                 return configuredNetwork.allowedKeyManagement[1] || configuredNetwork.allowedKeyManagement[2] || configuredNetwork.allowedKeyManagement[3]
@@ -146,7 +232,8 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
                     connectivityStatus.mWifiSsid = ""
                 }
                 if (wifiInfo != null) {
-                    connectivityStatus.mWifiSignalStrength = WifiManager.calculateSignalLevel(wifiInfo.rssi, 5)
+                    connectivityStatus.mWifiSignalStrength =
+                        WifiManager.calculateSignalLevel(wifiInfo.rssi, 5)
                 } else {
                     connectivityStatus.mWifiSignalStrength = 0
                 }
@@ -169,74 +256,6 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
             else -> {
                 setNoConnection()
                 return
-            }
-        }
-    }
-
-    companion object {
-        @TargetApi(23)
-        private fun getLevel(signalStrength: SignalStrength): Int {
-            val e: LinkageError
-            return try {
-                signalStrength.level
-            } catch (e2: NoClassDefFoundError) {
-                e = e2
-                Log.e("ConnectivityListener", "Exception fetching signal level", e)
-                0
-            } catch (e3: IncompatibleClassChangeError) {
-                e = e3
-                Log.e("ConnectivityListener", "Exception fetching signal level", e)
-                0
-            }
-        }
-
-        private fun writeConnectivity(context: Context, inetConnected: Boolean) {
-            context.getSharedPreferences("inet-prefs", 0).edit().putBoolean("inetCondition", inetConnected).apply()
-        }
-
-        @JvmStatic
-        fun readConnectivity(context: Context): Boolean {
-            return context.getSharedPreferences("inet-prefs", 0).getBoolean("inetCondition", true)
-        }
-
-        fun removeDoubleQuotes(string: String?): String? {
-            if (string == null) {
-                return null
-            }
-            val length = string.length
-            return if (length > 1 && string[0] == '\"' && string[length - 1] == '\"') {
-                string.substring(1, length - 1)
-            } else string
-        }
-    }
-
-    init {
-        mConnectivityManager = mContext.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        mWifiManager = mContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        mPhoneStateListener = LeanbackLauncherPhoneStateListener(this)
-        mTelephonyManager = mContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        mListener = listener
-        mFilter = IntentFilter()
-        mFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
-        mFilter.addAction("android.net.wifi.RSSI_CHANGED")
-        mFilter.addAction("android.net.conn.INET_CONDITION_ACTION")
-        mReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                var z = false
-                val intentAction = intent.action
-                val connectionStatus = intent.getIntExtra("inetCondition", -551)
-                val info = (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
-                if (!(info != null && info.isAvailable && info.isConnected)) {
-                    writeConnectivity(context, false)
-                }
-                if (intentAction == "android.net.conn.INET_CONDITION_ACTION" || intentAction == "android.net.conn.CONNECTIVITY_CHANGE" && !readConnectivity(mContext)) {
-                    if (connectionStatus > 50) {
-                        z = true
-                    }
-                    writeConnectivity(context, z)
-                }
-                updateConnectivityStatus()
-                mListener.onConnectivityChange()
             }
         }
     }

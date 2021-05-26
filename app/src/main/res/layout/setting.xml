@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.amazon.tv.leanbacklauncher.apps.SettingsCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.amazon.tv.leanbacklauncher.apps.SettingsCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -10,7 +11,6 @@
     custom:infoVisibility="activated">
 
     <FrameLayout
-        android:id="@id/main"
         android:layout_width="@dimen/settings_card_width"
         android:layout_height="wrap_content"
         custom:layout_viewType="main">

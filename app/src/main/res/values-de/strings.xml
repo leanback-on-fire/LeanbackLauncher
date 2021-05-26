@@ -125,8 +125,8 @@ Rufe die Einstellungen auf, um sie zu aktivieren"</string>
     <string name="restore_pending">Wiederherstellung steht aus…</string>
     <string name="search_hint_text">Nach Filmen, TV-Sendungen und mehr suchen</string>
     <string name="search_menu_title">Suchen</string>
-    <string name="select_app_order_action_description_fixed">Reihenfolge anpassen</string>
-    <string name="select_app_order_action_description_recency">Reihenfolge nach Aktualität</string>
+    <string name="select_app_order_action_fixed">Reihenfolge anpassen</string>
+    <string name="select_app_order_action_recency">Reihenfolge nach Aktualität</string>
     <string name="select_app_order_action_title">Apps und Spiele sortieren</string>
     <string name="select_app_order_content_title">Apps und Spiele sortieren</string>
     <string name="settings_dialog_title">Startbildschirm</string>
@@ -140,4 +140,5 @@ Rufe die Einstellungen auf, um sie zu aktivieren"</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Unbekannt</string>
     <string name="update_pending">Update steht aus…</string>
+    <string name="hidden_applications_empty">Keine versteckten Anwendungen</string>
 </resources>

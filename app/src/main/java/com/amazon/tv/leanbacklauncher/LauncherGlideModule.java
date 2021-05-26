@@ -6,8 +6,8 @@ import android.graphics.Bitmap;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
-import com.amazon.tv.leanbacklauncher.notifications.RecommendationImageKey;
-import com.amazon.tv.leanbacklauncher.notifications.RecommendationImageLoaderFactory;
+import com.amazon.tv.leanbacklauncher.notifications.RecImageKey;
+import com.amazon.tv.leanbacklauncher.notifications.RecImageLoaderFactory;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
@@ -36,7 +36,7 @@ public class LauncherGlideModule implements GlideModule {
     }
 
     public void registerComponents(final Context context, Registry registry) {
-        registry.append(RecommendationImageKey.class, Bitmap.class, new RecommendationImageLoaderFactory(context));
+        registry.append(RecImageKey.class, Bitmap.class, new RecImageLoaderFactory(context));
         registry.append(Bitmap.class, Bitmap.class, new ResourceDecoder<Bitmap, Bitmap>() {
             private BitmapPool mBitmapPool;
 

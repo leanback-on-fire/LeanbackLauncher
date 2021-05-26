@@ -42,6 +42,7 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
@@ -56,12 +57,13 @@
     <permission android:name="com.amazon.tv.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
 
     <application
-        android:name="com.amazon.tv.leanbacklauncher.LauncherApplication"
+        android:name="com.amazon.tv.leanbacklauncher.App"
         android:allowBackup="true"
         android:banner="@drawable/banner_leanback"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/net_security"
         android:requestLegacyExternalStorage="true"
         android:requiredForAllUsers="true"
         android:supportsRtl="true"
@@ -79,8 +81,9 @@
             android:configChanges="keyboard|keyboardHidden|navigation|orientation"
             android:excludeFromRecents="true"
             android:label="@string/app_label"
-            android:launchMode="singleTask"
-            android:stateNotNeeded="true">
+            android:launchMode="singleInstance"
+            android:stateNotNeeded="true"
+            android:theme="@style/AppCompatFullScreenTheme">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.MAIN" />
 
@@ -102,6 +105,25 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.amazon.tv.leanbacklauncher.settings.SettingsActivity"
+            android:enabled="@bool/side_panel_settings_enabled"
+            android:excludeFromRecents="true"
+            android:icon="@drawable/ic_settings_launcher"
+            android:label="@string/launcher_settings"
+            android:theme="@style/Theme.Settings.SidePanel">
+            <intent-filter>
+                <action android:name="com.amazon.tv.leanbacklauncher.SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".UpdateActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <service
             android:name="com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4"

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string">0.5</item>
-    <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string">0.25</item>
-    <item name="lb_guidedactions_item_disabled_text_alpha" type="string">0.25</item>
-    <item name="lb_guidedactions_item_enabled_chevron_alpha" type="string">1.0</item>
-    <item name="lb_guidedactions_item_unselected_description_text_alpha" type="string">0.5</item>
-    <item name="lb_guidedactions_item_unselected_text_alpha" type="string">1.0</item>
-    <item name="lb_guidedactions_width_weight" type="string">0.71428573</item>
-    <item name="lb_guidedactions_width_weight_two_panels" type="string">1.1917808</item>
-    <item name="lb_guidedbuttonactions_width_weight" type="string">0.45</item>
-    <item name="lb_guidedstep_height_weight" type="string">2.0</item>
-    <item name="lb_guidedstep_height_weight_translucent" type="string">1.0</item>
-    <item name="lb_guidedstep_keyline" type="string">40.0</item>
+    <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string" translatable="false">0.5</item>
+    <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string" translatable="false">0.25</item>
+    <item name="lb_guidedactions_item_disabled_text_alpha" type="string" translatable="false">0.25</item>
+    <item name="lb_guidedactions_item_enabled_chevron_alpha" type="string" translatable="false">1.0</item>
+    <item name="lb_guidedactions_item_unselected_description_text_alpha" type="string" translatable="false">0.5</item>
+    <item name="lb_guidedactions_item_unselected_text_alpha" type="string" translatable="false">1.0</item>
+    <item name="lb_guidedactions_width_weight" type="string" translatable="false">0.71428573</item>
+    <item name="lb_guidedactions_width_weight_two_panels" type="string" translatable="false">1.1917808</item>
+    <item name="lb_guidedbuttonactions_width_weight" type="string" translatable="false">0.45</item>
+    <item name="lb_guidedstep_height_weight" type="string" translatable="false">2.0</item>
+    <item name="lb_guidedstep_height_weight_translucent" type="string" translatable="false">1.0</item>
+    <item name="lb_guidedstep_keyline" type="string" translatable="false">40.0</item>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
     <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
@@ -22,18 +22,18 @@
     <string name="abc_activitychooserview_choose_application">Choose an app</string>
     <string name="abc_capital_off">OFF</string>
     <string name="abc_capital_on">ON</string>
-    <string name="abc_font_family_body_1_material">sans-serif</string>
-    <string name="abc_font_family_body_2_material">sans-serif-medium</string>
-    <string name="abc_font_family_button_material">sans-serif-medium</string>
-    <string name="abc_font_family_caption_material">sans-serif</string>
-    <string name="abc_font_family_display_1_material">sans-serif</string>
-    <string name="abc_font_family_display_2_material">sans-serif</string>
-    <string name="abc_font_family_display_3_material">sans-serif</string>
-    <string name="abc_font_family_display_4_material">sans-serif-light</string>
-    <string name="abc_font_family_headline_material">sans-serif</string>
-    <string name="abc_font_family_menu_material">sans-serif</string>
-    <string name="abc_font_family_subhead_material">sans-serif</string>
-    <string name="abc_font_family_title_material">sans-serif-medium</string>
+    <string name="abc_font_family_body_1_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_body_2_material" translatable="false">sans-serif-medium</string>
+    <string name="abc_font_family_button_material" translatable="false">sans-serif-medium</string>
+    <string name="abc_font_family_caption_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_display_1_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_display_2_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_display_3_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_display_4_material" translatable="false">sans-serif-light</string>
+    <string name="abc_font_family_headline_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_menu_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_subhead_material" translatable="false">sans-serif</string>
+    <string name="abc_font_family_title_material" translatable="false">sans-serif-medium</string>
     <string name="abc_search_hint">Search…</string>
     <string name="abc_searchview_description_clear">Clear query</string>
     <string name="abc_searchview_description_query">Search query</string>
@@ -57,7 +57,7 @@
     <string name="banners_prefs_desc">Apps banners options</string>
     <string name="banners_corners_radius">Corners Radius (px)</string>
     <string name="banners_frame_width">Frame Width (px)</string>
-    <string name="banners_frame_color">Frame Color (#AARRGGBB)</string>
+    <string name="banners_frame_color">Frame Color</string>
     <string name="banners_frame_color_desc">The following values are also accepted for color: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
     <string name="banners_size">Banners Size (50-200%)</string>
     <string name="category_label_apps">Apps</string>
@@ -90,6 +90,8 @@
     <string name="edit_finish_button_text">Done</string>
     <string name="edit_row_title">Edit Home Rows</string>
     <string name="edit_uninstall_focused_text">Uninstall</string>
+    <string name="enable_local_weather_title">Enable local weather</string>
+    <string name="enable_local_weather_description">Show current weather</string>
     <string name="failed_launch">"Can't open this right now"</string>
     <string name="favorites_row_title">Show Favorites Row</string>
     <string name="file_no_access">File not accessible!</string>
@@ -98,11 +100,12 @@
     <string name="focused_search_hint_text">Click to search</string>
     <string name="focused_search_keyboard_hint_text">Click to type</string>
     <string name="focused_search_mic_hint_text">Click to speak</string>
-    <string name="font">sans-serif-condensed</string>
-    <string name="goback">Back</string>
+    <string name="font" translatable="false">sans-serif-condensed</string>
+    <string name="goback" translatable="false">[ .. ]</string>
     <string name="games_row_title">Show Games Row</string>
     <string name="hidden_applications_desc">Selected apps are hidden from the home screen</string>
     <string name="hidden_applications_title">Hidden applications</string>
+    <string name="hidden_applications_empty">No hidden applications</string>
     <string name="home_screen_order_action_title">Home Screen View</string>
     <string name="home_screen_order_content_description">Reorder apps and games by holding down the select button</string>
     <string name="home_screen_order_content_title">Apps Order</string>
@@ -151,9 +154,10 @@
     <string name="lb_search_bar_hint_with_title">Search %1$s</string>
     <string name="lb_search_bar_hint_with_title_speech">Speak to search %1$s</string>
     <string name="lb_time_separator">:</string>
-    <string name="light_font">sans-serif-light</string>
+    <string name="light_font" translatable="false">sans-serif-light</string>
+    <string name="location_note">Location permission needed for Wi-Fi network state indicator on Android Marshmallow and above</string>
     <string name="max_apps_rows_title">Max Apps Rows</string>
-    <string name="max_apps_title">Apps on One Row</string>
+    <string name="max_col_title">Visible Columns</string>
     <string name="max_favorites_rows_title">Max Favorites Rows</string>
     <string name="max_games_rows_title">Max Games Rows</string>
     <string name="max_music_rows_title">Max Music Rows</string>
@@ -172,26 +176,30 @@
     <string name="now_playing_card_playing">Now Playing</string>
     <string name="now_playing_card_stopped">Stopped</string>
     <string name="orb_search_action">Search Action</string>
-    <string name="pref_enable_favorites_row">enable_favorites_row</string>
-    <string name="pref_enable_games_row">enable_games_row</string>
-    <string name="pref_enable_inputs_row">enable_inputs_row</string>
-    <string name="pref_enable_music_row">enable_music_row</string>
-    <string name="pref_enable_recommendations_row">enable_recommendations_row</string>
-    <string name="pref_enable_videos_row">enable_videos_row</string>
-    <string name="pref_max_apps_rows">max_apps_rows</string>
-    <string name="pref_max_apps">max_apps</string>
-    <string name="pref_max_favorites_rows">max_favorites_rows</string>
-    <string name="pref_max_games_rows">max_games_rows</string>
-    <string name="pref_max_music_rows">max_music_rows</string>
-    <string name="pref_max_videos_rows">max_videos_rows</string>
-    <string name="pref_min_apps_rows">min_apps_rows</string>
-    <string name="pref_min_favorites_rows">min_favorites_rows</string>
-    <string name="pref_min_games_rows">min_games_rows</string>
-    <string name="pref_min_music_rows">min_music_rows</string>
-    <string name="pref_min_videos_rows">min_videos_rows</string>
-    <string name="primes_marker">PrImEs</string>
-    <string name="primes_version">174122153</string>
+    <string name="pref_banner_corner_radius" translatable="false">banner_corner_radius</string>
+    <string name="pref_banner_focus_frame_color" translatable="false">banner_focus_frame_color</string>
+    <string name="pref_banner_frame_stroke" translatable="false">banner_frame_stroke</string>
+    <string name="pref_banner_size" translatable="false">banner_size</string>
+    <string name="pref_enable_favorites_row" translatable="false">enable_favorites_row</string>
+    <string name="pref_enable_games_row" translatable="false">enable_games_row</string>
+    <string name="pref_enable_inputs_row" translatable="false">enable_inputs_row</string>
+    <string name="pref_enable_local_weather" translatable="false">enable_local_weather</string>
+    <string name="pref_enable_music_row" translatable="false">enable_music_row</string>
+    <string name="pref_enable_recommendations_row" translatable="false">enable_recommendations_row</string>
+    <string name="pref_enable_videos_row" translatable="false">enable_videos_row</string>
+    <string name="pref_show_location" translatable="false">show_location</string>
+    <string name="pref_use_current_location" translatable="false">use_current_location</string>
+    <string name="pref_user_location" translatable="false">user_location</string>
+    <string name="pref_max_apps_rows" translatable="false">max_apps_rows</string>
+    <string name="pref_max_apps" translatable="false">max_apps</string>
+    <string name="pref_max_favorites_rows" translatable="false">max_favorites_rows</string>
+    <string name="pref_max_games_rows" translatable="false">max_games_rows</string>
+    <string name="pref_max_music_rows" translatable="false">max_music_rows</string>
+    <string name="pref_max_videos_rows" translatable="false">max_videos_rows</string>
+    <string name="primes_marker" translatable="false">PrImEs</string>
+    <string name="primes_version" translatable="false">174122153</string>
     <string name="progress_percent">%1$d%%</string>
+    <string name="rec_soures_empty">No recommendations sources</string>
     <string name="recency_order_action_description">Apps and games ordered based on recent usage</string>
     <string name="recency_order_action_title">Recency order</string>
     <string name="recm_service_name">Recommendations Service</string>
@@ -212,15 +220,15 @@ pm grant com.amazon.tv.leanbacklauncher android.permission.WRITE_SECURE_SETTINGS
 You need to disable package:
 com.amazon.device.sale.service
 or recommendations will not work properly."</string>
-    <string name="regular_font">sans-serif</string>
+    <string name="regular_font" translatable="false">sans-serif</string>
     <string name="reset_wallpaper_action_title">Reset Wallpaper</string>
     <string name="reset_wallpaper_action_desc">Use default image</string>
     <string name="restore_pending">Restore pending…</string>
     <string name="search_hint_text">Search movies, TV, and more</string>
     <string name="search_menu_title">Search</string>
     <string name="select_app_customize_rows_title">Customize Home rows</string>
-    <string name="select_app_order_action_description_fixed">Custom order</string>
-    <string name="select_app_order_action_description_recency">Recency order</string>
+    <string name="select_app_order_action_fixed">Custom order</string>
+    <string name="select_app_order_action_recency">Recency order</string>
     <string name="select_app_order_action_title">Organize apps and games</string>
     <string name="select_app_order_content_title">Organize apps and games</string>
     <string name="select_wallpaper_action_desc">Select desired background image</string>
@@ -229,6 +237,8 @@ or recommendations will not work properly."</string>
     <string name="settings_dialog_title">Home screen</string>
     <string name="settings_network">Network</string>
     <string name="show_all_apps">Show System and None-TV Apps</string>
+    <string name="show_location_title">Show Location</string>
+    <string name="show_location_description">Show location with weather</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="system_settings">System</string>
     <string name="title_app_edit_mode">Reorder apps mode</string>
@@ -238,18 +248,28 @@ or recommendations will not work properly."</string>
     <string name="unknown_artist">Unknown</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Unknown</string>
+    <string name="update_app_found">%s update available!</string>
     <string name="update_changes">Changes</string>
     <string name="update_desc">Check for new launcher version</string>
     <string name="update_in_progress">Checking for updates…</string>
     <string name="update_install">Install update</string>
-    <string name="update_new_version">Found new version!</string>
+    <string name="update_cur_version">Installed version</string>
+    <string name="update_new_version">Found new version</string>
     <string name="update_no_info">No information</string>
     <string name="update_no_updates">No updates found</string>
     <string name="update_pending">Update pending…</string>
+    <string name="update_loading">Loading update…</string>
     <string name="update">Update</string>
+    <string name="use_current_location_title">Use current location</string>
+    <string name="use_current_location_description">Autodetect location by OS (Google services and location permission required)</string>
+    <string name="user_location_title">User location</string>
+    <string name="user_location_warning">User location for weather not set in preferences</string>
+    <string name="error_app_not_found">No suitable applications found</string>
     <string name="v7_preference_off">OFF</string>
     <string name="v7_preference_on">ON</string>
     <string name="videos_row_title">Show Videos Row</string>
     <string name="wallpaper_title">Default Wallpaper</string>
     <string name="wallpaper_choose">Put wallpaper image to storage directory root and select here</string>
+    <string name="weather_home_title">Weather Preferences</string>
+    <string name="weather_home_description">Local weather and forecast on Home screen</string>
 </resources>

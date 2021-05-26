@@ -1,0 +1,74 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="rows_prefs"
+    android:title="@string/edit_row_title">
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:key="@string/pref_enable_recommendations_row"
+            android:title="@string/recs_row_title"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="@string/pref_enable_inputs_row"
+            android:title="@string/inputs_row_title"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="@string/pref_enable_favorites_row"
+            android:title="@string/favorites_row_title"
+            android:defaultValue="true" />
+
+        <EditTextPreference
+            android:key="@string/pref_max_favorites_rows"
+            android:title="@string/max_favorites_rows_title"
+            android:defaultValue="@integer/max_num_banner_rows"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:key="@string/pref_enable_videos_row"
+            android:title="@string/videos_row_title"
+            android:defaultValue="true" />
+
+        <EditTextPreference
+            android:key="@string/pref_max_videos_rows"
+            android:title="@string/max_videos_rows_title"
+            android:defaultValue="@integer/max_num_banner_rows"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:key="@string/pref_enable_music_row"
+            android:title="@string/music_row_title"
+            android:defaultValue="true" />
+
+        <EditTextPreference
+            android:key="@string/pref_max_music_rows"
+            android:title="@string/max_music_rows_title"
+            android:defaultValue="@integer/max_num_banner_rows"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:key="@string/pref_enable_games_row"
+            android:title="@string/games_row_title"
+            android:defaultValue="true" />
+
+        <EditTextPreference
+            android:key="@string/pref_max_games_rows"
+            android:title="@string/max_games_rows_title"
+            android:defaultValue="@integer/max_num_banner_rows"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:key="@string/pref_max_apps_rows"
+            android:title="@string/max_apps_rows_title"
+            android:defaultValue="@integer/max_num_banner_rows"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:key="@string/pref_max_apps"
+            android:title="@string/max_col_title"
+            android:defaultValue="@integer/two_row_cut_off"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

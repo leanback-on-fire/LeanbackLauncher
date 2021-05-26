@@ -12,7 +12,6 @@ import android.graphics.Matrix
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
-import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
@@ -20,6 +19,7 @@ import android.view.KeyEvent
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityManager
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.MainActivity
 import com.amazon.tv.leanbacklauncher.R
 
@@ -62,7 +62,7 @@ object Util {
 
     fun isPackagePresent(pkgMan: PackageManager, packageName: String?): Boolean {
         return try {
-            pkgMan.getApplicationInfo(packageName!!, 0) != null
+            pkgMan.getApplicationInfo(packageName!!, 0).packageName.isNotEmpty()
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }
@@ -78,18 +78,23 @@ object Util {
 
     fun isUninstallAllowed(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            context.packageManager.checkPermission("android.permission.REQUEST_DELETE_PACKAGES", context.packageName) == PackageManager.PERMISSION_GRANTED
+            context.packageManager.checkPermission(
+                "android.permission.REQUEST_DELETE_PACKAGES",
+                context.packageName
+            ) == PackageManager.PERMISSION_GRANTED
         } else true
     }
 
     @JvmStatic
     fun initialRankingApplied(ctx: Context?): Boolean {
-        return PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean("launcher_oob_ranking_marker", false)
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
+            .getBoolean("launcher_oob_ranking_marker", false)
     }
 
     @JvmStatic
     fun setInitialRankingAppliedFlag(ctx: Context?, applied: Boolean) {
-        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putBoolean("launcher_oob_ranking_marker", applied).apply()
+        PreferenceManager.getDefaultSharedPreferences(ctx).edit()
+            .putBoolean("launcher_oob_ranking_marker", applied).apply()
     }
 
     private fun startActivitySafely(context: Context, intent: Intent): Boolean {
@@ -130,7 +135,10 @@ object Util {
                     e.printStackTrace()
                 }
             }
-            Log.v("LeanbackLauncher", "Couldn't find install time for $name assuming it's right now")
+            Log.v(
+                "LeanbackLauncher",
+                "Couldn't find install time for $name assuming it's right now"
+            )
         }
         return System.currentTimeMillis()
     }
@@ -140,7 +148,8 @@ object Util {
     }
 
     fun getWidgetComponentName(ctx: Context?): ComponentName? {
-        val name = PreferenceManager.getDefaultSharedPreferences(ctx).getString("widget_component_name", null)
+        val name = PreferenceManager.getDefaultSharedPreferences(ctx)
+            .getString("widget_component_name", null)
         return if (TextUtils.isEmpty(name)) {
             null
         } else ComponentName.unflattenFromString(name!!)
@@ -150,12 +159,14 @@ object Util {
         if (id == 0 || name == null) {
             clearWidget(ctx)
         } else {
-            PreferenceManager.getDefaultSharedPreferences(ctx).edit().putInt("widget_id", id).putString("widget_component_name", name.flattenToString()).apply()
+            PreferenceManager.getDefaultSharedPreferences(ctx).edit().putInt("widget_id", id)
+                .putString("widget_component_name", name.flattenToString()).apply()
         }
     }
 
     fun clearWidget(ctx: Context?) {
-        PreferenceManager.getDefaultSharedPreferences(ctx).edit().remove("widget_id").remove("widget_component_name").apply()
+        PreferenceManager.getDefaultSharedPreferences(ctx).edit().remove("widget_id")
+            .remove("widget_component_name").apply()
     }
 
     @JvmStatic
@@ -175,19 +186,36 @@ object Util {
         val deltaW = Math.max((imgWidth.toFloat() * scale).toInt() - maxWidth, 0).toFloat() / scale
         val matrix = Matrix()
         matrix.postScale(scale, scale)
-        val newImage = Bitmap.createBitmap(image, (deltaW / 2.0f).toInt(), 0, (imgWidth.toFloat() - deltaW).toInt(), imgHeight, matrix, true)
+        val newImage = Bitmap.createBitmap(
+            image,
+            (deltaW / 2.0f).toInt(),
+            0,
+            (imgWidth.toFloat() - deltaW).toInt(),
+            imgHeight,
+            matrix,
+            true
+        )
         return newImage ?: image
     }
 
     @JvmStatic
-    fun startSearchActivitySafely(context: Context, intent: Intent, deviceId: Int, isKeyboardSearch: Boolean): Boolean {
+    fun startSearchActivitySafely(
+        context: Context,
+        intent: Intent,
+        deviceId: Int,
+        isKeyboardSearch: Boolean
+    ): Boolean {
         intent.putExtra("android.intent.extra.ASSIST_INPUT_DEVICE_ID", deviceId)
         intent.putExtra("search_type", if (isKeyboardSearch) 2 else 1)
         return startActivitySafely(context, intent)
     }
 
     @JvmStatic
-    fun startSearchActivitySafely(context: Context, intent: Intent, isKeyboardSearch: Boolean): Boolean {
+    fun startSearchActivitySafely(
+        context: Context,
+        intent: Intent,
+        isKeyboardSearch: Boolean
+    ): Boolean {
         intent.putExtra("search_type", if (isKeyboardSearch) 2 else 1)
         return startActivitySafely(context, intent)
     }
@@ -200,7 +228,9 @@ object Util {
     @JvmStatic
     fun getDisplayMetrics(context: Context): DisplayMetrics {
         val metrics = DisplayMetrics()
-        (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(metrics)
+        (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(
+            metrics
+        )
         return metrics
     }
 

@@ -1,6 +1,7 @@
 package com.amazon.tv.firetv.leanbacklauncher.apps
 
 import android.util.SparseArray
+import java.util.*
 
 enum class RowType(val code: Int) {
     SEARCH(0),
@@ -24,7 +25,7 @@ enum class RowType(val code: Int) {
         }
 
         fun fromName(name: String?): RowType? {
-            return if (name == null) null else valueOf(name.toUpperCase().trim { it <= ' ' })
+            return if (name == null) null else valueOf(name.uppercase(Locale.getDefault()).trim { it <= ' ' })
         }
 
         val VALUES = values()

@@ -15,7 +15,7 @@ import androidx.palette.graphics.Palette
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.firetv.leanbacklauncher.util.AppCategorizer
 import com.amazon.tv.firetv.leanbacklauncher.util.BannerUtil
-import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil
+import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil.SettingsType
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.Util
 import com.bumptech.glide.Glide
@@ -23,6 +23,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import java.util.*
 
 class LaunchPoint {
     var title: String? = null
@@ -36,8 +37,7 @@ class LaunchPoint {
     var installProgressPercent = 0
     var installStateStringResId = 0
         private set
-    var isInitialInstall = false
-        private set
+    private var isInitialInstall = false
     var launchColor = 0
         private set
     var launchIntent: Intent? = null
@@ -48,29 +48,37 @@ class LaunchPoint {
     var packageName: String? = null
         private set
     var priority = 0
-    var settingsType = SettingsUtil.SettingsType.UNKNOWN.code
+    var settingsType = SettingsType.UNKNOWN.code
     private var mTranslucentTheme = false
     var isTranslucentTheme = false
         private set
     var appCategory: AppCategory? = null
         private set
-    private val hasGameFlag = false
 
-    constructor() {}
+    constructor()
     internal constructor(context: Context, appTitle: String?, packageName: String?) {
         clear(context)
         title = appTitle
         this.packageName = packageName
     }
 
-    constructor(context: Context, appTitle: String?, iconUrl: String?, pkgName: String?, launchIntent: Intent?, listener: InstallingLaunchPointListener?) {
+    constructor(
+        context: Context,
+        appTitle: String?,
+        iconUrl: String?,
+        pkgName: String?,
+        launchIntent: Intent?,
+        listener: InstallingLaunchPointListener?
+    ) {
         title = appTitle
         val resources = context.resources
-        launchColor = ResourcesCompat.getColor(resources, R.color.app_launch_ripple_default_color, null)
+        launchColor =
+            ResourcesCompat.getColor(resources, R.color.app_launch_ripple_default_color, null)
         packageName = pkgName
         firstInstallTime = Util.getInstallTimeForPackage(context, packageName)
         if (launchIntent != null) {
-            this.launchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            this.launchIntent =
+                launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
             if (this.launchIntent!!.component != null) {
                 componentName = this.launchIntent!!.component!!.flattenToString()
             }
@@ -79,48 +87,67 @@ class LaunchPoint {
         isInitialInstall = true
     }
 
-    constructor(context: Context, appTitle: String?, iconUrl: String?, launchIntent: Intent?, launchColor: Int, listener: InstallingLaunchPointListener?) {
+    constructor(
+        context: Context,
+        appTitle: String?,
+        iconUrl: String?,
+        launchIntent: Intent?,
+        launchColor: Int,
+        listener: InstallingLaunchPointListener?
+    ) {
         clear(context)
         title = appTitle
         this.launchColor = launchColor
         if (launchIntent != null) {
-            this.launchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            this.launchIntent =
+                launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
             if (this.launchIntent!!.component != null) {
                 componentName = this.launchIntent!!.component!!.flattenToString()
                 packageName = this.launchIntent!!.component!!.packageName
             }
         }
         val resources = context.resources
-        this.launchColor = ResourcesCompat.getColor(resources, R.color.app_launch_ripple_default_color, null)
+        this.launchColor =
+            ResourcesCompat.getColor(resources, R.color.app_launch_ripple_default_color, null)
         firstInstallTime = Util.getInstallTimeForPackage(context, packageName)
         mListener = listener
         isInitialInstall = true
         if (!TextUtils.isEmpty(iconUrl)) {
             val maxIconSize = resources.getDimensionPixelSize(R.dimen.banner_icon_size)
             Glide.with(context).asDrawable()
-                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                    .load(iconUrl)
-                    .into(object : SimpleTarget<Drawable?>(maxIconSize, maxIconSize) {
-                        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
-                    val launchPointListener = mListener
-                            launchPointListener?.let {
-                                iconDrawable = resource
-                                it.onInstallingLaunchPointChanged(this@LaunchPoint)
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .load(iconUrl)
+                .into(object : SimpleTarget<Drawable?>(maxIconSize, maxIconSize) {
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable?>?
+                    ) {
+                        val launchPointListener = mListener
+                        launchPointListener?.let {
+                            iconDrawable = resource
+                            it.onInstallingLaunchPointChanged(this@LaunchPoint)
+                        }
                     }
-                }
-            })
+                })
         }
     }
 
     // TODO
-    constructor(context: Context, appTitle: String?, iconDrawable: Drawable?, launchIntent: Intent?, launchColor: Int) {
+    constructor(
+        context: Context,
+        appTitle: String?,
+        iconDrawable: Drawable?,
+        launchIntent: Intent?,
+        launchColor: Int
+    ) {
         clear(context)
         title = appTitle
         this.iconDrawable = iconDrawable
         this.launchColor = launchColor
         if (launchIntent != null) {
-            this.launchIntent = launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            this.launchIntent =
+                launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
             if (this.launchIntent!!.component != null) {
                 componentName = this.launchIntent!!.component!!.flattenToString()
                 packageName = this.launchIntent!!.component!!.packageName
@@ -134,14 +161,25 @@ class LaunchPoint {
         isTranslucentTheme = true
     }
 
-    constructor(ctx: Context, pm: PackageManager?, info: ResolveInfo, useBanner: Boolean, settingsType: Int) {
+    constructor(
+        ctx: Context,
+        pm: PackageManager?,
+        info: ResolveInfo,
+        useBanner: Boolean,
+        settingsType: Int
+    ) {
         set(ctx, pm, info, useBanner)
         this.settingsType = settingsType
         isTranslucentTheme = true
     }
 
     @JvmOverloads
-    fun set(ctx: Context, pm: PackageManager?, info: ResolveInfo, useBanner: Boolean = true): LaunchPoint {
+    fun set(
+        ctx: Context,
+        pm: PackageManager?,
+        info: ResolveInfo,
+        useBanner: Boolean = true
+    ): LaunchPoint {
         clear(ctx)
         title = info.loadLabel(pm).toString()
         launchIntent = getLaunchIntent(info)
@@ -158,15 +196,29 @@ class LaunchPoint {
             if (useBanner) {
                 bannerDrawable = ai.loadBanner(pm)
                 if (bannerDrawable is BitmapDrawable) {
-                    bannerDrawable = BitmapDrawable(res, Util.getSizeCappedBitmap((bannerDrawable as BitmapDrawable?)!!.bitmap, maxWidth, maxHeight))
+                    bannerDrawable = BitmapDrawable(
+                        res,
+                        Util.getSizeCappedBitmap(
+                            (bannerDrawable as BitmapDrawable?)!!.bitmap,
+                            maxWidth,
+                            maxHeight
+                        )
+                    )
                 }
             }
             val overrides = BannerUtil.BANNER_OVERRIDES
             for (str in overrides.keys) {
-                if (packageName!!.toLowerCase().contains(str)) {
+                if (packageName!!.lowercase(Locale.getDefault()).contains(str)) {
                     bannerDrawable = ContextCompat.getDrawable(ctx, overrides[str]!!)
                     if (bannerDrawable is BitmapDrawable) {
-                        bannerDrawable = BitmapDrawable(res, Util.getSizeCappedBitmap((bannerDrawable as BitmapDrawable?)!!.bitmap, maxWidth, maxHeight))
+                        bannerDrawable = BitmapDrawable(
+                            res,
+                            Util.getSizeCappedBitmap(
+                                (bannerDrawable as BitmapDrawable?)!!.bitmap,
+                                maxWidth,
+                                maxHeight
+                            )
+                        )
                     }
                     break
                 }
@@ -177,7 +229,14 @@ class LaunchPoint {
                 if (useBanner) {
                     bannerDrawable = ai.loadLogo(pm)
                     if (bannerDrawable is BitmapDrawable) {
-                        bannerDrawable = BitmapDrawable(res, Util.getSizeCappedBitmap((bannerDrawable as BitmapDrawable?)!!.bitmap, maxWidth, maxHeight))
+                        bannerDrawable = BitmapDrawable(
+                            res,
+                            Util.getSizeCappedBitmap(
+                                (bannerDrawable as BitmapDrawable?)!!.bitmap,
+                                maxWidth,
+                                maxHeight
+                            )
+                        )
                     }
                 }
                 if (bannerDrawable != null) {
@@ -196,7 +255,7 @@ class LaunchPoint {
     }
 
     fun addLaunchIntentFlags(flags: Int) {
-            launchIntent?.addFlags(flags)
+        launchIntent?.addFlags(flags)
     }
 
     private fun clear(context: Context) {
@@ -213,7 +272,7 @@ class LaunchPoint {
         launchIntent = null
         mHasBanner = false
         priority = -1
-        settingsType = SettingsUtil.SettingsType.UNKNOWN.code
+        settingsType = SettingsType.UNKNOWN.code
         isInitialInstall = false
         mListener = null
         firstInstallTime = -1
@@ -250,17 +309,31 @@ class LaunchPoint {
         get() = installStateStringResId != 0
 
     override fun toString(): String {
-        return title + " [" + packageName + "]"
+        return "$title [$packageName]"
+    }
+
+    fun dump(): String {
+        return "$title [$packageName]\n" +
+                "component:$componentName\n" +
+                "contentDescription:$contentDescription\n" +
+                "hasBanner:$mHasBanner\n" +
+                "launchColor:$launchColor\n" +
+                "launchIntent:$launchIntent\n" +
+                "priority:$priority\n" +
+                "settingsType:$settingsType\n" +
+                "isTranslucentTheme:$isTranslucentTheme\n" +
+                "isGame:$isGame\n" +
+                "appCategory:$appCategory\n"
     }
 
     fun cancelPendingOperations(context: Context?) {}
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o !is LaunchPoint) return false
-        val that = o
-        return if (componentName != null && componentName != that.componentName) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is LaunchPoint) return false
+        return if (componentName != null && componentName != other.componentName) {
             false
-        } else packageName != null && packageName != that.packageName
+        } else packageName != null && packageName != other.packageName
     }
 
     override fun hashCode(): Int {
@@ -271,7 +344,8 @@ class LaunchPoint {
 
     companion object {
         private fun getLaunchIntent(info: ResolveInfo): Intent {
-            val componentName = ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name)
+            val componentName =
+                ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name)
             val intent = Intent("android.intent.action.MAIN")
             intent.addCategory("android.intent.category.LAUNCHER")
             intent.component = componentName
@@ -281,28 +355,47 @@ class LaunchPoint {
 
         private fun getColor(myContext: Context, info: ResolveInfo): Int {
             return try {
-                val theme = myContext.createPackageContext(info.activityInfo.applicationInfo.packageName, 0).theme
+                val theme = myContext.createPackageContext(
+                    info.activityInfo.applicationInfo.packageName,
+                    0
+                ).theme
                 theme.applyStyle(info.activityInfo.themeResource, true)
                 val a = theme.obtainStyledAttributes(intArrayOf(android.R.attr.colorPrimary))
-                val color = a.getColor(0, myContext.resources.getColor(R.color.banner_background))
+                val color = a.getColor(
+                    0,
+                    ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
+                )
                 a.recycle()
                 color
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
-                myContext.resources.getColor(R.color.banner_background)
+                ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
             }
         }
 
         private fun getColor(context: Context, bitmap: Bitmap): Int {
             val p = Palette.from(bitmap).generate()
             var swatch = p.darkMutedSwatch
-            if (swatch != null) return swatch.rgb else if (p.lightMutedSwatch.also { swatch = it } != null) return swatch!!.rgb else if (p.vibrantSwatch.also { swatch = it } != null) return swatch!!.rgb else if (p.mutedSwatch.also { swatch = it } != null) return swatch!!.rgb else if (p.darkVibrantSwatch.also { swatch = it } != null) return swatch!!.rgb else if (p.darkMutedSwatch.also { swatch = it } != null) return swatch!!.rgb
+            if (swatch != null) return swatch.rgb else if (p.lightMutedSwatch.also {
+                    swatch = it
+                } != null) return swatch!!.rgb else if (p.vibrantSwatch.also {
+                    swatch = it
+                } != null) return swatch!!.rgb else if (p.mutedSwatch.also {
+                    swatch = it
+                } != null) return swatch!!.rgb else if (p.darkVibrantSwatch.also {
+                    swatch = it
+                } != null) return swatch!!.rgb else if (p.darkMutedSwatch.also {
+                    swatch = it
+                } != null) return swatch!!.rgb
             return ContextCompat.getColor(context, R.color.banner_background) // for API 22
         }
 
         fun isTranslucentTheme(myContext: Context, info: ResolveInfo): Boolean {
             return try {
-                val theme = myContext.createPackageContext(info.activityInfo.applicationInfo.packageName, 0).theme
+                val theme = myContext.createPackageContext(
+                    info.activityInfo.applicationInfo.packageName,
+                    0
+                ).theme
                 theme.applyStyle(info.activityInfo.themeResource, true)
                 val a = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowIsTranslucent))
                 val windowIsTranslucent = a.getBoolean(0, false)

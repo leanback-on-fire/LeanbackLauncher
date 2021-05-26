@@ -23,10 +23,10 @@ class LegacyBannersFragment : GuidedStepSupportFragment() {
 
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
         return Guidance(
-                getString(R.string.banners_prefs_title),  // title
-                getString(R.string.banners_prefs_desc),  // description
-                getString(R.string.settings_dialog_title),  // breadcrumb (parent)
-                ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null) // icon
+            getString(R.string.banners_prefs_title),  // title
+            getString(R.string.banners_prefs_desc),  // description
+            getString(R.string.settings_dialog_title),  // breadcrumb (parent)
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_settings_home, null) // icon
         )
     }
 
@@ -38,35 +38,43 @@ class LegacyBannersFragment : GuidedStepSupportFragment() {
     private fun updateActions() {
         val actions = ArrayList<GuidedAction>()
         val activity = requireActivity()
-        actions.add(GuidedAction.Builder(
-                activity)
+        actions.add(
+            GuidedAction.Builder(
+                activity
+            )
                 .id(ACTION_SZ.toLong())
                 .title(R.string.banners_size)
-                .description(Integer.toString(getBannersSize(activity)))
+                .description(getBannersSize(activity).toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
         )
-        actions.add(GuidedAction.Builder(
-                activity)
+        actions.add(
+            GuidedAction.Builder(
+                activity
+            )
                 .id(ACTION_RAD.toLong())
                 .title(R.string.banners_corners_radius)
-                .description(Integer.toString(getCorners(activity)))
+                .description(getCorners(activity).toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
         )
-        actions.add(GuidedAction.Builder(
-                activity)
+        actions.add(
+            GuidedAction.Builder(
+                activity
+            )
                 .id(ACTION_FWD.toLong())
                 .title(R.string.banners_frame_width)
-                .description(Integer.toString(getFrameWidth(activity)))
+                .description(getFrameWidth(activity).toString())
                 .descriptionEditable(true)
                 .descriptionEditInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .build()
         )
-        actions.add(GuidedAction.Builder(
-                activity)
+        actions.add(
+            GuidedAction.Builder(
+                activity
+            )
                 .id(ACTION_FCL.toLong())
                 .title(R.string.banners_frame_color)
                 .description(hexStringColor(getFrameColor(activity)))
@@ -74,8 +82,10 @@ class LegacyBannersFragment : GuidedStepSupportFragment() {
                 .descriptionEditInputType(InputType.TYPE_CLASS_TEXT)
                 .build()
         )
-        actions.add(GuidedAction.Builder(
-                activity)
+        actions.add(
+            GuidedAction.Builder(
+                activity
+            )
                 .id(ACTION_BACK.toLong())
                 .title(null)
                 .description(R.string.banners_frame_color_desc)
@@ -91,40 +101,40 @@ class LegacyBannersFragment : GuidedStepSupportFragment() {
 
     override fun onGuidedActionClicked(action: GuidedAction) {
         val activity = requireActivity()
-        var value: Int
+        val value: Int
         when (action.id.toInt()) {
             ACTION_SZ -> {
-                try {
-                    value = action.description.toString().toInt()
+                value = try {
+                    action.description.toString().toInt()
                 } catch (nfe: NumberFormatException) {
-                    value = getBannersSize(activity)
+                    getBannersSize(activity)
                 }
                 setBannersSize(activity, value)
                 refreshHome(activity)
             }
             ACTION_RAD -> {
-                try {
-                    value = action.description.toString().toInt()
+                value = try {
+                    action.description.toString().toInt()
                 } catch (nfe: NumberFormatException) {
-                    value = getCorners(activity!!)
+                    getCorners(activity)
                 }
                 setCorners(activity, value)
                 refreshHome(activity)
             }
             ACTION_FWD -> {
-                try {
-                    value = action.description.toString().toInt()
+                value = try {
+                    action.description.toString().toInt()
                 } catch (nfe: NumberFormatException) {
-                    value = getFrameWidth(activity!!)
+                    getFrameWidth(activity)
                 }
                 setFrameWidth(activity, value)
                 refreshHome(activity)
             }
             ACTION_FCL -> {
-                try {
-                    value = Color.parseColor(action.description.toString())
+                value = try {
+                    Color.parseColor(action.description.toString())
                 } catch (nfe: IllegalArgumentException) {
-                    value = getFrameColor(activity!!)
+                    getFrameColor(activity)
                 }
                 setFrameColor(activity, value)
                 refreshHome(activity)

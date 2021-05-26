@@ -32,7 +32,7 @@ import com.amazon.tv.leanbacklauncher.R;
 import com.amazon.tv.leanbacklauncher.widget.PlayingIndicatorView;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 
-public class NowPlayingCardView extends RecommendationView {
+public class NowPlayingCardView extends RecView {
     private boolean mAnimationStarted;
     private PendingIntent mClickedIntent;
     private AnimatorSet mFadeInAnimation;

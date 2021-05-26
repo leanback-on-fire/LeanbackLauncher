@@ -31,7 +31,7 @@
     <string name="apps_order_pref_label">Автоматически сортировать по времени последнего использования</string>
     <string name="banners_corners_radius">Радиус скругления углов (px)</string>
     <string name="banners_frame_color_desc">Эти значения так же могут использоваться для задания цвета: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
-    <string name="banners_frame_color">Цвет выделения (#AARRGGBB)</string>
+    <string name="banners_frame_color">Цвет выделения</string>
     <string name="banners_frame_width">Ширина выделения (px)</string>
     <string name="banners_prefs_desc">Настройка вида баннера и выделения</string>
     <string name="banners_prefs_title">Внешний вид баннеров</string>
@@ -66,6 +66,8 @@
     <string name="edit_finish_button_text">Готово</string>
     <string name="edit_row_title">Настройка разделов</string>
     <string name="edit_uninstall_focused_text">Удалить</string>
+    <string name="enable_local_weather_title">Показывать погоду</string>
+    <string name="enable_local_weather_description">Показывать текущую погоду</string>
     <string name="failed_launch">Не удалось открыть</string>
     <string name="favorites_row_title">Раздел «Избранное»</string>
     <string name="file_no_access">Не удалось прочитать файл!</string>
@@ -75,9 +77,9 @@
     <string name="focused_search_keyboard_hint_text">Нажмите, чтобы ввести текст</string>
     <string name="focused_search_mic_hint_text">Нажмите кнопку и говорите</string>
     <string name="games_row_title">Раздел «Игры»</string>
-    <string name="goback">Назад</string>
-    <string name="hidden_applications_desc">Выбранные приложения не показываются на главном экране</string>
+    <string name="hidden_applications_desc">Приложения в списке не показываются на главном экране</string>
     <string name="hidden_applications_title">Скрытые приложения</string>
+    <string name="hidden_applications_empty">Нет скрытых приложений</string>
     <string name="home_screen_order_action_title">Настройка главного экрана</string>
     <string name="home_screen_order_content_description">Чтобы изменить порядок приложений и игр, нажмите и удерживайте кнопку «OK» на главном экране</string>
     <string name="home_screen_order_content_title">Сортировка приложений</string>
@@ -126,8 +128,9 @@
     <string name="lb_search_bar_hint_with_title">Поиск здесь: %1$s</string>
     <string name="lb_search_bar_hint">Поиск</string>
     <string name="lb_time_separator">:</string>
+    <string name="location_note">Разрешение местоположения необходимо для индикатора сети Wi-Fi на Android Marshmallow и выше</string>
     <string name="max_apps_rows_title">Макс. строк в «Приложения»</string>
-    <string name="max_apps_title">Приложений в одной строке</string>
+    <string name="max_col_title">Количество видимых столбцов</string>
     <string name="max_favorites_rows_title">Макс. строк в «Избранное»</string>
     <string name="max_games_rows_title">Макс. строк в «Игры»</string>
     <string name="max_music_rows_title">Макс. строк в «Музыка»</string>
@@ -147,10 +150,10 @@
     <string name="now_playing_card_stopped">Остановлено</string>
     <string name="orb_search_action">Поиск</string>
     <string name="progress_percent">%1$d%%</string>
-    <string name="recency_order_action_description">Сортировать по времени последнего использования</string>
-    <string name="recency_order_action_title">Упорядочить по дате</string>
+    <string name="rec_soures_empty">Нет источников рекомендаций</string>
+    <string name="recency_order_action_description">Сортировка по времени последнего использования</string>
+    <string name="recency_order_action_title">Порядок сортировки</string>
     <string name="recm_service_name">Сервис рекомендаций</string>
-
     <string name="recommendation_blacklist_action_title">Источники рекомендаций</string>
     <string name="recommendation_blacklist_content_description">Некоторые приложения показывают рекомендации на главном экране. Можно отключить те из них, которые вас не интересуют.</string>
     <string name="recommendation_blacklist_content_title">Строка рекомендаций</string>
@@ -174,8 +177,8 @@ com.amazon.device.sale.service
     <string name="search_hint_text">Ищите фильмы, сериалы и многое другое</string>
     <string name="search_menu_title">Поиск</string>
     <string name="select_app_customize_rows_title">Настройка отображения разделов главного экрана</string>
-    <string name="select_app_order_action_description_fixed">Упорядочить вручную</string>
-    <string name="select_app_order_action_description_recency">Упорядочить по дате</string>
+    <string name="select_app_order_action_fixed">Упорядочить вручную</string>
+    <string name="select_app_order_action_recency">Упорядочить по времени</string>
     <string name="select_app_order_action_title">Упорядочить приложения и игры</string>
     <string name="select_app_order_content_title">Упорядочивание приложений и игр</string>
     <string name="select_wallpaper_action_desc">Выберите изображение по умолчанию</string>
@@ -184,6 +187,8 @@ com.amazon.device.sale.service
     <string name="settings_dialog_title">Главный экран</string>
     <string name="settings_network">Cеть</string>
     <string name="show_all_apps">Показывать системные и не-ТВ приложения</string>
+    <string name="show_location_title">Показать местоположение</string>
+    <string name="show_location_description">Показать расположение с погодой</string>
     <string name="status_bar_notification_info_overflow">>999</string>
     <string name="system_settings">Cистема</string>
     <string name="title_app_edit_mode">Режим упорядочивания приложений</string>
@@ -193,18 +198,28 @@ com.amazon.device.sale.service
     <string name="unknown_artist">Неизвестный исполнитель</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Неизвестное название</string>
+    <string name="update_app_found">Доступно обновление %s!</string>
     <string name="update_changes">Изменения</string>
     <string name="update_desc">Проверка обновления лаунчера</string>
     <string name="update_in_progress">Идет проверка обновления…</string>
     <string name="update_install">Установить</string>
+    <string name="update_cur_version">Установленная версия</string>
     <string name="update_new_version">Найдена новая версия</string>
     <string name="update_no_info">Информация отсутствует</string>
     <string name="update_no_updates">Обновления отсутствуют</string>
     <string name="update_pending">Ожидание обновления…</string>
+    <string name="update_loading">Загрузка обновления…</string>
     <string name="update">Обновление приложения</string>
+    <string name="error_app_not_found">Не найдено подходящих приложений</string>
+    <string name="use_current_location_title">Текущее местоположение</string>
+    <string name="use_current_location_description">Использовать местоположение из ОС (требуется разрешение на местоположение и сервисы Google)</string>
+    <string name="user_location_title">Местоположение пользователя</string>
+    <string name="user_location_warning">Местоположение для погоды не задано в настройках</string>
     <string name="v7_preference_off">ВЫКЛ</string>
     <string name="v7_preference_on">ВКЛ</string>
     <string name="videos_row_title">Раздел «Видео»</string>
     <string name="wallpaper_title">Фон по умолчанию</string>
     <string name="wallpaper_choose">Поместите изображение фона в корневой каталог хранилища и выберите здесь</string>
+    <string name="weather_home_title">Настройки погоды</string>
+    <string name="weather_home_description">Местная погода и прогноз на главной странице</string>
 </resources>

@@ -25,9 +25,9 @@
             android:fontFamily="@string/font"
             android:gravity="start|center"
             android:includeFontPadding="false"
-            android:maxLines="1"
             android:textColor="@color/banner_label_text_color"
-            android:textSize="@dimen/notif_card_content_text_size" />
+            android:textSize="@dimen/notif_card_content_text_size"
+            android:singleLine="true" />
 
         <TextView
             android:id="@id/banner_install_progress"
@@ -41,9 +41,9 @@
             android:fontFamily="@string/font"
             android:gravity="end|center"
             android:includeFontPadding="false"
-            android:maxLines="1"
             android:textColor="@color/banner_label_text_color"
-            android:textSize="@dimen/notif_card_content_text_size" />
+            android:textSize="@dimen/notif_card_content_text_size"
+            android:singleLine="true" />
     </LinearLayout>
 
     <ProgressBar

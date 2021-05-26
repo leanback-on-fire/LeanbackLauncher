@@ -2,7 +2,7 @@
 <resources>
     <dimen name="abc_action_bar_progress_bar_size">40.0dip</dimen>
     <dimen name="lb_onboarding_start_button_translation_offset">16.0dip</dimen>
-    <dimen name="banner_corner_radius">0.0dip</dimen><!--2.0dip-->
+    <dimen name="banner_corner_radius">4.0dip</dimen><!--2.0dip-->
     <dimen name="banner_frame_height">88.0dip</dimen>
     <dimen name="banner_frame_stroke">4.0dip</dimen>
     <dimen name="banner_frame_width">150.0dip</dimen>
@@ -365,7 +365,10 @@
     <dimen name="unselected_item_z">6.0dip</dimen>
     <dimen name="vertical_safety_spacing">27.0dip</dimen>
     <dimen name="widget_clock_height">60.0dip</dimen>
-    <dimen name="widget_end_spacing">56.0dip</dimen>
+    <dimen name="widget_end_spacing">50.0dip</dimen>
     <dimen name="widget_height">100.0dip</dimen>
     <dimen name="widget_width">336.0dip</dimen>
+    <dimen name="widget_settings_size">60.0dip</dimen>
+    <dimen name="widget_settings_padding">8.0dip</dimen>
+    <dimen name="widget_weather_height">40.0dip</dimen>
 </resources>

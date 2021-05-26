@@ -13,12 +13,26 @@
     </style>
 
     <style name="LeanbackLauncherTheme" parent="@android:style/Theme.Material.NoActionBar.Overscan">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/LeanbackLauncherAnim</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:fontFamily">@string/font</item>
+        <item name="android:windowAnimationStyle">@style/LeanbackLauncherAnim</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppCompatFullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:fontFamily">@string/font</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowAnimationStyle">@style/LeanbackLauncherAnim</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowOverscan">true</item>
     </style>
 
     <style name="Theme.Settings.Legacy" parent="@style/Theme.Leanback.GuidedStep">
@@ -32,6 +46,17 @@
         <item name="guidanceBreadcrumbStyle">@style/Widget.Leanback.GuidanceBreadcrumbStyle.Legacy</item>
         <item name="guidanceIconStyle">@style/Widget.Leanback.GuidanceIconStyle.Legacy</item>
         <item name="guidedActionItemIconStyle">@style/Widget.Leanback.GuidedActionItemIconStyle.Legacy</item>
+    </style>
+    <!-- https://android.googlesource.com/platform/frameworks/support/+/refs/heads/androidx-main/samples/SupportLeanbackDemos/src/main/res/values/themes.xml -->
+    <style name="Theme.Settings.SidePanel" parent="Theme.Leanback">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--settings_dialog_bg_protection/settings_background_color-->
+        <item name="android:colorPrimary" tools:targetApi="21">@color/settings_dialog_bg_protection</item>
+        <!--item name="android:colorAccent" tools:targetApi="21">@color/amazon_orange</item-->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
     </style>
 
     <style name="UpdateProgressBar" parent="@android:style/Widget.Material.ProgressBar.Horizontal">

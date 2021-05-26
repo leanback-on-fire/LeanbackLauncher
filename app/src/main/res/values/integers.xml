@@ -41,7 +41,7 @@
     <integer name="search_orb_text_fade_duration">100</integer>
     <integer name="slide_animator_default_duration">500</integer>
     <integer name="tag_has_header">0</integer>
-    <integer name="two_row_cut_off">11</integer>
+    <integer name="two_row_cut_off">6</integer>
     <integer name="wallpaper_fade_in_duration">350</integer>
     <integer name="wallpaper_fade_out_duration">350</integer>
     <integer name="wallpaper_fetch_timeout">600</integer>

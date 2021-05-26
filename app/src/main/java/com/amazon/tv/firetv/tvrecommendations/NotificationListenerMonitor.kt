@@ -22,6 +22,12 @@ import java.util.*
 
 class NotificationListenerMonitor : Service() {
     private var mReconnectAttempts = 0
+
+    companion object {
+        private const val TAG = "NotifyListenerMonitor"
+        private const val MAXIMUM_RECONNECT_ATTEMPTS = 15
+    }
+
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "Notification listener monitor created.")
@@ -95,7 +101,7 @@ class NotificationListenerMonitor : Service() {
                 }
             }
             if (!enabled) {
-                listeners = if (listeners == null || listeners.length == 0) {
+                listeners = if (listeners == null || listeners.isEmpty()) {
                     component
                 } else {
                     "$listeners:$component"
@@ -120,7 +126,7 @@ class NotificationListenerMonitor : Service() {
         val CHANNEL_NAME = "LeanbackOnFire"
         val NOTIFICATION_ID = 1111
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var notificationChannel: NotificationChannel?
+            val notificationChannel: NotificationChannel?
             notificationChannel = NotificationChannel(CHANNEL_ID,
                     CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
                     .also {
@@ -145,10 +151,5 @@ class NotificationListenerMonitor : Service() {
         manager.notify(NOTIFICATION_ID, builder.build())
         startForeground(NOTIFICATION_ID, builder.build())
         return START_STICKY
-    }
-
-    companion object {
-        private const val TAG = "NotifyListenerMonitor"
-        private const val MAXIMUM_RECONNECT_ATTEMPTS = 15
     }
 }
