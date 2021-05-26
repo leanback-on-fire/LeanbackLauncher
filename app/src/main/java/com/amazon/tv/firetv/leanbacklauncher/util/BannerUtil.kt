@@ -22,5 +22,6 @@ object BannerUtil {
         BANNER_OVERRIDES["showtime"] = R.drawable.banner_showtime
         BANNER_OVERRIDES["tunein.player"] = R.drawable.banner_tunein
         BANNER_OVERRIDES["ru.fmplay"] = R.drawable.banner_fmplay
+        BANNER_OVERRIDES["tv2x2"] = R.drawable.banner_2x2
     }
 }
