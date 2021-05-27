@@ -866,7 +866,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
-    fun getCardinalDirection(angle: Double): String {
+    private fun getCardinalDirection(angle: Double): String {
         //listOf("↑ N", "↗ NE", "→ E", "↘ SE", "↓ S", "↙ SW", "← W", "↖ NW")
         val directions = if (localWeather!!.lang == Lang.RUSSIAN) listOf("C","СВ","В","ЮВ","Ю","ЮЗ","З","СЗ") else listOf("N","NE","E","SE","S","SW","W","NW")
         return directions[(angle % 360 / 45).roundToInt()]
@@ -876,9 +876,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
         val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
         val curLocTV: TextView? = findViewById<TextView>(R.id.curLocation)
-
-
-
+        
         val tempunit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
         val winddir = getCardinalDirection(weather.windAngle)
 
