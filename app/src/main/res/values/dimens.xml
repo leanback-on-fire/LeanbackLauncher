@@ -13,6 +13,7 @@
     <dimen name="banner_side_padding">10.0dip</dimen>
     <dimen name="banner_width">142.0dip</dimen>
     <dimen name="card_spacing">8.0dip</dimen>
+    <dimen name="clock_min_width">120.0dp</dimen>
     <dimen name="clock_text_size">48.0sp</dimen>
     <dimen name="edit_app_banner_z">6.0dip</dimen>
     <dimen name="edit_finish_button_bottom_margin">138.0dip</dimen>
@@ -369,6 +370,6 @@
     <dimen name="widget_height">100.0dip</dimen>
     <dimen name="widget_width">336.0dip</dimen>
     <dimen name="widget_settings_size">60.0dip</dimen>
-    <dimen name="widget_settings_padding">8.0dip</dimen>
+    <dimen name="widget_h_padding">8.0dip</dimen>
     <dimen name="widget_weather_height">40.0dip</dimen>
 </resources>

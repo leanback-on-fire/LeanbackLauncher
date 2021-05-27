@@ -13,71 +13,102 @@
         android:fontFamily="@string/light_font"
         android:gravity="end|center"
         android:includeFontPadding="false"
+        android:minWidth="@dimen/clock_min_width"
         android:textColor="@color/clock_text_color"
         android:textSize="@dimen/clock_text_size" />
 
-    <LinearLayout
-        android:id="@+id/weather"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/widget_weather_height"
-        android:layout_gravity="end|center|top"
-        android:alpha="0.0"
-        android:clickable="false"
-        android:focusable="false"
-        android:gravity="start|center"
-        android:orientation="horizontal"
-        android:textColor="@color/clock_text_color"
-        android:visibility="gone">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_weather_height">
+
+        <LinearLayout
+            android:id="@+id/weather"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/widget_weather_height"
+            android:layout_gravity="end|center|top"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="start|center"
+            android:orientation="horizontal"
+            android:textColor="@color/clock_text_color"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/curTemp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:focusable="false"
+                android:fontFamily="@string/light_font"
+                android:gravity="center"
+                android:textColor="@color/clock_text_color"
+                android:textSize="24sp" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/weather_selection_circle"
+                    android:layout_width="@dimen/widget_weather_height"
+                    android:layout_height="@dimen/widget_weather_height"
+                    android:layout_gravity="center"
+                    android:alpha="0.0"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/settings_selection_circle"
+                    android:visibility="gone" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/weather_icon"
+                    android:layout_width="@dimen/widget_weather_height"
+                    android:layout_height="@dimen/widget_weather_height"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/weather01d" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/details"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/widget_weather_height"
+            android:layout_gravity="end|center|top"
+            android:gravity="end|center"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/widget_h_padding"
+            android:textColor="@color/clock_text_color"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/hiTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/light_font"
+                android:textColor="@color/clock_text_color" />
+
+            <TextView
+                android:id="@+id/loTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/light_font"
+                android:textColor="@color/clock_text_color" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/curtemp"
+            android:id="@+id/curLocation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/widget_weather_height"
             android:layout_gravity="center"
-            android:focusable="false"
             android:fontFamily="@string/light_font"
             android:gravity="center"
             android:textColor="@color/clock_text_color"
-            android:textSize="24sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/weather_selection_circle"
-                android:layout_width="@dimen/widget_weather_height"
-                android:layout_height="@dimen/widget_weather_height"
-                android:layout_gravity="center"
-                android:alpha="0.0"
-                android:contentDescription="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/settings_selection_circle"
-                android:visibility="gone" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/weather_icon"
-                android:layout_width="@dimen/widget_weather_height"
-                android:layout_height="@dimen/widget_weather_height"
-                android:layout_gravity="center"
-                android:contentDescription="@null"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/weather01d" />
-
-        </FrameLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/curLocation"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_weather_height"
-        android:layout_gravity="center"
-        android:focusable="false"
-        android:fontFamily="@string/light_font"
-        android:gravity="center"
-        android:textColor="@color/clock_text_color"
-        android:textSize="16sp"
-        android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>

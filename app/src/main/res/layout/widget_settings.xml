@@ -8,8 +8,7 @@
     android:focusable="true"
     android:gravity="start|center"
     android:orientation="vertical"
-    android:paddingStart="@dimen/widget_settings_padding"
-    android:paddingEnd="@dimen/widget_settings_padding"
+    android:layout_marginStart="@dimen/widget_h_padding"
     android:textColor="@color/clock_text_color">
 
     <FrameLayout
