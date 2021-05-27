@@ -101,6 +101,10 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     private var mEventLogger: LeanbackLauncherEventLogger? = null
     private var mFadeDismissAndSummonAnimations = false
     private val mHandler: Handler = MainActivityMessageHandler(this)
+    // animation params
+    private val showcycle: Long = TimeUnit.SECONDS.toMillis(10)
+    private val fadeindur: Long = 500
+    private val fadeoutdur: Long = 1000
 
     private class MainActivityMessageHandler constructor(private val activity: MainActivity) :
         Handler() {
@@ -767,10 +771,6 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             updateWeatherDetails(cachedWeather)
         }
     }
-
-    private var showcycle: Long = TimeUnit.SECONDS.toMillis(10)
-    private var fadeindur: Long = 500
-    private var fadeoutdur: Long = 1000
 
     private fun fadeIn(view: View, alpha: Float) { // in transition
         view.animate()
