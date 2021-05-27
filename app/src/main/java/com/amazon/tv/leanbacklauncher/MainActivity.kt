@@ -976,7 +976,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             val curTemp = findViewById<TextView>(R.id.curTemp)
             curTemp?.let { it.text = weather.temperature.toInt().toString() + unit }
             // initial visibility
-            group.visibility = View.VISIBLE
+            group.visibility = View.GONE
         }
         // weather details
         detailsVG?.let { details ->
