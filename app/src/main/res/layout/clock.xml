@@ -41,8 +41,7 @@
                 android:focusable="false"
                 android:fontFamily="@string/light_font"
                 android:gravity="center"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
+                android:layout_marginEnd="2dp"
                 android:textColor="@color/clock_text_color"
                 android:textSize="24sp" />
 
@@ -106,8 +105,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@string/light_font"
                         android:includeFontPadding="false"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp"
+                        android:layout_marginEnd="2dp"
                         android:singleLine="true"
                         android:textColor="@color/clock_text_color"
                         android:textSize="12sp" />
@@ -118,8 +116,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@string/light_font"
                         android:includeFontPadding="false"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp"
+                        android:layout_marginEnd="2dp"
                         android:singleLine="true"
                         android:textColor="@color/clock_text_color"
                         android:textSize="12sp" />
@@ -139,8 +136,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@string/light_font"
                         android:includeFontPadding="false"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp"
+                        android:layout_marginEnd="2dp"
                         android:singleLine="true"
                         android:textColor="@color/clock_text_color"
                         android:textSize="12sp" />
@@ -151,8 +147,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@string/light_font"
                         android:includeFontPadding="false"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp"
+                        android:layout_marginEnd="2dp"
                         android:singleLine="true"
                         android:textColor="@color/clock_text_color"
                         android:textSize="12sp" />

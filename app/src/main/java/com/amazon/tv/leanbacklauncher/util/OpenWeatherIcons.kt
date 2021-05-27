@@ -17,21 +17,20 @@ class OpenWeatherIcons(
 ) {
     private val image: Drawable?
         get() = when (weatherIcon.lowercase(Locale.getDefault())) {
-            "01n" -> ContextCompat.getDrawable(
-                context, R.drawable.weather01n
-            )
+            "01n" -> ContextCompat.getDrawable(context, R.drawable.weather01n)
             "01d" -> ContextCompat.getDrawable(context, R.drawable.weather01d)
             "02n" -> ContextCompat.getDrawable(context, R.drawable.weather02n)
             "02d" -> ContextCompat.getDrawable(context, R.drawable.weather02d)
             "03n", "03d" -> ContextCompat.getDrawable(context, R.drawable.weather03d)
             "04n", "04d" -> ContextCompat.getDrawable(context, R.drawable.weather04d)
             "09n", "09d" -> ContextCompat.getDrawable(context, R.drawable.weather09d)
+            "10n" -> ContextCompat.getDrawable(context, R.drawable.weather10n)
             "10d" -> ContextCompat.getDrawable(context, R.drawable.weather10d)
             "11n", "11d" -> ContextCompat.getDrawable(context, R.drawable.weather11d)
             "13n", "13d" -> ContextCompat.getDrawable(context, R.drawable.weather13d)
             "50n", "50d" -> ContextCompat.getDrawable(context, R.drawable.weather50d)
             else -> {
-                Log.e("Drawable TAG", weatherIcon)
+                Log.e("OpenWeatherIcons", "no icon for $weatherIcon")
                 object : ColorDrawable(Color.TRANSPARENT) {}
             }
         }

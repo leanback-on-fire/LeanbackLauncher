@@ -69,6 +69,7 @@ import de.interaapps.localweather.utils.Lang
 import de.interaapps.localweather.utils.LocationFailedEnum
 import de.interaapps.localweather.utils.Units
 import kotlinx.coroutines.*
+import org.checkerframework.checker.units.qual.degrees
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.File
@@ -865,12 +866,21 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
+    fun getCardinalDirection(angle: Double): String {
+        //listOf("↑ N", "↗ NE", "→ E", "↘ SE", "↓ S", "↙ SW", "← W", "↖ NW")
+        val directions = if (localWeather!!.lang == Lang.RUSSIAN) listOf("C","СВ","В","ЮВ","Ю","ЮЗ","З","СЗ") else listOf("N","NE","E","SE","S","SW","W","NW")
+        return directions[(angle % 360 / 45).roundToInt()]
+    }
+
     private fun updateWeatherDetails(weather: Weather) {
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
         val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
         val curLocTV: TextView? = findViewById<TextView>(R.id.curLocation)
 
+
+
         val tempunit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
+        val winddir = getCardinalDirection(weather.windAngle)
 
         // city info
         curLocTV?.let { loc ->
@@ -928,7 +938,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             hum?.let { it.text = getString(R.string.weather_humidity, weather.humidity.toInt()) + "%" }
             // wind
             val wind = findViewById<TextView>(R.id.wind)
-            wind?.let { it.text = getString(R.string.weather_wind, format(Locale.getDefault(), "%.1f", speed), speedunit) }
+            wind?.let { it.text = getString(R.string.weather_wind, format(Locale.getDefault(), "%.1f", speed), speedunit, winddir) }
             // initial visibility
             details.visibility = View.GONE
         }

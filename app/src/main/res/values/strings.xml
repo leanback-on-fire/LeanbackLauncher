@@ -277,5 +277,5 @@ or recommendations will not work properly."</string>
     <string name="weather_min">↓</string>
     <string name="weather_speed_m">m/s</string>
     <string name="weather_speed_i">mi/h</string>
-    <string name="weather_wind">wind %1$s %2$s</string>
+    <string name="weather_wind">wind %1$s %2$s %3$s</string>
 </resources>

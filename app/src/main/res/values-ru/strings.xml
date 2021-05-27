@@ -225,5 +225,5 @@ com.amazon.device.sale.service
     <string name="weather_humidity">влажность %1$d</string>
     <string name="weather_speed_m">м/с</string>
     <string name="weather_speed_i">миль/ч</string>
-    <string name="weather_wind">ветер %1$s %2$s</string>
+    <string name="weather_wind">ветер %1$s %2$s %3$s</string>
 </resources>
