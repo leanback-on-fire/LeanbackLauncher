@@ -795,16 +795,14 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         })
     }
 
-    private var showcycle: Long = TimeUnit.SECONDS.toMillis(3)
+    private var showcycle: Long = TimeUnit.SECONDS.toMillis(10)
 
     private fun showLocation() {
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
-//        val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
         val locTV: TextView? = findViewById<TextView>(R.id.curLocation)
 
         lifecycleScope.launch(Dispatchers.Main) {
             weatherVG?.visibility = View.GONE
-//            detailsVG?.visibility = View.GONE
             locTV?.let {
                 it.visibility = View.VISIBLE
                 it.alpha = 0.0f
@@ -816,7 +814,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
                             animation.cancel()
-                            locTV?.visibility = View.GONE
+                            locTV.visibility = View.GONE
                             showWeather()
                         }
                     })
@@ -830,10 +828,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
 
         lifecycleScope.launch(Dispatchers.IO){
-            weatherVG?.visibility = View.VISIBLE
-            detailsVG?.alpha = 0.0f
-            detailsVG?.visibility = View.VISIBLE
-
+            withContext(Dispatchers.Main) {
+                weatherVG?.visibility = View.VISIBLE
+                detailsVG?.alpha = 0.0f
+                detailsVG?.visibility = View.VISIBLE
+            }
             //TODO exit from cycle when close
             while(true) {
                 val animw = weatherVG?.animate()?:break
@@ -842,15 +841,17 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 animw.duration = 300
                 animd.duration = 300
 
-                animw.alpha(1.0f)
-                animd.alpha(0.0f)
+                Handler(Looper.getMainLooper()).post {
+                    animw.alpha(1.0f)
+                    animd.alpha(0.0f)
+                }
 
-                weatherVG?.alpha = 0.0f
+                weatherVG.alpha = 0.0f
 
                 animd.withEndAction {
                     Handler(Looper.getMainLooper()).postDelayed({
-                        val animw = weatherVG?.animate()?:return@postDelayed
-                        val animd = detailsVG?.animate()?:return@postDelayed
+                        val animw = weatherVG.animate() ?:return@postDelayed
+                        val animd = detailsVG.animate() ?:return@postDelayed
 
                         animw.duration = 300
                         animd.duration = 300
@@ -860,7 +861,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
                         animw.start()
                         animd.start()
-                    },2000)
+                    },showcycle)
                 }
 
                 withContext(Dispatchers.Main) {
@@ -871,11 +872,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 // wait animation
                 delay(300)
                 // wait pause
-                delay(2000)
+                delay(showcycle)
                 // wait animation
                 delay(300)
                 // wait pause
-                delay(2000)
+                delay(showcycle)
             }
         }
     }
