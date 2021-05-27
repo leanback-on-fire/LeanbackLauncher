@@ -827,13 +827,55 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
     fun showWeather() {
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
-        lifecycleScope.launch {
-            weatherVG?.let {
-                it.visibility = View.VISIBLE
-                it.alpha = 0.0f
-                fadeIn(it, 1.0f)
-                delay(showcycle)
-                showDescription()
+        val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
+
+        lifecycleScope.launch(Dispatchers.IO){
+            weatherVG?.visibility = View.VISIBLE
+            detailsVG?.alpha = 0.0f
+            detailsVG?.visibility = View.VISIBLE
+
+            //TODO exit from cycle when close
+            while(true) {
+                val animw = weatherVG?.animate()?:break
+                val animd = detailsVG?.animate()?:break
+
+                animw.duration = 300
+                animd.duration = 300
+
+                animw.alpha(1.0f)
+                animd.alpha(0.0f)
+
+                weatherVG?.alpha = 0.0f
+
+                animd.withEndAction {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val animw = weatherVG?.animate()?:return@postDelayed
+                        val animd = detailsVG?.animate()?:return@postDelayed
+
+                        animw.duration = 300
+                        animd.duration = 300
+
+                        animw.alpha(0.0f)
+                        animd.alpha(1.0f)
+
+                        animw.start()
+                        animd.start()
+                    },2000)
+                }
+
+                withContext(Dispatchers.Main) {
+                    animw.start()
+                    animd.start()
+                }
+
+                // wait animation
+                delay(300)
+                // wait pause
+                delay(2000)
+                // wait animation
+                delay(300)
+                // wait pause
+                delay(2000)
             }
         }
     }
