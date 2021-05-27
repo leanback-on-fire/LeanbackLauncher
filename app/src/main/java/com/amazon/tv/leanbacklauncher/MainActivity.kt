@@ -964,9 +964,6 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             val city = weather.name
             if (city.isNotEmpty()) loc.text = city else loc.text = ""
         }
-        if (RowPreferences.showLocation(this)) {
-            showLocation()
-        }
         // weather info
         weatherVG?.let { group ->
             // icon
@@ -978,9 +975,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             // temperature
             val curTemp = findViewById<TextView>(R.id.curTemp)
             curTemp?.let { it.text = weather.temperature.toInt().toString() + unit }
-            // show
+            // initial visibility
             group.visibility = View.VISIBLE
-            showWeather()
         }
         // weather details
         detailsVG?.let { details ->
@@ -989,9 +985,14 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             hiTemp?.let { it.text = weather.maxTemperature.toInt().toString() + unit }
             val loTemp = findViewById<TextView>(R.id.loTemp)
             loTemp?.let { it.text = weather.minTemperature.toInt().toString() + unit }
-            // hide
+            // initial visibility
             details.visibility = View.GONE
         }
+        // show
+        if (RowPreferences.showLocation(this)) {
+            showLocation()
+        } else
+            showWeather()
     }
 
     private fun setShyMode(shy: Boolean, changeWallpaper: Boolean): Boolean {
