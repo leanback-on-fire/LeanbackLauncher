@@ -9,10 +9,12 @@ import android.os.Handler
 import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.capabilities.HighEndLauncherConfiguration
 import com.amazon.tv.leanbacklauncher.capabilities.LauncherConfiguration
 import com.amazon.tv.leanbacklauncher.recommendations.SwitchingRecommendationsClient
@@ -43,22 +45,22 @@ class App : Application(), LifecycleObserver {
         fun toast(txt: String?, long: Boolean = false) {
             Handler(Looper.getMainLooper()).post {
                 val show = if (long)
-                    android.widget.Toast.LENGTH_LONG
+                    Toast.LENGTH_LONG
                 else
-                    android.widget.Toast.LENGTH_SHORT
+                    Toast.LENGTH_SHORT
                 if (!txt.isNullOrEmpty())
-                    android.widget.Toast.makeText(contextApp, txt, show).show()
+                    Toast.makeText(contextApp, txt, show).show()
             }
         }
 
         fun toast(resId: Int?, long: Boolean = false) {
             Handler(Looper.getMainLooper()).post {
                 val show = if (long)
-                    android.widget.Toast.LENGTH_LONG
+                    Toast.LENGTH_LONG
                 else
-                    android.widget.Toast.LENGTH_SHORT
+                    Toast.LENGTH_SHORT
                 if (resId != null)
-                    android.widget.Toast.makeText(contextApp, resId, show).show()
+                    Toast.makeText(contextApp, resId, show).show()
             }
         }
     }
@@ -125,22 +127,25 @@ class App : Application(), LifecycleObserver {
         initDeviceCapabilities()
         initPrimes()
         demigrate()
+        val autoupdate = PreferenceManager.getDefaultSharedPreferences(contextApp)
+            .getBoolean("update_check", true)
+        if (autoupdate)
         // self update check
-        GlobalScope.launch(Dispatchers.IO) {
-            var count = 60
-            try {
-                while (!isConnected(contextApp) && count > 0) {
-                    delay(1000) // wait for network
-                    count--
+            GlobalScope.launch(Dispatchers.IO) {
+                var count = 60
+                try {
+                    while (!isConnected(contextApp) && count > 0) {
+                        delay(1000) // wait for network
+                        count--
+                    }
+                    if (Updater.check()) {
+                        val intent = Intent(contextApp, UpdateActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                    }
+                } catch (e: Exception) {
                 }
-                if (Updater.check()) {
-                    val intent = Intent(contextApp, UpdateActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                }
-            } catch (e: Exception) {
             }
-        }
     }
 
     fun isConnected(context: Context): Boolean {

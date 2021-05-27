@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -22,8 +23,8 @@ import androidx.preference.*
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
-import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.App
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.MainActivity.Companion.JSONFILE
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.UpdateActivity
@@ -33,6 +34,7 @@ import com.amazon.tv.leanbacklauncher.util.Updater
 import com.amazon.tv.leanbacklauncher.util.Util
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 
@@ -98,11 +100,11 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        // Load the preferences from an XML resource
-        setPreferencesFromResource(R.xml.preferences, rootKey)
+        // Load the prefs from an XML resource
+        setPreferencesFromResource(R.xml.prefs, rootKey)
 
         findPreference<Preference>("version")?.apply {
-            this.summary = getString(R.string.app_name) + " v" + BuildConfig.VERSION_NAME
+            this.summary = "${getString(R.string.app_name)} v" + BuildConfig.VERSION_NAME
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -110,31 +112,79 @@ class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
             ps?.removePreferenceRecursively("rec_sources")
         }
     }
+}
+
+/**
+ * The fragment that is defined in prefs.xml
+ */
+class VersionPreferenceFragment : LeanbackPreferenceFragmentCompat() {
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        // Load the prefs from an XML resource
+        setPreferencesFromResource(R.xml.version_prefs, rootKey)
+
+        findPreference<Preference>("update")?.let {
+            lifecycleScope.launch(Dispatchers.IO) {
+                if (Updater.check()) {
+                    withContext(Dispatchers.Main) {
+                        it.summary = getString(
+                            R.string.update_app_found,
+                            "${getString(R.string.app_name)} v" + Updater.getVersion()
+                        )
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        it.summary = getString(R.string.update_no_updates)
+                    }
+                }
+            }
+        }
+    }
 
     // https://developer.android.com/topic/libraries/architecture/coroutines
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        if (preference?.key == "version") {
+        if (preference?.key == "update") {
             lifecycleScope.launch(Dispatchers.IO) {
                 if (Updater.check())
                     startActivity(Intent(activity, UpdateActivity::class.java))
                 else
-                    App.toast(getString(R.string.update_no_updates))
+                    withContext(Dispatchers.Main) {
+                        App.toast(getString(R.string.update_no_updates))
+                    }
             }
+            return true
+        } else if (preference?.key == "app_link") {
+            if (!preference.summary.isNullOrEmpty())
+            openBrowser(preference.summary.toString())
             return true
         }
         return super.onPreferenceTreeClick(preference)
     }
+
+    fun openBrowser(url: String) {
+        if (url.isNotEmpty()) {
+            val intent = Intent()
+            intent.action = Intent.ACTION_VIEW
+            intent.addCategory(Intent.CATEGORY_BROWSABLE)
+            // pass the url to intent data
+            intent.data = Uri.parse(url)
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                App.toast(R.string.failed_launch)
+            }
+        }
+    }
 }
 
 /**
- * The fragment that is defined in preferences.xml
+ * The fragment that is defined in prefs.xml
  */
-class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
+class HomePreferenceFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        // Load the preferences from an XML resource
+        // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.home_prefs, rootKey)
-        findPreference<PreferenceScreen>("home_prefs")
 
         val sortingMode = AppsManager.getSavedSortingMode(context)
         findPreference<Preference>("apps_order")?.apply {
@@ -162,7 +212,7 @@ class HomePreferencesFragment : LeanbackPreferenceFragmentCompat() {
 }
 
 /**
- * The fragment that is defined in preferences.xml
+ * The fragment that is defined in prefs.xml
  */
 class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
     private var screen: PreferenceScreen? = null
@@ -233,23 +283,23 @@ class HiddenPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         val context = requireContext()
         val prefUtil = SharedPreferencesUtil.instance(context)
 
-        if (preference is SwitchPreference) { // show all apps switch
+        return if (preference is SwitchPreference) { // show all apps switch
             if (preference.key == KEY_ID_ALL_APP) {
                 // refresh home broadcast
                 SettingsFragment.needRestartHome = true
             }
-            return true
+            true
         } else { // hidden apps list
             prefUtil?.unhide(preference?.key)
             screen?.findPreference<PreferenceCategory>(HIDDEN_CAT_KEY)
                 ?.removePreference(preference)
-            return true
+            true
         }
     }
 }
 
 /**
- * The fragment that is defined in preferences.xml
+ * The fragment that is defined in prefs.xml
  */
 class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
     RecommendationsPreferenceManager.LoadRecommendationPackagesCallback {
@@ -358,7 +408,7 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        // Load the preferences from an XML resource
+        // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.banners_prefs, rootKey)
 // FIXME:
 //        findPreference<EditTextPreference>(getString(R.string.pref_banner_size))?.apply {
@@ -381,7 +431,7 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
 //        }
         findPreference<EditTextPreference>(getString(R.string.pref_banner_focus_frame_color))?.apply {
             val color = hexStringColor(RowPreferences.getFrameColor(context))
-            this.summary = color + " (#AARRGGBB)"
+            this.summary = "$color (#AARRGGBB)"
 // FIXME:
 //            setOnBindEditTextListener {
 //                it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
@@ -417,7 +467,7 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
 class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        // Load the preferences from an XML resource
+        // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.rows_prefs, rootKey)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val ps = findPreference<PreferenceScreen>("rows_prefs")
@@ -458,7 +508,7 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        // Load the preferences from an XML resource
+        // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.wallpaper_prefs, rootKey)
 
         findPreference<Preference>("select_wallpaper")?.apply {
@@ -698,12 +748,12 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
 }
 
 /**
- * The fragment that is defined in preferences.xml
+ * The fragment that is defined in prefs.xml
  */
 class WeatherPreferenceFragment : LeanbackPreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        // Load the preferences from an XML resource
+        // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.weather_prefs, rootKey)
         //val ps = findPreference<PreferenceScreen>("weather_prefs")
     }

@@ -8,7 +8,7 @@
             android:key="order_and_rows"
             android:summary="@string/home_screen_order_desc"
             android:title="@string/home_screen_order_action_title"
-            app:fragment="com.amazon.tv.leanbacklauncher.settings.HomePreferencesFragment" />
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.HomePreferenceFragment" />
 
         <Preference
             android:key="hidden_apps"
@@ -31,7 +31,8 @@
         <Preference
             android:key="version"
             android:summary="version"
-            android:title="@string/update" />
+            android:title="@string/version"
+            app:fragment="com.amazon.tv.leanbacklauncher.settings.VersionPreferenceFragment" />
 
     </PreferenceCategory>
 </PreferenceScreen>

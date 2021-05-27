@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/version"
+    android:key="version_prefs">
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:key="update_check"
+            android:title="@string/update_check"
+            android:defaultValue="true" />
+
+        <Preference
+            android:key="update"
+            android:summary="@string/update_desc"
+            android:title="@string/update" />
+
+        <Preference
+            android:enabled="true"
+            android:key="app_link"
+            android:title="@string/app_releases"
+            android:summary="https://github.com/tsynik/LeanbackLauncher/releases" />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

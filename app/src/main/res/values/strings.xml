@@ -52,6 +52,7 @@
     <string name="app_info_unhide_app">Unhide in Launcher</string>
     <string name="app_label">Home Screen</string>
     <string name="app_name">LeanbackOnFire</string>
+    <string name="app_releases">All versions available at</string>
     <string name="apps_order_pref_label">Sort automatically by recent usage</string>
     <string name="banners_prefs_title">Banners Appearance</string>
     <string name="banners_prefs_desc">Apps banners options</string>
@@ -248,8 +249,9 @@ or recommendations will not work properly."</string>
     <string name="unknown_artist">Unknown</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Unknown</string>
-    <string name="update_app_found">%s update available!</string>
+    <string name="update_app_found">%s update available</string>
     <string name="update_changes">Changes</string>
+    <string name="update_check">Check updates on startup</string>
     <string name="update_desc">Check for new launcher version</string>
     <string name="update_in_progress">Checking for updates…</string>
     <string name="update_install">Install update</string>
@@ -267,6 +269,7 @@ or recommendations will not work properly."</string>
     <string name="error_app_not_found">No suitable applications found</string>
     <string name="v7_preference_off">OFF</string>
     <string name="v7_preference_on">ON</string>
+    <string name="version">App version</string>
     <string name="videos_row_title">Show Videos Row</string>
     <string name="wallpaper_title">Default Wallpaper</string>
     <string name="wallpaper_choose">Put wallpaper image to storage directory root and select here</string>

@@ -876,7 +876,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
         val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
         val curLocTV: TextView? = findViewById<TextView>(R.id.curLocation)
-        
+
         val tempunit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
         val winddir = getCardinalDirection(weather.windAngle)
 

@@ -28,6 +28,7 @@
     <string name="app_info_unhide_app">Показать на главном экране</string>
     <string name="app_label">Главный экран</string>
     <string name="app_name">LeanbackOnFire</string>
+    <string name="app_releases">Все версии доступны на</string>
     <string name="apps_order_pref_label">Автоматически сортировать по времени последнего использования</string>
     <string name="banners_corners_radius">Радиус скругления углов (px)</string>
     <string name="banners_frame_color_desc">Эти значения так же могут использоваться для задания цвета: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
@@ -198,8 +199,9 @@ com.amazon.device.sale.service
     <string name="unknown_artist">Неизвестный исполнитель</string>
     <string name="unknown_state">…</string>
     <string name="unknown_title">Неизвестное название</string>
-    <string name="update_app_found">Доступно обновление %s!</string>
+    <string name="update_app_found">Доступно обновление %s</string>
     <string name="update_changes">Изменения</string>
+    <string name="update_check">Проверять обновления при запуске</string>
     <string name="update_desc">Проверка обновления лаунчера</string>
     <string name="update_in_progress">Идет проверка обновления…</string>
     <string name="update_install">Установить</string>
@@ -217,6 +219,7 @@ com.amazon.device.sale.service
     <string name="user_location_warning">Местоположение для погоды не задано в настройках</string>
     <string name="v7_preference_off">ВЫКЛ</string>
     <string name="v7_preference_on">ВКЛ</string>
+    <string name="version">Версия приложения</string>
     <string name="videos_row_title">Раздел «Видео»</string>
     <string name="wallpaper_title">Фон по умолчанию</string>
     <string name="wallpaper_choose">Поместите изображение фона в корневой каталог хранилища и выберите здесь</string>
