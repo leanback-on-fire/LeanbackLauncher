@@ -217,10 +217,14 @@ object RowPreferences {
     @JvmStatic
     fun getAppsColumns(context: Context): Int {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return pref.getString(
+        val num = pref.getString(
             context.getString(R.string.pref_max_apps),
             context.resources.getInteger(R.integer.two_row_cut_off).toString()
-        )?.toIntOrNull() ?: context.resources.getInteger(R.integer.two_row_cut_off)
+        )?.toIntOrNull()
+        if (num != null && num > 0)
+            return num
+        else
+            return context.resources.getInteger(R.integer.two_row_cut_off)
     }
 
     @JvmStatic

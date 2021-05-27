@@ -599,7 +599,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 lw.updateCurrentLocation = true
                 lw.updateLocationInterval = TimeUnit.MINUTES.toMillis(10) // FIXME: no updates
             } else {
-                lw.useCurrentLocation = false
+                try {
+                    lw.useCurrentLocation = false
+                } catch (e: Exception) {
+                    // AirLocation.stopLocationUpdates -> NullPointerException: Listener must not be null
+                }
                 RowPreferences.getUserLocation(this)?.let { userLoc ->
                     if (userLoc.isNotEmpty() && !RowPreferences.isUseLocationEnabled(this))
                         if (userLoc.isDigitsOnly()) { // assume city id, ex. 524901
@@ -759,7 +763,9 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         val input = bufferedReader.use { it.readText() }
         val cachedWeather = gson.fromJson(input, Weather::class.java)
         //if (BuildConfig.DEBUG) Log.d(TAG, "readJsonWeather -> updateWeatherDetails()")
-        updateWeatherDetails(cachedWeather)
+        cachedWeather?.let {
+            updateWeatherDetails(cachedWeather)
+        }
     }
 
     private fun fadeIn(view: View, alpha: Float) { // in transition
@@ -871,13 +877,12 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             loc.apply { // marque scroll
                 ellipsize = TextUtils.TruncateAt.MARQUEE
                 isSingleLine = true
-                //marqueeRepeatLimit = -1
+                marqueeRepeatLimit = -1
                 isSelected = true
                 isFocusableInTouchMode = false
                 isFocusable = false
             }
         }
-
         // weather info
         weatherVG?.let { group ->
             // icon
