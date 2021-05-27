@@ -768,17 +768,19 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
+    private var showcycle: Long = TimeUnit.SECONDS.toMillis(10)
+    private var fadeindur: Long = 500
+    private var fadeoutdur: Long = 1000
+
     private fun fadeIn(view: View, alpha: Float) { // in transition
         view.animate()
-            .alpha(alpha).duration = 300
+            .alpha(alpha).duration = fadeindur
     }
 
     private fun fadeOut(view: View, alpha: Float) { // out transition
         view.animate()
-            .alpha(alpha).duration = 1000
+            .alpha(alpha).duration = fadeoutdur
     }
-
-    private var showcycle: Long = TimeUnit.SECONDS.toMillis(10)
 
     private fun showLocation() {
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
@@ -820,8 +822,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 val animw = weatherVG?.animate()?:break
                 val animd = detailsVG?.animate()?:break
 
-                animw.duration = 300
-                animd.duration = 300
+                animw.duration = fadeindur
+                animd.duration = fadeoutdur
 
                 Handler(Looper.getMainLooper()).post {
                     animw.alpha(1.0f)
@@ -835,8 +837,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                         val animw = weatherVG.animate() ?:return@postDelayed
                         val animd = detailsVG.animate() ?:return@postDelayed
 
-                        animw.duration = 300
-                        animd.duration = 300
+                        animw.duration = fadeindur
+                        animd.duration = fadeoutdur
 
                         animw.alpha(0.0f)
                         animd.alpha(1.0f)
@@ -852,11 +854,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 }
 
                 // wait animation
-                delay(300)
+                delay(fadeindur)
                 // wait pause
                 delay(showcycle)
                 // wait animation
-                delay(300)
+                delay(fadeoutdur)
                 // wait pause
                 delay(showcycle)
             }
