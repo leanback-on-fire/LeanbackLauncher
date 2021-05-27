@@ -17,6 +17,7 @@ import android.media.tv.TvContract
 import android.net.Uri
 import android.os.*
 import android.provider.Settings
+import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -74,10 +75,10 @@ import java.io.File
 import java.io.FileDescriptor
 import java.io.PrintWriter
 import java.lang.Runnable
+import java.lang.String.format
 import java.net.URL
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.resume
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -771,39 +772,15 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             .alpha(alpha).duration = 1000
     }
 
-    // https://medium.com/androiddevelopers/suspending-over-views-19de9ebd7020
-    @ExperimentalCoroutinesApi
-    suspend fun Animator.awaitEnd() = suspendCancellableCoroutine<Unit> { cont ->
-        cont.invokeOnCancellation { cancel() }
-        addListener(object : AnimatorListenerAdapter() {
-            private var endedSuccessfully = true
-
-            override fun onAnimationCancel(animation: Animator) {
-                endedSuccessfully = false
-            }
-
-            override fun onAnimationEnd(animation: Animator) {
-                animation.removeListener(this)
-                if (cont.isActive) {
-                    if (endedSuccessfully) {
-                        cont.resume(Unit)
-                    } else {
-                        cont.cancel()
-                    }
-                }
-            }
-        })
-    }
-
     private var showcycle: Long = TimeUnit.SECONDS.toMillis(10)
 
     private fun showLocation() {
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
-        val locTV: TextView? = findViewById<TextView>(R.id.curLocation)
+        val curLocTV: TextView? = findViewById<TextView>(R.id.curLocation)
 
         lifecycleScope.launch(Dispatchers.Main) {
             weatherVG?.visibility = View.GONE
-            locTV?.let {
+            curLocTV?.let {
                 it.visibility = View.VISIBLE
                 it.alpha = 0.0f
                 fadeIn(it, 1.0f)
@@ -813,8 +790,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 it.animate()?.apply {
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            animation.cancel()
-                            locTV.visibility = View.GONE
+                            curLocTV.visibility = View.GONE
                             showWeather()
                         }
                     })
@@ -881,89 +857,27 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
-    private fun showDescription() {
-        val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
-        val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
-        lifecycleScope.launch {
-            val defer = async {
-                weatherVG?.let {
-                    ObjectAnimator.ofFloat(it, View.ALPHA, 1f, 0f).run {
-                        duration = 1000
-                        start()
-                        awaitEnd()
-                    }
-                }
-            }
-            defer.await()
-            if (defer.isCompleted) {
-                detailsVG?.let {
-                    it.visibility = View.VISIBLE
-                    val defer = async {
-                        ObjectAnimator.ofFloat(it, View.ALPHA, 0f, 1f).run {
-                            duration = 300
-                            interpolator = AccelerateDecelerateInterpolator()
-                            start()
-                            awaitEnd()
-                        }
-                    }
-                    defer.await()
-                    delay(showcycle)
-                    if (defer.isCompleted) {
-                        val defer = async {
-                            ObjectAnimator.ofFloat(it, View.ALPHA, 1f, 0f).run {
-                                duration = 1000
-                                start()
-                                awaitEnd()
-                            }
-                        }
-                        defer.await()
-                    }
-                    if (defer.isCompleted) {
-                        val defer = async {
-                            weatherVG?.let {
-                                ObjectAnimator.ofFloat(it, View.ALPHA, 0f, 1f).run {
-                                    duration = 300
-                                    start()
-                                    awaitEnd()
-                                }
-                            }
-                        }
-                        defer.await()
-                    }
-                    it.visibility = View.GONE
-                }
-            }
-        }
-    }
-
-//        val coroutineScope = MainScope()
-//        val errorHandler = CoroutineExceptionHandler { context, error ->
-//            coroutineScope?.launch(Dispatchers.Main) {
-//                App.toast(error.localizedMessage ?: "")
-//            }
-//        }
-//        coroutineScope.launch(errorHandler) {
-//            val defer = async(Dispatchers.Main) {
-//                true
-//            }
-//            when (defer.await()) {
-//                true -> {
-//                }
-//            }
-//        }
-
     private fun updateWeatherDetails(weather: Weather) {
-        val unit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
-        //val speed = if (localWeather!!.unit == Units.METRIC) "km/h" else "mi/h"
-        //if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather updateWeatherDetails()\nCity:${weather.name}\nCountry:${weather.country}\nTemp:${weather.temperature}${unit}\nDescription:${weather.descriptions[0]}\nLatitude:${weather.latitude}\nLongitude:${weather.longitude}\n")
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
         val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
-        val locTV: TextView? = findViewById<TextView>(R.id.curLocation)
+        val curLocTV: TextView? = findViewById<TextView>(R.id.curLocation)
+
+        val tempunit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
+
         // city info
-        locTV?.let { loc ->
+        curLocTV?.let { loc ->
             val city = weather.name
             if (city.isNotEmpty()) loc.text = city else loc.text = ""
+            loc.apply { // marque scroll
+                ellipsize = TextUtils.TruncateAt.MARQUEE
+                isSingleLine = true
+                //marqueeRepeatLimit = -1
+                isSelected = true
+                isFocusableInTouchMode = false
+                isFocusable = false
+            }
         }
+
         // weather info
         weatherVG?.let { group ->
             // icon
@@ -971,20 +885,43 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             icon?.let {
                 OpenWeatherIcons(this@MainActivity, weather.icons[0], it)
                 it.contentDescription = weather.descriptions[0]
+                it.visibility = View.VISIBLE
             }
             // temperature
             val curTemp = findViewById<TextView>(R.id.curTemp)
-            curTemp?.let { it.text = weather.temperature.toInt().toString() + unit }
+            curTemp?.let { it.text = weather.temperature.toInt().toString() + tempunit }
             // initial visibility
             group.visibility = View.GONE
         }
         // weather details
         detailsVG?.let { details ->
-            // temperature
+            val speedunit = if (localWeather!!.unit == Units.METRIC) getString(R.string.weather_speed_m) else getString(R.string.weather_speed_i)
+            val speed = if (localWeather!!.unit == Units.METRIC) (weather.windSpeed * 1000) / 3600 else weather.windSpeed // m/s | mi/h
+            // hi / lo temp
             val hiTemp = findViewById<TextView>(R.id.hiTemp)
-            hiTemp?.let { it.text = weather.maxTemperature.toInt().toString() + unit }
+            hiTemp?.let { it.text = getString(R.string.weather_max) + weather.maxTemperature.toInt().toString() + tempunit }
             val loTemp = findViewById<TextView>(R.id.loTemp)
-            loTemp?.let { it.text = weather.minTemperature.toInt().toString() + unit }
+            loTemp?.let { it.text = getString(R.string.weather_min) + weather.minTemperature.toInt().toString() + tempunit }
+            // desc
+            val desc = findViewById<TextView>(R.id.wDescription)
+            desc?.let {
+                it.text = weather.descriptions[0]
+            }
+            desc?.apply { // marque scroll
+                ellipsize = TextUtils.TruncateAt.MARQUEE
+                isSingleLine = true
+                marqueeRepeatLimit = -1
+                isSelected = true
+                isFocusableInTouchMode = false
+                isFocusable = false
+                //setHorizontallyScrolling(true)
+            }
+            // humidity
+            val hum = findViewById<TextView>(R.id.humidity)
+            hum?.let { it.text = getString(R.string.weather_humidity, weather.humidity.toInt()) + "%" }
+            // wind
+            val wind = findViewById<TextView>(R.id.wind)
+            wind?.let { it.text = getString(R.string.weather_wind, format(Locale.getDefault(), "%.1f", speed), speedunit) }
             // initial visibility
             details.visibility = View.GONE
         }

@@ -222,4 +222,8 @@ com.amazon.device.sale.service
     <string name="wallpaper_choose">Поместите изображение фона в корневой каталог хранилища и выберите здесь</string>
     <string name="weather_home_title">Настройки погоды</string>
     <string name="weather_home_description">Местная погода и прогноз на главной странице</string>
+    <string name="weather_humidity">влажность %1$d</string>
+    <string name="weather_speed_m">м/с</string>
+    <string name="weather_speed_i">миль/ч</string>
+    <string name="weather_wind">ветер %1$s %2$s</string>
 </resources>
