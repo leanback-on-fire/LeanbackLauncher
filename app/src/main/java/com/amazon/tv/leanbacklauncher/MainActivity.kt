@@ -830,9 +830,9 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                     animw.alpha(1.0f)
                     animd.alpha(0.0f)
                 }
-
-                weatherVG.alpha = 0.0f
-
+                withContext(Dispatchers.Main) {
+                    weatherVG.alpha = 0.0f
+                }
                 animd.withEndAction {
                     Handler(Looper.getMainLooper()).postDelayed({
                         val animw = weatherVG.animate() ?:return@postDelayed

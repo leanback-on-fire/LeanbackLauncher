@@ -20,6 +20,7 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.firetv.leanbacklauncher.apps.FavoritesAdapter
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getAppsColumns
@@ -57,6 +58,7 @@ open class AppsAdapter(
     private val mNotifyHandler = Handler()
     private val prefUtil: SharedPreferencesUtil? = instance(context)
     private val listener: OnSharedPreferenceChangeListener = this
+    private var mRecyclerView: RecyclerView? = null
 
     init {
         prefUtil?.addHiddenListener(listener)
@@ -461,6 +463,11 @@ open class AppsAdapter(
         return mLaunchPoints.size
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        mRecyclerView = recyclerView
+    }
+
     fun sortItemsIfNeeded(force: Boolean) {
         val sortNeeded: Boolean = mFlaggedForResort || force
         mFlaggedForResort = false
@@ -500,13 +507,19 @@ open class AppsAdapter(
         val focused = mLaunchPoints[initPosition]
         mLaunchPoints[initPosition] = mLaunchPoints[desiredPosition]
         mLaunchPoints[desiredPosition] = focused
-        notifyItemMoved(initPosition, desiredPosition)
+        // if (itemView is BannerView && itemView.getParent() is EditableAppsRowView) {
+
+        if (!mRecyclerView!!.isComputingLayout && mRecyclerView!!.scrollState == SCROLL_STATE_IDLE) {
+            notifyItemMoved(initPosition, desiredPosition)
+        }
         //if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemMoved($initPosition, $desiredPosition)")
         if (abs(desiredPosition - initPosition) > 1) {
-            notifyItemMoved(
-                desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1,
-                initPosition
-            )
+            if (!mRecyclerView!!.isComputingLayout && mRecyclerView!!.scrollState == SCROLL_STATE_IDLE) {
+                notifyItemMoved(
+                    desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1,
+                    initPosition
+                )
+            }
             //if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemMoved(${desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1}, $initPosition)")
         }
         if (!userAction) {
