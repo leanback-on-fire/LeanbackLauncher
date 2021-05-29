@@ -80,8 +80,6 @@ class UpdateActivity : AppCompatActivity() {
             delay(1000)
             withContext(Dispatchers.Main) {
                 findViewById<ProgressBar>(R.id.pbUpdate).visibility = View.GONE
-            }
-            withContext(Dispatchers.Main) {
                 findViewById<ProgressBar>(R.id.pbUpdate).isIndeterminate = true
                 findViewById<TextView>(R.id.tvUpdateInfo).text = ""
                 findViewById<TextView>(R.id.tvUpdatePrc).text = ""
