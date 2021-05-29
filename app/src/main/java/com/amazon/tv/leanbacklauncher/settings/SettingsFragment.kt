@@ -572,9 +572,9 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         private var dirName: String? = null
 
         /* Action ID definition */
-        private const val ACTION_BACK = 1
-        private const val ACTION_DIR = 2
-        private const val ACTION_SELECT = 3
+        private const val KEY_BACK = 1
+        private const val KEY_DIR = 2
+        private const val KEY_SELECT = 3
     }
 
     override fun onResume() {
@@ -600,12 +600,12 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         val fm = fragmentManager
 
         when (preference?.key) {
-            ACTION_BACK.toString() -> {
+            KEY_BACK.toString() -> {
                 dirName?.let { rootPath = rootPath?.removeSuffix(it) }
                 fm?.popBackStack()
                 return true
             }
-            ACTION_DIR.toString() -> {
+            KEY_DIR.toString() -> {
                 rootPath = File(rootPath, preference.title.toString()).absolutePath
                 dirName = preference.title.toString()
                 val curFragContainerId = (requireView().parent as ViewGroup).id
@@ -613,7 +613,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                     ?.addToBackStack(null)?.commit()
                 return true
             }
-            ACTION_SELECT.toString() -> {
+            KEY_SELECT.toString() -> {
                 val name = preference.title
                 val file = File(rootPath, name.toString())
                 if (file.canRead())
@@ -642,7 +642,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
 
         // back
         val backPref = Preference(context)
-        backPref.key = ACTION_BACK.toString()
+        backPref.key = KEY_BACK.toString()
         backPref.title = getString(R.string.goback)
         backPref.icon =
             ResourcesCompat.getDrawable(resources, R.drawable.ic_twotone_arrow_back_24, null)
@@ -652,7 +652,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         if (folders.size > 0)
             folders.forEach {
                 val dirPref = Preference(context)
-                dirPref.key = ACTION_DIR.toString()
+                dirPref.key = KEY_DIR.toString()
                 dirPref.title = it.name
                 dirPref.icon =
                     ResourcesCompat.getDrawable(
@@ -667,7 +667,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         if (images.size > 0)
             images.forEach {
                 val imagePref = Preference(context)
-                imagePref.key = ACTION_SELECT.toString()
+                imagePref.key = KEY_SELECT.toString()
                 imagePref.title = it.name
                 try {
                     val bannerWidth =
