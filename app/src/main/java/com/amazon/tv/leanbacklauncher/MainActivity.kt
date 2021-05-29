@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     private val showcycle: Long = TimeUnit.SECONDS.toMillis(10)
     private val fadeindur: Long = 500
     private val fadeoutdur: Long = 1000
+
     // weather cache
     private val maxCacheAge = TimeUnit.MINUTES.toMillis(10)
 
@@ -878,8 +879,10 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             "ЮЗ",
             "З",
             "СЗ",
-            "C",
-        ) else listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW", "N")
+            "C"
+        )
+        else
+            listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW", "N")
         return directions[(angle % 360 / 45).roundToInt()]
     }
 
