@@ -21,7 +21,7 @@ import com.amazon.tv.leanbacklauncher.util.Util
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import java.util.*
 
@@ -118,7 +118,7 @@ class LaunchPoint {
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .load(iconUrl)
-                .into(object : SimpleTarget<Drawable?>(maxIconSize, maxIconSize) {
+                .into(object : CustomTarget<Drawable?>(maxIconSize, maxIconSize) {
                     override fun onResourceReady(
                         resource: Drawable,
                         transition: Transition<in Drawable?>?
@@ -128,6 +128,9 @@ class LaunchPoint {
                             iconDrawable = resource
                             it.onInstallingLaunchPointChanged(this@LaunchPoint)
                         }
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
                     }
                 })
         }

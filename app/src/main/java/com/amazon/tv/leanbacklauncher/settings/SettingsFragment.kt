@@ -33,6 +33,10 @@ import com.amazon.tv.leanbacklauncher.apps.AppsManager
 import com.amazon.tv.leanbacklauncher.util.Permission
 import com.amazon.tv.leanbacklauncher.util.Updater
 import com.amazon.tv.leanbacklauncher.util.Util
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -674,7 +678,23 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                         resources.getDimensionPixelSize(R.dimen.preference_item_banner_width)
                     val bannerHeight =
                         resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
-                    imagePref.icon = buildPreviewFromFile(it, bannerWidth, bannerHeight)
+//                    imagePref.icon = buildPreviewFromFile(it, bannerWidth, bannerHeight)
+                    Glide.with(requireContext())
+                        .asDrawable()
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .load(Uri.fromFile(it))
+//                        .error(R.color.preference_item_banner_background)
+                        .into(object : CustomTarget<Drawable?>(bannerWidth, bannerHeight) {
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable?>?
+                            ) {
+                                imagePref.icon = resource
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                            }
+                        })
                 } catch (e: java.lang.Exception) {
                 }
                 prefs.add(imagePref)

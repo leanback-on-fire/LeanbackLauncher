@@ -11,6 +11,8 @@ import android.graphics.Color
 import android.graphics.Shader.TileMode
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.AsyncTask
+import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
@@ -38,13 +40,12 @@ class WallpaperInstaller private constructor(context: Context) {
     fun installWallpaperIfNeeded() {
         if (!mWallpaperInstalled && !mInstallationPending) {
             mInstallationPending = true
-            // FIXME
-//            object : AsyncTask<Any?, Any?, Any?>() {
-//                override fun doInBackground(vararg params: Any?): Any? {
-//                    installWallpaper()
-//                    return null
-//                }
-//            }.execute()
+            object : AsyncTask<Any?, Any?, Any?>() {
+                override fun doInBackground(vararg params: Any?): Any? {
+                    installWallpaper()
+                    return null
+                }
+            }.execute()
         }
     }
 
@@ -99,10 +100,14 @@ class WallpaperInstaller private constructor(context: Context) {
         try {
             Log.i(TAG, "Installing wallpaper")
             mInstallingWallpaper = true
-            val wallpaperManager = WallpaperManager.getInstance(mContext)
-            val bitmap = wallpaperBitmap
-            wallpaperManager.suggestDesiredDimensions(bitmap.width, bitmap.height)
-            wallpaperManager.setBitmap(bitmap)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val wallpaperManager = WallpaperManager.getInstance(mContext)
+                if (wallpaperManager.isWallpaperSupported && wallpaperManager.isSetWallpaperAllowed) {
+                    val bitmap = wallpaperBitmap
+                    wallpaperManager.suggestDesiredDimensions(bitmap.width, bitmap.height)
+                    wallpaperManager.setBitmap(bitmap)
+                }
+            }
             return
         } catch (e2: IOException) {
             e = e2
