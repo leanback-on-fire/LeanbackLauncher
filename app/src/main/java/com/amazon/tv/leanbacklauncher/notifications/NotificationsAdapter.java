@@ -212,12 +212,16 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
                 if (BuildConfig.DEBUG) Log.d(TAG, "Use glide for image");
                 this.mRecView.setUseBackground(false);
                 this.mRecView.onStartImageFetch();
-                this.adapter.mGlideRequestManager.asBitmap().load(new RecImageKey(this.mRecommendation)).apply(this.adapter.mGlideOptions).into(this.mRecView);
                 this.adapter.mGlideRequestManager
                         .asBitmap()
                         .load(new RecImageKey(this.mRecommendation))
                         .apply(this.adapter.mGlideOptions)
                         .into(this.mRecView);
+//                this.adapter.mGlideRequestManager
+//                        .asBitmap()
+//                        .load(new RecImageKey(this.mRecommendation))
+//                        .apply(this.adapter.mGlideOptions)
+//                        .into(this.mRecView);
                 return;
             }
             this.mRecView.setUseBackground(true);
@@ -357,7 +361,11 @@ public class NotificationsAdapter extends NotificationsServiceAdapter<Notificati
         this.mRichRecommendationViewSupported = LauncherConfiguration.getInstance().isRichRecommendationViewEnabled();
         this.mLegacyRecommendationLayoutSupported = LauncherConfiguration.getInstance().isLegacyRecommendationLayoutEnabled();
         this.mGlideRequestManager = Glide.with(this.mContext);
-        this.mGlideOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).transform(new OpaqueBitmapTransformation(this.mContext, ContextCompat.getColor(context, R.color.notif_background_color)));
+        this.mGlideOptions = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .transform(new OpaqueBitmapTransformation(
+                        this.mContext, ContextCompat.getColor(context, R.color.notif_background_color))
+                );
     }
 
     public void onActionOpenLaunchPoint(String component, String group) {

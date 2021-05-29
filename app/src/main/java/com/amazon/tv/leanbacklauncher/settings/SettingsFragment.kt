@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -155,7 +156,7 @@ class VersionPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             return true
         } else if (preference?.key == "app_link") {
             if (!preference.summary.isNullOrEmpty())
-            openBrowser(preference.summary.toString())
+                openBrowser(preference.summary.toString())
             return true
         }
         return super.onPreferenceTreeClick(preference)
@@ -631,7 +632,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         var dir: File? = null
         var folders: ArrayList<File> = ArrayList()
         var images: ArrayList<File> = ArrayList()
-        Log.d("*****", "loadFileList($rootPath)")
+        if (BuildConfig.DEBUG) Log.d("*****", "loadFileList($rootPath)")
         rootPath?.let { dir = File(it) }
         dir?.let {
             folders = dirReader(it)
@@ -669,8 +670,11 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 imagePref.key = ACTION_SELECT.toString()
                 imagePref.title = it.name
                 try {
-                    val d = Drawable.createFromPath(it.toString())
-                    imagePref.icon = buildBannerFromImage(d)
+                    val bannerWidth =
+                        resources.getDimensionPixelSize(R.dimen.preference_item_banner_width)
+                    val bannerHeight =
+                        resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
+                    imagePref.icon = buildPreviewFromFile(it, bannerWidth, bannerHeight)
                 } catch (e: java.lang.Exception) {
                 }
                 prefs.add(imagePref)
@@ -712,30 +716,20 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
         return dirList
     }
 
-    private fun buildBannerFromImage(image: Drawable?): Drawable {
-        val resources = resources
-        val bannerWidth = resources.getDimensionPixelSize(R.dimen.preference_item_banner_width)
-        val bannerHeight =
-            resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
-        val bitmap = Bitmap.createBitmap(bannerWidth, bannerHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        canvas.drawColor(
-            ResourcesCompat.getColor(
-                resources,
-                R.color.preference_item_banner_background,
-                null
-            )
-        )
-        image?.let {
-            it.setBounds(
-                0,
-                0,
-                bannerWidth,
-                bannerHeight
-            )
-            it.draw(canvas)
-        }
-        return BitmapDrawable(resources, bitmap)
+    private fun buildPreviewFromFile(file: File, scaleWidth: Int, scaleHeight: Int): Drawable {
+        val bmOptions = BitmapFactory.Options()
+        bmOptions.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(file.absolutePath, bmOptions)
+
+        val scaleFactor =
+            (bmOptions.outWidth / scaleWidth).coerceAtMost(bmOptions.outHeight / scaleHeight)
+
+        bmOptions.inJustDecodeBounds = false
+        bmOptions.inSampleSize = scaleFactor
+
+        val resized = BitmapFactory.decodeFile(file.absolutePath, bmOptions)
+
+        return BitmapDrawable(resources, resized)
     }
 
     private fun setWallpaper(context: Context?, image: String): Boolean {
