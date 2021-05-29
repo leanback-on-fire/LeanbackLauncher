@@ -877,8 +877,9 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             "Ю",
             "ЮЗ",
             "З",
-            "СЗ"
-        ) else listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
+            "СЗ",
+            "C",
+        ) else listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW", "N")
         return directions[(angle % 360 / 45).roundToInt()]
     }
 
