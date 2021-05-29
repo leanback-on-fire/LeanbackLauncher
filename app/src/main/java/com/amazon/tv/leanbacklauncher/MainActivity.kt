@@ -106,6 +106,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     private val showcycle: Long = TimeUnit.SECONDS.toMillis(10)
     private val fadeindur: Long = 500
     private val fadeoutdur: Long = 1000
+    // weather cache
+    private val maxCacheAge = TimeUnit.MINUTES.toMillis(10)
 
     private class MainActivityMessageHandler constructor(private val activity: MainActivity) :
         Handler() {
@@ -588,9 +590,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
-    val MAXCACHEAGE = TimeUnit.MINUTES.toMillis(10)
     val isWeatherCacheValid: Boolean
-        get() = File(JSONFILE).lastModified() + MAXCACHEAGE > System.currentTimeMillis()
+        get() = File(JSONFILE).lastModified() + maxCacheAge > System.currentTimeMillis()
 
     private fun initializeWeather() {
         localWeather?.let { lw ->
@@ -784,8 +785,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     }
 
     private fun showLocation() {
-        val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
-        val curLocTV: TextView? = findViewById<TextView>(R.id.curLocation)
+        val weatherVG: ViewGroup? = findViewById(R.id.weather)
+        val curLocTV: TextView? = findViewById(R.id.curLocation)
 
         lifecycleScope.launch(Dispatchers.Main) {
             weatherVG?.visibility = View.GONE
@@ -809,8 +810,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     }
 
     fun showWeather() {
-        val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
-        val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
+        val weatherVG: ViewGroup? = findViewById(R.id.weather)
+        val detailsVG: ViewGroup? = findViewById(R.id.details)
 
         lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
@@ -835,17 +836,17 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 }
                 animd.withEndAction {
                     Handler(Looper.getMainLooper()).postDelayed({
-                        val animw = weatherVG.animate() ?: return@postDelayed
-                        val animd = detailsVG.animate() ?: return@postDelayed
+                        val animwn = weatherVG.animate() ?: return@postDelayed
+                        val animdn = detailsVG.animate() ?: return@postDelayed
 
-                        animw.duration = fadeindur
-                        animd.duration = fadeoutdur
+                        animwn.duration = fadeindur
+                        animdn.duration = fadeoutdur
 
-                        animw.alpha(0.0f)
-                        animd.alpha(1.0f)
+                        animwn.alpha(0.0f)
+                        animdn.alpha(1.0f)
 
-                        animw.start()
-                        animd.start()
+                        animwn.start()
+                        animdn.start()
                     }, showcycle)
                 }
 
@@ -1536,9 +1537,9 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                         )
                         val icon = findViewById<ImageView>(R.id.settings_icon)
                         group.setOnClickListener {
-                            startSettings(it)
+                            startSettings()
                         }
-                        group.setOnFocusChangeListener { v, hasFocus ->
+                        group.setOnFocusChangeListener { _, hasFocus ->
                             if (hasFocus) {
                                 sel?.alpha = 1.0f
                                 icon?.clearAnimation()
@@ -1580,7 +1581,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
-    fun startSettings(v: View) {
+    fun startSettings() {
         if (applicationContext.resources.getBoolean(R.bool.full_screen_settings_enabled)) {
             val intent = Intent(this@MainActivity, LegacyHomeScreenSettingsActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
