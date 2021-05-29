@@ -275,10 +275,13 @@ or recommendations will not work properly."</string>
     <string name="wallpaper_choose">Put wallpaper image to storage directory root and select here</string>
     <string name="weather_home_title">Weather Preferences</string>
     <string name="weather_home_description">Local weather and forecast on Home screen</string>
-    <string name="weather_humidity">humidity %1$d</string>
+    <string name="weather_humidity">hum.%1$d%%</string>
+    <string name="weather_pressure">%1$s %2$s</string>
+    <string name="weather_pressure_unit">hPa</string>
+    <string name="weather_hilotemp">%1$s-%2$s%3$s</string>
     <string name="weather_max">↑</string>
     <string name="weather_min">↓</string>
     <string name="weather_speed_m">m/s</string>
     <string name="weather_speed_i">mi/h</string>
-    <string name="weather_wind">wind %1$s %2$s %3$s</string>
+    <string name="weather_wind">wind %3$s %1$s %2$s</string>
 </resources>

@@ -69,7 +69,6 @@ import de.interaapps.localweather.utils.Lang
 import de.interaapps.localweather.utils.LocationFailedEnum
 import de.interaapps.localweather.utils.Units
 import kotlinx.coroutines.*
-import org.checkerframework.checker.units.qual.degrees
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.File
@@ -102,6 +101,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     private var mEventLogger: LeanbackLauncherEventLogger? = null
     private var mFadeDismissAndSummonAnimations = false
     private val mHandler: Handler = MainActivityMessageHandler(this)
+
     // animation params
     private val showcycle: Long = TimeUnit.SECONDS.toMillis(10)
     private val fadeindur: Long = 500
@@ -812,16 +812,16 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
         val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
 
-        lifecycleScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 weatherVG?.visibility = View.VISIBLE
                 detailsVG?.alpha = 0.0f
                 detailsVG?.visibility = View.VISIBLE
             }
             //TODO exit from cycle when close
-            while(true) {
-                val animw = weatherVG?.animate()?:break
-                val animd = detailsVG?.animate()?:break
+            while (true) {
+                val animw = weatherVG?.animate() ?: break
+                val animd = detailsVG?.animate() ?: break
 
                 animw.duration = fadeindur
                 animd.duration = fadeoutdur
@@ -835,8 +835,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 }
                 animd.withEndAction {
                     Handler(Looper.getMainLooper()).postDelayed({
-                        val animw = weatherVG.animate() ?:return@postDelayed
-                        val animd = detailsVG.animate() ?:return@postDelayed
+                        val animw = weatherVG.animate() ?: return@postDelayed
+                        val animd = detailsVG.animate() ?: return@postDelayed
 
                         animw.duration = fadeindur
                         animd.duration = fadeoutdur
@@ -846,7 +846,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
                         animw.start()
                         animd.start()
-                    },showcycle)
+                    }, showcycle)
                 }
 
                 withContext(Dispatchers.Main) {
@@ -867,18 +867,26 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     }
 
     private fun getCardinalDirection(angle: Double): String {
-        //listOf("↑ N", "↗ NE", "→ E", "↘ SE", "↓ S", "↙ SW", "← W", "↖ NW")
-        val directions = if (localWeather!!.lang == Lang.RUSSIAN) listOf("C","СВ","В","ЮВ","Ю","ЮЗ","З","СЗ") else listOf("N","NE","E","SE","S","SW","W","NW")
+        // ("↑", "↗", "→", "↘", "↓", "↙", "←", "↖")
+        val directions = if (localWeather!!.lang == Lang.RUSSIAN) listOf(
+            "C",
+            "СВ",
+            "В",
+            "ЮВ",
+            "Ю",
+            "ЮЗ",
+            "З",
+            "СЗ"
+        ) else listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
         return directions[(angle % 360 / 45).roundToInt()]
     }
 
     private fun updateWeatherDetails(weather: Weather) {
-        val weatherVG: ViewGroup? = findViewById<ViewGroup>(R.id.weather)
-        val detailsVG: ViewGroup? = findViewById<ViewGroup>(R.id.details)
-        val curLocTV: TextView? = findViewById<TextView>(R.id.curLocation)
+        val weatherVG: ViewGroup? = findViewById(R.id.weather)
+        val detailsVG: ViewGroup? = findViewById(R.id.details)
+        val curLocTV: TextView? = findViewById(R.id.curLocation)
 
         val tempunit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
-        val winddir = getCardinalDirection(weather.windAngle)
 
         // city info
         curLocTV?.let { loc ->
@@ -910,13 +918,49 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
         // weather details
         detailsVG?.let { details ->
-            val speedunit = if (localWeather!!.unit == Units.METRIC) getString(R.string.weather_speed_m) else getString(R.string.weather_speed_i)
-            val speed = if (localWeather!!.unit == Units.METRIC) (weather.windSpeed * 1000) / 3600 else weather.windSpeed // m/s | mi/h
             // hi / lo temp
-            val hiTemp = findViewById<TextView>(R.id.hiTemp)
-            hiTemp?.let { it.text = getString(R.string.weather_max) + weather.maxTemperature.toInt().toString() + tempunit }
-            val loTemp = findViewById<TextView>(R.id.loTemp)
-            loTemp?.let { it.text = getString(R.string.weather_min) + weather.minTemperature.toInt().toString() + tempunit }
+            val hilo = findViewById<TextView>(R.id.hilotemp)
+            hilo?.let {
+                it.text = getString(
+                    R.string.weather_hilotemp,
+                    format(Locale.getDefault(), "%.0f", weather.minTemperature),
+                    format(Locale.getDefault(), "%.0f", weather.maxTemperature),
+                    tempunit
+                )
+            }
+            // pressure
+            val pressure = findViewById<TextView>(R.id.pressure)
+            pressure?.let {
+                it.text = if (localWeather!!.lang == Lang.RUSSIAN) getString(
+                    R.string.weather_pressure,
+                    format(Locale.getDefault(), "%.0f", weather.pressure / 1.333), // mmHg
+                    getString(R.string.weather_pressure_unit)
+                )
+                else
+                    getString(
+                        R.string.weather_pressure,
+                        weather.pressure.toInt().toString(), // hPa
+                        getString(R.string.weather_pressure_unit)
+                    )
+            }
+            // humidity
+            val hum = findViewById<TextView>(R.id.humidity)
+            hum?.let { it.text = getString(R.string.weather_humidity, weather.humidity.toInt()) }
+            // wind
+            val speedunit =
+                if (localWeather!!.unit == Units.METRIC) getString(R.string.weather_speed_m) else getString(
+                    R.string.weather_speed_i
+                )
+            val winddir = getCardinalDirection(weather.windAngle)
+            val wind = findViewById<TextView>(R.id.wind)
+            wind?.let {
+                it.text = getString(
+                    R.string.weather_wind,
+                    format(Locale.getDefault(), "%.1f", speedunit),
+                    speedunit,
+                    winddir
+                )
+            }
             // desc
             val desc = findViewById<TextView>(R.id.wDescription)
             desc?.let {
@@ -929,14 +973,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 isSelected = true
                 isFocusableInTouchMode = false
                 isFocusable = false
-                //setHorizontallyScrolling(true)
             }
-            // humidity
-            val hum = findViewById<TextView>(R.id.humidity)
-            hum?.let { it.text = getString(R.string.weather_humidity, weather.humidity.toInt()) + "%" }
-            // wind
-            val wind = findViewById<TextView>(R.id.wind)
-            wind?.let { it.text = getString(R.string.weather_wind, format(Locale.getDefault(), "%.1f", speed), speedunit, winddir) }
             // initial visibility
             details.visibility = View.GONE
         }
@@ -1481,10 +1518,14 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 }
                 if (!success) {
                     clearWidget(appWidgetId)
-                    // launcher settings
-                    wrap.addView(
-                        LayoutInflater.from(this).inflate(R.layout.widget_settings, wrap, false)
-                    )
+                    // clock
+                    wrap.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrap, false))
+                    val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
+                    val clockView: TextView? = findViewById<View>(R.id.clock) as ClockView?
+                    typeface?.let {
+                        clockView?.typeface = typeface
+                    }
+                    // settings
                     val settingsVG: ViewGroup? =
                         findViewById<View>(R.id.settings) as LinearLayout?
                     settingsVG?.let { group ->
@@ -1524,23 +1565,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                         }
                         icon?.breath()
                     }
-                    // clock
-                    wrap.addView(LayoutInflater.from(this).inflate(R.layout.clock, wrap, false))
-                    val typeface = ResourcesCompat.getFont(this, R.font.sfuidisplay_thin)
-                    val clockView: TextView? = findViewById<View>(R.id.clock) as ClockView?
-                    typeface?.let {
-                        clockView?.typeface = typeface
-                    }
                     // weather widget update
                     initializeWeather()
-//                    val weatherVG: ViewGroup? = findViewById<View>(R.id.weather) as LinearLayout?
-//                    weatherVG?.let { group ->
-//                        val sel = findViewById<ImageView>(R.id.weather_selection_circle)
-//                        sel?.setColorFilter(
-//                            RowPreferences.getFrameColor(this),
-//                            PorterDuff.Mode.SRC_ATOP
-//                        )
-//                    }
                     return
                 }
                 return
