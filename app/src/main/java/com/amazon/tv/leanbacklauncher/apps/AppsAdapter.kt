@@ -509,12 +509,12 @@ open class AppsAdapter(
         mLaunchPoints[desiredPosition] = focused
         // if (itemView is BannerView && itemView.getParent() is EditableAppsRowView) {
 
-        if (!mRecyclerView!!.isComputingLayout && mRecyclerView!!.scrollState == SCROLL_STATE_IDLE) {
+        if (!mRecyclerView?.isComputingLayout!! && mRecyclerView?.scrollState == SCROLL_STATE_IDLE) {
             notifyItemMoved(initPosition, desiredPosition)
         }
         //if (BuildConfig.DEBUG) Log.d(TAG, "notifyItemMoved($initPosition, $desiredPosition)")
         if (abs(desiredPosition - initPosition) > 1) {
-            if (!mRecyclerView!!.isComputingLayout && mRecyclerView!!.scrollState == SCROLL_STATE_IDLE) {
+            if (!mRecyclerView?.isComputingLayout!! && mRecyclerView?.scrollState == SCROLL_STATE_IDLE) {
                 notifyItemMoved(
                     desiredPosition + if (desiredPosition - initPosition > 0) -1 else 1,
                     initPosition
