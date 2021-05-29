@@ -956,7 +956,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             wind?.let {
                 it.text = getString(
                     R.string.weather_wind,
-                    format(Locale.getDefault(), "%.1f", speedunit),
+                    format(Locale.getDefault(), "%.1f", weather.windSpeed),
                     speedunit,
                     winddir
                 )
