@@ -40,12 +40,12 @@ class WallpaperInstaller private constructor(context: Context) {
     fun installWallpaperIfNeeded() {
         if (!mWallpaperInstalled && !mInstallationPending) {
             mInstallationPending = true
-            object : AsyncTask<Any?, Any?, Any?>() {
-                override fun doInBackground(vararg params: Any?): Any? {
-                    installWallpaper()
-                    return null
-                }
-            }.execute()
+//            object : AsyncTask<Any?, Any?, Any?>() {
+//                override fun doInBackground(vararg params: Any?): Any? {
+//                    installWallpaper()
+//                    return null
+//                }
+//            }.execute()
         }
     }
 
