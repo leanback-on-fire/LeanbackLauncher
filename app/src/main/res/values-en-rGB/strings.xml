@@ -129,7 +129,7 @@ To enable, go to Settings"</string>
     <string name="select_app_order_action_recency">Recency order</string>
     <string name="select_app_order_action_title">Organise apps and games</string>
     <string name="select_app_order_content_title">Organise apps and games</string>
-    <string name="settings_dialog_title">Home screen</string>
+    <string name="settings_dialog_title">Home Screen</string>
     <string name="settings_network">Network settings</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_app_edit_mode">Re-order apps mode</string>

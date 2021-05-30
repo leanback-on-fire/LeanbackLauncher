@@ -91,7 +91,7 @@
     <string name="edit_finish_button_text">Done</string>
     <string name="edit_row_title">Edit Home Rows</string>
     <string name="edit_uninstall_focused_text">Uninstall</string>
-    <string name="enable_local_weather_title">Enable local weather</string>
+    <string name="enable_local_weather_title">Enable Local Weather</string>
     <string name="enable_local_weather_description">Show current weather</string>
     <string name="failed_launch">"Can't open this right now"</string>
     <string name="favorites_row_title">Show Favorites Row</string>
@@ -105,7 +105,7 @@
     <string name="goback" translatable="false">[ .. ]</string>
     <string name="games_row_title">Show Games Row</string>
     <string name="hidden_applications_desc">Selected apps are hidden from the home screen</string>
-    <string name="hidden_applications_title">Hidden applications</string>
+    <string name="hidden_applications_title">Hidden Applications</string>
     <string name="hidden_applications_empty">No hidden applications</string>
     <string name="home_screen_order_action_title">Home Screen View</string>
     <string name="home_screen_order_content_description">Reorder apps and games by holding down the select button</string>
@@ -235,7 +235,7 @@ or recommendations will not work properly."</string>
     <string name="select_wallpaper_action_desc">Select desired background image</string>
     <string name="select_wallpaper_action_title">Choose Wallpaper</string>
     <string name="select">Select background.jpg on %s</string>
-    <string name="settings_dialog_title">Home screen</string>
+    <string name="settings_dialog_title">Home Screen</string>
     <string name="settings_network">Network</string>
     <string name="show_all_apps">Show System and None-TV Apps</string>
     <string name="show_location_title">Show Location</string>
@@ -251,7 +251,7 @@ or recommendations will not work properly."</string>
     <string name="unknown_title">Unknown</string>
     <string name="update_app_found">%s update available</string>
     <string name="update_changes">Changes</string>
-    <string name="update_check">Check updates on startup</string>
+    <string name="update_check">Check Updates on Startup</string>
     <string name="update_desc">Check for new launcher version</string>
     <string name="update_in_progress">Checking for updates…</string>
     <string name="update_install">Install update</string>
@@ -262,14 +262,14 @@ or recommendations will not work properly."</string>
     <string name="update_pending">Update pending…</string>
     <string name="update_loading">Loading update…</string>
     <string name="update">Update</string>
-    <string name="use_current_location_title">Use current location</string>
+    <string name="use_current_location_title">Use Current Location</string>
     <string name="use_current_location_description">Autodetect location by OS (Google services and location permission required)</string>
-    <string name="user_location_title">User location</string>
+    <string name="user_location_title">User Location</string>
     <string name="user_location_warning">User location for weather not set in preferences</string>
     <string name="error_app_not_found">No suitable applications found</string>
     <string name="v7_preference_off">OFF</string>
     <string name="v7_preference_on">ON</string>
-    <string name="version">App version</string>
+    <string name="version">App Version</string>
     <string name="videos_row_title">Show Videos Row</string>
     <string name="wallpaper_title">Default Wallpaper</string>
     <string name="wallpaper_choose">Put wallpaper image to storage directory root and select here</string>
