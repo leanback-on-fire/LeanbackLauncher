@@ -8,9 +8,9 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.graphics.Color
 import android.media.tv.TvContract
-import android.os.AsyncTask
-import android.text.TextUtils
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
@@ -18,6 +18,10 @@ import com.amazon.tv.firetv.leanbacklauncher.util.SettingsUtil.SettingsType
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.Util
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.*
 
 class LaunchPointList(ctx: Context) {
@@ -35,6 +39,9 @@ class LaunchPointList(ctx: Context) {
     private val mUpdatableBlacklist: HashMap<String?, Int>
     private var rawFilter: RawFilter
     private var prefUtil: SharedPreferencesUtil? = null
+
+    private val mainScope = CoroutineScope(Dispatchers.Main)
+    private val defaultScope = CoroutineScope(Dispatchers.Default)
 
     companion object {
         private const val TAG = "LaunchPointList"
@@ -115,54 +122,126 @@ class LaunchPointList(ctx: Context) {
             mSuccess = success
         }
 
-        @SuppressLint("PrivateResource")
-        fun apply() {
-            when (mAction) {
-                0 -> {
-                    addOrUpdatePackage(mPkgName)
-                    removePackage(mPkgName)
-                    addToBlacklist(mPkgName, mUpdatable)
-                    this@LaunchPointList.removeFromBlacklist(mPkgName, mUpdatable)
-                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
-                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
-                }
-                1 -> {
-                    removePackage(mPkgName)
-                    addToBlacklist(mPkgName, mUpdatable)
-                    this@LaunchPointList.removeFromBlacklist(mPkgName, mUpdatable)
-                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
-                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
-                }
-                2 -> {
-                    addToBlacklist(mPkgName, mUpdatable)
-                    this@LaunchPointList.removeFromBlacklist(mPkgName, mUpdatable)
-                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
-                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
-                }
-                3 -> {
-                    this@LaunchPointList.removeFromBlacklist(mPkgName, mUpdatable)
-                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
-                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
-                }
-                4 -> {
-                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
-                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
-                }
-                5 -> removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
-                else -> {
-                }
-            }
-        }
+//        @SuppressLint("PrivateResource")
+//        fun apply() {
+//            when (mAction) {
+//                0 -> {
+//                    addOrUpdatePackage(mPkgName)
+//                    removePackage(mPkgName)
+//                    addToBlacklist(mPkgName, mUpdatable)
+//                    this@LaunchPointList.removeFromBlacklist(mPkgName, mUpdatable)
+//                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
+//                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
+//                }
+//                1 -> {
+//                    removePackage(mPkgName)
+//                    addToBlacklist(mPkgName, mUpdatable)
+//                    this@LaunchPointList.removeFromBlacklist(mPkgName, mUpdatable)
+//                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
+//                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
+//                }
+//                2 -> {
+//                    addToBlacklist(mPkgName, mUpdatable)
+//                    this@LaunchPointList.removeFromBlacklist(mPkgName, mUpdatable)
+//                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
+//                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
+//                }
+//                3 -> {
+//                    this@LaunchPointList.removeFromBlacklist(mPkgName, mUpdatable)
+//                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
+//                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
+//                }
+//                4 -> {
+//                    addOrUpdateInstallingLaunchPoint(mLaunchPoint)
+//                    removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
+//                }
+//                5 -> removeInstallingLaunchPoint(mLaunchPoint, mSuccess)
+//                else -> {
+//                }
+//            }
+//        }
     }
 
-    private inner class CreateLaunchPointListTask(private val mFilterChannelsActivities: Boolean) :
-        AsyncTask<Void?, Void?, List<LaunchPoint>>() {
-        override fun doInBackground(vararg params: Void?): List<LaunchPoint> {
-            val mainIntent = Intent("android.intent.action.MAIN")
-            mainIntent.addCategory("android.intent.category.LAUNCHER")
-            val tvIntent = Intent("android.intent.action.MAIN")
-            tvIntent.addCategory("android.intent.category.LEANBACK_LAUNCHER")
-            val launcherItems: MutableList<LaunchPoint> = LinkedList()
+//    private inner class CreateLaunchPointListTask(private val mFilterChannelsActivities: Boolean) :
+//        AsyncTask<Void?, Void?, List<LaunchPoint>>() {
+//        override fun doInBackground(vararg params: Void?): List<LaunchPoint> {
+//            val mainIntent = Intent("android.intent.action.MAIN")
+//            mainIntent.addCategory("android.intent.category.LAUNCHER")
+//            val tvIntent = Intent("android.intent.action.MAIN")
+//            tvIntent.addCategory("android.intent.category.LEANBACK_LAUNCHER")
+//            val launcherItems: MutableList<LaunchPoint> = LinkedList()
+//            val pkgMan = mContext.packageManager
+//            val normLaunchPoints = pkgMan.queryIntentActivities(
+//                mainIntent,
+//                PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA
+//            )
+//            val tvLaunchPoints = pkgMan.queryIntentActivities(
+//                tvIntent,
+//                PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA
+//            )
+//            val rawComponents: MutableMap<String, String> = HashMap()
+//            val allLaunchPoints: MutableList<ResolveInfo> = ArrayList()
+//            if (tvLaunchPoints.size > 0) {
+//                for (itemTvLaunchPoint in tvLaunchPoints) {
+//                    if (itemTvLaunchPoint.activityInfo != null && itemTvLaunchPoint.activityInfo.packageName != null && itemTvLaunchPoint.activityInfo.name != null) {
+//                        rawComponents[itemTvLaunchPoint.activityInfo.packageName] =
+//                            itemTvLaunchPoint.activityInfo.name
+//                        allLaunchPoints.add(itemTvLaunchPoint)
+//                    }
+//                }
+//            }
+//            if (normLaunchPoints.size > 0) {
+//                for (itemRawLaunchPoint in normLaunchPoints) {
+//                    if (itemRawLaunchPoint.activityInfo != null && itemRawLaunchPoint.activityInfo.packageName != null && itemRawLaunchPoint.activityInfo.name != null) {
+//                        // any system app that isn't TV-optimized likely isn't something the user needs or wants [except for Amazon Music & Photos (which apparently don't get leanback launchers :\)]
+//                        if ((prefUtil!!.isAllAppsShown()) ||
+//                            !Util.isSystemApp(mContext, itemRawLaunchPoint.activityInfo.packageName)
+//                        ) {
+//                            if (!rawComponents.containsKey(itemRawLaunchPoint.activityInfo.packageName) &&
+//                                itemRawLaunchPoint.activityInfo.packageName != mContext.packageName &&
+//                                !rawFilter.include(itemRawLaunchPoint) // filter
+//                            ) {
+//                                allLaunchPoints.add(itemRawLaunchPoint)
+//                            } // TODO optimize & don't hardcode
+//                        }
+//                    }
+//                }
+//            }
+//            for (x in 0 until allLaunchPoints.size) {
+//                val info = allLaunchPoints[x]
+//                val activityInfo = info.activityInfo
+//                if (activityInfo != null) {
+//                    launcherItems.add(LaunchPoint(mContext, pkgMan, info))
+//                }
+//            }
+//            return launcherItems
+//        }
+//
+//        public override fun onPostExecute(launcherItems: List<LaunchPoint>) {
+//            synchronized(mLock) {
+//                mAllLaunchPoints = ArrayList()
+//                mAllLaunchPoints.addAll(launcherItems)
+//            }
+//            synchronized(mCachedActions) {
+//                Log.i(TAG, "mCachedActions is empty: " + mCachedActions.isEmpty())
+//                mIsReady = true
+//                mShouldNotify = true
+//                for (onLaunchPointListGeneratorReady in mListeners) {
+//                    // Log.i(TAG, "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.javaClass.name)
+//                    onLaunchPointListGeneratorReady.onLaunchPointListGeneratorReady()
+//                }
+//            }
+//        }
+//    }
+
+    private suspend fun createLaunchPointList(mFilterChannelsActivities: Boolean): List<LaunchPoint> {
+        val mainIntent = Intent("android.intent.action.MAIN")
+        mainIntent.addCategory("android.intent.category.LAUNCHER")
+        val tvIntent = Intent("android.intent.action.MAIN")
+        tvIntent.addCategory("android.intent.category.LEANBACK_LAUNCHER")
+        val launcherItems: MutableList<LaunchPoint> = LinkedList()
+        // This is CPU intensive task so run it on the Default dispatcher
+        val deferred = defaultScope.async {
             val pkgMan = mContext.packageManager
             val normLaunchPoints = pkgMan.queryIntentActivities(
                 mainIntent,
@@ -195,7 +274,7 @@ class LaunchPointList(ctx: Context) {
                                 !rawFilter.include(itemRawLaunchPoint) // filter
                             ) {
                                 allLaunchPoints.add(itemRawLaunchPoint)
-                            } // TODO optimize & don't hardcode
+                            }
                         }
                     }
                 }
@@ -207,24 +286,22 @@ class LaunchPointList(ctx: Context) {
                     launcherItems.add(LaunchPoint(mContext, pkgMan, info))
                 }
             }
-            return launcherItems
         }
-
-        public override fun onPostExecute(launcherItems: List<LaunchPoint>) {
-            synchronized(mLock) {
-                mAllLaunchPoints = ArrayList()
-                mAllLaunchPoints.addAll(launcherItems)
-            }
-            synchronized(mCachedActions) {
-                Log.i(TAG, "mCachedActions is empty: " + mCachedActions.isEmpty())
-                mIsReady = true
-                mShouldNotify = true
-                for (onLaunchPointListGeneratorReady in mListeners) {
-                    // Log.i(TAG, "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.javaClass.name)
-                    onLaunchPointListGeneratorReady.onLaunchPointListGeneratorReady()
-                }
+        deferred.await()
+        synchronized(mLock) {
+            mAllLaunchPoints = ArrayList()
+            mAllLaunchPoints.addAll(launcherItems)
+        }
+        synchronized(mCachedActions) {
+            Log.i(TAG, "mCachedActions is empty: " + mCachedActions.isEmpty())
+            mIsReady = true
+            mShouldNotify = true
+            for (onLaunchPointListGeneratorReady in mListeners) {
+                // Log.i(TAG, "onLaunchPointListGeneratorReady->className:" + onLaunchPointListGeneratorReady.javaClass.name)
+                onLaunchPointListGeneratorReady.onLaunchPointListGeneratorReady()
             }
         }
+        return launcherItems
     }
 
     fun setExcludeChannelActivities(excludeChannelActivities: Boolean) {
@@ -274,7 +351,7 @@ class LaunchPointList(ctx: Context) {
     }
 
     fun removePackage(pkgName: String?) {
-        if (!TextUtils.isEmpty(pkgName)) {
+        if (!pkgName.isNullOrEmpty()) {
             synchronized(mCachedActions) {
                 if (mIsReady) {
                     synchronized(mLock) {
@@ -313,7 +390,7 @@ class LaunchPointList(ctx: Context) {
 
     @JvmOverloads
     fun addToBlacklist(pkgName: String?, updatable: Boolean = true): Boolean {
-        if (TextUtils.isEmpty(pkgName)) {
+        if (pkgName.isNullOrEmpty()) {
             return false
         }
         synchronized(mCachedActions) {
@@ -368,7 +445,7 @@ class LaunchPointList(ctx: Context) {
     }
 
     private fun removeFromBlacklist(pkgName: String?, force: Boolean, updatable: Boolean): Boolean {
-        if (TextUtils.isEmpty(pkgName)) {
+        if (pkgName.isNullOrEmpty()) {
             return false
         }
         synchronized(mCachedActions) {
@@ -470,27 +547,27 @@ class LaunchPointList(ctx: Context) {
         pkgName: String?,
         remove: Boolean
     ): List<LaunchPoint> {
-        var removeLaunchPoints: MutableList<LaunchPoint>? = removeLaunchPoints
-        if (removeLaunchPoints == null) {
-            removeLaunchPoints = ArrayList()
+        var rLaunchPoints: MutableList<LaunchPoint>? = removeLaunchPoints
+        if (rLaunchPoints == null) {
+            rLaunchPoints = ArrayList()
         }
         val itt = parentList.iterator()
         while (itt.hasNext()) {
             val lp = itt.next()
-            if (TextUtils.equals(pkgName, lp.packageName)) {
-                removeLaunchPoints.add(lp)
+            if (pkgName.equals(lp.packageName)) {
+                rLaunchPoints.add(lp)
                 if (remove) {
                     itt.remove()
                 }
             }
         }
-        return removeLaunchPoints
+        return rLaunchPoints
     }
 
     val allLaunchPoints: ArrayList<LaunchPoint>
         get() {
             val allLaunchPoints = arrayListOf<LaunchPoint>()
-            if (mAllLaunchPoints != null && mAllLaunchPoints.size > 0) {
+            if (mAllLaunchPoints.size > 0) {
                 for (lp in mAllLaunchPoints) {
                     if (!isBlacklisted(lp.packageName)) {
                         allLaunchPoints.add(lp)
@@ -543,7 +620,7 @@ class LaunchPointList(ctx: Context) {
     }
 
     fun getSettingsLaunchPoints(force: Boolean): ArrayList<LaunchPoint> {
-        if (force || mSettingsLaunchPoints == null) {
+        if (force || mSettingsLaunchPoints.isEmpty()) {
             mSettingsLaunchPoints = createSettingsList()
         }
 //        for (lp in mSettingsLaunchPoints) {
@@ -558,7 +635,8 @@ class LaunchPointList(ctx: Context) {
             mIsReady = false
             mShouldNotify = false
         }
-        CreateLaunchPointListTask(mExcludeChannelActivities).execute()
+        //CreateLaunchPointListTask(mExcludeChannelActivities).execute()
+        mainScope.launch { createLaunchPointList(mExcludeChannelActivities) }
     }
 
     val isReady: Boolean
@@ -610,6 +688,7 @@ class LaunchPointList(ctx: Context) {
     }
 
     private val channelActivities: Set<ComponentName>
+        @RequiresApi(Build.VERSION_CODES.N)
         get() {
             val channelActivities = HashSet<ComponentName>()
             for (info in mContext.packageManager.queryIntentActivities(
@@ -643,12 +722,12 @@ class LaunchPointList(ctx: Context) {
             PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA
         )
         val specialEntries = HashMap<ComponentName?, Int>()
-        var comp = searchComponentForAction("android.settings.WIFI_SETTINGS")
-        specialEntries[comp] = SettingsType.WIFI.code
+        var component = searchComponentForAction("android.settings.WIFI_SETTINGS")
+        specialEntries[component] = SettingsType.WIFI.code
         if (Util.isPackageEnabled(mContext, "com.android.tv.settings")) {
-            comp =
+            component =
                 ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity")
-            specialEntries[comp] = SettingsType.WIFI.code
+            specialEntries[component] = SettingsType.WIFI.code
         }
         for (ptr in 0 until rawLaunchPoints.size) {
             val info = rawLaunchPoints[ptr]
@@ -659,7 +738,7 @@ class LaunchPointList(ctx: Context) {
             }
             if (info.activityInfo != null) {
                 lp = LaunchPoint(mContext, pkgMan, info, false, type)
-                lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK) // 32768 (0x8000)
+                lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 // lp.setPriority(0);
                 settingsItems.add(lp)
             }
@@ -756,7 +835,7 @@ class LaunchPointList(ctx: Context) {
 
     @SuppressLint("WrongConstant")
     private fun packageHasSettingsEntry(packageName: String?): Boolean {
-        mSettingsLaunchPoints?.let { slp ->
+        mSettingsLaunchPoints.let { slp ->
             for (i in slp.indices) {
                 if (slp[i].packageName.equals(packageName)) {
                     return true
@@ -772,12 +851,10 @@ class LaunchPointList(ctx: Context) {
         for (ptr in 0 until rawLaunchPoints.size) {
             val info = rawLaunchPoints[ptr]
             if (info.activityInfo != null) {
-                //boolean system = (info.activityInfo.applicationInfo.flags & 1) != 0
+                // boolean system = (info.activityInfo.applicationInfo.flags & 1) != 0
                 // Why discriminate against user-space settings app?
-                if (/*system &&*/TextUtils.equals(
-                        info.activityInfo.applicationInfo.packageName,
-                        packageName
-                    )
+                if ( /* system && */
+                    info.activityInfo.applicationInfo.packageName.equals(packageName)
                 ) {
                     return true
                 }
@@ -792,7 +869,6 @@ class LaunchPointList(ctx: Context) {
         } else ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name)
     }
 
-    @SuppressLint("QueryPermissionsNeeded", "WrongConstant")
     private fun searchComponentForAction(action: String): ComponentName? {
         val aIntent = Intent(action)
         val launchPoints = mContext.packageManager.queryIntentActivities(
