@@ -29,6 +29,7 @@ class WallpaperInstaller private constructor(context: Context) {
     private val mWallpaperInstalled: Boolean
     private val TAG =
         if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+//    private val bgScope = CoroutineScope(Dispatchers.IO)
 
     class WallpaperChangedReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -40,6 +41,10 @@ class WallpaperInstaller private constructor(context: Context) {
     fun installWallpaperIfNeeded() {
         if (!mWallpaperInstalled && !mInstallationPending) {
             mInstallationPending = true
+// FIXME
+//            bgScope.launch {
+//                installWallpaper()
+//            }
 //            object : AsyncTask<Any?, Any?, Any?>() {
 //                override fun doInBackground(vararg params: Any?): Any? {
 //                    installWallpaper()
