@@ -379,18 +379,26 @@ class LaunchPoint {
         private fun getColor(context: Context, bitmap: Bitmap): Int {
             val p = Palette.from(bitmap).generate()
             var swatch = p.darkMutedSwatch
-            if (swatch != null) return swatch.rgb else if (p.lightMutedSwatch.also {
+            when {
+                swatch != null -> return swatch.rgb
+                p.lightMutedSwatch.also {
                     swatch = it
-                } != null) return swatch!!.rgb else if (p.vibrantSwatch.also {
+                } != null -> return swatch!!.rgb
+                p.vibrantSwatch.also {
                     swatch = it
-                } != null) return swatch!!.rgb else if (p.mutedSwatch.also {
+                } != null -> return swatch!!.rgb
+                p.mutedSwatch.also {
                     swatch = it
-                } != null) return swatch!!.rgb else if (p.darkVibrantSwatch.also {
+                } != null -> return swatch!!.rgb
+                p.darkVibrantSwatch.also {
                     swatch = it
-                } != null) return swatch!!.rgb else if (p.darkMutedSwatch.also {
+                } != null -> return swatch!!.rgb
+                p.darkMutedSwatch.also {
                     swatch = it
-                } != null) return swatch!!.rgb
-            return ContextCompat.getColor(context, R.color.banner_background) // for API 22
+                } != null -> return swatch!!.rgb
+                // for API 22
+                else -> return ContextCompat.getColor(context, R.color.banner_background)
+            }
         }
 
         fun isTranslucentTheme(myContext: Context, info: ResolveInfo): Boolean {
