@@ -25,7 +25,7 @@ class NotificationListenerMonitor : Service() {
 
     companion object {
         private const val TAG = "NotifyListenerMonitor"
-        private const val MAXIMUM_RECONNECT_ATTEMPTS = 15
+        private const val MAXIMUM_RECONNECT_ATTEMPTS = 12
     }
 
     override fun onCreate() {
@@ -42,7 +42,7 @@ class NotificationListenerMonitor : Service() {
                         toggleNotificationListenerService()
                         mReconnectAttempts++
                     } else {
-                        Log.d(TAG, "Exit Notification listener monitor. Max 15 attempts reached.")
+                        Log.d(TAG, "Exit Notification listener monitor.")
                         timer[0].cancel()
                     }
                 }
