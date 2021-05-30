@@ -1,6 +1,5 @@
 package com.amazon.tv.leanbacklauncher.notifications
 
-import android.text.TextUtils
 import com.amazon.tv.tvrecommendations.TvRecommendation
 
 internal object NotificationUtils {

@@ -38,7 +38,7 @@ abstract class NotificationsServiceAdapter<VH : RecyclerView.ViewHolder?>(
         synchronized(this) {
             if (sHandlerThread == null) {
                 sHandlerThread = HandlerThread(javaClass.name)
-                sHandlerThread!!.start()
+                sHandlerThread?.start()
             }
         }
         mBackgroundHandler = Handler(sHandlerThread!!.looper)
@@ -352,7 +352,7 @@ abstract class NotificationsServiceAdapter<VH : RecyclerView.ViewHolder?>(
     }
 
     private fun removeRecommendation(rec: TvRecommendation?) {
-        if (rec == null) return  // todo
+        if (rec == null) return  // TODO
         val masterList = masterList
         var found = false
         val size = masterList.size

@@ -23,7 +23,8 @@ abstract class NotificationsViewAdapter<VH : RecyclerView.ViewHolder?> internal 
     private var mHomeScreenMessaging: HomeScreenMessaging? = null
     private val mMasterList = ArrayList<TvRecommendation?>()
     private var mPrioritizeRowUpdateState: PrioritizeRowUpdateState<VH>? = null
-    private val mRecommendationToBeRemoved: MutableSet<TvRecommendation?> = ArraySet<TvRecommendation?>()
+    private val mRecommendationToBeRemoved: MutableSet<TvRecommendation?> =
+        ArraySet<TvRecommendation?>()
     private val mSyncedList = ArrayList<TvRecommendation?>()
     var uiState = 0
         private set
@@ -176,9 +177,7 @@ abstract class NotificationsViewAdapter<VH : RecyclerView.ViewHolder?> internal 
     protected abstract val isPartnerClient: Boolean
     protected abstract fun onRecommendationDismissed(tvRecommendation: TvRecommendation?)
     protected fun onClearRecommendations(reason: Int) {
-        if (mHomeScreenMessaging != null) {
-            mHomeScreenMessaging!!.onClearRecommendations(reason)
-        }
+        mHomeScreenMessaging?.onClearRecommendations(reason)
     }
 
     override fun getItemCount(): Int {
@@ -213,9 +212,8 @@ abstract class NotificationsViewAdapter<VH : RecyclerView.ViewHolder?> internal 
     }
 
     private fun updateRowVisibility() {
-        if (mHomeScreenMessaging != null) {
-            mHomeScreenMessaging!!.recommendationsUpdated(mSyncedList.size > 0)
-        }
+        mHomeScreenMessaging?.recommendationsUpdated(mSyncedList.size > 0)
+
     }
 
     fun onUiVisible() {
