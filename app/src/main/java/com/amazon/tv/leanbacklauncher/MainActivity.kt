@@ -596,10 +596,26 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
     private fun initializeWeather() {
         localWeather?.let { lw ->
+            // lang
             val ul = Locale.getDefault().isO3Language
+            when {
+                ul.equals("rus", true) -> lw.lang = Lang.RUSSIAN
+                ul.equals("ukr", true) -> lw.lang = Lang.UKRAINIAN
+                ul.equals("ita", true) -> lw.lang = Lang.ITALIAN
+                ul.equals("fra", true) -> lw.lang = Lang.FRENCH
+                ul.equals("esp", true) -> lw.lang = Lang.SPANISH
+                ul.equals("deu", true) -> lw.lang = Lang.GERMAN
+                else -> lw.lang = Lang.ENGLISH
+            }
+            // units
             val uc = Locale.getDefault().isO3Country
-            lw.lang = if (ul.equals("rus", true)) Lang.RUSSIAN else Lang.ENGLISH // Lang.ENGLISH
-            lw.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC // Units.METRIC
+            when {
+                uc.equals("usa", true) ||
+                uc.equals("lbr", true) ||
+                uc.equals("mmr", true) -> lw.unit = Units.IMPERIAL
+                else -> lw.unit = Units.METRIC
+            }
+            lw.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC
 
             if (RowPreferences.isUseLocationEnabled(this) && !Util.isAmazonDev(this)) {
                 lw.useCurrentLocation = true
@@ -939,13 +955,13 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 it.text = if (localWeather!!.lang == Lang.RUSSIAN) getString(
                     R.string.weather_pressure,
                     format(Locale.getDefault(), "%.0f", weather.pressure / 1.333), // mmHg
-                    getString(R.string.weather_pressure_unit)
+                    getString(R.string.weather_pressure_mm)
                 )
                 else
                     getString(
                         R.string.weather_pressure,
                         weather.pressure.toInt().toString(), // hPa
-                        getString(R.string.weather_pressure_unit)
+                        getString(R.string.weather_pressure_hp)
                     )
             }
             // humidity

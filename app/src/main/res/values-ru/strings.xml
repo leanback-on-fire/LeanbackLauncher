@@ -227,7 +227,8 @@ com.amazon.device.sale.service
     <string name="weather_home_description">Местная погода и прогноз на главной странице</string>
     <string name="weather_humidity">вл.%1$d%%</string>
     <string name="weather_pressure">давл.%1$s %2$s</string>
-    <string name="weather_pressure_unit">мм</string>
+    <string name="weather_pressure_hp">гПа</string>
+    <string name="weather_pressure_mm">мм</string>
     <string name="weather_speed_m">м/с</string>
     <string name="weather_speed_i">миль/ч</string>
     <string name="weather_wind">ветер %3$s %1$s %2$s</string>
