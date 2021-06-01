@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Spróbuj wyszukać \"Will Smith\"</item>
+        <item>Spróbuj wyszukać \"Michael Fassbender\"</item>
+        <item>Spróbuj wyszukać \"Jennifer Lawrence\"</item>
+        <item>Spróbuj wyszukać \"Tomasz Karolak\"</item>
+        <item>Spróbuj wyszukać \"koedie romantyczne\"</item>
+        <item>Spróbuj wyszukać \"filmy Sci-Fi\"</item>
+        <item>Spróbuj wyszukać \"filmy akcji\"</item>
+        <item>Spróbuj wyszukać \"Thrillery\"</item>
+        <item>Spróbuj wyszukać \"Star Trek\"</item>
+        <item>Spróbuj wyszukać \"Sherlock\"</item>
+        <item>Spróbuj wyszukać \"X Factor\"</item>
+        <item>Spróbuj wyszukać \"Star Trek\"</item>
+        <item>Spróbuj wyszukać \"Midsomer Murders\"</item>
+        <item>Spróbuj wyszukać \"Zdjęcia Beyonce\"</item>
+        <item>Spróbuj wyszukać \"Zdjecia Londynu\"</item>
+        <item>Spróbuj wyszukać \"Zdjęcia Godzilli\"</item>
+        <item>Zapytaj, \"Ile lat ma Jarosław Kaczyński?\""</item>
+        <item>Zapytaj, \"Jak nazywa się Doda?\""</item>
+        <item>Zapytaj, \"Ile lat ma Madonna?\""</item>
+        <item>Zapytaj, \"Ile wzrostu ma Tom Cruise?\""</item>
+        <item>Zapytaj, \"Jaka jest pogoda w Londynie?\""</item>
+        <item>Zapytaj, \"Jaka jest pogoda w Nowym Yorku?\""</item>
+        <item>Zapytaj, \"Jaka jest pogoda w Warszawie?\""</item>
+        <item>Zapytaj, \"Jaka jest pogoda w Paryżu?\""</item>
+        <item>Zapytaj, \"Ile wzrostu ma Brad Pitt?\"</item>
+        <item>Zapytaj, \"Jak ciepłe jest słońce?\"</item>
+        <item>Zapytaj, \"Kiedy urodził się Andrzej Duda?\"</item>
+        <item>Powiedz, \"Włącz YouTube\"</item>
+        <item>Powiedz, \"Włącz Netflix\"</item>
+    </string-array>
+</resources>
