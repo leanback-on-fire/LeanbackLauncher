@@ -302,7 +302,9 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
             }
             while (!mCachedActions.isEmpty()) {
                 val action = mCachedActions.remove()
-                onAction(action!!.key, action.component, action.group, action.action)
+                action?.let {
+                    onAction(action.key, action.component, action.group, action.action)
+                }
             }
             if (!initialRankingApplied(mContext)) {
                 val outOfBoxOrder = outOfBoxOrder
