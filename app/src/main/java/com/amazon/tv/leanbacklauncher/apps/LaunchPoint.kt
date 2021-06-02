@@ -406,11 +406,11 @@ class LaunchPoint {
                 val theme = myContext.createPackageContext(
                     info.activityInfo.applicationInfo.packageName,
                     0
-                ).theme
-                theme.applyStyle(info.activityInfo.themeResource, true)
-                val a = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowIsTranslucent))
-                val windowIsTranslucent = a.getBoolean(0, false)
-                a.recycle()
+                )?.theme
+                theme?.applyStyle(info.activityInfo.themeResource, true)
+                val a = theme?.obtainStyledAttributes(intArrayOf(android.R.attr.windowIsTranslucent))
+                val windowIsTranslucent = a?.getBoolean(0, false) ?: false
+                a?.recycle()
                 windowIsTranslucent
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()

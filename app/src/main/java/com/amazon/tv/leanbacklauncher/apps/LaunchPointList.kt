@@ -729,7 +729,7 @@ class LaunchPointList(ctx: Context) {
                 ComponentName.unflattenFromString("com.android.tv.settings/.connectivity.NetworkActivity")
             specialEntries[component] = SettingsType.WIFI.code
         }
-        for (ptr in 0 until rawLaunchPoints.size) {
+        for (ptr in rawLaunchPoints.indices) {
             val info = rawLaunchPoints[ptr]
             val comp = getComponentName(info)
             var type = -1
