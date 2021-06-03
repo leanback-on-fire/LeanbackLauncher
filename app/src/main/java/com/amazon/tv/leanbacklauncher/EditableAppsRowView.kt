@@ -16,7 +16,6 @@ import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.recyclerview.widget.RecyclerView
-import com.amazon.tv.firetv.leanbacklauncher.apps.FavoritesAdapter
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getBannersSize
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer
 import com.amazon.tv.leanbacklauncher.apps.*
@@ -230,9 +229,9 @@ class EditableAppsRowView @JvmOverloads constructor(
             getViewPackageName(lastFocusedViewHolder.itemView)!!
     }
 
-    private fun getViewLaunchPoint(view: View): LaunchPoint? {
+    private fun getViewLaunchPoint(view: View?): LaunchPoint? {
         if (adapter is AppsAdapter) {
-            val position = getChildAdapterPosition(view)
+            val position = view?.let { getChildAdapterPosition(it) } ?: -1
             val adapter = adapter as AppsAdapter?
             if (!(adapter == null || position == -1)) {
                 return adapter.getLaunchPointForPosition(position)
@@ -241,7 +240,7 @@ class EditableAppsRowView @JvmOverloads constructor(
         return null
     }
 
-    private fun getViewPackageName(view: View): String? {
+    private fun getViewPackageName(view: View?): String? {
         val lp = getViewLaunchPoint(view)
         return lp?.packageName
     }
