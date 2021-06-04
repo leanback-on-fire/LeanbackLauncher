@@ -73,6 +73,7 @@ object AppCategorizer {
         "pl.redefine.ipla",
         "pl.tvn.player.tv",
         "player.online",
+        "player.clouddy.online",
         "planeta.tv",
         "raintv",
         "redbull.rbtv",
