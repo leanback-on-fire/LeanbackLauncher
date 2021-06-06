@@ -361,14 +361,14 @@ class LaunchPoint {
                 val theme = myContext.createPackageContext(
                     info.activityInfo.applicationInfo.packageName,
                     0
-                ).theme
-                theme.applyStyle(info.activityInfo.themeResource, true)
-                val a = theme.obtainStyledAttributes(intArrayOf(android.R.attr.colorPrimary))
-                val color = a.getColor(
+                )?.theme
+                theme?.applyStyle(info.activityInfo.themeResource, true)
+                val a = theme?.obtainStyledAttributes(intArrayOf(android.R.attr.colorPrimary))
+                val color = a?.getColor(
                     0,
                     ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
-                )
-                a.recycle()
+                ) ?: ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
+                a?.recycle()
                 color
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
