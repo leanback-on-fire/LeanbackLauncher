@@ -17,6 +17,7 @@ object AppCategorizer {
         "bbc.iplayer",
         "beeline.ott",
         "bloomberg",
+        "brouken.player",
         "cbs",
         "cn.tv",
         "com.canal.android",
