@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string" translatable="false">0.5</item>
-    <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string" translatable="false">0.25</item>
-    <item name="lb_guidedactions_item_disabled_text_alpha" type="string" translatable="false">0.25</item>
-    <item name="lb_guidedactions_item_enabled_chevron_alpha" type="string" translatable="false">1.0</item>
-    <item name="lb_guidedactions_item_unselected_description_text_alpha" type="string" translatable="false">0.5</item>
-    <item name="lb_guidedactions_item_unselected_text_alpha" type="string" translatable="false">1.0</item>
-    <item name="lb_guidedactions_width_weight" type="string" translatable="false">0.71428573</item>
-    <item name="lb_guidedactions_width_weight_two_panels" type="string" translatable="false">1.1917808</item>
-    <item name="lb_guidedbuttonactions_width_weight" type="string" translatable="false">0.45</item>
-    <item name="lb_guidedstep_height_weight" type="string" translatable="false">2.0</item>
-    <item name="lb_guidedstep_height_weight_translucent" type="string" translatable="false">1.0</item>
-    <item name="lb_guidedstep_keyline" type="string" translatable="false">40.0</item>
-    <string name="abc_action_bar_home_description">Ekran Główny</string>
+<resources>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_description">Ekran Główny</string>
     <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
     <string name="abc_action_bar_up_description">W górę</string>
     <string name="abc_action_menu_overflow_description">Więcej opcji</string>
@@ -22,18 +10,6 @@
     <string name="abc_activitychooserview_choose_application">Wybierz aplikację</string>
     <string name="abc_capital_off">Wyłącz</string>
     <string name="abc_capital_on">Włącz</string>
-    <string name="abc_font_family_body_1_material" translatable="false">sans-serif</string>
-    <string name="abc_font_family_body_2_material" translatable="false">sans-serif-medium</string>
-    <string name="abc_font_family_button_material" translatable="false">sans-serif-medium</string>
-    <string name="abc_font_family_caption_material" translatable="false">sans-serif</string>
-    <string name="abc_font_family_display_1_material" translatable="false">sans-serif</string>
-    <string name="abc_font_family_display_2_material" translatable="false">sans-serif</string>
-    <string name="abc_font_family_display_3_material" translatable="false">sans-serif</string>
-    <string name="abc_font_family_display_4_material" translatable="false">sans-serif-light</string>
-    <string name="abc_font_family_headline_material" translatable="false">sans-serif</string>
-    <string name="abc_font_family_menu_material" translatable="false">sans-serif</string>
-    <string name="abc_font_family_subhead_material" translatable="false">sans-serif</string>
-    <string name="abc_font_family_title_material" translatable="false">sans-serif-medium</string>
     <string name="abc_search_hint">Szukaj…</string>
     <string name="abc_searchview_description_clear">Wyczyść zapytanie</string>
     <string name="abc_searchview_description_query">Wyszukiwana fraza</string>
@@ -54,14 +30,13 @@
     <string name="app_name">LeanbackOnFire</string>
     <string name="app_releases">Wszystkie wersje dostępne na</string>
     <string name="apps_order_pref_label">Sortuj automatycznie według ostatniego użycia</string>
-    <string name="banners_prefs_title">Wygląd banerów</string>
-    <string name="banners_prefs_desc">Opcje banerów aplikacji</string>
     <string name="banners_corners_radius">Corners Radius (px)</string>
-    <string name="banners_frame_width">Szerokość Baneru (px)</string>
+    <string name="banners_frame_color_desc">Dla koloru akceptowane są również następujące wartości: #RRGGBB, czerwony, niebieski, zielony, czarny, biały, szary, cyjan, magenta, żółty, jasny szary, ciemny szary, szary, lekki szary, mocny szary, wodny, fuksja, limonkowy, bordowy, ciemnoniebieski, oliwkowy, fioletowy, srebrny, turkusowy.</string>
     <string name="banners_frame_color">Kolor Baneru</string>
-    <string name="banners_frame_color_desc">Dla koloru akceptowane są również następujące wartości: #RRGGBB, czerwony, niebieski, zielony, czarny, biały, szary, cyjan, magenta, żółty, jasny szary, ciemny szary, szary, lekki szary, mocny szary, wodny, fuksja, limonkowy, bordowy, ciemnoniebieski
-, oliwkowy, fioletowy, srebrny, turkusowy.</string>
-    <string name="banners_size">Rozmiar Baneru (50-200%)</string>
+    <string name="banners_frame_width">Szerokość Baneru (px)</string>
+    <string name="banners_prefs_desc">Opcje banerów aplikacji</string>
+    <string name="banners_prefs_title">Wygląd banerów</string>
+    <string name="banners_size">Rozmiar Baneru (50–200%)</string>
     <string name="category_label_apps">Aplikacje</string>
     <string name="category_label_favorites">Ulubione</string>
     <string name="category_label_games">Gry</string>
@@ -86,7 +61,7 @@
     <string name="common_open_on_phone">Otwórz na telefonie</string>
     <string name="common_signin_button_text_long">Zaloguj się przez Google</string>
     <string name="common_signin_button_text">Zaloguj się</string>
-    <string name="customize_app_order_action_title">Zmień kolejność aplikacji/string>
+    <string name="customize_app_order_action_title">Zmień kolejność aplikacji</string>
     <string name="customize_game_order_action_title">Zmień kolejność gier</string>
     <string name="downloading">Pobieranie…</string>
     <string name="edit_finish_button_text">Gotowe</string>
@@ -94,6 +69,7 @@
     <string name="edit_uninstall_focused_text">Odinstaluj</string>
     <string name="enable_local_weather_title">Włącz lokalną pogodę</string>
     <string name="enable_local_weather_description">Pokaż aktualną pogodę</string>
+    <string name="error_app_not_found">Nie znaleziono odpowiednich aplikacji</string>
     <string name="failed_launch">"Nie można tego teraz otworzyć"</string>
     <string name="favorites_row_title">Pokaż rząd ulubionych</string>
     <string name="file_no_access">Plik niedostępny!</string>
@@ -102,8 +78,6 @@
     <string name="focused_search_hint_text">Kliknij aby wyszukać</string>
     <string name="focused_search_keyboard_hint_text">Kliknij, aby pisać</string>
     <string name="focused_search_mic_hint_text">Kliknij, aby mówić</string>
-    <string name="font" translatable="false">sans-serif-condensed</string>
-    <string name="goback" translatable="false">[ .. ]</string>
     <string name="games_row_title">Pokaż wiersz gier</string>
     <string name="hidden_applications_desc">Wybrane aplikacje są ukryte na ekranie głównym</string>
     <string name="hidden_applications_title">Ukryte apliacje</string>
@@ -156,7 +130,6 @@
     <string name="lb_search_bar_hint_with_title">Szukaj %1$s</string>
     <string name="lb_search_bar_hint_with_title_speech">Powiedz aby wyszukać %1$s</string>
     <string name="lb_time_separator">:</string>
-    <string name="light_font" translatable="false">sans-serif-light</string>
     <string name="location_note">Zezwolenie na lokalizację wymagane dla wskaźnika stanu sieci Wi-Fi w systemie Android Marshmallow i nowszym</string>
     <string name="max_apps_rows_title">Max liczba rzędóœ aplikacji</string>
     <string name="max_col_title">Widoczne kolumny</string>
@@ -178,28 +151,6 @@
     <string name="now_playing_card_playing">Teraz odtwarzane</string>
     <string name="now_playing_card_stopped">zatrzymane</string>
     <string name="orb_search_action">Wyszukiwanie</string>
-    <string name="pref_banner_corner_radius" translatable="false">banner_corner_radius</string>
-    <string name="pref_banner_focus_frame_color" translatable="false">banner_focus_frame_color</string>
-    <string name="pref_banner_frame_stroke" translatable="false">banner_frame_stroke</string>
-    <string name="pref_banner_size" translatable="false">banner_size</string>
-    <string name="pref_enable_favorites_row" translatable="false">enable_favorites_row</string>
-    <string name="pref_enable_games_row" translatable="false">enable_games_row</string>
-    <string name="pref_enable_inputs_row" translatable="false">enable_inputs_row</string>
-    <string name="pref_enable_local_weather" translatable="false">enable_local_weather</string>
-    <string name="pref_enable_music_row" translatable="false">enable_music_row</string>
-    <string name="pref_enable_recommendations_row" translatable="false">enable_recommendations_row</string>
-    <string name="pref_enable_videos_row" translatable="false">enable_videos_row</string>
-    <string name="pref_show_location" translatable="false">show_location</string>
-    <string name="pref_use_current_location" translatable="false">use_current_location</string>
-    <string name="pref_user_location" translatable="false">user_location</string>
-    <string name="pref_max_apps_rows" translatable="false">max_apps_rows</string>
-    <string name="pref_max_apps" translatable="false">max_apps</string>
-    <string name="pref_max_favorites_rows" translatable="false">max_favorites_rows</string>
-    <string name="pref_max_games_rows" translatable="false">max_games_rows</string>
-    <string name="pref_max_music_rows" translatable="false">max_music_rows</string>
-    <string name="pref_max_videos_rows" translatable="false">max_videos_rows</string>
-    <string name="primes_marker" translatable="false">PrImEs</string>
-    <string name="primes_version" translatable="false">174122153</string>
     <string name="progress_percent">%1$d%%</string>
     <string name="rec_soures_empty">Brak źródeł rekomendacji</string>
     <string name="recency_order_action_description">Aplikacje i gry uporządkowane na podstawie ostatniego użycia</string>
@@ -222,7 +173,6 @@ pm grant com.amazon.tv.leanbacklauncher android.permission.WRITE_SECURE_SETTINGS
 You need to disable package:
 com.amazon.device.sale.service
 or recommendations will not work properly."</string>
-    <string name="regular_font" translatable="false">sans-serif</string>
     <string name="reset_wallpaper_action_title">Resetuj tapetę</string>
     <string name="reset_wallpaper_action_desc">Użyj domyślnego obrazu</string>
     <string name="restore_pending">Przywróć oczekujące…</string>
@@ -267,7 +217,6 @@ or recommendations will not work properly."</string>
     <string name="use_current_location_description">Automatyczne wykrywanie lokalizacji przez system operacyjny (wymagane usługi Google i pozwolenie na lokalizację)</string>
     <string name="user_location_title">Lokalizacja użytkownika</string>
     <string name="user_location_warning">Lokalizacja użytkownika dla pogody nie jest ustawiona w preferencjach</string>
-    <string name="error_app_not_found">Nie znaleziono odpowiednich aplikacji</string>
     <string name="v7_preference_off">Wyłącz</string>
     <string name="v7_preference_on">Włącz</string>
     <string name="version">Wersja aplikacji</string>
@@ -278,8 +227,6 @@ or recommendations will not work properly."</string>
     <string name="weather_home_title">Preferencje pogodowe</string>
     <string name="weather_home_description">Prognoza pogody na ekranie głównym</string>
     <string name="weather_humidity">hum.%1$d%%</string>
-    <string name="weather_max">↑</string>
-    <string name="weather_min">↓</string>
     <string name="weather_pressure">%1$s %2$s</string>
     <string name="weather_pressure_hp">hPa</string>
     <string name="weather_pressure_mm">mmHg</string>
