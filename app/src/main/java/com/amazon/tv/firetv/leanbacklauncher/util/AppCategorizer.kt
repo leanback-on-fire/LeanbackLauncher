@@ -25,6 +25,7 @@ object AppCategorizer {
         "com.lgi.orionandroid.tv",
         "com.nhl",
         "com.plexapp",
+        "com.senchick.viewbox",
         "com.tvp.vod.tv",
         "com.vgtrk",
         "courville.nova",
