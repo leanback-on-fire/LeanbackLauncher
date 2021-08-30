@@ -26,7 +26,7 @@ object AppCategorizer {
         "com.nhl",
         "com.plexapp",
         "com.senchick.viewbox",
-        "com.tvp.vod.tv",
+        "com.tvp.vodtv",
         "com.vgtrk",
         "courville.nova",
         "ctcmediagroup.ctc",
@@ -74,6 +74,7 @@ object AppCategorizer {
         "ottplay",
         "pl.redefine.ipla",
         "pl.tvn.player.tv",
+        "pl.tvp.tvp_sport",
         "player.online",
         "player.clouddy.online",
         "planeta.tv",
@@ -151,6 +152,7 @@ object AppCategorizer {
         "android.play.games",
         "signaltalk",
         "tetris",
+        "com.google.stadia.androidtv",
     )
 
     fun getAppCategory(pkgName: String?, actInfo: ActivityInfo?): AppCategory {
