@@ -131,14 +131,14 @@
     <string name="lb_search_bar_hint_with_title_speech">Powiedz aby wyszukać %1$s</string>
     <string name="lb_time_separator">:</string>
     <string name="location_note">Zezwolenie na lokalizację wymagane dla wskaźnika stanu sieci Wi-Fi w systemie Android Marshmallow i nowszym</string>
-    <string name="max_apps_rows_title">Max liczba rzędóœ aplikacji</string>
+    <string name="max_apps_rows_title">Max liczba rzędów aplikacji</string>
     <string name="max_col_title">Widoczne kolumny</string>
     <string name="max_favorites_rows_title">Max liczba rzędów ulubionych</string>
     <string name="max_games_rows_title">Maks. liczba rzędów gier</string>
     <string name="max_music_rows_title">Maks. liczba rzędów muzyki</string>
     <string name="max_videos_rows_title">Maks. liczba rzędóœ wideo</string>
     <string name="mic_search_accessibility_hint">Wybierz, aby powiedzieć zapytanie</string>
-    <string name="music_row_title">Pokaż rząd mysuki</string>
+    <string name="music_row_title">Pokaż rząd muzyki</string>
     <string name="notif_service_name">Usługa powiadomień</string>
     <string name="notification_card_view_description_default">Brak tytułu</string>
     <string name="notification_card_view_description_label_content">%1$s %2$s</string>
