@@ -89,6 +89,7 @@ object AppCategorizer {
         "ru.rutube",
         "ru.start",
         "ru.tv1",
+        "ru.twicker.lampa",
         "ru.yourok",
         "schabi",
         "serials",

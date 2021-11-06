@@ -24,7 +24,7 @@ class LegacyAppsAndGamesPreferenceFragment : GuidedStepSupportFragment() {
     override fun onResume() {
         super.onResume()
         val actions = ArrayList<GuidedAction>()
-        val sortingMode = getSavedSortingMode(activity)
+        val sortingMode = getSavedSortingMode(requireContext())
         actions.add(
             GuidedAction.Builder(activity).id(1).title(R.string.edit_row_title)
                 .description(R.string.select_app_customize_rows_title).build()

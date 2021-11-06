@@ -186,27 +186,26 @@ class VersionPreferenceFragment : LeanbackPreferenceFragmentCompat() {
  * The fragment that is defined in prefs.xml
  */
 class HomePreferenceFragment : LeanbackPreferenceFragmentCompat() {
-
+    private val appContext = App.getContext()
+    private val sortingMode = AppsManager.getSavedSortingMode(appContext)
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.home_prefs, rootKey)
-
-        val sortingMode = AppsManager.getSavedSortingMode(context)
         findPreference<Preference>("apps_order")?.apply {
             this.summary =
-                if (sortingMode == AppsManager.SortingMode.FIXED) getString(R.string.fixed_order_action_description)
+                if (sortingMode === AppsManager.SortingMode.FIXED) getString(R.string.fixed_order_action_description)
                 else getString(R.string.recency_order_action_description)
         }
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if (preference?.key == "apps_order") {
-            val mode = AppsManager.getSavedSortingMode(context)
-            if (mode == AppsManager.SortingMode.FIXED) {
-                AppsManager.saveSortingMode(context, AppsManager.SortingMode.RECENCY)
+            val curMode = AppsManager.getSavedSortingMode(appContext)
+            if (curMode === AppsManager.SortingMode.FIXED) {
+                AppsManager.saveSortingMode(appContext, AppsManager.SortingMode.RECENCY)
                 preference.summary = getString(R.string.recency_order_action_description)
             } else {
-                AppsManager.saveSortingMode(context, AppsManager.SortingMode.FIXED)
+                AppsManager.saveSortingMode(appContext, AppsManager.SortingMode.FIXED)
                 preference.summary = getString(R.string.fixed_order_action_description)
 
             }

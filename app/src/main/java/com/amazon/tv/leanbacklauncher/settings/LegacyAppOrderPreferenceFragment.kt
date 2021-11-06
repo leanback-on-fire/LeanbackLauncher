@@ -22,7 +22,7 @@ class LegacyAppOrderPreferenceFragment : GuidedStepSupportFragment() {
 
     override fun onCreateActions(actions: MutableList<GuidedAction>, savedInstanceState: Bundle?) {
         var z = true
-        val sortingMode = getSavedSortingMode(activity)
+        val sortingMode = getSavedSortingMode(requireContext())
         actions.add(
             GuidedAction.Builder(activity)
                 .id(1)
@@ -50,11 +50,11 @@ class LegacyAppOrderPreferenceFragment : GuidedStepSupportFragment() {
     override fun onGuidedActionClicked(action: GuidedAction) {
         when (action.id.toInt()) {
             1 -> {
-                saveSortingMode(activity, SortingMode.RECENCY)
+                saveSortingMode(requireContext(), SortingMode.RECENCY)
                 return
             }
             2 -> {
-                saveSortingMode(activity, SortingMode.FIXED)
+                saveSortingMode(requireContext(), SortingMode.FIXED)
                 return
             }
             else -> return

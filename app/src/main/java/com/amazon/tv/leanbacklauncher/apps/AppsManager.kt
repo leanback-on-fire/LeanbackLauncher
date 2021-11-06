@@ -283,17 +283,17 @@ class AppsManager private constructor(private val mContext: Context) :
         }
 
         @JvmStatic
-        fun getSavedSortingMode(context: Context?): SortingMode {
+        fun getSavedSortingMode(context: Context): SortingMode {
             return SortingMode.valueOf(
                 PreferenceManager.getDefaultSharedPreferences(context).getString(
                     "apps_ranker_sorting_mode",
-                    Partner.get(context).appSortingMode.toString()
-                )!!
+                    Partner.get(context).appSortingMode.toString(),
+                ) ?: "FIXED"
             )
         }
 
         @JvmStatic
-        fun saveSortingMode(context: Context?, mode: SortingMode) {
+        fun saveSortingMode(context: Context, mode: SortingMode) {
             PreferenceManager.getDefaultSharedPreferences(context).edit()
                 .putString("apps_ranker_sorting_mode", mode.toString()).apply()
         }
