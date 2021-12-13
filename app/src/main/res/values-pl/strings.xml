@@ -80,7 +80,7 @@
     <string name="focused_search_mic_hint_text">Kliknij, aby mówić</string>
     <string name="games_row_title">Pokaż wiersz gier</string>
     <string name="hidden_applications_desc">Wybrane aplikacje są ukryte na ekranie głównym</string>
-    <string name="hidden_applications_title">Ukryte apliacje</string>
+    <string name="hidden_applications_title">Ukryte aplikacje</string>
     <string name="hidden_applications_empty">Brak ukrytych aplikacji</string>
     <string name="home_screen_order_action_title">Widok ekranu głównego</string>
     <string name="home_screen_order_content_description">Zmień kolejność aplikacji i gier, przytrzymując przycisk wyboru</string>
