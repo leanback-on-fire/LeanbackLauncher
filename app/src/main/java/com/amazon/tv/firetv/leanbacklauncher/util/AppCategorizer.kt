@@ -21,6 +21,7 @@ object AppCategorizer {
         "cbs",
         "cn.tv",
         "com.canal.android",
+        "com.daserste.daserste",
         "com.google.android.tv",
         "com.lgi.orionandroid.tv",
         "com.nhl",
@@ -31,6 +32,7 @@ object AppCategorizer {
         "courville.nova",
         "ctcmediagroup.ctc",
         "dailymotion",
+        "de.swr.ard",
         "disney",
         "divantv",
         "domatv.app",
@@ -156,7 +158,7 @@ object AppCategorizer {
         "android.play.games",
         "signaltalk",
         "tetris",
-        "com.google.stadia.androidtv",
+        "com.google.stadia",
     )
 
     fun getAppCategory(pkgName: String?, actInfo: ActivityInfo?): AppCategory {
