@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <item name="lb_guidedactions_item_disabled_chevron_alpha" type="string" translatable="false">0.5</item>
     <item name="lb_guidedactions_item_disabled_description_text_alpha" type="string" translatable="false">0.25</item>
     <item name="lb_guidedactions_item_disabled_text_alpha" type="string" translatable="false">0.25</item>
@@ -60,7 +60,7 @@
     <string name="banners_frame_width">Frame Width (px)</string>
     <string name="banners_frame_color">Frame Color</string>
     <string name="banners_frame_color_desc">The following values are also accepted for color: #RRGGBB, red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy, olive, purple, silver, teal.</string>
-    <string name="banners_size">Banners Size (50-200%)</string>
+    <string name="banners_size">Banners Size (50–200%)</string>
     <string name="category_label_apps">Apps</string>
     <string name="category_label_favorites">Favorites</string>
     <string name="category_label_games">Games</string>
@@ -194,6 +194,7 @@
     <string name="pref_show_location" translatable="false">show_location</string>
     <string name="pref_use_current_location" translatable="false">use_current_location</string>
     <string name="pref_user_location" translatable="false">user_location</string>
+    <string name="pref_weather_apikey" translatable="false">weather_apikey</string>
     <string name="pref_max_apps_rows" translatable="false">max_apps_rows</string>
     <string name="pref_max_apps" translatable="false">max_apps</string>
     <string name="pref_max_favorites_rows" translatable="false">max_favorites_rows</string>
@@ -276,7 +277,8 @@ or recommendations will not work properly."</string>
     <string name="videos_row_title">Show Videos Row</string>
     <string name="wallpaper_title">Default Wallpaper</string>
     <string name="wallpaper_choose">Put wallpaper image to storage directory root and select here</string>
-    <string name="weather_hilotemp">%1$s-%2$s%3$s</string>
+    <string name="weather_apikey_title">OpenWeatherMap API Key</string>
+    <string name="weather_hilotemp">%1$s %2$s%3$s</string>
     <string name="weather_home_title">Weather Preferences</string>
     <string name="weather_home_description">Local weather and forecast on Home screen</string>
     <string name="weather_humidity">hum.%1$d%%</string>

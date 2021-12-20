@@ -223,7 +223,6 @@ or recommendations will not work properly."</string>
     <string name="videos_row_title">Pokaż rząd Wideo</string>
     <string name="wallpaper_title">Domyślna tapeta</string>
     <string name="wallpaper_choose">Umieść obraz tapety w katalogu głównym pamięci i wybierz tutaj</string>
-    <string name="weather_hilotemp">%1$s-%2$s%3$s</string>
     <string name="weather_home_title">Preferencje pogodowe</string>
     <string name="weather_home_description">Prognoza pogody na ekranie głównym</string>
     <string name="weather_humidity">hum.%1$d%%</string>

@@ -41,6 +41,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
+import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getWeatherApiKey
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowType
 import com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor
 import com.amazon.tv.leanbacklauncher.SearchOrbView.SearchLaunchListener
@@ -473,7 +474,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         if (RowPreferences.isWeatherEnabled(this)) {
             localWeather = LocalWeather(
                 this@MainActivity,
-                "b7a56bb43570189115cb8b2d98cdde5b"
+                getWeatherApiKey(this)
             )
             // initializeWeather() // already in addWidget()
         }
@@ -911,7 +912,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         val detailsVG: ViewGroup? = findViewById(R.id.details)
         val curLocTV: TextView? = findViewById(R.id.curLocation)
 
-        val tempunit = if (localWeather!!.unit == Units.METRIC) "°C" else "°F"
+        val tempunit = if (localWeather!!.unit == Units.METRIC) "℃" else "℉"
 
         // city info
         curLocTV?.let { loc ->

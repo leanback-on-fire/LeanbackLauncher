@@ -12,8 +12,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.App
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4
 import java.util.*
@@ -348,6 +348,15 @@ object RowPreferences {
     fun getUserLocation(context: Context): String? {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         return pref.getString(context.getString(R.string.pref_user_location), "")
+    }
+
+    @JvmStatic
+    fun getWeatherApiKey(context: Context): String {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        return pref.getString(
+            context.getString(R.string.pref_weather_apikey),
+            "b7a56bb43570189115cb8b2d98cdde5b"
+        ) ?: "b7a56bb43570189115cb8b2d98cdde5b"
     }
 
     fun fixRowPrefs() {
