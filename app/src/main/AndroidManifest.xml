@@ -121,6 +121,7 @@
 
         <activity
             android:name=".UpdateActivity"
+            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -149,6 +150,7 @@
         <activity
             android:name="com.amazon.tv.leanbacklauncher.DummyActivity"
             android:enabled="false"
+            android:excludeFromRecents="true"
             android:label="@string/app_label"
             android:stateNotNeeded="true">
             <intent-filter>
@@ -159,6 +161,7 @@
 
         <activity
             android:name="com.amazon.tv.firetv.leanbacklauncher.apps.AppInfoActivity"
+            android:excludeFromRecents="true"
             android:exported="false"
             android:theme="@style/Theme.Leanback.GuidedStep" />
 
