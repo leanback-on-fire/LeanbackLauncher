@@ -339,6 +339,12 @@ object RowPreferences {
     }
 
     @JvmStatic
+    fun isImperialUnits(context: Context): Boolean {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        return pref.getBoolean(context.getString(R.string.pref_imp_weather), false)
+    }
+
+    @JvmStatic
     fun getUserLocation(context: Context): String? {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         return pref.getString(context.getString(R.string.pref_user_location), "")

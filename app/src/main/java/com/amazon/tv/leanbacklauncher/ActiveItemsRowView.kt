@@ -19,7 +19,7 @@ import com.amazon.tv.leanbacklauncher.capabilities.LauncherConfiguration
 import kotlin.math.abs
 
 open class ActiveItemsRowView @JvmOverloads constructor(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : HorizontalGridView(context, attrs, defStyle), OnHierarchyChangeListener {

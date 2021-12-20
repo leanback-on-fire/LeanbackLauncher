@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amazon.tv.leanbacklauncher.ActiveItemsRowView
 
 class NotificationRowView @JvmOverloads constructor(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : ActiveItemsRowView(context, attrs, defStyle) {
@@ -102,7 +102,7 @@ class NotificationRowView @JvmOverloads constructor(
     init {
         setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
             override fun onChildViewHolderSelected(
-                parent: RecyclerView?,
+                parent: RecyclerView,
                 child: ViewHolder?,
                 position: Int,
                 subposition: Int

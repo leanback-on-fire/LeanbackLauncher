@@ -36,7 +36,7 @@
     <string name="banners_frame_width">Ширина выделения (px)</string>
     <string name="banners_prefs_desc">Настройка вида баннера и выделения</string>
     <string name="banners_prefs_title">Внешний вид баннеров</string>
-    <string name="banners_size">Масштаб баннеров (50-200%)</string>
+    <string name="banners_size">Масштаб баннеров (50–200%)</string>
     <string name="category_label_apps">Приложения</string>
     <string name="category_label_favorites">Избранное</string>
     <string name="category_label_games">Игры</string>
@@ -86,6 +86,8 @@
     <string name="home_screen_order_content_description">Чтобы изменить порядок приложений и игр, нажмите и удерживайте кнопку «OK» на главном экране</string>
     <string name="home_screen_order_content_title">Сортировка приложений</string>
     <string name="home_screen_order_desc">Порядок баннеров и настройка отображения разделов</string>
+    <string name="imp_weather_description">Показывать Фаренгейт и мили</string>
+    <string name="imp_weather_title">Температура в ℉</string>
     <string name="input_source_disconnected">Отключено</string>
     <string name="input_source_unknown">Неизвестное устройство</string>
     <string name="input_title_bundled_tuner">Каналы</string>

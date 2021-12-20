@@ -31,5 +31,12 @@
             android:title="@string/show_location_title"
             android:summary="@string/show_location_description" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable_local_weather"
+            android:key="@string/pref_imp_weather"
+            android:title="@string/imp_weather_title"
+            android:summary="@string/imp_weather_description" />
+
     </PreferenceCategory>
 </PreferenceScreen>

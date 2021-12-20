@@ -25,7 +25,7 @@ import com.amazon.tv.leanbacklauncher.widget.EditModeViewActionListener
 import java.util.*
 
 class EditableAppsRowView @JvmOverloads constructor(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : ActiveItemsRowView(context, attrs, defStyle), OnGlobalFocusChangeListener,
@@ -63,7 +63,7 @@ class EditableAppsRowView @JvmOverloads constructor(
         }
         setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
             override fun onChildViewHolderSelected(
-                parent: RecyclerView?,
+                parent: RecyclerView,
                 holder: ViewHolder?,
                 position: Int,
                 subposition: Int

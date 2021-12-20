@@ -111,6 +111,8 @@
     <string name="home_screen_order_content_description">Reorder apps and games by holding down the select button</string>
     <string name="home_screen_order_content_title">Apps Order</string>
     <string name="home_screen_order_desc">Apps Order and Rows Prefs</string>
+    <string name="imp_weather_title">Use Imperial Units</string>
+    <string name="imp_weather_description">Fahrenheit, Miles and hPa</string>
     <string name="input_source_disconnected">Disconnected</string>
     <string name="input_source_unknown">Unknown</string>
     <string name="input_title_bundled_tuner">Channels</string>
@@ -188,6 +190,7 @@
     <string name="pref_enable_music_row" translatable="false">enable_music_row</string>
     <string name="pref_enable_recommendations_row" translatable="false">enable_recommendations_row</string>
     <string name="pref_enable_videos_row" translatable="false">enable_videos_row</string>
+    <string name="pref_imp_weather" translatable="false">imp_weather</string>
     <string name="pref_show_location" translatable="false">show_location</string>
     <string name="pref_use_current_location" translatable="false">use_current_location</string>
     <string name="pref_user_location" translatable="false">user_location</string>

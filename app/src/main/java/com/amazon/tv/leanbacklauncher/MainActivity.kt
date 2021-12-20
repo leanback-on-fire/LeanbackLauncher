@@ -366,7 +366,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             mlv.adapter = homeAdapter
             mlv.setOnChildViewHolderSelectedListener(object : OnChildViewHolderSelectedListener() {
                 override fun onChildViewHolderSelected(
-                    parent: RecyclerView?,
+                    parent: RecyclerView,
                     child: RecyclerView.ViewHolder?,
                     position: Int,
                     subposition: Int
@@ -613,13 +613,13 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             } catch (e: Exception) {
                 "" // no 3-digit code
             }
-            when {
-                uc.equals("usa", true) ||
-                uc.equals("lbr", true) ||
-                uc.equals("mmr", true) -> lw.unit = Units.IMPERIAL
-                else -> lw.unit = Units.METRIC
-            }
-            lw.unit = if (uc.equals("usa", true)) Units.IMPERIAL else Units.METRIC
+//            when {
+//                uc.equals("usa", true) ||
+//                uc.equals("lbr", true) ||
+//                uc.equals("mmr", true) -> lw.unit = Units.IMPERIAL
+//                else -> lw.unit = Units.METRIC
+//            }
+            lw.unit = if (RowPreferences.isImperialUnits(this)) Units.IMPERIAL else Units.METRIC
 
             if (RowPreferences.isUseLocationEnabled(this) && !Util.isAmazonDev(this)) {
                 lw.useCurrentLocation = true
