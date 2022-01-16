@@ -26,6 +26,8 @@ object AppCategorizer {
         "com.lgi.orionandroid.tv",
         "com.nhl",
         "com.plexapp",
+        "com.prosto.tv",
+        "com.zatoo.player",
         "com.senchick.viewbox",
         "com.tvp.vodtv",
         "com.vgtrk",
@@ -40,6 +42,7 @@ object AppCategorizer {
         "dtv.tvx",
         "exoplayer",
         "facebook",
+        "filmix",
         "filmsclub",
         "firebat",
         "foxnews",
@@ -90,11 +93,13 @@ object AppCategorizer {
         "ru.ctv",
         "ru.ivi",
         "ru.kinopoisk",
+        "ru.more.play",
         "ru.ntv",
         "ru.rutube",
         "ru.start",
         "ru.tv1",
         "ru.twicker.lampa",
+        "ru.vokino",
         "ru.yourok",
         "schabi",
         "serials",
@@ -130,6 +135,8 @@ object AppCategorizer {
         "ua.youtv",
         "ufc.android",
         "unext",
+        "uz.allplay.apptv",
+        "uz.i_tv.player",
         "video",
         "viki",
         "viu.tv",
@@ -198,6 +205,15 @@ object AppCategorizer {
                     }
                     ApplicationInfo.CATEGORY_AUDIO -> {
                         return AppCategory.MUSIC
+                    }
+                    ApplicationInfo.CATEGORY_ACCESSIBILITY,
+                    ApplicationInfo.CATEGORY_IMAGE,
+                    ApplicationInfo.CATEGORY_MAPS,
+                    ApplicationInfo.CATEGORY_NEWS,
+                    ApplicationInfo.CATEGORY_PRODUCTIVITY,
+                    ApplicationInfo.CATEGORY_SOCIAL,
+                    ApplicationInfo.CATEGORY_UNDEFINED -> {
+                        return AppCategory.OTHER
                     }
                 }
             }
