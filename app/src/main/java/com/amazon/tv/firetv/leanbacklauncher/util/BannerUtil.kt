@@ -27,5 +27,10 @@ object BannerUtil {
         BANNER_OVERRIDES["tv2x2"] = R.drawable.banner_2x2
         BANNER_OVERRIDES["com.jozein.xedge"] = R.drawable.banner_xedge
         BANNER_OVERRIDES["com.topjohnwu.magisk"] = R.drawable.banner_magisk
+        BANNER_OVERRIDES["com.zte.iptvclient.android.idmnc"] = R.drawable.banner_vision_plus
+        BANNER_OVERRIDES["com.dutafilm.online"] = R.drawable.banner_dutafilm
+        BANNER_OVERRIDES["tv.loklok.lite"] = R.drawable.banner_loklok
+        BANNER_OVERRIDES["com.useetv.stb"] = R.drawable.banner_useetv
+        BANNER_OVERRIDES["com.netflix.mediaclient"] = R.drawable.banner_netflix
     }
 }
