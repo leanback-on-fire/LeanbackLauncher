@@ -29,14 +29,14 @@ class NotificationsServiceV4 :
         }
     }
 
-    override fun onNotificationPosted(sbn: StatusBarNotification) {
+    override fun onNotificationPosted(sbn: StatusBarNotification?) {
         if (isEnabled) {
             super.onNotificationPosted(sbn)
             mDelegate?.onNotificationPosted(sbn)
         }
     }
 
-    override fun onNotificationRemoved(sbn: StatusBarNotification) {
+    override fun onNotificationRemoved(sbn: StatusBarNotification?) {
         if (isEnabled) {
             super.onNotificationRemoved(sbn)
             mDelegate?.onNotificationRemoved(sbn)
