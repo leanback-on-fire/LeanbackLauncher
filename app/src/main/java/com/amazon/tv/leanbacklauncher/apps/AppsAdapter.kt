@@ -82,9 +82,11 @@ open class AppsAdapter(
                     return false
                 if (point?.componentName.equals("com.amazon.tv.launcher/.ui.DebugActivity"))
                     return false
-                if (point?.packageName.equals("com.amazon.ftv.screensaver"))
-                    return false
                 if (point?.packageName.equals("com.amazon.avod")) // broken component
+                    return false
+                if (point?.packageName.equals("com.amazon.bueller")) // broken component
+                    return false
+                if (point?.packageName.equals("com.amazon.ftv.screensaver"))
                     return false
                 return true
             }

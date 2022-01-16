@@ -609,11 +609,11 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 else -> lw.lang = Lang.ENGLISH
             }
             // units
-            val uc = try { // MissingResourceException: No 3-letter country code for locale: en_UK
-                Locale.getDefault().isO3Country
-            } catch (e: Exception) {
-                "" // no 3-digit code
-            }
+//            val uc = try { // MissingResourceException: No 3-letter country code for locale: en_UK
+//                Locale.getDefault().isO3Country
+//            } catch (e: Exception) {
+//                "" // no 3-digit code
+//            }
 //            when {
 //                uc.equals("usa", true) ||
 //                uc.equals("lbr", true) ||
