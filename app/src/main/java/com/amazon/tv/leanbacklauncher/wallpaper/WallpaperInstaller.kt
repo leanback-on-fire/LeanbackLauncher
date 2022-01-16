@@ -11,10 +11,9 @@ import android.graphics.Color
 import android.graphics.Shader.TileMode
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.AsyncTask
 import android.os.Build
 import android.util.Log
-import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
@@ -79,18 +78,21 @@ class WallpaperInstaller private constructor(context: Context) {
             }
             // default background
             if (systemBg == null) systemBg =
-                    // ResourcesCompat.getDrawable(resources, R.drawable.bg_default, null)
-                ContextCompat.getDrawable(mContext, R.drawable.bg_default)
-            val intrinsicWidth = systemBg!!.intrinsicWidth
-            val intrinsicHeight = systemBg.intrinsicHeight
-            val wallpaperWidth = getDisplayMetrics(mContext).widthPixels
-            val wallpaperHeight = wallpaperWidth * intrinsicHeight / intrinsicWidth
+                ResourcesCompat.getDrawable(resources, R.drawable.bg_default, null)
+            // ContextCompat.getDrawable(mContext, R.drawable.bg_default)
+            val intrinsicWidth = systemBg?.intrinsicWidth ?: 1920
+            val intrinsicHeight = systemBg?.intrinsicHeight ?: 1080
+            var wallpaperWidth = getDisplayMetrics(mContext).widthPixels
+            var wallpaperHeight = wallpaperWidth * intrinsicHeight / intrinsicWidth
+            // createBitmap fix (width and height must be > 0)
+            if (wallpaperWidth <= 0) wallpaperWidth = 1920
+            if (wallpaperHeight <= 0) wallpaperHeight = 1080
             val bitmap =
                 Bitmap.createBitmap(wallpaperWidth, wallpaperHeight, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             canvas.drawColor(Color.BLACK)
-            systemBg.setBounds(0, 0, wallpaperWidth, wallpaperHeight)
-            systemBg.draw(canvas)
+            systemBg?.setBounds(0, 0, wallpaperWidth, wallpaperHeight)
+            systemBg?.draw(canvas)
             val maskBitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_protection)
             val maskDrawable = BitmapDrawable(resources, maskBitmap)
             maskDrawable.tileModeX = TileMode.REPEAT
@@ -135,18 +137,18 @@ class WallpaperInstaller private constructor(context: Context) {
     }
 
     companion object {
-        private var sInstance: WallpaperInstaller? = null
+        private var instance: WallpaperInstaller? = null
 
         @JvmStatic
         fun getInstance(context: Context): WallpaperInstaller? {
-            if (sInstance == null) {
+            if (instance == null) {
                 synchronized(WallpaperInstaller::class.java) {
-                    if (sInstance == null) {
-                        sInstance = WallpaperInstaller(context.applicationContext)
+                    if (instance == null) {
+                        instance = WallpaperInstaller(context.applicationContext)
                     }
                 }
             }
-            return sInstance
+            return instance
         }
     }
 

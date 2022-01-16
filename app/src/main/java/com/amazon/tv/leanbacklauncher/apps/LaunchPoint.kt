@@ -329,7 +329,7 @@ class LaunchPoint {
                 "appCategory:$appCategory\n"
     }
 
-    fun cancelPendingOperations(context: Context?) {}
+    private fun cancelPendingOperations(context: Context?) {}
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -357,22 +357,21 @@ class LaunchPoint {
         }
 
         private fun getColor(myContext: Context, info: ResolveInfo): Int {
+            val defColor = ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
             return try {
                 val theme = myContext.createPackageContext(
                     info.activityInfo.applicationInfo.packageName,
                     0
                 )?.theme
                 theme?.applyStyle(info.activityInfo.themeResource, true)
-                val a = theme?.obtainStyledAttributes(intArrayOf(android.R.attr.colorPrimary))
-                val color = a?.getColor(
-                    0,
-                    ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
-                ) ?: ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
-                a?.recycle()
+                val arr = theme?.obtainStyledAttributes(intArrayOf(android.R.attr.colorPrimary))
+
+                val color = arr?.getColor(0, defColor) ?: defColor
+                arr?.recycle()
                 color
             } catch (e: PackageManager.NameNotFoundException) {
-                e.printStackTrace()
-                ResourcesCompat.getColor(myContext.resources, R.color.banner_background, null)
+                //e.printStackTrace()
+                defColor
             }
         }
 

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="slideEdgeEnd">5</integer>
-    <integer name="slideEdgeStart">3</integer>
     <integer name="app_launch_animation_explode_duration">450</integer>
     <integer name="app_launch_animation_header_fade_in_delay">250</integer>
     <integer name="app_launch_animation_header_fade_in_duration">200</integer>
@@ -23,6 +21,7 @@
     <integer name="item_dim_anim_duration">100</integer>
     <integer name="item_scale_anim_duration">150</integer>
     <integer name="launcher_pause_animation_duration">500</integer>
+    <integer name="lb_search_orb_scale_duration_ms">200</integer>
     <integer name="max_num_banner_rows">2</integer>
     <integer name="max_recommendations_per_app">10</integer>
     <integer name="min_num_banner_rows">1</integer>
@@ -40,6 +39,8 @@
     <integer name="search_orb_idle_hint_flip_delay">10000</integer>
     <integer name="search_orb_text_fade_duration">100</integer>
     <integer name="slide_animator_default_duration">500</integer>
+    <integer name="slideEdgeEnd">5</integer>
+    <integer name="slideEdgeStart">3</integer>
     <integer name="tag_has_header">0</integer>
     <integer name="two_row_cut_off">6</integer>
     <integer name="wallpaper_fade_in_duration">350</integer>

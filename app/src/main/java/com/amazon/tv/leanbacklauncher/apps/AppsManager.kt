@@ -169,13 +169,13 @@ class AppsManager private constructor(private val mContext: Context) :
     override fun onPackageRemoved(packageName: String?) {
         Partner.resetIfNecessary(mContext, packageName)
         removePackage(packageName)
-        if (!(mSearchChangeListener == null || packageName == null || !packageName.equals(
-                mSearchPackageName,
-                ignoreCase = true
-            ))
-        ) {
-            mSearchChangeListener!!.onSearchPackageChanged()
-        }
+//        if (!(mSearchChangeListener == null || packageName == null || !packageName.equals(
+//                mSearchPackageName,
+//                ignoreCase = true
+//            ))
+//        ) {
+//            mSearchChangeListener?.onSearchPackageChanged()
+//        }
         checkForSearchChanges(packageName)
     }
 
@@ -198,7 +198,7 @@ class AppsManager private constructor(private val mContext: Context) :
                 ignoreCase = true
             )
         ) {
-            mSearchChangeListener!!.onSearchPackageChanged()
+            mSearchChangeListener?.onSearchPackageChanged()
         }
     }
 

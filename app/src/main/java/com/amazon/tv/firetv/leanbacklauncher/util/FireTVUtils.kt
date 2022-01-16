@@ -114,8 +114,6 @@ object FireTVUtils {
         }
     }
 
-    // KNOWN KEY: com.amazon.device.settings..PACKAGE_NAME
-    // intent.putExtra("com.amazon.device.settings..PACKAGE_NAME", packageName);
     val notificationPreferencesIntent: Intent
         get() {
             val settingsAct =
@@ -124,8 +122,6 @@ object FireTVUtils {
             intent.setPackage("com.amazon.tv.notificationcenter")
             intent.component = ComponentName.unflattenFromString(settingsAct)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-            // KNOWN KEY: com.amazon.device.settings..PACKAGE_NAME
-            // intent.putExtra("com.amazon.device.settings..PACKAGE_NAME", packageName);
             return intent
         }
 

@@ -34,7 +34,6 @@ import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.getInstance
 import com.amazon.tv.leanbacklauncher.apps.ConnectivityListener.Companion.readConnectivity
 import com.amazon.tv.leanbacklauncher.inputs.InputsAdapter
 import com.amazon.tv.leanbacklauncher.notifications.*
-import com.amazon.tv.leanbacklauncher.util.Permission
 import com.amazon.tv.leanbacklauncher.util.Preconditions
 import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import java.io.PrintWriter
@@ -48,7 +47,7 @@ class HomeScreenAdapter(
     editModeView: EditModeView
 ) : RecyclerView.Adapter<HomeViewHolder?>(), RowChangeListener, ConnectivityListener.Listener,
     OnEditModeChangedListener {
-//    private val TAG =
+    //    private val TAG =
 //        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
     private var mActiveItemIndex = -1
     private val mAllRowsList: ArrayList<HomeScreenRow> = ArrayList<HomeScreenRow>(7)
@@ -103,6 +102,7 @@ class HomeScreenAdapter(
         mInputsAdapter?.unregisterReceivers()
 
     }
+
     // TODO: check scrolls
     fun resetRowPositions(smooth: Boolean) {
         for (i in mAllRowsList.indices) {
@@ -347,9 +347,17 @@ class HomeScreenAdapter(
                     mHeaders.put(row.type.code, view)
                     mSearch = view as SearchOrbView
                     mSearch?.let {
-                        it.updateAssistantIcon(mAssistantIcon)
-                        it.updateSearchSuggestions(mAssistantSuggestions)
                         mAppsManager?.setSearchPackageChangeListener(it, it.searchPackageName)
+                        if (it.isKatnissPackagePresent) {
+                            it.showSearch()
+                            it.updateAssistantIcon(mAssistantIcon)
+                            it.updateSearchSuggestions(mAssistantSuggestions)
+                        } else {
+                            if (it.isAssistPackagePresent)
+                                it.showSearch()
+                            else
+                                it.hideSearch()
+                        }
                     }
                 }
                 RowType.NOTIFICATIONS -> {

@@ -609,17 +609,6 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 else -> lw.lang = Lang.ENGLISH
             }
             // units
-//            val uc = try { // MissingResourceException: No 3-letter country code for locale: en_UK
-//                Locale.getDefault().isO3Country
-//            } catch (e: Exception) {
-//                "" // no 3-digit code
-//            }
-//            when {
-//                uc.equals("usa", true) ||
-//                uc.equals("lbr", true) ||
-//                uc.equals("mmr", true) -> lw.unit = Units.IMPERIAL
-//                else -> lw.unit = Units.METRIC
-//            }
             lw.unit = if (RowPreferences.isImperialUnits(this)) Units.IMPERIAL else Units.METRIC
 
             if (RowPreferences.isUseLocationEnabled(this) && !Util.isAmazonDev(this)) {
@@ -636,7 +625,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                     if (userLoc.isNotEmpty() && !RowPreferences.isUseLocationEnabled(this))
                         if (userLoc.isDigitsOnly()) { // assume city id, ex. 524901
                             //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($userLoc)")
-                            // TODO: cache
+                            // CACHE
                             if (isWeatherCacheValid) {
                                 readJsonWeather(JSONFILE)
                             } else
@@ -648,14 +637,14 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                             val lat = userLoc.split(", ").first().toDouble()
                             val lon = userLoc.split(", ").last().toDouble()
                             //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
-                            // TODO: cache
+                            // CACHE
                             if (isWeatherCacheValid)
                                 readJsonWeather(JSONFILE)
                             else
                                 lw.fetchCurrentWeatherByLocation(lat, lon)
                         } else {
                             //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityName($userLoc)")
-                            // TODO: cache
+                            // CACHE
                             if (isWeatherCacheValid)
                                 readJsonWeather(JSONFILE)
                             else
@@ -672,7 +661,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                     if (mCityObj.has("id") && !mCityObj.isNull("id")) {
                                         val mCode: Int = mCityObj.getInt("id")
                                         //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
-                                        // TODO: cache
+                                        // CACHE
                                         if (isWeatherCacheValid)
                                             withContext(Dispatchers.Main) {
                                                 readJsonWeather(JSONFILE)
@@ -688,7 +677,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                         val lat: Double = mCityObj.getDouble("lat")
                                         val lon: Double = mCityObj.getDouble("lon")
                                         //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
-                                        // TODO: cache
+                                        // CACHE
                                         if (isWeatherCacheValid)
                                             withContext(Dispatchers.Main) {
                                                 readJsonWeather(JSONFILE)
@@ -709,8 +698,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             lw.weatherCallback = object : LocalWeather.WeatherCallback {
                 override fun onSuccess(weather: Weather) {
                     //if (BuildConfig.DEBUG) Log.d(TAG, "LocalWeather onSuccess() -> updateWeatherDetails()")
-                    // TODO: store result / use cache
                     //updateWeatherDetails(weather)
+                    // CACHE
                     writeJsonWeather(weather)
                     readJsonWeather(JSONFILE)
                 }
@@ -724,7 +713,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             lw.fetchCurrentLocation(object : LocalWeather.CurrentLocationCallback {
                 override fun onSuccess(location: Location) {
                     if (BuildConfig.DEBUG) Log.d(TAG, "Location fetching success")
-                    // TODO: cache
+                    // CACHE
                     if (isWeatherCacheValid)
                         readJsonWeather(JSONFILE)
                     else
@@ -743,7 +732,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                 if (mCityObj.has("id") && !mCityObj.isNull("id")) {
                                     val mCode: Int = mCityObj.getInt("id")
                                     //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByCityId($mCode)")
-                                    // TODO: cache
+                                    // CACHE
                                     if (isWeatherCacheValid)
                                         withContext(Dispatchers.Main) {
                                             readJsonWeather(JSONFILE)
@@ -759,7 +748,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                                     val lat: Double = mCityObj.getDouble("lat")
                                     val lon: Double = mCityObj.getDouble("lon")
                                     //if (BuildConfig.DEBUG) Log.d(TAG, "fetchCurrentWeatherByLocation($lat,$lon)")
-                                    // TODO: cache
+                                    // CACHE
                                     if (isWeatherCacheValid)
                                         withContext(Dispatchers.Main) {
                                             readJsonWeather(JSONFILE)
@@ -933,7 +922,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             val icon = findViewById<AppCompatImageView>(R.id.weather_icon)
             icon?.let {
                 OpenWeatherIcons(this@MainActivity, weather.icons[0], it)
-                it.contentDescription = weather.descriptions[0]
+                //it.contentDescription = weather.descriptions[0]
                 it.visibility = View.VISIBLE
             }
             // temperature

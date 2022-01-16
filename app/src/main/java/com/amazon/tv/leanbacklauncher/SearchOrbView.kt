@@ -3,7 +3,7 @@ package com.amazon.tv.leanbacklauncher
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.content.pm.PackageInfo
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.graphics.Typeface
@@ -32,7 +32,8 @@ import com.amazon.tv.leanbacklauncher.util.Util.searchIntent
 import com.amazon.tv.leanbacklauncher.util.Util.startSearchActivitySafely
 import java.util.*
 
-class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), IdleListener, SearchPackageChangeListener {
+class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
+    IdleListener, SearchPackageChangeListener {
     private var mAssistantIcon: Drawable? = null
     private var mClickDeviceId = -1
     private var mColorBright = 0
@@ -69,6 +70,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     private val mUnfocusedColor: Int
     private var mWahlbergUx: Boolean
     private var mWidgetView: View? = null
+    private val kantnissPackageID = "com.google.android.katniss"
 
     interface SearchLaunchListener {
         fun onSearchLaunched()
@@ -100,39 +102,69 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     private fun useWahlbergUx(): Boolean {
         try {
-            val searchResources = mContext.packageManager.getResourcesForApplication("com.google.android.katniss")
+            val searchResources =
+                mContext.packageManager.getResourcesForApplication(kantnissPackageID)
             var resId = 0
             if (searchResources != null) {
-                resId = searchResources.getIdentifier("katniss_uses_new_google_logo", "bool", "com.google.android.katniss")
+                resId = searchResources.getIdentifier(
+                    "katniss_uses_new_google_logo",
+                    "bool",
+                    kantnissPackageID
+                )
             }
             if (resId != 0) {
                 return searchResources.getBoolean(resId)
             }
             // FIXME: versionCode deprecated in API28, only Katniss 3.13+
-            val vc = mContext.packageManager.getPackageInfo("com.google.android.katniss", 0).versionCode // 11000272
-            if (vc > 11000000) {
-                return true
+            if (isKatnissPackagePresent) {
+                val vc =
+                    mContext.packageManager.getPackageInfo(
+                        kantnissPackageID,
+                        0
+                    ).versionCode // 11000272
+                if (vc > 11000000) {
+                    return true
+                }
             }
         } catch (e: PackageManager.NameNotFoundException) {
         }
         return false
     }
 
-    private val isKatnissPackagePresent: Boolean
+    val isKatnissPackagePresent: Boolean
         get() {
-            val info: PackageInfo? = try {
-                mContext.packageManager.getPackageInfo("com.google.android.katniss", 0)
+            val enabled = try {
+                mContext.packageManager.getApplicationInfo(kantnissPackageID, 0).enabled
             } catch (e: PackageManager.NameNotFoundException) {
-                null
+                false
             }
-            return info != null
+            return enabled
+        }
+
+    val isAssistPackagePresent: Boolean
+        get() {
+            var assistIntent = mSearchIntent
+            try {
+                val packages = mContext.packageManager.queryIntentActivities(assistIntent, 0)
+                val pkg = packages.first().activityInfo.packageName
+                return pkg.isNotEmpty()
+            } catch (e: Exception) {
+                assistIntent = Intent(Intent.ACTION_VOICE_COMMAND)
+                try {
+                    val packages = mContext.packageManager.queryIntentActivities(assistIntent, 0)
+                    val pkg = packages.first().activityInfo.packageName
+                    return pkg.isNotEmpty()
+                } catch (e: Exception) {
+                }
+            }
+            return false
         }
 
     public override fun onFinishInflate() {
         super.onFinishInflate()
         mWidgetView = findViewById(R.id.widget_wrapper)
         mMicOrbView = findViewById(R.id.mic_orb)
-        mMicOrbView?.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+        mMicOrbView?.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             setSearchState(false)
             if (mAssistantIcon != null) {
                 mMicOrbView?.orbIcon = if (hasFocus) mDefaultColorMicIcon else mAssistantIcon
@@ -143,6 +175,11 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     }
 
     override fun onSearchPackageChanged() {
+        if (isKatnissPackagePresent || isAssistPackagePresent) {
+            showSearch()
+        } else {
+            hideSearch()
+        }
         if (useWahlbergUx() != mWahlbergUx) {
             mWahlbergUx = useWahlbergUx()
             initializeSearchOrbs()
@@ -151,18 +188,38 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     }
 
     val searchPackageName: String
-        get() = "com.google.android.katniss"
+        get() {
+            if (isKatnissPackagePresent)
+                kantnissPackageID
+            else {
+                var assistIntent = mSearchIntent
+                try {
+                    val packages = mContext.packageManager.queryIntentActivities(assistIntent, 0)
+                    return packages.first().activityInfo.packageName
+                } catch (e: Exception) {
+                    assistIntent = Intent(Intent.ACTION_VOICE_COMMAND)
+                    try {
+                        val packages =
+                            mContext.packageManager.queryIntentActivities(assistIntent, 0)
+                        return packages.first().activityInfo.packageName
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+            return kantnissPackageID
+        }
 
     private fun initializeSearchOrbs() {
         if (mOrbAnimation != null && (mOrbAnimation!!.isRunning || mOrbAnimation!!.isStarted)) {
-            mOrbAnimation!!.cancel()
+            mOrbAnimation?.cancel()
         }
         mOrbAnimation = null
         if (mWahlbergUx) {
             mKeyboardOrbView = findViewById(R.id.keyboard_orb)
             mKeyboardContainer = findViewById(R.id.keyboard_orb_container)
             mKeyboardFocusedIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_keyboard_blue)
-            mKeyboardUnfocusedIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_keyboard_grey)
+            mKeyboardUnfocusedIcon =
+                ContextCompat.getDrawable(mContext, R.drawable.ic_keyboard_grey)
             mColorBright = ContextCompat.getColor(mContext, R.color.search_orb_bg_bright_color)
             mColorDim = ContextCompat.getColor(mContext, R.color.search_orb_bg_dim_color)
             mKeyboardOrbView?.orbIcon = mKeyboardUnfocusedIcon
@@ -170,7 +227,8 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
             mKeyboardOrbView?.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
                 setSearchState(false)
                 val keyboardOrbView = v as SearchOrbView
-                keyboardOrbView.orbIcon = if (hasFocus) mKeyboardFocusedIcon else mKeyboardUnfocusedIcon
+                keyboardOrbView.orbIcon =
+                    if (hasFocus) mKeyboardFocusedIcon else mKeyboardUnfocusedIcon
                 keyboardOrbView.orbColor = if (hasFocus) mColorBright else mColorDim
                 when {
                     hasFocus -> {
@@ -208,8 +266,14 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                 mMicOrbView?.enableOrbColorAnimation(false)
             }
             else -> {
-                mMicOrbView?.orbColors = SearchOrbView.Colors(ContextCompat.getColor(mContext, R.color.search_orb_bg_color_old), ContextCompat.getColor(mContext, R.color.search_orb_bg_bright_color_old))
-                mMicOrbView?.orbIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_search_mic_out_normal)
+                mMicOrbView?.orbColors = SearchOrbView.Colors(
+                    ContextCompat.getColor(
+                        mContext,
+                        R.color.search_orb_bg_color_old
+                    ), ContextCompat.getColor(mContext, R.color.search_orb_bg_bright_color_old)
+                )
+                mMicOrbView?.orbIcon =
+                    ContextCompat.getDrawable(mContext, R.drawable.ic_search_mic_out_normal)
                 mMicOrbView?.enableOrbColorAnimation(true)
             }
         }
@@ -233,9 +297,9 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
             val z: Boolean = !isReset
             configSwitcher(z, focused, if (useFade) 2 else 1)
             if (mWahlbergUx) {
-                mSwitcher!!.setText(fixItalics(getHintText(focused, isKeyboard)))
+                mSwitcher?.setText(fixItalics(getHintText(focused, isKeyboard)))
             } else {
-                mSwitcher!!.setText(fixItalics(getHintText(focused, false)))
+                mSwitcher?.setText(fixItalics(getHintText(focused, false)))
             }
         }
         if (mKeyboardOrbView != null) {
@@ -259,7 +323,9 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         mSwitcher = findViewById(R.id.text_switcher)
         mSwitcher?.animateFirstView = false
         mSwitcher?.setFactory(object : ViewSwitcher.ViewFactory {
-            var inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            var inflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
             override fun makeView(): View {
                 return inflater.inflate(R.layout.search_orb_text_hint, this@SearchOrbView, false)
             }
@@ -314,13 +380,13 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                 outAnim = R.anim.fade_out
             }
         }
-        mSwitcher!!.setInAnimation(mContext, inAnim)
-        mSwitcher!!.setOutAnimation(mContext, outAnim)
+        mSwitcher?.setInAnimation(mContext, inAnim)
+        mSwitcher?.setOutAnimation(mContext, outAnim)
     }
 
     fun reset() {
         mHandler.removeCallbacks(mSwitchRunnable!!)
-        mSwitcher!!.reset()
+        mSwitcher?.reset()
         mCurrentIndex = 0
         setSearchState(true)
     }
@@ -344,11 +410,11 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         if (!isVisible) {
             reset()
         } else if (mKeyboardOrbView != null && mKeyboardOrbView!!.hasFocus()) {
-            mMicOrbView!!.requestFocus()
+            mMicOrbView?.requestFocus()
         }
         val searchOrbView = mMicOrbView
         val z = isVisible && mMicOrbView!!.hasFocus() && !mWahlbergUx
-        searchOrbView!!.enableOrbColorAnimation(z)
+        searchOrbView?.enableOrbColorAnimation(z)
     }
 
     private fun setVisible(visible: Boolean) {
@@ -356,18 +422,30 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         animateVisibility(mSwitcher, visible)
     }
 
+    fun hideSearch() {
+        mKeyboardOrbView?.visibility = View.INVISIBLE
+        mMicOrbView?.visibility = View.GONE
+        mSwitcher?.visibility = View.GONE
+    }
+
+    fun showSearch() {
+        mKeyboardOrbView?.visibility = View.VISIBLE
+        mMicOrbView?.visibility = View.VISIBLE
+        mSwitcher?.visibility = View.VISIBLE
+    }
+
     private fun animateVisibility(view: View?, visible: Boolean) {
         view!!.clearAnimation()
-        val anim = view.animate().alpha(if (visible) 1.0f else 0.0f).setDuration(mLaunchFadeDuration.toLong())
+        val anim = view.animate().alpha(if (visible) 1.0f else 0.0f)
+            .setDuration(mLaunchFadeDuration.toLong())
         if (!(!mWahlbergUx || mKeyboardOrbView == null || visible)) {
             anim.setListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {}
                 override fun onAnimationEnd(animation: Animator) {
                     if (mKeyboardOrbView != null && mKeyboardOrbView!!.hasFocus()) {
-                        mMicOrbView!!.requestFocus()
+                        mMicOrbView?.requestFocus()
                     }
                 }
-
                 override fun onAnimationCancel(animation: Animator) {}
                 override fun onAnimationRepeat(animation: Animator) {}
             })
@@ -376,42 +454,41 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     }
 
     private fun animateKeyboardOrb(visible: Boolean) {
+        mKeyboardOrbView?.visibility = if (visible) View.VISIBLE else View.INVISIBLE
         if (mOrbAnimation != null) {
             if (mOrbAnimation!!.isStarted) {
-                mOrbAnimation!!.cancel()
+                mOrbAnimation?.cancel()
             }
             if (mKeyboardOrbProgress != (if (visible) 1.0f else 0.0f)) {
-                mOrbAnimation!!.setFloatValues(mKeyboardOrbProgress, if (visible) 1.0f else 0.0f)
-                mOrbAnimation!!.start()
+                mOrbAnimation?.setFloatValues(mKeyboardOrbProgress, if (visible) 1.0f else 0.0f)
+                mOrbAnimation?.start()
             }
         }
     }
 
     private fun setKeyboardOrbProgress(progress: Float) {
-        var i = 0
-        var i2 = 1
+        var i = View.VISIBLE
+        var d = 1
         val focusable: Boolean = progress.toDouble() == 1.0
         val visible: Boolean = progress > 0.0f
         mKeyboardOrbProgress = progress
         if (mKeyboardOrbView != null) {
-            mKeyboardOrbView!!.isFocusable = focusable
-            mKeyboardOrbView!!.alpha = progress
+            mKeyboardOrbView?.isFocusable = focusable
+            mKeyboardOrbView?.alpha = progress
             val frameLayout = mKeyboardContainer
             if (!visible) {
-                i = INVISIBLE
+                i = View.INVISIBLE
             }
-            frameLayout!!.visibility = i
-            mKeyboardContainer!!.scaleX = progress
-            mKeyboardContainer!!.scaleY = progress
-            val orbWidth = mKeyboardOrbView!!.measuredWidth
-            if (layoutDirection != LAYOUT_DIRECTION_RTL) {
-                i2 = -1
+            frameLayout?.visibility = i
+            mKeyboardContainer?.scaleX = progress
+            mKeyboardContainer?.scaleY = progress
+            val orbWidth = mKeyboardOrbView?.measuredWidth ?: 0
+            if (layoutDirection != View.LAYOUT_DIRECTION_RTL) {
+                d = -1
             }
-            val offset = (i2 * (mSearchOrbsSpacing + orbWidth)).toFloat() * (1.0f - progress)
-            mKeyboardOrbView!!.translationX = offset / progress
-            if (mSwitcher != null) {
-                mSwitcher!!.translationX = offset
-            }
+            val offset = (d * (mSearchOrbsSpacing + orbWidth)).toFloat() * (1.0f - progress)
+            mKeyboardOrbView?.translationX = offset / progress
+            mSwitcher?.translationX = offset
         }
     }
 
@@ -432,10 +509,20 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         //val finalIsTouchExplorationEnabled = false
         val listener = OnClickListener {
             val success: Boolean
-            val iskeyboardSearch: Boolean = mKeyboardOrbView != null && mKeyboardOrbView!!.hasFocus()
+            val iskeyboardSearch: Boolean =
+                mKeyboardOrbView != null && mKeyboardOrbView!!.hasFocus()
             success = if (!finalIsTouchExplorationEnabled) {
-                startSearchActivitySafely(mContext, mSearchIntent, mClickDeviceId, iskeyboardSearch) && mListener != null
-            } else startSearchActivitySafely(mContext, mSearchIntent, iskeyboardSearch) && mListener != null
+                startSearchActivitySafely(
+                    mContext,
+                    mSearchIntent,
+                    mClickDeviceId,
+                    iskeyboardSearch
+                ) && mListener != null
+            } else startSearchActivitySafely(
+                mContext,
+                mSearchIntent,
+                iskeyboardSearch
+            ) && mListener != null
             if (success) {
                 animateOut()
                 mListener?.onSearchLaunched()
