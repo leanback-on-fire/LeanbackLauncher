@@ -16,7 +16,7 @@ android {
         applicationId "com.amazon.tv.leanbacklauncher"
         minSdkVersion 22
         //noinspection OldTargetApi
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 52
         versionName "1.52"
         vectorDrawables.useSupportLibrary = true
