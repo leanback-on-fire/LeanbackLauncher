@@ -85,8 +85,10 @@ class WallpaperInstaller private constructor(context: Context) {
             var wallpaperWidth = getDisplayMetrics(mContext).widthPixels
             var wallpaperHeight = wallpaperWidth * intrinsicHeight / intrinsicWidth
             // createBitmap fix (width and height must be > 0)
-            if (wallpaperWidth <= 0) wallpaperWidth = 1920
-            if (wallpaperHeight <= 0) wallpaperHeight = 1080
+            if (wallpaperWidth <= 0 || wallpaperHeight <= 0) {
+                wallpaperWidth = 1
+                wallpaperHeight = 1
+            }
             val bitmap =
                 Bitmap.createBitmap(wallpaperWidth, wallpaperHeight, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)

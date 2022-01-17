@@ -414,43 +414,9 @@ class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.banners_prefs, rootKey)
-// FIXME:
-//        findPreference<EditTextPreference>(getString(R.string.pref_banner_size))?.apply {
-//            setOnBindEditTextListener { editText ->
-//                editText.inputType =
-//                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-//            }
-//        }
-//        findPreference<EditTextPreference>(getString(R.string.pref_banner_corner_radius))?.apply {
-//            setOnBindEditTextListener { editText ->
-//                editText.inputType =
-//                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-//            }
-//        }
-//        findPreference<EditTextPreference>(getString(R.string.pref_banner_frame_stroke))?.apply {
-//            setOnBindEditTextListener { editText ->
-//                editText.inputType =
-//                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-//            }
-//        }
         findPreference<EditTextPreference>(getString(R.string.pref_banner_focus_frame_color))?.apply {
             val color = hexStringColor(RowPreferences.getFrameColor(context))
             this.summary = "$color (#AARRGGBB)"
-// FIXME:
-//            setOnBindEditTextListener {
-//                it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-//            }
-//            setOnPreferenceChangeListener { preference, newValue ->
-//                val value = try {
-//                    Color.parseColor(newValue.toString())
-//                } catch (nfe: IllegalArgumentException) {
-//                    RowPreferences.getFrameColor(requireContext())
-//                }
-//                Log.d(TAG, "$preference new value $newValue, summary ${hexStringColor(value)}")
-//                preference.summary = hexStringColor(value)
-//                // refresh home broadcast
-//                true
-//            }
         }
     }
 
