@@ -88,17 +88,17 @@ public abstract class BaseNotificationsService extends NotificationListenerServi
         final StatusBarNotification[] snotifications = getActiveNotifications();
 
         /* Get rid of any recommendations already ruined by Amazon's hand... */
+        if (snotifications != null && snotifications.length > 0)
+            for (StatusBarNotification sbn : snotifications) {
+                Notification notification = sbn.getNotification();
+                // if (BuildConfig.DEBUG) Log.d(this.mTag, "fetchExistingNotifications: get " + notification);
 
-        for (StatusBarNotification sbn : snotifications) {
-            Notification notification = sbn.getNotification();
-            // if (BuildConfig.DEBUG) Log.d(this.mTag, "fetchExistingNotifications: get " + notification);
-
-            // FIXME (issue with com.amazon.device.sale.service)
-            if (notification.largeIcon == null) {
-                cancelNotification(sbn.getKey());
-                // if (BuildConfig.DEBUG) Log.d(this.mTag, "fetchExistingNotifications: cancel " + notification);
+                // FIXME (issue with com.amazon.device.sale.service)
+                if (notification.largeIcon == null) {
+                    cancelNotification(sbn.getKey());
+                    // if (BuildConfig.DEBUG) Log.d(this.mTag, "fetchExistingNotifications: cancel " + notification);
+                }
             }
-        }
 
         onFetchExistingNotifications(getActiveNotifications()); // 1
     }
