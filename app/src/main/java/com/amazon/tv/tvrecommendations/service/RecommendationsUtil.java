@@ -3,13 +3,12 @@ package com.amazon.tv.tvrecommendations.service;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
@@ -31,9 +30,9 @@ public class RecommendationsUtil {
             return true;
         }
         if (TextUtils.equals(tag, "Connectivity.Notification") || (!TextUtils.isEmpty(tag) && tag.startsWith("ConnectivityNotification:"))) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService("connectivity");
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             for (Network network : connectivityManager.getAllNetworks()) {
-                if (connectivityManager.getNetworkInfo(network).isConnected() && connectivityManager.getNetworkCapabilities(network).hasCapability(17)) {
+                if (connectivityManager.getNetworkInfo(network).isConnected() && connectivityManager.getNetworkCapabilities(network).hasCapability(NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL)) {
                     return true;
                 }
             }
@@ -48,17 +47,18 @@ public class RecommendationsUtil {
                 z = false;
             }
             return z;
-        } else return TextUtils.equals(left.getPackageName(), right.getPackageName()) && left.getId() == right.getId() && TextUtils.equals(left.getTag(), right.getTag());
+        } else
+            return TextUtils.equals(left.getPackageName(), right.getPackageName()) && left.getId() == right.getId() && TextUtils.equals(left.getTag(), right.getTag());
     }
 
-    public static boolean isPackageOnSystem(PackageManager pkgMan, String packageName) {
-        try {
-            ApplicationInfo info = pkgMan.getApplicationInfo(packageName, 0);
-            return info != null && (info.flags & 1) != 0;
-        } catch (NameNotFoundException e) {
-            return false;
-        }
-    }
+//    public static boolean isPackageOnSystem(PackageManager pkgMan, String packageName) {
+//        try {
+//            ApplicationInfo info = pkgMan.getApplicationInfo(packageName, 0);
+//            return info != null && (info.flags & 1) != 0;
+//        } catch (NameNotFoundException e) {
+//            return false;
+//        }
+//    }
 
     public static Bitmap getSizeCappedBitmap(Bitmap image, int maxWidth, int maxHeight) {
         if (image == null) {
@@ -113,11 +113,15 @@ public class RecommendationsUtil {
 //        }
 
         if (localBitmap == null && notification.extras != null) {
-            localBitmap = notification.extras.getParcelable(Notification.EXTRA_LARGE_ICON);
+            if (notification.extras.getParcelable(Notification.EXTRA_LARGE_ICON) instanceof BitmapDrawable) {
+                localBitmap = ((BitmapDrawable) notification.extras.getParcelable(Notification.EXTRA_LARGE_ICON)).getBitmap();
+            }
         }
 
         if (localBitmap == null && notification.extras != null) {
-            localBitmap = notification.extras.getParcelable(Notification.EXTRA_LARGE_ICON_BIG);
+            if (notification.extras.getParcelable(Notification.EXTRA_LARGE_ICON_BIG) instanceof BitmapDrawable) {
+                localBitmap = ((BitmapDrawable) notification.extras.getParcelable(Notification.EXTRA_LARGE_ICON_BIG)).getBitmap();
+            }
         }
 
         int icon = notification.icon;
