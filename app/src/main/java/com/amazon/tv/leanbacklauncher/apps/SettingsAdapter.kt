@@ -12,7 +12,7 @@ import com.amazon.tv.leanbacklauncher.R
 import java.lang.ref.WeakReference
 import java.util.*
 
-class SettingsAdapter(context: Context?, private val mConnectivityListener: ConnectivityListener) :
+class SettingsAdapter(context: Context?, private val mConnectivityListener: ConnectivityListener?) :
     AppsAdapter(context!!, null, AppCategory.SETTINGS) {
     private val mHandler: Handler = NetworkUpdateHandler(this)
     private var mNetResources: Resources? = null
@@ -82,12 +82,12 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
         if (!mNetResourcesSet) {
             setNetworkResources(launchPoint)
         }
-        val connectivityStatus = mConnectivityListener.connectivityStatus
+        val connectivityStatus = mConnectivityListener?.connectivityStatus
         var titleId = 0
         var title: String? = null
         var hasNetworkName = false
         launchPoint.iconDrawable = null
-        when (connectivityStatus.mNetworkType) {
+        when (connectivityStatus?.mNetworkType) {
             1 -> {
                 titleId = R.string.settings_network
                 launchPoint.iconDrawable =
