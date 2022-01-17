@@ -220,13 +220,14 @@ class EditableAppsRowView @JvmOverloads constructor(
         }
     }
 
-    override fun onPrepForUninstall(): String {
+    override fun onPrepForUninstall(): String? {
         val packageName = ""
         val lastFocusedViewHolder = lastFocusedViewHolderInt
         return if (lastFocusedViewHolder == null || adapter !is AppsAdapter) {
             packageName
-        } else
-            getViewPackageName(lastFocusedViewHolder.itemView)!!
+        } else {
+            getViewPackageName(lastFocusedViewHolder.itemView)
+        }
     }
 
     private fun getViewLaunchPoint(view: View?): LaunchPoint? {
