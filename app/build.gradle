@@ -17,8 +17,8 @@ android {
         minSdkVersion 22
         //noinspection ExpiredTargetSdkVersion,OldTargetApi
         targetSdkVersion 29
-        versionCode 52
-        versionName "1.52"
+        versionCode 53
+        versionName "1.53"
         vectorDrawables.useSupportLibrary = true
         resConfigs "en", "ru", "uk", "it", "fr", "es", "de", "pl"
         setProperty("archivesBaseName", "LeanbackOnFire_v" + versionName)
