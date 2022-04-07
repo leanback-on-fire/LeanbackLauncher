@@ -45,6 +45,7 @@ object AppCategorizer {
         "exoplayer",
         "facebook",
         "filmix",
+        "filimons.soap4allv",
         "filmsclub",
         "filmbluray",
         "firebat",
@@ -161,6 +162,7 @@ object AppCategorizer {
         "viutv",
         "vplay",
         "wifire",
+        "wink",
         "youtube",
         "yuriev.ndr",
     )
