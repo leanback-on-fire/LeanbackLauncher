@@ -94,6 +94,8 @@ object AppCategorizer {
         "pl.tvn.player.tv",
         "pl.tvp.tvp_sport",
         "pl.polsatgo",
+        "com.elevensportsnetwork.elevenpoland",
+        "pl.cda.tv",
         "com.canal.android.canal",
         "com.viaplay.android",
         "player.online",
