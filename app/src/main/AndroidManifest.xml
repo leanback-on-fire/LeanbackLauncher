@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.amazon.tv.leanbacklauncher">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature
         android:name="android.software.leanback"
@@ -11,7 +10,6 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
         android:name="android.permission.ACCESS_NOTIFICATIONS"
@@ -83,7 +81,8 @@
             android:label="@string/app_label"
             android:launchMode="singleInstance"
             android:stateNotNeeded="true"
-            android:theme="@style/AppCompatFullScreenTheme">
+            android:theme="@style/AppCompatFullScreenTheme"
+            android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,7 +98,8 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:enabled="@bool/full_screen_settings_enabled"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.Settings.Legacy">
+            android:theme="@style/Theme.Settings.Legacy"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.amazon.tv.leanbacklauncher.SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -112,7 +112,8 @@
             android:excludeFromRecents="true"
             android:icon="@drawable/ic_settings_launcher"
             android:label="@string/launcher_settings"
-            android:theme="@style/Theme.Settings.SidePanel">
+            android:theme="@style/Theme.Settings.SidePanel"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.amazon.tv.leanbacklauncher.SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -129,7 +130,8 @@
         <service
             android:name="com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4"
             android:label="@string/notif_service_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
@@ -141,7 +143,8 @@
 
         <service android:name="com.amazon.tv.firetv.tvrecommendations.NotificationListenerMonitor" />
 
-        <receiver android:name="com.amazon.tv.leanbacklauncher.MediaButtonBroadcastReceiver">
+        <receiver android:name="com.amazon.tv.leanbacklauncher.MediaButtonBroadcastReceiver"
+            android:exported="true">
             <intent-filter android:priority="2">
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
@@ -152,7 +155,8 @@
             android:enabled="false"
             android:excludeFromRecents="true"
             android:label="@string/app_label"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
@@ -171,7 +175,8 @@
             android:exported="true"
             android:permission="com.amazon.tv.leanbacklauncher.permission.MIGRATE_RECOMMENDATIONS_DATA" />
 
-        <receiver android:name="com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver">
+        <receiver android:name="com.amazon.tv.leanbacklauncher.wallpaper.WallpaperInstaller$WallpaperChangedReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.WALLPAPER_CHANGED" />
             </intent-filter>
