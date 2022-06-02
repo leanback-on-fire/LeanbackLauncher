@@ -55,8 +55,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     // androidx
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation "androidx.leanback:leanback:$leanback_version"
     implementation "androidx.leanback:leanback-preference:$leanback_version"
     implementation 'androidx.lifecycle:lifecycle-process:2.4.1'
@@ -69,7 +69,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.13.1'
     implementation 'com.google.guava:guava:30.1.1-jre'
     implementation 'com.google.code.gson:gson:2.9.0'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
     // Add the dependency for the Firebase SDK for Google Analytics
