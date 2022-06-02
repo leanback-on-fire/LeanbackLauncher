@@ -27,18 +27,17 @@ import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences.getRowMax
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowType
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil.Companion.instance
-import com.amazon.tv.leanbacklauncher.*
+import com.amazon.tv.leanbacklauncher.BuildConfig
+import com.amazon.tv.leanbacklauncher.EditableAppsRowView
+import com.amazon.tv.leanbacklauncher.LauncherViewHolder
+import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer
 import com.amazon.tv.leanbacklauncher.apps.AppsAdapter.AppViewHolder
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.getInstance
 import com.amazon.tv.leanbacklauncher.apps.AppsManager.Companion.saveSortingMode
+import com.amazon.tv.leanbacklauncher.util.CSyncTask
 import com.amazon.tv.leanbacklauncher.util.Lists
 import com.amazon.tv.leanbacklauncher.widget.RowViewAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.math.abs
 
 open class AppsAdapter(
@@ -47,8 +46,7 @@ open class AppsAdapter(
     vararg appTypes: AppCategory?
 ) : RowViewAdapter<AppViewHolder?>(context), AppsRanker.RankingListener, LaunchPointList.Listener,
     OnSharedPreferenceChangeListener {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
     private val mActionOpenLaunchPointListener: ActionOpenLaunchPointListener?
     private var mAppTypes = emptySet<AppCategory?>()
     protected var mFilter: AppFilter
@@ -63,8 +61,8 @@ open class AppsAdapter(
     private val listener: OnSharedPreferenceChangeListener = this
     private var mRecyclerView: RecyclerView? = null
 
-    private val mainScope = CoroutineScope(Dispatchers.Main)
-    private val defaultScope = CoroutineScope(Dispatchers.Default)
+//    private val mainScope = CoroutineScope(Dispatchers.Main)
+//    private val defaultScope = CoroutineScope(Dispatchers.Default)
 
     init {
         prefUtil?.addHiddenListener(listener)
@@ -339,46 +337,9 @@ open class AppsAdapter(
         }
     }
 
-//    private inner class RefreshTask : AsyncTask<Void?, Void?, ArrayList<LaunchPoint>>() {
-//        override fun doInBackground(vararg params: Void?): ArrayList<LaunchPoint> {
-//            val lps: List<LaunchPoint> = refreshedLaunchPointList
-//            val filtered = ArrayList<LaunchPoint>()
-//
-//            // TODO: rewrite to coroutines
-//            for (lp in lps) {
-//                if (mFilter.include(lp)) {
-//                    filtered.add(lp)
-//                }
-//            }
-//            if (getRowType() == RowType.FAVORITES) { // add sorting to FAVORITES
-//                sortLaunchPoints(filtered)
-//            }
-//            return filtered
-//        }
-//
-//        override fun onPostExecute(launchPoints: ArrayList<LaunchPoint>) {
-//            val changes =
-//                Lists.getChanges(mLaunchPoints, launchPoints, mAppsManager!!.launchPointComparator)
-//            mLaunchPoints = launchPoints
-//            onPostRefresh()
-//            for (change in changes) {
-//                when (change.type) {
-//                    Lists.Change.Type.INSERTION -> notifyItemRangeInserted(
-//                        change.index,
-//                        change.count
-//                    )
-//                    Lists.Change.Type.REMOVAL -> notifyItemRangeRemoved(
-//                        change.index,
-//                        change.count
-//                    )
-//                    else -> throw IllegalStateException("Unsupported change type: " + change.type)
-//                }
-//            }
-//        }
-//    }
-
-    private suspend fun refreshTask() {
-        val deferred = defaultScope.async {
+    private inner class RefreshTask :
+        CSyncTask<Void?, Void?, ArrayList<LaunchPoint>?>("RefreshTask") {
+        override fun doInBackground(vararg params: Void?): ArrayList<LaunchPoint> {
             val lps: List<LaunchPoint> = refreshedLaunchPointList
             val filtered = ArrayList<LaunchPoint>()
 
@@ -390,28 +351,67 @@ open class AppsAdapter(
             if (getRowType() == RowType.FAVORITES) { // add sorting to FAVORITES
                 sortLaunchPoints(filtered)
             }
-            // result
-            filtered
+            return filtered
         }
-        val launchPoints = deferred.await()
-        val changes =
-            Lists.getChanges(mLaunchPoints, launchPoints, mAppsManager!!.launchPointComparator)
-        mLaunchPoints = launchPoints
-        onPostRefresh()
-        for (change in changes) {
-            when (change.type) {
-                Lists.Change.Type.INSERTION -> notifyItemRangeInserted(
-                    change.index,
-                    change.count
-                )
-                Lists.Change.Type.REMOVAL -> notifyItemRangeRemoved(
-                    change.index,
-                    change.count
-                )
-                else -> throw IllegalStateException("Unsupported change type: " + change.type)
+
+        override fun onPostExecute(launchPoints: ArrayList<LaunchPoint>?) {
+            val changes =
+                Lists.getChanges(mLaunchPoints, launchPoints, mAppsManager!!.launchPointComparator)
+            if (launchPoints != null) {
+                mLaunchPoints = launchPoints
+            }
+            onPostRefresh()
+            for (change in changes) {
+                when (change.type) {
+                    Lists.Change.Type.INSERTION -> notifyItemRangeInserted(
+                        change.index,
+                        change.count
+                    )
+                    Lists.Change.Type.REMOVAL -> notifyItemRangeRemoved(
+                        change.index,
+                        change.count
+                    )
+                    else -> throw IllegalStateException("Unsupported change type: " + change.type)
+                }
             }
         }
     }
+
+//    private suspend fun refreshTask() {
+//        val deferred = defaultScope.async {
+//            val lps: List<LaunchPoint> = refreshedLaunchPointList
+//            val filtered = ArrayList<LaunchPoint>()
+//
+//            for (lp in lps) {
+//                if (mFilter.include(lp)) {
+//                    filtered.add(lp)
+//                }
+//            }
+//            if (getRowType() == RowType.FAVORITES) { // add sorting to FAVORITES
+//                sortLaunchPoints(filtered)
+//            }
+//            // result
+//            filtered
+//        }
+//        val launchPoints = deferred.await()
+//        val changes =
+//            Lists.getChanges(mLaunchPoints, launchPoints, mAppsManager!!.launchPointComparator)
+//        mLaunchPoints = launchPoints
+//        onPostRefresh()
+//        for (change in changes) {
+//            when (change.type) {
+//                Lists.Change.Type.INSERTION -> notifyItemRangeInserted(
+//                    change.index,
+//                    change.count
+//                )
+//                Lists.Change.Type.REMOVAL -> notifyItemRangeRemoved(
+//                    change.index,
+//                    change.count
+//                )
+//                else -> throw IllegalStateException("Unsupported change type: " + change.type)
+//            }
+//        }
+//    }
 
     private class SettingViewHolder(v: View, adapter: AppsAdapter?) : AppViewHolder(v, adapter) {
         private var mIconView: ImageView?
@@ -430,7 +430,7 @@ open class AppsAdapter(
             mMainView = null
             mIconView = null
             mLabelView = null
-            v?.let {
+            v.let {
                 mMainView = it.findViewById(R.id.main)
                 mIconView = it.findViewById(R.id.icon)
                 mLabelView = it.findViewById(R.id.label)
@@ -631,6 +631,7 @@ open class AppsAdapter(
                             true
                         )
                     )
+                    else -> {}
                 }
             }
             sortLaunchPoints(launchPoints)
@@ -787,8 +788,8 @@ open class AppsAdapter(
     }
 
     fun refreshDataSetAsync() {
-        //RefreshTask().execute()
-        mainScope.launch { refreshTask() }
+        RefreshTask().execute()
+        //mainScope.launch { refreshTask() }
     }
 
 }

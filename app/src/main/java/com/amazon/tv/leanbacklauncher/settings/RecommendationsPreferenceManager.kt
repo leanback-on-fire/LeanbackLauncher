@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import android.os.AsyncTask
 import android.os.DeadObjectException
 import android.os.RemoteException
 import android.text.TextUtils
@@ -12,9 +11,8 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.amazon.tv.leanbacklauncher.recommendations.SwitchingRecommendationsClient
+import com.amazon.tv.leanbacklauncher.util.CSyncTask
 import com.amazon.tv.tvrecommendations.IRecommendationsService
-import kotlin.Boolean
-import java.util.*
 import kotlin.math.max
 
 class RecommendationsPreferenceManager(context: Context) {
@@ -41,11 +39,12 @@ class RecommendationsPreferenceManager(context: Context) {
         protected open fun onPostExecute() {}
 
         companion object {
-            private class Task(private val asyncRecommendationsClient: AsyncRecommendationsClient) : AsyncTask<IRecommendationsService, Void?, Boolean>() {
-    
-                override fun doInBackground(vararg params: IRecommendationsService): Boolean {
+            private class Task(private val asyncRecommendationsClient: AsyncRecommendationsClient) :
+                CSyncTask<IRecommendationsService, Void?, Boolean>("RecsTask") {
+
+                override fun doInBackground(vararg params: IRecommendationsService?): Boolean {
                     try {
-                        asyncRecommendationsClient.callServiceInBackground(params[0])
+                        params[0]?.let { asyncRecommendationsClient.callServiceInBackground(it) }
                     } catch (e: DeadObjectException) {
                         Log.e("RecPrefManager", "Rec service connection broken", e)
                         return true
@@ -56,9 +55,9 @@ class RecommendationsPreferenceManager(context: Context) {
                     }
                     return false
                 }
-    
-                override fun onPostExecute(retry: Boolean) {
-                    if (retry) {
+
+                override fun onPostExecute(retry: Boolean?) {
+                    if (retry == true) {
                         Log.d("RecPrefManager", "Task failed, retrying")
                         asyncRecommendationsClient.connect()
                         return
@@ -109,7 +108,7 @@ class RecommendationsPreferenceManager(context: Context) {
         override fun callServiceInBackground(iRecommendationsService: IRecommendationsService) {
             val packages = iRecommendationsService.recommendationsPackages
             val blacklistedPackages = mutableListOf(*iRecommendationsService.blacklistedPackages)
-            mPackages = ArrayList<PackageInfo>(packages.size)
+            mPackages = ArrayList(packages.size)
             val pm = this.mContext.packageManager
             for (packageName in packages) {
                 val info = PackageInfo()
@@ -128,10 +127,18 @@ class RecommendationsPreferenceManager(context: Context) {
                         val resolveInfo = pm.resolveActivity(intent, 0)
                         if (resolveInfo?.activityInfo != null) {
                             if (resolveInfo.activityInfo.banner != 0) {
-                                info.banner = ResourcesCompat.getDrawable(res, resolveInfo.activityInfo.banner, null)
+                                info.banner = ResourcesCompat.getDrawable(
+                                    res,
+                                    resolveInfo.activityInfo.banner,
+                                    null
+                                )
                             }
                             if (info.banner == null && resolveInfo.activityInfo.logo != 0) {
-                                info.banner = ResourcesCompat.getDrawable(res, resolveInfo.activityInfo.logo, null)
+                                info.banner = ResourcesCompat.getDrawable(
+                                    res,
+                                    resolveInfo.activityInfo.logo,
+                                    null
+                                )
                             }
                         }
                     }
@@ -172,7 +179,7 @@ class RecommendationsPreferenceManager(context: Context) {
         @Throws(RemoteException::class)
         override fun callServiceInBackground(iRecommendationsService: IRecommendationsService) {
             val blacklist: MutableList<String?> =
-                ArrayList<String?>(mutableListOf(*iRecommendationsService.blacklistedPackages))
+                ArrayList(mutableListOf(*iRecommendationsService.blacklistedPackages))
             if (!mBlacklisted) {
                 blacklist.remove(mPackageName)
             } else if (!blacklist.contains(mPackageName)) {

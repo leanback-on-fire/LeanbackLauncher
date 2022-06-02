@@ -5,6 +5,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.RemoteException;
 
 public interface IRecommendationsService extends IInterface {
@@ -12,7 +13,7 @@ public interface IRecommendationsService extends IInterface {
     abstract class Stub extends Binder implements IRecommendationsService {
 
         private static class Proxy implements IRecommendationsService {
-            private IBinder mRemote;
+            private final IBinder mRemote;
 
             Proxy(IBinder remote) {
                 this.mRemote = remote;
@@ -233,7 +234,7 @@ public interface IRecommendationsService extends IInterface {
                 return null;
             }
             IInterface iin = obj.queryLocalInterface("IRecommendationsService");
-            if (iin == null || !(iin instanceof IRecommendationsService)) {
+            if (!(iin instanceof IRecommendationsService)) {
                 return new Proxy(obj);
             }
             return (IRecommendationsService) iin;
@@ -283,7 +284,7 @@ public interface IRecommendationsService extends IInterface {
                     reply.writeNoException();
                     if (_result3 != null) {
                         reply.writeInt(1);
-                        _result3.writeToParcel(reply, 1);
+                        _result3.writeToParcel(reply, Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
                         return true;
                     }
                     reply.writeInt(0);

@@ -8,8 +8,7 @@ import com.amazon.tv.tvrecommendations.service.BaseNotificationsService
 class NotificationsServiceV4 :
     BaseNotificationsService(false, GservicesRankerParameters.Factory()) {
     private val mDelegate: NotificationServiceDelegate? = null
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
 
     interface NotificationServiceDelegate {
         fun onFetchExistingNotifications(statusBarNotificationArr: Array<StatusBarNotification>?)

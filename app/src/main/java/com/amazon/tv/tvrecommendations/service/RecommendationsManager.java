@@ -31,20 +31,20 @@ import java.util.Objects;
 class RecommendationsManager implements Ranker.RankingListener {
     @SuppressLint({"StaticFieldLeak"})
     private static RecommendationsManager sInstance = null;
-    private ServiceAppListener mAppListener;
-    private int mBannerMaxHeight;
-    private int mBannerMaxWidth;
-    private int mCardMaxHeight;
-    private int mCardMaxWidth;
+    private final ServiceAppListener mAppListener;
+    private final int mBannerMaxHeight;
+    private final int mBannerMaxWidth;
+    private final int mCardMaxHeight;
+    private final int mCardMaxWidth;
     private final ClientHandler mClientHandler = new ClientHandler();
     private boolean mConnectedToNotificationService = false;
     private final Context mContext;
-    private DbHelper mDbHelper;
-    private int mMaxRecsPerApp;
+    private final DbHelper mDbHelper;
+    private final int mMaxRecsPerApp;
     private NotificationResolver mNotificationResolver;
     private final HashMap<String, ArrayList<StatusBarNotification>> mPackageToRecSet = new HashMap<>();
     private final ArrayList<StatusBarNotification> mPartnerList = new ArrayList<>();
-    private Ranker mRanker;
+    private final Ranker mRanker;
     private boolean mRankerReady = false;
     private boolean mStarted;
     private final String mTag;

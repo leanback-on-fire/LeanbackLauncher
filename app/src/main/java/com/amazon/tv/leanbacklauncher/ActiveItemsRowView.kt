@@ -2,7 +2,6 @@ package com.amazon.tv.leanbacklauncher
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.OnHierarchyChangeListener
@@ -23,8 +22,7 @@ open class ActiveItemsRowView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : HorizontalGridView(context, attrs, defStyle), OnHierarchyChangeListener {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    //    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
     private val mCardElevationSupported: Boolean
     private var mCardSpacing = 0
     private var mChangeObserver: AdapterDataObserver
@@ -157,7 +155,8 @@ open class ActiveItemsRowView @JvmOverloads constructor(
             }
             //if (BuildConfig.DEBUG) Log.d(TAG, "adjustNumRows($type) curApps:$curApps maxCols:$maxCols userMax:$userMax")
             // numRows
-            val maxRows = if (base > 0) base.coerceAtMost(userMax) else resources.getInteger(R.integer.min_num_banner_rows)
+            val maxRows =
+                if (base > 0) base.coerceAtMost(userMax) else resources.getInteger(R.integer.min_num_banner_rows)
             // apply numRows
             adjustNumRows(maxRows, mCardSpacing, mRowHeight)
         }

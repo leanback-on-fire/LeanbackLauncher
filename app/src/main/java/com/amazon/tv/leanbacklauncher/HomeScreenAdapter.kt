@@ -47,8 +47,7 @@ class HomeScreenAdapter(
     editModeView: EditModeView
 ) : RecyclerView.Adapter<HomeViewHolder?>(), RowChangeListener, ConnectivityListener.Listener,
     OnEditModeChangedListener {
-    //    private val TAG =
-//        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+//    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
     private var mActiveItemIndex = -1
     private val mAllRowsList: ArrayList<HomeScreenRow> = ArrayList<HomeScreenRow>(7)
     private val mAppsManager: AppsManager? = getInstance(context)
@@ -547,6 +546,7 @@ class HomeScreenAdapter(
                 }
                 RowType.SETTINGS -> lp.height =
                     res.getDimension(R.dimen.settings_row_height).toInt()
+                else -> {}
             }
             list.setItemSpacing(cardSpacing)
         }

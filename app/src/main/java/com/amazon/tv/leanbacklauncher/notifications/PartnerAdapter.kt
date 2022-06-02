@@ -20,8 +20,7 @@ class PartnerAdapter(context: Context, private val mListener: BlacklistListener?
     NotificationsServiceAdapter<PartnerBannerViewHolder?>(context, 15000, 60000) {
     class PartnerBannerViewHolder(v: View?) : AppBannerViewHolder(v!!, null) {
         private var mIntent: PendingIntent? = null
-        private val TAG =
-            if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else this.javaClass.simpleName
+        private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
 
         fun init(
             title: CharSequence?,

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -41,12 +40,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.*
 
 
 class SettingsFragment : LeanbackSettingsFragmentCompat() {
     companion object {
-        private const val TAG = "SettingsFragment"
+        private val TAG by lazy {
+            if (BuildConfig.DEBUG) ("[*]" + SettingsFragment::class.java.simpleName).take(
+                21
+            ) else SettingsFragment::class.java.simpleName
+        }
         var needRestartHome = false
     }
 
@@ -100,10 +102,6 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
  * The fragment that is embedded in SettingsFragment
  */
 class LauncherSettingsFragment : LeanbackPreferenceFragmentCompat() {
-    companion object {
-        private const val TAG = "LauncherSettingsFrag"
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.prefs, rootKey)
@@ -166,7 +164,7 @@ class VersionPreferenceFragment : LeanbackPreferenceFragmentCompat() {
         return super.onPreferenceTreeClick(preference)
     }
 
-    fun openBrowser(url: String) {
+    private fun openBrowser(url: String) {
         if (url.isNotEmpty()) {
             val intent = Intent()
             intent.action = Intent.ACTION_VIEW
@@ -407,10 +405,6 @@ class RecommendationsPreferenceFragment : LeanbackPreferenceFragmentCompat(),
  * The fragment that is defined in home_prefs.xml
  */
 class BannersPreferenceFragment : LeanbackPreferenceFragmentCompat() {
-    companion object {
-        private const val TAG = "BannersPreferenceFrag"
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the prefs from an XML resource
         setPreferencesFromResource(R.xml.banners_prefs, rootKey)
@@ -497,7 +491,7 @@ class WallpaperFragment : LeanbackPreferenceFragmentCompat() {
         }
     }
 
-    fun resetWallpaper(): Boolean {
+    private fun resetWallpaper(): Boolean {
         val context = requireContext()
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         pref.edit().remove("wallpaper_image").apply()
@@ -643,12 +637,10 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                         resources.getDimensionPixelSize(R.dimen.preference_item_banner_width)
                     val bannerHeight =
                         resources.getDimensionPixelSize(R.dimen.preference_item_banner_height)
-//                    imagePref.icon = buildPreviewFromFile(it, bannerWidth, bannerHeight)
                     Glide.with(requireContext())
                         .asDrawable()
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .load(Uri.fromFile(it))
-//                        .error(R.color.preference_item_banner_background)
                         .into(object : CustomTarget<Drawable?>(bannerWidth, bannerHeight) {
                             override fun onResourceReady(
                                 resource: Drawable,
@@ -699,22 +691,6 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 dirList.add(dir.absoluteFile)
             }
         return dirList
-    }
-
-    private fun buildPreviewFromFile(file: File, scaleWidth: Int, scaleHeight: Int): Drawable {
-        val bmOptions = BitmapFactory.Options()
-        bmOptions.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(file.absolutePath, bmOptions)
-
-        val scaleFactor =
-            (bmOptions.outWidth / scaleWidth).coerceAtMost(bmOptions.outHeight / scaleHeight)
-
-        bmOptions.inJustDecodeBounds = false
-        bmOptions.inSampleSize = scaleFactor
-
-        val resized = BitmapFactory.decodeFile(file.absolutePath, bmOptions)
-
-        return BitmapDrawable(resources, resized)
     }
 
     private fun setWallpaper(context: Context?, image: String): Boolean {

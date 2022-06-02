@@ -18,7 +18,11 @@ import java.io.File
 class LegacyFileListFragment : GuidedStepSupportFragment() {
 
     companion object {
-        private const val TAG = "LegacyFileListFragment"
+        private val TAG by lazy {
+            if (BuildConfig.DEBUG) ("[*]" + LegacyFileListFragment::class.java.simpleName).take(
+                21
+            ) else LegacyFileListFragment::class.java.simpleName
+        }
         private var rootPath: String? = null
         private var dirName: String? = null
 
@@ -103,7 +107,8 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
                 if (file.canRead())
                     setWallpaper(ctx, file.path.toString())
                 else
-                    Toast.makeText(ctx, ctx.getString(R.string.file_no_access), Toast.LENGTH_LONG).show()
+                    Toast.makeText(ctx, ctx.getString(R.string.file_no_access), Toast.LENGTH_LONG)
+                        .show()
                 dirName?.let { rootPath = rootPath?.removeSuffix(it) }
                 fm?.popBackStack()
             }
@@ -118,17 +123,19 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
     fun imageReader(root: File): ArrayList<File> {
         val imageList: ArrayList<File> = ArrayList()
         val images = root.listFiles { file ->
-            (!file.isDirectory && file.name.endsWith(".jpeg") || file.name.endsWith(".jpg") || file.name.endsWith(".png"))
+            (!file.isDirectory && file.name.endsWith(".jpeg") || file.name.endsWith(".jpg") || file.name.endsWith(
+                ".png"
+            ))
         }
         if (!images.isNullOrEmpty()) {
             for (image in images) {
-                    // File absolute path
-                    if (BuildConfig.DEBUG) Log.d(TAG, "image path ${image.absolutePath}")
-                    // File Name
-                    if (BuildConfig.DEBUG) Log.d(TAG,"image name ${image.name}")
-                    imageList.add(image.absoluteFile)
+                // File absolute path
+                if (BuildConfig.DEBUG) Log.d(TAG, "image path ${image.absolutePath}")
+                // File Name
+                if (BuildConfig.DEBUG) Log.d(TAG, "image name ${image.name}")
+                imageList.add(image.absoluteFile)
             }
-            if (BuildConfig.DEBUG) Log.w(TAG,"fileList size ${imageList.size}")
+            if (BuildConfig.DEBUG) Log.w(TAG, "fileList size ${imageList.size}")
         }
         return imageList
     }
@@ -139,9 +146,9 @@ class LegacyFileListFragment : GuidedStepSupportFragment() {
             file.isDirectory && !file.name.startsWith(".")
         }
         if (!dirs.isNullOrEmpty())
-        for (dir in dirs) {
-            dirList.add(dir.absoluteFile)
-        }
+            for (dir in dirs) {
+                dirList.add(dir.absoluteFile)
+            }
         return dirList
     }
 

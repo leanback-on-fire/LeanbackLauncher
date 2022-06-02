@@ -1,7 +1,6 @@
 package com.amazon.tv.leanbacklauncher.apps
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -70,8 +69,11 @@ class ConnectivityListener(private val mContext: Context, listener: Listener) {
     }
 
     companion object {
-        private val TAG =
-            if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+        private val TAG by lazy {
+            if (BuildConfig.DEBUG) ("[*]" + ConnectivityListener::class.java.simpleName).take(
+                21
+            ) else ConnectivityListener::class.java.simpleName
+        }
 
         @TargetApi(23)
         private fun getLevel(signalStrength: SignalStrength): Int {

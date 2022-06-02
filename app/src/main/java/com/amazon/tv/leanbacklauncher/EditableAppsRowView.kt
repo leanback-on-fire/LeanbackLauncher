@@ -22,7 +22,6 @@ import com.amazon.tv.leanbacklauncher.apps.*
 import com.amazon.tv.leanbacklauncher.util.Util
 import com.amazon.tv.leanbacklauncher.widget.EditModeView
 import com.amazon.tv.leanbacklauncher.widget.EditModeViewActionListener
-import java.util.*
 
 class EditableAppsRowView @JvmOverloads constructor(
     context: Context,
@@ -30,8 +29,7 @@ class EditableAppsRowView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : ActiveItemsRowView(context, attrs, defStyle), OnGlobalFocusChangeListener,
     BannerSelectedChangedListener, OnEditModeChangedListener, EditModeViewActionListener {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
     private var mChangeObserver: AdapterDataObserver
     private var mCurFocused = 0
     private val mEditListeners: ArrayList<OnEditModeChangedListener?>

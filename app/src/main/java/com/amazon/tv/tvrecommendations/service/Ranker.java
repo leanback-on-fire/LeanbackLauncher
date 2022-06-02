@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Queue;
 
 public class Ranker implements DbHelper.Listener {
-    private static final String TAG = "Ranker";
+    private static final String TAG = (BuildConfig.DEBUG) ? "[*]" + Ranker.class.getSimpleName() : Ranker.class.getSimpleName();
     static RankerParameters sRankerParameters;
     private AppUsageStatistics mAppUsageStatistics;
     private List<String> mBlacklistedPackages = new ArrayList();

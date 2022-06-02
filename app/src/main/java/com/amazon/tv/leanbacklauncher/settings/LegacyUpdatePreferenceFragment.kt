@@ -2,7 +2,6 @@ package com.amazon.tv.leanbacklauncher.settings
 
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import androidx.core.content.FileProvider
@@ -10,14 +9,14 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
-import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.App
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
+import com.amazon.tv.leanbacklauncher.util.CSyncTask
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
 import java.net.URL
-import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
 class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
@@ -108,7 +107,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         }
     }
 
-    private inner class GetInfo(url: String?) : AsyncTask<String?, Void?, String?>() {
+    private inner class GetInfo(url: String?) : CSyncTask<String?, Void?, String?>("GetInfo") {
         override fun doInBackground(vararg strings: String?): String? {
             var urlConnection: HttpsURLConnection? = null
             try {
@@ -162,8 +161,15 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
     }
 
     private inner class Download(url: String?, filePath: String) :
-        AsyncTask<String?, Void?, File?>() {
+        CSyncTask<String?, Void?, File?>("Download") {
+
+        init {
+            println("Start download to $filePath")
+            this.execute(url, filePath)
+        }
+
         override fun doInBackground(vararg strings: String?): File? {
+            val BUFFER_SIZE = 4096
             val fileURL = strings[0]
             val saveDir = strings[1]
             var urlConnection: HttpsURLConnection? = null
@@ -199,8 +205,8 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
 
                     // opens an output stream to save into file
                     val outputStream = FileOutputStream(saveFilePath)
-                    var bytesRead = -1
-                    val buffer = ByteArray(Companion.BUFFER_SIZE)
+                    var bytesRead: Int
+                    val buffer = ByteArray(BUFFER_SIZE)
                     while (inputStream.read(buffer).also { bytesRead = it } != -1) {
                         outputStream.write(buffer, 0, bytesRead)
                     }
@@ -241,15 +247,5 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                 e.printStackTrace()
             }
         }
-
-        init {
-            println("Start download to $filePath")
-            this.execute(url, filePath)
-        }
     }
-
-    companion object {
-        private const val BUFFER_SIZE = 4096
-    }
-
 }

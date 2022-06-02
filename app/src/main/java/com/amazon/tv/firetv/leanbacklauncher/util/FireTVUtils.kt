@@ -17,8 +17,7 @@ import java.io.StringWriter
  * Created by rockon999 on 2/24/18.
  */
 object FireTVUtils {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
 
     @JvmStatic
     fun startAppSettings(context: Context, packageName: String?) {

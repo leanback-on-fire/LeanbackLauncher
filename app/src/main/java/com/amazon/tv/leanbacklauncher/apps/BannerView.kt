@@ -22,7 +22,6 @@ import com.amazon.tv.leanbacklauncher.animation.ViewDimmer
 import com.amazon.tv.leanbacklauncher.animation.ViewDimmer.DimState
 import com.amazon.tv.leanbacklauncher.apps.AppsAdapter.AppViewHolder
 import com.amazon.tv.leanbacklauncher.widget.EditModeManager
-import java.util.*
 
 class BannerView @JvmOverloads constructor(
     context: Context?,
@@ -44,10 +43,8 @@ class BannerView @JvmOverloads constructor(
     private var mInstallStateOverlay: View? = null
     private var mLastFocusedBanner: BannerView? = null
     private var mLeavingEditMode = false
-    private val mSelectedListeners: ArrayList<BannerSelectedChangedListener?> =
-        ArrayList<BannerSelectedChangedListener?>()
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    private val mSelectedListeners: ArrayList<BannerSelectedChangedListener?> = ArrayList()
+    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
 
     init {
         mSelectedListeners.add(mFocusAnimator)
@@ -198,7 +195,7 @@ class BannerView @JvmOverloads constructor(
         mEditListener = listener
     }
 
-    fun setFocusedFrameState() {
+    private fun setFocusedFrameState() {
         if (!isEditable) {
             return
         }
@@ -256,7 +253,7 @@ class BannerView @JvmOverloads constructor(
         }
     }
 
-    val isEditable: Boolean
+    private val isEditable: Boolean
         get() {
             val parent = parent
             return if (parent is EditableAppsRowView) {

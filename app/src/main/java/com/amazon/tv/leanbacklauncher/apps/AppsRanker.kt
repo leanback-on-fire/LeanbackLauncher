@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.os.AsyncTask
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.BuildConfig
@@ -17,9 +16,8 @@ import com.amazon.tv.leanbacklauncher.util.Util.setInitialRankingAppliedFlag
 import java.io.PrintWriter
 import java.lang.ref.WeakReference
 import java.util.*
-import java.util.concurrent.Executor
 
-class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, executor: Executor?) :
+class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?) :
     AppsDbHelper.Listener {
     private val mCachedActions: Queue<CachedAction?>
     private val mContext: Context
@@ -33,8 +31,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
     private var mPrefsListener: SharedPreferencesChangeListener? = null
     private var mQueryingScores: Boolean
     private var mSortingMode: SortingMode
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
 
     init {
         mListeners = LinkedList<RankingListener?>()
@@ -47,7 +44,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         mSortingMode = getSavedSortingMode(mContext)
         registerPreferencesListeners()
         mQueryingScores = true
-        mDbHelper?.loadEntities(this, executor)
+        mDbHelper?.loadEntities(this)
     }
 
     companion object {
@@ -125,12 +122,6 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
         }
 
     }
-
-    private constructor(ctx: Context, dbHelper: AppsDbHelper?) : this(
-        ctx,
-        dbHelper,
-        AsyncTask.SERIAL_EXECUTOR
-    )
 
     val sortingMode: SortingMode
         get() {
@@ -354,7 +345,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?, exe
                         (entitiesBelow + size - i).toLong()
                     )
                     mEntities[key] = e
-                    mDbHelper?.saveEntity(e)
+                    mDbHelper.saveEntity(e)
                 }
             }
         }

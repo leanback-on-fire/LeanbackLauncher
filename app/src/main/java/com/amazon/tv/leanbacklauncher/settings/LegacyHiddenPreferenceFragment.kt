@@ -19,8 +19,6 @@ import java.util.*
 
 class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
     private var mActionToPackageMap: HashMap<Long, String>? = null
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     companion object {
         private const val ACTION_ID_ALL_APPS = -1L
@@ -69,7 +67,6 @@ class LegacyHiddenPreferenceFragment : GuidedStepSupportFragment() {
     override fun onGuidedActionClicked(action: GuidedAction) {
         val prefUtil = SharedPreferencesUtil.instance(requireContext())
         if (action.id == ACTION_ID_ALL_APPS) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "ACTION_ID_ALL_APPS, ${action.isChecked}")
             prefUtil?.showAllApps(action.isChecked)
             // refresh home broadcast
             refreshHome(requireContext())

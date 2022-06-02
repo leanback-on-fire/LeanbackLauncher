@@ -15,8 +15,7 @@ class RecImageLoader private constructor(context: Context) {
     private var service: IRecommendationsService? = null
     private val mClient: SwitchingRecommendationsClient
     private val mServiceBound = ConditionVariable()
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else this.javaClass.simpleName
+    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
 
     companion object {
         private var sInstance: RecImageLoader? = null

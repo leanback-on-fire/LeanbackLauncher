@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
 import android.util.Log
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.trace.AppTrace
 import com.amazon.tv.leanbacklauncher.trace.AppTrace.TraceTag
@@ -28,6 +29,11 @@ class WallpaperDownloader(
     downloadTimeoutMillis: Int,
     private val mListener: OnDownloadFinishedListener
 ) {
+    private val TAG by lazy {
+        if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(
+            21
+        ) else javaClass.simpleName
+    }
     private val mBitmapTransform: WallpaperBitmapTransform
     private var mDelivering = false
     private val mDownloadDelay: Int
@@ -43,7 +49,7 @@ class WallpaperDownloader(
                 }
                 2 -> {
                     Log.w(
-                        "WallpaperDownloader",
+                        TAG,
                         "Timeout fetching wallpaper image: " + mTarget.request
                     )
                     mRequestManager.clear(mTarget)
@@ -68,6 +74,7 @@ class WallpaperDownloader(
                 onDownloadFinished()
             }
         }
+
         override fun onLoadCleared(placeholder: Drawable?) {}
         override fun onLoadFailed(errorDrawable: Drawable?) {
             mHandler.removeMessages(2)

@@ -19,7 +19,7 @@ import com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4
 import java.util.*
 
 object RowPreferences {
-    const val TAG = "RowPreferences"
+//    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
 
     @JvmStatic
     fun areFavoritesEnabled(context: Context): Boolean {

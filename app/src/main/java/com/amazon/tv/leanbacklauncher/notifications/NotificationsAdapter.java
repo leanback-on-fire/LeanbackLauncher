@@ -37,7 +37,7 @@ import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 
 public class NotificationsAdapter extends NotificationsServiceAdapter<NotificationsAdapter.NotifViewHolder> implements IdleListener, ActionOpenLaunchPointListener {
-    private static final String TAG = (BuildConfig.DEBUG) ? "*" + "NotificationsAdapter" : "NotificationsAdapter";
+    private static final String TAG = (BuildConfig.DEBUG) ? "[*]" + "NotificationsAdapter" : "NotificationsAdapter";
     private final CardUpdateController mCardUpdateController = new CardUpdateController();
     private final RequestOptions mGlideOptions;
     private final RequestManager mGlideRequestManager;

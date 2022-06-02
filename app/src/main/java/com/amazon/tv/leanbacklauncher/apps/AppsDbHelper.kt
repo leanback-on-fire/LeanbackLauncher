@@ -8,17 +8,16 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDoneException
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.os.AsyncTask
 import android.text.TextUtils
 import android.util.Log
+import com.amazon.tv.leanbacklauncher.BuildConfig
+import com.amazon.tv.leanbacklauncher.util.CSyncTask
 import com.amazon.tv.leanbacklauncher.util.Util.setInitialRankingAppliedFlag
 import com.amazon.tv.tvrecommendations.service.DbHelper
 import com.amazon.tv.tvrecommendations.service.DbStateWriter
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
-import java.util.concurrent.Executor
 
 class AppsDbHelper(context: Context, databaseName: String?) :
     SQLiteOpenHelper(context, databaseName, null, 11) {
@@ -31,7 +30,7 @@ class AppsDbHelper(context: Context, databaseName: String?) :
     }
 
     private inner class LoadEntitiesTask(private val mListener: Listener) :
-        AsyncTask<Void?, Void?, HashMap<String, AppsEntity?>>() {
+        CSyncTask<Void?, Void?, HashMap<String, AppsEntity?>>("LoadEntitiesTask") {
         override fun doInBackground(vararg params: Void?): HashMap<String, AppsEntity?> {
             val entities = HashMap<String, AppsEntity?>()
             val db = this@AppsDbHelper.writableDatabase
@@ -84,15 +83,17 @@ class AppsDbHelper(context: Context, databaseName: String?) :
             }
         }
 
-        public override fun onPostExecute(entities: HashMap<String, AppsEntity?>) {
-            mListener.onEntitiesLoaded(entities)
+        override fun onPostExecute(entities: HashMap<String, AppsEntity?>?) {
+            if (entities != null) {
+                mListener.onEntitiesLoaded(entities)
+            }
         }
     }
 
     internal interface RecommendationMigrationTable
 
     private inner class RemoveEntityTask(private val mKey: String, var mFullRemoval: Boolean) :
-        AsyncTask<Void?, Void?, Void?>() {
+        CSyncTask<Void?, Void?, Void?>("RemoveEntityTask") {
         override fun doInBackground(vararg params: Void?): Void? {
             val selectionArgs = arrayOf(mKey)
             val db = this@AppsDbHelper.writableDatabase
@@ -112,7 +113,8 @@ class AppsDbHelper(context: Context, databaseName: String?) :
         }
     }
 
-    private inner class SaveEntityTask(entity: AppsEntity) : AsyncTask<Any?, Any?, Any?>() {
+    private inner class SaveEntityTask(entity: AppsEntity) :
+        CSyncTask<Any?, Any?, Any?>("SaveEntityTask") {
         private val mComponents: MutableList<ContentValues> = ArrayList()
         private val mKey: String? = entity.key
 
@@ -219,8 +221,8 @@ class AppsDbHelper(context: Context, databaseName: String?) :
         }
     }
 
-    fun loadEntities(listener: Listener, executor: Executor?) {
-        LoadEntitiesTask(listener).executeOnExecutor(executor)
+    fun loadEntities(listener: Listener) {
+        LoadEntitiesTask(listener).executeOnExecutor()
     }
 
     val mostRecentTimeStamp: Long
@@ -356,7 +358,11 @@ class AppsDbHelper(context: Context, databaseName: String?) :
     }
 
     companion object {
-        private const val TAG = "AppsDbHelper"
+        private val TAG by lazy {
+            if (BuildConfig.DEBUG) ("[*]" + AppsDbHelper::class.java.simpleName).take(
+                21
+            ) else AppsDbHelper::class.java.simpleName
+        }
 
         @SuppressLint("StaticFieldLeak")
         private var sAppsDbHelper: AppsDbHelper? = null

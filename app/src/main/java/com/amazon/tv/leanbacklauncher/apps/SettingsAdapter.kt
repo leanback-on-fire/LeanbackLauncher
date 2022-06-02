@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Message
 import androidx.core.content.res.ResourcesCompat
 import com.amazon.tv.firetv.leanbacklauncher.apps.AppCategory
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.R
 import java.lang.ref.WeakReference
 import java.util.*
@@ -19,7 +20,11 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
     private var mNetResourcesSet = false
 
 //    companion object {
-//        private const val TAG = "SettingsAdapter"
+//        private val TAG by lazy {
+//            if (BuildConfig.DEBUG) ("[*]" + SettingsAdapter::class.java.simpleName).take(
+//                21
+//            ) else SettingsAdapter::class.java.simpleName
+//        }
 //    }
 
     private class NetworkUpdateHandler(adapter: SettingsAdapter?) : Handler() {

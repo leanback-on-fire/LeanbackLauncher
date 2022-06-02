@@ -11,7 +11,7 @@ public interface IRecommendationsClient extends IInterface {
     abstract class Stub extends Binder implements IRecommendationsClient {
 
         private static class Proxy implements IRecommendationsClient {
-            private IBinder mRemote;
+            private final IBinder mRemote;
 
             Proxy(IBinder remote) {
                 this.mRemote = remote;
@@ -125,7 +125,7 @@ public interface IRecommendationsClient extends IInterface {
                 return null;
             }
             IInterface iin = obj.queryLocalInterface("IRecommendationsClient");
-            if (iin == null || !(iin instanceof IRecommendationsClient)) {
+            if (!(iin instanceof IRecommendationsClient)) {
                 return new Proxy(obj);
             }
             return (IRecommendationsClient) iin;

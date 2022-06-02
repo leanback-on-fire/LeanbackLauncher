@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher
 
-import android.animation.*
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.*
 import android.appwidget.AppWidgetHost
@@ -26,7 +27,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.OnHierarchyChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.accessibility.AccessibilityManager
-import android.view.animation.*
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -53,8 +54,11 @@ import com.amazon.tv.leanbacklauncher.apps.BannerView
 import com.amazon.tv.leanbacklauncher.apps.OnEditModeChangedListener
 import com.amazon.tv.leanbacklauncher.clock.ClockView
 import com.amazon.tv.leanbacklauncher.logging.LeanbackLauncherEventLogger
-import com.amazon.tv.leanbacklauncher.notifications.*
+import com.amazon.tv.leanbacklauncher.notifications.HomeScreenView
+import com.amazon.tv.leanbacklauncher.notifications.NotificationCardView
+import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView
 import com.amazon.tv.leanbacklauncher.notifications.NotificationRowView.NotificationRowListener
+import com.amazon.tv.leanbacklauncher.notifications.NotificationsAdapter
 import com.amazon.tv.leanbacklauncher.settings.LegacyHomeScreenSettingsActivity
 import com.amazon.tv.leanbacklauncher.settings.SettingsActivity
 import com.amazon.tv.leanbacklauncher.util.*
@@ -69,13 +73,15 @@ import de.interaapps.localweather.Weather
 import de.interaapps.localweather.utils.Lang
 import de.interaapps.localweather.utils.LocationFailedEnum
 import de.interaapps.localweather.utils.Units
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileDescriptor
 import java.io.PrintWriter
-import java.lang.Runnable
 import java.lang.String.format
 import java.net.URL
 import java.util.*
@@ -86,8 +92,7 @@ import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     OnEditModeUninstallPressedListener {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
     private var mAccessibilityManager: AccessibilityManager? = null
     var isInEditMode = false
         private set

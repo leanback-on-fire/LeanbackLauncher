@@ -58,7 +58,7 @@ public abstract class RecommendationsClient {
                 }
             }
         };
-        this.mContext.bindService(serviceIntent, this.mConnection, 1);
+        this.mContext.bindService(serviceIntent, this.mConnection, Context.BIND_AUTO_CREATE);
     }
 
     public void disconnect() {

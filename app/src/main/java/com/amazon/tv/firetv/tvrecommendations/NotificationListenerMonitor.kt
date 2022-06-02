@@ -14,6 +14,7 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.amazon.tv.leanbacklauncher.BuildConfig
 import com.amazon.tv.leanbacklauncher.MainActivity
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4
@@ -24,7 +25,8 @@ class NotificationListenerMonitor : Service() {
     private var mReconnectAttempts = 0
 
     companion object {
-        private const val TAG = "NotifyListenerMonitor"
+        private val TAG =
+            if (BuildConfig.DEBUG) "[*]NotificationsMonitor" else "NotificationsMonitor"
         private const val MAXIMUM_RECONNECT_ATTEMPTS = 12
     }
 
@@ -42,7 +44,7 @@ class NotificationListenerMonitor : Service() {
                         toggleNotificationListenerService()
                         mReconnectAttempts++
                     } else {
-                        Log.d(TAG, "Exit Notification listener monitor.")
+                        Log.d(TAG, "Shutdown notification listener monitor.")
                         timer[0].cancel()
                     }
                 }
@@ -52,7 +54,10 @@ class NotificationListenerMonitor : Service() {
 
     private fun listenerIsRunning(): Boolean {
         val notificationListenerComp = ComponentName(this, NotificationsServiceV4::class.java)
-        Log.v(TAG, "Ensuring the notification listener is running: $notificationListenerComp")
+        Log.v(
+            TAG,
+            "Ensuring the notification listener is running: ${notificationListenerComp.className}"
+        )
         var running = false
         val manager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
         val services = manager.getRunningServices(Int.MAX_VALUE)
@@ -62,18 +67,23 @@ class NotificationListenerMonitor : Service() {
         }
         for (service in services) {
             if (notificationListenerComp == service.service) {
-                Log.w(TAG, "Ensuring Notification Listener { PID: " + service.pid + " | currentPID: " + Process.myPid() + " | clientPackage: " + service.clientPackage + " | clientCount: " + service.clientCount
-                        + " | clientLabel: " + if (service.clientLabel == 0) "0" else "(" + resources.getString(service.clientLabel) + ")}")
+                Log.w(
+                    TAG,
+                    "Ensuring notification listener { PID: " + service.pid + " | currentPID: " + Process.myPid() + " | clientPackage: " + service.clientPackage + " | clientCount: " + service.clientCount
+                            + " | clientLabel: " + if (service.clientLabel == 0) "0" else "(" + resources.getString(
+                        service.clientLabel
+                    ) + ")}"
+                )
                 if (service.pid == Process.myPid()) {
                     running = true
                 }
             }
         }
         if (running) {
-            Log.d(TAG, "Listener is running!")
+            Log.d(TAG, "Notification listener is running!")
             return true
         }
-        Log.d(TAG, "The listener has been killed... Attempting to start.")
+        Log.d(TAG, "Notification listener not running... Attempting to start.")
         return false
     }
 
@@ -81,21 +91,36 @@ class NotificationListenerMonitor : Service() {
         Log.d(TAG, "Toggling notification listener...")
         val thisComponent = ComponentName(this, NotificationsServiceV4::class.java)
         val pm = packageManager
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+        pm.setComponentEnabledSetting(
+            thisComponent,
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP
+        )
+        pm.setComponentEnabledSetting(
+            thisComponent,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
     }
 
     private fun ensureNotificationPermissions(context: Context) {
-        Log.d(TAG, "Checking notify permissions...")
-        if (context.packageManager.checkPermission("android.permission.WRITE_SECURE_SETTINGS", context.packageName) != PackageManager.PERMISSION_DENIED) {
-            Log.d(TAG, "Permissions: WRITE_SECURE_SETTINGS granted")
-            var listeners = Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
-            val component = ComponentName(context, NotificationsServiceV4::class.java).flattenToShortString()
+        Log.d(TAG, "Checking permissions...")
+        val permission = "android.permission.WRITE_SECURE_SETTINGS"
+        if (context.packageManager.checkPermission(
+                permission,
+                context.packageName
+            ) != PackageManager.PERMISSION_DENIED
+        ) {
+            Log.d(TAG, "$permission GRANTED")
+            var listeners =
+                Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
+            val component =
+                ComponentName(context, NotificationsServiceV4::class.java).flattenToShortString()
             val list: Array<String?> = listeners?.split("\\s*:\\s*")?.toTypedArray()
-                    ?: arrayOfNulls(0)
+                ?: arrayOfNulls(0)
             var enabled = false
-            for (equals in list) {
-                if (TextUtils.equals(equals, component)) {
+            for (cmp in list) {
+                if (TextUtils.equals(cmp, component)) {
                     enabled = true
                     break
                 }
@@ -106,14 +131,18 @@ class NotificationListenerMonitor : Service() {
                 } else {
                     "$listeners:$component"
                 }
-                Log.d(TAG, "Permissions: enable")
+                Log.d(TAG, "Add to enabled_notification_listeners")
             } else {
-                Log.d(TAG, "Permissions: (already) enabled")
+                Log.d(TAG, "Already added to enabled_notification_listeners")
             }
             // register notification listener
-            Settings.Secure.putString(context.contentResolver, "enabled_notification_listeners", listeners)
+            Settings.Secure.putString(
+                context.contentResolver,
+                "enabled_notification_listeners",
+                listeners
+            )
         } else {
-            Log.d(TAG, "Perms: WRITE_SECURE_SETTINGS denied")
+            Log.d(TAG, "$permission DENIED")
         }
     }
 
@@ -122,30 +151,47 @@ class NotificationListenerMonitor : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val CHANNEL_ID = "com.amazon.tv.leanbacklauncher.recommendations.NotificationsServiceV4"
+        val CHANNEL_ID = NotificationsServiceV4::class.qualifiedName.toString()
         val CHANNEL_NAME = "LeanbackOnFire"
         val NOTIFICATION_ID = 1111
+        val REQUEST_CODE = 0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel: NotificationChannel?
-            notificationChannel = NotificationChannel(CHANNEL_ID,
-                    CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
-                    .also {
-                        it.enableLights(true)
-                        it.lightColor = Color.RED
-                        it.setShowBadge(true)
-                        it.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-                    }
+            notificationChannel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH
+            ).also {
+                it.enableLights(true)
+                it.lightColor = Color.RED
+                it.setShowBadge(true)
+                it.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            }
             val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(notificationChannel)
         }
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle(CHANNEL_NAME)
-                .setContentText(resources.getString(R.string.notification_text))
+            .setSmallIcon(R.drawable.ic_launcher)
+            .setContentTitle(CHANNEL_NAME)
+            .setContentText(resources.getString(R.string.notification_text))
         if (Util.isAmazonDev(this))
-            builder.setLargeIcon(BitmapFactory.decodeResource(applicationContext.resources, R.drawable.ic_notification))
+            builder.setLargeIcon(
+                BitmapFactory.decodeResource(
+                    applicationContext.resources,
+                    R.drawable.ic_notification
+                )
+            )
         val notificationIntent = Intent(this, MainActivity::class.java)
-        val contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+        val contentIntent = PendingIntent.getActivity(
+            this,
+            REQUEST_CODE,
+            notificationIntent,
+            flags
+        )
         builder.setContentIntent(contentIntent)
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(NOTIFICATION_ID, builder.build())

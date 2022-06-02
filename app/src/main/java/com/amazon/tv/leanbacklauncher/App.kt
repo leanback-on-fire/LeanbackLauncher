@@ -11,8 +11,7 @@ import android.os.RemoteException
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.preference.PreferenceManager
 import com.amazon.tv.leanbacklauncher.capabilities.HighEndLauncherConfiguration
@@ -21,25 +20,33 @@ import com.amazon.tv.leanbacklauncher.recommendations.SwitchingRecommendationsCl
 import com.amazon.tv.leanbacklauncher.util.Updater
 import com.amazon.tv.tvrecommendations.IRecommendationsService
 import com.amazon.tv.tvrecommendations.RecommendationsClient
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 
-class App : Application(), LifecycleObserver {
+class App : Application() {
     private var mNewBlacklistClient: NewBlacklistClient? = null
     private var mOldBlacklistClient: OldBlacklistClient? = null
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
 
     companion object {
-        private lateinit var contextApp: Context
+        private val TAG = if (BuildConfig.DEBUG) "[*]LeanbackOnFire" else "LeanbackOnFire"
+        private lateinit var appContext: Context
         var inForeground: Boolean = false
         private var sBlacklistMigrated = false
+        private val lifecycleEventObserver = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) {
+                if (BuildConfig.DEBUG) Log.d(TAG, "in background")
+                inForeground = false
+            } else if (event == Lifecycle.Event.ON_START) {
+                if (BuildConfig.DEBUG) Log.d(TAG, "in foreground")
+                inForeground = true
+            }
+        }
+
         fun getContext(): Context {
-            return contextApp
+            return appContext
         }
 
         fun toast(txt: String?, long: Boolean = false) {
@@ -49,7 +56,7 @@ class App : Application(), LifecycleObserver {
                 else
                     Toast.LENGTH_SHORT
                 if (!txt.isNullOrEmpty())
-                    Toast.makeText(contextApp, txt, show).show()
+                    Toast.makeText(appContext, txt, show).show()
             }
         }
 
@@ -60,7 +67,7 @@ class App : Application(), LifecycleObserver {
                 else
                     Toast.LENGTH_SHORT
                 if (resId != null)
-                    Toast.makeText(contextApp, resId, show).show()
+                    Toast.makeText(appContext, resId, show).show()
             }
         }
     }
@@ -76,7 +83,7 @@ class App : Application(), LifecycleObserver {
         override fun onConnected(service: IRecommendationsService) {
             try {
                 val newBlacklist: MutableList<String?> =
-                    ArrayList<String?>(listOf(*service.blacklistedPackages))
+                    ArrayList(listOf(*service.blacklistedPackages))
                 for (pkg in mBlacklist) {
                     if (!newBlacklist.contains(pkg)) {
                         newBlacklist.add(pkg)
@@ -103,7 +110,7 @@ class App : Application(), LifecycleObserver {
                         sBlacklistMigrated = true
                         getSharedPreferences(javaClass.name, 0).edit()
                             .putInt("blacklist_migrate", 1).apply()
-                        if (blacklist == null || blacklist.size <= 0) {
+                        if (blacklist == null || blacklist.isEmpty()) {
                             Log.d(TAG, "No blacklist to migrate")
                         } else {
                             mNewBlacklistClient!!.saveBlackList(blacklist)
@@ -121,25 +128,27 @@ class App : Application(), LifecycleObserver {
     }
 
     override fun onCreate() {
-        contextApp = applicationContext
+        appContext = applicationContext
         super.onCreate()
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        ProcessLifecycleOwner
+            .get().lifecycle
+            .addObserver(lifecycleEventObserver)
+
         initDeviceCapabilities()
         initPrimes()
         demigrate()
-        val autoupdate = PreferenceManager.getDefaultSharedPreferences(contextApp)
+        val autoupdate = PreferenceManager.getDefaultSharedPreferences(appContext)
             .getBoolean("update_check", true)
-        if (autoupdate)
-        // self update check
-            GlobalScope.launch(Dispatchers.IO) {
+        if (autoupdate) // self update check
+            CoroutineScope(Dispatchers.IO).launch {
                 var count = 60
                 try {
-                    while (!isConnected(contextApp) && count > 0) {
+                    while (!isConnected(appContext) && count > 0) {
                         delay(1000) // wait for network
                         count--
                     }
                     if (Updater.check()) {
-                        val intent = Intent(contextApp, UpdateActivity::class.java)
+                        val intent = Intent(appContext, UpdateActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }
@@ -151,23 +160,8 @@ class App : Application(), LifecycleObserver {
     fun isConnected(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        var networkInfo: NetworkInfo? = null
-        if (connectivityManager != null) {
-            networkInfo = connectivityManager.activeNetworkInfo
-        }
+        val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.state == NetworkInfo.State.CONNECTED
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onAppForegrounded() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "in Foreground")
-        inForeground = true
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onAppBackgrounded() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "in Background")
-        inForeground = false
     }
 
     private fun initDeviceCapabilities() {

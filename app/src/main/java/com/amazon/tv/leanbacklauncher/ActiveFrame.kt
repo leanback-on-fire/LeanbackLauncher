@@ -27,8 +27,7 @@ class ActiveFrame @JvmOverloads constructor(
     defStyle: Int = 0
 ) : LinearLayout(context, attrs, defStyle), HomeScrollFractionListener,
     ParticipatesInScrollAnimation {
-    private val TAG =
-        if (BuildConfig.DEBUG) ("*" + javaClass.simpleName).take(21) else javaClass.simpleName
+    //    private val TAG by lazy { if (BuildConfig.DEBUG) ("[*]" + javaClass.simpleName).take(21) else javaClass.simpleName }
     private val mAccessibilityManager: AccessibilityManager
     private var mActiveTextMargin: Float
     private val mAnimDuration: Int
