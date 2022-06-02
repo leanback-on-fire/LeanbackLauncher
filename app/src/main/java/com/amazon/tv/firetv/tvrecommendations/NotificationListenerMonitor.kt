@@ -151,15 +151,16 @@ class NotificationListenerMonitor : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val CHANNEL_ID = NotificationsServiceV4::class.qualifiedName.toString()
-        val CHANNEL_NAME = "LeanbackOnFire"
-        val NOTIFICATION_ID = 1111
-        val REQUEST_CODE = 0
+        val channelId = NotificationsServiceV4::class.qualifiedName.toString()
+        val channelName = "LeanbackOnFire"
+        val notificationId = 1111
+        val requestCode = 0
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel: NotificationChannel?
             notificationChannel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH
+                channelId,
+                channelName, NotificationManager.IMPORTANCE_HIGH
             ).also {
                 it.enableLights(true)
                 it.lightColor = Color.RED
@@ -169,9 +170,9 @@ class NotificationListenerMonitor : Service() {
             val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(notificationChannel)
         }
-        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_launcher)
-            .setContentTitle(CHANNEL_NAME)
+            .setContentTitle(channelName)
             .setContentText(resources.getString(R.string.notification_text))
         if (Util.isAmazonDev(this))
             builder.setLargeIcon(
@@ -188,14 +189,14 @@ class NotificationListenerMonitor : Service() {
         }
         val contentIntent = PendingIntent.getActivity(
             this,
-            REQUEST_CODE,
+            requestCode,
             notificationIntent,
             flags
         )
         builder.setContentIntent(contentIntent)
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(NOTIFICATION_ID, builder.build())
-        startForeground(NOTIFICATION_ID, builder.build())
+        manager.notify(notificationId, builder.build())
+        startForeground(notificationId, builder.build())
         return START_STICKY
     }
 }

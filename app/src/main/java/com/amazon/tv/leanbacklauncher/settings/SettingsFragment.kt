@@ -23,8 +23,8 @@ import androidx.preference.*
 import com.amazon.tv.firetv.leanbacklauncher.apps.RowPreferences
 import com.amazon.tv.firetv.leanbacklauncher.util.FireTVUtils
 import com.amazon.tv.firetv.leanbacklauncher.util.SharedPreferencesUtil
-import com.amazon.tv.leanbacklauncher.App
 import com.amazon.tv.leanbacklauncher.BuildConfig
+import com.amazon.tv.leanbacklauncher.LauncherApp
 import com.amazon.tv.leanbacklauncher.MainActivity.Companion.JSONFILE
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.UpdateActivity
@@ -93,7 +93,7 @@ class SettingsFragment : LeanbackSettingsFragmentCompat() {
         super.onStop()
         if (needRestartHome) {
             if (BuildConfig.DEBUG) Log.d(TAG, "onStop() send refresh HOME broadcast")
-            Util.refreshHome(App.getContext())
+            Util.refreshHome(LauncherApp.getContext())
         }
     }
 }
@@ -152,7 +152,7 @@ class VersionPreferenceFragment : LeanbackPreferenceFragmentCompat() {
                     startActivity(Intent(activity, UpdateActivity::class.java))
                 else
                     withContext(Dispatchers.Main) {
-                        App.toast(getString(R.string.update_no_updates))
+                        LauncherApp.toast(getString(R.string.update_no_updates))
                     }
             }
             return true
@@ -174,7 +174,7 @@ class VersionPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             try {
                 startActivity(intent)
             } catch (e: Exception) {
-                App.toast(R.string.failed_launch)
+                LauncherApp.toast(R.string.failed_launch)
             }
         }
     }
@@ -184,7 +184,7 @@ class VersionPreferenceFragment : LeanbackPreferenceFragmentCompat() {
  * The fragment that is defined in prefs.xml
  */
 class HomePreferenceFragment : LeanbackPreferenceFragmentCompat() {
-    private val appContext = App.getContext()
+    private val appContext = LauncherApp.getContext()
     private val sortingMode = AppsManager.getSavedSortingMode(appContext)
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the prefs from an XML resource
@@ -445,7 +445,7 @@ class AppRowsPreferenceFragment : LeanbackPreferenceFragmentCompat() {
             val enabled = (preference as SwitchPreference).isChecked
             RowPreferences.setRecommendationsEnabled(ctx, enabled)
             if (enabled && FireTVUtils.isAmazonNotificationsEnabled(ctx)) {
-                App.toast(getString(R.string.recs_warning_sale))
+                LauncherApp.toast(getString(R.string.recs_warning_sale))
             }
             // refresh home broadcast
             SettingsFragment.needRestartHome = true
@@ -582,7 +582,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                 if (file.canRead())
                     setWallpaper(ctx, file.path.toString())
                 else
-                    App.toast(getString(R.string.file_no_access))
+                    LauncherApp.toast(getString(R.string.file_no_access))
                 dirName?.let { rootPath = rootPath?.removeSuffix(it) }
                 fm?.popBackStack()
                 return true

@@ -205,7 +205,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     }
 
     private var mNotificationsView: NotificationRowView? = null
-    var mPackageReplacedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+    private var mPackageReplacedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val packageName = intent?.data
             packageName?.let {
@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
-    var mHomeRefreshReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+    private var mHomeRefreshReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.getBooleanExtra("RefreshHome", false) == true) {
                 if (BuildConfig.DEBUG) Log.d(TAG, "RESTART HOME")
@@ -281,7 +281,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
     companion object {
         const val PERMISSIONS_REQUEST_LOCATION = 99
-        val JSONFILE = App.getContext().cacheDir?.absolutePath + "/weather.json"
+        const val UNINSTALL_CODE = 321
+        val JSONFILE = LauncherApp.getContext().cacheDir?.absolutePath + "/weather.json"
 
         fun isMediaKey(keyCode: Int): Boolean {
             return when (keyCode) {
@@ -468,8 +469,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         loaderManager.initLoader(0, null, mSearchIconCallbacks)
         loaderManager.initLoader(1, null, mSearchSuggestionsCallbacks)
 
-        // start notification listener
-        if (RowPreferences.areRecommendationsEnabled(this) && App.inForeground)
+        // start notification listener monitor
+        if (RowPreferences.areRecommendationsEnabled(this) && LauncherApp.inForeground)
             startService(Intent(this, NotificationListenerMonitor::class.java))
 
         // fix int options migrate
@@ -559,15 +560,16 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
             val uninstallIntent =
                 Intent("android.intent.action.UNINSTALL_PACKAGE", Uri.parse("package:$packageName"))
             uninstallIntent.putExtra("android.intent.extra.RETURN_RESULT", true)
-            startActivityForResult(uninstallIntent, 321)
+            startActivityForResult(uninstallIntent, UNINSTALL_CODE)
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (RowPreferences.isWeatherEnabled(this))
             localWeather?.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 321 && resultCode != 0) {
+        if (requestCode == UNINSTALL_CODE && resultCode != 0) {
             if (resultCode == -1) {
                 editModeView?.uninstallComplete()
             } else if (resultCode == 1) {
@@ -591,7 +593,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                     recreate()
                 } else {
                     Log.i(TAG, "Not agree location permission")
-                    App.toast(R.string.location_note, true)
+                    LauncherApp.toast(R.string.location_note, true)
                 }
             }
         }
@@ -696,7 +698,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                             }
                         }
                     } else
-                        App.toast(R.string.user_location_warning, true)
+                        LauncherApp.toast(R.string.user_location_warning, true)
                 }
             }
 
@@ -711,7 +713,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
                 override fun onFailure(exception: Throwable?) {
                     Log.e(TAG, "Weather fetching exception ${exception!!.message!!}")
-                    App.toast("Weather error: ${exception!!.message!!}", true)
+                    LauncherApp.toast("Weather error: ${exception!!.message!!}", true)
                 }
             }
             // only used when useCurrentLocation is true
@@ -1262,7 +1264,9 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     override fun onResume() {
         var forceResort = true
         var z = true
+
         super.onResume()
+
         if (isBackgroundVisibleBehind) {
             //if (BuildConfig.DEBUG) Log.d(TAG, "onResume: BackgroundVisibleBehind")
             z = false
@@ -1600,7 +1604,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
         }
     }
 
-    fun startSettings() {
+    private fun startSettings() {
         if (applicationContext.resources.getBoolean(R.bool.full_screen_settings_enabled)) {
             val intent = Intent(this@MainActivity, LegacyHomeScreenSettingsActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

@@ -6,7 +6,7 @@ import android.text.Spanned
 import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
 import com.amazon.tv.leanbacklauncher.BuildConfig
-import com.amazon.tv.leanbacklauncher.App
+import com.amazon.tv.leanbacklauncher.LauncherApp
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.model.Release
 import com.amazon.tv.leanbacklauncher.util.model.Releases
@@ -18,7 +18,7 @@ import java.nio.charset.Charset
 import javax.net.ssl.HttpsURLConnection
 
 object Updater {
-    private val RELEASE_LINK =
+    private const val RELEASE_LINK =
         "https://api.github.com/repos/tsynik/LeanbackLauncher/releases"
     private var releases: Releases? = null
     private var newVersion: Release? = null
@@ -29,7 +29,7 @@ object Updater {
             val conn = url.openConnection() as HttpsURLConnection
             conn.connect()
             val body =
-                conn.getInputStream()?.bufferedReader(Charset.defaultCharset())?.readText()
+                conn.inputStream?.bufferedReader(Charset.defaultCharset())?.readText()
                     ?: return false
             val gson = Gson()
             releases = gson.fromJson(body, Releases::class.java)
@@ -134,13 +134,13 @@ object Updater {
                                 val length = contentLength + 1
                                 var offset: Long = 0
                                 while (true) {
-                                    val readed = input?.read(buffer) ?: 0
-                                    offset += readed
+                                    val read = input?.read(buffer) ?: 0
+                                    offset += read
                                     val prc = (offset * 100 / length).toInt()
                                     onProgress(prc)
-                                    if (readed <= 0)
+                                    if (read <= 0)
                                         break
-                                    fileOut.write(buffer, 0, readed)
+                                    fileOut.write(buffer, 0, read)
                                 }
                                 fileOut.flush()
                             }
@@ -155,11 +155,11 @@ object Updater {
     }
 
     fun installNewVersion(onProgress: ((prc: Int) -> Unit)?) {
-        val ctx = App.getContext()
+        val ctx = LauncherApp.getContext()
         if (newVersion == null && !check())
             return
 
-        newVersion?.let { rel ->
+        newVersion?.let {
             val destination = File(
                 //Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                 ctx.getExternalFilesDir(null),
@@ -177,9 +177,9 @@ object Updater {
                 install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 install.setDataAndType(uri, "application/vnd.android.package-archive")
                 if (install.resolveActivity(ctx.packageManager) != null)
-                    App.getContext().startActivity(install)
+                    LauncherApp.getContext().startActivity(install)
                 else
-                    App.toast(R.string.error_app_not_found)
+                    LauncherApp.toast(R.string.error_app_not_found)
             } else {
                 val fileUri =
                     FileProvider.getUriForFile(
@@ -194,7 +194,7 @@ object Updater {
                 if (install.resolveActivity(ctx.packageManager) != null)
                     ctx.startActivity(install)
                 else
-                    App.toast(R.string.error_app_not_found)
+                    LauncherApp.toast(R.string.error_app_not_found)
             }
         }
     }

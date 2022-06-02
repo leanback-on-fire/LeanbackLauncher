@@ -9,8 +9,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
-import com.amazon.tv.leanbacklauncher.App
 import com.amazon.tv.leanbacklauncher.BuildConfig
+import com.amazon.tv.leanbacklauncher.LauncherApp
 import com.amazon.tv.leanbacklauncher.R
 import com.amazon.tv.leanbacklauncher.util.CSyncTask
 import org.json.JSONException
@@ -20,14 +20,14 @@ import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
 class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
-    private val RELEASES_LINK =
+    private val releasesLink =
         "https://api.github.com/repos/tsynik/LeanbackLauncher/releases/latest"
-    private var DOWNLOAD_LINK: String? = null
-    private val ctx = App.getContext()
+    private var downloadLink: String? = null
+    private val ctx = LauncherApp.getContext()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GetInfo(RELEASES_LINK)
+        GetInfo(releasesLink)
     }
 
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
@@ -57,7 +57,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         if (assets != null) {
             val firstAssets = assets.optJSONObject(0)
             if (firstAssets.optString("content_type") == "application/vnd.android.package-archive") {
-                DOWNLOAD_LINK = firstAssets.optString("browser_download_url")
+                downloadLink = firstAssets.optString("browser_download_url")
             }
         }
         val lastVersionDouble: Double = try {
@@ -102,8 +102,8 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
 
     override fun onGuidedActionClicked(action: GuidedAction) {
         super.onGuidedActionClicked(action)
-        if (action.id == 3L && DOWNLOAD_LINK!!.isNotEmpty()) {
-            Download(DOWNLOAD_LINK, context?.externalCacheDir.toString())
+        if (action.id == 3L && downloadLink!!.isNotEmpty()) {
+            Download(downloadLink, context?.externalCacheDir.toString())
         }
     }
 
@@ -169,7 +169,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
         }
 
         override fun doInBackground(vararg strings: String?): File? {
-            val BUFFER_SIZE = 4096
+            val bufferSize = 4096
             val fileURL = strings[0]
             val saveDir = strings[1]
             var urlConnection: HttpsURLConnection? = null
@@ -206,7 +206,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                     // opens an output stream to save into file
                     val outputStream = FileOutputStream(saveFilePath)
                     var bytesRead: Int
-                    val buffer = ByteArray(BUFFER_SIZE)
+                    val buffer = ByteArray(bufferSize)
                     while (inputStream.read(buffer).also { bytesRead = it } != -1) {
                         outputStream.write(buffer, 0, bytesRead)
                     }
@@ -224,7 +224,7 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
 
         override fun onPostExecute(f: File?) {
             super.onPostExecute(f)
-            val context = App.getContext()
+            val context = LauncherApp.getContext()
             val intent = Intent(Intent.ACTION_VIEW)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

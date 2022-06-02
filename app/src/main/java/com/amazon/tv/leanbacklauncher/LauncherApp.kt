@@ -26,7 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class App : Application() {
+class LauncherApp : Application() {
     private var mNewBlacklistClient: NewBlacklistClient? = null
     private var mOldBlacklistClient: OldBlacklistClient? = null
 
@@ -102,7 +102,7 @@ class App : Application() {
 
     private inner class OldBlacklistClient(context: Context?) : RecommendationsClient(context) {
         override fun onConnected(service: IRecommendationsService) {
-            synchronized(App::class.java) {
+            synchronized(LauncherApp::class.java) {
                 if (!sBlacklistMigrated) {
                     try {
                         val blacklist = service.blacklistedPackages
@@ -157,6 +157,7 @@ class App : Application() {
             }
     }
 
+    @Suppress("DEPRECATION")
     fun isConnected(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -180,7 +181,7 @@ class App : Application() {
             primes.startCrashMonitor();
             return;
         }*/
-        Log.d(TAG, "PRIMES not enabled")
+        if (BuildConfig.DEBUG) Log.d(TAG, "PRIMES not enabled")
     }
 
     private fun demigrate() {
