@@ -163,16 +163,16 @@
     <string name="recommendation_row_empty_message_no_recs">W tej chwili nie są dostępne żadne rekomendacje</string>
     <string name="recommendation_row_empty_message_recs_disabled">"niektóre rekomendacje są ukryte
 Aby włączyć, przejdź do Ustawień"</string>
-    <string name="recommendation_row_preparing_message">Preparing Recommendations</string>
-    <string name="recs_row_title">Recommendations Row</string>
-    <string name="recs_warning">"Requires permission:
+    <string name="recommendation_row_preparing_message">Tworzenie Rekomendacji</string>
+    <string name="recs_row_title">Wiersz z rekomendowanymi tytułami</string>
+    <string name="recs_warning">"Wymaga zgody:
 android.permission.WRITE_SECURE_SETTINGS
-Apply this command over adb:
+Prześlij to polecenie przez adb:
 pm grant com.amazon.tv.leanbacklauncher android.permission.WRITE_SECURE_SETTINGS"</string>
-    <string name="recs_warning_sale">"WARNING!
-You need to disable package:
+    <string name="recs_warning_sale">"UWAGA!
+Musisz wyłączyć pakiet:
 com.amazon.device.sale.service
-or recommendations will not work properly."</string>
+inaczej rekomendacje nie będą działać poprawnie."</string>
     <string name="reset_wallpaper_action_title">Resetuj tapetę</string>
     <string name="reset_wallpaper_action_desc">Użyj domyślnego obrazu</string>
     <string name="restore_pending">Przywróć oczekujące…</string>
@@ -193,8 +193,8 @@ or recommendations will not work properly."</string>
     <string name="show_location_description">Pokaż lokalizację z pogodą</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="system_settings">System</string>
-    <string name="title_app_edit_mode">Reorder apps mode</string>
-    <string name="title_game_edit_mode">Reorder games mode</string>
+    <string name="title_app_edit_mode">Zmień kolejność aplikacji</string>
+    <string name="title_game_edit_mode">Zmień kolejność gier</string>
     <string name="unknown_album_artist">Nieznany</string>
     <string name="unknown_album">Nieznany</string>
     <string name="unknown_artist">Nieznany</string>
@@ -230,6 +230,6 @@ or recommendations will not work properly."</string>
     <string name="weather_pressure_hp">hPa</string>
     <string name="weather_pressure_mm">mmHg</string>
     <string name="weather_speed_m">m/s</string>
-    <string name="weather_speed_i">mph</string>
-    <string name="weather_wind">wind %3$s %1$s %2$s</string>
+    <string name="weather_speed_i">m/h</string>
+    <string name="weather_wind">wiatr %3$s %1$s %2$s</string>
 </resources>
