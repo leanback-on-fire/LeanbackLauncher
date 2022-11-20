@@ -169,19 +169,19 @@ open class AppsAdapter(
             var curView: RecyclerView.ViewHolder? = null
             if (itemView is BannerView) {
                 val parent =
-                    if (itemView.getParent() is EditableAppsRowView) itemView.getParent() as EditableAppsRowView else null
+                    if (itemView.parent is EditableAppsRowView) itemView.parent as EditableAppsRowView else null
                 if (parent != null) {
                     curView = parent.curViewHolder
                 }
-                if (itemView.isActivated() && parent != null && parent.editMode && curView != null && curView !== this && curView.itemView.isSelected) {
-                    itemView.setDimState(ViewDimmer.DimState.EDIT_MODE, true)
+                if (itemView.isActivated && parent != null && parent.editMode && curView != null && curView !== this && curView.itemView.isSelected) {
+                    (itemView as BannerView).setDimState(ViewDimmer.DimState.EDIT_MODE, true)
                 }
             }
         }
 
         fun setEditModeInBannerView() {
-            if (itemView is BannerView && itemView.getParent() is EditableAppsRowView) {
-                itemView.isEditMode = (itemView.getParent() as EditableAppsRowView).editMode
+            if (itemView is BannerView && itemView.parent is EditableAppsRowView) {
+                (itemView as BannerView).isEditMode = (itemView.parent as EditableAppsRowView).editMode
             }
         }
 
@@ -489,8 +489,8 @@ open class AppsAdapter(
 
     override fun onViewAttachedToWindow(holder: AppViewHolder) {
         super.onViewAttachedToWindow(holder)
-        if (holder.itemView is BannerView && holder.itemView.getParent() is EditableAppsRowView) {
-            (holder.itemView.getParent() as EditableAppsRowView).refreshSelectedView()
+        if (holder.itemView is BannerView && holder.itemView.parent is EditableAppsRowView) {
+            (holder.itemView.parent as EditableAppsRowView).refreshSelectedView()
             holder.checkEditModeDimLevel()
             holder.setEditModeInBannerView()
         }
@@ -499,7 +499,7 @@ open class AppsAdapter(
     override fun onViewDetachedFromWindow(holder: AppViewHolder) {
         super.onViewDetachedFromWindow(holder)
         if (holder.itemView is BannerView) {
-            holder.itemView.setSelected(false)
+            holder.itemView.isSelected = false
         }
     }
 

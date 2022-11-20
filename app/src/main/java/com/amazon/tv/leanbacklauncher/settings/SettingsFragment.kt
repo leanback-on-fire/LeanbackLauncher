@@ -652,7 +652,7 @@ class FileListFragment : LeanbackPreferenceFragmentCompat() {
                             override fun onLoadCleared(placeholder: Drawable?) {
                             }
                         })
-                } catch (e: java.lang.Exception) {
+                } catch (_: java.lang.Exception) {
                 }
                 prefs.add(imagePref)
             }

@@ -403,7 +403,7 @@ class HomeScreenAdapter(
 
     override fun onFailedToRecycleView(holder: HomeViewHolder): Boolean {
         if (holder.itemView is ActiveFrame) {
-            resetRowAdapter(holder.itemView)
+            resetRowAdapter(holder.itemView as ActiveFrame)
         }
         return false
     }
@@ -706,15 +706,16 @@ class HomeScreenAdapter(
                     }
                     holder.itemView !is ActiveFrame -> {
                         // TODO()
+                        return
                     }
                     else -> {
                         if (mMainActivity.isInEditMode) {
-                            setActiveFrameChildrenAlpha(holder.itemView, 0.0f)
+                                setActiveFrameChildrenAlpha(holder.itemView as ActiveFrame, 0.0f)
                             return
                         }
-                        setActiveFrameChildrenAlpha(holder.itemView, 1.0f)
+                        setActiveFrameChildrenAlpha(holder.itemView as ActiveFrame, 1.0f)
                         holder.itemView.post {
-                            beginEditModeForPendingRow(holder.itemView)
+                            beginEditModeForPendingRow(holder.itemView as ActiveFrame)
                         }
                     }
                 }

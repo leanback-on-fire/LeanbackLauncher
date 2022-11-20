@@ -167,6 +167,7 @@ object AppCategorizer {
         "vidio.android",
         "viki",
         "visionplus",
+        "vimuhd",
         "viu.tv",
         "viutv",
         "vplay",
@@ -198,6 +199,7 @@ object AppCategorizer {
         "com.google.stadia",
     )
 
+    @Suppress("DEPRECATION")
     fun getAppCategory(pkgName: String?, actInfo: ActivityInfo?): AppCategory {
         pkgName?.let { pn ->
             for (s in VIDEO_FILTER) {
