@@ -61,8 +61,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.palette:palette-ktx:1.0.0'
-    // exoplayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
     // glide
     implementation 'com.github.bumptech.glide:glide:4.13.1'
     kapt 'com.github.bumptech.glide:compiler:4.13.1'
