@@ -136,7 +136,6 @@ class LauncherApp : Application() {
             .addObserver(lifecycleEventObserver)
 
         initDeviceCapabilities()
-        initPrimes()
         demigrate()
 
         val autoupdate = PreferenceManager.getDefaultSharedPreferences(appContext)
@@ -154,7 +153,7 @@ class LauncherApp : Application() {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
             }
     }
@@ -169,21 +168,6 @@ class LauncherApp : Application() {
 
     private fun initDeviceCapabilities() {
         LauncherConfiguration.setInstance(HighEndLauncherConfiguration())
-    }
-
-    private fun initPrimes() {
-        /*final PrimesSettings primesSettings = new PrimesSettings(this);
-        if (primesSettings.isPrimesEnabled()) {
-            Primes primes = Primes.initialize(PrimesApiProvider.newInstance(this, new PrimesConfigurationsProvider() {
-                public PrimesConfigurations get() {
-                    return PrimesConfigurations.newBuilder().setMetricTransmitter(LauncherApplication.this.getPrimesMetricTransmitter()).setPackageConfigurations(new PrimesPackageConfigurations(primesSettings.isPackageStatsMetricEnabled())).setMemoryConfigurations(new PrimesMemoryConfigurations(primesSettings.isMemoryMetricEnabled())).setCrashConfigurations(new PrimesCrashConfigurations(primesSettings.isCrashMetricEnabled())).build();
-                }
-            }));
-            primes.startMemoryMonitor();
-            primes.startCrashMonitor();
-            return;
-        }*/
-        if (BuildConfig.DEBUG) Log.d(TAG, "PRIMES not enabled")
     }
 
     private fun demigrate() {
