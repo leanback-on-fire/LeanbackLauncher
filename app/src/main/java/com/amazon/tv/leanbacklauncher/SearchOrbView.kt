@@ -32,6 +32,7 @@ import com.amazon.tv.leanbacklauncher.util.Util.searchIntent
 import com.amazon.tv.leanbacklauncher.util.Util.startSearchActivitySafely
 import java.util.*
 
+@Suppress("DEPRECATION")
 class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
     IdleListener, SearchPackageChangeListener {
     private var mAssistantIcon: Drawable? = null
@@ -126,7 +127,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                     return true
                 }
             }
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
         }
         return false
     }
@@ -154,7 +155,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                     val packages = mContext.packageManager.queryIntentActivities(assistIntent, 0)
                     val pkg = packages.first().activityInfo.packageName
                     return pkg.isNotEmpty()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
             }
             return false
@@ -202,7 +203,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                         val packages =
                             mContext.packageManager.queryIntentActivities(assistIntent, 0)
                         return packages.first().activityInfo.packageName
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                     }
                 }
             }

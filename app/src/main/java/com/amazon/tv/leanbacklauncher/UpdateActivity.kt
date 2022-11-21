@@ -62,25 +62,26 @@ class UpdateActivity : AppCompatActivity() {
     }
 
     private suspend fun update(): Boolean {
+        val pBar = findViewById<ProgressBar>(R.id.pbUpdate)
         withContext(Dispatchers.Main) {
-            findViewById<ProgressBar>(R.id.pbUpdate).visibility = View.VISIBLE
-            findViewById<ProgressBar>(R.id.pbUpdate).isIndeterminate = false
+            pBar.visibility = View.VISIBLE
+            pBar.isIndeterminate = false
             findViewById<TextView>(R.id.tvUpdateInfo).setText(R.string.update_loading)
         }
         try {
             Updater.installNewVersion { prc ->
                 Handler(Looper.getMainLooper()).post {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        findViewById<ProgressBar>(R.id.pbUpdate).setProgress(prc, true)
+                        pBar.setProgress(prc, true)
                     else
-                        findViewById<ProgressBar>(R.id.pbUpdate).setProgress(prc)
-                    findViewById<TextView>(R.id.tvUpdatePrc).text = prc.toString() + "%"
+                        pBar.progress = prc
+                    findViewById<TextView>(R.id.tvUpdatePrc).text = "$prc%"
                 }
             }
             delay(1000)
             withContext(Dispatchers.Main) {
-                findViewById<ProgressBar>(R.id.pbUpdate).visibility = View.GONE
-                findViewById<ProgressBar>(R.id.pbUpdate).isIndeterminate = true
+                pBar.visibility = View.GONE
+                pBar.isIndeterminate = true
                 findViewById<TextView>(R.id.tvUpdateInfo).text = ""
                 findViewById<TextView>(R.id.tvUpdatePrc).text = ""
             }
@@ -89,7 +90,7 @@ class UpdateActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 val msg = "Error: " + (e.message ?: "")
                 findViewById<TextView>(R.id.tvUpdateInfo).text = msg
-                findViewById<ProgressBar>(R.id.pbUpdate).visibility = View.GONE
+                pBar.visibility = View.GONE
             }
         }
         return false
