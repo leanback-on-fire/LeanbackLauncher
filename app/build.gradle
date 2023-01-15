@@ -54,7 +54,7 @@ dependencies {
     // kotlin
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     // androidx
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation "androidx.leanback:leanback:$leanback_version"
     implementation "androidx.leanback:leanback-preference:$leanback_version"

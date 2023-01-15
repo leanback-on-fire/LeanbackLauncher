@@ -21,7 +21,6 @@ object AppCategorizer {
         "catchplay",
         "cbs",
         "cn.tv",
-        "com.canal.android.canal",
         "com.canal.android",
         "com.daserste.daserste",
         "com.google.android.tv",
@@ -29,7 +28,6 @@ object AppCategorizer {
         "com.nhl",
         "com.plexapp",
         "com.prosto.tv",
-        "com.senchick.viewbox",
         "com.tvp.vodtv",
         "com.vgtrk",
         "com.viaplay.android",
@@ -158,6 +156,7 @@ object AppCategorizer {
         "video",
         "videomanager.kids",
         "vidio.android",
+        "viewbox",
         "viki",
         "visionplus",
         "vimuhd",
@@ -168,6 +167,7 @@ object AppCategorizer {
         "wink",
         "youtube",
         "yuriev.ndr",
+        "zona",
     )
     private val MUSIC_FILTER = arrayOf(
         "audials",
