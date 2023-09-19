@@ -23,7 +23,7 @@ android {
         versionCode 55
         versionName "1.55"
         vectorDrawables.useSupportLibrary = true
-        resConfigs 'en', 'ru', 'uk', 'it', 'fr', 'es', 'de', 'pl'
+        resConfigs 'en', 'ru', 'uk', 'it', 'fr', 'es', 'de', 'pl','zh-rCN'
         setProperty("archivesBaseName", "LeanbackOnFire_v" + versionName)
     }
     packagingOptions {
