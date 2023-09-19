@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LeanbackLauncher.iml" filepath="$PROJECT_DIR$/LeanbackLauncher.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeanbackLauncher.app.unitTest.iml" />
     </modules>
   </component>
 </project>

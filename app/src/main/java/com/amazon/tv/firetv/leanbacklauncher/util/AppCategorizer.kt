@@ -12,6 +12,7 @@ object AppCategorizer {
         "air.com.vudu",
         "android.rbtv",
         "anilabx3",
+        "anilibria",
         "anixartd",
         "appletv",
         "bbc.iplayer",

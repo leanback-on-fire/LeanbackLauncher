@@ -1,6 +1,7 @@
 package com.amazon.tv.leanbacklauncher.apps
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
@@ -222,6 +223,10 @@ class SettingsAdapter(context: Context?, private val mConnectivityListener: Conn
 
     override fun onSettingsChanged() {
         refreshDataSetAsync()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
     }
 // TODO
 //    override fun onLaunchPointsAddedOrUpdated(arrayList: ArrayList<LaunchPoint>) {}

@@ -71,13 +71,15 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
             0.0
         }
         val actionInfo = findActionById(1)
-        actionInfo.title =
+        actionInfo?.title =
             String.format("%s %s", getString(R.string.app_name), info.optString("name"))
-        actionInfo.description = getString(R.string.update_no_updates)
-        val position = findActionPositionById(actionInfo.id)
-        notifyActionChanged(position)
+        actionInfo?.description = getString(R.string.update_no_updates)
+        val position = actionInfo?.let { findActionPositionById(it.id) }
+        if (position != null) {
+            notifyActionChanged(position)
+        }
         if (lastVersionDouble.compareTo(currentVersionDouble) > 0) {
-            actionInfo.description = getString(R.string.update_new_version)
+            actionInfo?.description = getString(R.string.update_new_version)
             val listActions: MutableList<GuidedAction> = ArrayList()
             listActions.add(
                 GuidedAction.Builder(ctx)
@@ -89,7 +91,9 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
                     .infoOnly(true)
                     .build()
             )
-            listActions.add(actionInfo)
+            if (actionInfo != null) {
+                listActions.add(actionInfo)
+            }
             listActions.add(
                 GuidedAction.Builder(ctx)
                     .id(3)
@@ -108,10 +112,10 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
     }
 
     private inner class GetInfo(url: String?) : CSyncTask<String?, Void?, String?>("GetInfo") {
-        override fun doInBackground(vararg strings: String?): String? {
+        override fun doInBackground(vararg params: String?): String? {
             var urlConnection: HttpsURLConnection? = null
             try {
-                val url = URL(strings[0])
+                val url = URL(params[0])
                 urlConnection = url.openConnection() as HttpsURLConnection
                 urlConnection.connect()
                 val responseCode = urlConnection.responseCode
@@ -126,12 +130,12 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
             return null
         }
 
-        override fun onPostExecute(s: String?) {
-            super.onPostExecute(s)
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
             try {
                 var json = JSONObject()
-                if (!s.isNullOrEmpty())
-                    json = JSONObject(s)
+                if (!result.isNullOrEmpty())
+                    json = JSONObject(result)
                 updateAction(json)
             } catch (e: JSONException) {
                 e.printStackTrace()
@@ -168,10 +172,10 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
             this.execute(url, filePath)
         }
 
-        override fun doInBackground(vararg strings: String?): File? {
+        override fun doInBackground(vararg params: String?): File? {
             val bufferSize = 4096
-            val fileURL = strings[0]
-            val saveDir = strings[1]
+            val fileURL = params[0]
+            val saveDir = params[1]
             var urlConnection: HttpsURLConnection? = null
             try {
                 val url = URL(fileURL)
@@ -222,21 +226,21 @@ class LegacyUpdatePreferenceFragment : GuidedStepSupportFragment() {
             return null
         }
 
-        override fun onPostExecute(f: File?) {
-            super.onPostExecute(f)
+        override fun onPostExecute(result: File?) {
+            super.onPostExecute(result)
             val context = LauncherApp.context
             val intent = Intent(Intent.ACTION_VIEW)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             if (Build.VERSION.SDK_INT < 23) {
-                intent.setDataAndType(Uri.fromFile(f), "application/vnd.android.package-archive")
+                intent.setDataAndType(Uri.fromFile(result), "application/vnd.android.package-archive")
             } else {
                 intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 intent.setDataAndType(
                     FileProvider.getUriForFile(
                         context,
                         String.format("%s.fileProvider", BuildConfig.APPLICATION_ID),
-                        f!!
+                        result!!
                     ), "application/vnd.android.package-archive"
                 )
             }

@@ -19,7 +19,7 @@ class FavoritesAdapter(
     OnSharedPreferenceChangeListener {
     private val prefUtil: SharedPreferencesUtil? = instance(context)
     private val listener: OnSharedPreferenceChangeListener = this
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         refreshDataSetAsync()
     }
 

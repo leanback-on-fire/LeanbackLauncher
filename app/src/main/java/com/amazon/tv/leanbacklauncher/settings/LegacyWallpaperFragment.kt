@@ -1,11 +1,7 @@
 package com.amazon.tv.leanbacklauncher.settings
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
@@ -51,16 +47,16 @@ class LegacyWallpaperFragment : GuidedStepSupportFragment() {
 
     override fun onGuidedActionClicked(action: GuidedAction) {
         when (action.id.toInt()) {
-            ACTION_CONTINUE -> add(fragmentManager, LegacyFileListFragment())
+            ACTION_CONTINUE -> fragmentManager?.let { add(it, LegacyFileListFragment()) }
             ACTION_RESET -> {
                 resetWallpaper()
-                fragmentManager!!.popBackStack()
+                requireFragmentManager().popBackStack()
             }
             else -> return
         }
     }
 
-    fun resetWallpaper(): Boolean {
+    private fun resetWallpaper(): Boolean {
         val context = requireContext()
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         pref.edit().remove("wallpaper_image").apply()

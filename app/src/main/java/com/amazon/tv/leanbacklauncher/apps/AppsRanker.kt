@@ -116,7 +116,7 @@ class AppsRanker internal constructor(ctx: Context, dbHelper: AppsDbHelper?) :
         private val mAppsRankerRef: WeakReference<AppsRanker?> =
             WeakReference<AppsRanker?>(appsRanker)
 
-        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
             val appsRanker = mAppsRankerRef.get()
             appsRanker?.checkForSortingModeChange()
         }

@@ -1,13 +1,13 @@
 plugins {
-    id 'com.android.application'
-    id 'com.google.gms.google-services' // Google Services Gradle plugin
-    id 'com.google.firebase.crashlytics' // Crashlytics Gradle plugin
-    id 'kotlin-android'
-    id 'kotlin-kapt'
+    id("com.android.application")
+    id("com.google.devtools.ksp")
+    id("com.google.firebase.crashlytics") // Crashlytics Gradle plugin
+    id("com.google.gms.google-services") // Google Services Gradle plugin
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -23,7 +23,7 @@ android {
         versionCode 55
         versionName "1.55"
         vectorDrawables.useSupportLibrary = true
-        resConfigs 'en', 'ru', 'uk', 'it', 'fr', 'es', 'de', 'pl','zh-rCN'
+        resourceConfigurations += ['en', 'ru', 'uk', 'it', 'fr', 'es', 'de', 'pl', 'zh-rCN']
         setProperty("archivesBaseName", "LeanbackOnFire_v" + versionName)
     }
     packagingOptions {
@@ -49,24 +49,25 @@ android {
 }
 
 dependencies {
-    def leanback_version = "1.2.0-alpha02" // "1.0.0"
+    def leanback_version = "1.2.0-alpha03" // "1.0.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
     // androidx
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation "androidx.leanback:leanback:$leanback_version"
     implementation "androidx.leanback:leanback-preference:$leanback_version"
-    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-process:2.6.2'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     // glide
-    implementation 'com.github.bumptech.glide:glide:4.13.1'
-    kapt 'com.github.bumptech.glide:compiler:4.13.1'
+    def glideVersion = '4.16.0'
+    implementation "com.github.bumptech.glide:glide:${glideVersion}"
+    ksp "com.github.bumptech.glide:ksp:${glideVersion}"
     implementation 'com.google.guava:guava:30.1.1-jre'
-    implementation 'com.google.code.gson:gson:2.9.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.android.material:material:1.9.0'
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
     // Add the dependency for the Firebase SDK for Google Analytics

@@ -53,16 +53,16 @@ class LegacyAppsAndGamesPreferenceFragment : GuidedStepSupportFragment() {
     override fun onGuidedActionClicked(action: GuidedAction) {
         when (action.id.toInt()) {
             1 -> {
-                add(fragmentManager, LegacyAppRowPreferenceFragment())
+                fragmentManager?.let { add(it, LegacyAppRowPreferenceFragment()) }
             }
             2 -> {
-                add(fragmentManager, LegacyAppOrderPreferenceFragment())
+                fragmentManager?.let { add(it, LegacyAppOrderPreferenceFragment()) }
             }
             3 -> {
-                add(fragmentManager, LegacyBannersFragment())
+                fragmentManager?.let { add(it, LegacyBannersFragment()) }
             }
             4 -> {
-                add(fragmentManager, LegacyWallpaperFragment())
+                fragmentManager?.let { add(it, LegacyWallpaperFragment()) }
             }
             else -> return
         }

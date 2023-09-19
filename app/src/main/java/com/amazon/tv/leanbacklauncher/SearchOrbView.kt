@@ -105,14 +105,11 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         try {
             val searchResources =
                 mContext.packageManager.getResourcesForApplication(kantnissPackageID)
-            var resId = 0
-            if (searchResources != null) {
-                resId = searchResources.getIdentifier(
-                    "katniss_uses_new_google_logo",
-                    "bool",
-                    kantnissPackageID
-                )
-            }
+            val resId: Int = searchResources.getIdentifier(
+                "katniss_uses_new_google_logo",
+                "bool",
+                kantnissPackageID
+            )
             if (resId != 0) {
                 return searchResources.getBoolean(resId)
             }
@@ -168,7 +165,9 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         mMicOrbView?.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             setSearchState(false)
             if (mAssistantIcon != null) {
-                mMicOrbView?.orbIcon = if (hasFocus) mDefaultColorMicIcon else mAssistantIcon
+                if (hasFocus) mDefaultColorMicIcon?.let { mMicOrbView?.setOrbIcon(it) } else mMicOrbView?.setOrbIcon(
+                    mAssistantIcon!!
+                )
             }
         }
         initializeSearchOrbs()
@@ -223,23 +222,30 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                 ContextCompat.getDrawable(mContext, R.drawable.ic_keyboard_grey)
             mColorBright = ContextCompat.getColor(mContext, R.color.search_orb_bg_bright_color)
             mColorDim = ContextCompat.getColor(mContext, R.color.search_orb_bg_dim_color)
-            mKeyboardOrbView?.orbIcon = mKeyboardUnfocusedIcon
+            mKeyboardUnfocusedIcon?.let { mKeyboardOrbView?.setOrbIcon(it) }
             mKeyboardOrbView?.enableOrbColorAnimation(false)
             mKeyboardOrbView?.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
                 setSearchState(false)
                 val keyboardOrbView = v as SearchOrbView
-                keyboardOrbView.orbIcon =
-                    if (hasFocus) mKeyboardFocusedIcon else mKeyboardUnfocusedIcon
+                if (hasFocus) mKeyboardFocusedIcon?.let { keyboardOrbView.setOrbIcon(it) } else mKeyboardUnfocusedIcon?.let {
+                    keyboardOrbView.setOrbIcon(
+                        it
+                    )
+                }
                 keyboardOrbView.orbColor = if (hasFocus) mColorBright else mColorDim
                 when {
                     hasFocus -> {
-                        mMicOrbView?.orbIcon = mMicUnfocusedIcon
+                        if (mMicUnfocusedIcon != null) {
+                            mMicOrbView?.setOrbIcon(mMicUnfocusedIcon)
+                        }
                     }
                     mAssistantIcon != null -> {
-                        mMicOrbView?.orbIcon = mAssistantIcon
+                        mMicOrbView?.setOrbIcon(mAssistantIcon!!)
                     }
                     else -> {
-                        mMicOrbView?.orbIcon = mDefaultColorMicIcon
+                        if (mDefaultColorMicIcon != null) {
+                            mMicOrbView?.setOrbIcon(mDefaultColorMicIcon)
+                        }
                     }
                 }
             }
@@ -254,27 +260,32 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         val partnerSearchIcon = Partner.get(mContext).customSearchIcon
         when {
             mAssistantIcon != null -> {
-                mMicOrbView?.orbIcon = mAssistantIcon
+                mMicOrbView?.setOrbIcon(mAssistantIcon!!)
                 mMicOrbView?.orbColor = mColorBright
                 mMicOrbView?.enableOrbColorAnimation(false)
             }
             partnerSearchIcon != null -> {
-                mMicOrbView?.orbIcon = partnerSearchIcon
+                mMicOrbView?.setOrbIcon(partnerSearchIcon)
             }
             mWahlbergUx -> {
                 mMicOrbView?.orbColor = mColorBright
-                mMicOrbView?.orbIcon = mDefaultColorMicIcon
+                if (mDefaultColorMicIcon != null) {
+                    mMicOrbView?.setOrbIcon(mDefaultColorMicIcon)
+                }
                 mMicOrbView?.enableOrbColorAnimation(false)
             }
             else -> {
-                mMicOrbView?.orbColors = SearchOrbView.Colors(
+                mMicOrbView?.setOrbColors(SearchOrbView.Colors(
                     ContextCompat.getColor(
                         mContext,
                         R.color.search_orb_bg_color_old
                     ), ContextCompat.getColor(mContext, R.color.search_orb_bg_bright_color_old)
-                )
-                mMicOrbView?.orbIcon =
-                    ContextCompat.getDrawable(mContext, R.drawable.ic_search_mic_out_normal)
+                ))
+                ContextCompat.getDrawable(mContext, R.drawable.ic_search_mic_out_normal)?.let {
+                    mMicOrbView?.setOrbIcon(
+                        it
+                    )
+                }
                 mMicOrbView?.enableOrbColorAnimation(true)
             }
         }
@@ -569,7 +580,7 @@ class SearchOrbView(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     fun updateSearchSuggestions(suggestions: Array<String>?) {
         mCurrentIndex = 0
-        mTextToShow = if (suggestions == null || suggestions.isEmpty()) {
+        mTextToShow = if (suggestions.isNullOrEmpty()) {
             mDefaultTextToShow
         } else {
             suggestions

@@ -111,7 +111,7 @@ open class AppsAdapter(
         fun onActionOpenLaunchPoint(str: String?, str2: String?)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         refreshDataSetAsync()
     }
 
