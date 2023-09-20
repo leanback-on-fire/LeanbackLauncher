@@ -162,15 +162,15 @@ class LauncherApp : Application() {
 
     @Suppress("DEPRECATION")
     private fun isConnectedOld(context: Context): Boolean {
-        val connManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connManager.activeNetworkInfo
         return networkInfo?.isConnected == true
 
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun isConnectedNewApi(context: Context): Boolean {
-        val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun isConnectedNewApi(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
         return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
